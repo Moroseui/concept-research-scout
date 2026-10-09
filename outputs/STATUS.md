@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T03:57:00.795840+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T04:12:27.096908+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -13,6 +13,8 @@ The first source-composition attempt is terminally failed. The SDK returned a la
 The independently approved repair lists metadata first, then performs the same exact identity check before payload reads. A real installed-SDK probe reproduced the cause and verified this ordering without reading payload or creating resources. Other new Volume API signatures were also checked.228 distinct checks passed (227 full, then13 focused with12 overlapping). Actual server read-only predecessor qualification passed. The retry permits only the exact proven terminal predecessor; altered rows/charges, active jobs, extra files/directories, unexpected identities, create/upload intents and unknown attempts still refuse.
 
 Installed source28726e3d5cdf32f1d80c63187f5abd9146cbfcd0, independent APPROVEfd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e. The new attempt is RUNNING, admitted normally and started once. It reused and reverified101 staged server files (19,708,168bytes); no second laptop transfer. It must verify exactly893 files/7,202,931,657bytes for99 development patients, with49 excluded identifiers and zero overlap. Original source, files and earlier reservation stay untouched; separate retention was installed before admission. No new compute worker, image or scientific code.
+
+At the latest observation, all 893 expected local files total 7,202,931,657 bytes. Final source verification remains in progress; local counts alone are not a verified result. The original service is still running and was not relaunched.
 
 Next result: verified source, estimated by04:42UTC. Then a narrow reviewed connection delivers authentic source/native evidence to scientific reviewer8; only scientific acceptance permits preprocessing/GPU smoke. The existing review8 hold remains. Scientific code and conclusions remain author/reviewer-owned.
 
@@ -268,7 +270,7 @@ Additional exclusions identified during full publication audit (call-accounting 
 
 ## Next authorized work
 
-Reconcile author13 before any retry. In parallel, implement only the minimum frozen-source composition and hash readback using existing provider/Volume and frozen-input primitives. Tests and independent implementation approval precede transfer; normal reservation remains inside the$75 smoke cap. Then run the accepted corrected code in the existing pinned native harness. Review8 waits for both genuine proofs. No source transfer or new CPU attempt has been started by R31.
+Observe the existing source job until its terminal outcome and authenticated receipt agree. Deliver its genuine verified source proof together with the completed native integration evidence through the existing scientific reviewer route. The narrow evidence-delivery change needs implementation review before installation; no extra scientific call allowance is added. Preserve every open finding, original attempt and charge. GPU preprocessing and smoke remain gated on scientific acceptance. No new model call, reservation, launch or installation occurred during this backup update.
 
 Additional publication omissions for R31:
 
