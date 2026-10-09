@@ -1,0 +1,74 @@
+{
+  "schema": "provisional-aggregate-timing-comparison/v1",
+  "timing_sha256": "0538943789bd252c0abfe51dfa280359badb81fc9e7ab35e927dab3a0e2161fb",
+  "fit_id": "smoke-A1_repeat",
+  "gpu": "B200",
+  "epoch_records": [
+    {
+      "elapsed": 173.366213449,
+      "epoch": 0,
+      "loader_wait": 1.2326796529999626,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 178.467734226,
+      "epoch": 1,
+      "loader_wait": 0.8116355049999058,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 73.440416261,
+      "epoch": 2,
+      "loader_wait": 0.6966282379995334,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 73.44770100099998,
+      "epoch": 3,
+      "loader_wait": 0.9310138159998473,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 67.40814482299999,
+      "epoch": 4,
+      "loader_wait": 1.819386808999809,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    }
+  ],
+  "warmup_epoch_indices": [
+    0,
+    1
+  ],
+  "steady_state_candidate_epoch_indices": [
+    2,
+    3,
+    4
+  ],
+  "steady_state_candidate_mean_seconds": 71.43208736166666,
+  "sprint12_A1_reported_median_epoch_seconds": 36,
+  "comparison_ratio_to_sprint12": 1.984224648935185,
+  "full_fits": 40,
+  "epochs_per_fit": 250,
+  "provisional_epoch_gpu_hours": 198.42246489351848,
+  "fixed_hours_total": 40,
+  "provisional_total_gpu_hours": 238.42246489351848,
+  "gpu_only_epoch_cost_usd": 1240.1404055844905,
+  "reserved_configuration_hourly_usd": 11.5924,
+  "fixed_dollars_total": 200,
+  "provisional_full_resource_plus_allowances_usd": 2963.8885820316236,
+  "full_training_projection_gate_usd": 1200,
+  "scientifically_accepted": false,
+  "installed_projection_changed": false,
+  "limitations": [
+    "Arithmetic diagnostic extrapolation of one base arm and fold; no full training admission.",
+    "Warm-up labels are provisional; scientific author/reviewer must judge filtering and cross-arm extrapolation.",
+    "The returned synchronized timing encloses superclass epoch-end work; the live rounded native log timer is narrower.",
+    "Sprint12 reports rounded epoch medians from full runs; identical timing boundaries and workloads have not been established.",
+    "Repeat control and scientific smoke review remain pending."
+  ]
+}
