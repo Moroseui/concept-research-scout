@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-The 13B CPU retry was admitted and launched once; its input guard is alive and reading the frozen inputs.
-The real output folder now has the required private permissions, confirming that repair worked on the provider.
-Input verification is not finished yet; GPU smoke waits for verified preparation, and coverage arms remain held.
-Full training still requires scientific review of the actual smoke results. Latest Claude direction: PROCEED.
-The stopped first attempt has $0.58471212 in observed billing. Item 4 now retains $56.032853 of $75; actual costs are not yet settled.
-Next result: verified CPU preparation, estimated within about an hour if execution passes, then GPU smoke. No operator action needed.
+The 13B CPU retry passed verification of all 893 frozen input files and the pinned environment.
+The real output folder has the required private permissions; the preparation result is still pending.
+GPU smoke follows verified preparation, with coverage-dependent arms held.
+Full training still requires scientific review of actual smoke results. Latest Claude direction: PROCEED.
+The stopped first attempt has $0.58471212 in observed billing. Item 4 retains $56.032853 of $75; actual costs are not yet settled.
+Next result: preparation within about 50 minutes if successful, then GPU smoke. No operator action needed.
 
-Updated 2026-10-09T12:48:32.347708+00:00. Detailed audit follows.
+Updated 2026-10-09T12:53:16.745889+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -36,7 +36,7 @@ Authenticated billing through the newly closed hour reports $0.58471212 for the 
 
 R50's held installation wrote its reviewed files and unit, then verification refused because authority verification imported the controller package before the existing runtime had established its import path. No completion record, activation, dispatch or new reservation followed. The partial installation and exact error are preserved.
 
-R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: the unchanged protected bootstrap runs first, then both authority checks, before connecting any candidate code or dispatching. Its cost module is byte-for-byte R50's approved code. It directly reuses the prior working runtime and preserves the partial installation. A single 139-test run passed. The actual clean-server verification entrypoint reproduced the old import failure, then passed with the corrected order and unchanged global/local records. Candidate future identity, approval and file loading were explicitly simulated for this rehearsal; it was not an installation or launch. The real prior authority and driver checks ran. R51 received genuine independent APPROVE 4ff1f8c0be1d395fff0fc2478708c9779a9baa5d9b994d82800ac7d8d652107a and explicit PROCEED. Real held installation verification passed. Normal admission and the single submission of the same prepared job then succeeded, reserving $10.342400; all original charges remain counted. Metadata observation confirms the input guard process is alive, waiting on input I/O, with the output root at private permissions. The input-check record is still incomplete, so neither verified inputs nor scientific preprocessing completion is claimed. Two early observations refused its incomplete record; these did not cause a restart or resubmission. The old sandbox remains positively stopped, and its historical dispatch record is preserved.
+R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: the unchanged protected bootstrap runs first, then both authority checks, before connecting any candidate code or dispatching. Its cost module is byte-for-byte R50's approved code. It directly reuses the prior working runtime and preserves the partial installation. A single 139-test run passed. The actual clean-server verification entrypoint reproduced the old import failure, then passed with the corrected order and unchanged global/local records. Candidate future identity, approval and file loading were explicitly simulated for this rehearsal; it was not an installation or launch. The real prior authority and driver checks ran. R51 received genuine independent APPROVE 4ff1f8c0be1d395fff0fc2478708c9779a9baa5d9b994d82800ac7d8d652107a and explicit PROCEED. Real held installation verification passed. Normal admission and the single submission of the same prepared job then succeeded, reserving $10.342400; all original charges remain counted. Metadata observation confirms the input guard process is alive, waiting on input I/O, with the output root at private permissions. At the first observation the input-check record was incomplete. The latest observation verifies all 893 frozen files (7,202,931,657 bytes) and the exact pinned environment. No failed result was present; the preprocessing start/result records were not yet present, so scientific preprocessing completion is not claimed. Two early observations refused its incomplete record; these did not cause a restart or resubmission. The old sandbox remains positively stopped, and its historical dispatch record is preserved.
 
 ## Spending
 
@@ -382,3 +382,5 @@ The direction proposal was assistant-authored; Git author configuration is not o
 ### Latest judgment and publication checks
 
 Proceed after genuine independent approval and successful real installation verification; observe the one admitted job, and never infer completion or a stopped worker from an incomplete input record. The live guard and private output mode were confirmed using process/filesystem metadata only, with no patient payload egress. Keep every unsettled reservation.
+
+Latest read-only observation: input status VERIFIED, no reason/error; environment verified. Provider container remains nonterminal. No extra computation or model call was made by this observation. Continue monitoring the same admitted attempt.
