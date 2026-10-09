@@ -352,3 +352,4 @@ R54 publication omissions:
 Latest judgment: the actual entry-point failure is a diagnosed engineering bootstrap defect, not permission to bypass SDK verification. Preserve it, initialize only the existing hash-bound SDK path, exercise the cold command itself, and obtain independent approval before the follow-up is installed. No new credential, cap or reservation is authorized by this judgment.
 
 - R55 prior-unit fixture withheld: infrastructure reference. Private contract and original evidence remain excluded. Safe source is on astra/public-checkpoint-sdk-bootstrap-20261009.
+- R55 accepted implementation report withheld: secret/infrastructure scan flagged an infrastructure reference. Its approval, findings and limitations are summarized above; the exact original remains private.
