@@ -4,6 +4,7 @@ The cohort pin and environment proof are labelled synthetic fixtures. Actual
 initializer, input guard, private writer, package verifier and worker run intact.
 """
 import json
+import pytest
 from pathlib import Path
 from orchestrator import private_records as pr
 from orchestrator.manual_executor import inventory
@@ -11,14 +12,15 @@ from test_experiment_preprocessing import prepared
 from test_modal_volume_path import native
 
 
-def test_empty_provider_root_through_real_preprocessing_worker(native,prepared,tmp_path):
+@pytest.mark.parametrize("provider_mode", [0o400, 0o666])
+def test_empty_provider_root_through_real_preprocessing_worker(native,prepared,tmp_path,provider_mode):
     _,volume,run=native
     _,package,inputs,progress,seal=prepared
     binding,pin=seal()
     proof=(progress/'environment-verification'/pin/'environment.json').read_bytes()
     files=json.loads((package/'input-inventory.json').read_bytes())
     for path in package.rglob('*'):
-        if path.is_file():path.chmod(0o400)
+        if path.is_file():path.chmod(provider_mode)
     before=inventory(package)
     volume.chmod(0o755)
     source=Path(__file__).resolve().parents[1]
@@ -45,7 +47,7 @@ assert root.stat().st_mode & 0o777 == 0o700
     payload={'binding_sha256':pin,'guard_sha256':'b'*64,
              'preprocessing_sha256':binding['preprocessing']['input_contract_sha256'],'files':files}
     script+="execute('/inputs',root,'/worker-fixture.py',"+repr(payload)+")\n"
-    result=run(script,extra=['--ro-bind',str(package),'/reviewed',
+    result=run(script,extra=['--tmpfs','/tmp','--ro-bind',str(package),'/reviewed',
         '--ro-bind',str(inputs),'/inputs','--ro-bind',str(wrapper),'/worker-fixture.py',
         '--ro-bind',str(source/'orchestrator/modal_volume_path.py'),'/initializer.py'])
     assert result.returncode==0,result.stderr
