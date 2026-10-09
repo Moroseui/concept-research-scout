@@ -8,7 +8,7 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review6-continuation-20261008'
+REVIEW_CHANGE='item4-review7-context-delivery-20261009'
 CONTINUATION_DOCUMENT='docs/ITEM4_REVIEW6_CONTINUATION.json'
 SECOND_DOCUMENT='docs/ITEM4_REVIEW5_CONTINUATION.json'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
@@ -138,7 +138,7 @@ def load():
     second=json.loads((ROOT/SECOND_DOCUMENT).read_bytes())
     continuation.connect(accounting,mr,second,held_second_continuation_approval())
     current=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
-    continuation.connect(accounting,mr,current,v['review_sha256'])
+    continuation.connect(accounting,mr,current,held_third_continuation_approval())
     connect_runtime()
     return v,b,evidence,h,old,rec
 
@@ -215,7 +215,7 @@ def continue_review6():
         with lock(LANE/'driver.lock'):
             d.guard();originals(d,b,h,old,rec);held_application()
             frozen=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
-            return continuation.activate(d,frozen,v['review_sha256'],STATE/'item4'/REVIEW_CHANGE)
+            return continuation.activate(d,frozen,held_third_continuation_approval(),STATE/'item4'/'item4-review6-continuation-20261008')
     finally:d.store.db.close();d.store.batch.db.close()
 
 
@@ -302,6 +302,20 @@ def held_second_continuation_approval():
     return SECOND_REVIEW
 
 
+THIRD_SOURCE='c1a712bc65a9baedf0788aaacd14fe9334801b55'
+THIRD_REVIEW='d1b610fd3480254cbc5aa9700b42fa546d3c5e938e824faa223624b885824c5f'
+
+def held_third_continuation_approval():
+    """Preserve author12/review7 grant identity across delivery-only repair."""
+    from orchestrator.manual_host_guard import trusted
+    from orchestrator.autonomy_review import verify_result
+    proof=verify_result(trusted(RECORD/'history'/THIRD_SOURCE/'original-review-directory'))
+    require(proof['verdict']=='APPROVE' and proof['change_id']=='item4-review6-continuation-20261008'
+        and proof['source_sha']==THIRD_SOURCE and proof['report_sha256']==THIRD_REVIEW,
+        'HELD_THIRD_CONTINUATION_APPROVAL')
+    return THIRD_REVIEW
+
+
 def run():
     v,b,e,h,old,rec=load()
     from orchestrator import manual_recovery as mr,stocktake_review_recovery as sr,manual_stage as ms
@@ -370,7 +384,7 @@ def run():
         held_application()
         mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views=permit,admission,invoke,profile,views
         analysis_revisions.review_transition=lambda review,stage,n:continuation.terminal_transition(
-            prior_transition,d,review,stage,n,frozen,v['review_sha256'])
+            prior_transition,d,review,stage,n,frozen,held_third_continuation_approval())
         return d.advance()
     finally:
         analysis_revisions.review_transition=prior_transition
