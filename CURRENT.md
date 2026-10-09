@@ -1,5 +1,5 @@
-See [outputs/STATUS.md](outputs/STATUS.md). Item6 complete.13B composed source and native integration VERIFIED. Evidence-delivery implementation APPROVED and installed; installed preflight PASS. Scientific review8 is running once through its original allowance. No GPU smoke yet. This filtered audit snapshot is not a deployable combined release.
+# Current research status
 
-Latest reconciliation: review8 ended at the reader limit without a submitted verdict. See outputs/STATUS.md for retained spending, call counts and the bounded recovery plan.
+See [outputs/STATUS.md](outputs/STATUS.md) for current results, spending, blockers and judgment calls, and [DATA_NOTICE.md](DATA_NOTICE.md) for publication limits.
 
-Bounded mechanical-recovery candidate is under independent implementation and direction review. See outputs/STATUS.md; no scientific retry has started.
+Item6 is complete. The reviewed13B mechanical recovery is installed, but its replacement launch stopped before model admission on an immutable workspace conflict. All previous calls/charges are preserved; no replacement model call has started. The next bounded repair corrects attempt-number selection while retaining the immutable-file check.

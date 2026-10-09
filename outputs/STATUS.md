@@ -1,52 +1,52 @@
 # Research status
 
-Updated 2026-10-09T05:20:54.119426+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T05:32:34.707015+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
-Item6 is complete with independent scientific APPROVE. Mean Dice0.20630608 to0.24674415, gain0.04043807 (95% interval0.02796645 to0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops this diagnostic branch; no clinical or specialist-training promotion. Accepted reports remain under outputs/item6/.
+Item6 is complete with independent scientific APPROVE. Mean Dice0.20630608 to0.24674415, gain0.04043807 (95% interval0.02796645 to0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. The accepted interpretation stops this diagnostic branch; no clinical or specialist-training promotion. Accepted reports and comparison remain under outputs/item6/.
 
-13B composed source is now READY and VERIFIED, completed04:28:39UTC with terminal exit0. All893 frozen files,7,202,931,657bytes, passed local hashes and full remote byte readback with exact membership/identity.99 development patients;49 excluded identifiers; zero overlap. Original source was checked before and after copying. No patient analysis or new provider compute occurred. The first failed source attempt and its complete reservation remain preserved. See outputs/sprint13b/SOURCE_VERIFICATION.json for the aggregate proof.
+13B source composition is READY/VERIFIED:893 frozen files,7,202,931,657bytes,99 development patients,49 excluded,zero overlap. Local hashes, original before/after, complete remote byte readback and exact membership/identity passed. Author13 native integration passed with99 generated fixtures,300 prepared files,reuse,interruption/resume and scoring. These are source/runtime prerequisites, not patient efficacy or GPU validation. The pinned image remains unchanged. Coverage-dependent arms remain held; the full training objective remains. No GPU smoke/full training has started.
 
-Author13 native CPU integration already PASSED using99 generated fixtures:300 prepared files, reuse, interruption/resume and scoring. It is synthetic runtime evidence, not efficacy, GPU or production-main validation. The pinned image remains unchanged. No GPU smoke or full training yet; the full research objective remains and coverage-dependent arms remain held.
+Scientific review8 ended mechanically at its30-turn reader limit without invoking submit_review or producing a verdict. Both call records are FAILED; all11 original files and the model-reported$9.981374 cost are retained. Partial commentary is not a scientific verdict.
 
-The completed evidence-delivery candidate 2da898df506e28718277c588ab31d1e1be57a1a0 has183 passing tests and a successful actual server preflight. All54 prior evidence originals plus4 native and4 source originals are delivered:62 originals,403 workspace files,192769 of200000 prompt characters. Live source/native/author/image prerequisite authentication passed; lane and all20 scientific call records were unchanged. All open findings remain verbatim inline. Existing approval-critical artifact/plan bytes remain inline for the unchanged acceptance verifier.
+The bounded recovery sourceed9ad9aead00c9df8d0ecae1a25ecd782aef169c received genuine independent implementation APPROVE6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf. It is installed and activated, preserving all21 original calls, with one counted replacement review9,60 reading turns and a scoped24-call process ceiling retaining the final interpretation pair. Dollar/day/batch limits and acceptance safeguards are unchanged.116 distinct tests plus14subtests passed across relevant final runs. Installed context/live prerequisite checks passed:62 evidence originals,403workspacefiles,192769/200000characters, matching candidate input hash.
 
-Two diagnosed delivery problems are fixed in the same bundle: two long native console strings have labeled lossless readable copies with exact JSON reconstruction and unchanged original files; full artifact navigation is a mandatory hash-bound file. Reader/input limits, all privacy scans and other refusals remain. Initial size and integration-test failures are preserved. The permission-sensitive test was rerun with the established private umask; no permission check was relaxed.
+The replacement launch then stopped BEFORE model admission with IMMUTABLE_ARTIFACT_CONFLICT. It added no model call or charge. The service is terminal/inactive. Diagnosis: the existing model-step code selected workspace8 from accepted review counter7, while normal reservation correctly selects attempt9 from8 prior review rows. All11 original failed-review file hashes are unchanged. No review9 workspace, reservation or model invocation exists. No duplicate launch will be made.
 
-Combined independent Claude implementation review APPROVED source2da898df506e28718277c588ab31d1e1be57a1a0, report6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16, with no findings. Direction PROCEED,1round,agreed. The same-service installation completed UPDATED_HELD with no model or provider call. Installed context and all prerequisites passed and exactly matched the candidate input hash. Scientific review8 was then started once through its existing allowance and ended mechanically without a submitted verdict:21 of23 run calls,16 of50 daily calls. No additional author or review allowance, spending cap, input, scientific code or confinement change.
-
-Review8 reached its 30-turn reader limit before invoking the review submission tool. Both call records are FAILED, the service is inactive with no process, and all originals are preserved. The model-reported cost is $9.981374, counted normally; it is not provider invoice settlement. No genuine APPROVE, REVISE or REJECT was submitted. A narrow mechanical recovery is being prepared for independent implementation review, including a bounded reading allowance and exact evidence pointers; no retry has been launched.
-
-Next result: a recovered scientific verdict, estimated05:40-06:00UTC subject to independent implementation approval. Only that review can decide U1/U2 closure; U3 coverage holds and ordinary execution/confinement/budget admission remain. No GPU smoke or full training has started.
+Next required repair: select the actual next attempt workspace without changing accepted-round counters or weakening immutable writes; exercise the full model-step path with this configuration. Preserve the existing approved allowance and approval binding. Independent implementation review and a folded direction check precede installation/retry. Next scientific verdict estimate06:00-06:20UTC; GPU smoke remains contingent on scientific approval and reviewed preprocessing.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item4 assets including both source attempts | $35.348053 | Complete confirmed actual total unavailable; counted inside $75 smoke cap |
-| Failed first source attempt, included above | $3.321330 | Full charge retained; no confirmed settlement |
-| Successful source preparation, included above | $3.321330 | Actual cost not settled; retained storage reservation |
-| Three native CPU attempts, included above | $3.356850 | First historical observation $0.01258041; others not settled |
-| Item4 image, included above | $1.178425 | Historical observation $0.00669028; not final settlement |
-| Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation $0.38602155; not separable per attempt |
+| Item4 assets | $35.348053 | Complete confirmed total unavailable; retained inside$75 smoke cap |
+| Both source preparations, included above | $6.642660 | Both full reservations retained |
+| Three native CPU attempts, included above | $3.356850 | First historical observation$0.01258041; not final settlement |
+| Item4 image, included above | $1.178425 | Historical observation$0.00669028; not final settlement |
+| Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation$0.38602155 cannot be separated |
 | Item6 input preparation | $5.000000 | Actual preparation cost not isolated |
 
-No reservation released. Only provider-confirmed actual cost of a closed attempt may release excess, preserving original/actual/released figures. Open or uncertain attempts retain full reservations. Caps unchanged: item4$75 smoke,$1200 projection,$1275 total. The separate$15 retry allowance does not apply. Model estimates are separate, not invoice settlement.
+No reservation released. Only provider-confirmed actual cost of a closed attempt permits excess release, preserving original/actual/excess figures. Open or uncertain attempts retain full reservations. Item4 caps remain$75 smoke,$1200 projection,$1275 total; separate$15 retry allowance does not apply. Model usage estimates are separate from provider invoice settlement: failed review8$9.981374; latest administrative review$4.89504125. The latest pre-admission refusal added zero calls/charges.
 
-## Calls, blockers and judgment calls
+## Calls, direction and judgment
 
-UTC October9:17/50 calls:2 scientific authors (author12,13);2 scientific reviews (review7 REVISE,review8 mechanical failure without submission);11 implementation reviews (native successor, billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition, review-original ownership, source-handle initialization/exact successor, combined proof/context delivery APPROVE; reader-limit recovery RUNNING);2 scope/direction calls (retry authority,next-result plan). Every call and charge preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
+UTC October9:17/50 calls:
 
-Latest completed Claude direction: R35 PROCEED,1round,folded into the implementation review; agreed. Judgment: preserve the original grant, replace only the missing-proof hold with authenticated real prerequisites, and batch all necessary reader repairs into one review. No new subsystem or optional billing work. The source/native proof is an infrastructure result; scientific review7 findings remain unresolved pending scientific review8.
+- Scientific authors2: author12 and13, correcting the pinned native-library interface while preserving the full research plan.
+- Scientific reviewers2: review7 genuine REVISE on source/native evidence; review8 reader-limit failure without submission.
+- Administrative implementation reviews11: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source-handle initialization/exact successor; proof/context delivery; bounded reader-limit recovery. All approved.
+- Standalone scope/direction checks2: retry authority and next-result plan. Later direction checks were folded into necessary implementation reviews.
 
-## Publication scope and limitations
+October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction. Every original call and charge remains counted; no reset or relabeling.
 
-Safe source files and tests from installed releases are included byte-for-byte, with installed source hashes in outputs/RELEASES.json. Private ancestors cannot be merged into a public branch: scans found forbidden records in working histories. Therefore the public catch-up uses filtered source projections, not a claim that the original release commits were merged. It is an audit snapshot, not a deployable combined release. The new public backup branch retains the safe catch-up history. Original working branches listed below are withheld; neither their raw history nor flagged files are pushed. Main is unchanged.
+Latest completed Claude direction: agreed the recovery was the shortest safe path,1round,APPROVE (PROCEED-equivalent wording). No optional subsystem added. The new pre-admission failure requires another folded direction check under the two-cycle/estimate-slip rules. Judgment: the immutable-file refusal is correct; fix the attempt selector and test the real caller path, preserving every original and the existing allowance. No operator decision is pending.
 
-DATA_NOTICE.md applies. Evidence folders, ledgers, packets, raw streams, private files, identifiers and patient-level material are excluded. Comparison JSON changes only machine-specific source path keys to basenames; numerical checks are unchanged. No existing scientific conclusion was edited.
+## Publication scope and omissions
 
-### Withheld working histories
+DATA_NOTICE.md applies. Installed safe code/tests, accepted aggregate outputs, proposals and safe review reports are backed up. Original release and working histories contain forbidden private records, so exact safe source projections are merged into remote-server and retained on public astra branches; the private original commits themselves are not imported. This is an audit snapshot, not a deployable combined release. Main is unchanged.
+
+Evidence folders, ledgers, review packets, native streams, private records, patient identifiers/rows, images,masks and caches are excluded. Comparison JSON changes only source-path keys to basenames; numerical checks are unchanged. Flagged versions below are withheld; a safe older public version may remain.
 
 - astra/m5-report-interface-20261007 @ 9b6e3d667279 ? PRIVATE_RECORD_IN_REACHABLE_TREE
 - astra/m5-administrative-sidecar-20261007 @ e992402036dd ? PRIVATE_RECORD_IN_REACHABLE_TREE
@@ -92,11 +92,6 @@ DATA_NOTICE.md applies. Evidence folders, ledgers, packets, raw streams, private
 - astra/item4-native-cpu-rehearsal-20261008 @ e16bb77f5c73 ? PRIVATE_RECORD_IN_REACHABLE_TREE
 - astra/item4-review6-continuation-20261008 @ c1a712bc65a9 ? PRIVATE_RECORD_IN_REACHABLE_TREE
 - astra/item4-retry-allowance-direction-20261009 @ 5dbe778e0a04 ? PRIVATE_RECORD_IN_REACHABLE_TREE
-
-### Flagged source files omitted from catch-up
-
-Paths below name repository source files only. A safe older public version may remain; the flagged version is not published.
-
 - configs > pilot > colab-worker-future.json ? INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - docs > DIAGNOSTICS_OPERATOR_DECISION.txt ? INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - docs > ITEM4_PINNED_IMAGE_SELECTION_20261008.json ? CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH
@@ -246,18 +241,12 @@ Paths below name repository source files only. A safe older public version may r
 - tools > manual_promotion.py ? INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - tools > private_checkout.py ? PRIVATE_RECORD_PATH, PUBLICATION_TYPE_REJECTED
 - tools > recover_item4_provenance_20261008.py ? INFRASTRUCTURE_OR_CREDENTIAL_PATH
-
-Additional exclusions identified during full publication audit (call-accounting snapshots embedded in source fixtures):
-
 - docs > EXPERIMENT_TIMEOUT_CHECKPOINT_20261007.json ? embedded call-accounting record; omitted from public history
 - docs > ITEM4_REVIEW4_CONTINUATION.json ? embedded call-accounting record; omitted from public history
 - docs > ITEM4_REVIEW5_CONTINUATION.json ? embedded call-accounting record; omitted from public history
 - docs > ITEM4_REVIEW6_CONTINUATION.json ? embedded call-accounting record; omitted from public history
 - docs > ITEM4_REVISION_CHECKPOINT.json ? embedded call-accounting record; omitted from public history
 - tools > ITEM4_AUTHOR5_BINDINGS.json ? embedded call-accounting record; omitted from public history
-
-### Additional omissions from installed native repair
-
 - docs > ITEM4_NATIVE_AUTHOR12_PREDECESSOR_20261009.json : PRESERVED_ACCOUNTING_RECORD
 - docs > ITEM4_NATIVE_AUTHOR12_RETRY_SCOPE_20261009.txt : CREDENTIAL_OR_HOST_REFERENCE
 - docs > ITEM4_NATIVE_BILLING_WINDOW_20261009.txt : CREDENTIAL_OR_HOST_REFERENCE
@@ -265,74 +254,28 @@ Additional exclusions identified during full publication audit (call-accounting 
 - outputs > implementation-reviews > item4-native-author12-retry-20261009.json : CREDENTIAL_OR_HOST_REFERENCE
 - outputs > implementation-reviews > item4-native-billing-window-20261009.json : CREDENTIAL_OR_HOST_REFERENCE
 - outputs > implementation-reviews > item4-native-import-binding-20261009.json : CREDENTIAL_OR_HOST_REFERENCE
-
 - astra/item4-native-author12-retry-20261009 @ 37251e6e8236 : private ancestry and accounting records withheld; safe source projection only.
-
 - astra/item4-review7-context-delivery-20261009 @ 93fc27fa2475 : private ancestry withheld; safe installed source projection and independent review report included.
-
-## Next authorized work
-
-Do not repeat the failed review8 start. Prepare and independently review one bounded mechanical recovery, preserving the failed attempt and charge. Fold the required direction check into that review because the result estimate slipped. Scientific reviewer alone closes findings. Existing preprocessing and GPU admission follow only after scientific acceptance.
-
-Additional publication omissions for R31:
-
 - docs > ITEM4_REVIEW7_CONTINUATION.json: actual private call checkpoint.
 - docs > ITEM4_REVISION_CHECKPOINT.json: actual private accounting checkpoint.
 - docs > ITEM4_REVISION_EVIDENCE.json: private evidence record and infrastructure or credential-path scan finding.
 - astra/item4-review7-continuation-20261009 and astra/item4-source-composition-20261009: raw private ancestry withheld; safe installed bytes are backed up on astra/public-review7-continuation-20261009 and merged into remote-server.
-
-Safe aggregate implementation report, scope, code and tests are included. Evidence folders, call records, review packets, native streams and patient-level material remain excluded.
-
-### Latest exclusions
-
 - astra/item4-native-author13-retry-20261009: raw history contains private records; exact safe projection published.
 - astra/item4-source-composition-20261009: private ancestry withheld; no executable changes yet.
 - docs > ITEM4_NATIVE_AUTHOR13_PREDECESSOR_20261009.json: PRIVATE_LEDGER_SNAPSHOT
-
-### Current preparation exclusions
-
 - Raw astra/item4-source-preparation-20261009 history contains private ancestry; exact safe projection is published.
 - astra/item4-review8-source-native-delivery-20261009 contains private ancestry and evidence/accounting records; its tested working draft is published only as a safe projection.
 - Private inventories, review packets, native streams, accounting records and transfer receipts remain withheld.
 - docs > ITEM4_SOURCE_PREPARATION_SCOPE_20261009.txt: CREDENTIAL_OR_HOST_REFERENCE
-
-### Current preparation exclusions
-
 - Raw astra/item4-source-hydration-retry-20261009 history contains private ancestry; exact safe projection is published.
-- astra/item4-review8-source-native-delivery-20261009 contains private ancestry and evidence/accounting records; its tested working draft is published only as a safe projection.
-- Private inventories, review packets, native streams, accounting records and transfer receipts remain withheld.
 - docs > ITEM4_SOURCE_HYDRATION_PREDECESSOR_20261009.json: PRIVATE_LEDGER_SNAPSHOT
-
-### Working-draft omissions
-
 - docs > ITEM4_REVIEW8_DELIVERY_SCOPE_20261009.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - docs > ITEM4_REVISION_CHECKPOINT.json: PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
 - docs > ITEM4_REVISION_EVIDENCE.json: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
 - outputs > sprint13b > REVIEW8_DELIVERY_PROPOSAL.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - Raw working history, private evidence copies, proof-capture output and call checkpoints remain private.
-
-### Final delivery candidate omissions
-
-- docs > ITEM4_REVIEW8_DELIVERY_SCOPE_20261009.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
-- docs > ITEM4_REVISION_CHECKPOINT.json: PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
-- docs > ITEM4_REVISION_EVIDENCE.json: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
 - Raw private working ancestry, call snapshots, review packets, native streams and original private evidence remain excluded. The safe projection is reviewable history, not an installed combined release.
-
-### Installed delivery release
-
 - Source2da898df506e28718277c588ab31d1e1be57a1a0 is installed after genuine implementation APPROVE; safe source bytes were already merged through the previous projection. Scientific review8 ended mechanically at its reading limit without a submitted verdict; originals and charge are preserved.
-
-Judgment at this stop: classify the terminal reader-limit outcome as mechanical only because no verdict or submission exists; preserve all call accounting and require an independently approved bounded recovery. Claude consultation pending in the next implementation review. Raw failed-call files and streams remain private.
-
-### Bounded recovery now under independent review
-
-Candidate ed9ad9aead00c9df8d0ecae1a25ecd782aef169c adds exact mechanical qualification of the preserved failed attempt, one normally charged replacement review9 with60 reading turns, and a scoped24-call process ceiling retaining the previously planned final interpretation pair. All dollar/day/batch caps and acceptance safeguards remain unchanged. No additional author, scientific code or input changes. Exact pointers to the existing evidence reduce navigation work.
-
-116 distinct tests plus14 subtests passed across the relevant final runs. Actual server context and failure qualification pass: all62 originals/403files retained,192769/200000characters, no state/call changes or model/provider calls. Initial fixture errors and preflight metadata-selector error remain preserved privately.
-
-The combined independent implementation and direction review is RUNNING; day17/50. Nothing from this candidate is installed or activated, and scientific review9 has not started. Latest completed direction remains R35 PROCEED; the new folded check is pending. Next scientific verdict estimate05:40-06:00UTC. Failed review8 model-reported9.981374USD remains counted; provider reservations remain35.348053USD with no excess released.
-
-Publication omissions for this candidate:
-
 - docs > ITEM4_REVIEW8_MECHANICAL_RECOVERY.json: PRESERVED_PRIVATE_CALL_CHECKPOINT.
 - Raw astra/item4-review8-turn-recovery-20261009 ancestry contains private records; safe source projection only. All original call records, raw streams, evidence folders and review packets remain private.
+- outputs > implementation-reviews > item4-review8-turn-recovery-20261009.json: CREDENTIAL_OR_HOST_REFERENCE.
