@@ -1,0 +1,45 @@
+{
+  "schema": "item4-review8-prerequisites/v1",
+  "source_asset": "9878e7923ea81dceefce162166a113aa7d0a53dd65c4199a42b4276fe952d365",
+  "native_asset": "40860aa053572ffc0571e45c89b950eaf813725b107f981ad18d5b9921cdb59c",
+  "source_release": "28726e3d5cdf32f1d80c63187f5abd9146cbfcd0",
+  "source_review": "fd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e",
+  "files": {
+    "SOURCE_BINDING.json": {
+      "sha256": "9878e7923ea81dceefce162166a113aa7d0a53dd65c4199a42b4276fe952d365",
+      "bytes": 1369
+    },
+    "SOURCE_VERIFIED.json": {
+      "sha256": "48e9635cd74cb45d2428ac60153e49af0052a8201dec481adb836984e236785e",
+      "bytes": 915
+    },
+    "SOURCE_LOCAL_VERIFIED.json": {
+      "sha256": "b715ce005f597e0730ca51285fedd98e81bc97f4e66c9b4003068dfd9fcc95db",
+      "bytes": 448
+    },
+    "SOURCE_VOLUME.json": {
+      "sha256": "e7d3c2478ba4f92c6989f8b5113432e12aea1f762789f76717fa066cb0eed998",
+      "bytes": 205
+    },
+    "NATIVE_OUTPUT.json": {
+      "sha256": "1eda41750da41c1953fb4721fdaf2a0d26ecb488cc92409ab0fc0bb3e3352631",
+      "bytes": 21483
+    },
+    "NATIVE_VERIFIED.json": {
+      "sha256": "0204237b70ac72daccfb5121a5d6f07b5d649602b540ceca7c7380e6be3ab941",
+      "bytes": 22849
+    },
+    "NATIVE_BINDING.json": {
+      "sha256": "40860aa053572ffc0571e45c89b950eaf813725b107f981ad18d5b9921cdb59c",
+      "bytes": 7463
+    },
+    "NATIVE_TERMINAL.json": {
+      "sha256": "679fafe1eb3ea06dd449dae12e71d3e2358fb73523eba7457f30b78b21b56b17",
+      "bytes": 317
+    }
+  },
+  "scientific_approval": false,
+  "model_calls": 0,
+  "provider_calls": 0,
+  "ledger_changes": false
+}

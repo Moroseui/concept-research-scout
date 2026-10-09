@@ -197,9 +197,14 @@
       "source": "genuine administrative report or aggregate preparation status; no scientific approval"
     },
     {
+      "path": "outputs/sprint13b/SOURCE_VERIFICATION.json",
+      "sha256": "d1e089ae8adc970cf16f7c993e6c379de536882058423c85a8fe066d3780deda",
+      "source": "aggregate authenticated infrastructure proof or current work status; no scientific approval"
+    },
+    {
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "ae6b31e5c78b215b39648fbb148dc52f368625e7de27a8d408095d83ff0996e9",
-      "source": "aggregate work status; working draft is not installed"
+      "sha256": "224426a12341a70c933219a5911013ee746a1ef9c0b3c5d102d92dc8e9bf2aa0",
+      "source": "aggregate authenticated infrastructure proof or current work status; no scientific approval"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release.",
@@ -259,6 +264,47 @@
           "path": "outputs/sprint13b/REVIEW8_DELIVERY_PROPOSAL.txt",
           "reasons": [
             "INFRASTRUCTURE_OR_CREDENTIAL_PATH"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "2da898df506e28718277c588ab31d1e1be57a1a0",
+      "role": "complete review8 source/native evidence and bounded reader delivery",
+      "status": "INDEPENDENT_REVIEW_RUNNING_NOT_INSTALLED",
+      "tests": 183,
+      "files": [
+        {
+          "path": "docs/ITEM4_REVIEW8_PREREQUISITES.json",
+          "sha256": "6c124c69cba173598d0eda276fdcafa4c38e900417b8b8934fedffa41ba11b54"
+        },
+        {
+          "path": "orchestrator/manual_context.py",
+          "sha256": "9208dfa98afd79171dd18bec25d41d1bf3ed2a421617106a8ed4e0f9de7a8f46"
+        },
+        {
+          "path": "tests/test_item4_review7_navigation.py",
+          "sha256": "4f6c2ff8399200f5402900163f46fc0aa6f9f0c16e8ab330de55e9482fdc30d7"
+        }
+      ],
+      "omitted": [
+        {
+          "path": "docs/ITEM4_REVIEW8_DELIVERY_SCOPE_20261009.txt",
+          "reasons": [
+            "INFRASTRUCTURE_OR_CREDENTIAL_PATH"
+          ]
+        },
+        {
+          "path": "docs/ITEM4_REVISION_CHECKPOINT.json",
+          "reasons": [
+            "PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD"
+          ]
+        },
+        {
+          "path": "docs/ITEM4_REVISION_EVIDENCE.json",
+          "reasons": [
+            "INFRASTRUCTURE_OR_CREDENTIAL_PATH",
+            "PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD"
           ]
         }
       ]

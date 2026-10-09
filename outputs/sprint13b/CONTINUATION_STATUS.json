@@ -1,6 +1,6 @@
 {
   "schema": "sprint13b-continuation-status/v1",
-  "at": "2026-10-09T04:23:51.265742+00:00",
+  "at": "2026-10-09T04:32:38.958566+00:00",
   "author_attempt": 13,
   "author_status": "ACCEPTED",
   "controller_tests": {
@@ -11,7 +11,7 @@
   "native_status": "VERIFIED",
   "native_attempt_reservation_usd": "1.118950",
   "item4_retained_asset_reservations_usd": "35.348053",
-  "source_composition": "RUNNING",
+  "source_composition": "VERIFIED_READY",
   "brain_source_rehash": {
     "files": 99,
     "bytes": 19679031,
@@ -37,12 +37,16 @@
   "source_implementation": "28726e3d5cdf32f1d80c63187f5abd9146cbfcd0",
   "source_implementation_review": "fd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e",
   "previous_source_attempt": "TERMINAL_PRECREATE_FAILURE_FULL_RESERVATION_RETAINED",
-  "source_fully_verified": false,
+  "source_fully_verified": true,
   "source_local_hash_verification": "PASS",
-  "source_remote_verification": "IN_PROGRESS",
-  "review8_delivery_draft": "840a0f0fdb6d363c1aec722ba6a770cbcfd3ea05",
-  "review8_delivery_tests": 96,
+  "source_remote_verification": "PASS",
+  "review8_delivery_draft": "2da898df506e28718277c588ab31d1e1be57a1a0",
+  "review8_delivery_tests": 183,
   "review8_delivery_installed": false,
-  "review8_delivery_implementation_review": "NOT_STARTED_AWAITING_ACTUAL_SOURCE_PROOF",
-  "new_model_calls": 0
+  "review8_delivery_implementation_review": "RUNNING",
+  "new_model_calls": 0,
+  "review8_context_characters": 192769,
+  "review8_evidence_originals": 62,
+  "review8_workspace_files": 403,
+  "daily_model_calls": 15
 }

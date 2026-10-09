@@ -21,7 +21,15 @@ def test_exact_findings_task_and_artifacts_delivered_before_model(root,monkeypat
     instruction=(work/refs['scientific-'+role+'-instructions']['path']).read_text()
     assert task in instruction and task not in body
     assert 'No instruction was shortened or omitted' in body
-    assert cb.encoded(refs[row['id']]) in body
+    if stage=='run_spec_review':
+        index=refs['scientific-review-artifact-index']
+        raw=(work/index['path']).read_bytes()
+        assert cb.encoded(refs[row['id']]) in raw.decode() and cb.encoded(refs[row['id']]) not in body
+        assert refs['scientific-review-instructions']['sha256'] in raw.decode()
+        assert index['sha256'] in body and 'First read the complete scientific-review-artifact-index' in body
+        lengths=[len(line) for line in raw.splitlines(keepends=True)]
+        assert all(sum(lengths[i:i+index['page_lines']])<=mc.JSON_PAGE_BYTES for i in range(len(lengths)))
+    else:assert cb.encoded(refs[row['id']]) in body
     assert (work/refs[row['id']]['path']).read_text()=='Exact synthetic source.\n'
     assert refs[row['id']]['source_path']==row['path']
     if stage.endswith('review'):assert 'APPROVE' in instruction and 'REVISE' in instruction
