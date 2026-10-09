@@ -25,6 +25,7 @@ def mechanical(request,monkeypatch):
     store.finish_call(ident,receipt,'FAILED')
     work=d.state.parent/'lane-scientific-workspaces/run_spec_review-8';work.mkdir(parents=True,mode=0o700)
     (work/rs.CONFIG).write_text('{}')
+    (work/'prompt.md').write_text('preserved failed review8 prompt')
     (work/'console.log').write_text(json.dumps({'type':'result','subtype':'error_max_turns','num_turns':30,'session_id':'synthetic','is_error':False})+'\n')
     value=x.state(store);value.setdefault('artifacts',[]);value.update(phase='BLOCKED',reason=repair.REASON,pending={'id':ident,'stage':repair.STAGE,'round':8,'workspace':str(work)},notebook_revision_result={'synthetic':'unchanged'},spec='synthetic-author13')
     raw=json.dumps(value);store.db.execute('UPDATE manual_state SET payload=? WHERE id=1',(raw,))

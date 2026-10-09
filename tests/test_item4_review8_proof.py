@@ -84,6 +84,7 @@ def test_review_gate_requires_exact_stage_and_authentic_delivered_proof(tmp_path
  (tmp_path/component.RECOVERY_DOCUMENT).write_text('{}')
  from orchestrator import item4_review8_recovery as repair
  monkeypatch.setattr(component,'verified',lambda:({'review_sha256':'a'*64},))
+ monkeypatch.setattr(component,'held_mechanical_approval',lambda:'a'*64)
  monkeypatch.setattr(repair,'next_review',lambda store,frozen,approval:9)
  monkeypatch.setattr(component,'ROOT',tmp_path);monkeypatch.setattr(hg,'trusted',lambda p:p)
  result=NS(returncode=0,stdout=json.dumps(expected));calls=[]

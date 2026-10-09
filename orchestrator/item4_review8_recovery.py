@@ -131,3 +131,49 @@ def command(original,workspace,stage,store,frozen,approval):
     require(argv.count('--max-turns')==1 and argv[argv.index('--max-turns')+1]=='30','COMMAND_SHAPE')
     argv[argv.index('--max-turns')+1]='60'
     return argv
+
+
+def model_attempt(driver,value,frozen,approval,ordinary):
+    """Select the already-granted attempt, never falsify an accepted counter."""
+    if driver.config.get('run_id')!=prior.RUN or value.get('phase')!=STAGE:
+        return ordinary(value)
+    require(value==prior.state(driver.store),'MODEL_STATE_CHANGED')
+    return next_review(driver.store,frozen,approval)
+
+
+def restore_pre_admission(driver,frozen,grant_review,implementation_review,checkpoint,destination):
+    """Restore one failed preparation after reviewed selector repair; no new grant."""
+    from orchestrator import private_records as pr
+    store=driver.store;granted(store,frozen,grant_review)
+    require(driver.config['run_id']==prior.RUN and checkpoint['schema']=='item4-review9-pre-admission/v1'
+        and checkpoint['run_id']==prior.RUN and checkpoint['reason']=='ValueError: IMMUTABLE_ARTIFACT_CONFLICT'
+        and checkpoint['existing_grant']==binding(frozen,grant_review),'RESTORE_SCOPE')
+    binding(frozen,implementation_review) # validate the separately authenticated implementation-review hash
+    raw=store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]
+    value=json.loads(raw)
+    require(prior.sha(raw.encode())==checkpoint['state_sha256'] and value['phase']=='BLOCKED'
+        and value['reason']==checkpoint['reason'] and not value.get('pending'),'RESTORE_CHECKPOINT')
+    require(store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==21 and
+        not store.batch.db.execute('SELECT 1 FROM autonomy_calls WHERE id=?',(REPLACEMENT,)).fetchone()
+        and not store.batch.db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
+        and not Path(frozen['failed_workspace']).with_name('run_spec_review-9').exists(),'RESTORE_UNADMITTED')
+    event=EVENT+':workspace-selector-repair'
+    require(not store.db.execute('SELECT 1 FROM events WHERE id=?',(event,)).fetchone(),'RESTORE_ALREADY_APPLIED')
+    destination=Path(destination);require(not destination.exists() and not destination.is_symlink(),'RESTORE_INTENT_EXISTS')
+    pr.mkdir(destination);pr.write_bytes(destination/'original-state.json',raw.encode())
+    proof={'kind':event,'grant_review_sha256':grant_review,'implementation_review_sha256':implementation_review,
+        'checkpoint_sha256':prior.sha(prior.canonical(checkpoint)),'new_allowance':0,'model_calls':0}
+    pr.write_bytes(destination/'intent.json',prior.canonical(proof))
+    value.update(phase=STAGE,reason=None);value['interventions'].append(proof)
+    store.db.execute('BEGIN IMMEDIATE')
+    try:
+        require(store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]==raw,'RESTORE_STATE_RACE')
+        granted(store,frozen,grant_review)
+        store.db.execute('INSERT INTO events VALUES(?,?,?)',(event,prior.RUN,prior.canonical(proof).decode()))
+        store.db.execute('UPDATE manual_state SET payload=? WHERE id=1',(json.dumps(value,sort_keys=True),))
+        # Qualify the restored state inside the transaction; any mismatch rolls back.
+        next_review(store,frozen,grant_review)
+        store.db.execute('COMMIT')
+    except BaseException:store.db.execute('ROLLBACK');raise
+    pr.write_bytes(destination/'applied.json',prior.canonical(proof))
+    return {'status':'RESTORED_UNADMITTED_REVIEW9','model_calls':0,'new_allowance':0,'preserved_calls':21}

@@ -15,8 +15,8 @@ SCIENCE = Path('/opt/research-system/manual-sprint10/research-manual-sprint10-ti
 RUNTIME = Path('/etc/research-system-manual-sprint10/releases')/SCIENCE.name/'runtime.json'
 OLD_UNIT = Path('/etc/systemd/system/research-item4-runtime-binding-repair-20261008.service')
 UNIT = Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
-PRIOR_SOURCE='2da898df506e28718277c588ab31d1e1be57a1a0'
-PRIOR_REVIEW='6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16'
+PRIOR_SOURCE='ed9ad9aead00c9df8d0ecae1a25ecd782aef169c'
+PRIOR_REVIEW='6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf'
 AUTHORITY = 'c9f088863d00ca160e7f104a2571291f36be2af1907e296783eb172785fa1d63'
 import importlib.util
 _spec=importlib.util.spec_from_file_location('_revision_install_contract',Path(__file__).with_name('item4_scientific_revision_component.py'))
@@ -77,8 +77,8 @@ assert os.getuid()==os.getgid()==1003
 p=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 with sqlite3.connect((p/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
  v=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
- assert v['phase']=='BLOCKED' and v['reason']=='REVIEW_SUBMISSION_FAILED_NO_RETRY: ACCEPTED_SUBMISSION_REQUIRED' and v['pending']['id']=='74841b04c11db8cfe518c04fd64a7529623b494107427b0116f30279ec900329' and v['rounds']=={'run_spec_author':13,'run_spec_review':7}
- assert __import__('hashlib').sha256(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0].encode()).hexdigest()=='e693a603fc0c073f84dbbfc834bdeb37579233b32e51860e0d453a0edc069991'
+ assert v['phase']=='BLOCKED' and v['reason']=='ValueError: IMMUTABLE_ARTIFACT_CONFLICT' and not v.get('pending') and v['rounds']=={'run_spec_author':13,'run_spec_review':7}
+ assert __import__('hashlib').sha256(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0].encode()).hexdigest()=='f8d428463b32ca89dcebad4501bf44662bc31b35397a3ef3721a84900f3922ef'
  assert any(a['id']=='validator' and a['version']==3 and a['sha256']=='43e307ed1ce8a1afae76be2d4e38ef2d36352cdae27989137a85ac2b5b64af14' for a in v['artifacts'])
  assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==21
 with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as db:
