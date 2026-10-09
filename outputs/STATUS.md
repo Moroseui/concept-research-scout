@@ -1,30 +1,24 @@
 # Research status
 
-Updated 2026-10-09T07:10:34.592953+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T07:29:23.541179+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
 Item6 is complete with independent scientific APPROVE. Mean Dice0.20630608 to0.24674415, gain0.04043807 (95% interval0.02796645 to0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops the diagnostic branch. Reports and aggregate comparison remain under outputs/item6/.
 
-13B source preparation is verified:893 frozen files,99 development patients,49 excluded and zero overlap. Hashes and complete remote byte readback passed. Author13 native CPU integration passed on generated fixtures, including preparation, reuse, genuine interruption/resume and scoring. This does not establish patient efficacy, GPU or production execution. The pinned image remains unchanged; coverage-dependent arms remain held. No GPU smoke or full training yet. The full51-fit, seven-preparation,40-full-training plan remains the objective.
+13B base source preparation is verified:893 frozen files,99 development patients,49 excluded and zero overlap; hashes and complete byte readback passed. Author13 native CPU integration passed on generated fixtures, including preparation, reuse, genuine interruption/resume and scoring. This is not GPU, production, patient-efficacy or scientific acceptance. Pinned image unchanged; coverage-dependent arms held; full51fits/sevenpreparations/40FULL objective retained. No GPU smoke/full training yet.
 
-Scientific review9 finished with genuine REVISE, independently authenticated from its accepted submission. It closes the concrete native-library API defect and acknowledges base-source and native CPU evidence. Open findings concern production execution provenance/confinement, real integration evidence, and missing coverage originals for held arms. The existing SPEC predates some completed evidence. The author must address the genuine findings and propose scientifically defensible staging; engineering cannot waive them or treat this verdict as mechanical failure.
+Scientific review9 remains a genuine REVISE. It closes the concrete native API defect and acknowledges the base-source/native CPU evidence; open findings concern production-root provenance/confinement, real integration and missing coverage originals for held arms. Author/reviewer must decide scientifically defensible staging. No finding is waived by engineering.
 
-Read-only reconciliation at06:35:47UTC: scientific and administrative services inactive, process IDs zero, successful exits; both call records COMPLETE. The scientific lane remains BLOCKED at author13/review9 with22 original calls and no pending call. Nothing was restarted or duplicated.
+R41 received genuine implementation APPROVE7303aa4386824db878e24225025ffbd93c5b04c54b0543cb5c5d3aa373446646 and explicit PROCEED, one round. Installed source7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3. The exact author14/review10 continuation was activated with all22 original scientific calls/charges preserved. Installer and activation made zero model/provider calls. Original grants remain separately authenticated.
 
-Installed source remains8e25c24bc519c63cd7fbfb4c0a5669626366b909, implementation APPROVE193bac0749e414c2d86ef1e7f8291a8cb38f32bb811dd9e67973757693309e28. R40 received documentation-only APPROVE: the proposed bounded response fits delegation. It did not answer the staging question and is not scientific approval, implementation approval or an executable grant.
+The291-test final suite passed. Earlier failed checks and corrections remain preserved. Full server source/native/author/image proof passed. Actual installed author14 numbering, genuine review9 binding, context and within-call submission schema/runtime passed without calls:34695characters,418files,16mandatory open-obligation pages preserving all187752original bytes. Changed scientific executable/support/environment still requires fresh native evidence. Stop/privacy preflight and200000-character input limit remain unchanged.
 
-R41 candidate source7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3 is complete and tested, pending independent approval; NOT installed or activated. It proposes exactly author14/review10 with all22 existing scientific calls and final interpretation slots preserved. Exact original grants, genuine REVISE9 binding, admission, cap and uncertain-call refusals remain. Author/reviewer own scientific choices.
+The author service started ONCE, then stopped BEFORE admission with AUTONOMY_BATCH_CALL_LIMIT. Reconciled07:26:25UTC: no active model call, local/global author14 rows absent, scientific lane BLOCKED, original22 item4 calls unchanged. The local accounting sequence is still22 with no resets. The batch contains60 scientific calls across seven research runs, including22 for item4. This is the lifetime scientific batch cap, not today's50-call limit. The refusal is working as designed; no author call or new charge occurred.
 
-The old current-stage pin on historical native evidence is replaced by original-row, submission, controller, notebook, module/support and image authentication, plus a separate exact live-stage check. Changed author14 executable/support/environment requires fresh applicable native evidence. The full read-only server prerequisite check passed against all eight original source/native proof files; zero model/provider calls.
+All429 prepared workspace files and the submission-runtime pins remain preserved and hash-recorded. Do not restart the same service or recreate its prepared workspace without an independently approved bounded continuation. No batch limit has been raised, reset or relabeled.
 
-Current findings exceeded the200000-character input limit. Item4-only mandatory ordered pages retain every original byte, hash and obligation ID, with whole-original and per-page privacy scans, exact reconstruction, unchanged stop/privacy preflight and final input cap. Other requests retain their prior representation. Server context-only check passed:author34681/reviewer24540characters, sixteen pages each, preserving187752/191545original obligation bytes. This uses current author13/review9 artifacts; future author14 does not yet exist and will face ordinary context measurement.
-
-Final focused regression:291 passed in249.34seconds. Earlier failures remain recorded: missing admission connection, stale fixture expectations, and a multiple-target routing mismatch. The narrow routing correction passed61 focused checks before the complete291-test rerun. No failures are reported as passes.
-
-One batched administrative implementation/process/check-equivalence/direction review started once07:08:53UTC. Confirmed RUNNING07:09:22UTC, day22calls. No installation, activation, science or provider action before genuine APPROVE. Claude must judge equivalent protection and the bounded process authorization explicitly. Complete mandatory file delivery is not a claim that a model inspected every file.
-
-Next: genuine administrative verdict, then held installation and exact activation if approved, scientific author14 response and independent review10. The full research plan and coverage holds remain. Administrative verdict estimate5-15minutes from launch; GPU-smoke timing still depends on scientific staging and execution preparation.
+Next: judge a narrow process continuation with Claude under standing delegation, bundling any necessary accounting and exact pre-admission recovery in one implementation/direction review. Only the already-approved remaining item4 scientific slots would be considered; every original batch call/charge and all dollar caps/refusals must stay counted. No new provider work. Estimate45-90minutes for that reviewed continuation, then15-30minutes for author response if admitted. Smoke timing remains dependent on scientific staging.
 
 ## Spending
 
@@ -41,16 +35,13 @@ No reservation released. Only provider-confirmed actual cost of a closed attempt
 
 ## Calls, blockers and judgment calls
 
-UTC October9:22/50, reconciled07:09:22UTC:
+UTC October9:22/50:2scientific authors(author12/13 native corrections);3scientific reviews(review7 REVISE,review8 reader-limit failure,review9 genuine REVISE);14administrative implementation reviews;3standalone scope/direction checks. Author14 was not admitted and adds no call. No reset or relabeling.
 
-- Scientific authors2: author12 and13 native-library corrections preserving the research plan.
-- Scientific reviewers3: review7 genuine REVISE; review8 reading-limit failure without submission; review9 genuine REVISE on source, native and production validation evidence.
-- Administrative implementation reviews14 (including the current RUNNING call): native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration (disqualified); linked mechanical successor (APPROVE); current bounded response/accounting/proof/context repair (RUNNING).
-- Standalone scope/direction checks3: retry authority, next-result plan and staged-validation proposal. The last approved the documentation only and left the precise staging question unanswered.
+Implementation purposes: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration(disqualified); linked mechanical successor; R41 bounded response/historical-proof/context delivery(APPROVE). Standalone checks: retry authority, next-result plan and R40 documentation-only staging proposal. R41 folded direction into the necessary implementation review.
 
-October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction. No reset or relabeling. Administrative work dominates. The concrete continuation, process authorization and direction are now in one necessary review. No additional standalone proposal review was used.
+R41 model estimate$6.2047455 is retained, separate from provider invoice settlement. Latest Claude direction: PROCEED,1round, agreed, explicitly approving R41's bounded response and equivalent proof/context delivery. It did NOT authorize changing the60-call batch cap; that newly discovered blocker needs its own concrete scoped judgment. Past direction still defers optional dashboards, generic retry framework and local transport rebuild. Administrative work dominates, so related repairs and direction will stay batched.
 
-Latest explicit qualified Claude direction remains R39 PROCEED/SIMPLIFY, one round, agreed: defer the local transport-environment rebuild, billing dashboard and generic retry framework. Judgment highlights: preserve genuine REVISE; do not infer an unanswered scientific/process ruling from R40; carry staging to the scientific author; preserve original grants and accounting in the continuation; preserve every earlier failed check, then publish the tested candidate with its pending-review status. The new accounting, historical-proof and lossless context repairs are batched because each blocks the next scientific response. No operator decision is pending.
+Judgment: preserve genuine REVISE, reuse only exactly authenticated historical proof, preserve all findings in lossless mandatory pages, and refuse changed code or exhausted budgets. The live batch refusal was reconciled rather than bypassed or retried. No operator decision pending; dollar caps and reservations unchanged.
 
 ## Publication scope and omissions
 
