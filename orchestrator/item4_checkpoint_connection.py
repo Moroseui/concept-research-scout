@@ -7,7 +7,7 @@ from orchestrator import private_records as pr
 from orchestrator import preprocessing_recovery as recovery
 from orchestrator.preprocessing_checkpoints import same_execution
 
-ROOT=Path('/opt/research-system/manual-repair-helpers/item4-checkpoint-sdk-bootstrap-20261009')
+ROOT=Path('/opt/research-system/manual-repair-helpers/item4-benchmark-timer-format-20261009')
 CONTRACT_SHA='6f4f494f87c9edb631c8107c05bb963f32839ccfd4a951700b878db3e95aeaa2'
 KEY='preprocessing_private_staging'
 

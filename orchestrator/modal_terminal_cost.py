@@ -190,6 +190,10 @@ def observe_billing(accounts,snapshot,now):
         for row in db.execute('SELECT run,binding FROM autonomy_compute'):
             scope=strict_json(row['binding']).get('experiment')
             if scope:objects[scope['billing_object_id']]=row['run']
+        from orchestrator.item4_closed_asset_billing import billing_objects
+        for app,run in billing_objects(accounts).items():
+            if app in objects:raise ValueError('ITEM4_BILLING_OBJECT_SHARED')
+            objects[app]=run
         seen=highwater(db);cycle=now.strftime('%Y-%m')
         for key,amount in _totals(snapshot).items():
             if key not in objects or amount<=seen.get((key,cycle),0):continue
