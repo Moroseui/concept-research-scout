@@ -102,3 +102,35 @@ def test_all49_exclusions_checked_before_payload_access(synthetic_contract):
     cohort=json.loads((root/'cohort.json').read_bytes());cohort['cases'][0]=case(101)
     pr.write_bytes(root/'cohort.json',json.dumps(cohort).encode())
     with pytest.raises(ValueError,match='EXCLUDED_PATIENT'):m.contract(root)
+
+
+def test_lazy_provider_handle_loads_before_identity_but_not_payload(tmp_path):
+    from types import SimpleNamespace as NS
+    class Lazy:
+        loaded=False
+        reads=[]
+        @property
+        def object_id(self):
+            if not self.loaded:raise AttributeError('unhydrated handle')
+            return 'vo-exact'
+        def listdir(self,*a,**kw):
+            self.loaded=True;return [NS(path='images/train/synthetic',size=1,type=NS(name='FILE'))]
+        def read_file(self,name):
+            assert self.loaded;self.reads.append(name);yield b'x'
+    v=Lazy();provider=NS(_volume=lambda ident:v)
+    result=m.copy_images(provider,'vo-exact',tmp_path,{'train/synthetic':row(b'x')})
+    assert result['files']==1 and v.reads==['/images/train/synthetic']
+
+def test_wrong_hydrated_identity_refuses_before_any_payload(tmp_path):
+    from types import SimpleNamespace as NS
+    class Wrong:
+        loaded=False
+        @property
+        def object_id(self):
+            if not self.loaded:raise AttributeError('unhydrated handle')
+            return 'vo-wrong'
+        def listdir(self,*a,**kw):self.loaded=True;return []
+        def read_file(self,*a):raise AssertionError('must not read any payload')
+    with pytest.raises(ValueError,match='SOURCE_VOLUME_ID'):
+        m.copy_images(NS(_volume=lambda ident:Wrong()),'vo-exact',tmp_path,{'train/synthetic':row(b'x')})
+    assert not list(tmp_path.iterdir())

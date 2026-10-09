@@ -74,6 +74,57 @@ def native_qualification(accounts,binding):
     require(json.loads(row['receipt'])==saved and all(saved[k]==v for k,v in original.items()),'NATIVE_RECEIPT')
     return prior.qualify(accounts,native)
 
+
+SOURCE_PREDECESSOR_ID='450b6795685fe5b1d80986e64836f8f155d7953986cb32a05fd0d0a3266cb7e9'
+SOURCE_PREDECESSOR_STATE=Path('/var/lib/research-system-manual-sprint10-deployment/item4-source-preparation-20261009/state')
+SOURCE_PREDECESSOR_PROOF=Path(__file__).resolve().parents[1]/'docs/ITEM4_SOURCE_HYDRATION_PREDECESSOR_20261009.json'
+SOURCE_PREDECESSOR_SHA='cf117f7f23c0285c1076a7748aaf980d539ed51583837969998f619291bf87d3'
+
+def source_failure_proof():
+    raw=pr.check(SOURCE_PREDECESSOR_PROOF).read_bytes()
+    require(digest(raw)==SOURCE_PREDECESSOR_SHA,'PREDECESSOR_PROOF_CHANGED')
+    value=json.loads(raw)
+    from orchestrator.autonomy_review import verify_result
+    from orchestrator.manual_host_guard import trusted
+    record=SOURCE_PREDECESSOR_STATE.parent
+    approved=verify_result(trusted(record/'review'))
+    require(approved['verdict']=='APPROVE' and approved['source_sha']==value['installed_source']=='f62f923b999aac56f7ae64826c6bbdc1e15b4669'
+            and approved['report_sha256']==value['installed_review']=='a58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837'
+            and approved['change_id']=='item4-source-install-repair-20261009','PREDECESSOR_RELEASE')
+    manifest=json.loads(trusted(record/'review/packet-manifest.json').read_bytes())
+    root=Path('/opt/research-system/manual-repair-helpers/item4-source-preparation-20261009')
+    for name in ('orchestrator/modal_development_inputs.py','orchestrator/modal_source_composition.py','orchestrator/modal_source_budget.py','tools/item4_source_preparation.py','tools/install_item4_source_preparation.py'):
+        require(digest(trusted(root/name).read_bytes())==manifest['source_files'][name],'PREDECESSOR_CODE_CHANGED')
+    return value
+
+def source_predecessor(accounts,binding):
+    # Only the one diagnosed pre-create failure qualifies. Nothing is relabeled,
+    # deleted, overwritten or released; the new attempt gets a fresh reservation.
+    import subprocess
+    from orchestrator.modal_assets import local_files
+    value=source_failure_proof();root=SOURCE_PREDECESSOR_STATE
+    row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(SOURCE_PREDECESSOR_ID,)).fetchone()
+    require(row is not None and dict(row)==value['asset'] and digest(canonical(dict(row)))==value['asset_sha256']
+            and row['status']=='UNCERTAIN' and row['reserved_micro_usd']==3321330,'PREDECESSOR_ROW_CHANGED')
+    old=json.loads(row['binding'])
+    require(digest(canonical(old))==SOURCE_PREDECESSOR_ID and old['operation_id']=='item4-frozen-base-source-v1'
+            and binding['operation_id']=='item4-frozen-base-source-hydrated-v2','FIXED_SOURCE_SUCCESSOR')
+    require(all(binding[k]==old[k] for k in ('purpose','run_id','authority_sha256','team_authority_sha256','source','owner_sha256','inventory_sha256','native_asset_id','direct_asset_id','source_volume_id')),'PREDECESSOR_SCOPE_CHANGED')
+    props=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show','research-item4-source-preparation.service','-p','ActiveState','-p','MainPID','-p','ExecMainStatus','-p','InvocationID'],text=True).splitlines())
+    require(props==value['unit'] and props['ActiveState']=='failed' and props['MainPID']=='0' and props['ExecMainStatus']=='1','PREDECESSOR_NOT_TERMINAL')
+    pr.check_tree(root)
+    require({p.name for p in root.iterdir() if p.is_dir()}=={'data','incoming'},'PREDECESSOR_UNKNOWN_DIRECTORY')
+    require(all(not (root/n).exists() and not (root/n).is_symlink() for n in ('volume-create-intent.json','volume.json','upload-intent.json','VERIFIED.json','LOCAL_VERIFIED.json')),'PREDECESSOR_CREATE_OR_OUTCOME')
+    actual={p.name:{'bytes':p.stat().st_size,'sha256':digest(pr.check(p).read_bytes())} for p in root.iterdir() if p.is_file() and p.name not in {'cleanup-status.json','operation.lock'}}
+    require(actual==value['records'],'PREDECESSOR_RECORD_CHANGED')
+    failure=json.loads(pr.check(root/'FAILED.json').read_bytes())
+    require(json.loads(row['receipt'])==failure and failure=={'status':'UNCERTAIN','binding_sha256':SOURCE_PREDECESSOR_ID,'error_type':'AttributeError','no_automatic_retry':True,'reservation_retained':True},'PREDECESSOR_FAILURE')
+    metadata=Path('/etc/research-system-manual-sprint10/item4-source-preparation-20261009/inputs')
+    files,proof=source.contract(metadata);_,brain,cache,baseline=source.partitions(files)
+    require(proof==value['membership'],'PREDECESSOR_FROZEN_MEMBERSHIP')
+    local_files(root/'incoming',{**brain,**baseline});local_files(root/'data',{**brain,**cache,**baseline})
+    return SOURCE_PREDECESSOR_ID
+
 def reserve(accounts,binding,*,billing_snapshot,now=None):
     """Normal transaction, full original liabilities retained; no provider calls."""
     from orchestrator import modal_environment_budget as shared,modal_terminal_cost
@@ -97,13 +148,14 @@ def reserve(accounts,binding,*,billing_snapshot,now=None):
         closed=closed_ids(accounts.batch,RUN)
         require(all(r['id'] in closed for r in db.execute("SELECT id FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')")),'MODEL_CALL_UNCERTAIN_OR_RUNNING')
         native_failures=native_qualification(accounts,binding)
+        previous=source_predecessor(accounts,binding)
         assets=db.execute('SELECT * FROM autonomy_assets').fetchall();compute=db.execute('SELECT * FROM autonomy_compute').fetchall()
-        require(not any(json.loads(r['binding']).get('purpose')==PURPOSE for r in assets),'ALREADY_PREPARED_NO_RETRY')
+        require(not any(json.loads(r['binding']).get('purpose')==PURPOSE and r['id']!=previous for r in assets),'ALREADY_PREPARED_NO_RETRY')
         direct=next((r for r in assets if r['id']==DIRECT_ID),None)
         require(direct is not None and direct['status']=='READY' and download_asset(direct)
                 and digest(canonical(json.loads(direct['binding'])))==DIRECT_ID
                 and direct['reserved_micro_usd']==json.loads(direct['binding'])['envelope']['cost']['reserved_micro_usd'],'DIRECT_SOURCE_REQUIRED')
-        resolved=resolved_failure_ids(accounts,root=accounts.batch.filesystem_root)|native_failures
+        resolved=resolved_failure_ids(accounts,root=accounts.batch.filesystem_root)|native_failures|{previous}
         require(all(r['status']=='READY' or r['id'] in resolved for r in assets),'UNCERTAIN_ASSET')
         stopped=shared.terminal_failed_compute(accounts)
         require(isinstance(stopped,set) and stopped<={r['id'] for r in compute},'STOPPED_SCOPE')
