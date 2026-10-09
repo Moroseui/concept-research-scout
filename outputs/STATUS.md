@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B preprocessing verified its frozen inputs and pinned image and saved 92 steps before its time limit.
-One CPU checkpoint continuation is now running after the reviewed repair and successful reconciliation.
-GPU smoke awaits validated preparation and budget admission; coverage-dependent arms stay held, and full training awaits scientific smoke review.
-Provider billing shows $7.67823095 for CPU preparation through the last completed hour; other actuals remain unsettled. Conservative item-4 exposure is $68.371653 of $75.
-Next result: completed preprocessing, estimated 10-20 minutes from launch, including checkpoint restoration and validation.
+13B preprocessing completed all 100 steps and produced 300 validated files, reusing its 92 saved steps.
+The result is collected and its container is stopped; no compute or model call is running.
+GPU benchmarks await production asset setup and budget reconciliation. Coverage-dependent arms remain held; full training awaits scientific smoke review.
+Observed CPU preparation spend is $7.67823095 through completed billing hours; the final continuation bill and other costs remain unsettled. Conservative item-4 exposure is $64.832313 of $75.
+Next result: the first GPU benchmark after the narrow setup/accounting connection and independent review; provisional estimate 1-2 hours. Full smoke timing follows measured GPU performance.
 No operator action needed. Latest Claude direction: PROCEED. Today: 39/50 calls, all terminal.
 
-Updated 2026-10-09T16:20:01.708245+00:00. Detailed audit follows.
+Updated 2026-10-09T16:39:58.214755+00:00. Detailed audit follows.
 
 ## Results and execution
 
@@ -26,21 +26,29 @@ R54 source109b73eb901a68f72ec2cc1eac1ed694bd66a475 received genuine APPROVE d546
 
 Final tests:220passed, one root-only publication fixture skipped. The native server rehearsal passed checkpoint reconciliation, successor selection, byte-unchanged package files, read-only preflight, ordinary admission and over-cap refusal on disposable ledgers; actual ledgers were unchanged. Future candidate approval/install and provider create/launch were explicitly simulated. A final additional early refusal for a missing resume link was tested by the final suite after the rehearsal source was frozen; that exact one-line difference is disclosed. Native worker restore/finish/collection tests use synthetic inputs, not completed research evidence.
 
-The two initial test runs exposed an identity-connection defect and a synthetic context permission setup mismatch; originals remain preserved. The first rehearsal fixture lacked a status method and was corrected. No production permissions/checks were relaxed. Current reservation stays10.3424; a proposed continuation would reserve another10.3424 only through ordinary admission, illustrated effective exposure68.371653/75 before any fresh billing adjustment.
+The two initial test runs exposed an identity-connection defect and a synthetic context permission setup mismatch; originals remain preserved. The first rehearsal fixture lacked a status method and was corrected. No production permissions/checks were relaxed. The original timed-out reservation stays10.3424. Its continuation was subsequently admitted normally; current post-collection exposure is detailed below.
 
 Safe pending source history is on astra/public-preprocessing-checkpoint-connection-20261009 at632904fe3d70a8ecb845d16bb2d13ebfca1175b6; its reviewed safe source is now merged into this branch as installed history; it is not scientific approval.
 
 R55 source24305b0b6c24d239cbed1268395f98c91598ad1c received genuine independent APPROVE 8d71e63918382bfecf53cab9651fcf4e442895ec17f39bcf02c8e8f7f903eeca and explicit PROCEED. Installation and post-install verification passed. The two-line correction loads the already-pinned SDK path before the existing provider performs its unchanged identity, ownership, version and hash checks. All 103 focused tests passed. The fresh-process command rehearsal exercised actual command admission and provider construction; future installation/approval and the mutating reconciliation boundary were explicitly simulated. The reviewer did not execute tests and assessed some unchanged modules through pins and prior coverage; these limitations remain in the accepted report.
 
-Actual owner reconciliation subsequently passed. Exactly the timed-out attempt became accounted and interrupted, with one native checkpoint event appended. All original reservations, bindings, calls and existing events were preserved. Scheduling, preparation and upload all passed. The single continuation was admitted and submitted successfully; provider identity and both accounting records agree. Its maximum reservation is $10.342400 through ordinary admission. Effective exposure is now $68.371653/$75. No GPU has launched. The earlier SDK failure and packet-format recovery remain preserved; the latter failed before registration and consumed no model call.
+Actual owner reconciliation subsequently passed. Exactly the timed-out attempt became accounted and interrupted, with one native checkpoint event appended. All original reservations, bindings, calls and existing events were preserved. Scheduling, preparation and upload all passed. The single continuation was admitted and submitted successfully, then completed and was collected as detailed below. Its original maximum reservation is $10.342400. No GPU has launched. The earlier SDK failure and packet-format recovery remain preserved; the latter failed before registration and consumed no model call.
+
+The CPU continuation is now COMPLETE, COLLECTED and positively terminated through the existing collector. Independent metadata replay passed: 300 files, 8,085,002,333 bytes, 100 committed steps and 614.3626 seconds of continuation preprocessing including restoration and validation. All 92 predecessor steps were preserved and reused; all 893 input files and the pinned environment verified again. The result hash is5a23ce42443b8d56af7eebfae29825c33f862bda4c922d4cd4820cfdcea97987. Only metadata was collected; patient payloads remain in the private volume. This is preparation evidence, not a completed GPU fit or scientific acceptance. The aggregate is in outputs/sprint13b/PREPROCESSING_RESULT.json.
+
+The installed terminal-cost calculation now bounds the closed continuation at $6.803060, including its unchanged $5 overhead. This is an elapsed-lifetime upper bound, not an actual invoice or a rewritten reservation. All four original CPU reservations remain recorded at a total $41.369600. Effective item-4 exposure is $64.832313; provider billing has not yet reported the continuation's current hour.
+
+Read-only reconciliation found two old input-download failures with positive terminal exits, disabled launch services, empty data volumes and combined observed compute of $0.00009247, while each still retains $8.056706. Their small package copies and other obligations remain counted. Original/native proofs and fresh billing are preserved privately; no accounting adjustment was made. A local evidence-serialization failure occurred before writing its observation; the first empty destination and error were preserved, and a second capture converted only a set of identifiers to a sorted list. No model call or compute launch resulted.
+
+The existing GPU handoff validates completed preprocessing and frozen fit bindings, but a production fit-asset preparation route has not yet been found. The M3 preparation guard cannot be reused to bypass item-4 accounting. Next work is the smallest required connection for distinct fit billing/progress assets and the immutable GPU package, with any needed closed-reservation adjustment batched into its implementation/accounting/direction review. No GPU asset, new spending reservation or scientific code change has been made.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 effective assets and compute exposure | $68.371653 | One continuation open; other actuals partly unsettled |
+| Item 4 effective assets and compute exposure | $64.832313 | No compute open; some actuals unsettled |
 | Timed-out CPU segment, included above | $10.342400 | Positively terminal; full reservation retained |
-| Running CPU continuation, included above | $10.342400 | Open reservation retained in full |
+| Collected CPU continuation, included above | $6.803060 effective bound | Original $10.342400 reservation retained; actual bill pending |
 | Item 6 CPU attempts | $5.854800 | Shared $0.38602155 observation cannot be isolated |
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |

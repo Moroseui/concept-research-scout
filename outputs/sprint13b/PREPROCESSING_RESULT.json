@@ -1,0 +1,31 @@
+{
+  "schema": "public-preprocessing-aggregate/v1",
+  "at": "2026-10-09T16:38:36.066263+00:00",
+  "status": "COLLECTED_VALIDATED_AND_TERMINATED",
+  "result": {
+    "binding_sha256": "a7b6d6c18f346ce51b22df52024ea82f0eb1317fefd3ae47042c8cdbe8dcf442",
+    "bytes": 8085002333,
+    "elapsed_seconds": 614.3626000881195,
+    "files": 300,
+    "fit_completed": false,
+    "preprocessing_sha256": "dcdd589899c5be8951294736ca53784a574045b83216f6dccb0dbb0e27e5e8f4",
+    "schema": "experiment-preprocessing-result/v1",
+    "scientifically_accepted": false,
+    "status": "VALIDATED",
+    "steps": 100,
+    "validation_sha256": "090c64909b4af1f34ef5d40df11e10173f6a7935d4b97e4d02fed171f20a4411"
+  },
+  "record_sha256": {
+    "environment.json": "a543831b2b01a5025cde9ce662e8df429cfae8d2fcc6d719b20b5776d095c02f",
+    "input-verification.json": "4c6b3ff87f7b6c00edbcd2f547556429495f34cf4a773685019e08e8e1c5e8f6",
+    "preprocessing.json": "dcdd589899c5be8951294736ca53784a574045b83216f6dccb0dbb0e27e5e8f4",
+    "result.json": "5a23ce42443b8d56af7eebfae29825c33f862bda4c922d4cd4820cfdcea97987",
+    "validation.json": "090c64909b4af1f34ef5d40df11e10173f6a7935d4b97e4d02fed171f20a4411"
+  },
+  "frozen_input_files": 893,
+  "development_patients": 99,
+  "excluded_overlap": 0,
+  "reused_committed_steps": 92,
+  "pinned_scientific_module_sha256": "3925313395199992195412e5db908e764e8215df52f59c408ba27619653993d8",
+  "limits": "Preparation only. No GPU fit, efficacy result, scientific acceptance or FULL admission. Payload files and cohort identifiers remain private."
+}
