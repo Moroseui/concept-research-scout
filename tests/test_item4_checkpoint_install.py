@@ -6,8 +6,8 @@ from tools import item4_checkpoint_runtime as route,install_item4_checkpoint as 
 def test_installer_preserves_every_other_unit_line():
     old=Path(__file__).with_name('fixtures')/'item4_checkpoint_prior_unit.txt'
     raw=old.read_bytes();new=installer.unit_bytes(raw)
-    before=b'/item4-closed-attempt-billing-20261009/tools/item4_closed_billing_runtime.py advance'
-    after=b'/item4-preprocessing-checkpoint-connection-20261009/tools/item4_checkpoint_runtime.py advance'
+    before=b'/item4-preprocessing-checkpoint-connection-20261009/tools/item4_checkpoint_runtime.py advance'
+    after=b'/item4-checkpoint-sdk-bootstrap-20261009/tools/item4_checkpoint_runtime.py advance'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 

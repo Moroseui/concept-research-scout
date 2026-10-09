@@ -5,7 +5,7 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-preprocessing-checkpoint-connection-20261009'
+CHANGE='item4-checkpoint-sdk-bootstrap-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-closed-attempt-billing-20261009/tools/item4_closed_billing_runtime.py')
@@ -95,6 +95,10 @@ def main(argv=None):
             driver.guard();c.originals(driver,*original);base.connect_evidence(driver,c,evidence)
             value=driver.current();require(value['phase']=='EXECUTE_EXPERIMENT','EXECUTION_PHASE')
             require('validation_admission' in approval.verify(driver,value),'VALIDATION_ONLY')
+            # Same hash-bound SDK selection and unchanged import verifier used
+            # by the existing provider; cold CLI must not depend on a caller's path.
+            _,observed,_=helper.contract()
+            sys.path.insert(0,observed['runtime']['sdk_package'])
             result=helper.reconcile(driver,value)
         print(json.dumps(result,sort_keys=True))
     finally:driver.store.db.close();driver.store.batch.db.close()
