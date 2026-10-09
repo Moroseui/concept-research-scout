@@ -20,7 +20,7 @@ def validate_allowance(accounts,event,allowance):
     require(_validate is not None,'NOT_CONNECTED')
     _validate(accounts,event,allowance)
 
-def connect(frozen,approval,*,mechanical=None,mechanical_approval=None):
+def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None):
     """Only called from the hash-verified installed helper; once per process."""
     global _validate
     from orchestrator import autonomy_limits as limits
@@ -35,10 +35,19 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None):
     active={}
     from orchestrator import item4_review8_recovery as repair
     if mechanical is not None:repair.binding(mechanical,mechanical_approval)
-    prefix=21 if mechanical is not None else 19
+    if response is not None:
+        require(mechanical is not None and continuation.scope(response)==(14,10,22),'RESPONSE_SCOPE')
+        require(isinstance(response_approval,str) and len(response_approval)==64 and
+            all(c in '0123456789abcdef' for c in response_approval),'RESPONSE_APPROVAL')
+    else:require(response_approval is None,'UNBOUND_RESPONSE_APPROVAL')
+    prefix=22 if response is not None else 21 if mechanical is not None else 19
     sequence=((('run_spec_review',9),('result_interpretation_author',1),('result_interpretation_review',1))
         if mechanical is not None else SEQUENCE)
     cap=24 if mechanical is not None else 23
+    if response is not None:
+        sequence=(('run_spec_author',14),('run_spec_review',10),
+            ('result_interpretation_author',1),('result_interpretation_review',1))
+        cap=26
 
 
     def snapshot(store,*,inserted=False):
@@ -48,6 +57,10 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None):
         if mechanical is not None:
             repair.granted(store,mechanical,mechanical_approval)
             require({r['id'] for r in rows[:21]}==set(mechanical['local_calls']),'MECHANICAL_PREFIX')
+        if response is not None:
+            continuation.originals(store,RUN,response)
+            continuation.granted(store,response,response_approval)
+            require({r['id'] for r in rows[:22]}==set(response['local_calls']),'RESPONSE_PREFIX')
         tail=rows[prefix:]
         require(len(tail)<=len(sequence),'CAP')
         global_rows=[dict(r) for r in store.batch.db.execute(
@@ -69,14 +82,15 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None):
         value=continuation.state(store)
         require(value.get('phase')==stage and not value.get('pending'),'STATE')
         rounds={'run_spec_author':13 if mechanical is not None else 12,'run_spec_review':7}
+        if response is not None:rounds={'run_spec_author':13,'run_spec_review':9}
         for st,n in sequence[:len(tail)]:rounds[st]=n
         require(value.get('rounds')==rounds,'ROUNDS')
         if tail and tail[-1]['stage'].endswith('_author'):
             from orchestrator import author_revision_accounting
             require(author_revision_accounting._accepted(store,tail[-1]),'ACCEPTED_AUTHOR')
-        if mechanical is not None and not tail:
+        if mechanical is not None and response is None and not tail:
             repair.next_review(store,mechanical,mechanical_approval)
-        if len(tail)>=(1 if mechanical is not None else 2):
+        if len(tail)>=(2 if response is not None else 1 if mechanical is not None else 2):
             # The two reserved interpretation slots are not early-smoke approval.
             # Reuse the ordinary complete execution/collection verifier.
             from orchestrator import experiment_collection,author_revision_accounting
@@ -94,6 +108,9 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None):
         if not store.db.execute('SELECT 1 FROM events WHERE id=?',(continuation.reason(frozen),)).fetchone():return ordinary
         continuation.originals(store,run,frozen);continuation.granted(store,frozen,approval)
         if mechanical is not None:repair.granted(store,mechanical,mechanical_approval)
+        if response is not None:
+            if not store.db.execute('SELECT 1 FROM events WHERE id=?',(continuation.reason(response),)).fetchone():return 24
+            continuation.originals(store,RUN,response);continuation.granted(store,response,response_approval)
         return cap
 
     def global_limit(batch,run):
@@ -108,8 +125,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None):
         _,tail=snapshot(store,inserted=True)
         require(tail and tail[-1]['id']==active['id'],'RESERVED_CALL')
         return {'authority_sha256':continuation.AUTHORITY,'run_limit':cap,
-            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':mechanical_approval if mechanical is not None else approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(mechanical if mechanical is not None else frozen))}
+            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(response if response is not None else mechanical if mechanical is not None else frozen))}
 
     def validate(accounts,event,allowance):
         store=active.get('store')

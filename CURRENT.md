@@ -1,5 +1,1 @@
-# Current research status
-
-See [outputs/STATUS.md](outputs/STATUS.md) for results, spending, blockers and judgments, and [DATA_NOTICE.md](DATA_NOTICE.md) for publication limits.
-
-Item6 complete. The independently approved workspace repair is installed. Scientific review9 is RUNNING after normal admission and passing live transport, isolation, search and submission checks. All prior calls, charges and original approvals remain intact.
+See [outputs/STATUS.md](outputs/STATUS.md). Item6 complete. Scientific review9 returned genuine REVISE; no scientific job running. R41 continuation is an unreviewed, uninstalled draft with72 passing and6 failing checks. Pinned image retained; no GPU smoke yet. This filtered audit snapshot is not a deployable combined release.
