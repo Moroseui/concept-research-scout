@@ -77,10 +77,14 @@ def test_review_gate_requires_exact_stage_and_authentic_delivered_proof(tmp_path
  from orchestrator import manual_host_guard as hg
  import subprocess
  state={'phase':'run_spec_review','rounds':{'run_spec_author':13,'run_spec_review':7}}
- db=Mock();db.execute.return_value.fetchone.return_value=(20,)
+ db=Mock();db.execute.return_value.fetchone.return_value=(21,)
  driver=NS(current=lambda:state,store=NS(db=db))
  expected={'files':{'SOURCE_VERIFIED.json':{'sha256':'a'*64,'bytes':42}}}
  path=tmp_path/component.PROOF_DOCUMENT;path.parent.mkdir();path.write_text(json.dumps(expected))
+ (tmp_path/component.RECOVERY_DOCUMENT).write_text('{}')
+ from orchestrator import item4_review8_recovery as repair
+ monkeypatch.setattr(component,'verified',lambda:({'review_sha256':'a'*64},))
+ monkeypatch.setattr(repair,'next_review',lambda store,frozen,approval:9)
  monkeypatch.setattr(component,'ROOT',tmp_path);monkeypatch.setattr(hg,'trusted',lambda p:p)
  result=NS(returncode=0,stdout=json.dumps(expected));calls=[]
  def run(*args,**kwargs):calls.append((args,kwargs));return result
@@ -89,7 +93,7 @@ def test_review_gate_requires_exact_stage_and_authentic_delivered_proof(tmp_path
  if damage=='stage':state['phase']='run_spec_author'
  elif damage=='pending':state['pending']={'id':'open'}
  elif damage=='round':state['rounds']['run_spec_review']=8
- elif damage=='call-count':db.execute.return_value.fetchone.return_value=(21,)
+ elif damage=='call-count':db.execute.return_value.fetchone.return_value=(20,)
  elif damage=='child-failed':result.returncode=1
  elif damage=='changed-proof':result.stdout='{}'
  elif damage=='missing-delivery':evidence['files']=[]

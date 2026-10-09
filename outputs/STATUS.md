@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T05:05:23.427498+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T05:20:54.119426+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -36,7 +36,7 @@ No reservation released. Only provider-confirmed actual cost of a closed attempt
 
 ## Calls, blockers and judgment calls
 
-UTC October9:16/50 calls:2 scientific authors (author12,13);2 scientific reviews (review7 REVISE,review8 mechanical failure without submission);10 implementation reviews (native successor, billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition, review-original ownership, source-handle initialization/exact successor, combined proof/context delivery APPROVE);2 scope/direction calls (retry authority,next-result plan). Every call and charge preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
+UTC October9:17/50 calls:2 scientific authors (author12,13);2 scientific reviews (review7 REVISE,review8 mechanical failure without submission);11 implementation reviews (native successor, billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition, review-original ownership, source-handle initialization/exact successor, combined proof/context delivery APPROVE; reader-limit recovery RUNNING);2 scope/direction calls (retry authority,next-result plan). Every call and charge preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
 
 Latest completed Claude direction: R35 PROCEED,1round,folded into the implementation review; agreed. Judgment: preserve the original grant, replace only the missing-proof hold with authenticated real prerequisites, and batch all necessary reader repairs into one review. No new subsystem or optional billing work. The source/native proof is an infrastructure result; scientific review7 findings remain unresolved pending scientific review8.
 
@@ -323,3 +323,16 @@ Safe aggregate implementation report, scope, code and tests are included. Eviden
 - Source2da898df506e28718277c588ab31d1e1be57a1a0 is installed after genuine implementation APPROVE; safe source bytes were already merged through the previous projection. Scientific review8 ended mechanically at its reading limit without a submitted verdict; originals and charge are preserved.
 
 Judgment at this stop: classify the terminal reader-limit outcome as mechanical only because no verdict or submission exists; preserve all call accounting and require an independently approved bounded recovery. Claude consultation pending in the next implementation review. Raw failed-call files and streams remain private.
+
+### Bounded recovery now under independent review
+
+Candidate ed9ad9aead00c9df8d0ecae1a25ecd782aef169c adds exact mechanical qualification of the preserved failed attempt, one normally charged replacement review9 with60 reading turns, and a scoped24-call process ceiling retaining the previously planned final interpretation pair. All dollar/day/batch caps and acceptance safeguards remain unchanged. No additional author, scientific code or input changes. Exact pointers to the existing evidence reduce navigation work.
+
+116 distinct tests plus14 subtests passed across the relevant final runs. Actual server context and failure qualification pass: all62 originals/403files retained,192769/200000characters, no state/call changes or model/provider calls. Initial fixture errors and preflight metadata-selector error remain preserved privately.
+
+The combined independent implementation and direction review is RUNNING; day17/50. Nothing from this candidate is installed or activated, and scientific review9 has not started. Latest completed direction remains R35 PROCEED; the new folded check is pending. Next scientific verdict estimate05:40-06:00UTC. Failed review8 model-reported9.981374USD remains counted; provider reservations remain35.348053USD with no excess released.
+
+Publication omissions for this candidate:
+
+- docs > ITEM4_REVIEW8_MECHANICAL_RECOVERY.json: PRESERVED_PRIVATE_CALL_CHECKPOINT.
+- Raw astra/item4-review8-turn-recovery-20261009 ancestry contains private records; safe source projection only. All original call records, raw streams, evidence folders and review packets remain private.
