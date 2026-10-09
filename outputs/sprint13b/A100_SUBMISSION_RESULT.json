@@ -1,0 +1,23 @@
+{
+  "schema": "aggregate-benchmark-submission-summary/v1",
+  "fit": "benchmark-A100-80GB",
+  "scientific_result": false,
+  "status": "CONTAINER_STOPPED_AFTER_UNCERTAIN_LAUNCH",
+  "native_terminal_exit": 137,
+  "progress_volume_empty_before_stop": true,
+  "reservation_usd": "12.842400",
+  "actual_cost_usd": null,
+  "reservation_fully_retained": true,
+  "original_error_type": "InvalidError",
+  "original_error_message_recorded": false,
+  "diagnostic_reproduction": {
+    "sdk_version": "1.6.0",
+    "argument_characters": 95311,
+    "sdk_limit": 65536,
+    "result": "REFUSED_BEFORE_REMOTE_EXEC",
+    "provider_calls": 0,
+    "ledger_mutations": 0
+  },
+  "resubmissions": 0,
+  "scope": "Infrastructure failure; no scientific conclusion or acceptance."
+}
