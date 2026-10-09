@@ -1,0 +1,4 @@
+Approved: ONE additional administrative review of the corrected item 6 authority binding, as scoped in item6-contract-call-repair-20261008/PROPOSED_REVIEW_EXCEPTION.txt. Linked successor request, counted normally, both earlier reviews and charges preserved, no installation or CPU launch until a genuine APPROVE.
+Two standing changes (operator decisions):
+1. Administrative reviews get up to 3 revise rounds, the same as scientific reviews, with the same escalation rule (REJECT, or still unresolved after round 3, comes to me).
+2. Record every operator approval I give as a verbatim, hash-pinned copy in one operator-decisions record that reviewers can read. Bind each release or run to the approval it relies on. Do this for all future approvals, so reviewers can verify authority without asking.

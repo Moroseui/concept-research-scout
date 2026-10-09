@@ -136,9 +136,9 @@ def test_manual_daily_cap_remains(saved):
     from datetime import datetime,timezone
     packet,report,original,manifest,queue,_=saved
     day=datetime.now(timezone.utc).date().isoformat()
-    for n in range(30):queue.db.execute("INSERT INTO autonomy_calls VALUES(?,'implementation_review','other',1,?,'COMPLETE','{}','{}')",(str(n),day))
+    for n in range(50):queue.db.execute("INSERT INTO autonomy_calls VALUES(?,'implementation_review','other',1,?,'COMPLETE','{}','{}')",(str(n),day))
     with pytest.raises(ValueError,match='AUTONOMY_DAILY_CALL_LIMIT'):manual.record(packet,report,original,reviewed_importer_source='a'*40)
-    assert queue.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==30
+    assert queue.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==50
 
 
 def test_importer_requires_exact_clean_reviewed_commit(tmp_path,monkeypatch):

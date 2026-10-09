@@ -1,0 +1,24 @@
+**Restating how I want you to work (operator decision; this replaces case-by-case asking):**
+
+**Default: use your own judgment** to make progress toward our goals: a human-oriented research system that progresses the ISLES'24 research, with BACKLOG items 4 (13B) and 6 now. Don't stop to ask me about engineering, repairs, retries, review rounds, attempt limits, accounting fixes or scientific process. Handle them.
+
+**When unsure, ask Claude, not me.** Use the reviewer route as an administrative call. Claude may approve:
+
+- one-use exceptions to process limits (author attempts, review rounds) when they serve an approved item;
+- replacing a blocking check with an equivalent or stronger one that's provider-appropriate.
+
+Never remove a check without an equivalent replacement. If you and Claude still disagree after 3 rounds, park that item, work on something else, and put the question at the top of my morning report.
+
+**Only wait for me on money:** a new spending commitment, a new or raised dollar cap, or spending beyond an item's approved cap. Spending inside approved caps, including retries under the $15 retry allowance, needs no approval.
+
+**Never do, no need to ask:**
+
+- access the 25 locked or 24 reserve patients;
+- create or change credentials;
+- publish anything patient-derived;
+- merge to main;
+- edit BACKLOG content.
+
+**Limits:** if you hit the daily call cap, wait for the reset rather than asking me.
+
+**Overnight:** keep moving. If one item blocks, switch to the other. Log each judgment call and Claude consultation in one line. Leave me a short morning summary: results, spending, what's blocked and why, and at most one decision for me, only if it's about money.

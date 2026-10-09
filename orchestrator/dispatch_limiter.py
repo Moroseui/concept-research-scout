@@ -229,7 +229,14 @@ def admit_manual(store, config, event, now=None, *, allowance=None):
     if allowance is not None:
         from orchestrator import autonomy_limits
         autonomy_limits.authority()
-        if (set(allowance) != {'authority_sha256','run_limit'} or
+        if allowance.get('run_limit') == 30:
+            from orchestrator import diagnostics_policy
+            if (set(allowance) != {'authority_sha256','run_limit','scoped_run_id'} or
+                    type(allowance['run_limit']) is not int or
+                    allowance['authority_sha256'] != diagnostics_policy.authority() or
+                    allowance['scoped_run_id'] != diagnostics_policy.RUN_ID):
+                raise ValueError('MANUAL_LIMIT_AMENDMENT_BINDING')
+        elif (set(allowance) != {'authority_sha256','run_limit'} or
                 allowance['authority_sha256'] != autonomy_limits.AUTHORITY or
                 type(allowance['run_limit']) is not int or allowance['run_limit'] not in (16,20)):
             raise ValueError('MANUAL_LIMIT_AMENDMENT_BINDING')

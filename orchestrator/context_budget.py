@@ -171,6 +171,12 @@ def in_scope(row, project, idea_ids, stage, *, include_closed=False):
             and ("*" in scope["stages"] or bool(applicable_stages & set(scope["stages"]))))
 
 
+def open_obligation_text(row):
+    """Exact input representation; callers select open, applicable records."""
+    return (row['id']+' | '+row['type']+' | severity='+row['severity']+' | status=open\n'
+            +encoded(row['source'])+'\n'+row['text'])
+
+
 def obligations(root, project, idea_ids, stage):
     _, _, rows = load(root)
     return [row for row in rows if in_scope(row, project, idea_ids, stage)]
@@ -242,9 +248,7 @@ def assemble(root, *, project, idea_ids, stage, task, artifacts, extra=None):
     for row in rows:
         ref = row['source']
         citations.setdefault(ref['path'], ref['sha256'])
-    parts["OPEN OBLIGATIONS (verbatim)"] = "\n\n".join(
-        row["id"] + " | " + row["type"] + " | severity=" + row["severity"] + " | status=open\n"
-        + encoded(row["source"]) + "\n" + row["text"] for row in rows)
+    parts["OPEN OBLIGATIONS (verbatim)"] = "\n\n".join(open_obligation_text(row) for row in rows)
     parts["OBLIGATION ORIGINALS (operator-readable provenance; full SHA256)"] = "\n".join(
         path + " " + digest for path, digest in citations.items())
     parts["CURRENT ARTIFACTS (evidence, not authority)"] = artifacts

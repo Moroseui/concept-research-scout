@@ -222,6 +222,9 @@ class Driver:
         if (self.state/'HALT').exists():raise ValueError('OPERATOR_HALT: HALT file is present; no work started. Preserve state and request operator disposition before resuming.')
         c=self.config
         if self.store.batch is not None and (self.store.batch.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
+        if c.get('timeout_continuation'):
+            from orchestrator.experiment_timeout_continuation import validate_driver
+            validate_driver(self)
         if c.get('artifact_continuation'):
             from orchestrator.artifact_recording_transition import validate_driver
             validate_driver(self)
@@ -354,9 +357,15 @@ class Driver:
         return self.accept_completed(value)
 
     def output_names(self, stage):
+        if "execution_scope" in self.config:
+            from orchestrator.experiment_context import outputs
+            return outputs(self, stage)
         return manual_context.OUTPUTS[stage]
 
     def prepare_input(self,value,stage,work):
+        if "execution_scope" in self.config:
+            from orchestrator.experiment_context import prepare
+            return prepare(self, value, stage, work)
         return manual_context.prepare(self.context,stage=stage,idea_ids=self.config.get('idea_ids',['Sprint10']),task=self.task(stage,value),artifacts=value['artifacts'],workspace=work)
 
     def finding_prefix(self,stage):
@@ -392,7 +401,10 @@ class Driver:
             if digest((work/name).read_bytes())!=expected:raise ValueError('COMPLETED_OUTPUT_CHANGED')
         value['rounds'][stage]=n
         value['blocked_stage']=stage
-        if stage=='run_spec_author':
+        if stage=='run_spec_author' and 'execution_scope' in self.config:
+            from orchestrator.experiment_context import accept_author
+            accept_author(self,value,pending)
+        elif stage=='run_spec_author':
             spec=(work/'SPEC.proposed.md').read_text()
             for required in ['run_id: '+self.config['run_id'],'notebook_code_sha256: '+self.config['notebook_code_sha256']]:
                 if spec.splitlines().count(required)!=1:raise ValueError('SPEC_NOTEBOOK_BINDING_REQUIRED')
@@ -443,6 +455,12 @@ class Driver:
                 self.criticism(stage,n,raw)
                 value.update(phase='BLOCKED' if n==2 else stage.replace('_review','_author'),reason='UNRESOLVED_REVIEW_BLOCKER' if n==2 else 'REVISION_REQUIRED')
             else:
+                if stage=='run_spec_review' and 'execution_scope' in self.config:
+                    from orchestrator.experiment_approval import record as record_execution_approval
+                    record_execution_approval(self,value,pending)
+                if stage=='result_interpretation_review' and 'execution_scope' in self.config:
+                    from orchestrator.experiment_acceptance import record as record_results
+                    record_results(self,value,pending)
                 # Only a later approving independent review closes its own round's
                 # recorded blockers, with the original approval bytes as citation.
                 folder=self.context/PROFILE;registry=read(folder/'obligations.json');manifest=read(folder/'manifest.json')
@@ -453,6 +471,9 @@ class Driver:
                 atomic(folder/'obligations.json',registry);manifest['obligations']['sha256']=digest((folder/'obligations.json').read_bytes());atomic(folder/'manifest.json',manifest)
                 value.update(phase='COMMIT_SPEC' if stage=='run_spec_review' else 'UPDATE_STATE',review=str(work/'review.json'),reason=None)
                 if stage=='run_spec_review':value['spec_review']=str(work/'review.json')
+        if stage.endswith('_author'):
+            from orchestrator.author_revision_accounting import accepted
+            accepted(self,pending)
         value.pop('pending',None);self.save(value)
         return self.status()
 
@@ -480,6 +501,9 @@ class Driver:
 
     def _advance(self,collect_folder=None,identity_refusal=None):
         self.guard();value=self.current();phase=value['phase']
+        if 'execution_scope' in self.config and phase not in {*STAGES,'MODEL_RUNNING','BLOCKED'}:
+            from orchestrator.experiment_package import advance
+            return advance(self,value,collect_folder,identity_refusal)
         if identity_refusal is not None and phase!='WAIT_OUTPUTS':raise ValueError('IDENTITY_REFUSAL_REQUIRES_WAIT_OUTPUTS')
         if phase in STAGES:return self.model_step(value)
         if phase=='MODEL_RUNNING':return self.accept_completed(value)

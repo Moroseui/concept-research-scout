@@ -22,6 +22,36 @@ PRECLIENT_PINS={'console.log':'93b645ed22251593b80cced4489b3d371afd16069b01d2d53
  'stage_provenance.jsonl':'4dca8d53594e49a33b23964f2afff791400465892fb47037de064fb6a00531ae',
  'transport-source.py':'212d821aeadeb092867596fc46e694828720deb682c0b9dbd4443ca4e7d327a7'}
 
+# Exact October 7 author timeout: administrative inspection only, never a retry
+# or scientific admission. Original UNCERTAIN row and its charge remain intact.
+AUTHOR_TIMEOUT_ID='ed4eb7f9300898b6dfea30e58ec00e45e8b9585fe0162e7ee16e49f06c2a08a5'
+AUTHOR_TIMEOUT_ROW='2bd4bac93647618fcd17d1868dc9a4279ca66c3a0a9b1e04c46bbc12ec2d19be'
+AUTHOR_TIMEOUT_AUTHORITY='acdf5d6e5208514a469c14276ddf6702c4f0e76ce11c58d0e0b17abfd62bdd53'
+AUTHOR_TIMEOUT_PINS={
+ 'console.log':'6ce01041858e2ab21485697d936349921a9d77bf6cd609d2e55959bb124c6ae3',
+ 'stage_provenance.jsonl':'923a112ef113e144c6ef887247a66078a301643403a46a4d34047a920abd63db',
+ 'sent-input.json':'55396fb59de1eea838df650c77591fd06a7b7fc42193a408ddb4a486f7d63160'}
+
+def exact_author_timeout(row,bodies):
+    path=Path(__file__).resolve().parents[1]/'docs/MECHANICAL_RETRY_OPERATOR_20261007.txt'
+    if digest(path.read_bytes())!=AUTHOR_TIMEOUT_AUTHORITY:
+        raise ValueError('ADMIN_AUTHOR_TIMEOUT_AUTHORITY_CHANGED')
+    if row_hash(row)!=AUTHOR_TIMEOUT_ROW or set(bodies)!=set(AUTHOR_TIMEOUT_PINS):
+        raise ValueError('ADMIN_AUTHOR_TIMEOUT_BINDING')
+    if any(digest(bodies[n])!=pin for n,pin in AUTHOR_TIMEOUT_PINS.items()):
+        raise ValueError('ADMIN_AUTHOR_TIMEOUT_EVIDENCE_CHANGED')
+    records=[json.loads(x) for x in bodies['stage_provenance.jsonl'].decode().splitlines() if x.strip()]
+    if len(records)!=1:raise ValueError('ADMIN_AUTHOR_TIMEOUT_ONE_INVOCATION')
+    p=records[0];binding=json.loads(row['binding']);expected=binding['input']['input_sha256']
+    if (binding.get('stage')!='run_spec_author' or p.get('stage')!='run_spec_author'
+        or p.get('family_effective')!='codex' or p.get('exit_class')!='timeout'
+        or p.get('exit_detail')!='Agent timed out after 900s.'
+        or p.get('prompt_sha256')!=expected
+        or json.loads(bodies['sent-input.json']).get('input_sha256')!=expected):
+        raise ValueError('ADMIN_AUTHOR_TIMEOUT_NATIVE_BINDING')
+    return 'PROVEN_EXACT_AUTHOR_TIMEOUT_ADMIN_ONLY'
+
+
 def digest(raw):return hashlib.sha256(raw).hexdigest()
 def row_hash(row):return digest(json.dumps(dict(row),sort_keys=True).encode())
 
@@ -41,6 +71,7 @@ def unit_state(unit):
 
 def proof_kind(row,bodies):
     if row['kind']!='scientific' or row['status']!='UNCERTAIN':raise ValueError('ADMIN_TERMINAL_SCIENTIFIC_ONLY')
+    if row['id']==AUTHOR_TIMEOUT_ID:return exact_author_timeout(row,bodies)
     if row['id']==PRECLIENT_ID:
         if row_hash(row)!=PRECLIENT_ROW or set(bodies)!=set(PRECLIENT_PINS):raise ValueError('ADMIN_PRECLIENT_BINDING')
         if any(digest(bodies[n])!=pin for n,pin in PRECLIENT_PINS.items()):raise ValueError('ADMIN_PRECLIENT_EVIDENCE_CHANGED')

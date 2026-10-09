@@ -1,0 +1,41 @@
+{
+  "conclusion": "Prospective availability remains unverified; annotation assistance alone does not establish outcome leakage.",
+  "counts": {
+    "dependencies": 5,
+    "unresolved_upstream": 2
+  },
+  "schema": "admission-availability-audit/v1",
+  "source_view_sha256": "e69a664e081ad1770454c6ce453ff4ddad3b16d2876f889ca89f8f876bb1d72b",
+  "traced_dependencies": [
+    {
+      "dependency": "tree and small U-Net feature cache and support",
+      "evidence": "Cache consumer is present; feature/anatomy generator and annotation timing are absent. Stocktake identifies annotation assistance.",
+      "location": "cells/4/source load_cache/scatter",
+      "status": "UNKNOWN"
+    },
+    {
+      "dependency": "nnU-Net CT/maps/CTA",
+      "evidence": "Saved arm naming and probability/segmentation geometry are traceable; original channel preparation and acquisition timing are absent.",
+      "location": "cells/4/source NN_ARMS/nn_prob_2mm",
+      "status": "ADMISSION_INTENDED_NOT_VERIFIED"
+    },
+    {
+      "dependency": "follow-up lesion_full",
+      "evidence": "Label is used for metrics and descriptive actual-size strata, never score ordering or routing.",
+      "location": "cells/4/source metrics; this program metrics/calibration",
+      "status": "EVALUATION_ONLY"
+    },
+    {
+      "dependency": "router",
+      "evidence": "Branch uses saved tree predicted ml <5 only; zero enters union branch.",
+      "location": "this program analyse_case",
+      "status": "PREDICTION_ONLY_WITH_UPSTREAM_UNCERTAINTY"
+    },
+    {
+      "dependency": "clinical scores/reperfusion/follow-up MRI",
+      "evidence": "No such input family is loaded by this program; no claim about their original availability.",
+      "location": "frozen saved-input-interface families",
+      "status": "NOT_USED"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# Experiment monitoring connection
+
+The experiment dispatcher now calls the existing external fit monitor for each observed running fit before preparing another launch. Native nnU-Net records its exact training log location, once per segment, after establishing the initial or resumed checkpoint. The registration binds the immutable fit identity and segment. It is committed through the existing private Volume writer; the controller reads only that log and checkpoint metadata.
+
+The pinned native trainer source (SHA256 7096efb2040135eb60df3c8bf39cdbcc373e299671fcee365b3aff2f4da4dfbd) creates log_file in its constructor. The adapter does not choose scientific methods, alter training loops, or introduce a heartbeat. The scientific author must keep the native trainer's output under this fit's private work directory, as stated in the actual author input.
+
+No registration during startup means wait, never a stall. Once genuine progress has been observed, a disappearing registration refuses. Other-fit paths, aliases, unsafe permissions, changed bindings and duplicate segment registrations refuse. The existing two-late-observation rule, immediate recheck, terminal checkpoint verification and retained full reservation remain in force.
+
+A proven stall returns an explicit INTERRUPTED dispatch state and preserves the monitor evidence. Repeated ticks do not terminate again, create a fit, release a charge or treat interruption as completion. A pending stop intent refuses automatic continuation. The dispatcher derives a later segment only from that fit's ACCOUNTED ledger row and exact terminal/checkpoint event. It preserves the initial root selection, old job, full charge and scientific identity. The next ordinary executor admission checks billing, caps and all prior segments again. No generic failed or uncertain execution becomes a retry. A pending stop intent still needs reconciliation. The deliberate interruption smoke remains required before full training depends on this connection.
+
+Tests use real driver/monitor/terminal-reader/accounting code with explicitly synthetic scientific selection, provider storage and clocks. They do not claim native GPU training or actual Modal Volume commits. The reviewed native source confirms the log_file interface; real smoke evidence remains required.
+
+## Segment delivery and downstream evidence
+
+The per-segment manifest stays in the controller's private record and travels through the existing hash-bound guard invocation. The read-only package Volume contains only the unchanged, independently reviewed files; resume verifies and reuses it without an upload or overwrite. The actual confined worker validates the manifest, complete file inventory, approval and bindings before import. A later segment also verifies the committed checkpoint record against the admitted terminal proof before scientific code runs. Existing local manifests and remote payloads are never silently replaced.
+
+Collection requires every active final segment COMPLETE and every retained predecessor INTERRUPTED. Both interpretation inputs receive the interruption reason, original segment, checkpoint and terminal evidence hashes, resumed epoch, environment identity and retained charge through the execution receipt. Altered history fails revalidation. None of this treats execution or an infrastructure receipt as scientific acceptance.
+
+Deterministic evidence covers the real interruption/accounting ledger, ordinary resumed reservation, duplicate refusal, native bubblewrap guard/CLI/worker, unchanged static upload reuse, and real downstream context composition. The provider/storage, scientific module and prior root/scientific selection fixtures are explicitly synthetic. No test here claims a GPU result. Actual preprocessing execution, root runtime provisioning and offline runtime bootstrap remain required connections before launch; the installed release is unchanged.

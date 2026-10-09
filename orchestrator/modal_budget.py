@@ -42,6 +42,14 @@ class ComputeAccounts:
         self.db.execute('CREATE TABLE IF NOT EXISTS autonomy_assets(id TEXT PRIMARY KEY, run TEXT NOT NULL, binding TEXT NOT NULL, status TEXT NOT NULL, reserved_micro_usd INTEGER NOT NULL, receipt TEXT)')
         self.db.execute('CREATE TABLE IF NOT EXISTS autonomy_compute(id TEXT PRIMARY KEY, run TEXT NOT NULL, binding TEXT NOT NULL, status TEXT NOT NULL, reserved_micro_usd INTEGER NOT NULL, provider_id TEXT, actual_micro_usd INTEGER, month TEXT NOT NULL)')
 
+    def record_item4_interruption(self, ident, provider, *, reason_record):
+        from orchestrator.modal_item4_budget import record_interruption
+        return record_interruption(self, ident, provider, reason_record=reason_record)
+
+    def reserve_item4(self, ident, run, binding, *, billing_snapshot, now=None):
+        from orchestrator.modal_item4_budget import reserve
+        return reserve(self, ident, run, binding, billing_snapshot=billing_snapshot, now=now)
+
     def reserve(self, ident, run, binding, *, workspace_spent_micro, smoke=False):
         raw=json.dumps(binding,sort_keys=True)
         expected=estimate(binding['resources'],binding['overhead_micro_usd'])

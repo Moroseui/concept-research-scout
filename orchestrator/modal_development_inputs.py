@@ -98,3 +98,36 @@ def verify_volume(provider,volume_id,cohort_raw,source_raw,authority_raw):
     return {'status':'VERIFIED','volume_id':volume_id,'contract_sha256':hashlib.sha256(canonical(contract)).hexdigest(),
             **contract['summary'],'uploaded_by_this_check':0,
             'scope':'private development imaging and labels; no public or scientific-model delivery'}
+
+
+# Fixed original development-only dependency capture. Optional; the existing
+# 792-file source contract remains unchanged. No discovery or new patient set.
+AUXILIARY_CAPTURE = "d0c1d45c1201ea7f3dee8ff93dff03a5d72950cef117ae9bc6570989fc6f807f"
+
+
+def frozen_auxiliary(cohort_raw, capture_raw):
+    if (not isinstance(cohort_raw, bytes) or hashlib.sha256(cohort_raw).hexdigest() != COHORT
+            or not isinstance(capture_raw, bytes)
+            or hashlib.sha256(capture_raw).hexdigest() != AUXILIARY_CAPTURE):
+        raise ValueError('ITEM4_AUXILIARY_AUTHENTICATED_SOURCE')
+    cohort = strict_json(cohort_raw); capture = strict_json(capture_raw)
+    if (set(capture) != {'schema','cohort_sha256','original_cache_manifest_sha256','files','scope'}
+            or capture['schema'] != 'item4-frozen-auxiliary-inputs/v1'
+            or capture['cohort_sha256'] != COHORT
+            or not isinstance(capture['original_cache_manifest_sha256'], str)
+            or not re.fullmatch('[a-f0-9]{64}', capture['original_cache_manifest_sha256'])):
+        raise ValueError('ITEM4_AUXILIARY_CAPTURE_SCOPE')
+    expected_paths(cohort['cases'])  # Same exact frozen 99-member validator.
+    expected = {'feature-cache-2mm-v2/'+case+'.npz' for case in cohort['cases']}
+    expected.update({'baseline/plans.json','baseline/handoff.json'})
+    files = capture['files']
+    if not isinstance(files, dict) or set(files) != expected:
+        raise ValueError('ITEM4_AUXILIARY_MEMBER_SET')
+    for row in files.values():
+        if (not isinstance(row, dict) or set(row) != {'bytes','sha256'}
+                or type(row['bytes']) is not int or not 0 < row['bytes'] <= MAX_FILE
+                or not isinstance(row['sha256'], str) or not re.fullmatch('[a-f0-9]{64}',row['sha256'])):
+            raise ValueError('ITEM4_AUXILIARY_FILE_IDENTITY')
+    if sum(row['bytes'] for row in files.values()) > MAX_TOTAL:
+        raise ValueError('ITEM4_AUXILIARY_TOTAL_BYTES')
+    return files

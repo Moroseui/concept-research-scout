@@ -1,0 +1,2798 @@
+{
+  "curves": {
+    "fusion_common_support": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.014688742930570367,
+              0.024746918124012755
+            ],
+            "mean": 0.019570621763897872,
+            "median": 0.008631302403472622,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.0020137346630971654,
+              0.004466272081282676
+            ],
+            "mean": 0.0031060814513766298,
+            "median": 0.0011374847348493559,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.0019324310474463364,
+              0.004189281255185196
+            ],
+            "mean": 0.002941762601385001,
+            "median": 0.0010774178136664172,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.6964004457793291,
+              0.7901521727051988
+            ],
+            "mean": 0.7456236282336492,
+            "median": 0.8584938254557715,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.01182978887749515,
+              0.0218014362774815
+            ],
+            "mean": 0.01662885916251287,
+            "median": 0.006579972431919297,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              -15.409063711967613,
+              -1.3480327590091634
+            ],
+            "mean": -8.127916067488979,
+            "median": 2.8561213412238997,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              142201.125,
+              148986.35404040402
+            ],
+            "mean": 145603.81818181818,
+            "median": 146033.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.009531482566202931,
+              0.01846941171654885
+            ],
+            "mean": 0.01373701506237077,
+            "median": 0.005393491702899096,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.006487580729341474,
+              0.007379399176565289
+            ],
+            "mean": 0.006943140273016954,
+            "median": 0.006799885470081009,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 13871454
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.11330836623001736,
+              0.19250271792381257
+            ],
+            "mean": 0.1517400532049298,
+            "median": 0.0718052738336714,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.1348917163633352,
+              0.1367774114192717
+            ],
+            "mean": 0.1358452642364586,
+            "median": 0.1362447667459633,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 222719
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.1687542044931556,
+              0.26322445060726607
+            ],
+            "mean": 0.21561194993010677,
+            "median": 0.12315270935960591,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.23996552647413885,
+              0.24254976062614017
+            ],
+            "mean": 0.2412907154065768,
+            "median": 0.24222104041837156,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 73168
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.20674324618307816,
+              0.31471285516522585
+            ],
+            "mean": 0.2598502516525251,
+            "median": 0.20668285662889008,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.34430895258466615,
+              0.34751255029006417
+            ],
+            "mean": 0.3459159512169164,
+            "median": 0.3461374229621416,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 44070
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.25592783994360874,
+              0.3770794684578447
+            ],
+            "mean": 0.31724228434157076,
+            "median": 0.2558139534883721,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.4499758326474796,
+              0.4544647517101657
+            ],
+            "mean": 0.45226221112754145,
+            "median": 0.45369227818552926,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 43034
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.33961305184407065,
+              0.4886133560588729
+            ],
+            "mean": 0.4157405001967287,
+            "median": 0.43275862068965515,
+            "n_total": 99,
+            "n_valid": 85
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5355760440596422,
+              0.5418730768484122
+            ],
+            "mean": 0.5388624195550693,
+            "median": 0.5434740105424118,
+            "n_total": 99,
+            "n_valid": 85
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 49350
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.4242569750203627,
+              0.5981483587740819
+            ],
+            "mean": 0.509198950374715,
+            "median": 0.5717229985314405,
+            "n_total": 99,
+            "n_valid": 72
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.6380262890462504,
+              0.6430328300008888
+            ],
+            "mean": 0.6406540264389241,
+            "median": 0.6446950924806982,
+            "n_total": 99,
+            "n_valid": 72
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 31528
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.49837259666711986,
+              0.6814670558838096
+            ],
+            "mean": 0.5879414159780489,
+            "median": 0.6938775510204082,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7400631322359813,
+              0.7462139877370285
+            ],
+            "mean": 0.7431856019383131,
+            "median": 0.7476609343179308,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 26302
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.5701826051411968,
+              0.7673326644424624
+            ],
+            "mean": 0.6682690957998397,
+            "median": 0.834319526627219,
+            "n_total": 99,
+            "n_valid": 46
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8367522827356701,
+              0.8451457205761889
+            ],
+            "mean": 0.8411537376436912,
+            "median": 0.8455514559046409,
+            "n_total": 99,
+            "n_valid": 46
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 25984
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.685963890008391,
+              0.8843177112306095
+            ],
+            "mean": 0.7942323860433712,
+            "median": 0.9028571428571428,
+            "n_total": 99,
+            "n_valid": 33
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9274559610430265,
+              0.9360396954875909
+            ],
+            "mean": 0.9317339002079932,
+            "median": 0.9310962249005621,
+            "n_total": 99,
+            "n_valid": 33
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 27169
+        }
+      ]
+    },
+    "fusion_full_grid": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.0018786678571962334,
+              0.0030612565388864854
+            ],
+            "mean": 0.002447813266506767,
+            "median": 0.0011229397559376119,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.00023947145513385695,
+              0.0005559709347381557
+            ],
+            "mean": 0.0003815034473563816,
+            "median": 0.00011822177884963971,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.00023845649577144,
+              0.0005507450512843118
+            ],
+            "mean": 0.00037849414012925856,
+            "median": 0.00011817857295377848,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.7155022490434009,
+              0.8014949106273529
+            ],
+            "mean": 0.7598369276805732,
+            "median": 0.8643836816642818,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.001532067164745558,
+              0.002641697884173138
+            ],
+            "mean": 0.0020693191263775083,
+            "median": 0.0008742575638904312,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              -17.615951360268337,
+              -2.697313891876255
+            ],
+            "mean": -9.852214065987162,
+            "median": 1.4862000126181447,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              1257618.5606060605,
+              1461646.2977272726
+            ],
+            "mean": 1359042.1616161617,
+            "median": 1314048.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.0012131395610722562,
+              0.002124735583991284
+            ],
+            "mean": 0.0016532639692114722,
+            "median": 0.0006659174122215706,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.0007273330021382459,
+              0.0008604587208894433
+            ],
+            "mean": 0.0007907838361529543,
+            "median": 0.0007584100727937912,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 133987159
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.11292796886275644,
+              0.19171644036370375
+            ],
+            "mean": 0.15129560161443756,
+            "median": 0.0718052738336714,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.13514818537510465,
+              0.13697680377725188
+            ],
+            "mean": 0.1360756217124876,
+            "median": 0.13655339461893204,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 227641
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.16547324274353467,
+              0.2587670418920334
+            ],
+            "mean": 0.21090050342239589,
+            "median": 0.12307692307692308,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.24049399338784144,
+              0.2426516710356985
+            ],
+            "mean": 0.2416163134788583,
+            "median": 0.24239445759194642,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 76310
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.20287571303032054,
+              0.3080841508104735
+            ],
+            "mean": 0.2551940244486121,
+            "median": 0.19411764705882353,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.3447666398401965,
+              0.34763763585998764
+            ],
+            "mean": 0.3462731043757215,
+            "median": 0.34638650443455077,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 46826
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.23870418603354512,
+              0.3566530481348195
+            ],
+            "mean": 0.29813267778602315,
+            "median": 0.22580645161290322,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.44992011709898766,
+              0.45460317410895806
+            ],
+            "mean": 0.45236027111912186,
+            "median": 0.4538575780112296,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 46896
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.3326018085249242,
+              0.4875813510494326
+            ],
+            "mean": 0.41087873375142314,
+            "median": 0.4116840056495229,
+            "n_total": 99,
+            "n_valid": 86
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5351271889353819,
+              0.5413112397105027
+            ],
+            "mean": 0.5384090931975898,
+            "median": 0.5434127160654034,
+            "n_total": 99,
+            "n_valid": 86
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 49359
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.4242569750203627,
+              0.5981483587740819
+            ],
+            "mean": 0.509198950374715,
+            "median": 0.5717229985314405,
+            "n_total": 99,
+            "n_valid": 72
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.6380262890462504,
+              0.6430328300008888
+            ],
+            "mean": 0.6406540264389241,
+            "median": 0.6446950924806982,
+            "n_total": 99,
+            "n_valid": 72
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 31528
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.49837259666711986,
+              0.6814670558838096
+            ],
+            "mean": 0.5879414159780489,
+            "median": 0.6938775510204082,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7400631322359813,
+              0.7462139877370285
+            ],
+            "mean": 0.7431856019383131,
+            "median": 0.7476609343179308,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 26302
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.5701826051411968,
+              0.7673326644424624
+            ],
+            "mean": 0.6682690957998397,
+            "median": 0.834319526627219,
+            "n_total": 99,
+            "n_valid": 46
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8367522827356701,
+              0.8451457205761889
+            ],
+            "mean": 0.8411537376436912,
+            "median": 0.8455514559046409,
+            "n_total": 99,
+            "n_valid": 46
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 25984
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.685963890008391,
+              0.8843177112306095
+            ],
+            "mean": 0.7942323860433712,
+            "median": 0.9028571428571428,
+            "n_total": 99,
+            "n_valid": 33
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9274559610430265,
+              0.9360396954875909
+            ],
+            "mean": 0.9317339002079932,
+            "median": 0.9310962249005621,
+            "n_total": 99,
+            "n_valid": 33
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 27169
+        }
+      ]
+    },
+    "nn_common_support": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.016120705642521473,
+              0.026997232226960564
+            ],
+            "mean": 0.02138532775022038,
+            "median": 0.00947176301796023,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.002740700741756915,
+              0.00640986302779802
+            ],
+            "mean": 0.0044040267832470125,
+            "median": 0.0010806549893681342,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.002615342377658506,
+              0.005976751669288459
+            ],
+            "mean": 0.004157323011182374,
+            "median": 0.001054385568959564,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.7258047956141033,
+              0.835292066697756
+            ],
+            "mean": 0.7835368432339619,
+            "median": 0.9319944659759305,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.012223341768531222,
+              0.02262741872211169
+            ],
+            "mean": 0.017228004739038006,
+            "median": 0.007320821851349302,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              -22.011884956451503,
+              -8.366464980383594
+            ],
+            "mean": -14.867428512650305,
+            "median": -4.802434525489807,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              142201.125,
+              148986.35404040402
+            ],
+            "mean": 145603.81818181818,
+            "median": 146033.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.011655225690863698,
+              0.02199204998277289
+            ],
+            "mean": 0.01663950202296873,
+            "median": 0.006741069072872144,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.0003406968520754374,
+              0.0005968596011654145
+            ],
+            "mean": 0.0004613969134113862,
+            "median": 0.0001666431747280357,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 14130655
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.18885856381011942,
+              0.29084860641919263
+            ],
+            "mean": 0.23847980088558185,
+            "median": 0.1472836190869655,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.14281042103510566,
+              0.144974470988676
+            ],
+            "mean": 0.1438322843272585,
+            "median": 0.1442106537545385,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 31610
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.19551057048312737,
+              0.3054836509127896
+            ],
+            "mean": 0.24874755311401722,
+            "median": 0.13870721604534553,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.245425692639544,
+              0.248850771270787
+            ],
+            "mean": 0.2470861085546867,
+            "median": 0.24731627256722677,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 19587
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.22218192503017345,
+              0.3292958713682833
+            ],
+            "mean": 0.27511827588215354,
+            "median": 0.18867878192534382,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.347367870601681,
+              0.35087846742627943
+            ],
+            "mean": 0.34913014044712604,
+            "median": 0.34865820844352224,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 15308
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.23256368261010496,
+              0.34598946471634323
+            ],
+            "mean": 0.28855473544992544,
+            "median": 0.20253164556962028,
+            "n_total": 99,
+            "n_valid": 96
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.4471447402483931,
+              0.4512742908014852
+            ],
+            "mean": 0.44922912727911446,
+            "median": 0.4487890972194166,
+            "n_total": 99,
+            "n_valid": 96
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 13506
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2290654292620239,
+              0.3469683649378335
+            ],
+            "mean": 0.2862885303119738,
+            "median": 0.21212121212121213,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5467299361549479,
+              0.5511890063789282
+            ],
+            "mean": 0.5490107447983616,
+            "median": 0.55010986328125,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 13082
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2521324468498441,
+              0.3745313858637139
+            ],
+            "mean": 0.3138393056765304,
+            "median": 0.25,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.6468414038535633,
+              0.6505544268954606
+            ],
+            "mean": 0.6487190671215657,
+            "median": 0.6505839029947916,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 13776
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2714581598010874,
+              0.4033161636175719
+            ],
+            "mean": 0.33592456113135255,
+            "median": 0.3048878205128205,
+            "n_total": 99,
+            "n_valid": 92
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7476226589007289,
+              0.7522624806275177
+            ],
+            "mean": 0.7500343929456379,
+            "median": 0.7517098031539751,
+            "n_total": 99,
+            "n_valid": 92
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 16074
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.282107069380944,
+              0.4134171784744878
+            ],
+            "mean": 0.34771172682332724,
+            "median": 0.318994124687194,
+            "n_total": 99,
+            "n_valid": 90
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8510046940258884,
+              0.8543325338850946
+            ],
+            "mean": 0.8527048406217861,
+            "median": 0.8535733186612093,
+            "n_total": 99,
+            "n_valid": 90
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 24023
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.33209846245931357,
+              0.48611335719568555
+            ],
+            "mean": 0.41054426919896775,
+            "median": 0.416871977370198,
+            "n_total": 99,
+            "n_valid": 88
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9656868998861198,
+              0.971936299716566
+            ],
+            "mean": 0.9690112152433216,
+            "median": 0.9716383390956915,
+            "n_total": 99,
+            "n_valid": 88
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 137157
+        }
+      ]
+    },
+    "nn_full_grid": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.0020699088091509837,
+              0.0033791296410588703
+            ],
+            "mean": 0.0026948440873797636,
+            "median": 0.0011563657909533808,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.0003507095451118823,
+              0.0008773199682780993
+            ],
+            "mean": 0.0005855362313906309,
+            "median": 0.00011291266168857918,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.0003483671501549675,
+              0.0008691802524606659
+            ],
+            "mean": 0.0005806101042702126,
+            "median": 0.00011257315616488409,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.7429424816852337,
+              0.840975070546261
+            ],
+            "mean": 0.7941050690839764,
+            "median": 0.9364561899816475,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.0015586546589710416,
+              0.002705411503079807
+            ],
+            "mean": 0.0021142339831095518,
+            "median": 0.0008620111271832783,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              -23.723590938492972,
+              -9.293130895763095
+            ],
+            "mean": -16.166529560151726,
+            "median": -5.143071820735932,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              1257618.5606060605,
+              1461646.2977272726
+            ],
+            "mean": 1359042.1616161617,
+            "median": 1314048.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.0014533964874444518,
+              0.0025449093476348226
+            ],
+            "mean": 0.0019773553743836687,
+            "median": 0.0007826311780695564,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              4.58378712128623e-05,
+              8.463336339495605e-05
+            ],
+            "mean": 6.402359623726173e-05,
+            "median": 2.077860180451613e-05,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 134241346
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.17503289817484124,
+              0.26752284612927446
+            ],
+            "mean": 0.22192282902633417,
+            "median": 0.125,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.14270606855922854,
+              0.14444472807981418
+            ],
+            "mean": 0.14357888826382273,
+            "median": 0.14425014290105548,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 36624
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.18400944051637766,
+              0.28785555440488597
+            ],
+            "mean": 0.23477201733848346,
+            "median": 0.11896248065325292,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.2461080374003701,
+              0.248979134649513
+            ],
+            "mean": 0.24744640118214534,
+            "median": 0.2473400899367721,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 22386
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2078625754688866,
+              0.3087168426988559
+            ],
+            "mean": 0.2569547578523294,
+            "median": 0.1604258443465492,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.34752402273515315,
+              0.35083725316890135
+            ],
+            "mean": 0.3491195119367165,
+            "median": 0.34885731603099335,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 17431
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.21415724071832748,
+              0.3168329040836008
+            ],
+            "mean": 0.266189642786023,
+            "median": 0.18518518518518517,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.44754803462233145,
+              0.4511871938777675
+            ],
+            "mean": 0.4492914240380749,
+            "median": 0.4486068362945612,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 15185
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2180817315046,
+              0.32868259882726275
+            ],
+            "mean": 0.2728059642030547,
+            "median": 0.19961906584992345,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5463923794703724,
+              0.5502819642975825
+            ],
+            "mean": 0.5483621365762091,
+            "median": 0.5497069545967426,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 14545
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2332880586675318,
+              0.35034605334590385
+            ],
+            "mean": 0.2920084523217715,
+            "median": 0.24050632911392406,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.6472987604500549,
+              0.6512241999902502
+            ],
+            "mean": 0.6493030967923001,
+            "median": 0.6504934210526315,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 15150
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2611878397064921,
+              0.3796034645507103
+            ],
+            "mean": 0.316725992941241,
+            "median": 0.2871287128712871,
+            "n_total": 99,
+            "n_valid": 95
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7474764343419038,
+              0.7518085833988338
+            ],
+            "mean": 0.749775414222812,
+            "median": 0.7517544706511406,
+            "n_total": 99,
+            "n_valid": 95
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 17456
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2544804628120043,
+              0.3851453798295081
+            ],
+            "mean": 0.321029930558329,
+            "median": 0.25148809523809523,
+            "n_total": 99,
+            "n_valid": 95
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.850005560224158,
+              0.8535233029978735
+            ],
+            "mean": 0.8517856830439622,
+            "median": 0.8531237943672839,
+            "n_total": 99,
+            "n_valid": 95
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 25549
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.31429447879588357,
+              0.4613536469048818
+            ],
+            "mean": 0.389044089178798,
+            "median": 0.3205801563584775,
+            "n_total": 99,
+            "n_valid": 92
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9651783358391407,
+              0.9715901404171755
+            ],
+            "mean": 0.9685299479943253,
+            "median": 0.9711699964639322,
+            "n_total": 99,
+            "n_valid": 92
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 139502
+        }
+      ]
+    },
+    "tree_common_support": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.017113851453778302,
+              0.027531625039795928
+            ],
+            "mean": 0.022153067660299987,
+            "median": 0.011663061106247671,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.0033475424033376005,
+              0.005794730126590805
+            ],
+            "mean": 0.004463739889586964,
+            "median": 0.002435762555943627,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.0032453552915943373,
+              0.005502149374632537
+            ],
+            "mean": 0.004282437734982913,
+            "median": 0.0023360565113877607,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.7173344977387501,
+              0.7904319577412356
+            ],
+            "mean": 0.7552759191628206,
+            "median": 0.8164924530139074,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.012822302212556707,
+              0.02317796244778672
+            ],
+            "mean": 0.017870629925317075,
+            "median": 0.007618653288446687,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              -9.139609876786709,
+              5.919109123804923
+            ],
+            "mean": -1.3884036223276497,
+            "median": 8.638195484611963,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              142201.125,
+              148986.35404040402
+            ],
+            "mean": 145603.81818181818,
+            "median": 146033.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.00981173658353433,
+              0.018648905727376753
+            ],
+            "mean": 0.014040327603980938,
+            "median": 0.005070527157194416,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.009410640426726841,
+              0.01042402560399394
+            ],
+            "mean": 0.009929753768837339,
+            "median": 0.009742386562815161,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 13560286
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.09129516983705448,
+              0.15567702756023635
+            ],
+            "mean": 0.1224578175103537,
+            "median": 0.04853973745802381,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.1375922070790721,
+              0.13937681485320358
+            ],
+            "mean": 0.1385006768085362,
+            "median": 0.13930217159757835,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 435708
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.13286584947627036,
+              0.22171618821749753
+            ],
+            "mean": 0.17630976438754625,
+            "median": 0.08157894736842106,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.24057256291423285,
+              0.24191609068366046
+            ],
+            "mean": 0.24125349157865508,
+            "median": 0.24175897451116587,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 161613
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.16042696600637357,
+              0.259782185949505
+            ],
+            "mean": 0.20952946209937812,
+            "median": 0.1076923076923077,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.3425620275178187,
+              0.34430925413735264
+            ],
+            "mean": 0.3434724616517223,
+            "median": 0.34419300887319776,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 78711
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.18714847688284672,
+              0.3011148527212858
+            ],
+            "mean": 0.2426989320700692,
+            "median": 0.1436963860755991,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.44159520166565497,
+              0.44483937825114844
+            ],
+            "mean": 0.44327242358571417,
+            "median": 0.4449156892763286,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 48013
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2287689397291916,
+              0.35389488201475433
+            ],
+            "mean": 0.29042945321483427,
+            "median": 0.18918010752688172,
+            "n_total": 99,
+            "n_valid": 94
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5424032910725881,
+              0.5452836523296802
+            ],
+            "mean": 0.5439332476410841,
+            "median": 0.5457535179610475,
+            "n_total": 99,
+            "n_valid": 94
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 34810
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.23777650741174733,
+              0.37537189757836875
+            ],
+            "mean": 0.3074622228472481,
+            "median": 0.1717171717171717,
+            "n_total": 99,
+            "n_valid": 85
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.64197032819386,
+              0.6466782305290901
+            ],
+            "mean": 0.6443123769968409,
+            "median": 0.6451631718873978,
+            "n_total": 99,
+            "n_valid": 85
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 28332
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2771656127812918,
+              0.4317338043688678
+            ],
+            "mean": 0.353131384442687,
+            "median": 0.29923273657289007,
+            "n_total": 99,
+            "n_valid": 78
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7389053292343741,
+              0.7454439345942705
+            ],
+            "mean": 0.742218440862618,
+            "median": 0.7454324305111821,
+            "n_total": 99,
+            "n_valid": 78
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 24966
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.33724417459700934,
+              0.5332485498906507
+            ],
+            "mean": 0.43302437427574125,
+            "median": 0.4522111269614836,
+            "n_total": 99,
+            "n_valid": 63
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8383781926823364,
+              0.8436147121140188
+            ],
+            "mean": 0.8410397338465089,
+            "median": 0.8429688831608376,
+            "n_total": 99,
+            "n_valid": 63
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 21022
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.4188365097216345,
+              0.6703515201749934
+            ],
+            "mean": 0.5489310362151986,
+            "median": 0.6967213114754098,
+            "n_total": 99,
+            "n_valid": 45
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9273893507065732,
+              0.9341441748600756
+            ],
+            "mean": 0.9307873898236236,
+            "median": 0.9285464634497961,
+            "n_total": 99,
+            "n_valid": 45
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 21317
+        }
+      ]
+    },
+    "tree_full_grid": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.002125945575773574,
+              0.003413895132300014
+            ],
+            "mean": 0.002745705301636598,
+            "median": 0.001337783161916476,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.0003703853419831476,
+              0.000650436309907209
+            ],
+            "mean": 0.0004981745047077168,
+            "median": 0.00029327817050869224,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.0003688828956165977,
+              0.0006455704068964917
+            ],
+            "mean": 0.0004952315643536561,
+            "median": 0.00029314363044063296,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.7367173194864409,
+              0.8050256834873641
+            ],
+            "mean": 0.7711311962082641,
+            "median": 0.8186142928347833,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.0016707967556927794,
+              0.0028901095646929813
+            ],
+            "mean": 0.0022504737372829415,
+            "median": 0.0008733915824142705,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              -11.935785684251654,
+              4.386558163960994
+            ],
+            "mean": -3.5378985718225997,
+            "median": 8.235691912863087,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              1257618.5606060605,
+              1461646.2977272726
+            ],
+            "mean": 1359042.1616161617,
+            "median": 1314048.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.0012624846487820011,
+              0.002185026237665714
+            ],
+            "mean": 0.0017062564881992759,
+            "median": 0.000666378588512013,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.0010270710119108634,
+              0.001212518341526325
+            ],
+            "mean": 0.0011134117193023912,
+            "median": 0.0010935636740644558,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 133690682
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.09129516983705448,
+              0.15567702756023635
+            ],
+            "mean": 0.1224578175103537,
+            "median": 0.04853973745802381,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.1375922070790721,
+              0.13937681485320358
+            ],
+            "mean": 0.1385006768085362,
+            "median": 0.13930217159757835,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 435708
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.13286584947627036,
+              0.22171618821749753
+            ],
+            "mean": 0.17630976438754625,
+            "median": 0.08157894736842106,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.24057256291423285,
+              0.24191609068366046
+            ],
+            "mean": 0.24125349157865508,
+            "median": 0.24175897451116587,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 161613
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.16042696600637357,
+              0.259782185949505
+            ],
+            "mean": 0.20952946209937812,
+            "median": 0.1076923076923077,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.3425620275178187,
+              0.34430925413735264
+            ],
+            "mean": 0.3434724616517223,
+            "median": 0.34419300887319776,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 78711
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.18714847688284672,
+              0.3011148527212858
+            ],
+            "mean": 0.2426989320700692,
+            "median": 0.1436963860755991,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.44159520166565497,
+              0.44483937825114844
+            ],
+            "mean": 0.44327242358571417,
+            "median": 0.4449156892763286,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 48013
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2287689397291916,
+              0.35389488201475433
+            ],
+            "mean": 0.29042945321483427,
+            "median": 0.18918010752688172,
+            "n_total": 99,
+            "n_valid": 94
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5424032910725881,
+              0.5452836523296802
+            ],
+            "mean": 0.5439332476410841,
+            "median": 0.5457535179610475,
+            "n_total": 99,
+            "n_valid": 94
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 34810
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.23777650741174733,
+              0.37537189757836875
+            ],
+            "mean": 0.3074622228472481,
+            "median": 0.1717171717171717,
+            "n_total": 99,
+            "n_valid": 85
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.64197032819386,
+              0.6466782305290901
+            ],
+            "mean": 0.6443123769968409,
+            "median": 0.6451631718873978,
+            "n_total": 99,
+            "n_valid": 85
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 28332
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2771656127812918,
+              0.4317338043688678
+            ],
+            "mean": 0.353131384442687,
+            "median": 0.29923273657289007,
+            "n_total": 99,
+            "n_valid": 78
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7389053292343741,
+              0.7454439345942705
+            ],
+            "mean": 0.742218440862618,
+            "median": 0.7454324305111821,
+            "n_total": 99,
+            "n_valid": 78
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 24966
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.33724417459700934,
+              0.5332485498906507
+            ],
+            "mean": 0.43302437427574125,
+            "median": 0.4522111269614836,
+            "n_total": 99,
+            "n_valid": 63
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8383781926823364,
+              0.8436147121140188
+            ],
+            "mean": 0.8410397338465089,
+            "median": 0.8429688831608376,
+            "n_total": 99,
+            "n_valid": 63
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 21022
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.4188365097216345,
+              0.6703515201749934
+            ],
+            "mean": 0.5489310362151986,
+            "median": 0.6967213114754098,
+            "n_total": 99,
+            "n_valid": 45
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9273893507065732,
+              0.9341441748600756
+            ],
+            "mean": 0.9307873898236236,
+            "median": 0.9285464634497961,
+            "n_total": 99,
+            "n_valid": 45
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 21317
+        }
+      ]
+    },
+    "unet_common_support": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.02339111267356942,
+              0.03471303286907547
+            ],
+            "mean": 0.028848829820819415,
+            "median": 0.01670160838930286,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.01044162319564364,
+              0.01903461648387852
+            ],
+            "mean": 0.014320454721561616,
+            "median": 0.0068373253073871,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.010135573612203394,
+              0.018438892386997616
+            ],
+            "mean": 0.013875952810816767,
+            "median": 0.0059537509670732494,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.6115719791813446,
+              0.7253400286738327
+            ],
+            "mean": 0.671276861229123,
+            "median": 0.793448429360488,
+            "n_total": 99,
+            "n_valid": 97
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.010688585672020382,
+              0.01969030495000412
+            ],
+            "mean": 0.014972877010002645,
+            "median": 0.005644117959906937,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              7.816728665421409,
+              27.76752501309606
+            ],
+            "mean": 17.765354601420693,
+            "median": 13.151776508638461,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              142201.125,
+              148986.35404040402
+            ],
+            "mean": 145603.81818181818,
+            "median": 146033.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.009150903343762323,
+              0.01728378665571964
+            ],
+            "mean": 0.013002508122247854,
+            "median": 0.004557198220180853,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.009948955600145512,
+              0.012429703916743607
+            ],
+            "mean": 0.011146201060435783,
+            "median": 0.008978873933857276,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 13317898
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.0685350167158551,
+              0.13208748917427857
+            ],
+            "mean": 0.0984373431349811,
+            "median": 0.027205441088217642,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.13706121584942507,
+              0.13967607138342583
+            ],
+            "mean": 0.13842260250166205,
+            "median": 0.14030979084735642,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 366166
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.09563705885656443,
+              0.1809539568464042
+            ],
+            "mean": 0.1352828494748619,
+            "median": 0.03874388254486134,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.24155799712441667,
+              0.24444188354352503
+            ],
+            "mean": 0.24309353439739154,
+            "median": 0.2453022146795927,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 152383
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.10102931639611913,
+              0.18771398049245677
+            ],
+            "mean": 0.14303118612005608,
+            "median": 0.03739033033324775,
+            "n_total": 99,
+            "n_valid": 96
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.34269289118088336,
+              0.3458862781605942
+            ],
+            "mean": 0.344372066991844,
+            "median": 0.34694937527926595,
+            "n_total": 99,
+            "n_valid": 96
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 97560
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.12019454514049498,
+              0.21653547165054413
+            ],
+            "mean": 0.16640930937194037,
+            "median": 0.046511627906976744,
+            "n_total": 99,
+            "n_valid": 89
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.4438219060252278,
+              0.447496926980196
+            ],
+            "mean": 0.4457944255244325,
+            "median": 0.44843009675690665,
+            "n_total": 99,
+            "n_valid": 89
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 78851
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.15132866725048436,
+              0.2726702938932065
+            ],
+            "mean": 0.20827228453594163,
+            "median": 0.0793438718481031,
+            "n_total": 99,
+            "n_valid": 82
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5435954333614633,
+              0.5476958020634268
+            ],
+            "mean": 0.5458305562833595,
+            "median": 0.5490383233787235,
+            "n_total": 99,
+            "n_valid": 82
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 73417
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.17478328971859175,
+              0.3075157003078417
+            ],
+            "mean": 0.23736709889723437,
+            "median": 0.09900990099009901,
+            "n_total": 99,
+            "n_valid": 75
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.6426358021681517,
+              0.6475962743282567
+            ],
+            "mean": 0.6453552313382042,
+            "median": 0.6486406869648533,
+            "n_total": 99,
+            "n_valid": 75
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 72062
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.21043313379433176,
+              0.3623692545958352
+            ],
+            "mean": 0.28445276132212904,
+            "median": 0.13817227628670015,
+            "n_total": 99,
+            "n_valid": 66
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7432868048676816,
+              0.748414913726437
+            ],
+            "mean": 0.7460609780737428,
+            "median": 0.7494275123064649,
+            "n_total": 99,
+            "n_valid": 66
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 72575
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2656272071643062,
+              0.4411226633268639
+            ],
+            "mean": 0.35072763598696693,
+            "median": 0.23424657534246576,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8428022811067305,
+              0.8486034757648622
+            ],
+            "mean": 0.8458444354654461,
+            "median": 0.8509097250320452,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 82100
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.3511419840281202,
+              0.5688720958029975
+            ],
+            "mean": 0.46268209238756536,
+            "median": 0.38665664348806617,
+            "n_total": 99,
+            "n_valid": 50
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9394028558845742,
+              0.9488983177023778
+            ],
+            "mean": 0.9444438714501655,
+            "median": 0.9457599497476263,
+            "n_total": 99,
+            "n_valid": 50
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 101766
+        }
+      ]
+    },
+    "unet_full_grid": {
+      "patient_first": {
+        "metrics": {
+          "brier": {
+            "ci95_mean": [
+              0.0028861038316035006,
+              0.004282347160571432
+            ],
+            "mean": 0.0035637266982756336,
+            "median": 0.0019283938263178022,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_brier": {
+            "ci95_mean": [
+              0.0011869478549795627,
+              0.0021899544622304696
+            ],
+            "mean": 0.0016406759457508078,
+            "median": 0.0005872032971806934,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "negative_contribution": {
+            "ci95_mean": [
+              0.0011815257036066286,
+              0.002179951602076409
+            ],
+            "mean": 0.0016340191264185059,
+            "median": 0.0005792336184391819,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "positive_brier": {
+            "ci95_mean": [
+              0.635801909696587,
+              0.7431080303323127
+            ],
+            "mean": 0.6907580148935158,
+            "median": 0.8019367787278167,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "positive_contribution": {
+            "ci95_mean": [
+              0.0014257146943582031,
+              0.002480338294170374
+            ],
+            "mean": 0.001929707571857128,
+            "median": 0.0007287293914203299,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "probability_sum_error_ml": {
+            "ci95_mean": [
+              5.1543524865656645,
+              25.964160259661384
+            ],
+            "mean": 15.615859651925742,
+            "median": 12.15977650863846,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "voxel_count": {
+            "ci95_mean": [
+              1257618.5606060605,
+              1461646.2977272726
+            ],
+            "mean": 1359042.1616161617,
+            "median": 1314048.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.001183397786645354,
+              0.0020481104793796186
+            ],
+            "mean": 0.001591709226612346,
+            "median": 0.0006235128913758523,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.0010977540047336515,
+              0.0014450007846814254
+            ],
+            "mean": 0.0012662390318894292,
+            "median": 0.0010099600841207079,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.1,
+          "voxel_count": 133448294
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.0685350167158551,
+              0.13208748917427857
+            ],
+            "mean": 0.0984373431349811,
+            "median": 0.027205441088217642,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.13706121584942507,
+              0.13967607138342583
+            ],
+            "mean": 0.13842260250166205,
+            "median": 0.14030979084735642,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.2,
+          "voxel_count": 366166
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.09563705885656443,
+              0.1809539568464042
+            ],
+            "mean": 0.1352828494748619,
+            "median": 0.03874388254486134,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.24155799712441667,
+              0.24444188354352503
+            ],
+            "mean": 0.24309353439739154,
+            "median": 0.2453022146795927,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "right_closed": false,
+          "upper": 0.3,
+          "voxel_count": 152383
+        },
+        {
+          "bin": 3,
+          "lower": 0.3,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.10102931639611913,
+              0.18771398049245677
+            ],
+            "mean": 0.14303118612005608,
+            "median": 0.03739033033324775,
+            "n_total": 99,
+            "n_valid": 96
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.34269289118088336,
+              0.3458862781605942
+            ],
+            "mean": 0.344372066991844,
+            "median": 0.34694937527926595,
+            "n_total": 99,
+            "n_valid": 96
+          },
+          "right_closed": false,
+          "upper": 0.4,
+          "voxel_count": 97560
+        },
+        {
+          "bin": 4,
+          "lower": 0.4,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.12019454514049498,
+              0.21653547165054413
+            ],
+            "mean": 0.16640930937194037,
+            "median": 0.046511627906976744,
+            "n_total": 99,
+            "n_valid": 89
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.4438219060252278,
+              0.447496926980196
+            ],
+            "mean": 0.4457944255244325,
+            "median": 0.44843009675690665,
+            "n_total": 99,
+            "n_valid": 89
+          },
+          "right_closed": false,
+          "upper": 0.5,
+          "voxel_count": 78851
+        },
+        {
+          "bin": 5,
+          "lower": 0.5,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.15132866725048436,
+              0.2726702938932065
+            ],
+            "mean": 0.20827228453594163,
+            "median": 0.0793438718481031,
+            "n_total": 99,
+            "n_valid": 82
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.5435954333614633,
+              0.5476958020634268
+            ],
+            "mean": 0.5458305562833595,
+            "median": 0.5490383233787235,
+            "n_total": 99,
+            "n_valid": 82
+          },
+          "right_closed": false,
+          "upper": 0.6,
+          "voxel_count": 73417
+        },
+        {
+          "bin": 6,
+          "lower": 0.6,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.17478328971859175,
+              0.3075157003078417
+            ],
+            "mean": 0.23736709889723437,
+            "median": 0.09900990099009901,
+            "n_total": 99,
+            "n_valid": 75
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.6426358021681517,
+              0.6475962743282567
+            ],
+            "mean": 0.6453552313382042,
+            "median": 0.6486406869648533,
+            "n_total": 99,
+            "n_valid": 75
+          },
+          "right_closed": false,
+          "upper": 0.7,
+          "voxel_count": 72062
+        },
+        {
+          "bin": 7,
+          "lower": 0.7,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.21043313379433176,
+              0.3623692545958352
+            ],
+            "mean": 0.28445276132212904,
+            "median": 0.13817227628670015,
+            "n_total": 99,
+            "n_valid": 66
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.7432868048676816,
+              0.748414913726437
+            ],
+            "mean": 0.7460609780737428,
+            "median": 0.7494275123064649,
+            "n_total": 99,
+            "n_valid": 66
+          },
+          "right_closed": false,
+          "upper": 0.8,
+          "voxel_count": 72575
+        },
+        {
+          "bin": 8,
+          "lower": 0.8,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.2656272071643062,
+              0.4411226633268639
+            ],
+            "mean": 0.35072763598696693,
+            "median": 0.23424657534246576,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.8428022811067305,
+              0.8486034757648622
+            ],
+            "mean": 0.8458444354654461,
+            "median": 0.8509097250320452,
+            "n_total": 99,
+            "n_valid": 59
+          },
+          "right_closed": false,
+          "upper": 0.9,
+          "voxel_count": 82100
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "patient_bin_observed": {
+            "ci95_mean": [
+              0.3511419840281202,
+              0.5688720958029975
+            ],
+            "mean": 0.46268209238756536,
+            "median": 0.38665664348806617,
+            "n_total": 99,
+            "n_valid": 50
+          },
+          "patient_bin_predicted": {
+            "ci95_mean": [
+              0.9394028558845742,
+              0.9488983177023778
+            ],
+            "mean": 0.9444438714501655,
+            "median": 0.9457599497476263,
+            "n_total": 99,
+            "n_valid": 50
+          },
+          "right_closed": true,
+          "upper": 1.0,
+          "voxel_count": 101766
+        }
+      ]
+    }
+  },
+  "n": 99,
+  "prevalence_comparator": "UNAVAILABLE: outer-training prevalence not captured"
+}

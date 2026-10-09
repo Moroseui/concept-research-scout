@@ -73,9 +73,9 @@ if database.exists():
         with sqlite3.connect(copy) as db:
             row=db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()
             tables={r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-            calls=[r[0] for r in db.execute('SELECT status FROM manual_calls LIMIT 9')] if 'manual_calls' in tables else []
+            calls=[r[0] for r in db.execute('SELECT status FROM manual_calls LIMIT 31')] if 'manual_calls' in tables else []
     phase=json.loads(row[0]).get('phase') if row else None
-    if (phase is not None and (not isinstance(phase,str) or len(phase)>64)) or len(calls)>8 or any(not isinstance(c,str) or len(c)>32 for c in calls):raise SystemExit('LANE_STATUS_SHAPE')
+    if (phase is not None and (not isinstance(phase,str) or len(phase)>64)) or len(calls)>30 or any(not isinstance(c,str) or len(c)>32 for c in calls):raise SystemExit('LANE_STATUS_SHAPE')
     result.update(state={'phase':phase} if row else {},calls=calls)
 print(json.dumps(result))
 """
@@ -100,11 +100,87 @@ def require_no_user_site():
 
 
 
-def selected(runtime,lane):
+def release_lanes(value, *, filesystem_root=Path('/')):
+    """Read the exact root-preserved companion binding, never arbitrary descendants.
+
+    The default one-lane layout is unchanged. A second lane requires its plan,
+    source, runtime, service bytes and path in the selected immutable hash list.
+    filesystem_root is a disposable test boundary; live callers use /.
+    """
     from orchestrator.manual_host_guard import trusted
-    pointer=trusted('/etc/research-system-manual-sprint10/selected-release.json')
-    value=json.loads(pointer.read_text())
-    if value['runtime']!=str(runtime) or str(lane)!=value['state']+'/lane' or value['runtime_sha256']!=sha(runtime):raise ValueError('UNSELECTED_MANUAL_RELEASE')
+    root=Path(filesystem_root).absolute()
+    def path(name):
+        p=Path(name)
+        if not p.is_absolute() or '..' in p.parts or str(p)!=name:raise ValueError('SELECTED_LANE_PATH')
+        q=root/name.lstrip('/')
+        if any(x.is_symlink() for x in [q,*q.parents]):raise ValueError('SELECTED_LANE_ALIAS')
+        return q
+    state=value['state'];tag=Path(value['release']).name
+    primary={'state':state,'lane':state+'/lane','repository':state+'/repository',
+             'units':[tag+'.service',tag+'.timer']}
+    record=str(Path(value['hash_list']).parent);mapping=record+'/experiment-lanes.json'
+    if len(value['units'])==2:
+        if path(mapping).exists():raise ValueError('UNREGISTERED_SELECTED_LANES')
+        return [{**primary,'units':value['units']}]
+    hash_path=trusted(path(value['hash_list']))
+    if sha(hash_path)!=value['hash_list_sha256']:raise ValueError('SELECTED_LANE_HASHLIST_CHANGED')
+    files=json.loads(hash_path.read_text())
+    if mapping not in files:
+        if value['units']!=primary['units'] or path(mapping).exists():raise ValueError('UNREGISTERED_SELECTED_LANES')
+        return [primary]
+    def bound(name):
+        item=files.get(name)
+        if not isinstance(item,dict) or set(item)!={'sha256','mode'}:raise ValueError('SELECTED_LANE_FILE_UNBOUND')
+        p=trusted(path(name))
+        if not p.is_file() or p.stat().st_nlink!=1 or sha(p)!=item['sha256'] or p.stat().st_mode&0o777!=item['mode']:
+            raise ValueError('SELECTED_LANE_FILE_CHANGED')
+        return p
+    proof=json.loads(bound(mapping).read_text())
+    if (set(proof)!={'schema','source','runtime_sha256','review_sha256','lanes'}
+            or proof['schema']!='explicit-experiment-lanes/v1'
+            or proof['source']!=value['source'] or proof['runtime_sha256']!=value['runtime_sha256']
+            or sha(trusted(path(value['runtime'])))!=value['runtime_sha256']
+            or sha(trusted(path(record+'/review.md')))!=proof['review_sha256']):
+        raise ValueError('SELECTED_LANE_RELEASE_BINDING')
+    expected=[]
+    for item,suffix in [(6,''),(4,'/item4')]:
+        unit_tag=tag+('-item4' if suffix else '')
+        plan=record+('/experiment-plan-item4.json' if suffix else '/experiment-plan.json')
+        raw=bound(plan).read_bytes();plan_value=json.loads(raw)
+        if plan_value.get('schema')!='experiment-lane/v1' or type(plan_value.get('item_number')) is not int or plan_value['item_number']!=item:
+            raise ValueError('SELECTED_LANE_PLAN_ITEM')
+        row={'item_number':item,'state':state+suffix,'lane':state+suffix+'/lane',
+             'repository':state+suffix+'/repository','units':[unit_tag+'.service',unit_tag+'.timer'],
+             'plan':plan,'plan_sha256':hashlib.sha256(raw).hexdigest()}
+        expected.append(row)
+        # Root service definitions must actually address the mapped lane.
+        service=bound('/etc/systemd/system/'+row['units'][0]).read_text().splitlines()
+        checks={'WorkingDirectory':row['repository'],
+            'ConditionPathExists':row['lane']+'/lane.json',
+            'ExecStartPre':'+/usr/bin/env PYTHONPATH='+value['release']+' /usr/bin/python3 -s -B '+value['release']+'/tools/manual_host_control.py before --runtime '+value['runtime']+' --lane '+row['lane'],
+            'ExecStart':'/usr/bin/python3 -s -B -m orchestrator.experiment_driver advance --state '+row['lane']}
+        for key,wanted in checks.items():
+            if [line for line in service if line.startswith(key+'=')]!=[key+'='+wanted]:raise ValueError('SELECTED_LANE_SERVICE_BINDING')
+        timer=bound('/etc/systemd/system/'+row['units'][1]).read_text().splitlines()
+        if [line for line in timer if line.startswith('Unit=')]!=['Unit='+row['units'][0]]:raise ValueError('SELECTED_LANE_SERVICE_BINDING')
+        for name in ('state','lane','repository'):path(row[name])
+    if proof['lanes']!=expected or value['units']!=[unit for row in expected for unit in row['units']]:
+        raise ValueError('SELECTED_LANE_MAP_BINDING')
+    return expected
+
+
+def selected(runtime,lane, *, filesystem_root=Path('/')):
+    from orchestrator.manual_host_guard import trusted
+    root=Path(filesystem_root).absolute()
+    pointer=trusted(root/'etc/research-system-manual-sprint10/selected-release.json')
+    value=json.loads(pointer.read_text());runtime=Path(runtime);lane=Path(lane)
+    if value['runtime']!=str(runtime) or value['runtime_sha256']!=sha(root/str(runtime).lstrip('/')):
+        raise ValueError('UNSELECTED_MANUAL_RELEASE')
+    # Keep the historical single-lane control path; no descendant exemption.
+    if 'units' not in value:
+        if str(lane)!=value['state']+'/lane':raise ValueError('UNSELECTED_MANUAL_RELEASE')
+    elif str(lane) not in {row['lane'] for row in release_lanes(value,filesystem_root=root)}:
+        raise ValueError('UNSELECTED_MANUAL_RELEASE')
     return value
 
 

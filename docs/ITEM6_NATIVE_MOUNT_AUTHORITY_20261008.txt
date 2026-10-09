@@ -1,0 +1,7 @@
+Approved: develop the bounded replacement in item6-native-mount-direction-20261008/PROPOSED_SCOPE.md. Conditions:
+1. Write-refusal probe: try to create a new file, never modify an existing one, at each mount root and subpath. Test it on synthetic, non-patient volumes first, including a deliberately writable volume that must fail the check.
+2. Hashes before and after: re-hash every frozen input and every package file after the analysis, as well as before. Any mismatch marks the run invalid and fails closed.
+3. Everything else unchanged: exact volume identity and subpath, rejection of unexpected symlinks below the resolved root, exact file membership, blocked network, absent credentials.
+4. Keep it a narrow patch, not a new confinement subsystem. Tests and an independent APPROVE before installation or retry. The retry goes through normal budget admission within item 6's $100 cap. The first attempt and its $1.95 stay preserved and counted.
+If equivalent protection can't be demonstrated, stay stopped and come back to me.
+Continuing 13B author preparation in parallel is fine.

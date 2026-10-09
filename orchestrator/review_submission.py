@@ -185,7 +185,8 @@ class TerminalSubmissionFailure(ValueError):
     """A captured successful terminal client invocation has no valid submission."""
 
 
-def collect_scientific(root,console):
+def verify_scientific(root,console):
+    """Recheck a saved scientific delivery without creating or editing output."""
     root=Path(root);events=[]
     for line in console.splitlines():
         try:event=contract.strict_json(line)
@@ -206,10 +207,16 @@ def collect_scientific(root,console):
         decision=verify_native(raw,config,pins['config_sha256'],events)
     except ValueError as error:
         raise TerminalSubmissionFailure(str(error)) from error
-    from orchestrator import private_records as pr
-    with pr.open_file(root/'review.json','xb') as out:out.write(canonical(decision))
-    return {'record_sha256':sha(raw),'config_sha256':pins['config_sha256'],'session_id':session,
+    return decision, {'record_sha256':sha(raw),'config_sha256':pins['config_sha256'],'session_id':session,
             'verdict_origin':'accepted MCP submission; never final prose'}
+
+
+def collect_scientific(root,console):
+    decision, receipt = verify_scientific(root,console)
+    from orchestrator import private_records as pr
+    with pr.open_file(Path(root)/'review.json','xb') as out:out.write(canonical(decision))
+    return receipt
+
 
 
 def terminal_without_submission(root,console):

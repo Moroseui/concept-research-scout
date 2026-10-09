@@ -83,6 +83,11 @@ class ManualExecutor(Store):
         from orchestrator.autonomy_limits import local_limit
         cap=local_limit(self,run_id,policy)
         if len(rows)>=cap or n>manual_recovery.role_limit(self,run_id,stage):raise ValueError('STEP_D_MODEL_CALL_LIMIT')
+        from orchestrator.author_revision_accounting import inspect, FIELD
+        classification=inspect(self,run_id,stage)
+        if FIELD in receipt:raise ValueError('AUTHOR_REVISION_CALLER_CLASSIFICATION_REFUSED')
+        if classification is not None and classification['binding'] is not None:
+            receipt={**receipt,FIELD:classification['binding']}
         if recovery and stage==recovery.get('stage',manual_recovery.STAGE):
             if recovery.get('stage')!='run_spec_author' or n==2:
                 receipt={**receipt,'linked_recovery_of':excepted,'recovery_invocation':n,'recovery_decision_sha256':recovery['decision_sha256'],'recovery_runtime_source':recovery['runtime_source']}
@@ -103,8 +108,8 @@ class ManualExecutor(Store):
             receipt={**receipt,'batch_accounting':self.batch.reserve_scientific(ident,run_id,stage,source,receipt)}
         self.db.execute('INSERT INTO manual_calls VALUES(?,?,?,?,?)',(ident,stage,n,'RUNNING',json.dumps(receipt)))
         try:
-            from orchestrator.autonomy_limits import AUTHORITY
-            amendment={'authority_sha256':AUTHORITY,'run_limit':cap} if cap in (16,20) else None
+            from orchestrator.autonomy_limits import allowance
+            amendment=allowance(self,run_id,policy)
             charged=accounting.admit_manual(Accounts(self),policy,{'run_id':ident,'attempt':'1','source':source,'branch':branch},allowance=amendment)
             if charged['status']!='ADMITTED':raise ValueError('LOCAL_ALLOWANCE_HALTED')
             receipt={**receipt,'accounting':charged}

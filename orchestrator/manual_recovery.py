@@ -32,6 +32,9 @@ def failed_binding(store):
 
 
 def permit(store,run):
+    from orchestrator.experiment_timeout_continuation import permit as timeout_permit
+    timeout=timeout_permit(store,run)
+    if timeout is not None:return timeout
     from orchestrator import stocktake_recovery
     if run==stocktake_recovery.RUN:return stocktake_recovery.permit(store,run)
     row=store.db.execute('SELECT binding FROM manual_recoveries WHERE failed_id=?',(FAILED,)).fetchone()
@@ -45,7 +48,10 @@ def permit(store,run):
 
 def role_limit(store,run,stage):
     from orchestrator.analysis_revisions import enabled
-    if enabled(store,run):return 4
+    if enabled(store,run):
+        from orchestrator.author_revision_accounting import inspect
+        result=inspect(store,run,stage)
+        return result['limit'] if result is not None else 4
     value=permit(store,run)
     if value is not None and 'review_checkpoint' in value:return 2
     return 3 if value is not None and stage==value.get('stage',STAGE) else 2

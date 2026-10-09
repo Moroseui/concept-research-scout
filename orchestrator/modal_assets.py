@@ -175,6 +175,11 @@ def prepare(root,state,engine_review,settings,record,*,provider_factory=ModalPro
 def prepare_package(provider,binding,package,record):
     package,record=Path(package),Path(record);manifest=verify_package(package,binding)
     expected={k:{'sha256':v,'bytes':(package/k).stat().st_size} for k,v in inventory(package).items()}
+    static = binding.get('purpose')=='M4_ITEM4' and binding.get('execution',{}).get('schema')=='reviewed-module/v1'
+    if static:
+        # The admitted manifest is delivered by the exact launch transport.
+        # A resume reuses the same reviewed bytes, never overwrites a Volume.
+        expected.pop('manifest.json')
     member_map(expected)
     if record.exists():
         ready=record/'READY.json'
@@ -185,7 +190,20 @@ def prepare_package(provider,binding,package,record):
     connectivity.require(['modal'],record.parent/'connectivity.json')
     private_records.mkdir(record,parents=True)
     write_once(record/'intent.json',canonical({'manifest_sha256':digest(canonical(manifest)),'volume_id':binding['package_volume_id']}))
-    upload(provider,binding['package_volume_id'],package,expected)
+    if static:
+        volume=provider._volume(binding['package_volume_id'])
+        if volume.listdir('/',recursive=True):
+            provider._verify_volume(binding['package_volume_id'],expected)
+        else:
+            # Local package includes its preserved admitted manifest; only its
+            # immutable reviewed payload belongs in the read-only Volume.
+            before=inventory(package)
+            with volume.batch_upload(force=False) as batch:
+                for name in sorted(expected):batch.put_file(package/name,'/'+name,mode=0o440)
+            if inventory(package)!=before:raise ValueError('MODAL_LOCAL_ASSET_MEMBERS_OR_HASH')
+            provider._verify_volume(binding['package_volume_id'],expected)
+    else:
+        upload(provider,binding['package_volume_id'],package,expected)
     ready={'status':'READY','manifest_sha256':digest(canonical(manifest)),'volume_id':binding['package_volume_id']}
     write_once(record/'READY.json',canonical(ready));return ready
 

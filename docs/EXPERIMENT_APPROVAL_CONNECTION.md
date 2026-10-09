@@ -1,0 +1,9 @@
+# Experiment review-to-execution binding
+
+Items 4 and 6 use the actual manual driver completed-review transition. Before it closes findings or advances to COMMIT_SPEC, the controller verifies the completed call, its exact prompt, the accepted MCP submission and the original native tool acknowledgement. The existing submission verifier now has a read-only entry point; collection and revalidation use the same rules. No verdict is inferred from prose.
+
+The current spec, code, synthetic test results, provenance and frozen execution plan must be exactly the versions delivered to the reviewer. Inline material must match the original prompt bytes; workspace files must match the descriptor in that prompt and their hashes. The notebook/program selected for packaging must match those delivered artifacts. The synthetic-test receipt must bind that same code and the selected environment, including the preserved package bytes. Tests on different code do not qualify.
+
+A private, immutable reviewed-execution manifest records these connections. `experiment_approval.verify` rechecks them without another call, charge or rewritten report. This manifest is an input to subsequent packaging, not an execution admission or a budget grant. Legacy Sprint10 acceptance paths remain unchanged. The actual item4/6 execution dispatcher, provider package, collection and result validation still need connection; the existing fail-closed executor guard remains in force.
+
+Tests exercise the real driver acceptance, assembler, local ledger and MCP submission/acknowledgement parser for both notebook and Python-program artifacts. Model streams, notebook content and synthetic test receipts in those tests are explicitly artificial. They prove controller bindings, not a scientific approval, patient computation, or a native OS isolation run. Existing native isolation gates remain required before use.

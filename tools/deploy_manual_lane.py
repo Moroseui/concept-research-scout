@@ -284,7 +284,9 @@ def rollback(root,inventory_sha,implementation_sha,rehearsal=False):
 def main():
     p=argparse.ArgumentParser();p.add_argument('operation',choices=['install','rollback','promote','promotion-rollback']);p.add_argument('--root',type=Path,required=True);p.add_argument('--live',action='store_true');p.add_argument('--rehearsal',action='store_true')
     for key in ['source','tag','commit','tag-object','review','review-sha256','old-inventory','inventory-sha256','implementation-sha256','previous']:p.add_argument('--'+key)
-    p.add_argument('--entrypoint',choices=['analysis'])
+    p.add_argument('--entrypoint',choices=['analysis','experiment'])
+    p.add_argument('--experiment-plan')
+    p.add_argument('--experiment-companion-plan')
     p.add_argument('--stocktake-recovery',action='store_true')
     p.add_argument('--stocktake-navigation',action='store_true')
     p.add_argument('--stocktake-review-continuation',action='store_true')
@@ -298,7 +300,7 @@ def main():
             import sys
             sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
             from tools import manual_promotion
-            result=manual_promotion.promote(a.root,a.source,a.tag,a.commit,a.tag_object,a.review,a.review_sha256,a.previous,a.old_inventory,entrypoint=a.entrypoint,stocktake_recovery=a.stocktake_recovery,stocktake_navigation=a.stocktake_navigation,stocktake_review_continuation=a.stocktake_review_continuation) if a.operation=='promote' else manual_promotion.rollback(a.root,a.tag)
+            result=manual_promotion.promote(a.root,a.source,a.tag,a.commit,a.tag_object,a.review,a.review_sha256,a.previous,a.old_inventory,entrypoint=a.entrypoint,experiment_plan=a.experiment_plan,experiment_companion_plan=a.experiment_companion_plan,stocktake_recovery=a.stocktake_recovery,stocktake_navigation=a.stocktake_navigation,stocktake_review_continuation=a.stocktake_review_continuation) if a.operation=='promote' else manual_promotion.rollback(a.root,a.tag)
         elif a.operation=='install':result=install(a.root,a.source,a.tag,a.commit,a.tag_object,a.review,a.review_sha256,a.old_inventory)
         else:result=rollback(a.root,a.inventory_sha256,a.implementation_sha256,a.rehearsal)
         print(json.dumps(result,sort_keys=True,indent=2))

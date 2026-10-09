@@ -1,0 +1,9 @@
+# Item 4 image preparation uses the original scientific owner
+
+This uninstalled successor connects standard image preparation to the exact canonical ACTIVE item 4 owner. It does not initialize or complete a run, change an allowance, alter scientific code, or infer execution approval. Historical environment-inventory, dependency-closure and retrieval owner records are unchanged.
+
+The root-selected image configuration and reservation bind the original owner hash. Before reservation, provider creation and READY replay, the actual owner row must match the canonical run, source, item 4 authority, immutable lane configuration and original preparation/context selection. Missing, completed, changed or unrelated owners refuse. The controller keeps the owner ACTIVE after the image is READY. A changed source/image/price cannot create a second operation.
+
+The original smoke $75 and total $1,275 gates remain. Historical item 4 retrieval/environment assets count by their existing purpose/authority even when owned by a different completed run; existing compute exposure and authenticated billing/headroom checks remain. No charge is refunded, moved or reclassified. The connected regression preserves $24.170118 of cross-owner input assets and $3 of cross-owner prior compute and observes $27.170118 of prior smoke/total exposure before the new image reservation. Separate cap tests refuse excess prior assets or FULL compute.
+
+The image still requires its own genuine source-bound installation/runtime record, fixed source-only build, exact package lock, immutable image ID and native proof. Native/provider results in local tests are explicitly synthetic; there has been no paid build, provider/model call, real-data access or deployment. Initial authoring can proceed without image proof, but execution cannot. CPU image ownership and the original inventory lifecycle are unchanged.
