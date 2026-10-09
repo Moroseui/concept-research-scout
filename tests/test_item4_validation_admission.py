@@ -346,3 +346,31 @@ def test_terminal_bridge_never_qualifies_an_ordinary_other_run(terminal_fixture)
     owned,proof,before=terminal_fixture;d,value,selected,binding,accounts=owned
     binding['review_sha256']='f'*64
     assert gate.retained_terminal(accounts,binding)==(set(),set())
+
+
+@pytest.fixture
+def producer_encoded_terminal(terminal_fixture,monkeypatch):
+    from orchestrator.modal_executor import canonical as producer_encoding
+    from tools.item4_execution_billing import module
+    owned,proof,before=terminal_fixture;accounts=owned[-1]
+    for kind,table in [('assets','autonomy_assets'),('compute','autonomy_compute')]:
+        for row in accounts.db.execute('SELECT * FROM '+table):
+            if row['id'] in proof[kind]:proof[kind][row['id']]=digest(producer_encoding(dict(row)))
+    with pytest.raises(ValueError,match='TERMINAL_ROW_CHANGED'):
+        gate.retained_terminal(accounts,owned[3]) # Reproduces genuine producer-consumer mismatch.
+    fresh=module('_test_terminal_row_encoding',Path(__file__).parents[1]/'orchestrator/item4_terminal_row_encoding.py')
+    monkeypatch.setattr(gate,'retained_terminal',fresh.retained_terminal)
+    return terminal_fixture
+
+
+def test_actual_producer_encoding_preserves_charges_and_over_cap_refusal(producer_encoded_terminal):
+    test_qualified_terminal_rows_remain_unchanged_and_charged(producer_encoded_terminal)
+
+
+@pytest.mark.parametrize('damage',['asset-row','compute-row','missing-asset','missing-compute','foreign-proof','release','source','unknown-live','unknown-asset'])
+def test_actual_encoding_keeps_every_terminal_refusal(producer_encoded_terminal,damage):
+    test_terminal_bridge_refuses_stale_forged_or_unrelated_proofs(producer_encoded_terminal,damage)
+
+
+def test_actual_encoding_does_not_qualify_another_run(producer_encoded_terminal):
+    test_terminal_bridge_never_qualifies_an_ordinary_other_run(producer_encoded_terminal)

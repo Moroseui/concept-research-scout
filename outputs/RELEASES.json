@@ -97,6 +97,18 @@
       "role": "installed bounded batch continuation and exact unadmitted-author recovery with operator smoke staging",
       "review": "a2b2da904ba4974850e7b0455921692b473567bde43605207535bbb18551f479",
       "selection": "exact safe projection; private accounting/preparation checkpoint and raw ancestry withheld"
+    },
+    {
+      "source": "5a96cc372b94e31176759315c92db1ae6b75c241",
+      "role": "installed exact partition-delivery connection",
+      "review": "5dab94cbfd162c837f42f4e87debe9ead36a2833e8cb2eddb5fd78371e69636d",
+      "selection": "exact safe projection; private originals and ancestry withheld"
+    },
+    {
+      "source": "15c1bb893546ce87649fe5ee2df14e0348dc5ac0",
+      "role": "installed bounded billing reader connection",
+      "review": "b2525fd51c1848465e5ed0eed9e5cf4e801f15c13d892d7425618f55d0fb4e0c",
+      "selection": "exact safe projection; private originals and ancestry withheld"
     }
   ],
   "source_files_count": 1369,
