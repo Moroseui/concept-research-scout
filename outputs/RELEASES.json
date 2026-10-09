@@ -79,6 +79,12 @@
       "role": "one bounded mechanical review recovery; independent approval and held installation complete",
       "review": "6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf",
       "selection": "safe source projection; original private history and call checkpoint withheld"
+    },
+    {
+      "source": "8e25c24bc519c63cd7fbfb4c0a5669626366b909",
+      "role": "installed workspace-attempt selector and exact pre-admission restoration; bounded reviewed administrative successor",
+      "review": "193bac0749e414c2d86ef1e7f8291a8cb38f32bb811dd9e67973757693309e28",
+      "selection": "exact safe source projection; private checkpoints and raw ancestry excluded"
     }
   ],
   "source_files_count": 1369,
