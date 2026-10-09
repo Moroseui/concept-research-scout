@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-The 13B CPU retry passed verification of all 893 frozen input files and the pinned environment.
-The real output folder has the required private permissions; the preparation result is still pending.
-GPU smoke follows verified preparation, with coverage-dependent arms held.
-Full training still requires scientific review of actual smoke results. Latest Claude direction: PROCEED.
-The stopped first attempt has $0.58471212 in observed billing. Item 4 retains $56.032853 of $75; actual costs are not yet settled.
-Next result: preparation within about 50 minutes if successful, then GPU smoke. No operator action needed.
+13B verified all 893 frozen inputs and the pinned environment, but the preparation worker exited before science started.
+A read-only diagnostic reproduced a private-file permission refusal: the provider exposes static package files with mode 0666.
+The idle container was positively stopped once; no compute is running. GPU smoke awaits a reviewed repair; coverage arms remain held.
+The first stopped attempt has $0.58471212 in observed billing; the second is unsettled. Item 4 retains $56.032853 of $75.
+Latest Claude direction was PROCEED before this new failure; the repair review will include a fresh direction check.
+Next result: repair diagnosis/review in roughly 60?90 minutes; GPU timing depends on that outcome. No operator action needed.
 
-Updated 2026-10-09T12:53:16.745889+00:00. Detailed audit follows.
+Updated 2026-10-09T13:02:55.514531+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -26,7 +26,7 @@ Normal admission then refused before a compute reservation because the spending 
 
 R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f received genuine independent APPROVE 3e3569d6f4284987e6dd96d71480f0764e2e82d825b27134386f4c66d6cbcda8. Claude explicitly recommended PROCEED, one round agreed. Held installation and verification succeeded; the existing package and upload are reused. The failed predecessor remains preserved. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
 
-Next is a reviewed repair of the output-root permission mismatch, then base preprocessing, declared GPU benchmarks and repeated smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. The first preprocessing attempt submitted once, but its guard exited before any output record. Read-only observations established an empty output volume and only idle processes. The sandbox was positively terminated; no scientific result or retry is claimed. Newly reserved compute is $10.342400; all original reservations remain retained. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
+Earlier, the first attempt required a reviewed output-root permission repair before base preprocessing and GPU smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. The first preprocessing attempt submitted once, but its guard exited before any output record. Read-only observations established an empty output volume and only idle processes. The sandbox was positively terminated; no scientific result or retry is claimed. Newly reserved compute is $10.342400; all original reservations remain retained. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
 
 R49 submission then refused before a new reservation or provider creation. The unchanged cost hook assumed every terminal preprocessing attempt had a committed checkpoint. The already-approved first attempt stopped before one existed. Its full reservation remains counted; neither the failed service nor its records have been reset.
 
@@ -383,4 +383,10 @@ The direction proposal was assistant-authored; Git author configuration is not o
 
 Proceed after genuine independent approval and successful real installation verification; observe the one admitted job, and never infer completion or a stopped worker from an incomplete input record. The live guard and private output mode were confirmed using process/filesystem metadata only, with no patient payload egress. Keep every unsettled reservation.
 
-Latest read-only observation: input status VERIFIED, no reason/error; environment verified. Provider container remains nonterminal. No extra computation or model call was made by this observation. Continue monitoring the same admitted attempt.
+The earlier read-only observation verified inputs and environment while the container remained nonterminal. It was superseded by the terminal reconciliation below.
+
+## Latest preparation reconciliation
+
+The input proof and pinned-environment proof passed. Two process inventories then showed only idle init/sleep processes and the diagnostic itself; no worker remained. A separate diagnostic ran the ordinary worker validation with writes, process creation, network and scientific-module execution refused. It reproduced PRIVATE_RECORD_PERMISSIONS in the preprocessing adapter before any scientific call. Metadata showed static package files with mode 0666 despite their upload-side mode 0400; the corrected output root remained 0700. This demonstrates that the synthetic upload-mode assumption did not match the provider. Original execution stderr was discarded by the existing launcher, so the exception is a reproduction, not an original stderr receipt.
+
+At 13:01 UTC, fresh exact-attempt process and proof checks again established idle-only state and no preprocessing start/result. The existing container was stopped once and returned terminal 137. All original records and both full CPU reservations remain preserved and counted. No new attempt, ledger relabel, cost release or scientific conclusion was made. The next bounded repair must preserve private-record checks and frozen/package hashes, pass a synthetic test with the actual provider-style file modes, and receive independent implementation approval before installation or retry. Direction consultation will be batched into that review.
