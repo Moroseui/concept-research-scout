@@ -101,6 +101,20 @@ def record(accounts,ident,work):
     """Append once, as the ledger owner. No provider call or new admission."""
     db=accounts.db;row=db.execute('SELECT * FROM autonomy_compute WHERE id=?',(ident,)).fetchone()
     if row is None:raise ValueError('ITEM4_EXPOSURE_ROW_REQUIRED')
+    # This fixed pre-science stop has no checkpoint and earns no exposure credit.
+    # Requalify its independent authority and every original proof; keep the full
+    # reservation. Missing/foreign/changed proofs still refuse, never fall back.
+    if db.execute('SELECT 1 FROM events WHERE id=?',(ident+':pre-science-stop',)).fetchone():
+        from orchestrator import item4_preprocessing_fresh_start as fresh
+        p=fresh.contract()
+        fresh.require(ident==p['old_row']['id'],'COST_ORIGINAL_IDENTITY')
+        fresh.retained(db,p)
+        intent=Path(work)/'create-intent.json'
+        fresh.require(str(intent) in p['evidence_files'] and not db.execute(
+            'SELECT 1 FROM events WHERE id=?',(ident+':terminal-exposure',)).fetchone(),'COST_WORK_OR_EXPOSURE')
+        for name,pin in p['evidence_files'].items():
+            fresh.require(fresh.sha(pr.check(name).read_bytes())==pin,'COST_ORIGINAL_RECEIPT_CHANGED')
+        return None
     key=ident+':terminal-exposure'
     old=db.execute('SELECT payload FROM events WHERE id=?',(key,)).fetchone()
     if old:
