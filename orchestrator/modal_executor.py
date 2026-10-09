@@ -19,11 +19,7 @@ def canonical(value):return json.dumps(value,sort_keys=True).encode()
 def verify_package(package, binding):
     package=Path(package);private_records.check_tree(package)
     manifest=read(package/'manifest.json')
-    package_binding=binding
-    if binding.get('purpose')=='M4_ITEM6_CPU':
-        from orchestrator.diagnostics_mount_retry import parent_binding
-        package_binding=parent_binding(binding)
-    if manifest.get('schema')!='modal-run/v1' or manifest.get('binding')!=package_binding:raise ValueError('MODAL_PACKAGE_BINDING')
+    if manifest.get('schema')!='modal-run/v1' or manifest.get('binding')!=binding:raise ValueError('MODAL_PACKAGE_BINDING')
     files=inventory(package);files.pop('manifest.json',None)
     if files!=manifest.get('files'):raise ValueError('MODAL_PACKAGE_MEMBER_OR_HASH_CHANGED')
     for name,key in [('SPEC.md','spec_sha256'),('review.json','review_sha256')]:
@@ -41,7 +37,8 @@ def verify_package(package, binding):
             raise ValueError('MODAL_ITEM4_SELECTED_SCOPE_REQUIRED')
         review = scientific((package/'review.json').read_bytes())
         if review['verdict'] != 'APPROVE' or review['findings']:
-            raise ValueError('MODAL_APPROVED_SCIENTIFIC_SPEC_REQUIRED')
+            from orchestrator.item4_validation_admission import package_review
+            package_review(package, binding)
     else:
         if 'experiment' in binding:
             raise ValueError('MODAL_ITEM4_SELECTED_SCOPE_REQUIRED')
@@ -144,10 +141,7 @@ class ModalExecutor(ManualExecutor):
     def _submit_item4(self,job,binding,prepared,package,work):
         # Called only under submit's private umask and the existing executor lock.
         item6=binding.get('purpose')=='M4_ITEM6_CPU'
-        if item6:
-            from orchestrator.diagnostics_mount_retry import job as diagnostics_job
-            expected_job=diagnostics_job(binding)
-        else:expected_job=item4_job(binding)
+        expected_job=binding['run_id'] if item6 else item4_job(binding)
         if expected_job!=job or binding.get('runtime_sha256')!=digest(canonical(self.config)):
             raise ValueError('MODAL_RUNTIME_BINDING')
         verify_package(prepared,binding)

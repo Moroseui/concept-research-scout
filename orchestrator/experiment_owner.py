@@ -52,7 +52,13 @@ def verify_item4(batch, run, owner, execution):
                 context=bound(batch.filesystem_root, config["context"]),
                 root=bound(batch.filesystem_root, config["root"]),
                 store=SimpleNamespace(db=db))
-            approved = verify(driver, json.loads(row["payload"]))
+            current = json.loads(row["payload"])
+            approved = verify(driver, current)
+            from orchestrator.item4_validation_admission import scope as validation_scope
+            validation_scope(approved, execution, bound=True)
+            if ("validation_admission" in approved and execution.get("execution", {}).get("approval_sha256")
+                    != current["reviewed_execution"]["sha256"]):
+                raise ValueError("ITEM4_VALIDATION_SPENDING_SEAL_CHANGED")
             execution_pin = approved["authored_execution_plan"]["sha256"]
             if (execution.get("spec_sha256") != digest(pr.check(Path(approved["spec"])).read_bytes())
                     or execution.get("review_sha256") != approved["review_sha256"]):
