@@ -91,6 +91,9 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
             elif predecessors:raise ValueError('ITEM4_FIT_ALREADY_EXISTS_NO_RESTART')
             if 'resume' in binding:raise ValueError('ITEM4_INITIAL_HAS_RESUME_BINDING')
         else:
+            if 'preprocessing' in binding and 'fresh_start' in binding:
+                from orchestrator.item4_checkpoint_connection import predecessors as checkpoint_predecessors
+                predecessors = checkpoint_predecessors(accounts,predecessors,binding)
             if len(predecessors) != scope['segment'] - 1:
                 raise ValueError('ITEM4_CONTIGUOUS_SEGMENTS_REQUIRED')
             previous = max(predecessors,key=lambda pair:pair[1]['experiment']['segment'])

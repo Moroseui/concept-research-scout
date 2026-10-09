@@ -73,13 +73,17 @@ def item4_job(binding):
     identity={'run':run,'fit':fit,'segment':segment}
     if 'fresh_start' in binding:
         link=binding['fresh_start']
-        if ('preprocessing' not in binding or segment!=1 or 'resume' in binding
+        if ('preprocessing' not in binding or (segment==1 and 'resume' in binding)
+                or (segment!=1 and 'resume' not in binding)
                 or not isinstance(link,dict) or set(link)!={'previous_binding_sha256','terminal_event_sha256'}
                 or any(not isinstance(v,str) or not re.fullmatch('[a-f0-9]{64}',v) for v in link.values())):
             raise ValueError('ITEM4_FRESH_START_IDENTITY')
         # Explicit terminal linkage distinguishes one reviewed fresh attempt;
         # resources/quotes still cannot create a new job. Admission checks the
         # full pinned binding and genuine terminal event, not just this shape.
+        if segment!=1:
+            from orchestrator.item4_checkpoint_connection import validate_identity
+            validate_identity(binding)
         identity['fresh_start']=link
     return 'item4-'+digest(canonical(identity))[:40]
 
