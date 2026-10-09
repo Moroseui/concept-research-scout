@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T04:12:27.096908+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T04:23:51.265742+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -14,9 +14,17 @@ The independently approved repair lists metadata first, then performs the same e
 
 Installed source28726e3d5cdf32f1d80c63187f5abd9146cbfcd0, independent APPROVEfd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e. The new attempt is RUNNING, admitted normally and started once. It reused and reverified101 staged server files (19,708,168bytes); no second laptop transfer. It must verify exactly893 files/7,202,931,657bytes for99 development patients, with49 excluded identifiers and zero overlap. Original source, files and earlier reservation stay untouched; separate retention was installed before admission. No new compute worker, image or scientific code.
 
-At the latest observation, all 893 expected local files total 7,202,931,657 bytes. Final source verification remains in progress; local counts alone are not a verified result. The original service is still running and was not relaunched.
+All 893 local files totaling 7,202,931,657 bytes now pass full local hash verification; the original source was reverified before and after copying. The same job is uploading the composed volume and verifying every remote byte. It is still running, with no final VERIFIED receipt, and was not relaunched.
 
 Next result: verified source, estimated by04:42UTC. Then a narrow reviewed connection delivers authentic source/native evidence to scientific reviewer8; only scientific acceptance permits preprocessing/GPU smoke. The existing review8 hold remains. Scientific code and conclusions remain author/reviewer-owned.
+
+## Tested working draft awaiting source completion
+
+Review8 evidence delivery draft 840a0f0fdb6d363c1aec722ba6a770cbcfd3ea05 passed96 focused checks. It preserves the existing author13/review8 grant and its original independent approval, without adding calls or spending authority. The replacement prerequisite requires terminal successful source preparation, exact READY reservation and receipt, frozen inventory, current retention, and genuine native/author/image proof before model admission. The live check correctly refused while the source job was still running. The actual installer precondition matched the held20-call lane with no running model calls.
+
+All54 existing reviewer evidence originals are preserved byte-for-byte. Four genuine native originals were appended and scanned. Two embedded console strings exceeded the existing pager size bound; labeled128-character chunks reconstruct every original JSON value, while unchanged original bytes are also delivered. All page limits, privacy scans and other size refusals remain.58 originals produce89 complete workspace files; all scans pass. This reader fix is bundled with the proof connection for one independent implementation review.
+
+This is an uninstalled, incomplete working draft: the final source proof document and four source originals must be added after the real job finishes. Actual full reviewer-context preflight and genuine independent implementation APPROVE remain required. No model/provider call, new reservation, lane mutation or installation occurred for this draft. Source/native proof is not scientific acceptance; U1/U2 remain for the scientific reviewer, coverage holds remain, and ordinary execution/confinement/budget gates still apply. The safe code projection here is for audit/history and is not a deployable release.
 
 ## Spending
 
@@ -290,13 +298,21 @@ Safe aggregate implementation report, scope, code and tests are included. Eviden
 ### Current preparation exclusions
 
 - Raw astra/item4-source-preparation-20261009 history contains private ancestry; exact safe projection is published.
-- astra/item4-review8-source-native-delivery-20261009 has private ancestry and no executable changes yet.
+- astra/item4-review8-source-native-delivery-20261009 contains private ancestry and evidence/accounting records; its tested working draft is published only as a safe projection.
 - Private inventories, review packets, native streams, accounting records and transfer receipts remain withheld.
 - docs > ITEM4_SOURCE_PREPARATION_SCOPE_20261009.txt: CREDENTIAL_OR_HOST_REFERENCE
 
 ### Current preparation exclusions
 
 - Raw astra/item4-source-hydration-retry-20261009 history contains private ancestry; exact safe projection is published.
-- astra/item4-review8-source-native-delivery-20261009 has private ancestry and no executable changes yet.
+- astra/item4-review8-source-native-delivery-20261009 contains private ancestry and evidence/accounting records; its tested working draft is published only as a safe projection.
 - Private inventories, review packets, native streams, accounting records and transfer receipts remain withheld.
 - docs > ITEM4_SOURCE_HYDRATION_PREDECESSOR_20261009.json: PRIVATE_LEDGER_SNAPSHOT
+
+### Working-draft omissions
+
+- docs > ITEM4_REVIEW8_DELIVERY_SCOPE_20261009.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- docs > ITEM4_REVISION_CHECKPOINT.json: PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
+- docs > ITEM4_REVISION_EVIDENCE.json: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
+- outputs > sprint13b > REVIEW8_DELIVERY_PROPOSAL.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- Raw working history, private evidence copies, proof-capture output and call checkpoints remain private.

@@ -198,9 +198,70 @@
     },
     {
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "e2dcd5ecbfa5dfdfafa47bcfb691b338dc64bef627e8c76d3e8a43abd0f185e3",
-      "source": "genuine administrative report or aggregate preparation status; no scientific approval"
+      "sha256": "ae6b31e5c78b215b39648fbb148dc52f368625e7de27a8d408095d83ff0996e9",
+      "source": "aggregate work status; working draft is not installed"
     }
   ],
-  "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release."
+  "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release.",
+  "working_drafts": [
+    {
+      "source": "840a0f0fdb6d363c1aec722ba6a770cbcfd3ea05",
+      "role": "review8 original evidence delivery and lossless native console reader",
+      "status": "TESTED_NOT_REVIEWED_NOT_INSTALLED",
+      "tests": 96,
+      "files": [
+        {
+          "path": "orchestrator/revision_evidence.py",
+          "sha256": "31ff671f1355b616e2a150c1ebcbb2224ace93e1c5f83193a70939d87e0cf881"
+        },
+        {
+          "path": "tests/test_item4_review8_proof.py",
+          "sha256": "eaea924f1825e5ef82f33913511bbb982676708bb06a4881e2e74c60e6ded207"
+        },
+        {
+          "path": "tests/test_revision_evidence_console.py",
+          "sha256": "28ff8348704045f4c4a7df1d4071b4ca7b4999558d0c8cef3b6d229e937be624"
+        },
+        {
+          "path": "tools/install_item4_scientific_revision.py",
+          "sha256": "3a02de5702ea4f0aa0c78c692c5ee82f7242dca26ca9b6a63c208da1b0b99054"
+        },
+        {
+          "path": "tools/item4_review8_proof.py",
+          "sha256": "03ad6afeb1fb00309c9909731e5969840a2d892175a6d024410dc88570028271"
+        },
+        {
+          "path": "tools/item4_scientific_revision_component.py",
+          "sha256": "53bb7b64fb5a7f659f5fe4108ed8f2df5c734533416055c9b015c53fd3b45f6a"
+        }
+      ],
+      "omitted": [
+        {
+          "path": "docs/ITEM4_REVIEW8_DELIVERY_SCOPE_20261009.txt",
+          "reasons": [
+            "INFRASTRUCTURE_OR_CREDENTIAL_PATH"
+          ]
+        },
+        {
+          "path": "docs/ITEM4_REVISION_CHECKPOINT.json",
+          "reasons": [
+            "PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD"
+          ]
+        },
+        {
+          "path": "docs/ITEM4_REVISION_EVIDENCE.json",
+          "reasons": [
+            "INFRASTRUCTURE_OR_CREDENTIAL_PATH",
+            "PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD"
+          ]
+        },
+        {
+          "path": "outputs/sprint13b/REVIEW8_DELIVERY_PROPOSAL.txt",
+          "reasons": [
+            "INFRASTRUCTURE_OR_CREDENTIAL_PATH"
+          ]
+        }
+      ]
+    }
+  ]
 }
