@@ -1,83 +1,55 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B verified its 893 frozen inputs and pinned environment, then stopped at a package-permission check before science.
-No compute is running. Claude is reviewing the repair and exact retry together; 232 tests passed with two disclosed skips.
-The full admission rehearsal preserved both old charges and refused an over-cap launch. GPU smoke follows verified preparation; coverage arms stay held.
-Provider billing shows $2.20523893 through completed hourly records; final cost is unsettled. Item 4 retains $56.032853 of $75.
-Today: 36/50 calls (3 authors, 4 scientific reviews, 24 implementation reviews, 5 direction checks). Latest PROCEED predates this failure; a new direction check is in the active review.
-Next result: the independent review, estimated 10?20 minutes. Full training still needs scientific smoke review. No operator action needed.
+13B verified every frozen input and its pinned environment; the package-permission repair is approved and installed.
+Server preparation is running. GPU smoke has not started; coverage-dependent arms remain held.
+Full training awaits scientific review of real smoke results; no separate provenance package is required first.
+Provider billing observed $2.20523893 through completed hourly records. Final actual spend is unsettled; item 4 retains $56.032853 of $75.
+Next expected result: CPU preparation, then base-only GPU smoke, roughly 1-2 hours if preparation passes.
+No operator action needed. Latest Claude direction: PROCEED. Today: 36/50 model calls.
 
-Updated 2026-10-09T13:44:28.100415+00:00. Detailed audit follows.
+Updated 2026-10-09T13:58:15.196195+00:00. Detailed audit follows.
 
-## Results and current state
+## Results and execution
 
-Item 6 is scientifically approved. Mean Dice rose from 0.20630608 to 0.24674415, a gain of 0.04043807 (95% interval 0.02796645?0.05423991). All 352 comparable Sprint 14 point estimates match at reported precision. The accepted interpretation stops this diagnostic branch, without clinical or specialist promotion. Accepted aggregate reports and the comparison remain under outputs/item6/.
+Item 6 has independent scientific APPROVE. Mean Dice rose from 0.20630608 to 0.24674415, gain 0.04043807 (95% interval 0.02796645 to 0.05423991). All 352 comparable Sprint 14 point estimates match at reported precision. The accepted interpretation stops this diagnostic branch without clinical promotion. Aggregate reports and comparison remain under outputs/item6/.
 
-13B uses the same pinned image and scientific module. Its frozen source has 893 files for 99 development patients; 49 excluded identifiers have zero overlap. Full file hashes and remote byte readback passed. Native CPU preparation, reuse, genuine interruption/resume and scoring passed on generated fixtures; these do not establish GPU efficacy.
+Author 14 proposed coverage-independent staging. Scientific review 10 returned genuine REVISE; its open findings remain recorded. The operator authorized smoke to supply actual integration evidence. Coverage-dependent arms and FULL remain refused. Actual smoke results require scientific review before full training. The pinned image, scientific code, 893 frozen files and 99 development patients remain unchanged; the excluded cohort has zero overlap.
 
-Author 14 proposed base-only staging. Scientific review 10 judged that staging well-formed but returned a genuine REVISE for open provenance, real integration and coverage findings. The exact operator instruction authorizes smoke as the integration evidence; it does not require a separate production-provenance package. No finding has been relabeled or closed. Coverage arms and all FULL jobs remain refused, and actual smoke results require scientific review before full training.
+Both earlier CPU attempts stopped before science and are positively terminal. Their full reservations and original records remain counted. The second attempt verified all input hashes and environment, but provider file permissions conflicted with the unchanged private-record check. Its precise exception was reproduced diagnostically, not recovered from original stderr.
 
-R43 gave explicit PROCEED for the smallest validation-only admission. R44 implemented it with independent APPROVE, preserving all findings, original charges and ordinary safeguards. Its first activation safely refused a mismatch between the evidence producer and partition-delivery consumer. R45 reconnects the existing supplemental evidence producer and verifies the exact mandatory index delivery. All 238 original descriptors are checked; no arbitrary superset or skipped hash/membership check. Its independent implementation APPROVE is 5dab94cbfd162c837f42f4e87debe9ead36a2833e8cb2eddb5fd78371e69636d, source 5a96cc372b94e31176759315c92db1ae6b75c241. All 140 distinct affected checks passed after disclosed test-fixture corrections. Installed verification, one activation, private specification commit and package emission succeeded. The lane is EXECUTE_EXPERIMENT. The current execution observation is recorded below.
+R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Preparation was requested once and is running; no third compute submission has occurred.
 
-A read-only execution billing query then failed because its older reader requested more than seven days of hourly data at once. The already-reviewed reader in the source/native route succeeds by querying contiguous bounded windows. R46 connects those exact bytes through a small wrapper around R45, keeping the existing activated authority, seal, source files and unit intact. It changes no amount, cap, reservation or refusal. All 126 distinct affected checks passed. Source 15c1bb893546ce87649fe5ee2df14e0348dc5ac0 received genuine independent APPROVE b2525fd51c1848465e5ed0eed9e5cf4e801f15c13d892d7425618f55d0fb4e0c, installed held and verified. The existing handoff was prepared, root-inspected and published. Immutable code upload and provider preflight passed. No new subsystem, image build or provenance job is planned.
-
-Normal admission then refused before a compute reservation because the spending module was absent from the execution import path. The failed service and all original records are preserved; no provider job was created. R47 connects that original protected, independently reviewed module. Full admission rehearsal also exposed two related gaps: the old author 5 terminal proof was not connected to spending, and the retained-row producer and consumer used different JSON spacing. The same bundle reuses the exact existing native-terminal proof and aligns row encoding, preserving every original row, charge, comparison and refusal. It keeps the active validation seal unchanged.
-
-R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f received genuine independent APPROVE 3e3569d6f4284987e6dd96d71480f0764e2e82d825b27134386f4c66d6cbcda8. Claude explicitly recommended PROCEED, one round agreed. Held installation and verification succeeded; the existing package and upload are reused. The failed predecessor remains preserved. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
-
-Earlier, the first attempt required a reviewed output-root permission repair before base preprocessing and GPU smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. The first preprocessing attempt submitted once, but its guard exited before any output record. Read-only observations established an empty output volume and only idle processes. The sandbox was positively terminated; no scientific result or retry is claimed. Newly reserved compute is $10.342400; all original reservations remain retained. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
-
-R49 submission then refused before a new reservation or provider creation. The unchanged cost hook assumed every terminal preprocessing attempt had a committed checkpoint. The already-approved first attempt stopped before one existed. Its full reservation remains counted; neither the failed service nor its records have been reset.
-
-R50 source 58e22a082c169c5c926d563530901f4fb355a18a received genuine round-two APPROVE 6577df68f573f5bbdaf91a4bf4788d210e8a65e33ad0f030728f01ef80d527dd and agreement on PROCEED. Round one returned a genuine REVISE solely over the test-count evidence: 121 tests and one added test had passed separately. A single authoritative run of all 122 passed and resolved that finding. Both reviews and charges remain preserved; no verdict was relabeled. It recognizes only the exact independently approved stop, full original row and event, original work location and all eight proof hashes. It grants no cost credit and invents no checkpoint; missing, altered, unrelated or live proofs still refuse. The same prepared job, scientific files, inputs, image, resources and cap remain selected. All 122 affected checks passed. The complete submission route now reproduces the old failure and passes with the candidate on memory copies of real records, real read-only provider preflight, and explicit test doubles for create and launch. The over-cap case still refuses before creation. Live records are unchanged and no actual compute or reservation was made.
-
-Authenticated billing through the newly closed hour reports $0.58471212 for the stopped first attempt's application. This is an observed cost, not a final invoice assertion. The full $10.342400 reservation remains effective. No excess is released; original and eventual actual figures must both remain in the record.
-
-R50's held installation wrote its reviewed files and unit, then verification refused because authority verification imported the controller package before the existing runtime had established its import path. No completion record, activation, dispatch or new reservation followed. The partial installation and exact error are preserved.
-
-R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: the unchanged protected bootstrap runs first, then both authority checks, before connecting any candidate code or dispatching. Its cost module is byte-for-byte R50's approved code. It directly reuses the prior working runtime and preserves the partial installation. A single 139-test run passed. The actual clean-server verification entrypoint reproduced the old import failure, then passed with the corrected order and unchanged global/local records. Candidate future identity, approval and file loading were explicitly simulated for this rehearsal; it was not an installation or launch. The real prior authority and driver checks ran. R51 received genuine independent APPROVE 4ff1f8c0be1d395fff0fc2478708c9779a9baa5d9b994d82800ac7d8d652107a and explicit PROCEED. Real held installation verification passed. Normal admission and the single submission of the same prepared job then succeeded, reserving $10.342400; all original charges remain counted. Metadata observation confirms the input guard process is alive, waiting on input I/O, with the output root at private permissions. At the first observation the input-check record was incomplete. The latest observation verifies all 893 frozen files (7,202,931,657 bytes) and the exact pinned environment. No failed result was present; the preprocessing start/result records were not yet present, so scientific preprocessing completion is not claimed. Two early observations refused its incomplete record; these did not cause a restart or resubmission. The old sandbox remains positively stopped, and its historical dispatch record is preserved.
+Final tests: 232 passed, two disclosed environment-dependent skips. The complete connection and admission rehearsal preserved both old charges and refused an over-cap launch. Provider creation and future upload were explicitly simulated; prior authority and input/image/billing checks ran for real. Original failed tests/rehearsals and all charges are preserved. The public source projection is audit history, not a deployable combined release.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 assets and admitted compute | $56.032853 | Complete per-item actual total unsettled |
-| Both source attempts, included above | $6.642660 | Both retained |
-| Three native attempts, included above | $3.356850 | Historical observation $0.01258041, not settlement |
-| Item 4 image, included above | $1.178425 | Historical observation $0.00669028, not settlement |
-| Item 6 CPU attempts | $5.854800 | Shared observation $0.38602155 cannot be separated |
+| Item 4 assets and two CPU attempts | $56.032853 | Final item actual total unsettled |
+| Next CPU attempt, not yet admitted | Up to $10.342400 | Would bring retained total to $66.375253 |
+| Item 6 CPU attempts | $5.854800 | Shared $0.38602155 observation cannot be isolated |
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |
 
-Authenticated billing observed $2.01511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
+Provider billing observed $2.20523893 for the preparation application through completed hourly records ($0.58471212 and $1.62052681). This is not final settlement or complete research spend. No excess reservation was released. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707.
 
-Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. R48 direction estimate is $3.03873325. R49 implementation estimate is $4.5833295; R50 round-one model estimate is $4.672296, round two $2.92240975, and R51 $3.09463925. Charges for all attempts remain preserved. Every original attempt and charge remains counted.
+## Calls and judgment log highlights
 
-## Calls, blockers and judgment calls
-
-UTC October 9: 35/50 calls, all terminal. No resets or relabeling.
+UTC October 9: 36/50 model calls, all terminal. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
-| Scientific reviewer | 4 | Review 7 REVISE; review 8 reader-limit failure; reviews 9/10 genuine REVISE |
-| Administrative implementation review | 23 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding; R49 private output initialization and fixed fresh start; R50 conservative pre-science-stop cost connection (two rounds); R51 runtime bootstrap order |
-| Standalone direction/scope | 5 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction; R48 output-root initialization and positively stopped zero-step recovery |
+| Scientific reviewer | 4 | Review 7 REVISE; review 8 reader failure; reviews 9/10 REVISE |
+| Administrative implementation review | 24 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging; includes original disqualified/REVISE calls |
+| Standalone direction | 5 | Retry authority, next-result plan, staging, validation admission, output-root recovery |
 
-Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Earlier R48 direction was PROCEED, one round agreed: initialize only the exact new empty output root to private permissions, keep every existing check, and connect a narrowly scoped fresh start to positive terminal evidence. No new recovery subsystem. Tests and independent implementation approval are still required.
+Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest check: R52, one round, PROCEED; keep the patch narrow and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
 
-Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 recommended PROCEED for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. R49 source 7046ad7755af65a73e3042eb6cc28440544715a6 received genuine independent APPROVE 860f9f3193c005944116508220aa32584f3b79edd5b4c22cd1cd833258ef59ec and explicit PROCEED, one round agreed. Held installation, verification, exact stopped-attempt activation, package preparation and upload all passed. It tightens only an exactly bound empty default output root to private permissions; all guards remain unchanged. It uploads static code with owner-only read permissions, without changing existing files. A fixed fresh-start contract records the positive terminal proof and retains the full original charge, then selects a new ordinary job without inventing a checkpoint or resume. All scientific files, inputs, image, resources and caps stay unchanged. The observer distinguishes a demonstrated absent parent from a transport failure.
+## Publication scope and withheld files
 
-Final regression: 340 passed, 3 skipped. An additional native composed test passed from empty-root initialization through the unchanged guard and actual preprocessing worker, with synthetic inputs and a labelled synthetic environment proof. Earlier 19 failing fixture assertions expected the old static upload mode; the fixtures were corrected and the originals preserved. Full normal admission on an in-memory copy of actual accounting passed; an independent over-cap case refused. Actual selection and package replay preserved exact package files and original records. Neither replay made a real reservation or launched compute. Future installation authority was explicitly simulated in these tests, not claimed.
-
-The successor was admitted normally at $10.342400, bringing retained item 4 exposure to $56.032853 of $75. Its result is pending. Original launch stderr was discarded, so the precise exception is inferred from the demonstrated permission conflict. The current provider's permission operation remains to be demonstrated by the real attempt; unsupported behavior still refuses. R48's proposal incorrectly said the uploader preserved local modes; source inspection showed an explicit group-readable mode, now corrected. R48 scope authorship was also clarified: the proposal was assistant-written, and authority comes from the verbatim standing operator rule. No new operator approval is inferred. Latest completed direction is R51 PROCEED, one round agreed: the import-order fix is the shortest safe path, with no new infrastructure layer.
-
-## Publication scope and omissions
-
-DATA_NOTICE.md applies. Installed safe code/tests, accepted aggregate outputs, proposals and safe review reports are backed up. Original release and working histories contain forbidden private records, so exact safe source projections are merged into remote-server and retained on public astra branches; the private original commits themselves are not imported. This is an audit snapshot, not a deployable combined release. Main is unchanged.
-
-Evidence folders, ledgers, review packets, native streams, private records, patient identifiers/rows, images,masks and caches are excluded. Comparison JSON changes only source-path keys to basenames; numerical checks are unchanged. Flagged versions below are withheld; a safe older public version may remain.
+DATA_NOTICE.md applies. Exact safe code and tests from the approved working projection are merged into remote-server; working history remains on astra/public-private-package-staging-20261009. Main is unchanged. Privacy and secret/infrastructure scans run before every push. Raw private ancestry, evidence, ledgers, review packets, native streams, patient-level data and flagged files remain excluded.
 
 - astra/m5-report-interface-20261007 @ 9b6e3d667279 ? PRIVATE_RECORD_IN_REACHABLE_TREE
 - astra/m5-administrative-sidecar-20261007 @ e992402036dd ? PRIVATE_RECORD_IN_REACHABLE_TREE
@@ -310,101 +282,35 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 - docs > ITEM4_REVIEW8_MECHANICAL_RECOVERY.json: PRESERVED_PRIVATE_CALL_CHECKPOINT.
 - Raw astra/item4-review8-turn-recovery-20261009 ancestry contains private records; safe source projection only. All original call records, raw streams, evidence folders and review packets remain private.
 - outputs > implementation-reviews > item4-review8-turn-recovery-20261009.json: CREDENTIAL_OR_HOST_REFERENCE.
-
-### Latest repair exclusions
-
 - Raw astra/item4-review9-workspace-repair-20261009 ancestry remains private; exact safe code and tests are projected on the public working branch.
 - Disqualified review originals and detailed test logs remain private.
 - docs > ITEM4_REVIEW9_PRE_ADMISSION.json: PRIVATE_ACCOUNTING_CHECKPOINT
-
-### Latest installed successor exclusions
-
 - Raw astra/item4-review9-reader-recovery-20261009 ancestry remains private; exact safe source is published on its public working projection.
 - Prior raw runtime records, disqualified review streams and accounting checkpoints remain private; no duplicate admission or released reservation.
-
-### Latest catch-up exclusions
-
 - Raw astra/item4-staged-validation-direction-20261009 and astra/item4-review9-staged-continuation-20261009 histories have private ancestry; exact safe projections are retained on public astra branches.
 - Full test logs, native proof receipts and accounting snapshots remain private.
 - docs > ITEM4_REVIEW9_CONTINUATION.json: PRIVATE_ACCOUNTING_CHECKPOINT_WITHHELD
-
 - Raw astra/item4-batch-continuation-20261009 history and docs > ITEM4_BATCH_CONTINUATION_PRIVATE.json are withheld: private accounting and preparation hashes. Exact safe draft source is on the corresponding public astra branch.
-
 - R42 raw working ancestry and docs > ITEM4_BATCH_CONTINUATION_PRIVATE.json remain withheld; safe source/tests/report are projected. Original workspaces, ledgers, packets and streams are not public.
-
 - docs > ITEM4_SMOKE_ADMISSION_DIRECTION_20261009.txt ? CREDENTIAL_OR_HOST_REFERENCE; withheld, original source0def0557211dc0fef6f48348f77fb1852e1ff6fc remains private.
-
 - outputs > implementation-reviews > item4-smoke-admission-direction-20261009.json ? CREDENTIAL_OR_HOST_REFERENCE; genuine original preserved privately and its decision summarized above.
-
 - Raw astra/item4-validation-admission-20261009 ancestry, native review streams, ledgers and private delivery probes are withheld; exact safe installed source is projected on its public working branch.
 - docs > ITEM4_VALIDATION_ADMISSION_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH; withheld.
 - tools > install_item4_validation.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH; withheld.
 - outputs > implementation-reviews > item4-validation-admission-20261009.json: CREDENTIAL_OR_HOST_REFERENCE; withheld.
 - outputs > sprint13b > VALIDATION_ADMISSION_PROPOSAL.txt: CREDENTIAL_OR_HOST_REFERENCE; withheld.
-
-### Latest withheld versions
-
-- tests > fixtures > item4_execution_billing_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
-
-### Current connection exclusions
-
 - tests > fixtures > item4_execution_billing_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - outputs > implementation-reviews > item4-execution-billing-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
-
-### Current draft and reconciliation
-
-The first attempt remains fully reserved at $10.342400 after verified termination. The hourly billing report ends before that attempt, so no excess is released. Current workspace metered workload is $2.01511986, offset by credits; subscription is separate. Complete item-specific actuals remain unsettled. A same-size retry would bring retained item 4 exposure to $56.032853, subject to normal admission. No retry has been launched.
-
-The published root-initialization code and tests are a working draft, not an installed release. Claude scope consultation returned PROCEED, one round agreed. This is direction agreement, not implementation approval. Keep this repair narrow; no new subsystem or extra production-provenance package.
-
-The direction proposal was assistant-authored; Git author configuration is not operator authorization. The reviewer inferred authorship from that metadata incorrectly. Authority remains the existing verbatim operator decisions. Further source inspection found static package upload explicitly uses mode 0440; the next implementation review will assess strict package-reader compatibility together with root initialization and recovery, rather than assume local file modes are preserved. No installed permission check has changed.
-
 - Withheld outputs > implementation-reviews > item4-preprocessing-root-direction-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
-
-### Fresh-start repair exclusions
-
 - docs > ITEM4_FRESH_RUNTIME.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - docs > ITEM4_FRESH_START_CHECKPOINT.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - docs > ITEM4_PREPROCESSING_FRESH_SCOPE.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - tests > fixtures > item4_fresh_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - tests > test_experiment_preprocessing_dispatch.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - outputs > proposals > item4-preprocessing-root-repair-20261009.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
-
-### Pre-science cost connection exclusions
-
 - tests > fixtures > item4_pre_science_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
-
-### Runtime bootstrap exclusions
-
 - tests > fixtures > item4_cost_bootstrap_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - outputs > implementation-reviews > item4-pre-science-cost-record-round1-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
-
-### Latest judgment and publication checks
-
-Proceed after genuine independent approval and successful real installation verification; observe the one admitted job, and never infer completion or a stopped worker from an incomplete input record. The live guard and private output mode were confirmed using process/filesystem metadata only, with no patient payload egress. Keep every unsettled reservation.
-
-The earlier read-only observation verified inputs and environment while the container remained nonterminal. It was superseded by the terminal reconciliation below.
-
-## Latest preparation reconciliation
-
-The input proof and pinned-environment proof passed. Two process inventories then showed only idle init/sleep processes and the diagnostic itself; no worker remained. A separate diagnostic ran the ordinary worker validation with writes, process creation, network and scientific-module execution refused. It reproduced PRIVATE_RECORD_PERMISSIONS in the preprocessing adapter before any scientific call. Metadata showed static package files with mode 0666 despite their upload-side mode 0400; the corrected output root remained 0700. This demonstrates that the synthetic upload-mode assumption did not match the provider. Original execution stderr was discarded by the existing launcher, so the exception is a reproduction, not an original stderr receipt.
-
-At 13:01 UTC, fresh exact-attempt process and proof checks again established idle-only state and no preprocessing start/result. The existing container was stopped once and returned terminal 137. All original records and both full CPU reservations remain preserved and counted. No new attempt, ledger relabel, cost release or scientific conclusion was made. The next bounded repair must preserve private-record checks and frozen/package hashes, pass a synthetic test with the actual provider-style file modes, and receive independent implementation approval before installation or retry. Direction consultation will be batched into that review.
-
-## Draft staging repair, not installed
-
-The candidate copies only the exact hash-verified execution module and selected frozen-partition file to a temporary private directory. It leaves the original mounted files untouched and passes the copies through all unchanged preprocessing checks. The ordinary native guard-to-worker test now covers both restrictive file modes and the actual provider mode. The exact parent fails that regression with PRIVATE_RECORD_PERMISSIONS; the candidate passes. The focused selection passed 89 tests with one existing pinned-tooling test skipped. An earlier mistaken test filename collected zero tests and is preserved separately, not counted as a pass.
-
-The candidate and native regression test are backed up on astra/public-private-package-staging-20261009 at a200ca5b4e40940243110639f544d332ca579851. They are not merged into the installed-release history or installed. The file tests/test_private_preprocessing_package.py was withheld by the filename privacy rule (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH); it remains in private source and will be included in independent review. No scanner was relaxed. Remaining work is the exact successor binding with both original charges retained, full admission/over-cap checks, and one combined implementation, accounting/privacy and direction review.
-
-## Current combined review
-
-Source 05818c497ac287ee639d24bdeb66d36a9d717bf1 is under one administrative implementation review, including privacy/accounting and direction. Packet 6b682cb4fe343ca36040e84f93a0c02d743a0428bd40158c59ac9a7e920026c2 started once; its process and RUNNING accounting row were confirmed. No installation, upload or retry has occurred. The reviewer is explicitly asked whether writable owner-only invocation copies preserve required protection relative to the original read-only mount; tests alone do not settle that question.
-
-The final source passed 232 tests with two existing environment-dependent skips. The real startup/selection/package/admission rehearsal passed using disposable ledger copies, retained both original reservations, and refused an over-cap launch. Only run.py changed in the 28-member package. Actual original ledgers were unchanged. Future own installation/approval and protected runtime reference were test fixtures; the empty new package upload and new create/launch were simulated. Existing prior authorities, terminal proofs, input/image/billing checks ran for real. All earlier rehearsal failures and corrections are preserved.
-
-Safe draft history is at astra/public-private-package-staging-20261009, commit 16388dcc51db4624ff0e382b84b8108a170f2567. This remains unapproved and uninstalled. Filename/privacy/infrastructure rules withheld the following files; no scanner was relaxed:
-
 - docs/ITEM4_PRIVATE_STAGING_SCOPE.txt ? CREDENTIAL_OR_HOST_REFERENCE, EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - docs/ITEM4_STAGING_RETRY_CHECKPOINT.json ? CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 - docs/ITEM4_STAGING_RUNTIME.json ? CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
@@ -413,3 +319,4 @@ Safe draft history is at astra/public-private-package-staging-20261009, commit 1
 - tests/test_private_preprocessing_package.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - tools/install_item4_private_staging.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - tools/item4_private_staging_runtime.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- outputs/implementation-reviews/item4-private-package-staging-20261009.json: PRIVATE_RECORD_PATH; original accepted report remains private, decision and hash are recorded above.
