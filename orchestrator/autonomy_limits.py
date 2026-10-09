@@ -81,3 +81,8 @@ def cap_authority(cap):
         from orchestrator.diagnostics_policy import authority as diagnostics_authority
         return diagnostics_authority()
     return authority()
+
+
+def scientific_batch_allowance(batch, run, stage, ident, source, receipt):
+    """Ordinary batch refusal; a reviewed installed scope may bind exact slots."""
+    return {'limit': SCIENTIFIC_BATCH}

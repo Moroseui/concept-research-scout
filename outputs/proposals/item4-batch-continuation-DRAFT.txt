@@ -1,0 +1,11 @@
+DRAFT: bounded batch admission and exact unadmitted author14 recovery
+
+Operator staging decision is recorded verbatim and hash-pinned. Author14 must propose coverage-independent GPU smoke within $75, coverage arms held, then independent scientific review of smoke results before full training. No separate production-provenance package is a prerequisite beyond the run's records. Ordinary privacy, input, image, confinement and spending checks remain.
+
+The existing 60 scientific batch calls are immutable and counted. Proposed exact continuation adds only author14, review10 and the already-granted final interpretation pair: maximum64, no new stage/round allowance and no dollar change. Every other run retains the60 refusal. Run26/day50 and all halt, uncertain, duplicate and dollar refusals stay. Claude must genuinely APPROVE this concrete implementation under operator delegation before installation. No scientific finding is closed by this process decision.
+
+Author14 was refused before admission; its call is absent from both ledgers, no charge exists. Its429 prepared files and original runtime pins remain intact. Because the new operator message changes the input, use one separately bound, exclusive preparation for the same unspent call; do not overwrite, delete or relabel the old workspace, fabricate a receipt, or replay an uncertain reservation. Preserve the original R41 continuation approval separately from the new implementation approval.
+
+The existing interpretation slots remain subject to their ordinary complete-execution verifier. This change alone does not add a smoke-result review stage or authorize full training. Author/reviewer select scientific staging; install only the minimum subsequent execution connection needed to enforce that accepted staging.
+
+Review bundle must contain implementation/tests, exact original accounting and preparation hashes, verbatim authority, raw commits/diff stats since R41, and the direction question. Past failure mode: infrastructure to prove infrastructure, repeated reviews and little science. No separate direction call.
