@@ -1,22 +1,23 @@
-"""Fixed author11 rehearsal; verifies both reviewed patch and existing image."""
+"""Fixed author12 rehearsal; verifies both reviewed patch and existing image."""
 from pathlib import Path
 import importlib.util,json,os,subprocess,sys,time
 CHANGE='item4-native-cpu-rehearsal-20261008'
-REVIEW_CHANGE='item4-native-install-serialization-20261008'
+REVIEW_CHANGE='item4-native-import-binding-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author11-native-synthetic-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author12-native-synthetic-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 IMAGE_ROOT=Path('/opt/research-system/manual-repair-helpers/item4-image-runtime-20261008')
 IMAGE_HELPER_SHA='26e0172ad5986463ec618ffb9c7d5c48d333c04645461df3b14c3e6a571e7c51'
 IMAGE_STATE=STATE.parent/'item4-pinned-scientific-image-v1'
-AUTHORITY='a7fbba4b5c49426c099f1eb8d91e45489b454fc51a527f5df1566a60c1cabcb1'
+AUTHORITY='8f645432a26ba2030392d2d390950252c4c8be075c87c3fca9d3dd9646ff1ec1'
 FILES=('orchestrator/modal_environment_budget.py','orchestrator/modal_environment_inventory.py',
  'orchestrator/modal_environment_provider.py','orchestrator/modal_pinned_image.py','orchestrator/modal_native_synthetic.py',
  'tools/item4_native_worker.py','tools/item4_native_runtime.py','tools/install_item4_native_runtime.py',
  'docs/ITEM4_NATIVE_PRECREATE_REFUSAL_20261008.json','docs/ITEM4_NATIVE_SYNTHETIC_SELECTION_20261008.json','docs/ITEM4_PINNED_IMAGE_SELECTION_20261008.json',
- 'docs/OVERNIGHT_AUTONOMY_OPERATOR_DECISION_20261008.txt')
+ 'orchestrator/modal_billing.py','orchestrator/modal_native_successor.py','docs/ITEM4_NATIVE_AUTHOR12_PREDECESSOR_20261009.json',
+ 'docs/OVERNIGHT_AUTONOMY_OPERATOR_DECISION_20261008.txt','docs/ITEM4_SMOKE_RETRY_OPERATOR_DECISION_20261009.txt')
 PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','ProtectSystem':'strict',
  'PrivateTmp':'yes','ProtectHome':'read-only','RestrictSUIDSGID':'yes','LockPersonality':'yes'}
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
@@ -58,7 +59,7 @@ def config_from_image(old):
 
 def rendered(config):
  return f"""[Unit]
-Description=Fixed author11 synthetic CPU rehearsal
+Description=Fixed author12 synthetic CPU rehearsal
 After=network-online.target
 Wants=network-online.target
 [Service]
@@ -97,7 +98,7 @@ def verify(*,unit=True):
  for name in FILES:require(digest(trusted(ROOT/name).read_bytes())==manifest['source_files'][name],'SOURCE_CHANGED')
  require(Path(__file__).resolve()==ROOT/'tools/item4_native_runtime.py','RUNTIME_SOURCE')
  require(digest(trusted(ROOT/FILES[-1]).read_bytes())==AUTHORITY,'AUTHORITY')
- for name in FILES[:5]:
+ for name in (*FILES[:5],'orchestrator/modal_billing.py','orchestrator/modal_native_successor.py'):
   m=__import__(name[:-3].replace('/','.'),fromlist=['__file__'])
   require(Path(m.__file__).resolve()==ROOT/name,'IMPORTED_SOURCE')
  old=image_helper().verify();expected=config_from_image(old)
@@ -123,11 +124,11 @@ def author_and_image(accounts):
  with sqlite3.connect((LANE/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
   db.row_factory=sqlite3.Row
   row=db.execute('SELECT * FROM manual_calls WHERE id=?',(s['author_call_id'],)).fetchone()
-  require(row is not None and row['status']=='COMPLETE' and row['stage']=='run_spec_author' and row['attempt']==11,'ACCEPTED_AUTHOR')
+  require(row is not None and row['status']=='COMPLETE' and row['stage']=='run_spec_author' and row['attempt']==12,'ACCEPTED_AUTHOR')
   receipt=json.loads(row['receipt']);accepted=receipt['native']['author_submission']
   require(accepted['status']=='ACCEPTED' and accepted['record_sha256']==s['accepted_submission_sha256'],'SUBMISSION_BINDING')
   state=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
-  require(state['phase']=='run_spec_review' and state['rounds']['run_spec_author']==11 and state['rounds']['run_spec_review']==5,'HELD_REVIEW6')
+  require(state['phase']=='run_spec_review' and state['rounds']['run_spec_author']==12 and state['rounds']['run_spec_review']==6,'HELD_REVIEW7')
   require(any(a['id']=='synthetic_tests' and a['sha256']==s['controller_receipt_sha256'] for a in state['artifacts']),'CONTROLLER_RECEIPT')
  globalrow=accounts.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(s['author_call_id'],)).fetchone()
  require(globalrow is not None and globalrow['status']=='COMPLETE','GLOBAL_AUTHOR_TERMINAL')
@@ -157,16 +158,11 @@ def main():
   saved=STATE/'binding.json';existing=json.loads(pr.check(saved).read_bytes()) if saved.exists() else None
   row=accounts.db.execute('SELECT status FROM autonomy_assets WHERE id=?',(digest(canonical(existing)),)).fetchone() if existing else None
   local=row is not None and (row['status'] in {'READY','UNCERTAIN'} or (STATE/'provider').exists() and not (STATE/'provider/sandbox.json').exists())
-  recovery=(row is not None and row['status']=='RESERVED' and (STATE/'provider').exists()
-   and not (STATE/'provider/sandbox.json').exists() and not (STATE/'provider/stdin-recovery-intent.json').exists())
-  from orchestrator import modal_native_synthetic as n
-  if recovery:n.precreate_snapshot(existing,STATE/'provider');local=False
+  # The original pre-create continuation was consumed. New attempt has no
+  # recovery path: any interrupted create/send remains held for reconciliation.
   provider=None
   if not local:
    connectivity.require(['modal'],STATE/'connectivity.json');provider=ModalProvider(config['provider'])
-  if recovery:
-   from orchestrator.remote_supervisor import lock
-   with lock(STATE/'tick.lock'):n.recover_precreate(provider,accounts,existing,STATE/'provider')
   deadline=time.monotonic()+1020
   while True:
    result=inventory.tick(config,provider,accounts,host_proof=proof)

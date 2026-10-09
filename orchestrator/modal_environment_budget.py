@@ -5,6 +5,7 @@ full reservation counts in the original item4 smoke/total caps permanently.
 """
 from datetime import datetime, timezone
 from orchestrator import modal_native_synthetic as synthetic
+from orchestrator import modal_native_successor as successor
 import json
 import re
 from orchestrator.modal_item4_policy import (AUTHORITY, TEAM_AUTHORITY, SMOKE_CAP,
@@ -93,6 +94,7 @@ def owner(binding):
 
 def selected_asset(row):
     """Recognize only this operation; malformed claimed scope fails closed."""
+    if successor.previous_asset(row):return True
     value = strict_json(row["binding"])
     from orchestrator.modal_environment_closure_route import PURPOSE as CLOSURE
     from orchestrator.modal_pinned_image import PURPOSE as IMAGE
@@ -172,11 +174,13 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         if any(row["id"] not in closed for row in pending): raise ValueError("BATCH_UNCERTAIN_OR_RUNNING_CALL")
         assets = db.execute("SELECT * FROM autonomy_assets").fetchall()
         compute = db.execute("SELECT * FROM autonomy_compute").fetchall()
-        # A changed source, price, image or config cannot be a second operation.
-        if any(selected_operation(row) and strict_json(row["binding"])["purpose"] == purpose for row in assets):
+        prior_native = successor.qualify(accounts,binding) if purpose==synthetic.PURPOSE else set()
+        # A fixed reviewed successor qualifies only its exact diagnosed terminal predecessor.
+        # All other changed-source/price/image/config retries still refuse.
+        if any(row["id"] not in prior_native and selected_operation(row) and strict_json(row["binding"])["purpose"] == purpose for row in assets):
             raise ValueError("ENVIRONMENT_INVENTORY_ALREADY_RESERVED_NO_RETRY")
         from orchestrator.modal_direct_recovery import resolved_failure_ids
-        resolved = resolved_failure_ids(accounts, root=accounts.batch.filesystem_root)
+        resolved = resolved_failure_ids(accounts, root=accounts.batch.filesystem_root) | prior_native
         if any(row["status"] != "READY" and row["id"] not in resolved for row in assets):
             raise ValueError("MODAL_UNCERTAIN_ASSET_PREPARATION")
         stopped=terminal_failed_compute(accounts) if purpose in {image.PURPOSE,synthetic.PURPOSE} else set()

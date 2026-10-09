@@ -4,7 +4,7 @@ The SDK/client and credentials stay in ModalProvider. Preserve exact Decimal
 strings and provider rows in private receipts; no guessed credit balance or
 subscription fee is reported as experiment compute. Reservations bridge lag.
 """
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from decimal import Decimal, InvalidOperation, ROUND_CEILING
 import hashlib
 import json
@@ -43,6 +43,18 @@ def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
 
 
+def report_rows(billing, start, end):
+    """Read contiguous provider-supported ranges; no omitted days or overlap."""
+    cursor = start
+    while cursor < end:
+        stop = min(cursor + timedelta(days=7), end)
+        for row in billing.report(start=cursor, end=stop, resolution='h', tag_names=[]):
+            if not cursor <= row.interval_start < stop:
+                raise ValueError('MODAL_BILLING_REPORT_CHUNK_INTERVAL')
+            yield row
+        cursor = stop
+
+
 def capture(workspace, expected_workspace, *, now=None):
     """Read report then summary, so the latter cannot predate the report query.
 
@@ -56,7 +68,7 @@ def capture(workspace, expected_workspace, *, now=None):
     start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     end = now.replace(minute=0, second=0, microsecond=0)
     rates = mapping(dict(workspace.billing.rates()))
-    items = workspace.billing.report(start=start, end=end, resolution='h', tag_names=[]) if end > start else []
+    items = report_rows(workspace.billing, start, end)
     rows = []
     seen = set()
     for row in items:

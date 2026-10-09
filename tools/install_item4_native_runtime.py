@@ -34,7 +34,7 @@ def install(packet,review,source,bundle):
   worker.unpack(base64.b64encode(gzip.compress(code,mtime=0)).decode(),sel,Path(td))
   worker.check_package(Path(td),sel)
  name=inventory.unit_name(config);unit=Path('/etc/systemd/system')/name
- if h.ROOT.exists():return upgrade(packet,review,source,raw,approval,config)
+ if h.ROOT.exists():return upgrade(packet,review,source,raw,approval,config,code)
  targets=[h.ROOT,h.RECORD,h.CONFIG.parent,h.STATE,unit]
  h.require(all(not p.exists() and not p.is_symlink() for p in targets),'INSTALL_EXISTS_RECONCILE')
  # Reuse the already-reviewed exact service-owned state-parent check; no
@@ -75,14 +75,13 @@ def install(packet,review,source,bundle):
  return {'status':'INSTALLED_DISABLED','unit':unit.name,'provider_calls':0,'model_calls':0}
 
 
-PRIOR_SOURCE='50ab5031462e9bb80991642013df2aaaa4e64934'
+PRIOR_SOURCE='e16bb77f5c7363d7b306e354db960827291095d5'
 
 
-def upgrade(packet,review,source,raw,approval,config):
- """Exact stopped, pre-create operation only; retain its reservation/config."""
+def upgrade(packet,review,source,raw,approval,config,code):
+ """Replace only the known stopped author11 helper; retain all originals/costs."""
  from orchestrator.manual_host_guard import trusted
  from orchestrator.manual_executor import digest
- # Same compact serializer as install(), the original config producer.
  from orchestrator.autonomy_review import canonical
  from orchestrator import modal_native_synthetic as n
  old=json.loads(trusted(h.RECORD/'installed.json').read_bytes())
@@ -90,26 +89,44 @@ def upgrade(packet,review,source,raw,approval,config):
  unit=old['unit'];props=dict(x.split('=',1) for x in subprocess.check_output(
   ['systemctl','show',unit,'-p','ActiveState','-p','MainPID'],text=True).splitlines())
  h.require(props['MainPID']=='0' and props['ActiveState'] in {'inactive','failed'},'UPGRADE_RUNNING')
- # Authenticate old installed imports in a separate process, not in the
- # candidate overlay. Every live ledger read remains with its UID1003 owner.
+ h.require(not h.STATE.exists() and not h.STATE.is_symlink(),'UPGRADE_NEW_STATE_EXISTS')
+ from tools.install_item4_image_runtime import destination_parent
+ destination_parent(h.IMAGE_STATE)
  program="""from pathlib import Path
 import os,importlib.util,json,sqlite3
 assert os.getuid()==os.getgid()==1003
 p=Path('/opt/research-system/manual-repair-helpers/item4-native-cpu-rehearsal-20261008/tools/item4_native_runtime.py')
 s=importlib.util.spec_from_file_location('native_old',p);h=importlib.util.module_from_spec(s);s.loader.exec_module(h);h.bootstrap();c,proof=h.verify()
-with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as db:
- db.row_factory=sqlite3.Row
- row=db.execute('SELECT * FROM autonomy_assets WHERE id=?',('5679c16fedb876f53ac9fcc39fac4c885c1cb245292e3fde7cc0664403b3a46f',)).fetchone()
- assert row is not None and row['status']=='RESERVED' and row['reserved_micro_usd']==1118950
- assert not db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
- print(json.dumps({'proof':proof,'config':c,'files':h.FILES,'asset':dict(row)}))
+print(json.dumps({'proof':proof,'config':c,'files':h.FILES}))
 """
  envarg='RESEARCH_MANUAL_RUNTIME_CONFIG=/etc/research-system-manual-sprint10/releases/'+h.BASE.name+'/runtime.json'
  cmd=['runuser','-u','partho','--','env',envarg,'python3','-s','-B','-c']
  checked=json.loads(subprocess.check_output(cmd+[program],text=True))
- h.require(checked['proof']['helper_source']==PRIOR_SOURCE and checked['config']==config,'UPGRADE_OLD_PROOF')
- binding=json.loads(checked['asset']['binding']);n.precreate_snapshot(binding,h.STATE/'provider')
- h.require(digest(canonical(config))==old['config_sha256'] and trusted(h.CONFIG).read_bytes()==canonical(config),'UPGRADE_CONFIG_CHANGED')
+ h.require(checked['proof']['helper_source']==PRIOR_SOURCE,'UPGRADE_OLD_PROOF')
+ # Fresh process: actual candidate modules, real UID1003 readonly ledger,
+ # unchanged old terminal files and accepted author12/image before mutations.
+ candidate=f"""import os,sys,json,sqlite3
+from pathlib import Path
+from types import SimpleNamespace
+assert os.getuid()==os.getgid()==1003
+sys.path.insert(0,{str(h.BASE)!r})
+import orchestrator,tools
+# This module requires its actual installed path. Import it and its guarded
+# dependencies from the verified base before exposing review-only source copies.
+from orchestrator import spending_continuation
+orchestrator.__path__.insert(0,{str(packet/'source/orchestrator')!r})
+tools.__path__=[{str(packet/'source/tools')!r},*tools.__path__]
+from orchestrator import modal_native_successor as successor,modal_native_synthetic as n
+from tools import item4_native_runtime as runtime
+with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as db:
+ db.row_factory=sqlite3.Row
+ accounts=SimpleNamespace(db=db,batch=SimpleNamespace(db=db,folder=Path('/var/lib/research-system-autonomy/reviews'),filesystem_root=Path('/')))
+ original=successor.proof()['asset'];binding=json.loads(original['binding'])
+ binding.update(operation_id=n.OPERATION,native_synthetic=n.selected())
+ successor.qualify(accounts,binding);runtime.author_and_image(accounts)
+ print('PREDECESSOR_AUTHOR_IMAGE_PASS')
+"""
+ h.require(subprocess.check_output(cmd+[candidate],text=True).strip()=='PREDECESSOR_AUTHOR_IMAGE_PASS','UPGRADE_PREDECESSOR')
  history=h.RECORD/'history'/PRIOR_SOURCE;staged=h.RECORD/('upgrade-staged-'+source)
  h.require(not history.exists() and not staged.exists(),'UPGRADE_EXISTS_RECONCILE')
  def put(p,body):
@@ -117,25 +134,33 @@ with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite
   with p.open('xb') as out:out.write(body)
   os.chown(p,0,1003);p.chmod(0o440)
  put(history/'UPGRADE_INTENT.json',canonical({'source':source,'review':approval,'prior':old,
-  'asset':checked['asset'],'scope':'same existing reservation/config/unit; no provider or model call'}))
+  'scope':'exact author12 successor; no model/provider/reservation mutation; original state and full costs retained'}))
  for name in checked['files']:put(history/'source'/name,trusted(h.ROOT/name).read_bytes())
- for name in ('installed.json','COMPLETE.json','START_INTENT.json'):put(history/name,trusted(h.RECORD/name).read_bytes())
+ for name in ('installed.json','COMPLETE.json','START_INTENT.json','START_RECOVERY_INTENT.json','code-bundle.json'):
+  put(history/name,trusted(h.RECORD/name).read_bytes())
+ put(history/'original-config.json',trusted(h.CONFIG).read_bytes())
+ unit_path=Path('/etc/systemd/system')/unit;put(history/'original-unit.service',trusted(unit_path).read_bytes())
  for name,body in raw.items():put(staged/'source'/name,body)
  for p in review.iterdir():
   h.require(p.is_file() and not p.is_symlink(),'UPGRADE_REVIEW_FILE');put(staged/'review'/p.name,p.read_bytes())
- record={**old,'source':source,'review_sha256':approval['report_sha256'],'previous_source':PRIOR_SOURCE}
- put(staged/'installed.json',canonical(record))
+ record={**old,'source':source,'review_sha256':approval['report_sha256'],'previous_source':PRIOR_SOURCE,
+  'config_sha256':digest(canonical(config)),'money_authority_sha256':h.AUTHORITY}
+ put(staged/'installed.json',canonical(record));put(staged/'config.json',canonical(config))
+ put(staged/'unit.service',h.rendered(config));put(staged/'code-bundle.json',code)
+ h.STATE.mkdir(mode=0o700);os.chown(h.STATE,1003,1003)
  for name in raw:os.replace(staged/'source'/name,h.ROOT/name)
  (h.RECORD/'review').rename(history/'original-review-directory')
- (staged/'review').rename(h.RECORD/'review');os.replace(staged/'installed.json',h.RECORD/'installed.json')
- for root in (h.ROOT,h.RECORD):
+ (staged/'review').rename(h.RECORD/'review')
+ for name,dest in [('installed.json',h.RECORD/'installed.json'),('config.json',h.CONFIG),('unit.service',unit_path),('code-bundle.json',h.RECORD/'code-bundle.json')]:os.replace(staged/name,dest)
+ for root in (h.ROOT,h.RECORD,h.CONFIG.parent):
   for p in [root,*[v for v in root.rglob('*') if v.is_dir()]]:os.chown(p,0,1003);p.chmod(0o550)
- check=program[:program.index('with sqlite3.connect')]+"print('UPGRADE_VERIFY_PASS')"
+ subprocess.run(['systemctl','daemon-reload'],check=True)
+ check=program[:program.index('print(json.dumps')]+"print('UPGRADE_VERIFY_PASS')"
  result=subprocess.run(cmd+[check],capture_output=True)
  put(history/'verify.stdout',result.stdout);put(history/'verify.stderr',result.stderr)
  h.require(result.returncode==0 and result.stdout.strip()==b'UPGRADE_VERIFY_PASS','UPGRADE_POSTCHECK')
- put(history/'UPGRADE_COMPLETE.json',canonical({'status':'UPDATED_HELD','provider_calls':0,'model_calls':0,'reservation_unchanged':True}))
- return {'status':'UPDATED_HELD','unit':unit,'provider_calls':0,'model_calls':0,'reservation_unchanged':True}
+ put(history/'UPGRADE_COMPLETE.json',canonical({'status':'UPDATED_HELD','provider_calls':0,'model_calls':0,'original_reservation_unchanged':True,'new_reservation':False}))
+ return {'status':'UPDATED_HELD','unit':unit,'provider_calls':0,'model_calls':0,'original_reservation_unchanged':True,'new_reservation':False}
 
 
 if __name__=='__main__':

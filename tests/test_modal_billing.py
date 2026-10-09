@@ -104,3 +104,42 @@ def test_commitment_requires_nonnegative_integer_microdollars(value):
     ws,*_=workspace();snap=capture(ws,'moroseui',now=NOW)
     with pytest.raises(ValueError,match='MODAL_BILLING_LIMIT_OR_COMMITMENT'):
         remaining(snap,commitments={'ap-fit':value})
+
+
+@pytest.mark.parametrize('day',[8,9,31])
+def test_complete_month_uses_contiguous_seven_day_queries(day):
+    ws,summary,_,calls=workspace();now=NOW.replace(day=day,hour=0)
+    start=now.replace(day=1,minute=0);end=now.replace(minute=0)
+    hours=int((end-start).total_seconds()/3600)
+    summary.metered_cost=summary.billed_cost=Decimal(hours)/Decimal(10000)
+    summary.adjustments={}
+    def report(**kw):
+        calls.append(('report',kw))
+        assert timedelta(0)<kw['end']-kw['start']<=timedelta(days=7)
+        return [NS(object_id='ap-hourly',interval_start=kw['start']+timedelta(hours=i),cost=Decimal('.0001'),cost_by_resource={'cpu':Decimal('.0001')})
+            for i in range(int((kw['end']-kw['start']).total_seconds()/3600))]
+    ws.billing.report=report
+    snap=capture(ws,'moroseui',now=now)
+    ranges=[kw for kind,kw in calls if kind=='report']
+    assert ranges[0]['start']==start and ranges[-1]['end']==end
+    assert all(a['end']==b['start'] for a,b in zip(ranges,ranges[1:]))
+    assert len(snap['rows'])==hours and len({r['interval_start'] for r in snap['rows']})==hours
+    assert sum(Decimal(r['cost']) for r in snap['rows'])==summary.metered_cost
+    assert calls[-1][0]=='summary'
+
+
+def test_second_chunk_failure_never_returns_partial_snapshot():
+    ws,_,_,calls=workspace()
+    def report(**kw):
+        calls.append(('report',kw))
+        if len(calls)==2:raise OSError('synthetic transport failure')
+        return []
+    ws.billing.report=report
+    with pytest.raises(OSError,match='transport'):capture(ws,'moroseui',now=NOW.replace(day=9))
+    assert [kind for kind,_ in calls]==['report','report']
+
+
+def test_row_from_wrong_chunk_refused_even_if_inside_month():
+    ws,_,row,_=workspace();row.interval_start=NOW.replace(day=8,hour=0,minute=0)
+    ws.billing.report=lambda **kw:[row]
+    with pytest.raises(ValueError,match='CHUNK_INTERVAL'):capture(ws,'moroseui',now=NOW.replace(day=9))
