@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T04:51:38.513735+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T05:05:23.427498+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -14,9 +14,11 @@ The completed evidence-delivery candidate 2da898df506e28718277c588ab31d1e1be57a1
 
 Two diagnosed delivery problems are fixed in the same bundle: two long native console strings have labeled lossless readable copies with exact JSON reconstruction and unchanged original files; full artifact navigation is a mandatory hash-bound file. Reader/input limits, all privacy scans and other refusals remain. Initial size and integration-test failures are preserved. The permission-sensitive test was rerun with the established private umask; no permission check was relaxed.
 
-Combined independent Claude implementation review APPROVED source2da898df506e28718277c588ab31d1e1be57a1a0, report6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16, with no findings. Direction PROCEED,1round,agreed. The same-service installation completed UPDATED_HELD with no model or provider call. Installed context and all prerequisites passed and exactly matched the candidate input hash. Scientific review8 was then started once through its existing allowance and is now RUNNING:21 of23 run calls,16 of50 daily calls. No additional author or review allowance, spending cap, input, scientific code or confinement change.
+Combined independent Claude implementation review APPROVED source2da898df506e28718277c588ab31d1e1be57a1a0, report6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16, with no findings. Direction PROCEED,1round,agreed. The same-service installation completed UPDATED_HELD with no model or provider call. Installed context and all prerequisites passed and exactly matched the candidate input hash. Scientific review8 was then started once through its existing allowance and ended mechanically without a submitted verdict:21 of23 run calls,16 of50 daily calls. No additional author or review allowance, spending cap, input, scientific code or confinement change.
 
-Next result: scientific review8 verdict, estimated05:10?05:20UTC. Only that review can decide U1/U2 closure; U3 coverage holds and ordinary execution/confinement/budget admission remain. No GPU smoke or full training has started.
+Review8 reached its 30-turn reader limit before invoking the review submission tool. Both call records are FAILED, the service is inactive with no process, and all originals are preserved. The model-reported cost is $9.981374, counted normally; it is not provider invoice settlement. No genuine APPROVE, REVISE or REJECT was submitted. A narrow mechanical recovery is being prepared for independent implementation review, including a bounded reading allowance and exact evidence pointers; no retry has been launched.
+
+Next result: a recovered scientific verdict, estimated05:40-06:00UTC subject to independent implementation approval. Only that review can decide U1/U2 closure; U3 coverage holds and ordinary execution/confinement/budget admission remain. No GPU smoke or full training has started.
 
 ## Spending
 
@@ -34,7 +36,7 @@ No reservation released. Only provider-confirmed actual cost of a closed attempt
 
 ## Calls, blockers and judgment calls
 
-UTC October9:16/50 calls:2 scientific authors (author12,13);2 scientific reviews (review7 REVISE,review8 RUNNING);10 implementation reviews (native successor, billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition, review-original ownership, source-handle initialization/exact successor, combined proof/context delivery APPROVE);2 scope/direction calls (retry authority,next-result plan). Every call and charge preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
+UTC October9:16/50 calls:2 scientific authors (author12,13);2 scientific reviews (review7 REVISE,review8 mechanical failure without submission);10 implementation reviews (native successor, billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition, review-original ownership, source-handle initialization/exact successor, combined proof/context delivery APPROVE);2 scope/direction calls (retry authority,next-result plan). Every call and charge preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
 
 Latest completed Claude direction: R35 PROCEED,1round,folded into the implementation review; agreed. Judgment: preserve the original grant, replace only the missing-proof hold with authenticated real prerequisites, and batch all necessary reader repairs into one review. No new subsystem or optional billing work. The source/native proof is an infrastructure result; scientific review7 findings remain unresolved pending scientific review8.
 
@@ -270,7 +272,7 @@ Additional exclusions identified during full publication audit (call-accounting 
 
 ## Next authorized work
 
-Observe the same running scientific review8; do not repeat its start. Preserve and authenticate the actual terminal judgment before following it. Scientific reviewer alone closes findings. Existing preprocessing and GPU admission follow only after scientific acceptance.
+Do not repeat the failed review8 start. Prepare and independently review one bounded mechanical recovery, preserving the failed attempt and charge. Fold the required direction check into that review because the result estimate slipped. Scientific reviewer alone closes findings. Existing preprocessing and GPU admission follow only after scientific acceptance.
 
 Additional publication omissions for R31:
 
@@ -318,4 +320,6 @@ Safe aggregate implementation report, scope, code and tests are included. Eviden
 
 ### Installed delivery release
 
-- Source2da898df506e28718277c588ab31d1e1be57a1a0 is installed after genuine implementation APPROVE; safe source bytes were already merged through the previous projection. Scientific review8 remains running and has no verdict yet.
+- Source2da898df506e28718277c588ab31d1e1be57a1a0 is installed after genuine implementation APPROVE; safe source bytes were already merged through the previous projection. Scientific review8 ended mechanically at its reading limit without a submitted verdict; originals and charge are preserved.
+
+Judgment at this stop: classify the terminal reader-limit outcome as mechanical only because no verdict or submission exists; preserve all call accounting and require an independently approved bounded recovery. Claude consultation pending in the next implementation review. Raw failed-call files and streams remain private.
