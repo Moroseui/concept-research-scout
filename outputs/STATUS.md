@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B's package is prepared and uploaded; no new compute has launched.
-Claude approved the cost repair, but installation verification caught an import-order error before execution.
-The small ordering correction passed 139 tests and the real verification entrypoint rehearsal; independent review is running.
-Coverage arms remain held; full training awaits scientific review of actual smoke results.
-The stopped attempt has $0.58471212 in observed provider billing. Item 4 retains $45.690453 of $75; total actual cost is not yet settled.
-Next result: verified CPU preparation, roughly 1-2 hours if review and execution pass, then GPU smoke. No operator action needed.
+The 13B CPU retry was admitted and launched once; its input guard is alive and reading the frozen inputs.
+The real output folder now has the required private permissions, confirming that repair worked on the provider.
+Input verification is not finished yet; GPU smoke waits for verified preparation, and coverage arms remain held.
+Full training still requires scientific review of the actual smoke results. Latest Claude direction: PROCEED.
+The stopped first attempt has $0.58471212 in observed billing. Item 4 now retains $56.032853 of $75; actual costs are not yet settled.
+Next result: verified CPU preparation, estimated within about an hour if execution passes, then GPU smoke. No operator action needed.
 
-Updated 2026-10-09T12:34:15.949039+00:00. Detailed audit follows.
+Updated 2026-10-09T12:48:32.347708+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -36,13 +36,13 @@ Authenticated billing through the newly closed hour reports $0.58471212 for the 
 
 R50's held installation wrote its reviewed files and unit, then verification refused because authority verification imported the controller package before the existing runtime had established its import path. No completion record, activation, dispatch or new reservation followed. The partial installation and exact error are preserved.
 
-R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: the unchanged protected bootstrap runs first, then both authority checks, before connecting any candidate code or dispatching. Its cost module is byte-for-byte R50's approved code. It directly reuses the prior working runtime and preserves the partial installation. A single 139-test run passed. The actual clean-server verification entrypoint reproduced the old import failure, then passed with the corrected order and unchanged global/local records. Candidate future identity, approval and file loading were explicitly simulated for this rehearsal; it was not an installation or launch. The real prior authority and driver checks ran. Independent approval and successful held installation verification are still required before the same prepared job can submit.
+R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: the unchanged protected bootstrap runs first, then both authority checks, before connecting any candidate code or dispatching. Its cost module is byte-for-byte R50's approved code. It directly reuses the prior working runtime and preserves the partial installation. A single 139-test run passed. The actual clean-server verification entrypoint reproduced the old import failure, then passed with the corrected order and unchanged global/local records. Candidate future identity, approval and file loading were explicitly simulated for this rehearsal; it was not an installation or launch. The real prior authority and driver checks ran. R51 received genuine independent APPROVE 4ff1f8c0be1d395fff0fc2478708c9779a9baa5d9b994d82800ac7d8d652107a and explicit PROCEED. Real held installation verification passed. Normal admission and the single submission of the same prepared job then succeeded, reserving $10.342400; all original charges remain counted. Metadata observation confirms the input guard process is alive, waiting on input I/O, with the output root at private permissions. The input-check record is still incomplete, so neither verified inputs nor scientific preprocessing completion is claimed. Two early observations refused its incomplete record; these did not cause a restart or resubmission. The old sandbox remains positively stopped, and its historical dispatch record is preserved.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 assets and admitted compute | $45.690453 | Complete per-item actual total unsettled |
+| Item 4 assets and admitted compute | $56.032853 | Complete per-item actual total unsettled |
 | Both source attempts, included above | $6.642660 | Both retained |
 | Three native attempts, included above | $3.356850 | Historical observation $0.01258041, not settlement |
 | Item 4 image, included above | $1.178425 | Historical observation $0.00669028, not settlement |
@@ -52,11 +52,11 @@ R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: t
 
 Authenticated billing observed $2.01511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
 
-Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. R48 direction estimate is $3.03873325. R49 implementation estimate is $4.5833295; Both R50 rounds completed; R51 is running. Charges for all attempts remain preserved. Every original attempt and charge remains counted.
+Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. R48 direction estimate is $3.03873325. R49 implementation estimate is $4.5833295; R50 round-one model estimate is $4.672296, round two $2.92240975, and R51 $3.09463925. Charges for all attempts remain preserved. Every original attempt and charge remains counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 35/50 calls, including the running R51 implementation review. No resets or relabeling.
+UTC October 9: 35/50 calls, all terminal. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -71,7 +71,7 @@ Judgment highlights: retain the genuine scientific REVISE while admitting only t
 
 Final regression: 340 passed, 3 skipped. An additional native composed test passed from empty-root initialization through the unchanged guard and actual preprocessing worker, with synthetic inputs and a labelled synthetic environment proof. Earlier 19 failing fixture assertions expected the old static upload mode; the fixtures were corrected and the originals preserved. Full normal admission on an in-memory copy of actual accounting passed; an independent over-cap case refused. Actual selection and package replay preserved exact package files and original records. Neither replay made a real reservation or launched compute. Future installation authority was explicitly simulated in these tests, not claimed.
 
-The successor would reserve at most $10.342400 through normal admission, bringing retained item 4 exposure to $56.032853 of $75. It has not been admitted. Original launch stderr was discarded, so the precise exception is inferred from the demonstrated permission conflict. The current provider's permission operation remains to be demonstrated by the real attempt; unsupported behavior still refuses. R48's proposal incorrectly said the uploader preserved local modes; source inspection showed an explicit group-readable mode, now corrected. R48 scope authorship was also clarified: the proposal was assistant-written, and authority comes from the verbatim standing operator rule. No new operator approval is inferred. Latest completed direction is R50 PROCEED, agreed across its two review rounds. R51 includes the follow-up opinion with its required implementation review.
+The successor was admitted normally at $10.342400, bringing retained item 4 exposure to $56.032853 of $75. Its result is pending. Original launch stderr was discarded, so the precise exception is inferred from the demonstrated permission conflict. The current provider's permission operation remains to be demonstrated by the real attempt; unsupported behavior still refuses. R48's proposal incorrectly said the uploader preserved local modes; source inspection showed an explicit group-readable mode, now corrected. R48 scope authorship was also clarified: the proposal was assistant-written, and authority comes from the verbatim standing operator rule. No new operator approval is inferred. Latest completed direction is R51 PROCEED, one round agreed: the import-order fix is the shortest safe path, with no new infrastructure layer.
 
 ## Publication scope and omissions
 
@@ -378,3 +378,7 @@ The direction proposal was assistant-authored; Git author configuration is not o
 
 - tests > fixtures > item4_cost_bootstrap_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - outputs > implementation-reviews > item4-pre-science-cost-record-round1-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
+
+### Latest judgment and publication checks
+
+Proceed after genuine independent approval and successful real installation verification; observe the one admitted job, and never infer completion or a stopped worker from an incomplete input record. The live guard and private output mode were confirmed using process/filesystem metadata only, with no patient payload egress. Keep every unsettled reservation.
