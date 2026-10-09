@@ -145,6 +145,11 @@ def advance(driver, value):
             from orchestrator.experiment_continuation import schedule
             return schedule(driver,value,job)
         if saved.get('phase') != 'RUNNING': continue
+        from orchestrator import item4_deliberate_smoke as deliberate
+        if deliberate.target(job['binding']):
+            store=executor(driver,job)
+            try:return deliberate.run(driver,value,job,store)
+            finally:store.db.close()
         store = executor(driver, job)
         try:
             observed = store.remote_status(job['job'])
@@ -205,7 +210,13 @@ def advance(driver, value):
                     raise ValueError('EXPERIMENT_SUBMISSION_UNRESOLVED_NO_RETRY')
                 saved['phase'] = 'COMPLETE' if result['status']=='COMPLETE' else 'RUNNING'
         finally: store.db.close()
-        driver.save(value); return driver.status()
+        driver.save(value)
+        from orchestrator import item4_deliberate_smoke as deliberate
+        if saved['phase']=='RUNNING' and deliberate.target(job['binding']):
+            store=executor(driver,job)
+            try:return deliberate.run(driver,value,job,store)
+            finally:store.db.close()
+        return driver.status()
     if all(states[j['job']]['phase']=='COMPLETE' for j in selected['jobs']):
         if not selected.get('complete_selection',True):
             driver.save(value)
