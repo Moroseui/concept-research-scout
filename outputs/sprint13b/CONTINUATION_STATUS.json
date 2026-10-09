@@ -1,6 +1,6 @@
 {
   "schema": "sprint13b-continuation-status/v1",
-  "at": "2026-10-09T04:32:38.958566+00:00",
+  "at": "2026-10-09T04:51:38.513735+00:00",
   "author_attempt": 13,
   "author_status": "ACCEPTED",
   "controller_tests": {
@@ -19,7 +19,7 @@
     "overlap": 0,
     "transferred_files": 0
   },
-  "scientific_review8": "HELD_FOR_AUTHENTICATED_SOURCE_AND_NATIVE_EVIDENCE_CONNECTION",
+  "scientific_review8": "RUNNING",
   "scientific_approval": false,
   "gpu_smoke_started": false,
   "direction": "PROCEED",
@@ -42,11 +42,15 @@
   "source_remote_verification": "PASS",
   "review8_delivery_draft": "2da898df506e28718277c588ab31d1e1be57a1a0",
   "review8_delivery_tests": 183,
-  "review8_delivery_installed": false,
-  "review8_delivery_implementation_review": "RUNNING",
+  "review8_delivery_installed": true,
+  "review8_delivery_implementation_review": "APPROVE",
   "new_model_calls": 0,
   "review8_context_characters": 192769,
   "review8_evidence_originals": 62,
   "review8_workspace_files": 403,
-  "daily_model_calls": 15
+  "daily_model_calls": 16,
+  "review8_delivery_review_sha256": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16",
+  "scientific_run_calls": 21,
+  "scientific_run_cap": 23,
+  "direction_rounds": 1
 }
