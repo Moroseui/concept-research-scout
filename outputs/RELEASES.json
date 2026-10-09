@@ -73,6 +73,12 @@
       "role": "authenticated source/native delivery and bounded readers for scientific review8",
       "review": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16",
       "selection": "exact safe source projection already published; raw private ancestry and flagged records withheld"
+    },
+    {
+      "source": "ed9ad9aead00c9df8d0ecae1a25ecd782aef169c",
+      "role": "one bounded mechanical review recovery; independent approval and held installation complete",
+      "review": "6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf",
+      "selection": "safe source projection; original private history and call checkpoint withheld"
     }
   ],
   "source_files_count": 1369,
