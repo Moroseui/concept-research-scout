@@ -168,7 +168,7 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         db.execute('ROLLBACK');raise
 
 
-def record_interruption(accounts, ident, provider, *, reason_record):
+def record_interruption(accounts, ident, provider, *, reason_record, expected_checkpoint_sha256=None):
     """Preserve a positive terminal checkpoint; retain the entire prior charge.
 
     reason_record is the existing controller's private provider-limit, lifetime,
@@ -177,6 +177,9 @@ def record_interruption(accounts, ident, provider, *, reason_record):
     """
     from pathlib import Path
     from orchestrator import private_records
+    if expected_checkpoint_sha256 is not None and (not isinstance(expected_checkpoint_sha256,str) or
+            re.fullmatch('[0-9a-f]{64}',expected_checkpoint_sha256) is None):
+        raise ValueError('ITEM4_INTERRUPTION_CHECKPOINT_PIN')
     row = accounts.db.execute('SELECT * FROM autonomy_compute WHERE id=?',(ident,)).fetchone()
     if row is None:raise ValueError('ITEM4_SEGMENT_MISSING')
     old = accounts.db.execute('SELECT payload FROM events WHERE id=?',(ident+':fit-interruption',)).fetchone()
@@ -186,6 +189,8 @@ def record_interruption(accounts, ident, provider, *, reason_record):
         path = private_records.check(reason_record)
         if hashlib.sha256(path.read_bytes()).hexdigest() != saved['reason_record_sha256']:
             raise ValueError('ITEM4_INTERRUPTION_REASON_CHANGED')
+        if expected_checkpoint_sha256 is not None and saved['proof']['checkpoint_record_sha256']!=expected_checkpoint_sha256:
+            raise ValueError('ITEM4_INTERRUPTION_CHECKPOINT_CHANGED')
         return saved
     if row['status'] not in {'RUNNING','UNCERTAIN'} or not row['provider_id']:
         raise ValueError('ITEM4_NO_KNOWN_EXECUTION_TO_RECONCILE')
@@ -204,6 +209,8 @@ def record_interruption(accounts, ident, provider, *, reason_record):
             proof.get('binding_sha256')!=ident or proof.get('fit_id')!=binding['experiment']['fit_id'] or
             type(proof.get('terminal_exit_code')) is not int or proof.get('may_launch') is not False):
         raise ValueError('ITEM4_INTERRUPTION_PROVIDER_PROOF')
+    if expected_checkpoint_sha256 is not None and proof['checkpoint_record_sha256']!=expected_checkpoint_sha256:
+        raise ValueError('ITEM4_INTERRUPTION_CHECKPOINT_CHANGED')
     result = {'kind':'FIT_INTERRUPTED_WITH_COMMITTED_CHECKPOINT','proof':proof,
               'resume_reason':reason['reason'],'reason_record_sha256':hashlib.sha256(raw).hexdigest(),
               'prior_status':row['status'],'prior_reserved_micro_usd':row['reserved_micro_usd'],
