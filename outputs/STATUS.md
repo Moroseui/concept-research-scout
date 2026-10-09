@@ -3,12 +3,12 @@
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B preprocessing, benchmark assets and all three execution packages are ready; reviewed publication succeeded.
 The first A100 launch failed on the SDK command-size limit. Its container is positively stopped, its progress volume is empty, and there is no scientific result.
-No GPU or model call is running. A bounded transport repair and reviewed recovery are next; coverage-dependent arms and full training remain held.
+No GPU or model call is running. The transport draft passes11 tests and SDK checks; its recovery connection and review are still needed. Coverage-dependent arms and full training remain held.
 Identified provider compute so far is $9.47693135; the stopped A100 cost is unsettled. Its full $12.842400 reservation stays counted, making item-4 exposure $65.012588 of $75.
-Next result: the first GPU benchmark, roughly 60-90 minutes after this stop, subject to repair review and spending reconciliation; the earlier 18:40 UTC estimate no longer holds.
+Next result: the first GPU benchmark, provisionally19:45-20:00 UTC after repair review and spending reconciliation; the earlier18:40 UTC estimate no longer holds.
 No operator action needed. Latest completed Claude direction: PROCEED; the next repair review will reassess direction. Today: 43/50 calls, all terminal.
 
-Updated 2026-10-09T18:31:21.746780+00:00. Detailed audit follows.
+Updated 2026-10-09T18:42:08.354202+00:00. Detailed audit follows.
 
 ## Current result and blocker
 
@@ -397,3 +397,5 @@ R56 withheld files (scanner and semantic privacy exclusions remain unchanged):
 - tests/fixtures/item4_benchmark_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
 
 Publisher judgment: use the existing installed worker and native mount selection, preserve every original publisher check, test the exact real-package connection read-only, and combine confinement and direction review because bootstrap omissions recurred. No new provenance package or subsystem. Safe candidate history is on astra/public-root-publisher-worker-20261009; no publication or GPU launch is claimed.
+
+Current repair draft: source6246de628a841fd05beccc6249f17f6e4f732993, safe branch astra/public-fit-stdin-recovery-20261009. Eleven local transport tests pass. The pinned SDK also accepts the new29,893-byte arguments for each of the three real frozen payloads; guard and payload hashes remain identical. Execution and stdin endpoints were simulated, with no provider/ledger/model calls or scientific execution. This is not connected or installed; exact recovery/accounting and independent review remain pending. No retry has occurred.

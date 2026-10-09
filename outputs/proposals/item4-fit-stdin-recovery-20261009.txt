@@ -1,0 +1,9 @@
+Draft bounded fit-launch transport
+
+Source6246de628a841fd05beccc6249f17f6e4f732993 contains a transport helper and tests only. It is unreviewed, not connected to the production launcher, and not installed. Recovery and accounting work remain unimplemented.
+
+The helper follows the system's existing bounded stdin pattern: one exec, one payload write, EOF and drain; errors propagate without replay. It preserves the original guard source and canonical payload, checks payload length and hash before guard execution, and keeps the SDK command limit. A caller must check the actual command before paid creation.
+
+Eleven local tests passed. Native SDK validation also passed for all three actual frozen benchmark payloads: old commands were95,311/95,281/95,282 characters and were refused; new commands are29,893 bytes. Guard and payload hashes are unchanged. Exec and stdin endpoints were simulated; no live container, scientific execution, provider call or accounting mutation occurred.
+
+Next: connect preflight and launch, implement only the exact positively stopped A100 recovery with original records and charges preserved, then obtain one combined implementation/confinement/accounting/direction review. Every new run requires normal budget admission within75USD. No cap increase or safeguard relaxation. The repeated SDK-limit problem and slipped estimate must be presented to Claude. Coverage-dependent arms and full training remain held.
