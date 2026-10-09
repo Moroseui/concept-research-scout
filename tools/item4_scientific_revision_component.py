@@ -8,7 +8,10 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review9-staged-continuation-20261009'
+REVIEW_CHANGE='item4-batch-continuation-20261009'
+BATCH_DOCUMENT='docs/ITEM4_BATCH_CONTINUATION_PRIVATE.json'
+RESPONSE_SOURCE='7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3'
+RESPONSE_REVIEW='7303aa4386824db878e24225025ffbd93c5b04c54b0543cb5c5d3aa373446646'
 RESPONSE_DOCUMENT='docs/ITEM4_REVIEW9_CONTINUATION.json'
 STAGING_DOCUMENT='docs/ITEM4_GPU_SMOKE_STAGING_OPERATOR_DECISION_20261009.txt'
 STAGING_SHA='12457759a381afd91b722ba050a040ed1d1bf58a148ee89ba0082aab8c419e4d'
@@ -46,7 +49,8 @@ FILES=tuple(dict.fromkeys(FILES+tuple('orchestrator/'+n+'.py' for n in RUNTIME_M
         'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,THIRD_DOCUMENT,CONTINUATION_DOCUMENT,
         'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
         'tools/item4_review8_proof.py',PROOF_DOCUMENT,
-        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,PRE_ADMISSION_DOCUMENT,RESPONSE_DOCUMENT,STAGING_DOCUMENT,)))
+        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,PRE_ADMISSION_DOCUMENT,RESPONSE_DOCUMENT,STAGING_DOCUMENT,BATCH_DOCUMENT,
+        'orchestrator/item4_batch_recovery.py','orchestrator/autonomy_accounting.py','orchestrator/autonomy_limits.py',)))
 
 GUIDANCE=(
  'Respond to genuine scientific REVISE9 and every still-open finding. Read the exact full report, '
@@ -169,6 +173,7 @@ def load():
     newme=module('_revision_executor',ROOT/'orchestrator/manual_executor.py');me.ManualExecutor.reserve_call=newme.ManualExecutor.reserve_call
     newmd=module('_revision_driver',ROOT/'orchestrator/manual_driver.py');md.Driver._accept_completed=newmd.Driver._accept_completed
     md.Driver.model_round_number=newmd.Driver.model_round_number;md.Driver._model_step=newmd.Driver._model_step
+    md.Driver.model_workspace=newmd.Driver.model_workspace
     newmr=module('_revision_recovery',ROOT/'orchestrator/manual_recovery.py');mr.role_limit=newmr.role_limit
     from orchestrator import author_revision_accounting as accounting,author_format_retry as retry
     prior_inspect=accounting.inspect
@@ -186,13 +191,21 @@ def load():
     limiter=module('_revision_dispatch_limiter',ROOT/'orchestrator/dispatch_limiter.py')
     dispatch_limiter.admit_manual=limiter.admit_manual
     dispatch_limiter.validate=limiter.validate
+    from orchestrator import autonomy_limits as limits,autonomy_accounting as batch_accounts
+    new_limits=module('_revision_batch_limits',ROOT/'orchestrator/autonomy_limits.py')
+    limits.scientific_batch_allowance=new_limits.scientific_batch_allowance
+    new_batch=module('_revision_batch_accounting',ROOT/'orchestrator/autonomy_accounting.py')
+    batch_accounts.BatchAccounts.reserve_scientific=new_batch.BatchAccounts.reserve_scientific
+    module('orchestrator.item4_batch_recovery',ROOT/'orchestrator/item4_batch_recovery.py')
     calls=module('orchestrator.item4_scoped_calls',ROOT/'orchestrator/item4_scoped_calls.py')
     repair=module('orchestrator.item4_review8_recovery',ROOT/'orchestrator/item4_review8_recovery.py')
     mechanical=json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes())
     response=json.loads((ROOT/RESPONSE_DOCUMENT).read_bytes())
-    continuation.connect(accounting,mr,response,v['review_sha256'])
+    response_approval=held_response_approval()
+    continuation.connect(accounting,mr,response,response_approval)
     calls.connect(current,held_fourth_continuation_approval(),mechanical=mechanical,
-        mechanical_approval=held_mechanical_approval(),response=response,response_approval=v['review_sha256'])
+        mechanical_approval=held_mechanical_approval(),response=response,response_approval=response_approval,
+        batch_extension=json.loads((ROOT/BATCH_DOCUMENT).read_bytes()),batch_approval=v['review_sha256'])
     connect_runtime()
     return v,b,evidence,h,old,rec
 
@@ -262,6 +275,30 @@ def apply():
             return {'status':'READY_NO_MODEL_CALL','model_calls':0}
     finally:d.store.db.close();d.store.batch.db.close()
 
+def held_response_approval():
+    from orchestrator.manual_host_guard import trusted
+    from orchestrator.autonomy_review import verify_result
+    record=verify_result(trusted(RECORD/'history'/RESPONSE_SOURCE/'original-review-directory'))
+    require(record['verdict']=='APPROVE' and record['change_id']=='item4-review9-staged-continuation-20261009'
+        and record['source_sha']==RESPONSE_SOURCE and record['report_sha256']==RESPONSE_REVIEW,'HELD_RESPONSE_APPROVAL')
+    return RESPONSE_REVIEW
+
+
+def recover_batch_author14():
+    v,b,e,h,old,rec=load()
+    from orchestrator.experiment_driver import ExperimentDriver
+    from orchestrator.manual_executor import lock
+    from orchestrator import item4_batch_recovery as recovery
+    d=ExperimentDriver(LANE)
+    try:
+        with lock(LANE/'driver.lock'):
+            d.guard();originals(d,b,h,old,rec);held_application()
+            return recovery.restore(d,json.loads((ROOT/BATCH_DOCUMENT).read_bytes()),v['review_sha256'],
+                json.loads((ROOT/RESPONSE_DOCUMENT).read_bytes()),held_response_approval(),
+                STATE/'item4'/'item4-batch-continuation-20261009',DEST/'runtime-pins-14.json')
+    finally:d.store.db.close();d.store.batch.db.close()
+
+
 def held_mechanical_approval():
     from orchestrator.manual_host_guard import trusted
     from orchestrator.autonomy_review import verify_result
@@ -308,7 +345,7 @@ def continue_review9():
         with lock(LANE/'driver.lock'):
             d.guard();originals(d,b,h,old,rec);held_application()
             return continuation.activate(d,json.loads((ROOT/RESPONSE_DOCUMENT).read_bytes()),
-                v['review_sha256'],STATE/'item4'/REVIEW_CHANGE)
+                held_response_approval(),STATE/'item4'/'item4-review9-staged-continuation-20261009')
     finally:d.store.db.close();d.store.batch.db.close()
 
 
@@ -329,7 +366,10 @@ def continue_review7():
 def work_number(work):
     work=Path(work).resolve()
     match=re.fullmatch('run_spec_author-([0-9]+)',work.name)
-    require(work.parent==STATE/'item4/lane-scientific-workspaces' and match is not None and 6<=int(match[1])<=20,'AUTHOR_WORKSPACE')
+    from orchestrator.item4_batch_recovery import DIRECTORY
+    ordinary=work.parent==STATE/'item4/lane-scientific-workspaces'
+    recovered=work.parent==STATE/'item4/lane-scientific-workspaces'/DIRECTORY and work.name=='run_spec_author-14'
+    require((ordinary or recovered) and match is not None and 6<=int(match[1])<=20,'AUTHOR_WORKSPACE')
     return int(match[1])
 
 def sender_profile(original,expected,commands,work,pins,*,sink=False,stage=None):
@@ -342,11 +382,20 @@ def sender_profile(original,expected,commands,work,pins,*,sink=False,stage=None)
     require(text.count(prefix)==2,'SENDER_PROFILE')
     return text.replace(prefix,replacement)
 
+def runtime_pins_path(work):
+    from orchestrator.item4_batch_recovery import DIRECTORY
+    n=work_number(work)
+    if Path(work).resolve().parent==STATE/'item4/lane-scientific-workspaces'/DIRECTORY:
+        require(n==14,'RECOVERY_PINS_SCOPE')
+        return DEST/'runtime-pins-14-batch-staging.json'
+    return DEST/('runtime-pins-'+str(n)+'.json')
+
+
 def send(expected,family,command):
     load();work=Path.cwd();n=work_number(work)
     from orchestrator import author_format_submission as af,manual_stage as ms
     require(family=='codex','SENDER_FAMILY')
-    pins=json.loads((DEST/('runtime-pins-'+str(n)+'.json')).read_bytes());cfg=af.load(work,pins[af.CONFIG])
+    pins=json.loads(runtime_pins_path(work).read_bytes());cfg=af.load(work,pins[af.CONFIG])
     require(cfg['bindings']['input_sha256']==expected and cfg['bindings']['round']==n,'SENDER_BINDING')
     base=['/tools/node','/tools/codex/bin/codex.js','exec','--ignore-user-config','--ignore-rules','--model','gpt-6-astra',
           '-s','workspace-write','-c','approval_policy="never"','-c','sandbox_workspace_write.network_access=false','--json','-']
@@ -553,6 +602,7 @@ def response_native_equivalence(driver,frozen):
 
 def run():
     v,b,e,h,old,rec=load()
+    response_approval=held_response_approval()
     from orchestrator import manual_recovery as mr,stocktake_review_recovery as sr,manual_stage as ms
     from orchestrator import scientific_intake as intake,revision_evidence,author_format_submission as af,private_records as pr
     from orchestrator.author_output_schema import schema
@@ -595,12 +645,17 @@ def run():
         result['author_submission']=af.verify_native(work,pins[af.CONFIG],(Path(work)/'console.log').read_text())
         return result
     def reviewer_command(work,stage):
-        return response_reviewer_command(saved[5],work,stage,d,frozen,v['review_sha256'])
+        return response_reviewer_command(saved[5],work,stage,d,frozen,response_approval)
     def transition(review,stage,n):
-        return continuation.terminal_transition(prior_transition,d,review,stage,n,frozen,v['review_sha256'])
+        return continuation.terminal_transition(prior_transition,d,review,stage,n,frozen,response_approval)
     class RevisionDriver(ExperimentDriver):
+        def model_workspace(self,value,stage,round_no):
+            from orchestrator import item4_batch_recovery as recovery
+            return recovery.workspace(self,value,stage,round_no,super().model_workspace,
+                json.loads((ROOT/BATCH_DOCUMENT).read_bytes()),v['review_sha256'],DEST/'runtime-pins-14.json')
+
         def model_round_number(self,value):
-            return response_model_attempt(self,value,frozen,v['review_sha256'])
+            return response_model_attempt(self,value,frozen,response_approval)
         def task(self,stage,value):
             return guidance(stage,super().task(stage,value))
         def prepare_input(self,value,stage,work):
@@ -615,12 +670,12 @@ def run():
                 pins=af.prepare_revision(work,{'call_id':binding['author_call_id'],'run_id':RUN,'stage':stage,'round':n,
                     'source_sha':b['source'],'runtime_sha256':b['runtime_sha256'],'input_sha256':sha(body.encode())},
                     {k:binding[k] if k in binding else b[k] for k in ('review_call_id','review_sha256','operator_scope_sha256','original_sha256','view_sha256')})
-                with pr.open_file(DEST/('runtime-pins-'+str(n)+'.json'),'xb') as f:f.write(canonical(pins))
+                with pr.open_file(runtime_pins_path(work),'xb') as f:f.write(canonical(pins))
                 active.update(work=Path(work),pins=pins)
             return body,measurement
         def _advance(self,*args,**kwargs):
             self.guard();originals(self,b,h,old,rec)
-            response_prerequisites(self,e,frozen,v['review_sha256'])
+            response_prerequisites(self,e,frozen,response_approval)
             return super()._advance(*args,**kwargs)
     try:
         d=RevisionDriver(LANE)
@@ -639,6 +694,7 @@ if __name__=='__main__':
     elif sys.argv[1:]==['apply']:print(json.dumps(apply(),sort_keys=True))
     elif sys.argv[1:]==['restore-review9']:print(json.dumps(restore_review9(),sort_keys=True))
     elif sys.argv[1:]==['recover-review8']:print(json.dumps(recover_review8(),sort_keys=True))
+    elif sys.argv[1:]==['recover-batch-author14']:print(json.dumps(recover_batch_author14(),sort_keys=True))
     elif sys.argv[1:]==['continue-review9']:print(json.dumps(continue_review9(),sort_keys=True))
     elif sys.argv[1:]==['continue-review7']:print(json.dumps(continue_review7(),sort_keys=True))
     elif sys.argv[1:]==['run']:print(json.dumps(run(),sort_keys=True))

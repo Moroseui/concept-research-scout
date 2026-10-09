@@ -298,12 +298,15 @@ class Driver:
             return self.store.db.execute('SELECT count(*) FROM manual_calls WHERE stage=?',(stage,)).fetchone()[0]+1
         return value['rounds'].get(stage,0)+1
 
+    def model_workspace(self,value,stage,round_no):
+        return Path(self.config.get('workspace_root',self.state.parent/(self.state.name+'-scientific-workspaces')))/(stage+'-'+str(round_no))
+
     def _model_step(self,value):
         from orchestrator.manual_recovery import role_limit
         stage=value['phase']
         round_no=self.model_round_number(value)
         if round_no>role_limit(self.store,self.config['run_id'],stage):raise ValueError('REVIEW_ROUND_LIMIT')
-        work=Path(self.config.get('workspace_root',self.state.parent/(self.state.name+'-scientific-workspaces')))/(stage+'-'+str(round_no))
+        work=self.model_workspace(value,stage,round_no)
         body,measurement=self.prepare_input(value,stage,work)
         private_records.mkdir(work,parents=True,exist_ok=True)
         write_once(work/'prompt.md',body.encode());atomic(work/'input-measurement.json',measurement)

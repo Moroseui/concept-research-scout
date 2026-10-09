@@ -23,12 +23,15 @@ def extended(request,monkeypatch):
             rows=[dict(r) for r in batch.db.execute("SELECT * FROM autonomy_calls WHERE kind='scientific' ORDER BY rowid")]
             assert len(rows)==60
             extension={'schema':'item4-batch-continuation/v1','run_id':x.RUN,'authority_sha256':x.AUTHORITY,
-                'global_calls':{r['id']:x.sha(x.canonical(r)) for r in rows}}
+                'global_calls':{r['id']:x.sha(x.canonical(r)) for r in rows},
+                'operator_staging_sha256':'f'*64,'prior_review':'9'*64}
             saved.update(rows=rows,extension=extension)
             kw.update(batch_extension=extension,batch_approval='e'*64)
         return original(*args,**kw)
     monkeypatch.setattr(scoped,'connect',connect)
     f=request.getfixturevalue('fifth')
+    from orchestrator import item4_batch_recovery as recovery
+    f[0].db.execute('INSERT INTO events VALUES(?,?,?)',(recovery.EVENT,x.RUN,x.canonical(recovery.proof(saved['extension'],'e'*64)).decode()))
     return f,saved
 
 
