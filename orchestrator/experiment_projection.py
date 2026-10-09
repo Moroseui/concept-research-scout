@@ -21,6 +21,48 @@ from orchestrator.experiment_plan_validation import number, contract
 
 
 
+def timing_view(timing, resources):
+    """Validate the author's richer native record; preserve the original object.
+
+    The seven-field legacy form is unchanged. The native form adds evidence,
+    not a different timing definition: calculation still uses all measured time
+    divided by completed epochs. No warm-up filtering or scientific choice here.
+    """
+    import math
+    base={'schema','fit_id','completed_epochs','elapsed_training_seconds',
+          'real_epoch','loader_not_bottleneck','comparability_id'}
+    extra={'epoch_records','gpu','measured_loader_wait_seconds','memory_gib',
+           'physical_cpus','segment','total_native_epochs'}
+    if not isinstance(timing,dict) or set(timing)==base:return timing
+    def require(ok):
+        if not ok:raise ValueError('EXPERIMENT_PROJECTION_NATIVE_TIMING')
+    def finite(value):
+        try:return type(value) in (int,float) and math.isfinite(value)
+        except (OverflowError,ValueError):return False
+    require(set(timing)==base|extra and isinstance(resources,dict))
+    count=timing['completed_epochs'];records=timing['epoch_records']
+    require(type(count) is int and count>0 and isinstance(records,list) and len(records)==count)
+    require(type(timing['total_native_epochs']) is int and timing['total_native_epochs']==count
+            and type(timing['segment']) is int and timing['segment']>0)
+    fields={'epoch','elapsed','loader_wait','training_iterations','validation_iterations'}
+    for index,row in enumerate(records):
+        require(isinstance(row,dict) and set(row)==fields)
+        require(type(row['epoch']) is int and row['epoch']==index
+            and type(row['training_iterations']) is int and row['training_iterations']==250
+            and type(row['validation_iterations']) is int and row['validation_iterations']==50)
+        require(finite(row['elapsed']) and row['elapsed']>0 and finite(row['loader_wait'])
+            and 0<=row['loader_wait']<=row['elapsed'])
+    elapsed=sum(r['elapsed'] for r in records);wait=sum(r['loader_wait'] for r in records)
+    require(finite(elapsed) and finite(wait) and wait/elapsed<=.10
+        and finite(timing['elapsed_training_seconds']) and timing['elapsed_training_seconds']==elapsed
+        and finite(timing['measured_loader_wait_seconds']) and timing['measured_loader_wait_seconds']==wait)
+    require(type(timing['physical_cpus']) is int and timing['physical_cpus']==resources.get('cpu')
+        and isinstance(timing['gpu'],str) and timing['gpu']==resources.get('gpu')
+        and type(resources.get('memory_mib')) is int and finite(timing['memory_gib'])
+        and timing['memory_gib']==resources['memory_mib']/1024)
+    return {key:timing[key] for key in base}
+
+
 def timings(plan, observations, rates, needed):
     """Typed measurements; actual file/ledger authentication is separate."""
     selected,smoke,byid=contract(plan)
@@ -30,7 +72,7 @@ def timings(plan, observations, rates, needed):
     for fit_id,observed in observations.items():
         if not isinstance(observed,dict) or set(observed)!={'timing','resources'}:
             raise ValueError('EXPERIMENT_PROJECTION_OBSERVATION')
-        timing=observed['timing'];resource=observed['resources']
+        resource=observed['resources'];timing=timing_view(observed['timing'],resource)
         if (not isinstance(timing,dict) or set(timing)!={'schema','fit_id','completed_epochs',
                 'elapsed_training_seconds','real_epoch','loader_not_bottleneck','comparability_id'}
                 or timing['schema']!='experiment-epoch-timing/v1' or timing['fit_id']!=fit_id
