@@ -1,16 +1,34 @@
 # Research status
 
-Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B has a collected A100 benchmark: one measured epoch took 278.17 seconds, with 0.066% loader wait and seven checks passed.
-Server is verified idle. The goal is blocked on the cap decision; coverage-dependent arms and full training remain held.
-Action needed: decide the proposed $150 stage-1 cap; the $1,275 total and $1,200 projection limit would remain unchanged.
-Identified provider compute is $11.89064926, including $2.01724073 for the completed A100; unsettled assets remain reserved. Exposure is $64.596977/$75.
-Next: H100 timing roughly 30-45 minutes after an approved, reviewed cap change and normal admission; the money decision is pending.
-Claude resolved both accounting findings in round 2; no direction recommendation was issued. Today: 46/50 calls, all terminal.
+Item 6 is complete; all 352 comparable values match the independent Colab run.
+13B A100 completed one measured first epoch in 278.17 seconds; Sprint 12 A1 full-run medians were 36 seconds.
+The $150 milestone cap is approved and installed. H100 preparation is running; no H100 GPU result yet.
+Coverage-dependent arms and full training remain held; smoke results need scientific acceptance.
+Identified provider compute is $11.89064926; unsettled assets remain reserved. Last verified exposure is $64.596977 against the $150 milestone cap.
+Next expected result: the H100 benchmark in about 30?45 minutes, then B200 and the five-epoch smoke.
+Claude approved the scoped cap implementation with no findings; 47/50 calls today. No separate direction recommendation was issued.
 
-Updated 2026-10-09T20:05:59.349408+00:00. Detailed audit follows.
+Updated 2026-10-09T21:13:49.060128+00:00. Detailed audit follows.
 
-## Verified idle stop
+## Approved cap and current work
+
+Operator approved $150 for the frozen stage-1 benchmark/base-smoke milestone. Source eba5b3ae658be691d1ea6ba6d540c52004ce56c1 passed 145 focused tests and independent APPROVE e840553db3ca94518f41f71fb986843902dae7b7d3dd6dc33c580e1d6f88b49c. Held installation and native verification passed. The $150 cap applies only to exact frozen milestone fits; all original charges/reservations, unrelated $75 limits, quote bounds, the $1,200 full-training projection gate and $1,275 total remain unchanged. Existing image and inputs are reused. This public source projection omits private dependencies and is not a deployable combined release.
+
+The 278.167-second A100 figure is epoch 0, including any warm-up inside that timed epoch, without a separately measured warm-up subtraction. Sprint 12 A1 reports 36-second median epochs for all five 250-epoch folds, with measured fold durations of 2.69, 2.69, 2.72, 2.74 and 2.72 hours. A naive extrapolation across 40 fits and 250 epochs is 772.686 GPU-hours, $1,931.716 GPU-only, or $6,573.411 at current CPU/RAM/GPU rates plus frozen fixed allowances. This exceeds $1,200 and is not an accepted projection. Steady-state smoke timings and measurements for other hardware/arms must replace it; the scientific author/reviewer owns explanation and acceptance.
+
+Daily calls: 3 scientific authors (native corrections 12/13 and staging 14), 4 scientific reviews (7, reader-failed 8, 9, 10), 35 administrative reviews (implementation/accounting/process repairs, including this cap), and 5 standalone direction checks (retry authority and next-result planning). Latest administrative model estimate of $3.38477175 is separate from provider compute and not an invoice. All attempts remain counted. Further administrative work is batched with necessary implementation review; no new standalone direction call was made. Latest explicit direction remains R58 PROCEED; later reviews omitted the keyword.
+
+Judgment: implement the explicit allowance with exact scientific-scope binding, test the over-cap boundary and actual installed connection, obtain independent approval, then use existing hardware assets and normal admission. No original reservation was reset or released by this patch. No new timer or watcher.
+
+Withheld from this public projection after unchanged scans:
+
+- tests > fixtures > item4_stage1_cap_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+
+## Preserved historical audit
+
+The entries below predate the approved cap and current work above.
+
+
 
 The money block has persisted across three goal turns; the goal is now marked blocked pending the operator decision, not complete. No model or compute job is live. A fresh server check found two historical item-6 rows still labelled RUNNING; direct queries of both original provider handles returned terminal exit 137. These are stale ledger labels, not active jobs or permission to restart. Their original reservations and rows remain unchanged and fully counted. No model call, new compute, accounting mutation or repair was made for this check. Cleanup remains with the existing retention timer. The next scientific result remains conditional on the pending cap decision and the normal implementation/admission gates.
 

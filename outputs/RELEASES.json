@@ -163,6 +163,12 @@
       "role": "installed benchmark handoff and native retention-unit validation; failed predecessor preserved",
       "review": "993d646883b4b763aef73ecc0ca51f140b852fb90f5531f7f1667b5e648ff1a9",
       "selection": "exact safe projection; private contracts, evidence and ancestry excluded"
+    },
+    {
+      "source": "eba5b3ae658be691d1ea6ba6d540c52004ce56c1",
+      "role": "scoped approved stage-one milestone cap",
+      "review": "e840553db3ca94518f41f71fb986843902dae7b7d3dd6dc33c580e1d6f88b49c",
+      "selection": "exact safe source projection; private files and ancestry withheld"
     }
   ],
   "source_files_count": 1369,

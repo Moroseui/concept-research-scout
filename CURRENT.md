@@ -1,3 +1,1 @@
-Current human-readable research state is maintained in outputs/STATUS.md.
-
-Goal blocked pending the operator decision on the proposed $150 stage-1 cap; the installed cap remains $75. Item 6 and the first A100 benchmark are complete. No model or compute job is live. Two historical item-6 RUNNING ledger labels were independently checked against their original provider handles and are positively terminal; original records and reservations remain unchanged.
+Current state: outputs/STATUS.md. Item 6 complete. Scoped $150 milestone cap independently approved and installed;The $150 milestone cap is approved and installed. H100 preparation is running; no H100 GPU result yet. Next expected result: the H100 benchmark in about 30?45 minutes, then B200 and the five-epoch smoke. Scientific smoke acceptance and unchanged $1,200 projection gate remain required before full training.
