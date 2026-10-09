@@ -199,7 +199,7 @@ def prepare_package(provider,binding,package,record):
             # immutable reviewed payload belongs in the read-only Volume.
             before=inventory(package)
             with volume.batch_upload(force=False) as batch:
-                for name in sorted(expected):batch.put_file(package/name,'/'+name,mode=0o440)
+                for name in sorted(expected):batch.put_file(package/name,'/'+name,mode=0o400)
             if inventory(package)!=before:raise ValueError('MODAL_LOCAL_ASSET_MEMBERS_OR_HASH')
             provider._verify_volume(binding['package_volume_id'],expected)
     else:
