@@ -8,7 +8,8 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review9-reader-recovery-20261009'
+REVIEW_CHANGE='item4-review9-staged-continuation-20261009'
+RESPONSE_DOCUMENT='docs/ITEM4_REVIEW9_CONTINUATION.json'
 PRE_ADMISSION_DOCUMENT='docs/ITEM4_REVIEW9_PRE_ADMISSION.json'
 MECHANICAL_SOURCE='ed9ad9aead00c9df8d0ecae1a25ecd782aef169c'
 MECHANICAL_REVIEW='6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf'
@@ -39,51 +40,48 @@ SUPPORT_FILES=('orchestrator/__init__.py', 'orchestrator/private_records.py', 'o
 RUNTIME_MODULES=('experiment_preprocessing','experiment_preprocessing_dispatch',
     'modal_development_inputs','modal_preprocessing_provider','experiment_worker')
 FILES=tuple(dict.fromkeys(FILES+tuple('orchestrator/'+n+'.py' for n in RUNTIME_MODULES)
-    +SUPPORT_FILES+('orchestrator/experiment_modal_package.py','orchestrator/manual_context.py',
+    +SUPPORT_FILES+('orchestrator/experiment_modal_package.py','orchestrator/manual_context.py','orchestrator/context_budget.py',
         'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,THIRD_DOCUMENT,CONTINUATION_DOCUMENT,
         'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
         'tools/item4_review8_proof.py',PROOF_DOCUMENT,
-        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,PRE_ADMISSION_DOCUMENT,)))
+        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,PRE_ADMISSION_DOCUMENT,RESPONSE_DOCUMENT,)))
 
 GUIDANCE=(
- 'Read the exact validator artifact and full current-six-item-backlog via their hashed workspace paths. '
- 'Respond to the latest genuine scientific REVISE and every still-open finding, using the current accepted '
- 'SPEC, notebook and execution plan. Preserved failed-author originals are historical evidence, not the current outputs. '
- 'Read INPUT_PROVENANCE_RECONCILIATION.json and its exact native receipts, then NEXT_AUTHOR_EVIDENCE_POINTERS.md '
- 'and PINNED_IMAGE_CONSUMER_PROOF.json; inspect the actual original files. '
- 'The source inventories, baseline plans, handoff and runtime interfaces are supplied as exact files; '
- 'availability alone is not scientific acceptance. Any newly authored semantic mapping is prospective, '
- 'bound to genuine source bytes; never present it as an original historical manifest. '
- 'The pinned image proof establishes package versions and CPU imports/interfaces only; it explicitly does '
- 'not establish GPU operation or native preprocessing/training/scoring/checkpoint integration. '
- 'Review7 confirms the constructor correction, but actual author12 native CPU execution failed '
- 'in validate_preprocessing: nnUNetDatasetBlosc2 has no keys method. '
- 'Read NNUNET_2_8_1_SOURCE_CAPTURE.json and all six NNUNET_2_8_1_SOURCE files. '
- 'These are hash-verified public release sources, not an installed-image byte attestation. '
- 'Read the complete validator evidence; correct the pinned-library contract and audit adjacent native '
- 'interfaces. Preserve the full integration harness; the controller reruns it before the next review. '
- 'Address U1 explicitly using INPUT_PROVENANCE_RECONCILIATION.json and the original native download, '
- 'cache rehash and baseline origin evidence. Decide whether a newly authored prospective source manifest '
- 'can satisfy the actual installed contract and scientific provenance requirements. Never invent historical '
- 'manifest bytes or describe a reconstructed manifest as historical. If originals are insufficient, state '
- 'the exact missing binding and reason; scientific reviewer judges the proposal. '
- 'You own the scientific changes and any synthetic native integration harness needed to address the findings. '
- 'In this workspace use only synthetic checks; no provider calls, real patient computation or experiments. '
- 'Independent scientific review and ordinary execution admission remain required; coverage arms remain held '
- 'pending the review-required source evidence. Propose the simplest scientifically defensible '
- 'coverage-independent next smoke stage; retain the overall research objective and explain held arms. '
- 'The controller is preparing authenticated composed-volume evidence separately; do not claim it exists '
- 'until actual verification is delivered. Preserve benchmark and full-training commitments. '
- 'Read the provenance-validators and historical author5 SPEC originals via their hash-bound workspace paths. '
- 'Keep SPEC at most12000 characters, preferably10000. Dailycap50; this run has four exact remaining '
- 'slots (author13/review8 then one post-execution interpretation pair), cap23. Past charges unchanged. '
- 'Write SPEC.proposed.md, execution.plan.json and notebook.patch.json to the exact schema, call '
- 'author_format.submit_author({}) and correct format errors within this call until ACCEPTED. '
- 'Format acceptance is not scientific approval; only independent APPROVE closes findings.\n')
+ 'Respond to genuine scientific REVISE9 and every still-open finding. Read the exact full report, '
+ 'current accepted SPEC, notebook, plan, validator and full current-six-item-backlog. '
+ 'Read SOURCE_BINDING.json, SOURCE_VERIFIED.json, SOURCE_LOCAL_VERIFIED.json and SOURCE_VOLUME.json '
+ 'through the evidence index: base-source composition now passed original/frozen hashes and full '
+ '893-file byte readback,99 development patients,49 excluded and zero overlap. These records do not '
+ 'prove the missing coverage inventory or a future production execution root. Read NATIVE_BINDING.json, '
+ 'NATIVE_OUTPUT.json, NATIVE_VERIFIED.json and NATIVE_TERMINAL.json: exact author13 module passed '
+ 'pinned-image synthetic CPU preparation, reuse, genuine interruption/resume and scoring. '
+ 'Review9 closes the concrete nnUNetDatasetBlosc2 API defect, but synthetic CPU evidence does not '
+ 'establish real production/GPU integration, patient efficacy or provider-volume durability. '
+ 'Update stale SPEC claims honestly. Decide the smallest scientifically defensible next validation '
+ 'stage and distinguish pre-execution permission from acceptance of resulting evidence. State precisely '
+ 'which findings require proof before launch and which can only be resolved by an admitted validation '
+ 'run; do not close findings by promise. The independent scientific reviewer judges this proposal. '
+ 'Preserve all51 fits,seven preparations,40 FULL fits,three GPU benchmarks and subsequent smoke/full '
+ 'commitments; coverage-dependent zscore/histeq/derived_ctp_support remain held until required evidence '
+ 'and method are accepted. Do not invent originals or replace the full goal with a limited smoke. '
+ 'Read original provenance receipts, NEXT_AUTHOR_EVIDENCE_POINTERS.md and PINNED_IMAGE_CONSUMER_PROOF.json. '
+ 'Current native proof binds the author13 executable module exactly; changed scientific code requires '
+ 'fresh applicable integration evidence, never a false claim that old receipts prove new code. '
+ 'You own scientific choices and code. Make necessary corrections, preserving unchanged code when '
+ 'only documentation is deficient. This author workspace permits synthetic checks only, no provider '
+ 'calls or patient computation. The controller reruns the full synthetic harness on your submission. '
+ 'Ordinary execution, confinement, input, image and spending checks remain mandatory. '
+ 'SPEC maximum12000 characters, preferably10000. Dailycap50; this reviewed continuation has exactly '
+ 'author14/review10 plus final post-execution interpretation pair, scopedcap26,22 prior calls retained. '
+ 'Write SPEC.proposed.md, execution.plan.json and notebook.patch.json to the exact output schema; '
+ 'call author_format.submit_author({}) and correct format errors within this call until ACCEPTED. '
+ 'Format acceptance and administrative process approval are not scientific approval.\n')
 
 REVIEW_GUIDANCE=(
  'Read the exact validator artifact and full current-six-item-backlog via their hashed workspace paths. '
- 'Review the actual scientific revision against every preserved finding. First read '
+ 'Review the author14 response to genuine REVISE9 against every preserved finding. Judge the proposed '
+ 'staging of pre-execution permission separately from acceptance of validation results; do not waive '
+ 'missing preconditions or treat administrative opinion as scientific approval. First read '
  'NEXT_AUTHOR_EVIDENCE_POINTERS.md and PINNED_IMAGE_CONSUMER_PROOF.json via the private evidence index, '
  'then the cited original baseline plans/handoff, recovered cache hashes, frozen auxiliary inventory, '
  'experiment_preprocessing.py, modal_preprocessed_contract.py, modal_nnunet.py and full runtime interfaces. '
@@ -98,7 +96,7 @@ REVIEW_GUIDANCE=(
  'Read SOURCE_BINDING.json, SOURCE_VERIFIED.json, SOURCE_LOCAL_VERIFIED.json and SOURCE_VOLUME.json; '
  'the reviewed service bound these originals to the frozen inventory and full composed-volume byte readback. '
  'Read NATIVE_OUTPUT.json, NATIVE_VERIFIED.json, NATIVE_BINDING.json and NATIVE_TERMINAL.json for actual '
- 'author13 synthetic native CPU execution in the pinned image. These are original receipts, not patient '
+ 'author13 synthetic native CPU execution in the pinned image, applicable only to the exact tested module. These are original receipts, not patient '
  'efficacy, GPU validation, production-main execution or scientific approval. Judge U1/U2 against these '
  'new proofs; preserve U3 coverage holds and distinct later execution/confinement/budget gates. '
  'Only genuine independent APPROVE closes findings. Preserve coverage holds and all other limitations. ')
@@ -106,7 +104,7 @@ REVIEW_GUIDANCE=(
 DIRECT_REVIEW_EVIDENCE=('evidence/40860aa053572ffc0571e45c89b950eaf813725b107f981ad18d5b9921cdb59c-revision-NATIVE_BINDING.json', 'evidence/1eda41750da41c1953fb4721fdaf2a0d26ecb488cc92409ab0fc0bb3e3352631-revision-NATIVE_OUTPUT.json', 'evidence/679fafe1eb3ea06dd449dae12e71d3e2358fb73523eba7457f30b78b21b56b17-revision-NATIVE_TERMINAL.json', 'evidence/0204237b70ac72daccfb5121a5d6f07b5d649602b540ceca7c7380e6be3ab941-revision-NATIVE_VERIFIED.json', 'evidence/ae2effda304d00c028bc1c5c1e554ddeb62d9594b80c2bfe32505b908b9b7927-revision-NEXT_AUTHOR_EVIDENCE_POINTERS.md', 'evidence/cf52d2e04f0a1052ca533af0e7b91af71a8b6eb18bc5762aedb72179fdf615ef-revision-PINNED_IMAGE_CONSUMER_PROOF.json', 'evidence/9878e7923ea81dceefce162166a113aa7d0a53dd65c4199a42b4276fe952d365-revision-SOURCE_BINDING.json', 'evidence/b715ce005f597e0730ca51285fedd98e81bc97f4e66c9b4003068dfd9fcc95db-revision-SOURCE_LOCAL_VERIFIED.json', 'evidence/48e9635cd74cb45d2428ac60153e49af0052a8201dec481adb836984e236785e-revision-SOURCE_VERIFIED.json', 'evidence/e7d3c2478ba4f92c6989f8b5113432e12aea1f762789f76717fa066cb0eed998-revision-SOURCE_VOLUME.json')
 
 def evidence_navigation():
-    return ('This is one mechanical replacement of review8, which exhausted30 reading turns without a verdict. '
+    return ('This is scientific review10 of author14, answering genuine REVISE9; it is not a mechanical replacement. '
         'Use these exact original paths; readable copies and full indexes remain available. '
         'The call has at most60 turns. Submit your independent judgment using submit_review before that limit; '
         'retain unresolved findings if evidence is insufficient. No prior partial commentary is a verdict.\n'+
@@ -180,13 +178,10 @@ def load():
     calls=module('orchestrator.item4_scoped_calls',ROOT/'orchestrator/item4_scoped_calls.py')
     repair=module('orchestrator.item4_review8_recovery',ROOT/'orchestrator/item4_review8_recovery.py')
     mechanical=json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes())
-    calls.connect(current,held_fourth_continuation_approval(),mechanical=mechanical,mechanical_approval=held_mechanical_approval())
-    previous_limit=mr.role_limit
-    def mechanical_limit(store,run,stage):
-        if run==RUN and stage=='run_spec_review' and continuation.state(store).get('phase')==stage:
-            return repair.next_review(store,mechanical,held_mechanical_approval())
-        return previous_limit(store,run,stage)
-    mr.role_limit=mechanical_limit
+    response=json.loads((ROOT/RESPONSE_DOCUMENT).read_bytes())
+    continuation.connect(accounting,mr,response,v['review_sha256'])
+    calls.connect(current,held_fourth_continuation_approval(),mechanical=mechanical,
+        mechanical_approval=held_mechanical_approval(),response=response,response_approval=v['review_sha256'])
     connect_runtime()
     return v,b,evidence,h,old,rec
 
@@ -197,6 +192,9 @@ def connect_runtime():
     from orchestrator import modal_preprocessing_provider as provider, experiment_worker as worker
     from orchestrator import experiment_modal_package as bridge, experiment_preprocessing_dispatch as dispatch
     delivery=module('_revision_workspace_delivery',ROOT/'orchestrator/manual_context.py')
+    from orchestrator import context_budget
+    budget_module=module('_revision_context_budget',ROOT/'orchestrator/context_budget.py')
+    context_budget.assemble=budget_module.assemble
     context.workspace_artifact=delivery.workspace_artifact
     context.build=delivery.build
     fresh={name:module('_revision_runtime_'+name,ROOT/'orchestrator'/(name+'.py'))
@@ -288,6 +286,20 @@ def recover_review8():
             return repair.activate(d,json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes()),held_mechanical_approval(),
                 STATE/'item4'/'item4-review8-turn-recovery-20261009')
     finally:d.store.db.close();d.store.batch.db.close()
+
+def continue_review9():
+    v,b,e,h,old,rec=load()
+    from orchestrator.experiment_driver import ExperimentDriver
+    from orchestrator.manual_executor import lock
+    from orchestrator import item4_review4_continuation as continuation
+    d=ExperimentDriver(LANE)
+    try:
+        with lock(LANE/'driver.lock'):
+            d.guard();originals(d,b,h,old,rec);held_application()
+            return continuation.activate(d,json.loads((ROOT/RESPONSE_DOCUMENT).read_bytes()),
+                v['review_sha256'],STATE/'item4'/REVIEW_CHANGE)
+    finally:d.store.db.close();d.store.batch.db.close()
+
 
 def continue_review7():
     v,b,e,h,old,rec=load()
@@ -437,6 +449,97 @@ def review8_prerequisites(driver,evidence):
             'REVIEW8_PROOF_NOT_DELIVERED')
     return expected
 
+def response_stage(driver,frozen,approval):
+    """Qualify the exact next stage before workspace creation or model admission."""
+    from orchestrator import item4_review4_continuation as continuation,author_revision_accounting as accounting
+    rows=continuation.originals(driver.store,RUN,frozen);continuation.granted(driver.store,frozen,approval)
+    value=driver.current();stage=value['phase']
+    expected={'run_spec_author':(22,13,9,14),'run_spec_review':(23,14,9,10)}
+    require(driver.config['run_id']==RUN and stage in expected and not value.get('pending'),'RESPONSE_STAGE')
+    count,author,review,attempt=expected[stage]
+    require(len(rows)==count and value['rounds']=={'run_spec_author':author,'run_spec_review':review},'RESPONSE_ROUNDS')
+    if stage=='run_spec_author':
+        require(value.get('reason')==continuation.reason(frozen),'RESPONSE_REASON')
+    else:
+        row=rows[-1]
+        require(row['stage']=='run_spec_author' and row['attempt']==14 and accounting._accepted(driver.store,row),'RESPONSE_AUTHOR')
+        expected_binding=continuation.review_binding(driver,frozen,approval)
+        require(json.loads(row['receipt']).get(accounting.FIELD)==expected_binding,'RESPONSE_AUTHOR_BINDING')
+    return attempt
+
+
+def response_model_attempt(driver,value,frozen,approval):
+    from orchestrator import item4_review4_continuation as continuation
+    require(value==continuation.state(driver.store),'RESPONSE_MODEL_STATE')
+    return response_stage(driver,frozen,approval)
+
+
+def response_reviewer_command(original,workspace,stage,driver,frozen,approval):
+    """Only normally admitted scientific review10 receives the existing60-turn reader budget."""
+    argv=original(workspace,stage)
+    if stage!='run_spec_review':return argv
+    from orchestrator import item4_review4_continuation as continuation
+    rows=continuation.originals(driver.store,RUN,frozen);continuation.granted(driver.store,frozen,approval)
+    value=driver.current();pending=value.get('pending') or {}
+    expected=driver.state.parent/(driver.state.name+'-scientific-workspaces')/'run_spec_review-10'
+    ident=sha((RUN+':run_spec_review:10').encode())
+    require(driver.config['run_id']==RUN and Path(workspace).resolve()==expected.resolve()
+        and value['phase']=='MODEL_RUNNING' and pending.get('id')==ident and pending.get('round')==10
+        and pending.get('stage')==stage and Path(pending.get('workspace','')).resolve()==expected.resolve() and value['rounds']=={'run_spec_author':14,'run_spec_review':9}
+        and len(rows)==24,'RESPONSE_COMMAND_SCOPE')
+    for db,table in [(driver.store.db,'manual_calls'),(driver.store.batch.db,'autonomy_calls')]:
+        row=db.execute('SELECT status FROM '+table+' WHERE id=?',(ident,)).fetchone()
+        require(row is not None and row[0]=='RUNNING','RESPONSE_COMMAND_ADMISSION')
+    require(argv.count('--max-turns')==1 and argv[argv.index('--max-turns')+1]=='30','RESPONSE_COMMAND_SHAPE')
+    argv[argv.index('--max-turns')+1]='60'
+    return argv
+
+
+def response_prerequisites(driver,evidence,frozen,approval):
+    import subprocess
+    from orchestrator.manual_host_guard import trusted
+    response_stage(driver,frozen,approval)
+    expected=json.loads(trusted(ROOT/PROOF_DOCUMENT).read_bytes())
+    result=subprocess.run([sys.executable,'-s','-B',str(ROOT/'tools/item4_review8_proof.py')],
+        capture_output=True,text=True,timeout=180)
+    require(result.returncode==0,'RESPONSE_PREREQUISITES_FAILED')
+    require(json.loads(result.stdout)==expected,'RESPONSE_PREREQUISITES_CHANGED')
+    rows={row['name']:row for row in evidence['files']}
+    for name,pin in expected['files'].items():
+        require(name in rows and {k:rows[name][k] for k in ('sha256','bytes')}==pin,'RESPONSE_PROOF_NOT_DELIVERED')
+    # Historical proof is explicitly author13. A changed executable needs fresh proof.
+    if driver.current()['phase']=='run_spec_review':
+        response_native_equivalence(driver,frozen)
+    return expected
+
+
+def response_native_equivalence(driver,frozen):
+    from orchestrator import private_records as pr,notebook_execution
+    value=driver.current();result=value['notebook_revision_result']
+    folder=driver.state/'notebook-revisions/author-14'
+    require(result['folder']==str(folder) and result['synthetic_status']=='PASS','RESPONSE_CONTROLLER')
+    raw=pr.check(folder/'revised.ipynb').read_bytes()
+    require(sha(raw)==result['notebook_sha256'],'RESPONSE_NOTEBOOK')
+    tests=pr.check(folder/'synthetic/receipt.json').read_bytes();receipt=json.loads(tests)
+    require(sha(canonical(receipt))==result['tests_sha256'] and receipt['status']=='PASS'
+        and receipt['exit_code']==0 and receipt['binding']['files']['revised.ipynb']==sha(raw)
+        and pr.check(folder/'synthetic/package/revised.ipynb').read_bytes()==raw,'RESPONSE_TEST_RECEIPT')
+    module=notebook_execution.extract(raw,preprocessing=True)
+    require(module==pr.check(folder/'synthetic/package/execution.py').read_bytes()
+        and sha(module)==frozen['historical_science']['execution_sha256']
+        and receipt['binding']['files']['execution.py']==sha(module),'RESPONSE_CHANGED_MODULE_NEEDS_NATIVE_PROOF')
+    require(receipt['binding']['environment']==frozen['historical_science']['controller_environment'],'RESPONSE_TEST_ENVIRONMENT')
+    for name,pin in frozen['historical_science']['native_files'].items():
+        require(receipt['binding']['files'].get(name)==pin and
+            sha(pr.check(folder/'synthetic/package'/name).read_bytes())==pin,'RESPONSE_NATIVE_SUPPORT_CHANGED')
+    for name,pin in receipt['preserved_files'].items():
+        require(not Path(name).is_absolute() and '..' not in Path(name).parts,'RESPONSE_TEST_PATH')
+        require(sha(pr.check(folder/'synthetic'/name).read_bytes())==pin,'RESPONSE_TEST_CHANGED')
+    for ident,pin in [('notebook_source',result['notebook_sha256']),('synthetic_tests',result['tests_sha256'])]:
+        require(any(a['id']==ident and a['version']==14 and a['sha256']==pin for a in value['artifacts']),
+            'RESPONSE_ARTIFACT_BINDING')
+
+
 def run():
     v,b,e,h,old,rec=load()
     from orchestrator import manual_recovery as mr,stocktake_review_recovery as sr,manual_stage as ms
@@ -450,7 +553,7 @@ def run():
     mechanical=json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes())
     from orchestrator import analysis_revisions, item4_review4_continuation as continuation
     prior_transition=analysis_revisions.review_transition
-    frozen=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
+    frozen=json.loads((ROOT/RESPONSE_DOCUMENT).read_bytes())
     def permit(store,run):
         prior=saved[0](store,run)
         if run!=RUN:return prior
@@ -481,18 +584,12 @@ def run():
         result['author_submission']=af.verify_native(work,pins[af.CONFIG],(Path(work)/'console.log').read_text())
         return result
     def reviewer_command(work,stage):
-        return repair.command(saved[5],work,stage,d.store,mechanical,held_mechanical_approval())
+        return response_reviewer_command(saved[5],work,stage,d,frozen,v['review_sha256'])
     def transition(review,stage,n):
-        if (stage,n)==('run_spec_review',9):
-            repair.granted(d.store,mechanical,held_mechanical_approval())
-            row=d.store.db.execute('SELECT status FROM manual_calls WHERE id=?',(repair.REPLACEMENT,)).fetchone()
-            require(row is not None and row[0]=='COMPLETE' and
-                d.store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==22,'REPLACEMENT_TERMINAL')
-            return prior_transition(review,stage,4)
-        return continuation.terminal_transition(prior_transition,d,review,stage,n,frozen,held_fourth_continuation_approval())
+        return continuation.terminal_transition(prior_transition,d,review,stage,n,frozen,v['review_sha256'])
     class RevisionDriver(ExperimentDriver):
         def model_round_number(self,value):
-            return repair.model_attempt(self,value,mechanical,held_mechanical_approval(),super().model_round_number)
+            return response_model_attempt(self,value,frozen,v['review_sha256'])
         def task(self,stage,value):
             return guidance(stage,super().task(stage,value))
         def prepare_input(self,value,stage,work):
@@ -512,7 +609,7 @@ def run():
             return body,measurement
         def _advance(self,*args,**kwargs):
             self.guard();originals(self,b,h,old,rec)
-            review8_prerequisites(self,e)
+            response_prerequisites(self,e,frozen,v['review_sha256'])
             return super()._advance(*args,**kwargs)
     try:
         d=RevisionDriver(LANE)
@@ -531,6 +628,7 @@ if __name__=='__main__':
     elif sys.argv[1:]==['apply']:print(json.dumps(apply(),sort_keys=True))
     elif sys.argv[1:]==['restore-review9']:print(json.dumps(restore_review9(),sort_keys=True))
     elif sys.argv[1:]==['recover-review8']:print(json.dumps(recover_review8(),sort_keys=True))
+    elif sys.argv[1:]==['continue-review9']:print(json.dumps(continue_review9(),sort_keys=True))
     elif sys.argv[1:]==['continue-review7']:print(json.dumps(continue_review7(),sort_keys=True))
     elif sys.argv[1:]==['run']:print(json.dumps(run(),sort_keys=True))
     elif len(sys.argv)>5 and sys.argv[1]=='send' and sys.argv[4]=='--':raise SystemExit(send(sys.argv[2],sys.argv[3],sys.argv[5:]))

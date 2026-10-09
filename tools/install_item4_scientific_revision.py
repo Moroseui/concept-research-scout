@@ -15,8 +15,8 @@ SCIENCE = Path('/opt/research-system/manual-sprint10/research-manual-sprint10-ti
 RUNTIME = Path('/etc/research-system-manual-sprint10/releases')/SCIENCE.name/'runtime.json'
 OLD_UNIT = Path('/etc/systemd/system/research-item4-runtime-binding-repair-20261008.service')
 UNIT = Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
-PRIOR_SOURCE='ed9ad9aead00c9df8d0ecae1a25ecd782aef169c'
-PRIOR_REVIEW='6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf'
+PRIOR_SOURCE='8e25c24bc519c63cd7fbfb4c0a5669626366b909'
+PRIOR_REVIEW='193bac0749e414c2d86ef1e7f8291a8cb38f32bb811dd9e67973757693309e28'
 AUTHORITY = 'c9f088863d00ca160e7f104a2571291f36be2af1907e296783eb172785fa1d63'
 import importlib.util
 _spec=importlib.util.spec_from_file_location('_revision_install_contract',Path(__file__).with_name('item4_scientific_revision_component.py'))
@@ -77,16 +77,16 @@ assert os.getuid()==os.getgid()==1003
 p=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 with sqlite3.connect((p/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
  v=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
- assert v['phase']=='BLOCKED' and v['reason']=='ValueError: IMMUTABLE_ARTIFACT_CONFLICT' and not v.get('pending') and v['rounds']=={'run_spec_author':13,'run_spec_review':7}
- assert __import__('hashlib').sha256(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0].encode()).hexdigest()=='f8d428463b32ca89dcebad4501bf44662bc31b35397a3ef3721a84900f3922ef'
+ assert v['phase']=='BLOCKED' and v['reason']=='UNRESOLVED_AFTER_THREE_REVISIONS' and not v.get('pending') and v['rounds']=={'run_spec_author':13,'run_spec_review':9}
+ assert __import__('hashlib').sha256(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0].encode()).hexdigest()=='976d5e9edce66d072bff29f6dcc66d7487f8e6d9d652545f8f510b563d8530be'
  assert any(a['id']=='validator' and a['version']==3 and a['sha256']=='43e307ed1ce8a1afae76be2d4e38ef2d36352cdae27989137a85ac2b5b64af14' for a in v['artifacts'])
- assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==21
+ assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==22
 with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as db:
  assert not db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
-print('FAILED_REVIEW8_NO_RUNNING_CALL')
+print('GENUINE_REVISE9_NO_RUNNING_CALL')
 """
     require(subprocess.check_output(['runuser','-u','partho','--','python3','-s','-B','-c',check],text=True).strip()==
-        'FAILED_REVIEW8_NO_RUNNING_CALL','AUTHOR_UPGRADE_RECONCILIATION')
+        'GENUINE_REVISE9_NO_RUNNING_CALL','AUTHOR_UPGRADE_RECONCILIATION')
     history=RECORD/'history'/old['source'];staged=RECORD/('upgrade-staged-'+source)
     require(not history.exists() and not staged.exists(),'AUTHOR_UPGRADE_EXISTS_RECONCILE')
     put(history/'UPGRADE_INTENT.json',json.dumps({'source':source,'review':approved,

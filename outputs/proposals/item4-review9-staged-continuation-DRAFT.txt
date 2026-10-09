@@ -1,9 +1,3 @@
-Unfinished engineering draft; not reviewed, installed or activated.
-
-Purpose: allow exactly author14 to answer genuine scientific REVISE9, followed by scientific review10. Preserve all22 original calls and charges and the final interpretation pair. A proposed scoped26-call allowance must be independently approved and exactly bound before use; day, batch and dollar caps remain unchanged. The author and reviewer own all scientific choices and staging conclusions. Administrative documentation approval does not approve science or this implementation.
-
-Current changes: enumerated continuation identity, exact original-row and grant binding, fixed author/reviewer/interpretation sequence, and focused refusal tests. Helper routing, installation, historical source/native proof qualification, context delivery and actual model-step tests remain incomplete. No runtime change or new call has been made.
-
-Focused suite result:72 passed,6 failed in135.56 seconds. All six failures reached MANUAL_LIMIT_AMENDMENT_BINDING: the lower admission layer does not yet accept the proposed bound26-call form. This is unfinished integration, not a passing release. No checks were relaxed and no failed test is counted as a pass. Full logs and the private accounting checkpoint are preserved privately.
-
-Next: complete the narrow integration and refusal tests, including unchanged cap enforcement and truthful historical proof; then batch process authorization, direction and implementation review in one necessary independent call. No installation or scientific continuation before genuine APPROVE.
+TESTED CANDIDATE, pending independent approval; not installed or activated.
+Source 7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3
+Final regression291passed; all previous failures preserved. One batched administrative review running as of07:09:22UTC. See docs/ITEM4_REVIEW9_RESPONSE_SCOPE_20261009.txt for the exact concrete scope and outputs/STATUS.md for current evidence, spending and limitations.

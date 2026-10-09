@@ -91,6 +91,7 @@ def activate(driver,frozen,approval,dest):
         'authority_sha256':AUTHORITY,'author_attempt':scope(frozen)[0],'review_attempt':scope(frozen)[1]}
     pr.write_bytes(Path(dest)/'intent.json',canonical(grant))
     value={**old,'phase':'run_spec_author','reason':reason(frozen)}
+    if (author,review)==(14,10):value.pop('linked_recovery_of',None) # new genuine revision, not failed review8 recovery
     value['interventions']=[*old.get('interventions',[]),grant]
     db.execute('BEGIN IMMEDIATE')
     try:

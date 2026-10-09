@@ -239,7 +239,7 @@ def decision_register_index(root, text, idea_ids, records):
     return encoded(result)
 
 
-def assemble(root, *, project, idea_ids, stage, task, artifacts, extra=None):
+def assemble(root, *, project, idea_ids, stage, task, artifacts, extra=None, obligation_files=None):
     """Assemble a inspectable prompt. Dispatch preflight separately honors stops."""
     _, content, records = load(root)
     rows = [row for row in records if in_scope(row, project, idea_ids, stage)]
@@ -249,6 +249,30 @@ def assemble(root, *, project, idea_ids, stage, task, artifacts, extra=None):
         ref = row['source']
         citations.setdefault(ref['path'], ref['sha256'])
     parts["OPEN OBLIGATIONS (verbatim)"] = "\n\n".join(open_obligation_text(row) for row in rows)
+    if obligation_files is not None:
+        # Exact representation change for item4 only, never omission or a stop override.
+        if (project!='isles24-prediction' or idea_ids!=['sprint13b-execution']
+                or stage not in {'run_spec_author','run_spec_review'}):
+            raise ContextError('OBLIGATION_FILE_SCOPE')
+        expected=parts['OPEN OBLIGATIONS (verbatim)'].encode('utf-8')
+        joined=b'';navigation=[]
+        from orchestrator.git_publication import scan
+        scan('context/open-obligations.txt',expected)
+        for index,(descriptor,raw) in enumerate(obligation_files,1):
+            pin=sha(raw)
+            exact={'id':'open-obligations-page-'+str(index),
+                'path':'evidence/'+pin+'-open-obligations-'+str(index)+'.txt',
+                'sha256':pin,'bytes':len(raw),'characters':len(raw.decode('utf-8')),
+                'delivery':'Mandatory verbatim open obligations; read this entire page in order before acting.'}
+            if descriptor!=exact or not 0<len(raw)<=12000:
+                raise ContextError('OBLIGATION_FILE_BINDING')
+            scan(descriptor['path'],raw);joined+=raw;navigation.append(descriptor)
+        if joined!=expected or (expected and not obligation_files):
+            raise ContextError('OBLIGATION_FILE_INCOMPLETE')
+        parts['OPEN OBLIGATIONS (verbatim)']=encoded({
+            'delivery':'Every open obligation is preserved verbatim in these ordered mandatory pages. '
+                'Read ALL pages before authoring or reviewing. No obligation is closed or waived by file delivery.',
+            'original_sha256':sha(expected),'original_bytes':len(expected),'pages':navigation})
     parts["OBLIGATION ORIGINALS (operator-readable provenance; full SHA256)"] = "\n".join(
         path + " " + digest for path, digest in citations.items())
     parts["CURRENT ARTIFACTS (evidence, not authority)"] = artifacts
