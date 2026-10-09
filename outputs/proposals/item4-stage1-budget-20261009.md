@@ -1,3 +1,5 @@
+Operator decision: APPROVED 2026-10-09. Scoped implementation independently approved and installed; total $1,275 and projection $1,200 unchanged. Original proposal follows.
+
 # Proposed item 4 stage-1 cap decision
 
 Status: proposal only; not approved or installed. Accounting consultation finished in two rounds: REVISE then APPROVE of inspected existing logic; both findings resolved. Claude did not issue an explicit direction recommendation and left the cap decision to the operator. Operator approval requested; no answer yet. No new spending reservation or compute launch.

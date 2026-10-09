@@ -137,7 +137,9 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         commitments = exposure['commitments']
         total = asset_total + exposure['run_cost'].get(run,0)
         smoke = asset_total + exposure['smoke_cost'].get(run,0)
-        if total + amount > TOTAL_CAP or (scope['stage']=='SMOKE' and smoke + amount > SMOKE_CAP):
+        from orchestrator import item4_stage1_cap
+        smoke_cap = item4_stage1_cap.limit(binding)
+        if total + amount > TOTAL_CAP or (scope['stage']=='SMOKE' and smoke + amount > smoke_cap):
             raise ValueError('ITEM4_HARD_COST_CAP')
         if exposure['underestimated_apps']:
             raise ValueError('ITEM4_COST_BOUND_BELOW_BILLING')
@@ -155,7 +157,8 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
                    (ident,run,raw,amount,now.strftime('%Y-%m')))
         payload = {'kind':'ITEM4_COST_RESERVED','binding_sha256':ident,'micro_usd':amount,
                    'billing_snapshot':billing_snapshot,'headroom':view,
-                   'caps':{'smoke':SMOKE_CAP,'projection':PROJECTION_LIMIT,'total':TOTAL_CAP},
+                   'caps':{'smoke':smoke_cap,'projection':PROJECTION_LIMIT,'total':TOTAL_CAP},
+                   'stage1_operator_sha256':item4_stage1_cap.OPERATOR_SHA if smoke_cap>SMOKE_CAP else None,
                    'authority_sha256':AUTHORITY,'team_authority_sha256':TEAM_AUTHORITY,
                    'terminal_exposure':exposure}
         if full_admission is not None:payload['full_admission']=full_admission

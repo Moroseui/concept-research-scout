@@ -1,0 +1,38 @@
+{
+  "schema": "provisional-aggregate-timing-comparison/v1",
+  "sprint12_notebook_sha256": "bd26b2bc392804cc4d04832ed4f47328dfe1295cdb4f1fab74e6ea74ff8f354e",
+  "sprint12_A1_epoch_median_seconds_per_fold": [
+    36,
+    36,
+    36,
+    36,
+    36
+  ],
+  "sprint12_A1_measured_fold_hours": [
+    2.69,
+    2.69,
+    2.72,
+    2.74,
+    2.72
+  ],
+  "sprint12_timing_kind": "rounded medians reported in executed 250-epoch full-run logs",
+  "sprint13B_A100_epoch_seconds": 278.167062373,
+  "sprint13B_epoch_number": 0,
+  "sprint13B_steady_state_measured": false,
+  "warmup": "No warmup subtraction: includes any warmup within timed first-epoch train/validation work; excludes initialization before epoch timer. Warmup share not separately measured.",
+  "frozen_full_fits": 40,
+  "epochs_per_fit": 250,
+  "naive_epoch_only_gpu_hours": 772.6862843694445,
+  "naive_gpu_only_usd": 1931.7157109236111,
+  "reserved_configuration_hourly_usd": 7.8424,
+  "fixed_hours_per_fit": 1,
+  "fixed_dollars_per_fit": 5,
+  "naive_full_resource_plus_allowances_usd": 6573.410916538931,
+  "projection_gate_usd": 1200,
+  "scientifically_accepted": false,
+  "limitations": [
+    "First epoch is not steady state.",
+    "One base-arm A100 timing is not evidence for every arm or hardware.",
+    "Arithmetic comparison only; author/reviewer must explain differences and judge scientific projection."
+  ]
+}
