@@ -139,6 +139,12 @@
       "role": "installed closed-compute reconciliation preserving original rows, live reservations and unconfirmed overhead",
       "review": "08ba6c4fa437586c0cd8a44e9fb627a735c6827ecb45fe5333587053fff1cdc5",
       "selection": "exact safe source projection; original accounting contract and infrastructure fixture withheld"
+    },
+    {
+      "source": "109b73eb901a68f72ec2cc1eac1ed694bd66a475",
+      "role": "item4-preprocessing-checkpoint-connection-20261009",
+      "review": "d54661f1c30999926fa601e246b5d62a29689d25f4ee9c08522ac160b1ef8560",
+      "selection": "Reviewed safe source projection; private contract and flagged fixtures withheld; installed held, entrypoint follow-up required"
     }
   ],
   "source_files_count": 1369,

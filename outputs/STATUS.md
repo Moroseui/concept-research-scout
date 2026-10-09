@@ -2,11 +2,11 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B preprocessing verified its frozen inputs and pinned image, then committed 92 steps before a confirmed time limit.
-No compute is running; Claude is reviewing the narrow repair needed to resume those saved steps.
+No compute is running. The checkpoint repair is installed, but reconciliation stopped at SDK initialization before changing the ledger.
 GPU smoke awaits validated preparation; coverage-dependent arms stay held, and full training awaits scientific smoke review.
 Earlier confirmed CPU charges are $2.33879894; other actual costs remain unsettled. Effective item-4 exposure remains $58.029253 of $75.
-Next expected result: resumed preprocessing after review and installation, estimated 15-25 minutes, then the remaining computation.
-No operator action needed. Latest completed Claude direction: R53 PROCEED; R54 pending. Today: 38/50 calls.
+Next expected result: resumed preprocessing after a focused SDK bootstrap correction and review, estimated 30-45 minutes, then remaining computation.
+No operator action needed. Latest Claude review: R54 APPROVE; a bootstrap correction is next. Today: 38/50 calls, all terminal.
 
 Updated 2026-10-09T15:30:50.082457+00:00. Detailed audit follows.
 
@@ -22,13 +22,13 @@ R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent
 
 Final tests: 232 passed, two disclosed environment-dependent skips. The complete connection and admission rehearsal preserved both old charges and refused an over-cap launch. Provider creation and future upload were explicitly simulated; prior authority and input/image/billing checks ran for real. Original failed tests/rehearsals and all charges are preserved. The public source projection is audit history, not a deployable combined release.
 
-R54 draft source109b73eb901a68f72ec2cc1eac1ed694bd66a475 is under one combined implementation/accounting/safeguard/direction review. It reconnects the existing native checkpoint path after the two exact pre-science replacements, retaining every original attempt and charge. Only the exact second science segment is allowed; unknown, changed or unrelated predecessors still refuse. No installation or continuation has occurred.
+R54 source109b73eb901a68f72ec2cc1eac1ed694bd66a475 received genuine APPROVE d54661f1c30999926fa601e246b5d62a29689d25f4ee9c08522ac160b1ef8560, with no findings. The held installation and its post-install verification passed. It reconnects the existing native checkpoint path after the two exact pre-science replacements, retaining every original attempt and charge. Only the exact second science segment is allowed; unknown, changed or unrelated predecessors still refuse. No continuation has occurred. The first real reconciliation command refused MODAL_SDK_IMPORT_PATH before any ledger change: the command omitted initialization of the existing SDK path, which the rehearsal had supplied separately. A read-only before/after audit confirmed every row, event, call and lane state unchanged; no cause file was created. The narrow follow-up will test the actual command bootstrap before independent review and retry.
 
 Final tests:220passed, one root-only publication fixture skipped. The native server rehearsal passed checkpoint reconciliation, successor selection, byte-unchanged package files, read-only preflight, ordinary admission and over-cap refusal on disposable ledgers; actual ledgers were unchanged. Future candidate approval/install and provider create/launch were explicitly simulated. A final additional early refusal for a missing resume link was tested by the final suite after the rehearsal source was frozen; that exact one-line difference is disclosed. Native worker restore/finish/collection tests use synthetic inputs, not completed research evidence.
 
 The two initial test runs exposed an identity-connection defect and a synthetic context permission setup mismatch; originals remain preserved. The first rehearsal fixture lacked a status method and was corrected. No production permissions/checks were relaxed. Current reservation stays10.3424; a proposed continuation would reserve another10.3424 only through ordinary admission, illustrated effective exposure68.371653/75 before any fresh billing adjustment.
 
-Safe pending source history is on astra/public-preprocessing-checkpoint-connection-20261009 at632904fe3d70a8ecb845d16bb2d13ebfca1175b6; it is not an installed release or scientific approval.
+Safe pending source history is on astra/public-preprocessing-checkpoint-connection-20261009 at632904fe3d70a8ecb845d16bb2d13ebfca1175b6; its reviewed safe source is now merged into this branch as installed history; it is not scientific approval.
 
 ## Spending
 
@@ -40,11 +40,11 @@ Safe pending source history is on astra/public-preprocessing-checkpoint-connecti
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |
 
-Provider billing observed $2.33879894 for the preparation application through completed hourly records ($0.58471212 for the first stopped attempt and $1.75408682 for the second). This is not final settlement or complete research spend. Only $8.346000 of confirmed closed CPU reservation excess was released; all original reservation rows remain preserved. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707; R53's is $3.601068.
+Provider billing observed $2.33879894 for the preparation application through completed hourly records ($0.58471212 for the first stopped attempt and $1.75408682 for the second). This is not final settlement or complete research spend. Only $8.346000 of confirmed closed CPU reservation excess was released; all original reservation rows remain preserved. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707; R53's is $3.601068; R54's is $4.659651.
 
 ## Calls and judgment log highlights
 
-UTC October 9: 38/50 model calls; R54 administrative review is running, all earlier calls terminal. No resets or relabeling.
+UTC October 9: 38/50 model calls, all terminal. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -53,7 +53,7 @@ UTC October 9: 38/50 model calls; R54 administrative review is running, all earl
 | Administrative implementation review | 26 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging R53 closed-compute reconciliation and R54 checkpoint connection; includes original disqualified/REVISE calls |
 | Standalone direction | 5 | Retry authority, next-result plan, staging, validation admission, output-root recovery |
 
-Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest completed check: R53, one round, APPROVE / PROCEED; R54 is pending. R54 judgment: preserve92steps after the actual lifetime timeout and reconnect native continuation, with a bundled Claude opinion because accounting/identity safeguards are touched; retain unconfirmed overhead and the live reservation, and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
+Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest check: R54, one round, APPROVE with no findings; its rationale endorsed the narrow connection but did not use a separate PROCEED keyword. The follow-up SDK bootstrap opinion/direction check will be folded into its implementation review. R54 judgment: preserve92steps after the actual lifetime timeout and reconnect native continuation, with a bundled Claude opinion because accounting/identity safeguards are touched; retain unconfirmed overhead and the live reservation, and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
 
 ## Publication scope and withheld files
 
@@ -344,3 +344,5 @@ R54 publication omissions:
 - docs/ITEM4_CHECKPOINT_CONNECTION.json: PRIVATE_NATIVE_EVIDENCE_REFERENCE.
 - tests/fixtures/item4_checkpoint_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 - tests/test_experiment_preprocessing_dispatch.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+
+Latest judgment: the actual entry-point failure is a diagnosed engineering bootstrap defect, not permission to bypass SDK verification. Preserve it, initialize only the existing hash-bound SDK path, exercise the cold command itself, and obtain independent approval before the follow-up is installed. No new credential, cap or reservation is authorized by this judgment.
