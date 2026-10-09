@@ -1,6 +1,6 @@
 {
   "schema": "sprint13b-continuation-status/v1",
-  "at": "2026-10-09T04:51:38.513735+00:00",
+  "at": "2026-10-09T06:38:47.628539+00:00",
   "author_attempt": 13,
   "author_status": "ACCEPTED",
   "controller_tests": {
@@ -11,7 +11,7 @@
   "native_status": "VERIFIED",
   "native_attempt_reservation_usd": "1.118950",
   "item4_retained_asset_reservations_usd": "35.348053",
-  "source_composition": "VERIFIED_READY",
+  "source_composition": "VERIFIED",
   "brain_source_rehash": {
     "files": 99,
     "bytes": 19679031,
@@ -19,10 +19,10 @@
     "overlap": 0,
     "transferred_files": 0
   },
-  "scientific_review8": "RUNNING",
+  "scientific_review8": "FAILED_READING_LIMIT_PRESERVED",
   "scientific_approval": false,
   "gpu_smoke_started": false,
-  "direction": "PROCEED",
+  "direction": "LATEST_EXPLICIT_R39_PROCEED_SIMPLIFY",
   "implementation_source": "7e49eeb17f1fea1f8caa8709ec0422912bc17f3d",
   "implementation_review": "8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6",
   "source_preparation_reservation_usd": "3.321330",
@@ -52,5 +52,13 @@
   "review8_delivery_review_sha256": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16",
   "scientific_run_calls": 21,
   "scientific_run_cap": 23,
-  "direction_rounds": 1
+  "direction_rounds": 1,
+  "scientific_review9": "GENUINE_REVISE",
+  "scientific_review9_sha256": "7d57c78c13455f0f39f81bf2a18c9ff83ef13ad178058e44b8f77358b69139f7",
+  "scientific_lane": "BLOCKED_UNRESOLVED_AFTER_THREE_REVISIONS",
+  "scientific_calls": 22,
+  "utc_day_model_calls": 21,
+  "native_cpu": "PASSED_SYNTHETIC_ONLY",
+  "scope_opinion": "R40_DOCUMENTATION_APPROVE_STAGING_QUESTION_UNANSWERED",
+  "continuation_draft": "UNINSTALLED_UNREVIEWED_72_PASS_6_FAIL"
 }

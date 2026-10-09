@@ -225,9 +225,39 @@
       "source": "genuine independent implementation report or aggregate current status"
     },
     {
+      "path": "outputs/sprint13b/scientific-review9.json",
+      "sha256": "7d57c78c13455f0f39f81bf2a18c9ff83ef13ad178058e44b8f77358b69139f7",
+      "source": "genuine scientific REVISE; original report bytes"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-staged-validation-direction-20261009.json",
+      "sha256": "0e342939c65b4db2af367c595b5f3b7c4bdb9983250a3173bd31b5891b795d46",
+      "source": "genuine documentation-only scope opinion; not implementation or scientific approval"
+    },
+    {
+      "path": "outputs/proposals/item4-staged-validation-direction-20261009.txt",
+      "sha256": "6ae69bd1dfaa715c3f0f06a70eb2e51486bb34ee8a8309ad8b44472598c64d7f",
+      "source": "documentation-only proposal"
+    },
+    {
+      "path": "outputs/proposals/item4-staged-validation-direction-disposition.txt",
+      "sha256": "fa96cb9e7dd5a3a877fe28be4264a8373a28e142a0163504cb6bed64baaa938b",
+      "source": "honest limitation of administrative opinion"
+    },
+    {
+      "path": "outputs/proposals/item4-review9-staged-continuation-DRAFT.txt",
+      "sha256": "ef042909f00fe47624c99971a0c3a08d6aa9f37a7ed9ff9350d635c5bf44f387",
+      "source": "working-draft status and test summary"
+    },
+    {
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "2b0f852fccf454b20c52a7cb43a886f6d099adc2af8b55a3febc0a066c8c8d1a",
-      "source": "genuine independent implementation report or aggregate current status"
+      "sha256": "7b81f306bdb25908166a08f4e2cd1910f80e61aa4b3785c482168d7122302a8e",
+      "source": "reconciled aggregate status"
+    },
+    {
+      "path": "outputs/STATUS.md",
+      "sha256": "2dc0195915029fea0b47a5e1036cfecac4cffe873dc3c190d7675e63a0fed62c",
+      "source": "current status"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release.",
@@ -333,5 +363,20 @@
       ],
       "review": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16"
     }
-  ]
+  ],
+  "working_snapshots": [
+    {
+      "source": "2c8cded2df9dc77663605c0ea541ace3147e2d52",
+      "status": "documentation-only opinion; not installed",
+      "branch": "astra/public-staged-validation-direction-20261009"
+    },
+    {
+      "parent": "8e25c24bc519c63cd7fbfb4c0a5669626366b909",
+      "status": "uncommitted private working tree projected exactly; unfinished unreviewed uninstalled draft",
+      "branch": "astra/public-review9-staged-continuation-20261009",
+      "tests": "72 passed,6 failed",
+      "private_checkpoint_omitted": true
+    }
+  ],
+  "latest_backup_at": "2026-10-09T06:38:47.628539+00:00"
 }
