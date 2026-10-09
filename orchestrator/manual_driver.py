@@ -291,12 +291,17 @@ class Driver:
                 return self._model_step(value)
         return self._model_step(value)
 
+    def model_round_number(self,value):
+        """Attempt workspace number; accepted-round counters remain scientific state."""
+        stage=value['phase']
+        if self.config.get('execution_recovery'):
+            return self.store.db.execute('SELECT count(*) FROM manual_calls WHERE stage=?',(stage,)).fetchone()[0]+1
+        return value['rounds'].get(stage,0)+1
+
     def _model_step(self,value):
         from orchestrator.manual_recovery import role_limit
         stage=value['phase']
-        if self.config.get('execution_recovery'):
-            round_no=self.store.db.execute('SELECT count(*) FROM manual_calls WHERE stage=?',(stage,)).fetchone()[0]+1
-        else:round_no=value['rounds'].get(stage,0)+1
+        round_no=self.model_round_number(value)
         if round_no>role_limit(self.store,self.config['run_id'],stage):raise ValueError('REVIEW_ROUND_LIMIT')
         work=Path(self.config.get('workspace_root',self.state.parent/(self.state.name+'-scientific-workspaces')))/(stage+'-'+str(round_no))
         body,measurement=self.prepare_input(value,stage,work)

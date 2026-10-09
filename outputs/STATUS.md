@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T05:32:34.707015+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T05:51:43.279873+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -27,20 +27,30 @@ Next required repair: select the actual next attempt workspace without changing 
 | Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation$0.38602155 cannot be separated |
 | Item6 input preparation | $5.000000 | Actual preparation cost not isolated |
 
-No reservation released. Only provider-confirmed actual cost of a closed attempt permits excess release, preserving original/actual/excess figures. Open or uncertain attempts retain full reservations. Item4 caps remain$75 smoke,$1200 projection,$1275 total; separate$15 retry allowance does not apply. Model usage estimates are separate from provider invoice settlement: failed review8$9.981374; latest administrative review$4.89504125. The latest pre-admission refusal added zero calls/charges.
+No reservation released. Only provider-confirmed actual cost of a closed attempt permits excess release, preserving original/actual/excess figures. Open or uncertain attempts retain full reservations. Item4 caps remain$75 smoke,$1200 projection,$1275 total; separate$15 retry allowance does not apply. Model usage estimates are separate from provider invoice settlement: failed review8$9.981374; approved recovery review$4.89504125; disqualified workspace repair review$3.7762185. The latest pre-admission refusal added zero calls/charges.
 
 ## Calls, direction and judgment
 
-UTC October9:17/50 calls:
+UTC October9:18/50 calls:
 
 - Scientific authors2: author12 and13, correcting the pinned native-library interface while preserving the full research plan.
 - Scientific reviewers2: review7 genuine REVISE on source/native evidence; review8 reader-limit failure without submission.
-- Administrative implementation reviews11: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source-handle initialization/exact successor; proof/context delivery; bounded reader-limit recovery. All approved.
+- Administrative implementation reviews12: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source-handle initialization/exact successor; proof/context delivery; bounded reader-limit recovery; workspace selector/restoration. The first11 approved; the last was disqualified.
 - Standalone scope/direction checks2: retry authority and next-result plan. Later direction checks were folded into necessary implementation reviews.
 
 October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction. Every original call and charge remains counted; no reset or relabeling.
 
-Latest completed Claude direction: agreed the recovery was the shortest safe path,1round,APPROVE (PROCEED-equivalent wording). No optional subsystem added. The new pre-admission failure requires another folded direction check under the two-cycle/estimate-slip rules. Judgment: the immutable-file refusal is correct; fix the attempt selector and test the real caller path, preserving every original and the existing allowance. No operator decision is pending.
+Latest qualified Claude direction: agreed the recovery was the shortest safe path,1round,APPROVE (PROCEED-equivalent wording). No optional subsystem added. The new pre-admission failure requires another folded direction check under the two-cycle/estimate-slip rules. Judgment: the immutable-file refusal is correct; fix the attempt selector and test the real caller path, preserving every original and the existing allowance. No operator decision is pending.
+
+## Current repair outcome
+
+The narrow workspace selector/restoration patch is tested but NOT installed. Thirteen new regression tests passed; related suites had141 passes, one skip and16 existing transport-environment refusals. A representative refusal reproduced on the unchanged parent. The confinement guard was not relaxed. Tests exercise the real model-step and reservation path while preserving accepted counter7, original grant, calls and files.
+
+The administrative review was disqualified after attempting an unavailable shell tool when a test log exceeded its reader limit. The shell did not execute. Its submitted APPROVE and PROCEED are not qualified authority; installation remains held. Every original and its model-reported$3.7762185 charge remains counted. Scientific review9 is still unreserved. Next: concise accurate test summary and lossless paginated log delivery, then one bounded mechanical retry with the confinement guard unchanged. Genuine approval and live checks precede scientific admission.
+
+Next scientific verdict estimate:30-45 minutes after the corrected administrative review starts. GPU smoke timing depends on scientific acceptance and preparation/benchmark outcomes. No operator decision is pending.
+
+Administrative reviews dominate today's calls. Batch related repairs, approval bindings and direction in one necessary review; provide concise evidence indexes. No optional infrastructure. Latest qualified direction remains the installed recovery's PROCEED-equivalent; the disqualified submission does not supersede it.
 
 ## Publication scope and omissions
 
@@ -279,3 +289,9 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 - docs > ITEM4_REVIEW8_MECHANICAL_RECOVERY.json: PRESERVED_PRIVATE_CALL_CHECKPOINT.
 - Raw astra/item4-review8-turn-recovery-20261009 ancestry contains private records; safe source projection only. All original call records, raw streams, evidence folders and review packets remain private.
 - outputs > implementation-reviews > item4-review8-turn-recovery-20261009.json: CREDENTIAL_OR_HOST_REFERENCE.
+
+### Latest repair exclusions
+
+- Raw astra/item4-review9-workspace-repair-20261009 ancestry remains private; exact safe code and tests are projected on the public working branch.
+- Disqualified review originals and detailed test logs remain private.
+- docs > ITEM4_REVIEW9_PRE_ADMISSION.json: PRIVATE_ACCOUNTING_CHECKPOINT
