@@ -67,6 +67,12 @@
       "role": "installed lazy Volume handle repair and exact preserved-failure successor",
       "review": "fd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e",
       "selection": "exact safe projection; private originals and raw ancestry withheld"
+    },
+    {
+      "source": "2da898df506e28718277c588ab31d1e1be57a1a0",
+      "role": "authenticated source/native delivery and bounded readers for scientific review8",
+      "review": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16",
+      "selection": "exact safe source projection already published; raw private ancestry and flagged records withheld"
     }
   ],
   "source_files_count": 1369,
@@ -202,9 +208,14 @@
       "source": "aggregate authenticated infrastructure proof or current work status; no scientific approval"
     },
     {
+      "path": "outputs/implementation-reviews/item4-review8-source-native-delivery-20261009.json",
+      "sha256": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16",
+      "source": "genuine independent implementation report or aggregate current status"
+    },
+    {
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "224426a12341a70c933219a5911013ee746a1ef9c0b3c5d102d92dc8e9bf2aa0",
-      "source": "aggregate authenticated infrastructure proof or current work status; no scientific approval"
+      "sha256": "2b0f852fccf454b20c52a7cb43a886f6d099adc2af8b55a3febc0a066c8c8d1a",
+      "source": "genuine independent implementation report or aggregate current status"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release.",
@@ -271,7 +282,7 @@
     {
       "source": "2da898df506e28718277c588ab31d1e1be57a1a0",
       "role": "complete review8 source/native evidence and bounded reader delivery",
-      "status": "INDEPENDENT_REVIEW_RUNNING_NOT_INSTALLED",
+      "status": "APPROVED_INSTALLED",
       "tests": 183,
       "files": [
         {
@@ -307,7 +318,8 @@
             "PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD"
           ]
         }
-      ]
+      ],
+      "review": "6611caf12787c6552d22f90b1a6571cb4fa02e907cf220dcff969bc3d8a3df16"
     }
   ]
 }
