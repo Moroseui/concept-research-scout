@@ -38,11 +38,11 @@ def validate(state):
         expected={'source','branch','day','count','notification','halted'} | ({'kind'} if server else set())
         if (not server and not manual and not re.fullmatch(r'\d+:\d+',key)) or set(v)!=expected:
             raise ValueError('LIMITER_EVENT_SCHEMA')
-        if not re.fullmatch('[0-9a-f]{40}',v['source']) or (not re.fullmatch(r'astra/manual-[a-z0-9-]+',v['branch']) if manual else v['branch'] not in (['astra/infrastructure-milestone-record'] if server else ['main','astra/autonomous-isles-pilot'])) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']) or type(v['count']) is not int or v['notification'] not in [None,'N','2N'] or type(v['halted']) is not bool:
+        if not re.fullmatch('[0-9a-f]{40}',v['source']) or (not re.fullmatch(r'astra/manual-[a-z0-9-]+',v['branch']) if manual else v['branch'] not in (['astra/infrastructure-milestone-record'] if server else ['main','astra/autonomous-isles-pilot'])) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']) or type(v['count']) is not int or v['notification'] not in [None,'N','2N','CAP'] or type(v['halted']) is not bool:
             raise ValueError('LIMITER_EVENT_VALUES')
         if server and v['kind'] not in ['astra_turn','nightly_review']:raise ValueError('LIMITER_SERVER_KIND')
     for key,v in state['notifications'].items():
-        if not re.fullmatch(r'\d+:N|\d+:2N',key) or set(v)!={'threshold','count','day'} or v['threshold'] not in ['N','2N'] or type(v['count']) is not int or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']):raise ValueError('LIMITER_NOTICE_SCHEMA')
+        if not re.fullmatch(r'\d+:N|\d+:2N|\d+:CAP',key) or set(v)!={'threshold','count','day'} or v['threshold'] not in ['N','2N','CAP'] or type(v['count']) is not int or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']):raise ValueError('LIMITER_NOTICE_SCHEMA')
     for v in state['resets']:
         if set(v)!={'approval_sha256','expected_sequence','at'} or not re.fullmatch('[0-9a-f]{64}',v['approval_sha256']) or type(v['expected_sequence']) is not int or not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z',v['at']):raise ValueError('LIMITER_RESET_SCHEMA')
     return state
@@ -226,10 +226,16 @@ def admit_manual(store, config, event, now=None, *, allowance=None):
             or not re.fullmatch('astra/manual-[a-z0-9-]+',event['branch'])):
         raise ValueError('MANUAL_ACCOUNTING_BINDING')
     effective_n = None
+    exact_limit = None
     if allowance is not None:
         from orchestrator import autonomy_limits
         autonomy_limits.authority()
-        if allowance.get('run_limit') == 30:
+        if allowance.get('run_limit') == 23:
+            if type(allowance['run_limit']) is not int:raise ValueError('MANUAL_LIMIT_AMENDMENT_BINDING')
+            from orchestrator.item4_scoped_calls import validate_allowance
+            validate_allowance(store,event,allowance)
+            exact_limit = 23
+        elif allowance.get('run_limit') == 30:
             from orchestrator import diagnostics_policy
             if (set(allowance) != {'authority_sha256','run_limit','scoped_run_id'} or
                     type(allowance['run_limit']) is not int or
@@ -241,7 +247,7 @@ def admit_manual(store, config, event, now=None, *, allowance=None):
                 type(allowance['run_limit']) is not int or allowance['run_limit'] not in (16,20)):
             raise ValueError('MANUAL_LIMIT_AMENDMENT_BINDING')
         effective_n = allowance['run_limit']//2
-    result = _admit(store,config,event,'manual:'+event['run_id']+':'+event['attempt'],now,12,effective_n=effective_n)
+    result = _admit(store,config,event,'manual:'+event['run_id']+':'+event['attempt'],now,12,effective_n=effective_n,exact_limit=exact_limit)
     return {**result,'limit_amendment':allowance} if allowance is not None else result
 
 
@@ -250,8 +256,10 @@ def pending_notifications(state):
     return sorted(state['notifications'], key=lambda key:int(key.split(':',1)[0]))[-4:]
 
 
-def _admit(store,config,event,key,now,max_retries,*,effective_n=None):
+def _admit(store,config,event,key,now,max_retries,*,effective_n=None,exact_limit=None):
     n=policy(config) if effective_n is None else effective_n
+    ceiling=2*n if exact_limit is None else exact_limit
+    if type(ceiling) is not int or ceiling < n:raise ValueError('LIMITER_EXACT_LIMIT_REQUIRED')
     day=(now or datetime.now(timezone.utc)).astimezone(timezone.utc).date().isoformat()
     for _ in range(max_retries):
         old,state=store.read()
@@ -263,13 +271,13 @@ def _admit(store,config,event,key,now,max_retries,*,effective_n=None):
             if any(e[k]!=event[k] for k in ['source','branch']) or e.get('kind')!=event.get('kind'):raise ValueError('LIMITER_EVENT_BINDING_CHANGED')
             return {'status':'ADMITTED','duplicate_admission':True,**e,'state_before':old,'pending_notifications':pending_notifications(state)}
         # Halt is latched across midnight. No automatic recovery/reset.
-        if state['count']>2*n or (state['count']==2*n and not state['halted']):raise ValueError('LIMITER_STATE_INCONSISTENT')
+        if state['count']>ceiling or (state['count']==ceiling and not state['halted']):raise ValueError('LIMITER_STATE_INCONSISTENT')
         if state['halted']:return {'status':'HALTED_OPERATOR_RESET_REQUIRED','count':state['count'],'day':state['day']}
         if state['day'] and day<state['day']:raise ValueError('LIMITER_CLOCK_ROLLBACK')
         if state['day']!=day:state.update(day=day,count=0)
         state['count']+=1;state['sequence']+=1
-        notice='2N' if state['count']>=2*n else 'N' if state['count']==n else None
-        state['halted']=state['count']>=2*n
+        notice=('CAP' if exact_limit is not None else '2N') if state['count']>=ceiling else 'N' if state['count']==n else None
+        state['halted']=state['count']>=ceiling
         e={'source':event['source'],'branch':event['branch'],'day':day,'count':state['count'],'notification':notice,'halted':state['halted']}
         if 'kind' in event:e['kind']=event['kind']
         state['events'][key]=e

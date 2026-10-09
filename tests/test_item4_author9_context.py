@@ -48,7 +48,7 @@ def test_evidence_manifest_is_append_only_with_exact_original_image_bytes():
     checkpoint=json.loads((repo/'docs/ITEM4_REVISION_CHECKPOINT.json').read_bytes())
     assert c.sha((repo/'docs/ITEM4_REVISION_EVIDENCE.json').read_bytes())==checkpoint['evidence_manifest_sha256']
     names=[r['name'] for r in manifest['files']]
-    assert len(names)==47 and len(set(names))==47
+    assert len(names)==54 and len(set(names))==54
     assert names[38:42]==['NEXT_AUTHOR_EVIDENCE_POINTERS.md','PINNED_IMAGE_CONSUMER_PROOF.json','PINNED_IMAGE_NATIVE.original.json','PINNED_IMAGE_TERMINAL.original.json']
     assert 'latest genuine scientific REVISE' in c.guidance('run_spec_author','')
     assert 'Continue the preserved author7' not in c.GUIDANCE
@@ -63,7 +63,7 @@ def upgrade_fixture(tmp_path,monkeypatch):
     manifest={'schema':'example','files':[{'name':'original.txt','sha256':'kept'}]}
     checkpoint={'evidence_manifest_sha256':'old','original_calls':'unchanged'}
     files=['tools/item4_scientific_revision_component.py','docs/ITEM4_REVISION_CHECKPOINT.json','docs/ITEM4_REVISION_EVIDENCE.json']
-    old={'source':i._contract.THIRD_SOURCE,'review_sha256':i._contract.THIRD_REVIEW,'files':{},'base_files':{'untouched':'pin'},'units':{'same.service':'same-pin'},'review_folder':str(record/'review')}
+    old={'source':i.PRIOR_SOURCE,'review_sha256':i.PRIOR_REVIEW,'files':{},'base_files':{'untouched':'pin'},'units':{'same.service':'same-pin'},'review_folder':str(record/'review')}
     original_state={'checkpoint':checkpoint,'manifest':manifest,'old':old};statefile=tmp_path/'prior.json';statefile.write_text(json.dumps(original_state))
     code='import json\nfrom pathlib import Path\nFILES='+repr(files)+'\ndef verified():\n v=json.loads(Path('+repr(str(statefile))+').read_text());return v["old"],v["checkpoint"],v["manifest"]\n'
     (root/files[0]).write_text(code);(root/files[1]).write_text(json.dumps(checkpoint));(root/files[2]).write_text(json.dumps(manifest))
@@ -89,7 +89,7 @@ def upgrade_fixture(tmp_path,monkeypatch):
     calls=[]
     def check(cmd,**kw):
         calls.append(cmd)
-        return 'ActiveState=inactive\nMainPID=0\nControlGroup=\n' if cmd[0]=='systemctl' else 'HELD_REVIEW7_NO_RUNNING_CALL\n'
+        return 'ActiveState=inactive\nMainPID=0\nControlGroup=\n' if cmd[0]=='systemctl' else 'HELD_AFTER_REVIEW7_NO_RUNNING_CALL\n'
     monkeypatch.setattr(i.subprocess,'check_output',check)
     monkeypatch.setattr(i.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout='verified',stderr=''))
     return i,root,record,review,statefile,bodies,evidence,calls
@@ -101,7 +101,7 @@ def test_upgrade_preserves_source_evidence_approval_and_no_apply_or_start(upgrad
     applied=(record/'APPLIED.json').read_bytes()
     result=i.upgrade(bodies,evidence,review,{'report_sha256':'new-review'},'new-source')
     assert result['status']=='UPDATED_HELD' and result['model_calls']==result['provider_calls']==0
-    history=record/'history'/i._contract.THIRD_SOURCE
+    history=record/'history'/i.PRIOR_SOURCE
     assert all((history/'source'/name).read_bytes()==raw for name,raw in originals.items())
     assert (history/'original-review-directory/original.json').read_text()=='original review'
     assert (history/'original-evidence-directory/original.txt').read_bytes()==b'exact original'
@@ -138,7 +138,7 @@ def test_upgrade_refuses_before_mutation(upgrade_fixture,fault,monkeypatch):
 def test_stopped_failed_unit_can_update_but_nonempty_cgroup_still_refuses(upgrade_fixture,monkeypatch):
     i,root,record,review,statefile,bodies,evidence,calls=upgrade_fixture
     def failed(cmd,**kw):
-        return 'ActiveState=failed\nMainPID=0\nControlGroup=/still-present\n' if cmd[0]=='systemctl' else 'HELD_REVIEW7_NO_RUNNING_CALL\n'
+        return 'ActiveState=failed\nMainPID=0\nControlGroup=/still-present\n' if cmd[0]=='systemctl' else 'HELD_AFTER_REVIEW7_NO_RUNNING_CALL\n'
     monkeypatch.setattr(i.subprocess,'check_output',failed)
     with pytest.raises(ValueError,match='AUTHOR_UPGRADE_ACTIVE'):
         i.upgrade(bodies,evidence,review,{'report_sha256':'new-review'},'new-source')

@@ -201,6 +201,8 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
     # A historical spec can still quote a formerly open finding. Deliver its
     # authenticated current status and exact cited resolution, rather than
     # making the model infer closure from a missing open-obligation entry.
+    compact_navigation = (private_intake is not None and execution_mode == 'sprint13b-execution'
+                          and stage in {'run_spec_author','run_spec_review'})
     finding_index = []
     _, _, register = budget.load(root)
     for row in register:
@@ -221,6 +223,15 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
             'delivery': 'Exact finding and cited closure; read before judging historical claims.'}
         finding_index.append(descriptor)
         files.append((descriptor, raw))
+    finding_navigation = finding_index
+    if compact_navigation:
+        raw = _pageable_json(budget.encoded(finding_index).encode('utf-8'))
+        scan('context/current-findings-index.json', raw)
+        pin = budget.sha(raw)
+        finding_navigation = {'id':'current-findings-index', 'path':'evidence/'+pin+'-findings.json',
+            'sha256':pin, 'bytes':len(raw), 'characters':len(raw.decode('utf-8')),
+            'delivery':'Mandatory current finding status and exact closure index. Read completely. '+JSON_READING}
+        files.append((finding_navigation,raw))
     for row in selected:
         raw = budget.relative_file(root, row["path"]).read_bytes()
         if budget.sha(raw) != row["sha256"]:
@@ -230,9 +241,12 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
             if workspace is None:
                 raise budget.ContextError("MANUAL_WORKSPACE_REQUIRED")
             path = "evidence/" + row["sha256"] + "-" + budget.sha(row["id"].encode("utf-8")) + "-" + row["type"] + ".txt"
+            if compact_navigation:
+                path = "evidence/" + budget.sha(budget.encoded(row).encode("utf-8")) + ".txt"
             descriptor = {**row, "source_path": row["path"], "path": path,
                 "bytes": len(raw), "characters": len(raw.decode("utf-8")),
-                "delivery": "read-only workspace file; read this original when assessing the task"}
+                "delivery": ("Read exact original." if compact_navigation else
+                             "read-only workspace file; read this original when assessing the task")}
             if ((private_intake is not None and row['type'] == 'validation_result') or
                     (row['type']=='configuration' and row['id']=='authored-execution-plan')):
                 files.append(_json_reading_copy(descriptor, raw))
@@ -287,29 +301,30 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         'A closed finding is not an open blocker; a new concern requires its own evidence. '
         'Closure does not erase the original judgment or prove later execution succeeded.\n')
     # Keep every open obligation verbatim inline. The item4 author's long
-    # interface/output instructions use the same exact, scanned, read-only file
+    # interface/output instructions (and the exact review task) use scanned, read-only file
     # delivery as source artifacts, before final measurement and materialization.
-    if stage == 'run_spec_author' and execution_mode == 'sprint13b-execution':
+    if stage in {'run_spec_author','run_spec_review'} and execution_mode == 'sprint13b-execution':
         if workspace is None:
             raise budget.ContextError('MANUAL_WORKSPACE_REQUIRED')
         raw = instruction.encode('utf-8')
         scan('context/scientific-author-instructions.txt', raw)
         pin = budget.sha(raw)
-        descriptor = {'id':'scientific-author-instructions',
-            'path':'evidence/' + pin + '-author-instructions.txt', 'sha256':pin,
+        role = 'author' if stage.endswith('author') else 'review'
+        descriptor = {'id':'scientific-'+role+'-instructions',
+            'path':'evidence/' + pin + '-'+role+'-instructions.txt', 'sha256':pin,
             'bytes':len(raw), 'characters':len(instruction),
-            'delivery':'Mandatory exact author task, runtime interfaces and output requirements; read completely before authoring.'}
+            'delivery':'Mandatory exact scientific task, runtime interfaces and output requirements; read completely before this stage.'}
         files.append((descriptor,raw))
         pieces.append(budget.encoded(descriptor))
-        instruction = ('Read the complete scientific-author-instructions file identified in CURRENT ARTIFACTS '
-            'before authoring. It contains the exact task, scientific runtime interface and output schema. '
+        instruction = ('Read the complete scientific-'+role+'-instructions file identified in CURRENT ARTIFACTS '
+            'before this stage. It contains the exact task, scientific runtime interface and output schema. '
             'All open obligations remain verbatim below. Use only synthetic checks in this stage workspace; '
             'no patient computation, provider operations or other model calls. Scientific author owns code; '
             'independent review and ordinary execution admission remain required. No instruction was shortened '
             'or omitted: the bound file is mandatory task input, not optional evidence.')
     body, measured = budget.assemble(root, project=project, idea_ids=idea_ids, stage=stage,
         task=instruction, artifacts="\n\n".join(pieces),
-        extra={'CURRENT FINDING STATUS (exact records in workspace)': budget.encoded(finding_index)})
+        extra={'CURRENT FINDING STATUS (exact records in workspace)': budget.encoded(finding_navigation)})
     # No caller may append hidden history/schema after this final measurement.
     budget.dispatch_preflight(root, project=project, idea_ids=idea_ids, stage=stage, text=body)
     # No sendable input is returned, or workspace material delivered, on a stop.

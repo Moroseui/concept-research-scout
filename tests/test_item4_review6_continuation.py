@@ -62,7 +62,7 @@ def test_third_continuation_cannot_replace_old_proof_or_extend_scope(third,fault
         with pytest.raises(ValueError):x.activate(d,f,'c'*64,d.state/'third')
         return
     if fault=='extra-pair':
-        f.update(author_attempt=13,review_attempt=8)
+        f.update(author_attempt=14,review_attempt=9)
         with pytest.raises(ValueError,match='FIXED_ATTEMPTS'):x.activate(d,f,'c'*64,d.state/'third')
         return
     x.activate(d,f,'c'*64,d.state/'third')
