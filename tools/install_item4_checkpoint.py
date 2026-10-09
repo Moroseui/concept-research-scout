@@ -8,11 +8,11 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-preprocessing-checkpoint-connection-20261009'
+CHANGE='item4-checkpoint-sdk-bootstrap-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-closed-attempt-billing-20261009.service')
-PRIOR_UNIT_SHA='6c83524fa97fc0dccadb0b99db41b41b22fe070b88f75376618f9623f7437252'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-preprocessing-checkpoint-connection-20261009.service')
+PRIOR_UNIT_SHA='57faa31c95036b83d3d5bd31a000c24a894b6acbd8b37c96b7261b357a74fcf7'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -32,7 +32,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-closed-attempt-billing-20261009/tools/item4_closed_billing_runtime.py advance'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-preprocessing-checkpoint-connection-20261009/tools/item4_checkpoint_runtime.py advance'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
