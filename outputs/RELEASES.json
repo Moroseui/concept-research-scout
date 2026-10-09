@@ -133,6 +133,12 @@
       "role": "installed exact package staging and terminal-bound successor",
       "review": "69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92",
       "selection": "exact safe source projection; flagged files and raw ancestry withheld"
+    },
+    {
+      "source": "f22faee797ce70c6cdd237a0425f6feb724c492c",
+      "role": "installed closed-compute reconciliation preserving original rows, live reservations and unconfirmed overhead",
+      "review": "08ba6c4fa437586c0cd8a44e9fb627a735c6827ecb45fe5333587053fff1cdc5",
+      "selection": "exact safe source projection; original accounting contract and infrastructure fixture withheld"
     }
   ],
   "source_files_count": 1369,
@@ -316,6 +322,11 @@
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
       "sha256": "aafadd6cdf59fd7211d3be9bc771090e9cb3fd167a3ee838b397fb8c05b567ed",
       "source": "genuine implementation approval or reconciled aggregate status; not scientific acceptance"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-closed-attempt-billing-20261009.json",
+      "sha256": "08ba6c4fa437586c0cd8a44e9fb627a735c6827ecb45fe5333587053fff1cdc5",
+      "source": "genuine independent accepted implementation review"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release.",
