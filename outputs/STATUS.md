@@ -2,13 +2,17 @@
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
 13B A100 completed one measured first epoch in 278.17 seconds; Sprint 12 A1 full-run medians were 36 seconds.
-The $150 milestone cap is approved and installed. H100 preparation is running; no H100 GPU result yet.
+H100 is running under normal admission. Its input-verification record is not complete yet; no benchmark result is claimed.
 Coverage-dependent arms and full training remain held; smoke results need scientific acceptance.
-Identified provider compute is $11.89064926; unsettled assets remain reserved. Last verified exposure is $64.596977 against the $150 milestone cap.
-Next expected result: the H100 benchmark in about 30?45 minutes, then B200 and the five-epoch smoke.
+Identified closed provider compute is $11.89064926. H100 reserves $14.2924; total retained exposure is $78.889377 of $150.
+Next expected result: H100 timing in about 20?30 minutes, then B200 and the five-epoch smoke.
 Claude approved the scoped cap implementation with no findings; 47/50 calls today. No separate direction recommendation was issued.
 
 Updated 2026-10-09T21:13:49.060128+00:00. Detailed audit follows.
+
+## Current admitted run
+
+Updated 2026-10-09T21:28:07.368544+00:00. Preparation, upload and the single H100 submission completed successfully. A separate read-only replay verified the $14.2924 reservation, $78.889377 retained exposure, exact operator approval hash, $150 milestone cap and unchanged $1,200/$1,275 gates; no billing bound was underestimated. The existing provider handle has no terminal exit code. The first aggregate observer refused an incomplete input-proof record; this does not establish execution failure and did not cause resubmission or another reservation. Its original observation is preserved privately. Await verified input/epoch/result records and collect the same attempt once complete. B200 and full training have not started.
 
 ## Approved cap and current work
 

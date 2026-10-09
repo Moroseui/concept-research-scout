@@ -1,0 +1,16 @@
+{
+  "schema": "item4-benchmark-progress/v1",
+  "hardware": "H100",
+  "status": "ADMITTED_RUNNING",
+  "scientific_result_available": false,
+  "input_verification_complete": false,
+  "original_reservation_usd": "14.292400",
+  "effective_item4_exposure_usd": "78.889377",
+  "stage1_cap_usd": 150,
+  "total_cap_usd": 1275,
+  "projection_gate_usd": 1200,
+  "underestimated_billing": false,
+  "operator_approval_sha256": "8c3907386aa0f19864540815ea04f87c715b5bf21565aff8a16193373146719a",
+  "actual_cost_confirmed": false,
+  "retry": false
+}
