@@ -43,9 +43,15 @@
       "role": "installed exact configuration delivery for existing review7",
       "review": "c403ec593e91345910c013bb70d2f6eada103b909286440996ac38c429d9e99c",
       "selection": "safe exact source only; no private ancestry"
+    },
+    {
+      "source": "46583c209b65a75c98c29aa3ea0b47802ace251f",
+      "role": "installed fixed author13 continuation and exact scoped accounting/context delivery",
+      "review": "27aedad79b9021e61458d884c2acab2d7e9c9cb131322c7d8edbf9a8042e6096",
+      "selection": "safe exact source; three private proof records and private ancestry omitted"
     }
   ],
-  "source_files_count": 1365,
+  "source_files_count": 1369,
   "outputs": [
     {
       "path": "outputs/item6/components.json",
@@ -146,6 +152,16 @@
       "path": "outputs/implementation-reviews/item4-native-install-serialization-20261008.json",
       "sha256": "0c7c8a31f160f7b12636e841449beee545d4dbf87ab5096378ed5d1ce2f8d1ab",
       "source": "genuine independent implementation report; no raw packet or stream"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-review7-continuation-20261009.json",
+      "sha256": "27aedad79b9021e61458d884c2acab2d7e9c9cb131322c7d8edbf9a8042e6096",
+      "source": "R31 independently approved implementation and installed aggregate status; no packet or stream"
+    },
+    {
+      "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
+      "sha256": "6f60c0ced251c477886a02ae7ed90e003546e4f45562556d4a8131c323c6ddc9",
+      "source": "R31 independently approved implementation and installed aggregate status; no packet or stream"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release."

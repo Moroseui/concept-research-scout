@@ -8,8 +8,9 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review7-context-delivery-20261009'
-CONTINUATION_DOCUMENT='docs/ITEM4_REVIEW6_CONTINUATION.json'
+REVIEW_CHANGE='item4-review7-continuation-20261009'
+CONTINUATION_DOCUMENT='docs/ITEM4_REVIEW7_CONTINUATION.json'
+THIRD_DOCUMENT='docs/ITEM4_REVIEW6_CONTINUATION.json'
 SECOND_DOCUMENT='docs/ITEM4_REVIEW5_CONTINUATION.json'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
@@ -34,7 +35,8 @@ RUNTIME_MODULES=('experiment_preprocessing','experiment_preprocessing_dispatch',
     'modal_development_inputs','modal_preprocessing_provider','experiment_worker')
 FILES=tuple(dict.fromkeys(FILES+tuple('orchestrator/'+n+'.py' for n in RUNTIME_MODULES)
     +SUPPORT_FILES+('orchestrator/experiment_modal_package.py','orchestrator/manual_context.py',
-        'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,CONTINUATION_DOCUMENT,)))
+        'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,THIRD_DOCUMENT,CONTINUATION_DOCUMENT,
+        'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',)))
 
 GUIDANCE=(
  'Read the exact validator artifact and full current-six-item-backlog via their hashed workspace paths. '
@@ -47,8 +49,10 @@ GUIDANCE=(
  'bound to genuine source bytes; never present it as an original historical manifest. '
  'The pinned image proof establishes package versions and CPU imports/interfaces only; it explicitly does '
  'not establish GPU operation or native preprocessing/training/scoring/checkpoint integration. '
- 'Review6 confirms that both prior log filename defects are fixed, but actual author11 native CPU '
- 'execution failed in validate_preprocessing: nnUNetDatasetBlosc2 rejects case_identifiers. '
+ 'Review7 confirms the constructor correction, but actual author12 native CPU execution failed '
+ 'in validate_preprocessing: nnUNetDatasetBlosc2 has no keys method. '
+ 'Read NNUNET_2_8_1_SOURCE_CAPTURE.json and all six NNUNET_2_8_1_SOURCE files. '
+ 'These are hash-verified public release sources, not an installed-image byte attestation. '
  'Read the complete validator evidence; correct the pinned-library contract and audit adjacent native '
  'interfaces. Preserve the full integration harness; the controller reruns it before the next review. '
  'Address U1 explicitly using INPUT_PROVENANCE_RECONCILIATION.json and the original native download, '
@@ -59,9 +63,13 @@ GUIDANCE=(
  'You own the scientific changes and any synthetic native integration harness needed to address the findings. '
  'In this workspace use only synthetic checks; no provider calls, real patient computation or experiments. '
  'Independent scientific review and ordinary execution admission remain required; coverage arms remain held '
- 'pending the review-required source evidence. Preserve all smoke, benchmark and full-training commitments. '
+ 'pending the review-required source evidence. Propose the simplest scientifically defensible '
+ 'coverage-independent next smoke stage; retain the overall research objective and explain held arms. '
+ 'The controller is preparing authenticated composed-volume evidence separately; do not claim it exists '
+ 'until actual verification is delivered. Preserve benchmark and full-training commitments. '
  'Read the provenance-validators and historical author5 SPEC originals via their hash-bound workspace paths. '
- 'Keep SPEC at most12000 characters, preferably10000. Dailycap50; all other caps and past charges unchanged. '
+ 'Keep SPEC at most12000 characters, preferably10000. Dailycap50; this run has four exact remaining '
+ 'slots (author13/review8 then one post-execution interpretation pair), cap23. Past charges unchanged. '
  'Write SPEC.proposed.md, execution.plan.json and notebook.patch.json to the exact schema, call '
  'author_format.submit_author({}) and correct format errors within this call until ACCEPTED. '
  'Format acceptance is not scientific approval; only independent APPROVE closes findings.\n')
@@ -137,8 +145,16 @@ def load():
     continuation.connect(accounting,mr,frozen,held_continuation_approval())
     second=json.loads((ROOT/SECOND_DOCUMENT).read_bytes())
     continuation.connect(accounting,mr,second,held_second_continuation_approval())
+    third=json.loads((ROOT/THIRD_DOCUMENT).read_bytes())
+    continuation.connect(accounting,mr,third,held_third_continuation_approval())
     current=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
-    continuation.connect(accounting,mr,current,held_third_continuation_approval())
+    continuation.connect(accounting,mr,current,v['review_sha256'])
+    from orchestrator import dispatch_limiter
+    limiter=module('_revision_dispatch_limiter',ROOT/'orchestrator/dispatch_limiter.py')
+    dispatch_limiter.admit_manual=limiter.admit_manual
+    dispatch_limiter.validate=limiter.validate
+    calls=module('orchestrator.item4_scoped_calls',ROOT/'orchestrator/item4_scoped_calls.py')
+    calls.connect(current,v['review_sha256'])
     connect_runtime()
     return v,b,evidence,h,old,rec
 
@@ -205,7 +221,7 @@ def apply():
             return {'status':'READY_NO_MODEL_CALL','model_calls':0}
     finally:d.store.db.close();d.store.batch.db.close()
 
-def continue_review6():
+def continue_review7():
     v,b,e,h,old,rec=load()
     from orchestrator.experiment_driver import ExperimentDriver
     from orchestrator.manual_executor import lock
@@ -215,7 +231,7 @@ def continue_review6():
         with lock(LANE/'driver.lock'):
             d.guard();originals(d,b,h,old,rec);held_application()
             frozen=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
-            return continuation.activate(d,frozen,held_third_continuation_approval(),STATE/'item4'/'item4-review6-continuation-20261008')
+            return continuation.activate(d,frozen,v['review_sha256'],STATE/'item4'/'item4-review7-continuation-20261009')
     finally:d.store.db.close();d.store.batch.db.close()
 
 
@@ -377,14 +393,17 @@ def run():
             return body,measurement
         def _advance(self,*args,**kwargs):
             self.guard();originals(self,b,h,old,rec)
-            require(self.current()['phase'] in ('run_spec_author','run_spec_review') and not self.current().get('pending'),'ONE_NEXT_SCIENTIFIC_STAGE')
+            # This release launches author13 only. Review8 stays held until the
+            # separately reviewed source/native binding delivers both real proofs.
+            require(self.current()['phase']=='run_spec_author' and not self.current().get('pending'),
+                'REVIEW8_HELD_FOR_AUTHENTICATED_SOURCE_AND_NATIVE')
             return super()._advance(*args,**kwargs)
     try:
         d=RevisionDriver(LANE)
         held_application()
         mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views=permit,admission,invoke,profile,views
         analysis_revisions.review_transition=lambda review,stage,n:continuation.terminal_transition(
-            prior_transition,d,review,stage,n,frozen,held_third_continuation_approval())
+            prior_transition,d,review,stage,n,frozen,v['review_sha256'])
         return d.advance()
     finally:
         analysis_revisions.review_transition=prior_transition
@@ -395,7 +414,7 @@ if __name__=='__main__':
     os.umask(0o077)
     if sys.argv[1:]==['verify']:v,*_=load();print(json.dumps({'status':'VERIFIED_HELD','source':v['source'],'model_calls':0}))
     elif sys.argv[1:]==['apply']:print(json.dumps(apply(),sort_keys=True))
-    elif sys.argv[1:]==['continue-review6']:print(json.dumps(continue_review6(),sort_keys=True))
+    elif sys.argv[1:]==['continue-review7']:print(json.dumps(continue_review7(),sort_keys=True))
     elif sys.argv[1:]==['run']:print(json.dumps(run(),sort_keys=True))
     elif len(sys.argv)>5 and sys.argv[1]=='send' and sys.argv[4]=='--':raise SystemExit(send(sys.argv[2],sys.argv[3],sys.argv[5:]))
     else:raise SystemExit('FIXED_REVISION_ACTION_REQUIRED')

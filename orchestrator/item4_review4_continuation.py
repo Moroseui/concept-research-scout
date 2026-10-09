@@ -1,4 +1,4 @@
-"""Three fixed Claude-reviewed continuations; no generic limit change.
+"""Four fixed Claude-reviewed continuations; no generic limit change.
 
 The enclosing installed component authenticates independent APPROVE and every
 source byte before supplying this capability. Ordinary admission still charges
@@ -22,10 +22,10 @@ def state(store):
     return json.loads(store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
 
 def scope(frozen):
-    # Only the three enumerated checkpoints exist. Adding any other allowance
+    # Only the four enumerated checkpoints exist. Adding any other allowance
     # requires new source, independent approval and installed source binding.
     pair=(frozen['author_attempt'],frozen['review_attempt'])
-    require(pair in {(10,5),(11,6),(12,7)},'FIXED_ATTEMPTS')
+    require(pair in {(10,5),(11,6),(12,7),(13,8)},'FIXED_ATTEMPTS')
     author,review=pair
     return author,review,author+review-2
 

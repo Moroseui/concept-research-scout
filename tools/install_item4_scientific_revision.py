@@ -15,6 +15,8 @@ SCIENCE = Path('/opt/research-system/manual-sprint10/research-manual-sprint10-ti
 RUNTIME = Path('/etc/research-system-manual-sprint10/releases')/SCIENCE.name/'runtime.json'
 OLD_UNIT = Path('/etc/systemd/system/research-item4-runtime-binding-repair-20261008.service')
 UNIT = Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
+PRIOR_SOURCE='93fc27fa247584342a340e384e20d8ef8dea38c6'
+PRIOR_REVIEW='c403ec593e91345910c013bb70d2f6eada103b909286440996ac38c429d9e99c'
 AUTHORITY = 'c9f088863d00ca160e7f104a2571291f36be2af1907e296783eb172785fa1d63'
 import importlib.util
 _spec=importlib.util.spec_from_file_location('_revision_install_contract',Path(__file__).with_name('item4_scientific_revision_component.py'))
@@ -53,7 +55,7 @@ def upgrade(bodies, evidence_bodies, review, approved, source):
         trusted(ROOT/'tools/item4_scientific_revision_component.py'))
     prior=importlib.util.module_from_spec(prior_spec);prior_spec.loader.exec_module(prior)
     old,checkpoint,manifest=prior.verified()
-    require(old['source']==_contract.THIRD_SOURCE and old['review_sha256']==_contract.THIRD_REVIEW, 'AUTHOR_UPGRADE_PRIOR_SOURCE')
+    require(old['source']==PRIOR_SOURCE and old['review_sha256']==PRIOR_REVIEW, 'AUTHOR_UPGRADE_PRIOR_SOURCE')
     replacement=json.loads(bodies['docs/ITEM4_REVISION_CHECKPOINT.json'])
     require({k:v for k,v in replacement.items() if k!='evidence_manifest_sha256'}==
         {k:v for k,v in checkpoint.items() if k!='evidence_manifest_sha256'},'AUTHOR_UPGRADE_CHECKPOINT_CHANGED')
@@ -75,15 +77,16 @@ assert os.getuid()==os.getgid()==1003
 p=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 with sqlite3.connect((p/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
  v=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
- assert v['phase']=='run_spec_review' and not v.get('pending') and v['rounds']=={'run_spec_author':12,'run_spec_review':6}
+ assert v['phase']=='BLOCKED' and v['reason']=='UNRESOLVED_AFTER_THREE_REVISIONS' and not v.get('pending') and v['rounds']=={'run_spec_author':12,'run_spec_review':7}
+ assert __import__('hashlib').sha256(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0].encode()).hexdigest()=='bdc3bde9fd87e4e0d5f69af6ba4c03a9d0dada6167adb32d446e5f102daa2a38'
  assert any(a['id']=='validator' and a['version']==3 and a['sha256']=='43e307ed1ce8a1afae76be2d4e38ef2d36352cdae27989137a85ac2b5b64af14' for a in v['artifacts'])
- assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==18
+ assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==19
 with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as db:
  assert not db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
-print('HELD_REVIEW7_NO_RUNNING_CALL')
+print('HELD_AFTER_REVIEW7_NO_RUNNING_CALL')
 """
     require(subprocess.check_output(['runuser','-u','partho','--','python3','-s','-B','-c',check],text=True).strip()==
-        'HELD_REVIEW7_NO_RUNNING_CALL','AUTHOR_UPGRADE_RECONCILIATION')
+        'HELD_AFTER_REVIEW7_NO_RUNNING_CALL','AUTHOR_UPGRADE_RECONCILIATION')
     history=RECORD/'history'/old['source'];staged=RECORD/('upgrade-staged-'+source)
     require(not history.exists() and not staged.exists(),'AUTHOR_UPGRADE_EXISTS_RECONCILE')
     put(history/'UPGRADE_INTENT.json',json.dumps({'source':source,'review':approved,
