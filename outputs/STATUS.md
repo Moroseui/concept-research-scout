@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B verified all 893 frozen inputs and the pinned environment, but the preparation worker exited before science started.
-A read-only diagnostic reproduced a private-file permission refusal: the provider exposes static package files with mode 0666.
-The idle container was stopped once. The private staging candidate passed 89 tests; independent review is still pending. No compute is running.
-The first stopped attempt has $0.58471212 in observed billing; the second is unsettled. Item 4 retains $56.032853 of $75.
-Latest Claude direction was PROCEED before this new failure; the repair review will include a fresh direction check.
-Next result: repair diagnosis/review in roughly 60?90 minutes; GPU timing depends on that outcome. No operator action needed.
+13B verified its 893 frozen inputs and pinned environment, then stopped at a package-permission check before science.
+No compute is running. Claude is reviewing the repair and exact retry together; 232 tests passed with two disclosed skips.
+The full admission rehearsal preserved both old charges and refused an over-cap launch. GPU smoke follows verified preparation; coverage arms stay held.
+Provider billing shows $2.20523893 through completed hourly records; final cost is unsettled. Item 4 retains $56.032853 of $75.
+Today: 36/50 calls (3 authors, 4 scientific reviews, 24 implementation reviews, 5 direction checks). Latest PROCEED predates this failure; a new direction check is in the active review.
+Next result: the independent review, estimated 10?20 minutes. Full training still needs scientific smoke review. No operator action needed.
 
-Updated 2026-10-09T13:02:55.514531+00:00. Detailed audit follows.
+Updated 2026-10-09T13:44:28.100415+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -396,3 +396,20 @@ At 13:01 UTC, fresh exact-attempt process and proof checks again established idl
 The candidate copies only the exact hash-verified execution module and selected frozen-partition file to a temporary private directory. It leaves the original mounted files untouched and passes the copies through all unchanged preprocessing checks. The ordinary native guard-to-worker test now covers both restrictive file modes and the actual provider mode. The exact parent fails that regression with PRIVATE_RECORD_PERMISSIONS; the candidate passes. The focused selection passed 89 tests with one existing pinned-tooling test skipped. An earlier mistaken test filename collected zero tests and is preserved separately, not counted as a pass.
 
 The candidate and native regression test are backed up on astra/public-private-package-staging-20261009 at a200ca5b4e40940243110639f544d332ca579851. They are not merged into the installed-release history or installed. The file tests/test_private_preprocessing_package.py was withheld by the filename privacy rule (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH); it remains in private source and will be included in independent review. No scanner was relaxed. Remaining work is the exact successor binding with both original charges retained, full admission/over-cap checks, and one combined implementation, accounting/privacy and direction review.
+
+## Current combined review
+
+Source 05818c497ac287ee639d24bdeb66d36a9d717bf1 is under one administrative implementation review, including privacy/accounting and direction. Packet 6b682cb4fe343ca36040e84f93a0c02d743a0428bd40158c59ac9a7e920026c2 started once; its process and RUNNING accounting row were confirmed. No installation, upload or retry has occurred. The reviewer is explicitly asked whether writable owner-only invocation copies preserve required protection relative to the original read-only mount; tests alone do not settle that question.
+
+The final source passed 232 tests with two existing environment-dependent skips. The real startup/selection/package/admission rehearsal passed using disposable ledger copies, retained both original reservations, and refused an over-cap launch. Only run.py changed in the 28-member package. Actual original ledgers were unchanged. Future own installation/approval and protected runtime reference were test fixtures; the empty new package upload and new create/launch were simulated. Existing prior authorities, terminal proofs, input/image/billing checks ran for real. All earlier rehearsal failures and corrections are preserved.
+
+Safe draft history is at astra/public-private-package-staging-20261009, commit 16388dcc51db4624ff0e382b84b8108a170f2567. This remains unapproved and uninstalled. Filename/privacy/infrastructure rules withheld the following files; no scanner was relaxed:
+
+- docs/ITEM4_PRIVATE_STAGING_SCOPE.txt ? CREDENTIAL_OR_HOST_REFERENCE, EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- docs/ITEM4_STAGING_RETRY_CHECKPOINT.json ? CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- docs/ITEM4_STAGING_RUNTIME.json ? CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- orchestrator/item4_private_staging_retry.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- tests/fixtures/item4_staging_prior_unit.txt ? INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- tests/test_private_preprocessing_package.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- tools/install_item4_private_staging.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- tools/item4_private_staging_runtime.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
