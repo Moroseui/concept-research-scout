@@ -8,7 +8,8 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review8-source-native-delivery-20261009'
+REVIEW_CHANGE='item4-review8-turn-recovery-20261009'
+RECOVERY_DOCUMENT='docs/ITEM4_REVIEW8_MECHANICAL_RECOVERY.json'
 PROOF_DOCUMENT='docs/ITEM4_REVIEW8_PREREQUISITES.json'
 CONTINUATION_DOCUMENT='docs/ITEM4_REVIEW7_CONTINUATION.json'
 THIRD_DOCUMENT='docs/ITEM4_REVIEW6_CONTINUATION.json'
@@ -38,7 +39,8 @@ FILES=tuple(dict.fromkeys(FILES+tuple('orchestrator/'+n+'.py' for n in RUNTIME_M
     +SUPPORT_FILES+('orchestrator/experiment_modal_package.py','orchestrator/manual_context.py',
         'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,THIRD_DOCUMENT,CONTINUATION_DOCUMENT,
         'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
-        'tools/item4_review8_proof.py',PROOF_DOCUMENT,)))
+        'tools/item4_review8_proof.py',PROOF_DOCUMENT,
+        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,)))
 
 GUIDANCE=(
  'Read the exact validator artifact and full current-six-item-backlog via their hashed workspace paths. '
@@ -98,9 +100,18 @@ REVIEW_GUIDANCE=(
  'new proofs; preserve U3 coverage holds and distinct later execution/confinement/budget gates. '
  'Only genuine independent APPROVE closes findings. Preserve coverage holds and all other limitations. ')
 
+DIRECT_REVIEW_EVIDENCE=('evidence/40860aa053572ffc0571e45c89b950eaf813725b107f981ad18d5b9921cdb59c-revision-NATIVE_BINDING.json', 'evidence/1eda41750da41c1953fb4721fdaf2a0d26ecb488cc92409ab0fc0bb3e3352631-revision-NATIVE_OUTPUT.json', 'evidence/679fafe1eb3ea06dd449dae12e71d3e2358fb73523eba7457f30b78b21b56b17-revision-NATIVE_TERMINAL.json', 'evidence/0204237b70ac72daccfb5121a5d6f07b5d649602b540ceca7c7380e6be3ab941-revision-NATIVE_VERIFIED.json', 'evidence/ae2effda304d00c028bc1c5c1e554ddeb62d9594b80c2bfe32505b908b9b7927-revision-NEXT_AUTHOR_EVIDENCE_POINTERS.md', 'evidence/cf52d2e04f0a1052ca533af0e7b91af71a8b6eb18bc5762aedb72179fdf615ef-revision-PINNED_IMAGE_CONSUMER_PROOF.json', 'evidence/9878e7923ea81dceefce162166a113aa7d0a53dd65c4199a42b4276fe952d365-revision-SOURCE_BINDING.json', 'evidence/b715ce005f597e0730ca51285fedd98e81bc97f4e66c9b4003068dfd9fcc95db-revision-SOURCE_LOCAL_VERIFIED.json', 'evidence/48e9635cd74cb45d2428ac60153e49af0052a8201dec481adb836984e236785e-revision-SOURCE_VERIFIED.json', 'evidence/e7d3c2478ba4f92c6989f8b5113432e12aea1f762789f76717fa066cb0eed998-revision-SOURCE_VOLUME.json')
+
+def evidence_navigation():
+    return ('This is one mechanical replacement of review8, which exhausted30 reading turns without a verdict. '
+        'Use these exact original paths; readable copies and full indexes remain available. '
+        'The call has at most60 turns. Submit your independent judgment using submit_review before that limit; '
+        'retain unresolved findings if evidence is insufficient. No prior partial commentary is a verdict.\n'+
+        '\n'.join(DIRECT_REVIEW_EVIDENCE)+'\n')
+
 def guidance(stage,base):
     from orchestrator.author_output_schema import schema
-    return ((GUIDANCE+'Exact output schema: '+json.dumps(schema(),sort_keys=True)+'\n') if stage=='run_spec_author' else REVIEW_GUIDANCE) + base
+    return ((GUIDANCE+'Exact output schema: '+json.dumps(schema(),sort_keys=True)+'\n') if stage=='run_spec_author' else evidence_navigation()+REVIEW_GUIDANCE) + base
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
@@ -128,6 +139,7 @@ def verified():
     evidence=json.loads(trusted(ROOT/'docs/ITEM4_REVISION_EVIDENCE.json').read_bytes())
     for row in evidence['files']:
         require(Path(row['name']).name==row['name'] and sha(trusted(RECORD/'evidence'/row['name']).read_bytes())==row['sha256'],'EVIDENCE_CHANGED')
+    require(set(DIRECT_REVIEW_EVIDENCE)<=set('evidence/'+row['sha256']+'-revision-'+row['name'] for row in evidence['files']),'DIRECT_EVIDENCE_PATHS')
     return v,b,evidence
 
 def load():
@@ -162,7 +174,15 @@ def load():
     dispatch_limiter.admit_manual=limiter.admit_manual
     dispatch_limiter.validate=limiter.validate
     calls=module('orchestrator.item4_scoped_calls',ROOT/'orchestrator/item4_scoped_calls.py')
-    calls.connect(current,held_fourth_continuation_approval())
+    repair=module('orchestrator.item4_review8_recovery',ROOT/'orchestrator/item4_review8_recovery.py')
+    mechanical=json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes())
+    calls.connect(current,held_fourth_continuation_approval(),mechanical=mechanical,mechanical_approval=v['review_sha256'])
+    previous_limit=mr.role_limit
+    def mechanical_limit(store,run,stage):
+        if run==RUN and stage=='run_spec_review' and continuation.state(store).get('phase')==stage:
+            return repair.next_review(store,mechanical,v['review_sha256'])
+        return previous_limit(store,run,stage)
+    mr.role_limit=mechanical_limit
     connect_runtime()
     return v,b,evidence,h,old,rec
 
@@ -227,6 +247,19 @@ def apply():
             d.save(state)
             pr.write_bytes(DEST/'applied.json',canonical({'status':'READY_NO_MODEL_CALL','review_sha256':v['review_sha256'],'classification':classification,'model_calls':0}))
             return {'status':'READY_NO_MODEL_CALL','model_calls':0}
+    finally:d.store.db.close();d.store.batch.db.close()
+
+def recover_review8():
+    v,b,e,h,old,rec=load()
+    from orchestrator.experiment_driver import ExperimentDriver
+    from orchestrator.manual_executor import lock
+    from orchestrator import item4_review8_recovery as repair
+    d=ExperimentDriver(LANE)
+    try:
+        with lock(LANE/'driver.lock'):
+            d.guard();originals(d,b,h,old,rec);held_application()
+            return repair.activate(d,json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes()),v['review_sha256'],
+                STATE/'item4'/'item4-review8-turn-recovery-20261009')
     finally:d.store.db.close();d.store.batch.db.close()
 
 def continue_review7():
@@ -361,8 +394,11 @@ def review8_prerequisites(driver,evidence):
     current=driver.current()
     require(current['phase']=='run_spec_review' and not current.get('pending')
         and current['rounds']=={'run_spec_author':13,'run_spec_review':7}
-        and driver.store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==20,
+        and driver.store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==21,
         'REVIEW8_EXACT_STAGE')
+    from orchestrator import item4_review8_recovery as repair
+    installed,*_=verified()
+    repair.next_review(driver.store,json.loads(trusted(ROOT/RECOVERY_DOCUMENT).read_bytes()),installed['review_sha256'])
     expected=json.loads(trusted(ROOT/PROOF_DOCUMENT).read_bytes())
     result=subprocess.run([sys.executable,'-s','-B',str(ROOT/'tools/item4_review8_proof.py')],
         capture_output=True,text=True,timeout=180)
@@ -381,8 +417,10 @@ def run():
     from orchestrator.author_output_schema import schema
     from orchestrator.experiment_driver import ExperimentDriver
     require(json.loads((RECORD/'APPLIED.json').read_bytes())['status']=='INSTALLED_HELD','INSTALL_INCOMPLETE')
-    saved=(mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views)
+    saved=(mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views,ms.reviewer_command)
     d=None;active={}
+    from orchestrator import item4_review8_recovery as repair
+    mechanical=json.loads((ROOT/RECOVERY_DOCUMENT).read_bytes())
     from orchestrator import analysis_revisions, item4_review4_continuation as continuation
     prior_transition=analysis_revisions.review_transition
     frozen=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
@@ -415,6 +453,16 @@ def run():
         result=saved[2](work,stage,clients,expected);af.check_runtime(work,pins)
         result['author_submission']=af.verify_native(work,pins[af.CONFIG],(Path(work)/'console.log').read_text())
         return result
+    def reviewer_command(work,stage):
+        return repair.command(saved[5],work,stage,d.store,mechanical,v['review_sha256'])
+    def transition(review,stage,n):
+        if (stage,n)==('run_spec_review',9):
+            repair.granted(d.store,mechanical,v['review_sha256'])
+            row=d.store.db.execute('SELECT status FROM manual_calls WHERE id=?',(repair.REPLACEMENT,)).fetchone()
+            require(row is not None and row[0]=='COMPLETE' and
+                d.store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==22,'REPLACEMENT_TERMINAL')
+            return prior_transition(review,stage,4)
+        return continuation.terminal_transition(prior_transition,d,review,stage,n,frozen,held_fourth_continuation_approval())
     class RevisionDriver(ExperimentDriver):
         def task(self,stage,value):
             return guidance(stage,super().task(stage,value))
@@ -440,19 +488,19 @@ def run():
     try:
         d=RevisionDriver(LANE)
         held_application()
-        mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views=permit,admission,invoke,profile,views
-        analysis_revisions.review_transition=lambda review,stage,n:continuation.terminal_transition(
-            prior_transition,d,review,stage,n,frozen,held_fourth_continuation_approval())
+        mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views,ms.reviewer_command=permit,admission,invoke,profile,views,reviewer_command
+        analysis_revisions.review_transition=transition
         return d.advance()
     finally:
         analysis_revisions.review_transition=prior_transition
-        mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views=saved
+        mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views,ms.reviewer_command=saved
         if d is not None:d.store.db.close();d.store.batch.db.close()
 
 if __name__=='__main__':
     os.umask(0o077)
     if sys.argv[1:]==['verify']:v,*_=load();print(json.dumps({'status':'VERIFIED_HELD','source':v['source'],'model_calls':0}))
     elif sys.argv[1:]==['apply']:print(json.dumps(apply(),sort_keys=True))
+    elif sys.argv[1:]==['recover-review8']:print(json.dumps(recover_review8(),sort_keys=True))
     elif sys.argv[1:]==['continue-review7']:print(json.dumps(continue_review7(),sort_keys=True))
     elif sys.argv[1:]==['run']:print(json.dumps(run(),sort_keys=True))
     elif len(sys.argv)>5 and sys.argv[1]=='send' and sys.argv[4]=='--':raise SystemExit(send(sys.argv[2],sys.argv[3],sys.argv[5:]))
