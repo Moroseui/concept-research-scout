@@ -1,6 +1,32 @@
 # Research status
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
+A100 and H100 benchmarks are collected: first epochs took 278.17 and 228.14 seconds respectively; H100 was about 18% shorter.
+B200 preparation is running through the existing dispatcher. H100 is positively terminated.
+A timing-reader format mismatch needs a tested, independently reviewed fix before hardware calculation; B200 is unaffected.
+Identified closed provider compute is $11.89064926, excluding H100 billing still pending. Retained exposure is $71.703255 of $150.
+Next expected result: B200 timing in roughly 30?45 minutes, followed by the reviewed five-epoch smoke with interruption/resume and repeat control.
+Calls remain 47/50. Claude approved the cap implementation; the latest explicit direction remains PROCEED, with no new direction recommendation.
+
+Updated 2026-10-09T21:43:33.734039+00:00.
+
+## Verified H100 result and next steps
+
+The normal collector completed successfully. A separate read-only check verified the returned file hashes, local COMPLETE and global COLLECTED states, matching collection receipt and positive termination. The author-owned timing artifact records 228.13786939 seconds for 250 training and 50 validation iterations, with 0.520118 seconds of loader wait (about 0.228%). All seven declared checks passed. This is a first-epoch benchmark and is not scientific acceptance or a steady-state/full-training projection.
+
+The original $14.292400 reservation remains in the ledger. Installed closed-run accounting currently retains a conservative $7.106278 bound including $5 for unsettled obligations; this is not a confirmed bill. Effective item-4 exposure is $71.703255, with no underestimated billing. No new reconciliation patch or ledger edit was used. B200 will require its normal reservation, approximately $16.5924 at the recorded resource rates.
+
+A read-only replay using the two genuine collected timing artifacts found that the installed calculator accepts an older seven-field format and rejects the fourteen-field records produced by the frozen scientific code. Original outputs remain unchanged. A strict compatibility fix must validate the additional epoch records, totals, resources and workload, preserve the existing hardware rule and projection calculation, and pass tests plus independent implementation review. Bundle this necessary repair with the bounded smoke setup where practical. It does not block the already-approved B200 benchmark. No new model call or scientific change was made for diagnosis.
+
+Judgment: collect the positively completed attempt once, verify originals and termination, continue unaffected B200, and repair the diagnosed integration mismatch without discarding recorded evidence or relaxing scientific/budget gates. Scientific author and reviewer retain ownership of conclusions and any timing-method changes. The user?s requested steady-state cost comparison remains pending the smoke epochs.
+
+## Preserved historical audit
+
+The entries below predate the current collected H100 result.
+
+# Research status
+
+Item 6 is complete; all 352 comparable values match the independent Colab run.
 13B A100 completed one measured first epoch in 278.17 seconds; Sprint 12 A1 full-run medians were 36 seconds.
 H100 is running under normal admission. Its input-verification record is not complete yet; no benchmark result is claimed.
 Coverage-dependent arms and full training remain held; smoke results need scientific acceptance.
