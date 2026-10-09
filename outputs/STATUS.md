@@ -2,25 +2,31 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B preprocessing finished all 100 steps and produced 300 validated files; its container is stopped.
-Claude is reviewing the GPU handoff and accounting repair together. The candidate passed 130 tests and a native handoff rehearsal; no GPU is running.
-GPU launch awaits that implementation approval. Coverage-dependent arms remain held, and full training awaits scientific smoke review.
-Observed CPU preparation spend is $9.47683888 through completed hourly billing; other costs remain unsettled. Current conservative item-4 exposure is $64.832313 of $75.
-Next result: the first GPU benchmark, provisionally by 18:40 UTC if review and installation pass; full smoke timing follows measured GPU performance.
-No operator action needed. Latest Claude direction: PROCEED on scope; implementation review pending. Today: 41/50 calls.
+The GPU handoff passed independent review, but installation stopped on a malformed cleanup timer before any GPU work.
+Claude is reviewing the narrow timer repair; 75 focused tests and the native parser checks passed. Coverage-dependent arms remain held.
+Observed CPU preparation spend is $9.47683888; other costs remain unsettled. Conservative item-4 exposure is $64.832313 of $75, unchanged.
+Next result: the first GPU benchmark, provisionally by 18:40 UTC if repair approval and setup pass; full smoke timing follows measured GPU performance.
+No operator action needed. Latest completed Claude direction: PROCEED. Today: 42/50 calls, including the repair review.
 
-Updated 2026-10-09T17:32:42.250994+00:00. Detailed audit follows.
+Updated 2026-10-09T17:45:13.613258+00:00. Detailed audit follows.
 
-## Current implementation review
+## Current implementation and blocker
 
-Source 36c4c7487175714887691a923b030e59310ecf2a is under one administrative implementation, accounting and direction review. It supplies only the three frozen benchmark assets and connects the actual completed preprocessing to existing preparation, publication and compute admission. It reuses the pinned image and scientific code. No asset, new reservation, accounting adjustment or installation has occurred.
+The GPU handoff source 36c4c7487175714887691a923b030e59310ecf2a received genuine independent APPROVE, report 77a64f6b09504ca2fbe3a440e4323a752a39ce18baa6fbaafdae4b1075ee5b9a, and explicit PROCEED. It passed 130 tests and a native handoff rehearsal with the previously disclosed simulations. Its partial installation verified successfully, then the retention timer was rejected because it contained literal newline escapes. All units are inactive. The failed installation, original review and charge are preserved. No reconciliation, new asset reservation, asset creation or GPU launch occurred.
 
-The proposed setup reserves $1 before creating empty benchmark assets. Each GPU run remains separately admitted inside the unchanged smoke cap. The current A100 maximum quote is $12.842400. Benchmarks will be observed and collected one at a time. The proposal reconciles only two positively terminal empty input transfers, retaining their original rows, actual compute and conservative storage, registry and transfer obligations. If approved and qualified, their effective amounts become $1.225678 and $1.225609; current production exposure still counts both original $8.056706 reservations.
+The successor repair aef085635ae0a1b2d7f351b6e59831d33a526edd renders real lines and checks every exact rendered unit with the native systemd parser before the first production installation write. It reuses the same runtime base and unchanged contracts, caps, scientific code, image and protections. All 75 focused tests pass. The actual server parser accepts the corrected units and rejects the malformed negative control. One independent implementation and direction review is running. Installation and provider actions remain held until genuine APPROVE.
 
-Validation:124 focused tests,5 root-publication boundary tests and1 native root-publication test passed. The native server rehearsal exercised the actual completed preprocessing, closed-asset proofs and all three package handoffs, with both ledgers unchanged. Future candidate authority, root ownership and provider creation were explicitly simulated. A subsequent naming-only correction passed the actual pinned SDK validator and focused tests. No scientific or real GPU success is inferred.
+After approval and successful installation: qualify two closed empty transfers without changing their original records; reserve $1 before setup; use ordinary separate admission for sequential GPU benchmarks. Qualified accounting would reduce those two effective amounts from $16.113412 together to $2.451287, retaining actual compute and conservative storage, registry and transfer obligations. This has not yet occurred. The first A100 quote is $12.842400. Full training still requires scientific review of actual smoke results.
 
-A local rehearsal connection expired before the server finished. The original process was positively reconciled as exited, with no new asset, event, compute, call or lane-state change. Its lost output is not counted as success. A read-only rerun saved its outcome on the server and passed. A separate root test initially refused a public scratch directory; it passed in protected scratch without changing the guard. All originals remain preserved.
+Daily call breakdown: 3 scientific authors (revisions 12, 13 and 14), 4 scientific reviews (7, the preserved reader failure 8, 9 and 10), 30 administrative calls (implementation and accounting repairs, including the running timer repair), and 5 standalone direction checks. Administrative work dominates; direction and accounting opinions are now bundled into necessary implementation reviews, with no separate provenance package. The preceding handoff review's model estimate was $5.1798595, separate from provider compute; the current review charge is pending.
 
-Safe pending code and tests are on astra/public-benchmark-handoff-20261009 at d4c75ecb3f6cce86fb5f132a31c9e08b291237dc. They are not installed-release history until independent approval and installation. The public projection is not a deployable release.
+Judgment log: fix the diagnosed timer serialization defect and test the actual parser; preserve the failed installation and all charges; use one combined review before the immutable successor installation. Claude was consulted through the existing route. The last completed direction recommendation was PROCEED at 17:31 UTC.
+
+Safe pending history: astra/public-benchmark-handoff-20261009 at d4c75ecb3f6cce86fb5f132a31c9e08b291237dc and astra/public-benchmark-timer-format-20261009 at 64ef26ab6ced09ea8c39ed7b9db38f67d99c4144. They are not successful installed-release history yet; public projections are not deployable releases. The new timer prior-unit fixture is withheld under the privacy and infrastructure rules. The earlier private contracts and fixture exclusions remain below.
+
+## Historical audit detail
+
+The following retained entries describe earlier stops; the current state above supersedes earlier pending/running statements.
 
 ## Results and execution
 
