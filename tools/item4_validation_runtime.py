@@ -5,7 +5,7 @@ import json
 import os
 import sys
 
-CHANGE='item4-validation-admission-20261009'
+CHANGE='item4-partition-delivery-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 SCIENCE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-timeout-continuation-8e042339')
@@ -50,7 +50,32 @@ def load():
     from orchestrator import modal_item4_budget
     budget=module('_validation_budget',ROOT/'orchestrator/modal_item4_budget.py')
     modal_item4_budget.reserve.__code__=budget.reserve.__code__
-    return c,policy,(b,h,old,rec)
+    from orchestrator import experiment_partition_input as partitions
+    fresh_partitions=module('_validation_partitions',ROOT/'orchestrator/experiment_partition_input.py')
+    partitions.reviewed=fresh_partitions.reviewed
+    return c,policy,(b,h,old,rec),e
+
+
+
+def connect_evidence(driver,c,manifest):
+    """Replay the exact existing scientific producer's supplementary view route.
+
+    c.load independently authenticates this R42 manifest and every original.
+    Reuse its scanner/descriptor producer, never accept a measured superset or
+    skip a registered view. Only this same lane/context/config may use it.
+    """
+    from orchestrator import scientific_intake as intake,revision_evidence
+    from orchestrator.item4_validation_admission import require
+    original=intake.load_views
+    def views(root,ref,*,stage,idea_ids):
+        require(Path(root).resolve()==driver.context.resolve() and ref==driver.config['private_intake'] and
+            stage in ('run_spec_author','run_spec_review') and idea_ids==driver.config['idea_ids'],'EVIDENCE_DELIVERY_SCOPE')
+        descriptors,files=original(root,ref,stage=stage,idea_ids=idea_ids)
+        registry=json.loads((driver.context/ref['path']).read_bytes())
+        cases=intake.cohort((driver.context/registry['cohort']).read_bytes())
+        return revision_evidence.append(descriptors,files,manifest,c.RECORD/'evidence',cases)
+    intake.load_views=views
+    return original
 
 
 def preserved(driver,selected):
@@ -113,13 +138,14 @@ def main(argv=None):
     import argparse
     parser=argparse.ArgumentParser();parser.add_argument('action',choices=['verify','activate','advance','prepare-preprocessing','prepare-execution','measure-benchmark'])
     parser.add_argument('--jobs');parser.add_argument('--destination');args=parser.parse_args(argv)
-    c,policy,original=load()
+    c,policy,original,evidence=load()
     from orchestrator.experiment_driver import ExperimentDriver
     from orchestrator.manual_executor import lock
     driver=ExperimentDriver(c.LANE)
     try:
         with lock(driver.state/'driver.lock'):
             driver.guard();c.originals(driver,*original)
+            connect_evidence(driver,c,evidence)
             selected=policy.contract()
             if args.action=='verify':result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
             elif args.action=='activate':

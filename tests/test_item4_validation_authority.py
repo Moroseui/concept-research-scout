@@ -66,7 +66,7 @@ def test_unit_changes_only_description_and_entrypoint(monkeypatch):
         'User=partho\nGroup=partho\nUMask=0077\nNoNewPrivileges=true\nProtectSystem=strict\nPrivateTmp=true\nRestart=no\n'
         'ReadWritePaths=/synthetic-state\n'
         'ExecStartPre=/synthetic-existing-guard\n'
-        'ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-author7-and-image-recovery-20261008/tools/item4_scientific_revision_component.py run\n').encode()
+        'ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-validation-admission-20261009/tools/item4_validation_runtime.py advance\n').encode()
     monkeypatch.setattr(installer,'PRIOR_UNIT_SHA',installer.sha(before))
     after=installer.unit_bytes(before)
     retained=lambda raw:[line for line in raw.decode().splitlines() if not line.startswith(('Description=','ExecStart='))]

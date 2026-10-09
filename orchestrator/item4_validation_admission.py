@@ -12,7 +12,7 @@ from orchestrator import private_records as pr
 from orchestrator.manual_host_guard import trusted
 from orchestrator.review_submission import canonical
 
-CHANGE='item4-validation-admission-20261009'
+CHANGE='item4-partition-delivery-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 DOCUMENT='docs/ITEM4_VALIDATION_ADMISSION_PRIVATE.json'
@@ -25,7 +25,8 @@ FILES=(DOCUMENT,'docs/ITEM4_GPU_SMOKE_STAGING_OPERATOR_DECISION_20261009.txt',
  'orchestrator/item4_validation_admission.py','orchestrator/experiment_approval.py',
  'orchestrator/experiment_modal_package.py','orchestrator/experiment_owner.py','orchestrator/modal_executor.py',
  'tools/item4_validation_runtime.py','tools/install_item4_validation.py',
- 'orchestrator/modal_item4_budget.py','tools/item4_validation_retained.py')
+ 'orchestrator/modal_item4_budget.py','tools/item4_validation_retained.py',
+ 'orchestrator/experiment_partition_input.py')
 
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
