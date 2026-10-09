@@ -1,19 +1,40 @@
 {
   "schema": "aggregate-benchmark-progress/v1",
   "fit": "benchmark-A100-80GB",
-  "status": "RUNNING",
-  "observed_at": "2026-10-09T19:27:05.718808+00:00",
+  "status": "COLLECTED_AND_TERMINATED",
+  "observed_at": "2026-10-09T19:40:49.239425+00:00",
   "epoch_started": 0,
-  "epoch_completed": null,
+  "epoch_completed": 0,
   "total_epochs": 1,
-  "scientific_result": false,
+  "scientific_result": true,
   "scientific_acceptance": false,
   "reservation_usd": "12.842400",
   "actual_cost_usd": null,
-  "item4_exposure_usd": "70.409066",
+  "item4_exposure_usd": "64.596977",
   "smoke_cap_usd": "75",
   "prior_attempt_and_charge_preserved": true,
   "source_sha": "99cd2f52d190a99d3ef6c71ea7359bea29319a09",
   "implementation_review_sha256": "8c37a6c932009dbb3d133ef7838c744b3a8714c58682dc3b11745c4458b12ac8",
-  "scope": "Aggregate progress only; no patient-level data or scientific conclusion."
+  "scope": "One real epoch and aggregate validation evidence; independent scientific acceptance and full smoke completion remain pending. Original reservation preserved; closed bound is not an actual invoice.",
+  "completed_epochs": 1,
+  "effective_closed_bound_usd": "7.030311",
+  "elapsed_training_seconds": 278.167062373,
+  "measured_loader_wait_seconds": 0.18359706100008566,
+  "loader_wait_percent": 0.06600244451440355,
+  "declared_checks_passed": 7,
+  "collection_receipt_sha256": "191edadb0064ff963ba583387d5e1ccf1ea5b386d9f0701f668e431fabe2f842",
+  "files": {
+    "epoch-timing.json": {
+      "bytes": 531,
+      "sha256": "a22e05605564513e8f87ca5c8fb5ba04d169513772af7f70506090e9f5dc3c46"
+    },
+    "metrics.json": {
+      "bytes": 1443,
+      "sha256": "a8bfa9ca5bc15d3bb0fb88f41de3ba5969a2b75d349c3240ae1462d2e26c4e52"
+    },
+    "validation.json": {
+      "bytes": 1107,
+      "sha256": "8d2a0e9fca54c3a5762e03dd04ef3d121df21fafae00d27d5e4b4f3248c25b38"
+    }
+  }
 }
