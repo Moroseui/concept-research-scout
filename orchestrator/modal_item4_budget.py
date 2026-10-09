@@ -65,13 +65,16 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         assets = db.execute('SELECT * FROM autonomy_assets').fetchall()
         from orchestrator.modal_direct_recovery import resolved_failure_ids
         resolved = resolved_failure_ids(accounts, root=accounts.batch.filesystem_root)
+        from orchestrator.item4_validation_admission import retained_terminal
+        terminal_assets,terminal_compute=retained_terminal(accounts,binding)
+        resolved |= terminal_assets
         if any(row['status'] != 'READY' and row['id'] not in resolved for row in assets):
             raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
-        if any(row['status'] == 'UNCERTAIN' for row in rows):raise ValueError('MODAL_UNCERTAIN_COMPUTE')
+        if any(row['status'] == 'UNCERTAIN' and row['id'] not in terminal_compute for row in rows):raise ValueError('MODAL_UNCERTAIN_COMPUTE')
         concurrent = 0; predecessors = []
         for row in rows:
             data = json.loads(row['binding']); other = data.get('experiment')
-            if row['status'] not in {'COLLECTED','ACCOUNTED'}:
+            if row['status'] not in {'COLLECTED','ACCOUNTED'} and row['id'] not in terminal_compute:
                 if not other or row['run'] != run:raise ValueError('ITEM4_OTHER_EXECUTION_ACTIVE')
                 if data['resources']['gpu'] is not None:concurrent += 1
             if other:

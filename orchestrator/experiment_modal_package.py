@@ -127,6 +127,8 @@ def emit(driver, value, folder, runtime_binding, *, preprocessing_inputs=None):
     if (runtime_binding.get("source") != sealed["source"]
             or runtime_binding.get("run_id") != sealed["selection"]["run_id"]):
         raise ValueError("EXPERIMENT_MODAL_RUNTIME_SELECTION")
+    from orchestrator.item4_validation_admission import scope as validation_scope
+    validation_scope(read(original/'approval.json'), runtime_binding)
     files = {name:(original/name).read_bytes() for name in
         ("SPEC.md", "review.json", "execution-plan.json", "approval.json")}
     files.update({"reviewed-package.json":(original/"manifest.json").read_bytes(),

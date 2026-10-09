@@ -65,11 +65,12 @@ def verified_review_delivery(driver, pending, stage):
 
 
 def review_delivery(driver, pending, stage):
-    """Execution and acceptance still require a genuine clean APPROVE."""
+    """Clean approval, or the independently reviewed exact validation exception."""
     result = verified_review_delivery(driver, pending, stage)
     decision = rs.contract.strict_json(result[2])
     if decision["verdict"] != "APPROVE" or decision["findings"]:
-        raise ValueError("EXPERIMENT_APPROVAL_REQUIRED")
+        from orchestrator.item4_validation_admission import review as validation_review
+        validation_review(driver, pending, result)
     return result
 
 
@@ -172,6 +173,8 @@ def inspect(driver, value, pending):
         for line in ("operator_scope_sha256: "+selected["plan_sha256"],
                      "execution_plan_sha256: "+authored_ref["sha256"]):
             if lines.count(line) != 1: raise ValueError("EXPERIMENT_APPROVAL_PLAN_SPEC_BINDING")
+    from orchestrator.item4_validation_admission import artifacts as validation_artifacts
+    extra.update(validation_artifacts(driver, pending, raw_review, by_type, outputs, authored_ref))
     return {"schema":"reviewed-execution-artifacts/v1", "selection":selected, **extra,
         "pending_review":pending, "review_sha256":digest(raw_review), "submission_sha256":digest(raw_submission),
         "input_sha256":receipt["input_sha256"], "call_receipt_sha256":digest(row["receipt"].encode()),

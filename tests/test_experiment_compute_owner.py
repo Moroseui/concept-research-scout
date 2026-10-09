@@ -49,7 +49,7 @@ def test_initialized_owner_admits_compute_once_without_new_scientific_allowance(
 
 @pytest.mark.parametrize('change', ['lane-owner', 'plan-bytes', 'config-source', 'review-pin',
     'execution-source', 'execution-plan', 'legacy-canonical-owner', 'wrong-run', 'item6-scope'])
-def test_owner_or_execution_drift_refuses_before_cost_reservation(actual, change):
+def test_owner_or_execution_drift_refuses_before_cost_reservation(actual, change, tmp_path):
     d, b = actual
     code = 'ITEM4_EXPERIMENT_OWNER_CHANGED'
     if change in {'lane-owner', 'config-source', 'review-pin'}:
@@ -75,7 +75,15 @@ def test_owner_or_execution_drift_refuses_before_cost_reservation(actual, change
     else:
         cfg = read(d.state/'lane.json'); cfg['execution_scope']['item_number'] = 6
         atomic(d.state/'lane.json', cfg)
-    with pytest.raises(ValueError, match='^'+code+'$'): reserve(d, b)
+    if change == 'execution-source':
+        # A source change now invokes the installed continuation verifier. This
+        # synthetic fixture has no release: require its exact missing-manifest
+        # refusal, never the real host, and still require no reservation.
+        d.store.batch.filesystem_root=tmp_path/'uninstalled-continuation'
+        with pytest.raises(FileNotFoundError, match='spending-continuation-scope-20261007/installed.json'):
+            reserve(d,b)
+    else:
+        with pytest.raises(ValueError, match='^'+code+'$'): reserve(d, b)
     assert not d.store.batch.db.execute('SELECT 1 FROM autonomy_compute').fetchone()
 
 
