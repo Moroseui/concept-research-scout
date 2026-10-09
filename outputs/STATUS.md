@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B preprocessing finished all 100 steps and produced 300 validated files; its container is stopped.
-The GPU handoff and timer repair passed independent review and installation; benchmark asset setup is now running.
-No GPU has launched yet. Coverage-dependent arms remain held; full training awaits scientific review of smoke results.
-Observed CPU preparation spend is $9.47683888, plus $0.00009247 from two old transfers. Other costs remain unsettled; effective item-4 exposure before setup is $51.170188 of $75.
-Next result: the first GPU benchmark, provisionally by 18:40 UTC if setup and normal admission pass; full smoke timing follows measured GPU performance.
-No operator action needed. Latest Claude direction: PROCEED at 17:45 UTC. Today: 42/50 calls, all terminal.
+13B preprocessing and all three benchmark packages are validated; benchmark assets are ready under a $1 reservation.
+No GPU is running. Root publication refused a startup-configuration mismatch before changing the publication records.
+The corrected invocation passed full read-only checks; Claude is reviewing it. Coverage-dependent arms and full training remain held.
+Observed CPU preparation spend is $9.47683888, plus $0.00009247 from old transfers. Other costs remain unsettled; effective item-4 exposure is $52.170188 of $75.
+Next result: the first GPU benchmark, provisionally by 18:40 UTC if publication approval and normal admission pass; smoke timing follows measured GPU performance.
+No operator action needed. Latest completed Claude direction: PROCEED. Today: 43/50 calls, including the publisher review.
 
-Updated 2026-10-09T17:50:18.239488+00:00. Detailed audit follows.
+Updated 2026-10-09T18:07:48.584229+00:00. Detailed audit follows.
 
 ## Current installation and execution
 
@@ -18,9 +18,9 @@ Validation: the handoff passed 130 tests and a native rehearsal with future auth
 
 Actual reconciliation succeeded. Exactly two qualified closed-empty-transfer events were appended; all original asset and compute rows, calls, lane state and prior events were verified unchanged. Their original reservations remain visible at $8.056706 each; their effective retained amounts are now $1.225678 and $1.225609. The released excess is $13.662125. Actual compute, conservative storage, registry and transfer obligations remain counted, and later upward billing remains counted. Invoice settlement is not claimed.
 
-The reviewed asset-setup command has started once. It must reserve $1 before creating benchmark assets. Its final result is pending; no duplicate is permitted. After successful setup, use the existing preparation/publication and normal separate GPU admission. The first A100 maximum quote is $12.842400; collect its result before advancing other hardware. Scientific review of actual smoke results is required before FULL, and CTP coverage-dependent arms remain held.
+Asset setup succeeded under one $1 reservation. All original rows, calls, state and earlier events were verified unchanged. Protected run records and all three execution packages are prepared successfully. Root publication then refused a code-hash mismatch before writes because its older invocation omitted later installed worker and mount selections. The same already-approved selections now pass all three real-package and runtime-evidence checks in read-only mode, with publication records unchanged. Source96c95ac936edf467bc6f51f905de55aad96f0e66 is under one independent implementation/confinement/direction review before publication. All refusals are preserved. No new runtime subsystem or validator change is proposed. The first A100 maximum quote is $12.842400; collect its result before advancing other hardware. Scientific review of actual smoke results is required before FULL, and CTP coverage-dependent arms remain held.
 
-Daily calls: 3 scientific authors (revisions 12, 13 and 14), 4 scientific reviews (7, preserved reader failure 8, 9 and 10), 30 administrative calls (implementation/accounting/process repairs, including the handoff and timer), and 5 standalone direction checks. Administrative work dominates; necessary accounting and direction opinions are bundled into implementation reviews. The latest two model-call estimates are $5.1798595 for the handoff and $2.8320075 for the timer, separate from provider compute.
+Daily calls: 3 scientific authors (revisions 12, 13 and 14), 4 scientific reviews (7, preserved reader failure 8, 9 and 10), 31 administrative calls (implementation/accounting/process repairs, including the handoff, timer and current publisher review), and 5 standalone direction checks. Administrative work dominates; necessary accounting and direction opinions are bundled into implementation reviews. The latest two model-call estimates are $5.1798595 for the handoff and $2.8320075 for the timer, separate from provider compute.
 
 Judgment log: repair the timer's diagnosed serialization error, strengthen pre-install parser validation, preserve the failed installation and obtain one independent review. Claude agreed PROCEED in one round. Use the already-reviewed closed-transfer reconciliation and bounded asset setup to reach the first GPU result; add no provenance subsystem.
 
@@ -397,3 +397,5 @@ R56 withheld files (scanner and semantic privacy exclusions remain unchanged):
 - docs/ITEM4_CLOSED_EMPTY_ASSETS.json: PRIVATE_NATIVE_EVIDENCE_REFERENCE.
 - docs/ITEM4_BENCHMARK_HANDOFF.md: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 - tests/fixtures/item4_benchmark_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+
+Publisher judgment: use the existing installed worker and native mount selection, preserve every original publisher check, test the exact real-package connection read-only, and combine confinement and direction review because bootstrap omissions recurred. No new provenance package or subsystem. Safe candidate history is on astra/public-root-publisher-worker-20261009; no publication or GPU launch is claimed.

@@ -1,0 +1,5 @@
+Proposed bounded publisher correction
+
+The existing root publication invocation omitted the already-installed worker and native mount configuration used during service preparation. The original code-hash refusal and a subsequent read-only guard-payload mismatch are preserved. The corrected invocation selects only those existing approved components, checks their installation authority and exact hashes, and then calls the unchanged publisher. No scientific code, package bytes, input, cap, credential or validator changes.
+
+Read-only native inspection of all three actual prepared benchmark packages now passes, with the publication destination unchanged. The correction is under one independent implementation, confinement and direction review before any publication. Source96c95ac936edf467bc6f51f905de55aad96f0e66. It adds no runtime subsystem or release wrapper. Ordinary GPU admission and scientific review of smoke before full training remain required.
