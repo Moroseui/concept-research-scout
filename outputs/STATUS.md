@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B's repaired package passed preparation and upload; no new compute has launched.
-Submission stopped at a cost helper that expects a checkpoint even when the original attempt stopped before producing one.
-The narrow accounting fix passed 122 checks and a complete submission replay; Claude is reviewing it.
+13B's package is prepared and uploaded; no new compute has launched.
+Claude approved the cost repair, but installation verification caught an import-order error before execution.
+The small ordering correction passed 139 tests and the real verification entrypoint rehearsal; independent review is running.
 Coverage arms remain held; full training awaits scientific review of actual smoke results.
-The stopped attempt has $0.58471212 in observed provider billing. Item 4 retains $45.690453 of $75; no reservation has been released.
+The stopped attempt has $0.58471212 in observed provider billing. Item 4 retains $45.690453 of $75; total actual cost is not yet settled.
 Next result: verified CPU preparation, roughly 1-2 hours if review and execution pass, then GPU smoke. No operator action needed.
 
-Updated 2026-10-09T12:17:33.802651+00:00. Detailed audit follows.
+Updated 2026-10-09T12:34:15.949039+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -30,9 +30,13 @@ Next is a reviewed repair of the output-root permission mismatch, then base prep
 
 R49 submission then refused before a new reservation or provider creation. The unchanged cost hook assumed every terminal preprocessing attempt had a committed checkpoint. The already-approved first attempt stopped before one existed. Its full reservation remains counted; neither the failed service nor its records have been reset.
 
-R50 source 58e22a082c169c5c926d563530901f4fb355a18a is under one implementation/accounting/equivalent-proof review, with direction folded in. It recognizes only the exact independently approved stop, full original row and event, original work location and all eight proof hashes. It grants no cost credit and invents no checkpoint; missing, altered, unrelated or live proofs still refuse. The same prepared job, scientific files, inputs, image, resources and cap remain selected. All 122 affected checks passed. The complete submission route now reproduces the old failure and passes with the candidate on memory copies of real records, real read-only provider preflight, and explicit test doubles for create and launch. The over-cap case still refuses before creation. Live records are unchanged and no actual compute or reservation was made.
+R50 source 58e22a082c169c5c926d563530901f4fb355a18a received genuine round-two APPROVE 6577df68f573f5bbdaf91a4bf4788d210e8a65e33ad0f030728f01ef80d527dd and agreement on PROCEED. Round one returned a genuine REVISE solely over the test-count evidence: 121 tests and one added test had passed separately. A single authoritative run of all 122 passed and resolved that finding. Both reviews and charges remain preserved; no verdict was relabeled. It recognizes only the exact independently approved stop, full original row and event, original work location and all eight proof hashes. It grants no cost credit and invents no checkpoint; missing, altered, unrelated or live proofs still refuse. The same prepared job, scientific files, inputs, image, resources and cap remain selected. All 122 affected checks passed. The complete submission route now reproduces the old failure and passes with the candidate on memory copies of real records, real read-only provider preflight, and explicit test doubles for create and launch. The over-cap case still refuses before creation. Live records are unchanged and no actual compute or reservation was made.
 
 Authenticated billing through the newly closed hour reports $0.58471212 for the stopped first attempt's application. This is an observed cost, not a final invoice assertion. The full $10.342400 reservation remains effective. No excess is released; original and eventual actual figures must both remain in the record.
+
+R50's held installation wrote its reviewed files and unit, then verification refused because authority verification imported the controller package before the existing runtime had established its import path. No completion record, activation, dispatch or new reservation followed. The partial installation and exact error are preserved.
+
+R51 source 66757e0dfe39a832b59ddd26e045d4500fedaedb only reorders those calls: the unchanged protected bootstrap runs first, then both authority checks, before connecting any candidate code or dispatching. Its cost module is byte-for-byte R50's approved code. It directly reuses the prior working runtime and preserves the partial installation. A single 139-test run passed. The actual clean-server verification entrypoint reproduced the old import failure, then passed with the corrected order and unchanged global/local records. Candidate future identity, approval and file loading were explicitly simulated for this rehearsal; it was not an installation or launch. The real prior authority and driver checks ran. Independent approval and successful held installation verification are still required before the same prepared job can submit.
 
 ## Spending
 
@@ -48,26 +52,26 @@ Authenticated billing through the newly closed hour reports $0.58471212 for the 
 
 Authenticated billing observed $2.01511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
 
-Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. R48 direction estimate is $3.03873325. R49 implementation estimate is $4.5833295; R50 is running. Every original attempt and charge remains counted.
+Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. R48 direction estimate is $3.03873325. R49 implementation estimate is $4.5833295; Both R50 rounds completed; R51 is running. Charges for all attempts remain preserved. Every original attempt and charge remains counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 33/50 calls, including the running R50 implementation review. No resets or relabeling.
+UTC October 9: 35/50 calls, including the running R51 implementation review. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader-limit failure; reviews 9/10 genuine REVISE |
-| Administrative implementation review | 21 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding; R49 private output initialization and fixed fresh start; R50 conservative pre-science-stop cost connection |
+| Administrative implementation review | 23 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding; R49 private output initialization and fixed fresh start; R50 conservative pre-science-stop cost connection (two rounds); R51 runtime bootstrap order |
 | Standalone direction/scope | 5 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction; R48 output-root initialization and positively stopped zero-step recovery |
 
-Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest direction is R48 PROCEED, one round agreed: initialize only the exact new empty output root to private permissions, keep every existing check, and connect a narrowly scoped fresh start to positive terminal evidence. No new recovery subsystem. Tests and independent implementation approval are still required.
+Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Earlier R48 direction was PROCEED, one round agreed: initialize only the exact new empty output root to private permissions, keep every existing check, and connect a narrowly scoped fresh start to positive terminal evidence. No new recovery subsystem. Tests and independent implementation approval are still required.
 
 Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 recommended PROCEED for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. R49 source 7046ad7755af65a73e3042eb6cc28440544715a6 received genuine independent APPROVE 860f9f3193c005944116508220aa32584f3b79edd5b4c22cd1cd833258ef59ec and explicit PROCEED, one round agreed. Held installation, verification, exact stopped-attempt activation, package preparation and upload all passed. It tightens only an exactly bound empty default output root to private permissions; all guards remain unchanged. It uploads static code with owner-only read permissions, without changing existing files. A fixed fresh-start contract records the positive terminal proof and retains the full original charge, then selects a new ordinary job without inventing a checkpoint or resume. All scientific files, inputs, image, resources and caps stay unchanged. The observer distinguishes a demonstrated absent parent from a transport failure.
 
 Final regression: 340 passed, 3 skipped. An additional native composed test passed from empty-root initialization through the unchanged guard and actual preprocessing worker, with synthetic inputs and a labelled synthetic environment proof. Earlier 19 failing fixture assertions expected the old static upload mode; the fixtures were corrected and the originals preserved. Full normal admission on an in-memory copy of actual accounting passed; an independent over-cap case refused. Actual selection and package replay preserved exact package files and original records. Neither replay made a real reservation or launched compute. Future installation authority was explicitly simulated in these tests, not claimed.
 
-The successor would reserve at most $10.342400 through normal admission, bringing retained item 4 exposure to $56.032853 of $75. It has not been admitted. Original launch stderr was discarded, so the precise exception is inferred from the demonstrated permission conflict. The current provider's permission operation remains to be demonstrated by the real attempt; unsupported behavior still refuses. R48's proposal incorrectly said the uploader preserved local modes; source inspection showed an explicit group-readable mode, now corrected. R48 scope authorship was also clarified: the proposal was assistant-written, and authority comes from the verbatim standing operator rule. No new operator approval is inferred. Latest direction is R49 PROCEED. R50 folds in the required check after two installed repair cycles without a scientific result.
+The successor would reserve at most $10.342400 through normal admission, bringing retained item 4 exposure to $56.032853 of $75. It has not been admitted. Original launch stderr was discarded, so the precise exception is inferred from the demonstrated permission conflict. The current provider's permission operation remains to be demonstrated by the real attempt; unsupported behavior still refuses. R48's proposal incorrectly said the uploader preserved local modes; source inspection showed an explicit group-readable mode, now corrected. R48 scope authorship was also clarified: the proposal was assistant-written, and authority comes from the verbatim standing operator rule. No new operator approval is inferred. Latest completed direction is R50 PROCEED, agreed across its two review rounds. R51 includes the follow-up opinion with its required implementation review.
 
 ## Publication scope and omissions
 
@@ -369,3 +373,8 @@ The direction proposal was assistant-authored; Git author configuration is not o
 ### Pre-science cost connection exclusions
 
 - tests > fixtures > item4_pre_science_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+
+### Runtime bootstrap exclusions
+
+- tests > fixtures > item4_cost_bootstrap_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- outputs > implementation-reviews > item4-pre-science-cost-record-round1-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
