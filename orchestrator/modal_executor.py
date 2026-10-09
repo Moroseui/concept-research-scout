@@ -70,7 +70,18 @@ def item4_job(binding):
         raise ValueError('ITEM4_JOB_SCOPE')
     # Deliberately excludes mutable resources/quote: changing them cannot create
     # another job for an already submitted realization/segment.
-    return 'item4-'+digest(canonical({'run':run,'fit':fit,'segment':segment}))[:40]
+    identity={'run':run,'fit':fit,'segment':segment}
+    if 'fresh_start' in binding:
+        link=binding['fresh_start']
+        if ('preprocessing' not in binding or segment!=1 or 'resume' in binding
+                or not isinstance(link,dict) or set(link)!={'previous_binding_sha256','terminal_event_sha256'}
+                or any(not isinstance(v,str) or not re.fullmatch('[a-f0-9]{64}',v) for v in link.values())):
+            raise ValueError('ITEM4_FRESH_START_IDENTITY')
+        # Explicit terminal linkage distinguishes one reviewed fresh attempt;
+        # resources/quotes still cannot create a new job. Admission checks the
+        # full pinned binding and genuine terminal event, not just this shape.
+        identity['fresh_start']=link
+    return 'item4-'+digest(canonical(identity))[:40]
 
 
 class ModalExecutor(ManualExecutor):

@@ -294,6 +294,10 @@ def test_static_volume_is_uploaded_once_and_reused_for_resumed_manifest(reviewed
     pr.write_bytes(folder/'manifest.json',canonical(manifest))
     monkeypatch.setattr(connectivity,'require',lambda *args,**kwargs:None)
     volume=UploadVolume();provider=adapter(volume)
+    def private_upload(path,remote,mode):
+        assert mode==0o400
+        volume.files[remote.lstrip('/')]=Path(path).read_bytes()
+    volume.put_file=private_upload
     first=modal_assets.prepare_package(provider,binding,folder,tmp_path/'upload-1')
     assert first['status']=='READY' and 'manifest.json' not in volume.files and volume.uploads==1
     original=dict(volume.files)

@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B reached its first real preparation launch, but produced no scientific output.
-The guard requires private output permissions; the provider created its empty root with broader permissions.
-The idle sandbox is stopped. Claude agreed to the narrow repair and truthful fresh-start recovery; implementation is in progress.
+13B's first preparation attempt stopped before producing scientific output; no compute is running.
+A permission mismatch and the stopped-attempt recovery are covered by one repair now under Claude review.
+The repair passed 341 checks, including the real preprocessing worker on synthetic data and cap refusals.
 Coverage arms remain held; full training awaits scientific review of actual smoke results.
 Workspace metered workload is $2.01511986, offset by credits; item actuals remain unsettled. Item 4 retains $45.690453 of $75.
-Next result: verified preparation in an estimated 1-2 hours, conditional on review and execution. No operator action needed.
+Next result: verified preparation in roughly 1-2 hours if review and execution pass. No operator action needed.
 
-Updated 2026-10-09T11:19:17.656644+00:00. Detailed audit follows.
+Updated 2026-10-09T11:54:15.983413+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -46,18 +46,22 @@ Model estimates are separate from provider workload. Recent completed calls: R42
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 31/50 calls, all terminal. No resets or relabeling.
+UTC October 9: 32/50 calls, including the running R49 implementation review. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader-limit failure; reviews 9/10 genuine REVISE |
-| Administrative implementation review | 19 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding |
+| Administrative implementation review | 20 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding; R49 private output initialization and fixed fresh start |
 | Standalone direction/scope | 5 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction; R48 output-root initialization and positively stopped zero-step recovery |
 
 Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest direction is R48 PROCEED, one round agreed: initialize only the exact new empty output root to private permissions, keep every existing check, and connect a narrowly scoped fresh start to positive terminal evidence. No new recovery subsystem. Tests and independent implementation approval are still required.
 
-Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 recommended PROCEED for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. A draft that initializes only a verified empty output root to private permissions passed 36 focused tests, retaining the original strict guard. It is not reviewed or installed. Original launch stderr was discarded, so the precise original exception is inferred from the demonstrated root-mode conflict. The ordinary committed-step continuation cannot be used to fabricate missing records.
+Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 recommended PROCEED for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. R49 source 7046ad7755af65a73e3042eb6cc28440544715a6 now contains the concrete bounded patch, under one independent implementation/accounting/privacy review. It tightens only an exactly bound empty default output root to private permissions; all guards remain unchanged. It uploads static code with owner-only read permissions, without changing existing files. A fixed fresh-start contract records the positive terminal proof and retains the full original charge, then selects a new ordinary job without inventing a checkpoint or resume. All scientific files, inputs, image, resources and caps stay unchanged. The observer distinguishes a demonstrated absent parent from a transport failure.
+
+Final regression: 340 passed, 3 skipped. An additional native composed test passed from empty-root initialization through the unchanged guard and actual preprocessing worker, with synthetic inputs and a labelled synthetic environment proof. Earlier 19 failing fixture assertions expected the old static upload mode; the fixtures were corrected and the originals preserved. Full normal admission on an in-memory copy of actual accounting passed; an independent over-cap case refused. Actual selection and package replay preserved exact package files and original records. Neither replay made a real reservation or launched compute. Future installation authority was explicitly simulated in these tests, not claimed.
+
+The successor would reserve at most $10.342400 through normal admission, bringing retained item 4 exposure to $56.032853 of $75. It has not been admitted. Original launch stderr was discarded, so the precise exception is inferred from the demonstrated permission conflict. The current provider's permission operation remains to be demonstrated by the real attempt; unsupported behavior still refuses. R48's proposal incorrectly said the uploader preserved local modes; source inspection showed an explicit group-readable mode, now corrected. R48 scope authorship was also clarified: the proposal was assistant-written, and authority comes from the verbatim standing operator rule. No new operator approval is inferred. Latest direction remains R48 PROCEED; the follow-up opinion is folded into R49.
 
 ## Publication scope and omissions
 
@@ -346,3 +350,12 @@ The published root-initialization code and tests are a working draft, not an ins
 The direction proposal was assistant-authored; Git author configuration is not operator authorization. The reviewer inferred authorship from that metadata incorrectly. Authority remains the existing verbatim operator decisions. Further source inspection found static package upload explicitly uses mode 0440; the next implementation review will assess strict package-reader compatibility together with root initialization and recovery, rather than assume local file modes are preserved. No installed permission check has changed.
 
 - Withheld outputs > implementation-reviews > item4-preprocessing-root-direction-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
+
+### Fresh-start repair exclusions
+
+- docs > ITEM4_FRESH_RUNTIME.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- docs > ITEM4_FRESH_START_CHECKPOINT.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- docs > ITEM4_PREPROCESSING_FRESH_SCOPE.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- tests > fixtures > item4_fresh_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- tests > test_experiment_preprocessing_dispatch.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- outputs > proposals > item4-preprocessing-root-repair-20261009.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH

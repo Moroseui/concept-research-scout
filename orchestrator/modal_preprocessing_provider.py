@@ -193,7 +193,20 @@ def launch(provider,provider_id,binding):
 
 def record(volume,path):return _file(volume,path,MAX_RECORD,collect=True)['data']
 def exists(volume,path):
-    parent=path.rsplit('/',1)[0]
+    # Missing parent means no proof yet, never a terminal outcome. Confirm each
+    # parent from its existing parent; do not swallow transport/identity errors.
+    parts=path.split('/')
+    if not path.startswith('/') or any(p in {'','.','..'} for p in parts[1:]):
+        raise ValueError('PREPROCESSING_OBSERVATION_PATH')
+    parent='/'
+    for name in parts[1:-1]:
+        target=parent.rstrip('/')+'/'+name
+        matches=[row for row in volume.listdir(parent,recursive=False)
+                 if row.path.lstrip('/')==target.lstrip('/')]
+        if not matches:return False
+        if len(matches)!=1 or matches[0].type.name!='DIRECTORY':
+            raise ValueError('PREPROCESSING_OBSERVATION_PARENT')
+        parent=target
     return any(row.path.lstrip('/')==path.lstrip('/') for row in volume.listdir(parent,recursive=False))
 
 
