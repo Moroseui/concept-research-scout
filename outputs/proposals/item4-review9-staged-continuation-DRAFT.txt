@@ -1,3 +1,2 @@
-TESTED CANDIDATE, pending independent approval; not installed or activated.
-Source 7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3
-Final regression291passed; all previous failures preserved. One batched administrative review running as of07:09:22UTC. See docs/ITEM4_REVIEW9_RESPONSE_SCOPE_20261009.txt for the exact concrete scope and outputs/STATUS.md for current evidence, spending and limitations.
+REVIEWED AND INSTALLED; historical filename retained.
+Source7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3, genuine APPROVE7303aa4386824db878e24225025ffbd93c5b04c54b0543cb5c5d3aa373446646; explicit PROCEED. Final291tests and actual installed qualification passed; exact continuation activated. The author start then refused the unchanged60-call lifetime batch cap BEFORE admission, with no new call/charge. R41 does not authorize changing that cap. See outputs/STATUS.md and the original concrete scope for limitations.
