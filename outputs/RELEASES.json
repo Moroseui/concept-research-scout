@@ -169,6 +169,12 @@
       "role": "scoped approved stage-one milestone cap",
       "review": "e840553db3ca94518f41f71fb986843902dae7b7d3dd6dc33c580e1d6f88b49c",
       "selection": "exact safe source projection; private files and ancestry withheld"
+    },
+    {
+      "source": "aa833acb4980520f67256f43fe13a20a818b4d03",
+      "role": "native timing compatibility and frozen base-smoke connection",
+      "review": "8d1b54f44b373ed169f172ee7eb697ed7f8162eaccafa707af61c76e5276fef8",
+      "selection": "exact safe source projection; private fixtures and ancestry withheld"
     }
   ],
   "source_files_count": 1369,

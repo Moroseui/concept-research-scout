@@ -1,0 +1,15 @@
+{
+  "observed_at": "2026-10-09T22:06:28.424678+00:00",
+  "billing_interval_start": "2026-10-09T21:00:00+00:00",
+  "billing_interval_end": "2026-10-09T22:00:00+00:00",
+  "confirmed_closed_compute_usd": "2.07549804",
+  "original_reservation_usd": "14.292400",
+  "retained_closed_bound_usd": "7.106278",
+  "included_unsettled_obligations_usd": "5.000000",
+  "known_provider_compute_usd": "13.96614730",
+  "new_ledger_credit_usd": "0",
+  "provider_invoice_final": false,
+  "source_observation_sha256": "a2a7e3a2ed4234ec4575961be578345486790d26949603d8589cf4cc809dd15d",
+  "all_originals_preserved": true,
+  "note": "Completed-hour H100 compute confirmed. Original reservation and conservative bound remain recorded; unsettled asset/other obligations are not finally billed. Open B200 reservation unchanged. No accounting patch or invented credit."
+}
