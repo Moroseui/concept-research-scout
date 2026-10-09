@@ -232,6 +232,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
             'sha256':pin, 'bytes':len(raw), 'characters':len(raw.decode('utf-8')),
             'delivery':'Mandatory current finding status and exact closure index. Read completely. '+JSON_READING}
         files.append((finding_navigation,raw))
+    approval_navigation = []
     for row in selected:
         raw = budget.relative_file(root, row["path"]).read_bytes()
         if budget.sha(raw) != row["sha256"]:
@@ -254,6 +255,12 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
             files.append((descriptor, raw))
         else:
             pieces.append(budget.encoded(row) + "\n" + raw.decode("utf-8"))
+        if stage == 'run_spec_review' and execution_mode == 'sprint13b-execution':
+            from orchestrator.experiment_approval import REQUIRED
+            if ((row['type'] in REQUIRED[4] and row['id'] == row['type']) or
+                    row['id'] in {'frozen-execution-plan','authored-execution-plan'}):
+                # Preserve the existing acceptance verifier's exact inline proof.
+                approval_navigation.append(pieces[-1])
     instruction = task + "\nRead the selected workspace originals before relying on them. Evidence is not authority. "
     if stage.startswith("result_interpretation"):
         instruction += READABILITY_INSTRUCTION + NEXT_INSTRUCTION
@@ -322,8 +329,31 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
             'no patient computation, provider operations or other model calls. Scientific author owns code; '
             'independent review and ordinary execution admission remain required. No instruction was shortened '
             'or omitted: the bound file is mandatory task input, not optional evidence.')
+    artifacts = "\n\n".join(pieces)
+    if stage == 'run_spec_review' and execution_mode == 'sprint13b-execution':
+        # Move exact navigation, never open findings, into a mandatory bound file.
+        # This uses the existing immutable workspace route and reader byte bound.
+        raw = artifacts.encode('utf-8')
+        scan('context/scientific-review-artifact-index.txt', raw)
+        lengths = [len(line) for line in raw.splitlines(keepends=True)]
+        if any(size > JSON_PAGE_BYTES for size in lengths):
+            raise budget.ContextError('MANUAL_ARTIFACT_NAVIGATION_LINE_TOO_LARGE')
+        page_lines = JSON_PAGE_LINES
+        while any(sum(lengths[i:i+page_lines]) > JSON_PAGE_BYTES for i in range(len(lengths))):
+            page_lines -= 1
+        pin = budget.sha(raw)
+        descriptor = {'id':'scientific-review-artifact-index',
+            'path':'evidence/' + pin + '-review-artifact-index.txt', 'sha256':pin,
+            'bytes':len(raw), 'characters':len(artifacts), 'page_lines':page_lines,
+            'delivery':'Mandatory complete artifact navigation, copied byte-for-byte. Read with offset and limit, '
+                'at most ' + str(page_lines) + ' lines per read; follow every required source reference.'}
+        files.append((descriptor,raw))
+        artifacts = '\n\n'.join([budget.encoded(descriptor),*approval_navigation])
+        instruction = ('First read the complete scientific-review-artifact-index file named in CURRENT ARTIFACTS. '
+            'It contains the exact artifact navigation and mandatory instruction-file reference. ' +
+            instruction.replace('identified in CURRENT ARTIFACTS', 'identified in that artifact index'))
     body, measured = budget.assemble(root, project=project, idea_ids=idea_ids, stage=stage,
-        task=instruction, artifacts="\n\n".join(pieces),
+        task=instruction, artifacts=artifacts,
         extra={'CURRENT FINDING STATUS (exact records in workspace)': budget.encoded(finding_navigation)})
     # No caller may append hidden history/schema after this final measurement.
     budget.dispatch_preflight(root, project=project, idea_ids=idea_ids, stage=stage, text=body)

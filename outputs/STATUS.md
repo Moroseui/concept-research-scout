@@ -1,30 +1,22 @@
 # Research status
 
-Updated 2026-10-09T04:23:51.265742+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T04:44:44.428857+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
-Item6 is complete with independent scientific APPROVE. Mean Dice0.20630608 to0.24674415, gain0.04043807 (95% interval0.02796645 to0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops the diagnostic branch, without clinical or specialist-training promotion. Reports and aggregates remain under outputs/item6/.
+Item6 is complete with independent scientific APPROVE. Mean Dice0.20630608 to0.24674415, gain0.04043807 (95% interval0.02796645 to0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops this diagnostic branch; no clinical or specialist-training promotion. Accepted reports remain under outputs/item6/.
 
-13B author13 is accepted with23 controller checks. Native CPU integration PASSED on99 generated fixtures:300 prepared files, reuse, interruption/resume from epoch1 and scoring. This is runtime evidence, not patient efficacy, GPU or production-main evidence. The pinned image is unchanged; the full-training objective remains, with coverage-dependent arms held. No GPU smoke/full training yet.
+13B composed source is now READY and VERIFIED, completed04:28:39UTC with terminal exit0. All893 frozen files,7,202,931,657bytes, passed local hashes and full remote byte readback with exact membership/identity.99 development patients;49 excluded identifiers; zero overlap. Original source was checked before and after copying. No patient analysis or new provider compute occurred. The first failed source attempt and its complete reservation remain preserved. See outputs/sprint13b/SOURCE_VERIFICATION.json for the aggregate proof.
 
-The first source-composition attempt is terminally failed. The SDK returned a lazy Volume handle and an identity check ran before metadata loaded it. Failure occurred after200 local files were copied, before reading remote images or creating/uploading a destination. Its complete reservation and all records remain preserved. No uncertain attempt was duplicated or reset.
+Author13 native CPU integration already PASSED using99 generated fixtures:300 prepared files, reuse, interruption/resume and scoring. It is synthetic runtime evidence, not efficacy, GPU or production-main validation. The pinned image remains unchanged. No GPU smoke or full training yet; the full research objective remains and coverage-dependent arms remain held.
 
-The independently approved repair lists metadata first, then performs the same exact identity check before payload reads. A real installed-SDK probe reproduced the cause and verified this ordering without reading payload or creating resources. Other new Volume API signatures were also checked.228 distinct checks passed (227 full, then13 focused with12 overlapping). Actual server read-only predecessor qualification passed. The retry permits only the exact proven terminal predecessor; altered rows/charges, active jobs, extra files/directories, unexpected identities, create/upload intents and unknown attempts still refuse.
+The completed evidence-delivery candidate 2da898df506e28718277c588ab31d1e1be57a1a0 has183 passing tests and a successful actual server preflight. All54 prior evidence originals plus4 native and4 source originals are delivered:62 originals,403 workspace files,192769 of200000 prompt characters. Live source/native/author/image prerequisite authentication passed; lane and all20 scientific call records were unchanged. All open findings remain verbatim inline. Existing approval-critical artifact/plan bytes remain inline for the unchanged acceptance verifier.
 
-Installed source28726e3d5cdf32f1d80c63187f5abd9146cbfcd0, independent APPROVEfd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e. The new attempt is RUNNING, admitted normally and started once. It reused and reverified101 staged server files (19,708,168bytes); no second laptop transfer. It must verify exactly893 files/7,202,931,657bytes for99 development patients, with49 excluded identifiers and zero overlap. Original source, files and earlier reservation stay untouched; separate retention was installed before admission. No new compute worker, image or scientific code.
+Two diagnosed delivery problems are fixed in the same bundle: two long native console strings have labeled lossless readable copies with exact JSON reconstruction and unchanged original files; full artifact navigation is a mandatory hash-bound file. Reader/input limits, all privacy scans and other refusals remain. Initial size and integration-test failures are preserved. The permission-sensitive test was rerun with the established private umask; no permission check was relaxed.
 
-All 893 local files totaling 7,202,931,657 bytes now pass full local hash verification; the original source was reverified before and after copying. The same job is uploading the composed volume and verifying every remote byte. It is still running, with no final VERIFIED receipt, and was not relaunched.
+One combined independent Claude implementation review started once at04:39UTC and is RUNNING. It covers proof-gate equivalence, preservation of the original fourth grant, delivery fixes and the direction check. Candidate code is not installed or scientifically approved. Prepared installer and review8 launch scripts have not run. No additional author or review allowance, spending cap, input, scientific code or confinement change.
 
-Next result: verified source, estimated by04:42UTC. Then a narrow reviewed connection delivers authentic source/native evidence to scientific reviewer8; only scientific acceptance permits preprocessing/GPU smoke. The existing review8 hold remains. Scientific code and conclusions remain author/reviewer-owned.
-
-## Tested working draft awaiting source completion
-
-Review8 evidence delivery draft 840a0f0fdb6d363c1aec722ba6a770cbcfd3ea05 passed96 focused checks. It preserves the existing author13/review8 grant and its original independent approval, without adding calls or spending authority. The replacement prerequisite requires terminal successful source preparation, exact READY reservation and receipt, frozen inventory, current retention, and genuine native/author/image proof before model admission. The live check correctly refused while the source job was still running. The actual installer precondition matched the held20-call lane with no running model calls.
-
-All54 existing reviewer evidence originals are preserved byte-for-byte. Four genuine native originals were appended and scanned. Two embedded console strings exceeded the existing pager size bound; labeled128-character chunks reconstruct every original JSON value, while unchanged original bytes are also delivered. All page limits, privacy scans and other size refusals remain.58 originals produce89 complete workspace files; all scans pass. This reader fix is bundled with the proof connection for one independent implementation review.
-
-This is an uninstalled, incomplete working draft: the final source proof document and four source originals must be added after the real job finishes. Actual full reviewer-context preflight and genuine independent implementation APPROVE remain required. No model/provider call, new reservation, lane mutation or installation occurred for this draft. Source/native proof is not scientific acceptance; U1/U2 remain for the scientific reviewer, coverage holds remain, and ordinary execution/confinement/budget gates still apply. The safe code projection here is for audit/history and is not a deployable release.
+Next result: implementation verdict, estimated within15?25minutes of review start; then installed preflight and scientific review8 if approved. The scientific reviewer decides U1/U2 closure; U3 coverage holds and ordinary execution/confinement/budget admission remain.
 
 ## Spending
 
@@ -32,19 +24,19 @@ This is an uninstalled, incomplete working draft: the final source proof documen
 |---|---:|---|
 | Item4 assets including both source attempts | $35.348053 | Complete confirmed actual total unavailable; counted inside $75 smoke cap |
 | Failed first source attempt, included above | $3.321330 | Full charge retained; no confirmed settlement |
-| Current source retry, included above | $3.321330 | Open attempt; no release |
+| Successful source preparation, included above | $3.321330 | Actual cost not settled; retained storage reservation |
 | Three native CPU attempts, included above | $3.356850 | First historical observation $0.01258041; others not settled |
 | Item4 image, included above | $1.178425 | Historical observation $0.00669028; not final settlement |
 | Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation $0.38602155; not separable per attempt |
 | Item6 input preparation | $5.000000 | Actual preparation cost not isolated |
 
-No reservation released. Only provider-confirmed actual cost of a closed attempt may release excess, preserving original/actual/released figures. Open or uncertain attempts retain full reservations. Caps unchanged: item4 $75 smoke, $1,200 projection, $1,275 total. The separate $15 retry allowance does not apply. Model estimates are separate, not invoice settlement.
+No reservation released. Only provider-confirmed actual cost of a closed attempt may release excess, preserving original/actual/released figures. Open or uncertain attempts retain full reservations. Caps unchanged: item4$75 smoke,$1200 projection,$1275 total. The separate$15 retry allowance does not apply. Model estimates are separate, not invoice settlement.
 
 ## Calls, blockers and judgment calls
 
-UTC October9:14/50 calls:2 scientific authors (author12,13);1 scientific review (review7 REVISE);9 implementation reviews (native successor, hourly billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition/accounting/retention, review-original ownership, source-handle initialization/exact successor);2 standalone scope/direction calls (retry authority, next-result plan). All calls/charges preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
+UTC October9:15/50 calls:2 scientific authors (author12,13);1 scientific review (review7 REVISE);10 implementation reviews (native successor, billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, source composition, review-original ownership, source-handle initialization/exact successor, current combined proof/context delivery);2 scope/direction calls (retry authority,next-result plan). Every call and charge preserved. October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction.
 
-Latest Claude direction: PROCEED,1round, folded into this implementation review; agreed. The SDK fix and exact accounting/refusal exception were reviewed together. Reuse existing transfer/admission/retention, preserve the original failure and full charge, admit the bounded successor normally, then obtain the real source result. No optional reconciliation or new subsystem. Same-cause second failure stops. Review8 still needs actual source proof and the reviewed evidence connection; its existing allowances and original approvals must remain intact.
+Latest completed Claude direction: R36 PROCEED,1round; agreed. R35 direction is folded into the currently running implementation review. Judgment: preserve the original grant, replace only the missing-proof hold with authenticated real prerequisites, and batch all necessary reader repairs into one review. No new subsystem or optional billing work. The source/native proof is an infrastructure result; scientific review7 findings remain unresolved pending scientific review8.
 
 ## Publication scope and limitations
 
@@ -278,7 +270,7 @@ Additional exclusions identified during full publication audit (call-accounting 
 
 ## Next authorized work
 
-Observe the existing source job until its terminal outcome and authenticated receipt agree. Deliver its genuine verified source proof together with the completed native integration evidence through the existing scientific reviewer route. The narrow evidence-delivery change needs implementation review before installation; no extra scientific call allowance is added. Preserve every open finding, original attempt and charge. GPU preprocessing and smoke remain gated on scientific acceptance. No new model call, reservation, launch or installation occurred during this backup update.
+Observe the existing combined implementation review; do not repeat registration or start. Only a genuine APPROVE permits the prepared same-service installation, installed-context preflight and normal scientific review8. Scientific reviewer alone closes findings. Existing preprocessing and GPU admission follow only after scientific acceptance.
 
 Additional publication omissions for R31:
 
@@ -316,3 +308,10 @@ Safe aggregate implementation report, scope, code and tests are included. Eviden
 - docs > ITEM4_REVISION_EVIDENCE.json: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
 - outputs > sprint13b > REVIEW8_DELIVERY_PROPOSAL.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - Raw working history, private evidence copies, proof-capture output and call checkpoints remain private.
+
+### Final delivery candidate omissions
+
+- docs > ITEM4_REVIEW8_DELIVERY_SCOPE_20261009.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- docs > ITEM4_REVISION_CHECKPOINT.json: PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
+- docs > ITEM4_REVISION_EVIDENCE.json: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD
+- Raw private working ancestry, call snapshots, review packets, native streams and original private evidence remain excluded. The safe projection is reviewable history, not an installed combined release.
