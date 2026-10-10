@@ -3,10 +3,10 @@
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 Three benchmarks, the five-epoch base smoke with real interruption/resume, and the repeat are complete.
 Scientific review returned REVISE: it accepts the base technical execution, but full training and coverage-dependent work remain held.
-Nothing is running. Remaining issues are coverage provenance, incomplete arm testing, uncertain steady-state timing and a full-plan projection over the $1,200 gate.
+Nothing is running. Code inspection reconciled the timer boundaries; scientific judgment, coverage provenance, remaining arm tests and the $1,200 projection gate are still open.
 Identified provider compute is $24.29; effective stage-1 exposure is $110.11/$150, including retained obligations. Model estimates and unsettled asset costs are separate.
-Next result: an author-owned timing and budget response after timer reconciliation; allow 1-2 hours of active work, with no full-training date yet.
-UTC October 10 calls: 6/50 (1 scientific review, 3 administrative reviews, 2 direction checks). Latest direction: PROCEED after two rounds at approximately 01:54 UTC.
+Next result: an author-owned timing and budget response after a reviewed, bounded call allowance; estimate 1-2 hours of active work. Full training has no date.
+UTC October 10 calls: 7/50 (1 scientific review, 4 administrative reviews, 2 direction checks). Latest consultation approved existing controls but left the next call allowance unanswered; last explicit direction was PROCEED at 01:54 UTC.
 
 ## Results and readiness
 
@@ -30,7 +30,7 @@ The cap increase to $150 was independently approved and installed before the mil
 
 The latest provider snapshot identifies compute of $24.29013445. Effective stage-1 exposure is $110.111178/$150, not a final invoice. Original compute reservations total $147.7164 and remain preserved. The repeat's original $16.5924 reservation, provider compute $4.65640856, closed bound $9.707803 and released excess $6.884597 are all retained. Base segments have a combined provider bill of $3.66466686; no invented per-segment allocation is used. Unsettled obligations remain counted. See outputs/sprint13b/STAGE1_SMOKE_BILLING.json.
 
-UTC October 10 call purposes: scientific author 0; scientific reviewer 1 (assessment of three benchmarks and two smokes); administrative review 3 (smoke-review connection, initial host-proof procedure, corrected enforceable procedure); standalone direction checks 2 (shortest route to smoke assessment and its exact accounting scope). The operational direction discussion was folded into the two procedure reviews and is not counted twice. Model estimates for the three administrative reviews are $4.94008025, $3.544358 and $3.7232215; the direction estimates are $2.7915255 and $2.13659325. The scientific call's original usage is retained; no unsupported invoice total is reported. October 9's 50 calls remain: 3 author, 4 scientific review, 37 administrative review and 6 direction checks. Nothing was reset or relabeled. Continue batching administrative work; no new standalone direction call was made.
+UTC October 10 call purposes: scientific author 0; scientific reviewer 1 (assessment of three benchmarks and two smokes); administrative review 4 (smoke-review connection, initial host-proof procedure, corrected enforceable procedure, post-smoke author-route consultation); standalone direction checks 2 (shortest route to smoke assessment and its exact accounting scope). The operational direction discussion was folded into the two procedure reviews and is not counted twice. Model estimates for the three administrative reviews are $4.94008025, $3.544358 and $3.7232215; the direction estimates are $2.7915255 and $2.13659325. The scientific call's original usage is retained; no unsupported invoice total is reported. October 9's 50 calls remain: 3 author, 4 scientific review, 37 administrative review and 6 direction checks. Nothing was reset or relabeled. Continue batching administrative work; no new standalone direction call was made.
 
 ## Judgment-call log highlights
 
@@ -40,6 +40,14 @@ UTC October 10 call purposes: scientific author 0; scientific reviewer 1 (assess
 - Next scientific context must include the current cap decision and distinguish technical stage acceptance from whole-plan acceptance. Defer new components and further spending until the author-owned timing response is concrete.
 
 Installed smoke-review connection: source 7a8f4d662a2a3f8bb2b7032f0e7bfd3d620c7671, independent report fb04e156b4b29bfbc99e86437d7266ce1df51186f72c0baef754d39a0dac1aef, 137 passing tests and a cold server rehearsal. Bounded host-proof operation: source 173abad055d282c3479331be01e666510d208486, independent report 451cfd4a595107edcf8a364f4b4e128b415fc5dd6b40a7d3ffdffd4919c46a59, 22 passing tests. Safe source projections are backed up; private deployment fixtures remain withheld. There was no main merge, BACKLOG edit, credential change, patient restriction change or safeguard relaxation.
+
+## Timer audit and next author route
+
+The read-only audit matches the exact pinned native trainer and author source. Native logged epoch time stops before checkpointing and plotting; the returned synchronized time stops afterward. Smoke uses a periodic checkpoint every epoch, while full training uses every ten epochs; best-checkpoint saves remain independent. Repeat timer differences range from 15.93 to 38.23 seconds per epoch, but combine several overheads and cannot be attributed entirely to checkpointing. See outputs/reports/item4-timing-boundaries-20261010.md. No scientific code, checkpoint frequency, projection rule or protection was changed.
+
+The installed scientific route's remaining two slots are reserved for whole-plan final interpretation, not a response to the smoke findings. The proposed narrow extension permits author15/reviewer12 while preserving all 25 local and 63 batch scientific calls plus the final pair (proposed exact limits29/67; daily50 and dollars unchanged). It authorizes no GPU spending or scientific acceptance. A read-only snapshot pins the actual blocked state and original call rows for implementation. No new allowance is installed and no scientific response call has started.
+
+Claude's administrative report 45fae8e28c276f2da4c813085836e604e62b0ceb512b56fc76fb2861703481b3 genuinely APPROVEs the inspected existing controls but explicitly says the proposed extension is not implemented. It does not explicitly answer the requested new allowance or direction. Judgment: preserve that limitation; do not treat it as a grant. Fold the exact scope into the required implementation review instead of adding another standalone planning call. Also preserve its mistaken use of preflight zero-charge/model-not-launched fields as call-wide evidence: the earlier scientific call did run and remains COMPLETE and counted. Neither statement changes any charge or scientific verdict.
 
 ## Files withheld from public backup
 
