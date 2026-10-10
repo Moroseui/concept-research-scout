@@ -4,11 +4,11 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation is still unanswered; two synthetic fixture failures stopped the path to GPU measurement.
 
-Author21 is accepted. All 16 controller tests pass, including the new callback regression test. The reviewed connector is installed. One CPU-validation service is preparing admission; provider launch is not yet confirmed.
+Author21 is accepted. All 16 controller tests pass, including the new callback regression test. The reviewed connector is installed. One CPU validation is confirmed RUNNING on the provider, with a $1.118950 reservation.
 
 Claude approved the native-validation and accounting bundle with no findings and recommends PROCEED; root agrees.
 
-Identified compute cost is $24.33873. Both failed CPU attempts cost $0.04859; their full reservations remain counted. Commitments are $112.349078/$150, including $2.237900/$25 for the diagnostic.
+Identified compute cost is $24.33873. Both failed CPU attempts cost $0.04859; their original reservation records remain preserved. After a $0.189305 compute-only credit and the new reservation, commitments are $113.278723/$150, including $3.167545/$25 for the diagnostic.
 
 Next expected result: native CPU validation within about 20 minutes of the14:15 UTC service start. GPU timing follows only after native success and scientific review.
 
@@ -18,7 +18,7 @@ Today's calls: 38/50: 7 authors, 5 scientific reviews, 20 implementation reviews
 
 ## Current work and evidence
 
-Live check at14:15 UTC: the approved CPU-validation service was started once and is preparing normal admission. No reservation or provider-launch record exists yet. Installation completed with both runtime checks passing and zero model/provider calls. Do not duplicate the service. Its single CPU operation has a900-second provider hard stop and no automatic retry.
+Live check at14:18 UTC: the same approved service is running one reserved native CPU operation on the provider. The complete payload was sent once. The live accounting event confirms the $1.118950 reservation and the bounded $0.189305 credit; both original failed rows remain byte-equivalent. Installation completed with both runtime checks passing and zero model/provider calls. Do not duplicate the service. Its single CPU operation has a900-second provider hard stop and no automatic retry.
 
 [Independent implementation APPROVE](reports/item4-audited-native-verification-20261010.json), report4fba65d3, covers exact sourceea529258, one deliberately reviewed CPU operation and actual-PASS-gated reviewer16. The review also approved compute-only billing reconciliation with original rows retained and two overhead allowances still held. All165 focused tests and the final4-test role-order recheck pass. Current-source server rehearsals verified the original history, normal native reservation, over-cap refusal after credit, and one counted review16 only with a test-only simulated future PASS in a disposable copy. No live ledger changed in rehearsals. Scientific review15 and all global findings remain open. The [author-owned module](proposals/item4-cpu-diagnostic-author21.py) is an exact scan-passing copy of accepted21; it is not scientific approval or GPU evidence.
 
@@ -32,8 +32,8 @@ Scientific review15 remains a genuine REVISE: corrected instrumentation needs na
 
 ## Spending and call purposes
 
-- Stage 1: conservative counted commitments $112.349078 of $150; diagnostic reservations $2.237900 of $25.
-- First native attempt: provider actual $0.02512208; original reservation $1.118950 remains counted. Second: confirmed actual $0.02347152; full $1.118950 reservation retained. No release or invented settlement. The reviewed settlement path must be extended in the next required compute-admission change before credits can be used.
+- Stage1: conservative counted commitments $113.278723 of $150; diagnostic actuals plus retained/open allowances $3.167545 of $25.
+- First native attempt: provider actual $0.02512208, original reservation $1.118950 preserved; excess CPU/RAM credit $0.093827 recorded. Second: actual $0.02347152, original $1.118950 preserved; excess credit $0.095478. Each retains $1 overhead whose obligations are not yet settled. The current third attempt has a full open $1.118950 reservation and unknown actual cost. Nothing from the running attempt has been released.
 - Identified compute total $24.33872805 includes the newly confirmed second attempt and is separate from model costs. Every older usage row is unchanged; the newly billed rows belong only to this second attempt. The latest administrative review estimated $5.782551, separately retained and counted.
 - Full-plan projection gate $1,200 and total cap $1,275 are unchanged. No new GPU diagnostic reservation has been made.
 - Seven author calls: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction and the current whole-fixture audit.
@@ -53,7 +53,7 @@ The status file has been consolidated in place to remove contradictory historica
 
 Installed code is on `remote-server`, including the reviewed whole-fixture handoff. Safe projection f03283ac from `astra/public-whole-fixture-author-20261010` is merged as the installed release and contains byte-exact scan-passing source and tests. Private frozen documents are excluded, so this public projection is not independently deployable. Raw working history is withheld because it contains forbidden records. Main is unchanged.
 
-Installed audited-native sourceea529258 is backed up through safe projectionae85e8bb from `astra/public-audited-native-verification-20261010`, now merged into `remote-server`. Its four private contracts remain withheld. The approved reconciliation releases only $0.189305 of excess CPU/RAM reservation after normal admission, retaining $2 overhead; no live credit or new compute reservation was observed at the latest check.
+Installed audited-native sourceea529258 is backed up through safe projectionae85e8bb from `astra/public-audited-native-verification-20261010`, now merged into `remote-server`. Its four private contracts remain withheld. Normal admission recorded the approved $0.189305 excess CPU/RAM credit, retaining $2 overhead, and reserved $1.118950 for the current CPU run. Original rows, statuses and full reservation figures remain unchanged; append-only records explain effective costs.
 
 Before each push, every new reachable blob and commit message is scanned for privacy, secrets and infrastructure details. Evidence, ledgers, review packets, native streams, private files and patient-level data remain excluded. Flagged files retained privately include:
 
