@@ -18,6 +18,8 @@ Today's calls: 37/50: 7 authors, 5 scientific reviews, 19 implementation reviews
 
 ## Current work and evidence
 
+Live check at 13:33 UTC: the original author21 invocation remains RUNNING in both ledgers, its output stream is growing, and the existing bounded host-check loop has passed 16 refreshes. Draft files are not accepted results. No extra model call, compute, retry or infrastructure component was started during this monitoring interval.
+
 The latest genuine direction report e9636a72 is REVISE because the scientific defect remains, with PROCEED/SIMPLIFY advice for a whole-fixture repair. It is not installation approval. The earlier constructor error was followed by a missing telemetry callback in the corrected fixture. Both native operations are positively terminal failures; complete originals remain private. Neither used patients or a GPU. No automatic retry is scheduled.
 
 Approved source 28a6e1a5 permits one author21 response to genuine scientific review15. Only the synthetic fixture body and appended contract tests may change. Production code, interfaces, existing tests, scientific choices, plan and image remain fixed. Both failure records and all seven scientific findings reach the author. Acceptance ends with execution and reviewer16 held. [Independent implementation APPROVE](reports/item4-whole-fixture-author-20261010.json), report931c7a1a, covers this exact scope. Installation, held runtime verification and zero-call activation passed. Author21 was admitted once through normal accounting and is RUNNING in both ledgers. The same service invocation has one bounded loop that re-runs the existing host checks; no duplicate call or watcher was started.
