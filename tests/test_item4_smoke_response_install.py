@@ -50,7 +50,8 @@ def test_authority_rejects_incomplete_or_changed_installation(tmp_path,monkeypat
 @pytest.mark.parametrize('state,pid,group,allowed',[
     ('failed','0','',True),('inactive','0','',True),('activating','0','',False),
     ('active','0','',False),('failed','42','',False),('failed','0','/live',False)])
-def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,monkeypatch,state,pid,group,allowed):
+@pytest.mark.parametrize("latest_fault",["none","live","other-invocation"])
+def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,monkeypatch,state,pid,group,allowed,latest_fault):
     import json
     from orchestrator import autonomy_review
     source=tmp_path/'source';review=tmp_path/'review';review.mkdir();files={}
@@ -67,16 +68,23 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
         if str(path)=='direction':return {'verdict':'REVISE','change_id':'item4-second-native-failure-direction-20261010','source_sha':'b60badd65283e7df5f801a6a6a20b3fd63504544','report_sha256':'e9636a72940a498855af4d8585e6f549ac87a380e7d0fa634408451a9fe925a3'}
         return result
     monkeypatch.setattr(autonomy_review,'verify_result',verified)
-    monkeypatch.setattr(installer.subprocess,'check_output',lambda *a,**kw:f'MainPID={pid}\nControlGroup={group}\nActiveState={state}\n')
+    def properties(argv,**kwargs):
+        if argv[2]=='research-item4-sender-continuation-20261010.service':
+            values={'MainPID':'0','ControlGroup':'','ActiveState':'failed','InvocationID':'9e473a6acb8b4155866f267eda84c107','ExecMainStatus':'1'}
+            if latest_fault=='live':values.update(MainPID='42',ActiveState='activating',ControlGroup='/live')
+            elif latest_fault=='other-invocation':values['InvocationID']='f'*32
+            return ''.join(key+'='+value+'\n' for key,value in values.items())
+        return f'MainPID={pid}\nControlGroup={group}\nActiveState={state}\n'
+    monkeypatch.setattr(installer.subprocess,'check_output',properties)
     monkeypatch.setattr(installer,'verify_units',lambda units:None) # Native parser tested separately.
     writes=[]
     def stop(path,raw):writes.append(path);raise RuntimeError('FIRST_WRITE_BOUNDARY')
     monkeypatch.setattr(installer,'put',stop)
-    if allowed:
+    if allowed and latest_fault=="none":
         with pytest.raises(RuntimeError,match='FIRST_WRITE_BOUNDARY'):installer.install(source,review,'direction')
         assert writes==[installer.RECORD/'INSTALL_INTENT.json']
     else:
-        with pytest.raises(ValueError,match='PRIOR_ACTIVE'):installer.install(source,review,'direction')
+        with pytest.raises(ValueError,match='PRIOR_ACTIVE|PREVIOUS_ATTEMPT_NOT_EXACTLY_TERMINAL'):installer.install(source,review,'direction')
         assert not writes
 
 

@@ -81,7 +81,7 @@ def test_runtime_profile_drives_workspace_pins_and_round(monkeypatch):
 
 def test_host_and_installer_target_the_same_release(monkeypatch):
     from tools import item4_response_host_operation as host,install_item4_smoke_response as installer
-    assert host.CHANGE==installer.CHANGE==route.CHANGE=='item4-sender-continuation-20261010'
+    assert host.CHANGE==installer.CHANGE==route.CHANGE=='item4-driver-round-repair-20261010'
     assert host.UNIT==installer.UNIT.name=='research-'+route.CHANGE+'.service'
     assert host.ENTRY==route.ROOT/route.FILES[0]
     captured=[]
