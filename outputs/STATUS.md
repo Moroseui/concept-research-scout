@@ -4,13 +4,13 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
 
-The author service stopped before admission at a remaining driver round-selection mismatch. Its existing grant and all prior calls remain intact; Claude is reviewing the narrow correction.
+The driver repair is independently approved, installed and verified. Its single start request is in preflight, reusing the existing author grant.
 
-Latest completed Claude direction: SIMPLIFY. The newly discovered driver defect requires a combined implementation/recurrence review; no separate direction call or optional cost action.
+Claude approved the driver repair without findings. The prior SIMPLIFY direction remains: proceed to the author, defer optional cost cleanup, and avoid a separate direction call.
 
 Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: the driver-repair review decision in about10-15 minutes. The author correction and GPU timing remain held; their timing is uncertain.
+Next target: the author correction, provisionally30-60 minutes after launch. GPU timing still requires validation and scientific review.
 
 Today: 46/50 calls - 8 author admissions, 5 scientific reviews, 26 administrative reviews and 7 standalone direction checks.
 
@@ -22,7 +22,7 @@ The installed continuation478a4724 failed before input preparation/admission: th
 
 Candidate1d074a4b overrides this selector at the actual driver entry and requires the frozen next slot to equal the count of author admissions +1. It independently verifies and reuses the same genuine activated grant, with no new activation or cost entrypoint. Accepted round21, history, limits and all downstream checks remain unchanged. The installer additionally requires the exact old terminal service invocation.
 
-100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. The independent review is running; candidate1d074a4b is not installed.
+100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. Independent reviewe7aaa1e4 returned genuine APPROVE without findings. Exact source1d074a4b is installed; held verification passed with zero model/provider calls. The corrected service start request is in preflight.
 
 
 
@@ -255,4 +255,6 @@ Approved continuation source478a4724 is backed up by safe projectionece58e95 on 
 - docs > ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - tools > install_item4_smoke_response.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 
-Draft driver repair1d074a4b is safely projected to ede35d6c on astra/public-driver-round-repair-20261010, not merged as installed. The installer remains excluded for INFRASTRUCTURE_OR_CREDENTIAL_PATH; no private evidence or raw working ancestry is pushed.
+Installed driver repair1d074a4b is safely projected to ede35d6c on astra/public-driver-round-repair-20261010 and merged into remote-server. The installer remains excluded for INFRASTRUCTURE_OR_CREDENTIAL_PATH; no private evidence or raw working ancestry is pushed.
+
+Latest independent repair reviewe7aaa1e4 APPROVE is included in outputs/reports; model estimate$3.9036975 is separately counted. No explicit new direction label was returned, so the earlier SIMPLIFY recommendation remains the recorded direction. No additional direction-only request was made.
