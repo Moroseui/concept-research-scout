@@ -404,7 +404,9 @@ def send(expected,family,command):
     from orchestrator import author_format_submission as af,manual_stage as stage,private_records as pr
     require(Path.cwd().resolve()==author_work() and family=='codex','AUTHOR_SENDER_SCOPE')
     pins=json.loads(pr.check(pins_path()).read_bytes());config=af.load(author_work(),pins[af.CONFIG])
-    require(config['bindings']['input_sha256']==expected and config['bindings']['round']==21,'AUTHOR_SENDER_BINDING')
+    require(config['bindings']['input_sha256']==expected,'AUTHOR_SENDER_BINDING')
+    # The immediate exact dual-ledger admission below owns the round check.
+    # Duplicating it here previously contradicted the admitted round (21 vs22).
     author_sender_admitted(config,expected)
     base=['/tools/node','/tools/codex/bin/codex.js','exec','--ignore-user-config','--ignore-rules','--model','gpt-6-astra',
         '-s','workspace-write','-c','approval_policy="never"','-c','sandbox_workspace_write.network_access=false','--json','-']
