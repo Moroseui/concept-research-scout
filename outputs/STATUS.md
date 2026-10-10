@@ -21,7 +21,7 @@ What changed: omit any second CPU rehearsal, preserve the complete failure and f
 
 Judgment: stop compute under the explicit no-retry instruction. Root will not patch scientific code. Consult Claude before building another custom handoff: consider a bounded author correction and genuine scientific review of whether the still-unstarted Run B can supply integration evidence. The consultation cannot override the no-retry instruction or the scientific finding. No new infrastructure or call limit has been changed.
 
-The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. All model calls, compute and watchers are terminal. The correction handoff is in preparation; no new call or compute is admitted.
+The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. All task-specific model calls, compute and temporary monitors are terminal. The correction handoff is in preparation; no new call or compute is admitted.
 
 ## Installed and started once
 
