@@ -11,11 +11,12 @@ import subprocess
 import sys
 import time
 
-CHANGE='item4-report-snapshot-author-20261010'
-REVIEW_CHANGE='item4-report-snapshot-host-repair-20261010'
+CHANGE='item4-sender-continuation-20261010'
+REVIEW_CHANGE='item4-sender-continuation-20261010'
 FILE='tools/item4_response_host_operation.py'
 DOCUMENT='docs/ITEM4_RESPONSE_HOST_PRIVATE.json'
-UNIT='research-item4-report-snapshot-author-20261010.service'
+UNIT='research-'+CHANGE+'.service'
+ENTRY=Path('/opt/research-system/manual-repair-helpers')/CHANGE/'tools/item4_smoke_response_runtime.py'
 FAILED='00000000000000000000000000000000'
 STAGE=None
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-timeout-continuation-8e042339')
@@ -107,10 +108,10 @@ def starting_state(frozen,approval):
 from pathlib import Path
 from types import SimpleNamespace as NS
 assert os.getuid()==os.getgid()==1003
-base,lane,stage,source,report=sys.argv[1:];lane=Path(lane)
+base,lane,stage,source,report,entry=sys.argv[1:];lane=Path(lane)
 assert stage=='author'
 sys.path.insert(0,base)
-p=Path('/opt/research-system/manual-repair-helpers/item4-report-snapshot-author-20261010/tools/item4_smoke_response_runtime.py')
+p=Path(entry)
 s=importlib.util.spec_from_file_location('_response_start_authority',p);route=importlib.util.module_from_spec(s);s.loader.exec_module(route)
 a=route.authority();assert a['source_sha']==source and a['report_sha256']==report
 connected,smoke,smoke_p,smoke_approval,helper,frozen,approval=route.connect()
@@ -122,17 +123,18 @@ with sqlite3.connect((lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db, s
  value=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
  helper.ready(driver,value,frozen,approval)
  assert stage=='author'
- expected,count,ident='run_spec_author',36,helper.call(frozen,'author')
+ profile=helper.profile(frozen)
+ expected,count,ident='run_spec_author',profile['count'],helper.call(frozen,'author')
  assert value['phase']==expected and db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==count
  assert not db.execute('SELECT 1 FROM manual_calls WHERE id=?',(ident,)).fetchone()
  assert not global_db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
  assert not global_db.execute('SELECT 1 FROM autonomy_calls WHERE id=?',(ident,)).fetchone()
  from orchestrator import manual_recovery
- assert manual_recovery.role_limit(store,helper.RUN,expected)==22
+ assert manual_recovery.role_limit(store,helper.RUN,expected)==profile['author']
  print(json.dumps({'status':'GENUINE_INSTALLED_DIAGNOSTIC_AUTHORING_GRANT','stage':stage,'local_calls':count,'call_id':ident,'source':source,'review_sha256':report}))
 """
     return json.loads(command(['runuser','-u','partho','--','env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),
-        'python3','-s','-B','-c',child,str(BASE),str(LANE),STAGE,approval['source_sha'],approval['report_sha256']]))
+        'python3','-s','-B','-c',child,str(BASE),str(LANE),STAGE,approval['source_sha'],approval['report_sha256'],str(ENTRY)]))
 
 
 def start(frozen,approval):

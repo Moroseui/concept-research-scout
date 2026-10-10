@@ -6,15 +6,18 @@ from tools import item4_smoke_response_runtime as route
 from orchestrator import item4_smoke_response as helper
 
 @pytest.fixture
-def sender(tmp_path,monkeypatch):
-    lane=tmp_path/'lane';lane.mkdir();work=tmp_path/'lane-scientific-workspaces/run_spec_author-22';work.mkdir(parents=True)
+def sender(tmp_path,monkeypatch,request):
+    number=getattr(request,'param',22)
+    lane=tmp_path/'lane';lane.mkdir();work=tmp_path/'lane-scientific-workspaces'/('run_spec_author-'+str(number));work.mkdir(parents=True)
     monkeypatch.setattr(route,'author_work',lambda:work)
-    ident=helper.call({'schema':helper.SNAPSHOT_SCHEMA},'author');expected='a'*64
-    config={'bindings':{'call_id':ident,'round':22,'stage':'run_spec_author','run_id':helper.RUN,'input_sha256':expected}}
-    pending={'id':ident,'stage':'run_spec_author','round':22,'workspace':str(work)}
+    profile=helper.profile({'schema':helper.SNAPSHOT_SCHEMA,**({'sender_recovery':{}} if number==23 else {})})
+    monkeypatch.setattr(route,'active_profile',lambda:profile)
+    ident=helper.sha((helper.RUN+':run_spec_author:'+str(number)).encode());expected='a'*64
+    config={'bindings':{'call_id':ident,'round':number,'stage':'run_spec_author','run_id':helper.RUN,'input_sha256':expected}}
+    pending={'id':ident,'stage':'run_spec_author','round':number,'workspace':str(work)}
     local=sqlite3.connect(lane/'jobs.sqlite');local.execute('CREATE TABLE manual_calls(id TEXT,status TEXT,stage TEXT,attempt INTEGER,receipt TEXT)')
     local.execute('CREATE TABLE manual_state(id INTEGER,payload TEXT)')
-    local.execute('INSERT INTO manual_calls VALUES(?,?,?,?,?)',(ident,'RUNNING','run_spec_author',22,json.dumps({'input_sha256':expected,'workspace':str(work)})))
+    local.execute('INSERT INTO manual_calls VALUES(?,?,?,?,?)',(ident,'RUNNING','run_spec_author',number,json.dumps({'input_sha256':expected,'workspace':str(work)})))
     local.execute('INSERT INTO manual_state VALUES(1,?)',(json.dumps({'phase':'MODEL_RUNNING','pending':pending}),));local.commit()
     other=sqlite3.connect(tmp_path/'global.sqlite');other.execute('CREATE TABLE autonomy_calls(id TEXT,status TEXT)');other.execute('INSERT INTO autonomy_calls VALUES(?,?)',(ident,'RUNNING'));other.commit()
     (lane/'jobs.sqlite').chmod(0o600);(tmp_path/'global.sqlite').chmod(0o600)

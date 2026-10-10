@@ -8,6 +8,7 @@ from orchestrator import item4_smoke_response as post
 @pytest.fixture
 def history(monkeypatch):
     p=json.loads((Path(__file__).parents[1]/post.SNAPSHOT_DOCUMENT).read_bytes())
+    p=p.get('sender_recovery',{}).get('previous_scope',p)
     q=post.profile(p);db=sqlite3.connect(':memory:');db.row_factory=sqlite3.Row
     db.execute('CREATE TABLE manual_calls (id TEXT,stage TEXT,attempt INTEGER,receipt TEXT)')
     accepted={};bindings={}

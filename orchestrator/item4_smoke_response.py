@@ -39,7 +39,10 @@ AUDIT_SCHEMA=fixture.AUDIT_SCHEMA
 AUDIT_DOCUMENT=fixture.AUDIT_DOCUMENT
 SNAPSHOT_SCHEMA=fixture.SNAPSHOT_SCHEMA
 SNAPSHOT_DOCUMENT=fixture.SNAPSHOT_DOCUMENT
+SENDER_FAILED_CALL='af4547778fe7e1f35698089607ab524d08346618131512c232670b7ccbf02ab8'
+_sender_verifier=None
 def report_snapshot(p):return fixture.snapshot(p)
+def sender_recovery(p):return report_snapshot(p) and 'sender_recovery' in p
 def fixture_audit(p):return fixture.audit(p)
 FIXTURE_DOCUMENT = fixture.DOCUMENT
 
@@ -78,6 +81,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if sender_recovery(p):
+        return dict(author=23,reviewer=16,count=37,batch=75,limit=41,batch_limit=79,
+            event='REVIEWED_ITEM4_SENDER_CONTINUATION',field='sender_continuation_scope',
+            assessment='cpu_diagnostic_fixture_correction',previous_reason='MODEL_FAILED_OR_UNCERTAIN_NO_RETRY',
+            previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
+            folder='report-snapshot-author',result='report_snapshot_author')
     if report_snapshot(p):
         return dict(author=22,reviewer=16,count=36,batch=74,limit=40,batch_limit=78,
             event='REVIEWED_ITEM4_REPORT_SNAPSHOT_AUTHOR',field='report_snapshot_author_scope',
@@ -156,9 +165,20 @@ def scope(p,approval):
     old=json.loads(p['original_state'])
     require(sha(p['original_state'].encode())==p['state_sha256'] and old['phase']=='BLOCKED'
         and old['reason']==q['previous_reason']
-        and ((old.get('pending') or {}).get('id')==(OPAQUE_AUTHOR if plaintext_recovery(p) else FAILED_AUTHOR)
-            if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p) else not old.get('pending'))
-        and old['rounds']=={'run_spec_author':q['author']-(not scoped_review(p)),'run_spec_review':q['previous_review']},'CHECKPOINT')
+        and ((old.get('pending') or {}).get('id')==SENDER_FAILED_CALL if sender_recovery(p) else
+            ((old.get('pending') or {}).get('id')==(OPAQUE_AUTHOR if plaintext_recovery(p) else FAILED_AUTHOR)
+            if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p) else not old.get('pending')))
+        and old['rounds']=={'run_spec_author':21 if sender_recovery(p) else q['author']-(not scoped_review(p)),'run_spec_review':q['previous_review']},'CHECKPOINT')
+    if sender_recovery(p):
+        rec=p['sender_recovery'];previous=rec['previous_scope']
+        require(set(rec)=={'failed_call_id','previous_scope','previous_approval','classifier_approval'}
+            and rec['failed_call_id']==SENDER_FAILED_CALL and report_snapshot(previous) and not sender_recovery(previous)
+            and rec['previous_approval']=='4d59456204b35a061102a839efcc5239aba6abfe9f58cebac87d72a5b726e5a5'
+            and rec['classifier_approval']=='a54ef800461b974db328d18fba65e4d6d819044a3a003d9699a59603b0710139','SENDER_RECOVERY_AUTHORITY')
+        scope(previous,rec['previous_approval'])
+        require(set(p['local_calls'])==set(previous['local_calls'])|{SENDER_FAILED_CALL}
+            and set(p['batch_calls'])==set(previous['batch_calls'])|{SENDER_FAILED_CALL}
+            and all(p[k]==previous[k] for k in ('fixture_reference','native_failure','assessment','author_outputs','baseline_plan','diagnostic_micro_usd','stage1_micro_usd','projection_micro_usd','total_micro_usd')),'SENDER_RECOVERY_PRESERVED_SCOPE')
     a=p['assessment']
     flags=('full_training_admitted','coverage_released',
         'execution_authorized' if diagnostic(p) else 'whole_plan_complete')
@@ -279,6 +299,22 @@ def failed_author(store,p):
     return row
 
 
+def failed_sender(store,p):
+    """Exact terminal unsubmitted attempt stays UNCERTAIN and counted."""
+    from orchestrator import author_revision_accounting as accounting
+    require(sender_recovery(p) and _sender_verifier is not None,'SENDER_QUALIFIER_REQUIRED')
+    row=store.db.execute('SELECT * FROM manual_calls WHERE id=?',(SENDER_FAILED_CALL,)).fetchone()
+    global_row=store.batch.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(SENDER_FAILED_CALL,)).fetchone()
+    require(row is not None and global_row is not None and row['status']==global_row['status']=='UNCERTAIN'
+        and row['attempt']==22 and row['stage']=='run_spec_author'
+        and sha(canonical(dict(row)))==p['local_calls'][SENDER_FAILED_CALL]
+        and sha(canonical(dict(global_row)))==p['global_calls'][SENDER_FAILED_CALL]
+        and not accounting._accepted(store,dict(row)),'EXACT_FAILED_SENDER')
+    result=_sender_verifier(dict(global_row))
+    require(result['id']==SENDER_FAILED_CALL and result['classification']=='EXACT_TERMINAL_PRE_SDK_AUTHOR22_ADMIN_ONLY','SENDER_TERMINAL_PROOF')
+    return dict(row)
+
+
 def originals(store,p,approval):
     scope(p,approval)
     require(sha((Path(store.path).parent/'lane.json').read_bytes())==p['configuration_sha256'],'CONFIGURATION')
@@ -289,6 +325,9 @@ def originals(store,p,approval):
             require(row is not None and sha(canonical(dict(row)))==pin,'ORIGINAL_CHANGED')
     if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p):failed_author(store,p)
     if fixture_correction(p):fixture.failure(store,p)
+    if sender_recovery(p):
+        granted(store,p['sender_recovery']['previous_scope'],p['sender_recovery']['previous_approval'])
+        failed_sender(store,p)
 
 
 def proof(p,approval):
@@ -366,7 +405,7 @@ def activate(driver,p,approval,dest):
     pr.mkdir(dest);pr.write_bytes(Path(dest)/'original-state.json',raw.encode())
     grant=proof(p,approval);pr.write_bytes(Path(dest)/'intent.json',canonical(grant))
     value={**old,'phase':'run_spec_review' if scoped_review(p) else 'run_spec_author','reason':q['event'],q['field']:grant}
-    if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p):value.pop('pending',None)
+    if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p) or sender_recovery(p):value.pop('pending',None)
     # Keep the old execution review and all obligations. The actual smoke
     # critique is supplied separately and bound through the accepted receipt.
     value['interventions']=[*old.get('interventions',[]),grant]
@@ -464,7 +503,7 @@ def ready(driver,value,p,approval):
     if scoped_review(p):
         require(stage=='run_spec_review','SCOPED_REVIEW_STAGE_ONLY')
         frozen_author(driver,p,value)
-    require((stage,rounds) in [('run_spec_author',{'run_spec_author':q['author']-1,'run_spec_review':q['previous_review']}),
+    require((stage,rounds) in [('run_spec_author',{'run_spec_author':21 if sender_recovery(p) else q['author']-1,'run_spec_review':q['previous_review']}),
         ('run_spec_review',{'run_spec_author':q['author'],'run_spec_review':q['previous_review']})],'STATE')
     old=scope(p,approval)
     for key in protected_keys(p):
@@ -475,6 +514,8 @@ def ready(driver,value,p,approval):
 
 def connect_roles(accounting,recovery,p,approval):
     scope(p,approval);q=profile(p)
+    if sender_recovery(p):
+        rec=p['sender_recovery'];connect_roles(accounting,recovery,rec['previous_scope'],rec['previous_approval'])
     if scoped_review(p):
         old_limit=recovery.role_limit
         def scoped_limit(store,run,stage):
@@ -508,6 +549,8 @@ def connect_roles(accounting,recovery,p,approval):
                 used={};failures=0
                 for row in rows:
                     if row['stage']!=stage:continue
+                    if sender_recovery(p) and row['id']==SENDER_FAILED_CALL:
+                        failed_sender(store,p);failures+=1;continue
                     saved=json.loads(row['receipt']).get(accounting.FIELD)
                     if saved is None:
                         failures+=int(not accounting._accepted(store,row));continue
