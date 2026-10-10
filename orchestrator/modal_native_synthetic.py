@@ -1,4 +1,4 @@
-"""One fixed accepted author20 diagnostic synthetic rehearsal, using the original item4 owner."""
+"""One fixed accepted author21 diagnostic synthetic rehearsal, using the original item4 owner."""
 import base64
 import gzip
 from pathlib import Path
@@ -9,13 +9,13 @@ from orchestrator.review_contract import strict_json
 from tools import item4_native_worker as worker
 
 PURPOSE='M4_ITEM4_DIAGNOSTIC_NATIVE'
-OPERATION='item4-author20-diagnostic-native-v1'
+OPERATION='item4-author21-diagnostic-native-v1'
 SCHEMA='item4-native-synthetic-operation/v1'
 from orchestrator.experiment_context import ITEM4_RUN as RUN
 RESOURCES={'gpu':None,'cpu':2,'memory_mib':8192,'timeout_seconds':900}
 SELECTION=Path(__file__).resolve().parents[1]/'docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json'
-SELECTION_SHA='23136a59c98b6aca850490b9051dd2c7fb06726685e52d3853eedeb21df04a6e'
-BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/item4-corrected-native-verification-20261010/code-bundle.json')
+SELECTION_SHA='e32c304ff526148601137a6eb0c600970e82945b6a6aca2b457659b04fae4e5b'
+BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/item4-audited-native-verification-20261010/code-bundle.json')
 
 
 def selected(value=None):

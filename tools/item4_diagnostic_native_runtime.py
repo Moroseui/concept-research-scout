@@ -1,15 +1,15 @@
-"""One reviewed author20 native CPU operation and evidence-gated reviewer16.
+"""One reviewed author21 native CPU operation and evidence-gated reviewer16.
 
 No GPU entrypoint, automatic retry, author call, or full-plan approval.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
-CHANGE='item4-corrected-native-verification-20261010'
-REVIEW_CHANGE='item4-corrected-native-verification-20261010'
+CHANGE='item4-audited-native-verification-20261010'
+REVIEW_CHANGE='item4-audited-native-verification-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author20-diagnostic-native-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author21-diagnostic-native-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
@@ -21,6 +21,7 @@ PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','
 FILES=('tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
  'tools/install_item4_diagnostic_native.py','tools/item4_native_worker.py','tools/item4_validation_retained.py',
  'orchestrator/item4_diagnostic_native.py','orchestrator/modal_native_synthetic.py',
+ 'orchestrator/modal_terminal_cost.py',
  'orchestrator/modal_environment_budget.py','orchestrator/modal_environment_provider.py',
  'orchestrator/modal_environment_inventory.py','orchestrator/modal_pinned_image.py',
  'docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json','docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json',
@@ -68,9 +69,9 @@ def authority():
     for name,raw in units.items():require(trusted(Path('/etc/systemd/system')/name).read_bytes()==raw,'UNIT_CHANGED')
     return result
 
-PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py')
-PRIOR_SHA='8a4cdb9fcc03dd3a252901bf447c16c615cb21a4809bd24c8d63ac9b6d494a80'
-PRIOR_REVIEW='da282dcc042bef7a597789362ded7a0b6db31bacd641f7fffce95219c79d64cd'
+PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-whole-fixture-author-20261010/tools/item4_smoke_response_runtime.py')
+PRIOR_SHA='8f58e6e519b8759478963c3826c62daf7b12d723b62fb531ce528a09f18ffd30'
+PRIOR_REVIEW='931c7a1a43e90b15e39c427e804e7af12ec20b3ef88b27ef92ecedcd3b8253be'
 
 def verified_prior(*,scientific=False):
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_RUNTIME_CHANGED')
@@ -78,7 +79,7 @@ def verified_prior(*,scientific=False):
     spec=importlib.util.spec_from_file_location('_native_verified_prior',PRIOR)
     prior=importlib.util.module_from_spec(spec);spec.loader.exec_module(prior)
     approved=prior.authority()
-    require(approved['source_sha']=='e50aa51bd1973517973bb94ba0056c1f375a530d'
+    require(approved['source_sha']=='28a6e1a5893ac0db848b206c9e073bc482eef222'
         and approved['report_sha256']==PRIOR_REVIEW,'PRIOR_APPROVAL')
     if scientific:
         original_factory=prior.module
@@ -180,7 +181,7 @@ def accepted(accounts,*,review=False):
             require(value.get('interventions',[]) in [old_interventions,[*old_interventions,helper.proof(p,approval)]],
                 'INTERVENTIONS_CHANGED')
         if not review:
-            require(value['phase']=='BLOCKED' and value['reason']=='CPU_DIAGNOSTIC_AUTHORING_REVISE_EXECUTION_HELD'
+            require(value['phase']=='BLOCKED' and value['reason']=='WHOLE_FIXTURE_AUTHOR_ACCEPTED_NATIVE_AND_REVIEW_REQUIRED'
                 and not value.get('pending') and value['rounds']==before['rounds'],'HELD_AUTHOR_REQUIRED')
         local_ids={r[0] for r in db.execute('SELECT id FROM manual_calls')}
         review_id=sha(('experiment-a74959ac4546a982af4ae137:run_spec_review:16').encode())
@@ -199,7 +200,7 @@ def accepted(accounts,*,review=False):
         rawtests=pr.check(folder/'synthetic/receipt.json').read_bytes();tests=json.loads(rawtests)
         require(tests['status']=='PASS' and tests['exit_code']==0 and tests_passed(tests['tests'],selected['module_sha256']),
             'CONTROLLER_TESTS')
-        testref=next(r for r in value['artifacts'] if r['id']=='synthetic_tests' and r['version']==20)
+        testref=next(r for r in value['artifacts'] if r['id']=='synthetic_tests' and r['version']==21)
         from orchestrator.context_budget import relative_file
         raw=pr.check(relative_file(json.loads(config_raw)['context'],testref['path'])).read_bytes()
         require(sha(raw)==selected['controller_receipt_sha256'] and json.loads(raw)==tests,'CONTROLLER_BINDING')

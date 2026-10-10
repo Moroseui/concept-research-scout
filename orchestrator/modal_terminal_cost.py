@@ -203,6 +203,15 @@ def observe_billing(accounts,snapshot,now):
         for app,run in billing_objects(accounts).items():
             if app in objects:raise ValueError('ITEM4_BILLING_OBJECT_SHARED')
             objects[app]=run
+        # Observe native app billing even when later admission refuses. This
+        # never declares a native asset closed or releases its reservation.
+        for row in db.execute('SELECT run,binding,receipt FROM autonomy_assets'):
+            if strict_json(row['binding']).get('purpose')!='M4_ITEM4_DIAGNOSTIC_NATIVE' or not row['receipt']:continue
+            receipt=strict_json(row['receipt']);app=receipt.get('app_id')
+            if app is None:continue
+            if not isinstance(app,str) or not app.startswith('ap-') or app in objects:
+                raise ValueError('ITEM4_BILLING_OBJECT_SHARED')
+            objects[app]=row['run']
         seen=highwater(db);cycle=now.strftime('%Y-%m')
         for key,amount in _totals(snapshot).items():
             if key not in objects or amount<=seen.get((key,cycle),0):continue

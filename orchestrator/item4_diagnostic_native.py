@@ -1,4 +1,4 @@
-"""Exact author20 native admission; preserves historical proofs and every charge."""
+"""Exact author21 native admission; preserves historical proofs and every charge."""
 from pathlib import Path
 import hashlib,json,subprocess
 from orchestrator.modal_executor import canonical
@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 RETAINED='docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json'
 RETAINED_SHA='9bdcdaa8704dbe8548aff8884ffddaaa1a04b92707c102bb81d04765a2f78521'
 ACCEPTED='docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json'
-ACCEPTED_SHA='fca5931dd8fba48d54a63a94e084633dc5feed4708cf12ff7bbdbc78d0772675'
+ACCEPTED_SHA='a84d45d1a77b3cf400760bdd3ef2a06d6b8c2d79eca27721cfac332ea3337748'
 OPERATOR='5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85c68ca33'
 STAGE_CAP=150_000_000
 DIAGNOSTIC_CAP=25_000_000
@@ -27,10 +27,14 @@ def document(name,pin):
     return strict_json(raw)
 
 FAILED_ASSET='27146f38f1722579ed096a880f59cc607bc36e993fe57634b6ffe271ae92c157'
+SECOND_FAILED_ASSET='8c40fe36f279a1bab97dab6b2c59bf8f45d7e2901f508f36c1dac0f0a2c01653'
 CORRECTED='docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json'
-CORRECTED_SHA='b8988329f73cc1838829b68750a36fdf661039782276f3183d70c851a8751e67'
+CORRECTED_SHA='1d035fef5b3fe6e5de2e03c068a10d401c4a3a6285074f552a7e0a4ef6d176ff'
 
 def historical_asset(row):
+    if dict(row).get('id')==SECOND_FAILED_ASSET:
+        require(dict(row)==document(CORRECTED,CORRECTED_SHA)['second_failed_asset'],'SECOND_FAILED_ROW_CHANGED')
+        return True
     if dict(row).get('id')==FAILED_ASSET:
         require(dict(row)==document(CORRECTED,CORRECTED_SHA)['original_failed_asset'],'FAILED_ROW_CHANGED')
         return True
@@ -44,9 +48,9 @@ def limit(binding):
     require(binding.get('purpose')==n.PURPOSE and binding.get('operation_id')==n.OPERATION
         and binding.get('run_id')==n.RUN,'FIXED_OPERATION')
     selected=n.selected(binding.get('native_synthetic'))
-    require(selected['author_attempt']==20 and selected['module_sha256']==
-        '501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749'
-        and selected['code_bundle_sha256']=='dc145614124687fea4fa4c4386720866259f1bae6b26f3a16f21f8a8a1495159',
+    require(selected['author_attempt']==21 and selected['module_sha256']==
+        'fa54d6e41db935c4a7671abe278d4a40423bda41cfce32692b58ed1364638d20'
+        and selected['code_bundle_sha256']=='6c035d8131600a6e4e026757f3fab7e2502d719136939f2866500e7cbe72a3e5',
         'ACCEPTED_SELECTION')
     require(sha((ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt').read_bytes())==OPERATOR
         and sha((ROOT/item4_stage1_cap.DOCUMENT).read_bytes())==item4_stage1_cap.OPERATOR_SHA,'OPERATOR_CHANGED')
@@ -76,7 +80,16 @@ def retained_terminal(accounts,binding):
         'no_automatic_retry':True},'ORIGINAL_NATIVE_FAILURE')
     row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(FAILED_ASSET,)).fetchone()
     require(row is not None and historical_asset(row),'FAILED_ROW_REQUIRED')
-    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET},set(proof['compute'])
+    raw=subprocess.check_output(['/usr/bin/python3','-s','-B',str(ROOT/'tools/item4_validation_retained.py'),
+        '--diagnostic-audit-failure'],timeout=120)
+    require(strict_json(raw)=={'source':'b60badd65283e7df5f801a6a6a20b3fd63504544',
+        'implementation_review_sha256':'35aeaa0a9d6836f4caa5bf7033434b43952bb242777d4376a91259eee0ba5bb9',
+        'asset_id':SECOND_FAILED_ASSET,'module_sha256':'501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749',
+        'exit_code':1,'status':'FAIL','package_unchanged':True,'scientific_acceptance':False,
+        'no_automatic_retry':True},'SECOND_NATIVE_FAILURE')
+    row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(SECOND_FAILED_ASSET,)).fetchone()
+    require(row is not None and historical_asset(row),'SECOND_FAILED_ROW_REQUIRED')
+    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET,SECOND_FAILED_ASSET},set(proof['compute'])
 
 def subcap(accounts,assets,compute,asset_amounts,snapshot,amount):
     """Count diagnostic preparations and fits, including every unreleased row.
@@ -93,3 +106,63 @@ def subcap(accounts,assets,compute,asset_amounts,snapshot,amount):
     require(type(amount) is int and amount>=0 and used+amount<=DIAGNOSTIC_CAP,'HARD_DIAGNOSTIC_CAP')
     require(not costs['underestimated_apps'],'DIAGNOSTIC_COST_BOUND_BELOW_BILLING')
     return used
+
+
+def closed_native_amounts(accounts,qualified,billing,amounts):
+    """Release only excess CPU/RAM reservation of the two proven closed failures.
+
+    Every original row and its full reservation remain immutable. The original
+    one-dollar overhead allowance stays committed until its obligations settle.
+    Actual per-app billing uses a persistent hourly high-water mark.
+    """
+    ids={r[0] for r in accounts.db.execute('SELECT id FROM autonomy_assets')}
+    if not ({FAILED_ASSET,SECOND_FAILED_ASSET}&ids):return dict(amounts)
+    from decimal import Decimal
+    from orchestrator.item4_closed_attempt_billing import snapshot,instant
+    from orchestrator.modal_billing import decimal,micros
+    snapshot(billing)
+    require(billing['workspace']=='moroseui' and
+        instant(billing['report_start'])<=instant('2026-10-10T00:00:00+00:00') and
+        instant(billing['report_end_exclusive'])>=instant('2026-10-10T13:00:00+00:00'),
+        'CLOSED_BILLING_WINDOW')
+    selected={FAILED_ASSET:('original_failed_asset',25123),SECOND_FAILED_ASSET:('second_failed_asset',23472)}
+    frozen=document(CORRECTED,CORRECTED_SHA);views=[billing]
+    for row in accounts.db.execute("SELECT id,payload FROM events WHERE id LIKE 'item4-billing:%'"):
+        saved=strict_json(row['payload'])
+        require(row['id']=='item4-billing:'+sha(row['payload'].encode()) and
+            saved['schema']=='item4-billing-highwater/v1','BILLING_HIGHWATER_CHANGED')
+        views.append(saved['snapshot'])
+    result=dict(amounts);apps=set()
+    for ident,(field,floor) in selected.items():
+        require(ident in qualified,'CLOSED_TERMINAL_QUALIFICATION_REQUIRED')
+        row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(ident,)).fetchone()
+        require(row is not None and dict(row)==frozen[field] and historical_asset(row),'CLOSED_ROW_CHANGED')
+        receipt=strict_json(row['receipt']);app=receipt['app_id'];require(app not in apps,'SHARED_BILLING_APP');apps.add(app)
+        hours={}
+        for view in views:
+            snapshot(view);require(view['workspace']==billing['workspace'],'BILLING_WORKSPACE')
+            for item in view['rows']:
+                if item['object_id']==app:
+                    key=item['interval_start'];hours[key]=max(hours.get(key,Decimal(0)),decimal(item['cost']))
+        require(bool(hours),'CLOSED_BILLING_MISSING')
+        actual=max(floor,micros(sum(hours.values(),Decimal(0))))
+        cost=strict_json(row['binding'])['envelope']['cost']
+        require(cost['reserved_micro_usd']==row['reserved_micro_usd']==1118950 and
+            cost['compute_micro_usd']==118950 and cost['overhead_micro_usd']==1000000,'CLOSED_ENVELOPE')
+        value={'schema':'item4-closed-native-cost/v1','asset_id':ident,'original_reserved_micro_usd':1118950,
+            'actual_compute_micro_usd':actual,'retained_overhead_micro_usd':1000000,
+            'effective_micro_usd':actual+1000000,'excess_compute_released_micro_usd':max(0,118950-actual),
+            'terminal_exit_code':1,'original_rows_changed':False,'invoice_final':False,
+            'billing_snapshot_sha256':sha(canonical(billing))}
+        raw=canonical(value).decode();event=ident+':closed-native-cost:'+sha(raw.encode())
+        previous=accounts.db.execute('SELECT job,payload FROM events WHERE id=?',(event,)).fetchone()
+        require(previous is None or tuple(previous)==(row['run'],raw),'CLOSED_COST_EVENT_CHANGED')
+        if previous is None:accounts.db.execute('INSERT INTO events VALUES(?,?,?)',(event,row['run'],raw))
+        result[ident]=value['effective_micro_usd']
+    for table in ('autonomy_assets','autonomy_compute'):
+        for row in accounts.db.execute('SELECT * FROM '+table):
+            if table=='autonomy_assets' and row['id'] in selected:continue
+            binding=strict_json(row['binding']);receipt=strict_json(row['receipt']) if dict(row).get('receipt') else {}
+            require(receipt.get('app_id') not in apps and binding.get('app_id') not in apps and
+                binding.get('experiment',{}).get('billing_object_id') not in apps,'SHARED_BILLING_APP')
+    return result
