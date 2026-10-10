@@ -4,14 +4,12 @@ import pytest
 from tools import item4_smoke_response_runtime as route,install_item4_smoke_response as installer
 
 def prior_unit():
-    # Existing immutable snapshot plus its already-installed exact substitution.
-    raw=(Path(__file__).parents[1]/'docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt').read_bytes()
-    return raw.replace(b'/item4-author18-plaintext-recovery-20261010/',b'/item4-native-fixture-correction-20261010/')
+    return (Path(__file__).parents[1]/'docs/ITEM4_SNAPSHOT_PRIOR_UNIT_PRIVATE.txt').read_bytes()
 
 def test_installer_preserves_every_other_unit_line():
     raw=prior_unit();new=installer.unit_bytes(raw)
-    before=b'/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py run'
-    after=b'/item4-whole-fixture-author-20261010/tools/item4_smoke_response_runtime.py run'
+    before=b'/item4-whole-fixture-author-20261010/tools/item4_smoke_response_runtime.py run'
+    after=b'/item4-report-snapshot-author-20261010/tools/item4_smoke_response_runtime.py run'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 

@@ -1,4 +1,4 @@
-"""Lossless evidence assembly retains both failures; it does not authorize a role."""
+"""Lossless evidence assembly retains all four failures; it does not authorize a role."""
 import json,copy
 from pathlib import Path
 import pytest
@@ -13,15 +13,21 @@ def with_failure(response_delivery,monkeypatch,tmp_path):
  originals={'console.txt':('synthetic full failure record\n'*2000).encode(),'proof.json':b'{"status":"FAIL","no_automatic_retry":true}'}
  for name,raw in originals.items():(folder/name).write_bytes(raw)
  frozen={'files':{n:route.sha(raw) for n,raw in originals.items()}}
- old={'synthetic':'first'}
+ old={'synthetic':'first','native_failure':frozen}
  root=tmp_path/'source';(root/fixture.DOCUMENT).parent.mkdir(parents=True)
  (root/fixture.DOCUMENT).write_text(json.dumps(old))
+ (root/fixture.AUDIT_DOCUMENT).write_text(json.dumps(old))
+ third=tmp_path/'item4-author21-diagnostic-native-v1';third.mkdir()
+ for name,raw in originals.items():(third/name).write_bytes(raw)
+ monkeypatch.setattr(fixture,'STATE',tmp_path/'first-state')
  monkeypatch.setattr(route,'ROOT',root);monkeypatch.setattr(route,'trusted',lambda p:Path(p))
  monkeypatch.setattr(fixture,'failure',lambda *args:frozen)
  monkeypatch.setattr(fixture,'scope',lambda p:frozen)
  monkeypatch.setattr(fixture,'parameters',lambda p:{'state':folder})
  monkeypatch.setattr(route,'failure_qualification',lambda:{'status':'FAIL','attempt':1,'scientific_acceptance':False})
  monkeypatch.setattr(route,'audit_failure_qualification',lambda:{'status':'FAIL','attempt':2,'scientific_acceptance':False})
+ monkeypatch.setattr(route,'progress_failure_qualification',lambda:{'status':'FAIL','attempt':3,'scientific_acceptance':False})
+ monkeypatch.setattr(route,'snapshot_failure_qualification',lambda:{'status':'FAIL','attempt':4,'scientific_acceptance':False})
  route.deliver_failure(d,value,p)
  return d,value,p,originals
 
@@ -39,7 +45,7 @@ def test_complete_original_failure_reaches_both_roles(with_failure,stage):
   assert len(raw)==page['bytes'] and route.sha(raw)==page['sha256'];reconstructed+=raw
  assert route.sha(reconstructed)==manifest['sha256'] and len(reconstructed)==manifest['bytes']
  result=json.loads(reconstructed)
- assert len(result['attempts'])==2
+ assert len(result['attempts'])==4
  for number,attempt in enumerate(result['attempts'],1):
   assert attempt['files']=={n:raw.decode() for n,raw in originals.items()}
   assert attempt['qualification']['status']=='FAIL' and attempt['qualification']['attempt']==number

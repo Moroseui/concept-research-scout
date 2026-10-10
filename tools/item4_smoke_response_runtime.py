@@ -1,12 +1,12 @@
-"""One whole-fixture author audit with both failures; no review or compute entrypoint."""
+"""One report-lifecycle author correction with four failures; no review or compute entrypoint."""
 from pathlib import Path
 import hashlib
 import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-whole-fixture-author-20261010'
-REVIEW_CHANGE='item4-whole-fixture-author-20261010'
+CHANGE='item4-report-snapshot-author-20261010'
+REVIEW_CHANGE='item4-report-snapshot-author-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')
@@ -29,7 +29,10 @@ FILES=('tools/item4_smoke_response_runtime.py','tools/install_item4_smoke_respon
     'orchestrator/scientific_view_scan.py','orchestrator/privacy_patterns.py',
     'orchestrator/item4_fixture_correction.py','tools/item4_validation_retained.py',
     'docs/ITEM4_CPU_DIAGNOSTIC_FIXTURE_PRIVATE.json','docs/ITEM4_AUTHOR19_NATIVE_REFERENCE_PRIVATE.py',
-    'docs/ITEM4_WHOLE_FIXTURE_AUTHOR_PRIVATE.json','docs/ITEM4_AUTHOR20_NATIVE_REFERENCE_PRIVATE.py')
+    'docs/ITEM4_WHOLE_FIXTURE_AUTHOR_PRIVATE.json','docs/ITEM4_AUTHOR20_NATIVE_REFERENCE_PRIVATE.py',
+    'docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json','docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py',
+    'docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py','docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json',
+    'docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json','tools/item4_native_worker.py')
 
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
@@ -197,8 +200,38 @@ def audit_failure_qualification():
     return dict(_audit_failure_proof)
 
 
+def historical_audit():
+    from orchestrator.autonomy_review import verify_result
+    record=Path('/var/lib/research-system-manual-sprint10-deployment/item4-whole-fixture-author-20261010/review')
+    result=verify_result(trusted(record))
+    require(result['verdict']=='APPROVE' and result['source_sha']=='28a6e1a5893ac0db848b206c9e073bc482eef222'
+        and result['report_sha256']=='931c7a1a43e90b15e39c427e804e7af12ec20b3ef88b27ef92ecedcd3b8253be','HISTORICAL_AUDIT_APPROVAL')
+    manifest=json.loads(trusted(record/'packet-manifest.json').read_bytes())
+    require(sha(trusted(ROOT/'docs/ITEM4_WHOLE_FIXTURE_AUTHOR_PRIVATE.json').read_bytes())==
+        manifest['source_files']['docs/ITEM4_WHOLE_FIXTURE_AUTHOR_PRIVATE.json'],'HISTORICAL_AUDIT_SCOPE')
+    return result['report_sha256']
+
+_snapshot_proof=None
+_progress_proof=None
+def snapshot_failure_qualification():
+    global _snapshot_proof
+    if _snapshot_proof is None:
+        import subprocess
+        _snapshot_proof=json.loads(subprocess.check_output(['/usr/bin/python3','-s','-B',
+            str(ROOT/'tools/item4_validation_retained.py'),'--diagnostic-report-failure'],timeout=180))
+    return dict(_snapshot_proof)
+
+def progress_failure_qualification():
+    global _progress_proof
+    if _progress_proof is None:
+        import subprocess
+        _progress_proof=json.loads(subprocess.check_output(['/usr/bin/python3','-s','-B',
+            str(ROOT/'tools/item4_validation_retained.py'),'--diagnostic-progress-failure'],timeout=180))
+    return dict(_progress_proof)
+
+
 def connect():
-    approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction()
+    approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction();audit_approval=historical_audit()
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_SOURCE_CHANGED')
     route=module('_post_smoke_prior',PRIOR);original_factory=route.module;substituted=[]
     def factory(name,path):
@@ -206,7 +239,7 @@ def connect():
         require(Path(path)==route.ROOT/'orchestrator/item4_scoped_calls.py' and not substituted,'SCOPED_FACTORY')
         import orchestrator
         fixture=module('orchestrator.item4_fixture_correction',ROOT/'orchestrator/item4_fixture_correction.py')
-        fixture._verifier=failure_qualification;fixture._audit_verifier=audit_failure_qualification;orchestrator.item4_fixture_correction=fixture
+        fixture._verifier=failure_qualification;fixture._audit_verifier=audit_failure_qualification;fixture._snapshot_verifier=snapshot_failure_qualification;fixture._progress_verifier=progress_failure_qualification;orchestrator.item4_fixture_correction=fixture
         helper=module('orchestrator.item4_smoke_response',ROOT/'orchestrator/item4_smoke_response.py')
         orchestrator.item4_smoke_response=helper
         p=json.loads(trusted(ROOT/helper.DOCUMENT).read_bytes());helper.scope(p,old_approval)
@@ -217,12 +250,13 @@ def connect():
         native_harness=json.loads(trusted(ROOT/helper.NATIVE_DOCUMENT).read_bytes());helper.scope(native_harness,native_approval)
         plaintext=json.loads(trusted(ROOT/helper.PLAINTEXT_DOCUMENT).read_bytes());helper.scope(plaintext,plaintext_approval)
         correction=json.loads(trusted(ROOT/helper.FIXTURE_DOCUMENT).read_bytes());helper.scope(correction,fixture_approval)
-        audit_scope=json.loads(trusted(ROOT/helper.AUDIT_DOCUMENT).read_bytes());helper.scope(audit_scope,approved['report_sha256'])
+        audit_scope=json.loads(trusted(ROOT/helper.AUDIT_DOCUMENT).read_bytes());helper.scope(audit_scope,audit_approval)
+        snapshot_scope=json.loads(trusted(ROOT/helper.SNAPSHOT_DOCUMENT).read_bytes());helper.scope(snapshot_scope,approved['report_sha256'])
         require(sha(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt').read_bytes())==helper.DIAGNOSTIC_DECISION,'OPERATOR_DECISION')
         calls=module(name,ROOT/'orchestrator/item4_scoped_calls.py');orchestrator.item4_scoped_calls=calls
         original=calls.connect
         def scoped(*args,**kw):
-            require(not {'post_smoke','post_smoke_approval','diagnostic','diagnostic_approval','diagnostic_recovery','diagnostic_recovery_approval','diagnostic_scoped','diagnostic_scoped_approval','diagnostic_native','diagnostic_native_approval','diagnostic_plaintext','diagnostic_plaintext_approval','diagnostic_fixture','diagnostic_fixture_approval','fixture_audit','fixture_audit_approval'}&set(kw),'DUPLICATE_SCOPE')
+            require(not {'post_smoke','post_smoke_approval','diagnostic','diagnostic_approval','diagnostic_recovery','diagnostic_recovery_approval','diagnostic_scoped','diagnostic_scoped_approval','diagnostic_native','diagnostic_native_approval','diagnostic_plaintext','diagnostic_plaintext_approval','diagnostic_fixture','diagnostic_fixture_approval','fixture_audit','fixture_audit_approval','report_snapshot','report_snapshot_approval'}&set(kw),'DUPLICATE_SCOPE')
             return original(*args,**kw,post_smoke=p,post_smoke_approval=old_approval,
                 diagnostic=diagnostic,diagnostic_approval=diagnostic_approval,
                 diagnostic_recovery=recovery,diagnostic_recovery_approval=recovery_approval,
@@ -230,7 +264,8 @@ def connect():
                 diagnostic_native=native_harness,diagnostic_native_approval=native_approval,
                 diagnostic_plaintext=plaintext,diagnostic_plaintext_approval=plaintext_approval,
                 diagnostic_fixture=correction,diagnostic_fixture_approval=fixture_approval,
-                fixture_audit=audit_scope,fixture_audit_approval=approved['report_sha256'])
+                fixture_audit=audit_scope,fixture_audit_approval=audit_approval,
+                report_snapshot=snapshot_scope,report_snapshot_approval=approved['report_sha256'])
         calls.connect=scoped;substituted.append(name);return calls
     route.module=factory
     connected,smoke,smoke_p,smoke_approval=route.connect()
@@ -238,7 +273,7 @@ def connect():
     from orchestrator import dispatch_limiter,item4_smoke_response as helper
     limiter=module('_post_smoke_limiter',ROOT/'orchestrator/dispatch_limiter.py')
     dispatch_limiter.admit_manual=limiter.admit_manual
-    p=json.loads(trusted(ROOT/helper.AUDIT_DOCUMENT).read_bytes())
+    p=json.loads(trusted(ROOT/helper.SNAPSHOT_DOCUMENT).read_bytes())
     import orchestrator
     for name in ('privacy_patterns','scientific_view_scan','notebook_execution','author_output_schema','author_format_submission'):
         loaded=module('orchestrator.'+name,ROOT/'orchestrator'/(name+'.py'));setattr(orchestrator,name,loaded)
@@ -291,9 +326,14 @@ def supplemental(driver,p):
     result={name:trusted(ROOT/path).read_bytes() for name,path in names.items()}
     from orchestrator import item4_smoke_response as helper,private_records as pr
     if helper.native_harness(p):
-        result['previous-native-harness.py']=trusted(ROOT/('docs/ITEM4_AUTHOR20_NATIVE_REFERENCE_PRIVATE.py' if helper.fixture_audit(p) else 'docs/ITEM4_AUTHOR19_NATIVE_REFERENCE_PRIVATE.py' if helper.fixture_correction(p) else 'docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py'
+        result['previous-native-harness.py']=trusted(ROOT/('docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py' if helper.report_snapshot(p) else 'docs/ITEM4_AUTHOR20_NATIVE_REFERENCE_PRIVATE.py' if helper.fixture_audit(p) else 'docs/ITEM4_AUTHOR19_NATIVE_REFERENCE_PRIVATE.py' if helper.fixture_correction(p) else 'docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py'
             if helper.plaintext_recovery(p) else 'docs/ITEM4_PREVIOUS_NATIVE_HARNESS.py')).read_bytes()
         result['native-worker-interface.py']=trusted(ROOT/'docs/ITEM4_NATIVE_WORKER_INTERFACE.py').read_bytes()
+        if helper.report_snapshot(p):
+            for name,path in {'actual-native-worker.py':'tools/item4_native_worker.py',
+                'report-lifecycle-counterexample.py':'docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py',
+                'report-lifecycle-counterexample-result.json':'docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json'}.items():
+                result[name]=trusted(ROOT/path).read_bytes()
         return result
     if helper.scoped_review(p):return result
     failed=helper.failed_author(driver.store,p);receipt=json.loads(failed['receipt']);work=Path(receipt['workspace'])
@@ -303,18 +343,23 @@ def supplemental(driver,p):
 
 
 
-FAILURE_PREFIX='whole-fixture-failure-'
+FAILURE_PREFIX='report-snapshot-failure-'
 def failure_pages(driver,p):
     from orchestrator import item4_fixture_correction as fixture,private_records as pr
     from orchestrator.item4_review4_continuation import canonical
     fixture.failure(driver.store,p)
     old=json.loads(trusted(ROOT/fixture.DOCUMENT).read_bytes())
     attempts=[]
-    for scope,qualifier in ((old,failure_qualification),(p,audit_failure_qualification)):
+    audit=json.loads(trusted(ROOT/fixture.AUDIT_DOCUMENT).read_bytes())
+    for scope,qualifier in ((old,failure_qualification),(audit,audit_failure_qualification),(p,snapshot_failure_qualification)):
         frozen=fixture.scope(scope);state=fixture.parameters(scope)['state']
         contents={name:pr.check(state/name).read_bytes().decode() for name in sorted(frozen['files'])}
         attempts.append({'files':contents,'file_sha256':frozen['files'],'qualification':qualifier()})
-    raw=canonical({'schema':'item4-fixture-two-original-failures/v1','attempts':attempts,
+    third=fixture.STATE.with_name('item4-author21-diagnostic-native-v1')
+    third_proof=progress_failure_qualification()
+    contents={name:pr.check(third/name).read_bytes().decode() for name in sorted(old['native_failure']['files'])}
+    attempts.insert(2,{'files':contents,'file_sha256':{name:sha(raw.encode()) for name,raw in contents.items()},'qualification':third_proof})
+    raw=canonical({'schema':'item4-fixture-four-original-failures/v1','attempts':attempts,
         'corrected_fixture_executed':False,'scientific_acceptance':False})
     text=raw.decode();parts=[text[i:i+6000] for i in range(0,len(text),6000)]
     result={f'page-{i+1:03}.txt':part.encode() for i,part in enumerate(parts)}
@@ -328,7 +373,7 @@ def deliver_failure(driver,value,p):
     from orchestrator import experiment_collection as collection
     expected=failure_pages(driver,p)
     for name,raw in expected.items():
-        collection.artifact(driver,value,'result_tables',FAILURE_PREFIX+name,'whole-fixture-failure/'+name,raw)
+        collection.artifact(driver,value,'result_tables',FAILURE_PREFIX+name,'report-snapshot-failure/'+name,raw)
     actual=[r for r in value['artifacts'] if r['id'].startswith(FAILURE_PREFIX)]
     require(len(actual)==len(expected) and {r['id']:r['sha256'] for r in actual}==
         {FAILURE_PREFIX+n:sha(raw) for n,raw in expected.items()},'FAILURE_DELIVERY_MEMBERS')
@@ -346,11 +391,11 @@ def verify_failure_delivery(driver,value,p):
 
 
 def author_work():
-    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces/run_spec_author-21')
+    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces/run_spec_author-22')
 
 
 def pins_path():
-    return author_work().parent.parent/'lane/whole-fixture-author/runtime-pins-21.json'
+    return author_work().parent.parent/'lane/report-snapshot-author/runtime-pins-22.json'
 
 
 def send(expected,family,command):
@@ -378,8 +423,8 @@ def author_sender_admitted(config,expected):
     """A prepared format tool is not permission for an uncounted model call."""
     import sqlite3
     from orchestrator import item4_smoke_response as helper,private_records as pr
-    binding=config['bindings'];ident=helper.call({'schema':helper.AUDIT_SCHEMA},'author')
-    require(binding['call_id']==ident and binding['round']==21 and binding['stage']=='run_spec_author'
+    binding=config['bindings'];ident=helper.call({'schema':helper.SNAPSHOT_SCHEMA},'author')
+    require(binding['call_id']==ident and binding['round']==22 and binding['stage']=='run_spec_author'
         and binding['run_id']==helper.RUN and binding['input_sha256']==expected,'AUTHOR_SENDER_CALL_BINDING')
     lane=author_work().parent.parent/'lane'
     with sqlite3.connect(pr.check(lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as local, sqlite3.connect(
@@ -390,8 +435,8 @@ def author_sender_admitted(config,expected):
         value=json.loads(local.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
         pending=value.get('pending') or {}
         require(row is not None and other is not None and row['status']==other['status']=='RUNNING'
-            and row['stage']=='run_spec_author' and row['attempt']==21 and value['phase']=='MODEL_RUNNING'
-            and pending=={'id':ident,'stage':'run_spec_author','round':21,'workspace':str(author_work())},
+            and row['stage']=='run_spec_author' and row['attempt']==22 and value['phase']=='MODEL_RUNNING'
+            and pending=={'id':ident,'stage':'run_spec_author','round':22,'workspace':str(author_work())},
             'AUTHOR_SENDER_ADMISSION_REQUIRED')
         receipt=json.loads(row['receipt'])
         require(receipt['input_sha256']==expected and receipt['workspace']==str(author_work()),'AUTHOR_SENDER_RECEIPT')
@@ -429,7 +474,7 @@ def prepare_author_feedback(driver,p,body,measurement,work):
             if value.get('view_sha256')==patch['view_sha256']:manifests.append(raw)
     require(len(manifests)==1,'AUTHOR_BOUND_OMISSIONS_REQUIRED')
     binding=helper.review_binding(driver,p,authority()['report_sha256'])
-    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':21,
+    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':22,
         'source_sha':driver.config['source'],'runtime_sha256':sha(trusted(Path('/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json')).read_bytes()),'input_sha256':sha(body.encode())},
         {'review_call_id':binding['review_call_id'],'review_sha256':binding['review_sha256'],
             'operator_scope_sha256':plan['operator_scope_sha256'],'original_sha256':patch['original_sha256'],'view_sha256':patch['view_sha256']},
@@ -451,7 +496,7 @@ def main(argv=None):
     from orchestrator import experiment_context as ec
     saved_accept=ec.accept_author
     def accept_author(current, value, pending):
-        require(current is driver and pending['round']==21,'AUTHOR_ACCEPT_SCOPE')
+        require(current is driver and pending['round']==22,'AUTHOR_ACCEPT_SCOPE')
         saved_accept(current,value,pending)
         helper.executable_candidate(current,value,p)
     saved_author=(stage._invoke,stage.transport_profile)
@@ -473,7 +518,7 @@ def main(argv=None):
                 task+='\nRequired exact author output schema: '+json.dumps(schema(),sort_keys=True)
             return task
         def prepare_input(self,value,stage_name,work):
-            require((stage_name,self.model_round_number(value)) ==('run_spec_author',21),'INPUT_SCOPE')
+            require((stage_name,self.model_round_number(value)) ==('run_spec_author',22),'INPUT_SCOPE')
             helper.deliver(self,value,p,approval,supplemental(self,p));deliver_failure(self,value,p)
             body,measurement=super().prepare_input(value,stage_name,work)
             helper.verify_delivered(self,value,stage_name,work,body,measurement,p);verify_failure_delivery(self,value,p)
@@ -481,7 +526,7 @@ def main(argv=None):
             return body,measurement
         def _accept_completed(self,value):
             pending=value.get('pending') or {};stage=pending.get('stage')
-            require((stage,pending.get('round'),pending.get('id')) ==('run_spec_author',21,helper.call(p,'author')),'COMPLETION_SCOPE')
+            require((stage,pending.get('round'),pending.get('id')) ==('run_spec_author',22,helper.call(p,'author')),'COMPLETION_SCOPE')
             work=Path(pending['workspace'])
             helper.verify_delivered(self,value,stage,work,pr.check(work/'prompt.md').read_text(),
                 json.loads(pr.check(work/'input-measurement.json').read_bytes()),p)
@@ -491,7 +536,7 @@ def main(argv=None):
             super()._accept_completed(value)
             for key in helper.protected_keys(p):
                 require(value.get(key)==json.loads(p['original_state']).get(key),'AUTHOR_CHANGED_EXECUTION_AUTHORITY')
-            value.update(phase='BLOCKED',reason='WHOLE_FIXTURE_AUTHOR_ACCEPTED_NATIVE_AND_REVIEW_REQUIRED')
+            value.update(phase='BLOCKED',reason='REPORT_SNAPSHOT_AUTHOR_ACCEPTED_NATIVE_AND_REVIEW_REQUIRED')
             self.save(value);return self.status()
     try:
         driver=ResponseDriver(c.LANE)
@@ -503,7 +548,7 @@ def main(argv=None):
                 retained_smoke_evidence(driver,value,smoke,smoke_p,smoke_approval,helper)
                 result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
             elif argv[0]=='activate':
-                result=helper.activate(driver,p,approval,driver.state/'whole-fixture-author')
+                result=helper.activate(driver,p,approval,driver.state/'report-snapshot-author')
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)
