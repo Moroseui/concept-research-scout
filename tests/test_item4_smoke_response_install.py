@@ -4,10 +4,10 @@ import pytest
 from tools import item4_smoke_response_runtime as route,install_item4_smoke_response as installer
 
 def test_installer_preserves_every_other_unit_line():
-    old=Path(__file__).with_name('fixtures')/'item4_scoped_review_prior_unit_PRIVATE.txt'
+    old=Path(__file__).with_name('fixtures')/'item4_native_harness_prior_unit_PRIVATE.txt'
     raw=old.read_bytes();new=installer.unit_bytes(raw)
-    before=b'/item4-author16-entrypoint-recovery-20261010/tools/item4_smoke_response_runtime.py run'
-    after=b'/item4-diagnostic-scoped-review-20261010/tools/item4_smoke_response_runtime.py run'
+    before=b'/item4-diagnostic-scoped-review-20261010/tools/item4_smoke_response_runtime.py run'
+    after=b'/item4-diagnostic-native-harness-20261010/tools/item4_smoke_response_runtime.py run'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 
@@ -57,7 +57,7 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
     (review/'packet-manifest.json').write_text(json.dumps({'source_sha':'a'*40,'source_files':files}))
     monkeypatch.setattr(installer.os,'geteuid',lambda:0)
     for key in ['ROOT','RECORD','UNIT']:monkeypatch.setattr(installer,key,tmp_path/('absent-'+key))
-    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_scoped_review_prior_unit_PRIVATE.txt').read_bytes())
+    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_native_harness_prior_unit_PRIVATE.txt').read_bytes())
     monkeypatch.setattr(installer,'PRIOR_UNIT',prior)
     monkeypatch.setattr(installer,'trusted',lambda path:Path(path))
     def verified(path):
@@ -80,7 +80,7 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
 
 
 def test_recovery_adds_one_held_unit_and_no_cleanup_timer():
-    raw=(Path(__file__).with_name('fixtures')/'item4_scoped_review_prior_unit_PRIVATE.txt').read_bytes()
+    raw=(Path(__file__).with_name('fixtures')/'item4_native_harness_prior_unit_PRIVATE.txt').read_bytes()
     rendered=installer.unit_bytes(raw)
     assert installer.retention_units(rendered)=={installer.UNIT:rendered}
     assert b'cleanup-' not in rendered

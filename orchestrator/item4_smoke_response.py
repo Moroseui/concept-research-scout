@@ -26,6 +26,9 @@ DIAGNOSTIC_DECISION = '5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85
 DIAGNOSTIC_SCHEMA = 'item4-cpu-diagnostic-authoring/v1'
 RECOVERY_SCHEMA = 'item4-cpu-diagnostic-entrypoint-recovery/v1'
 SCOPED_SCHEMA = 'item4-cpu-diagnostic-scoped-review/v1'
+NATIVE_SCHEMA = 'item4-cpu-diagnostic-native-harness/v1'
+NATIVE_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_NATIVE_HARNESS_PRIVATE.json'
+NATIVE_REVIEW14_REPORT = '0cf4671ce6c1641b0aa2724d5fd0405e0cf9c21f9193a5eb0a7e7a822158a11a'
 SCOPED_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_SCOPED_REVIEW_PRIVATE.json'
 SCOPED_REVIEW13_REPORT = '00ac3c5bdf863f1f5aba76b2a151c572a36edd6f5de9208d3237c1306dcb62e7'
 RECOVERY_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_RECOVERY_PRIVATE.json'
@@ -34,7 +37,10 @@ FAILED_AUTHOR = sha((RUN+':run_spec_author:16').encode())
 FAILED_REASON = 'OUTPUT_VALIDATION_REFUSED: NOTEBOOK_EXECUTION_ENTRYPOINT:synthetic_tests'
 
 def diagnostic(p):
-    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA}
+    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA}
+
+def native_harness(p):
+    return p.get('schema') == NATIVE_SCHEMA
 
 def scoped_review(p):
     return p.get('schema') == SCOPED_SCHEMA
@@ -48,6 +54,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if native_harness(p):
+        return dict(author=18, reviewer=15, count=31, batch=69, limit=35, batch_limit=73,
+            event='REVIEWED_ITEM4_DIAGNOSTIC_NATIVE_HARNESS', field='cpu_diagnostic_native_harness_scope',
+            assessment='cpu_diagnostic_scoped_review', previous_reason='CPU_DIAGNOSTIC_AUTHORING_REVISE_EXECUTION_HELD',
+            previous_review=14, previous_call=sha((RUN+':run_spec_review:14').encode()),
+            folder='cpu-diagnostic-native-harness', result='cpu_diagnostic_native_harness')
     if scoped_review(p):
         return dict(author=17, reviewer=14, count=30, batch=68, limit=33, batch_limit=71,
             event='REVIEWED_ITEM4_DIAGNOSTIC_SCOPED_REVIEW', field='cpu_diagnostic_scoped_review_scope',
@@ -111,7 +123,27 @@ def scope(p,approval):
             and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
                 'call_id':call(p,'author'),'stage':'run_spec_author','attempt':17,'output_sha256':p['author_outputs']},
             'SCOPED_REVIEW_AUTHORITY')
+    if native_harness(p):
+        require(a['report_sha256']==NATIVE_REVIEW14_REPORT and a.get('global_findings_closed') is False
+            and a.get('scientific_scope')=='two-cpu-diagnostic-fits-only'
+            and p.get('reference_author_call_id')==sha((RUN+':run_spec_author:17').encode())
+            and p.get('diagnostic_plan_sha256')==p['author_outputs']['execution.plan.json']
+            and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
+                'call_id':p['reference_author_call_id'],'stage':'run_spec_author','attempt':17,
+                'output_sha256':p['author_outputs']},'NATIVE_HARNESS_AUTHORITY')
     return old
+
+
+def reference_author(driver,p):
+    from orchestrator import author_revision_accounting as accounting,private_records as pr
+    require(native_harness(p),'NATIVE_HARNESS_ONLY')
+    row=driver.store.db.execute('SELECT * FROM manual_calls WHERE id=?',(p['reference_author_call_id'],)).fetchone()
+    require(row is not None and accounting._accepted(driver.store,dict(row)),'REFERENCE_AUTHOR_ACCEPTED')
+    receipt=json.loads(row['receipt']);work=Path(receipt['workspace'])
+    require(receipt['output_sha256']==p['author_outputs'] and work.name=='run_spec_author-17','REFERENCE_AUTHOR_BINDING')
+    for name,pin in p['author_outputs'].items():
+        require(sha(pr.check(work/name).read_bytes())==pin,'REFERENCE_AUTHOR_CHANGED')
+    return dict(row)
 
 
 def frozen_author(driver,p,value=None):
@@ -206,8 +238,13 @@ def review_binding(driver,p,approval):
     # This exact existing budget finding permits drafting a response, not a
     # changed budget or execution. All other reserved findings still refuse.
     reserved=[f for f in decision['findings'] if f['category'] in {'budget','privacy/secret','test-set/leakage'}]
-    require(len(reserved)==1 and reserved[0]['category']=='budget'
-        and reserved[0]['id']=='STAGE1-full-projection-exceeds-authorized-caps','PROPOSAL_ONLY_BUDGET_SCOPE')
+    if native_harness(p):
+        require(not reserved and [f['id'] for f in decision['findings']]==
+            ['DIAG-U2-changed-module-native-integration-unverified'],'NATIVE_FINDING_SCOPE')
+        reference_author(driver,p)
+    else:
+        require(len(reserved)==1 and reserved[0]['category']=='budget'
+            and reserved[0]['id']=='STAGE1-full-projection-exceeds-authorized-caps','PROPOSAL_ONLY_BUDGET_SCOPE')
     if scoped_review(p):
         return {'schema':'cpu-diagnostic-scoped-review-context/v1','stage':'run_spec_review','round':14,
             'author_call_id':call(p,'author'),'carried_review_sha256':sha(raw),
@@ -269,6 +306,16 @@ def validate_diagnostic_delta(plan_raw,module_raw,p):
     require(all((f['arm'],f['fold'],f.get('preprocessing_id'))==
         (resume['arm'],resume['fold'],resume.get('preprocessing_id')) for f in extra),'BASE_ARM_FOLD')
     require(sha(module_raw)!=p['baseline_module_sha256'],'EXECUTABLE_CHANGE_REQUIRED')
+    if native_harness(p):
+        require(sha(plan_raw)==p['diagnostic_plan_sha256'],'DIAGNOSTIC_PLAN_CHANGED')
+        import ast
+        functions=[node for node in ast.parse(module_raw).body if isinstance(node,ast.FunctionDef)
+            and node.name=='native_synthetic_integration']
+        require(len(functions)==1 and not functions[0].decorator_list
+            and [a.arg for a in functions[0].args.args]==['progress_factory']
+            and not any((functions[0].args.defaults,functions[0].args.kwonlyargs,
+                functions[0].args.posonlyargs,functions[0].args.vararg,functions[0].args.kwarg)),
+            'NATIVE_ENTRYPOINT_REQUIRED')
     return {'execution_plan_sha256':sha(plan_raw),'module_sha256':sha(module_raw),
         'fit_ids':[f['fit_id'] for f in extra],'execution_authorized':False}
 
@@ -292,6 +339,8 @@ def protected_keys(p):
     if diagnostic(p):keys+=('post_smoke_response','post_smoke_response_scope')
     if p['schema']==RECOVERY_SCHEMA or scoped_review(p):keys+=('cpu_diagnostic_authoring_scope',)
     if scoped_review(p):keys+=('cpu_diagnostic_recovery_scope','cpu_diagnostic_recovery','notebook_revision_result')
+    if native_harness(p):keys+=('cpu_diagnostic_authoring_scope','cpu_diagnostic_recovery_scope',
+        'cpu_diagnostic_recovery','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
     return keys
 
 
@@ -300,6 +349,10 @@ def ready(driver,value,p,approval):
     q=profile(p)
     require(value.get(q['field'])==proof(p,approval) and not value.get('pending'),'STATE_SCOPE')
     stage=value.get('phase');rounds=value.get('rounds')
+    if native_harness(p):
+        # This installation admits authoring only. Native execution and delivery
+        # need their own reviewed connection before the reserved reviewer slot.
+        require(stage=='run_spec_author','NATIVE_EVIDENCE_REQUIRED_BEFORE_REVIEW')
     if scoped_review(p):
         require(stage=='run_spec_review','SCOPED_REVIEW_STAGE_ONLY')
         frozen_author(driver,p,value)
@@ -332,6 +385,35 @@ def connect_roles(accounting,recovery,p,approval):
             return old_binding(driver,stage,number,author)
         granted(driver.store,p,approval);return review_binding(driver,p,approval)
     def inspect(store,run,stage):
+        if native_harness(p) and run==RUN and stage=='run_spec_author':
+            value=prior.state(store)
+            if value.get('phase')==stage and value.get('reason')==q['event']:
+                # The approved author17 repair and failed author16 reference
+                # the same review12. The generic duplicate-review guard cannot
+                # represent that preserved history. Replace it ONLY here with
+                # exact frozen row hashes, genuine historical receipt bindings,
+                # accepted author17 and this one new review14 response.
+                driver=accounting.context(store,run);require(driver is not None,'AUTHOR_CONTEXT')
+                ready(driver,value,p,approval)
+                rows=[dict(r) for r in store.db.execute('SELECT * FROM manual_calls ORDER BY rowid')]
+                require(len(rows)==q['count'] and set(r['id'] for r in rows)==set(p['local_calls']),'AUTHOR_ONCE')
+                used={};failures=0
+                for row in rows:
+                    if row['stage']!=stage:continue
+                    saved=json.loads(row['receipt']).get(accounting.FIELD)
+                    if saved is None:
+                        failures+=int(not accounting._accepted(store,row));continue
+                    expected=accounting.review_binding(driver,stage,saved['review_round'],row['attempt'])
+                    require(saved==expected and row['id']==saved['author_call_id'],'HISTORICAL_REVISION_RECEIPT')
+                    previous=used.get(saved['review_call_id'])
+                    if previous is not None:
+                        require((previous['attempt'],row['attempt'],saved['review_round'])==(16,17,12)
+                            and previous['id']==FAILED_AUTHOR and not accounting._accepted(store,previous)
+                            and accounting._accepted(store,row),'HISTORICAL_DUPLICATE_REVISION')
+                    used[saved['review_call_id']]=row
+                new=binding(driver,stage,q['previous_review'],q['author'])
+                require(new['review_call_id'] not in used,'NEW_REVIEW_REQUIRED')
+                return {'limit':q['author'],'binding':new,'failed_attempts':failures}
         result=old_inspect(store,run,stage)
         if run!=RUN or stage!='run_spec_author':return result
         value=prior.state(store)
@@ -491,10 +573,37 @@ SCOPED_GUIDANCE=(
 )
 
 def guidance(p):
+    if native_harness(p):return NATIVE_GUIDANCE
     if scoped_review(p):return SCOPED_GUIDANCE
     return (RECOVERY_GUIDANCE if p['schema']==RECOVERY_SCHEMA else '')+(DIAGNOSTIC_GUIDANCE if diagnostic(p) else GUIDANCE)
 
 
+NATIVE_GUIDANCE=(
+    'Respond to the genuine diagnostic-scoped scientific REVISE14, whose exact report is delivered. '
+    'It accepts the A/B diagnostic design but requires native no-patient CPU integration of the changed instrumentation. '
+    'Own the scientific test harness. Preserve the complete execution.plan.json BYTE FOR BYTE, all diagnostic '
+    'choices and all global/full/coverage/execution holds. Do not append more fits or change budgets/image/patients. '
+    'The previous author17 module has no exported native_synthetic_integration function; its separate preserved '
+    'base native harness is supplied as historical author-owned reference only, not new evidence. The existing '
+    'native worker interface is also supplied. Add exactly one undecorated top-level '
+    'def native_synthetic_integration(progress_factory), no defaults/varargs/keyword-only/positional-only arguments, '
+    'to the extracted executable module while retaining all required main/synthetic/preprocess interfaces. '
+    'Use the existing progress_factory and truthful native result contract. Preserve old base native coverage and '
+    'exercise the real nnUNet/PyTorch CPU dependencies for DiagnosticTrainer hooks, live workers/loader timing, '
+    'thread lifecycle, cadence15/LR250/save10, the2100s stop and cpu-diagnostic.json/hash closure as demanded by '
+    'the reviewer. Generated non-patient fixtures only, pinned image, no GPU, credentials, network or patient mounts. '
+    'Do not label mocked trainers/imports/telemetry as native. The reviewer permits truthful durable-invalid '
+    'telemetry on a CPU-only host; never fabricate GPU samples or claim a production run. Own the smallest valid '
+    'native fixture design, document precisely any reduced fixture/workload and unverified boundaries. If the '
+    'requested CPU proof cannot cover a GPU-specific interface, explain it rather than inventing a simulator. '
+    'Do not silently weaken production checks; any necessary scientific correction is explicit and tested. '
+    'Use the required three-output author schema and same-call submit_author feedback; controller synthetic tests '
+    'remain mandatory and no skips can be represented as passes. Native execution will happen later through '
+    'reviewed normal reservation within diagnostic25/stage150, no automatic retry, unchanged1200gate/1275total. '
+    'No paid compute or native-success claim is authorized by this author call. Reviewer15 is held until actual '
+    'native evidence is supplied through its reviewed delivery route. Preserve review14 and every prior charge.'
+)
+NATIVE_SUPPLEMENTAL={'previous-native-harness.py','native-worker-interface.py'}
 RECOVERY_SUPPLEMENTAL={'failed-author16-SPEC.md','failed-author16-notebook.patch.json','failed-author16-execution.plan.json'}
 SUPPLEMENTAL={'current-cap-decision.txt','timing-audit.json','native-trainer.py','checkpoint-adapter.py','durable-progress.py'}
 
@@ -504,6 +613,10 @@ def deliver(driver,value,p,approval,supplemental):
     ready(driver,value,p,approval)
     q=profile(p);expected_names=SUPPLEMENTAL|({'cpu-diagnostic-operator-decision.txt'} if diagnostic(p) else set())
     if p['schema']==RECOVERY_SCHEMA:expected_names|=RECOVERY_SUPPLEMENTAL
+    if native_harness(p):
+        expected_names|=NATIVE_SUPPLEMENTAL
+        require(sha(supplemental['previous-native-harness.py'])==p['reference_native_harness_sha256'],
+            'REFERENCE_NATIVE_HARNESS_CHANGED')
     require(set(supplemental)==expected_names,'SUPPLEMENTAL_SET')
     if p['schema']==RECOVERY_SCHEMA:
         for target,original in [('SPEC.md','SPEC.proposed.md'),('notebook.patch.json','notebook.patch.json'),('execution.plan.json','execution.plan.json')]:
@@ -513,7 +626,7 @@ def deliver(driver,value,p,approval,supplemental):
     before=list(value['artifacts'])
     def add(name,raw):
         collection.artifact(driver,value,'result_tables',q['folder']+'-'+name,q['folder']+'/'+name,raw)
-    raw=pr.check(driver.state/('cpu-diagnostic-recovery/review.json' if scoped_review(p) else 'post-smoke-response/review.json' if diagnostic(p) else 'smoke-review11/review.json')).read_bytes()
+    raw=pr.check(driver.state/('cpu-diagnostic-scoped-review/review.json' if native_harness(p) else 'cpu-diagnostic-recovery/review.json' if scoped_review(p) else 'post-smoke-response/review.json' if diagnostic(p) else 'smoke-review11/review.json')).read_bytes()
     require(sha(raw)==p['assessment']['report_sha256'],'ORIGINAL_REVIEW11')
     add('scientific-review'+str(q['previous_review'])+'.json',raw)
     add('scientific-assessment'+str(q['previous_review'])+'.json',canonical(p['assessment']))
@@ -542,7 +655,7 @@ def verify_delivered(driver,value,stage,work,prompt,measurement,p):
     retained=[r for r in old['artifacts'] if r['id'].startswith('smoke-review11-')]
     require(len(retained)==19 and all(r in value['artifacts'] for r in retained),'COLLECTED_EVIDENCE_PRESERVED')
     extra=[r for r in value['artifacts'] if r['id'].startswith(q['folder']+'-')]
-    require(len(extra)==len(SUPPLEMENTAL)+2+diagnostic(p)+(len(RECOVERY_SUPPLEMENTAL) if p['schema']==RECOVERY_SCHEMA else 0),'DELIVERY_MEMBERS')
+    require(len(extra)==len(SUPPLEMENTAL)+2+diagnostic(p)+(len(RECOVERY_SUPPLEMENTAL) if p['schema']==RECOVERY_SCHEMA else len(NATIVE_SUPPLEMENTAL) if native_harness(p) else 0),'DELIVERY_MEMBERS')
     if scoped_review(p):
         frozen_author(driver,p,value)
         retained+=[r for r in old['artifacts'] if r['id'].startswith('cpu-diagnostic-recovery-')]
