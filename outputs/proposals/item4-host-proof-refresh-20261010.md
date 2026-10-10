@@ -1,0 +1,8 @@
+# Bounded host-proof recovery
+
+The installed smoke-review connection is still independently approved. Its first scientific preflight failed because the original host proof lasts 180 seconds while evidence preparation took more than eight minutes. The same proof check also runs immediately before native execution. No model reservation, invocation, scientific charge or GPU launch occurred.
+
+Claude's first operational review returned genuine REVISE: a prose-only procedure did not show enforceable binding to the live invocation or equivalent protection. That report and all original charges remain. The response supplies source 173abad055d282c3479331be01e666510d208486 and 22 passing tests for a bounded operator command. It starts the existing exact scientific unit once, captures its actual invocation, and permits fresh executions of the unchanged host-policy check only for that invocation, with hash, process, time and count bounds. It neither extends the expiry nor installs a timer, daemon, permission or service. Failed checks stop the same invocation; a different invocation is never refreshed or stopped. The actual service-account read-only starting-state check confirms all 24 call hashes and the preserved workspace.
+
+Direction discussion: accept the demand for inspectable enforcement and defer generic infrastructure; the remaining question is this bounded existing operation versus a larger change to the two internal privilege boundaries. The second independent review is running with both original findings retained. Nothing from this candidate has been used to refresh a live proof or retry the scientific call. No money decision is pending; the stage, projection and total caps remain unchanged.
+

@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
-All three benchmarks, the five-epoch base smoke with real interruption/resume, and the repeat are collected, hash-verified and terminated. No GPU is running.
-The repeat's post-first-epoch times average 90.41 seconds and are still declining; stable steady-state timing and scientific acceptance remain unestablished.
-Provisional repeat-based full-plan cost is about $3,575 over 291.1 GPU-hours with existing allowances, above the unchanged $1,200 gate.
-Identified provider compute is $24.29; current effective stage-1 exposure is $110.11/$150, retaining original reservations and unsettled overhead.
-The connection passed 137 tests, cold rehearsal and independent implementation review; it is installed and activated. At 01:30 UTC the original server process remains active in preflight, with no scientific model call admitted yet. The assessment remains expected by roughly 01:52-02:22 UTC.
-UTC October 10 calls: 3/50: one implementation review and two rounds of one direction discussion. Latest Claude outcome: PROCEED/agreement; full training and coverage arms stay held.
+All three benchmarks, the five-epoch smoke with real interruption/resume, and the repeat are complete; no GPU is running.
+Scientific review stopped before model admission because its host-isolation proof expired during verification; the original attempt is preserved and uncharged.
+A bounded operation using the unchanged host check passed 22 tests; Claude is reviewing the explicit enforcement after requesting it in round one.
+Identified provider compute is $24.29; effective stage-1 exposure is $110.11/$150. All original reservations and unsettled obligations remain recorded.
+Next result: scientific smoke assessment, roughly 45-60 minutes if this review approves. The provisional $3,575 full-plan projection exceeds the unchanged $1,200 gate.
+UTC October 10 calls: 5/50, comprising 3 administrative reviews and 2 direction calls. Latest direction: SIMPLIFY, with the narrowed response under review.
 
-Updated 2026-10-10T01:30:26.741260+00:00.
+Updated 2026-10-10T01:53:24.456484+00:00.
 
 ## Results and readiness
 
@@ -30,7 +30,7 @@ Identified provider compute is $24.29013445, including the repeat at $4.65640856
 
 Current effective stage-1 exposure is $110.111178/$150 after the installed reconciliation policy applied completed-hour repeat billing. Original compute reservations total $147.7164 and remain preserved. The repeat keeps its original $16.5924 reservation alongside provider compute of $4.65640856 and a conservative closed bound of $9.707803. The $6.884597 excess is no longer included in effective exposure; unsettled overhead is retained. Both base segment originals and their closed bounds remain. No manual credit, ledger rewrite or release for an open or uncertain attempt occurred. The aggregate billing record is under outputs/sprint13b/STAGE1_SMOKE_BILLING.json.
 
-UTC October 10: 0 scientific author, 0 scientific reviewer, 1 implementation review, 2 direction calls. Their purposes were the shortest smoke-review path and clarification of its exact call-accounting exception. Both are completed administrative calls, with model estimates $2.7915255 and $2.13659325. The implementation review is also complete, with a model estimate of $4.94008025; the scientific call has been requested but was not yet admitted at the latest observation. October 9 remains 50 calls: 3 scientific author, 4 scientific reviewer, 37 administrative implementation reviews and 6 direction checks. No usage was reset or relabeled. The completed implementation review bundled the complete smoke connection, accounting, evidence delivery and installation. No extra standalone direction call was made.
+UTC October 10: 0 scientific author, 0 scientific reviewer, 3 administrative reviews, 2 direction calls. Administrative purposes: installed smoke-review connection, first host-proof operational opinion, and the current revision with inspectable enforcement. The first operational opinion returned REVISE, estimated $3.544358; its revision is running. Direction discussion is folded into these operational reviews and is not counted again. Their purposes were the shortest smoke-review path and clarification of its exact call-accounting exception. Both are completed administrative calls, with model estimates $2.7915255 and $2.13659325. The implementation review is also complete, with a model estimate of $4.94008025; the original scientific request stopped before model admission, without a scientific charge. October 9 remains 50 calls: 3 scientific author, 4 scientific reviewer, 37 administrative implementation reviews and 6 direction checks. No usage was reset or relabeled. The completed implementation review bundled the complete smoke connection, accounting, evidence delivery and installation. No extra standalone direction call was made.
 
 ## Blockers and judgment calls
 
@@ -40,7 +40,15 @@ The original repeat was observed COMPLETE, collected once, then verified against
 
 No main merge, BACKLOG edit, credential change, patient restriction change or safeguard relaxation occurred. Full training and coverage-dependent arms remain held. No money decision is pending. The installed review connection is source 7a8f4d662a2a3f8bb2b7032f0e7bfd3d620c7671, approved by report fb04e156b4b29bfbc99e86437d7266ce1df51186f72c0baef754d39a0dac1aef. Its safe source projection is merged here and retained on the working branch. Existing GPU execution records are unchanged.
 
-The complete focused suite passed 137 tests. A cold server rehearsal verified the actual five collections and refused whole-plan acceptance, then exercised ordinary review admission and duplicate refusal against disposable ledger copies. Every historical charge event and reset record stayed unchanged; the existing UTC-day counter rollover was checked separately from lifetime call rows. Earlier harness failures are preserved privately. No model/provider call or live ledger mutation occurred during these tests. Judgment: implement only the exact one-review scope agreed with Claude, retain the final pair, and obtain independent implementation approval before installation. That review approved with no blocking findings. Held installation and one-use activation passed; one server-side scientific-review request is now preparing through normal admission. No model was running at the latest observation, and no GPU is running.
+The complete focused suite passed 137 tests. A cold server rehearsal verified the actual five collections and refused whole-plan acceptance, then exercised ordinary review admission and duplicate refusal against disposable ledger copies. Every historical charge event and reset record stayed unchanged; the existing UTC-day counter rollover was checked separately from lifetime call rows. Earlier harness failures are preserved privately. No model/provider call or live ledger mutation occurred during these tests. Judgment: implement only the exact one-review scope agreed with Claude, retain the final pair, and obtain independent implementation approval before installation. That review approved with no blocking findings. Held installation and one-use activation passed; the original scientific request then failed closed on an expired host-isolation proof before model reservation. It consumed eight and a half minutes of verification, exceeding the unchanged three-minute proof lifetime. The prepared workspace, state and all original calls are preserved; no scientific or GPU call occurred.
+
+## Current host-proof recovery
+
+The installed smoke-review connection is still independently approved. Its first scientific preflight failed because the original host proof lasts 180 seconds while evidence preparation took more than eight minutes. The same proof check also runs immediately before native execution. No model reservation, invocation, scientific charge or GPU launch occurred.
+
+Claude's first operational review returned genuine REVISE: a prose-only procedure did not show enforceable binding to the live invocation or equivalent protection. That report and all original charges remain. The response supplies source 173abad055d282c3479331be01e666510d208486 and 22 passing tests for a bounded operator command. It starts the existing exact scientific unit once, captures its actual invocation, and permits fresh executions of the unchanged host-policy check only for that invocation, with hash, process, time and count bounds. It neither extends the expiry nor installs a timer, daemon, permission or service. Failed checks stop the same invocation; a different invocation is never refreshed or stopped. The actual service-account read-only starting-state check confirms all 24 call hashes and the preserved workspace.
+
+Direction discussion: accept the demand for inspectable enforcement and defer generic infrastructure; the remaining question is this bounded existing operation versus a larger change to the two internal privilege boundaries. The second independent review is running with both original findings retained. Nothing from this candidate has been used to refresh a live proof or retry the scientific call. No money decision is pending; the stage, projection and total caps remain unchanged.
 
 ## Files withheld from public backup
 
@@ -202,3 +210,5 @@ Judgment: reuse the existing read-only progress and reservation replay tools for
 - docs > ITEM4_SMOKE_REVIEW_CHECKPOINT_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - orchestrator > item4_smoke_review.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 - tests > fixtures > item4_smoke_review_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+
+- docs > ITEM4_HOST_PROOF_PREFLIGHT_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
