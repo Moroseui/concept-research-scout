@@ -3,7 +3,7 @@
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The base smokes and benchmarks are real technical results, but timing still does not establish an affordable complete training plan.
 Author 15 passed validation; scientific review 12 returned REVISE, keeping the budget, remaining-arm and coverage requirements open.
-Nothing is running. One operator money/scope decision is pending: up to $25 for the proposed timing diagnostic within the existing $150 cap.
+Nothing is running. The goal is blocked on one operator money/scope decision: up to $25 for the proposed diagnostic within the existing $150 cap.
 Identified provider compute is $24.29; effective stage exposure is $110.11/$150 including retained obligations. Model estimates and unsettled asset costs are separate.
 Next result depends on that decision, then author-owned code and independent review; there is no reliable launch time yet. No diagnostic or full training is authorized.
 UTC October 10 calls: 11/50 (1 author, 2 scientific reviews, 5 administrative reviews, 3 direction checks). Latest Claude advice agrees with the bounded money request.
@@ -246,3 +246,5 @@ Genuine review12 report8100da43ef8c5d76d2e0fa4a66df47a11d26844f3007f43b173982b3d
 Claude's administrative consultation completed with APPROVE of the proposed money/scope route, report923d83b02f375140abeaa263e3e696e97ed21c9def4bc3f76c36fc1a4caad114. Root agrees: request at most$25 within existing$150 rather than raising to$175, since current nominal headroom is$39.888822. Headroom does not authorize new milestone scope. The concrete request and review prerequisites are in outputs/proposals/item4-timing-diagnostic-money-20261010.md. This opinion does not supply scientific or spending authority. It omitted the requested direction label; its explicit recommendation is preserved without inventing one. The original opinion accidentally counts six scientific findings as seven; the actual array contains six.
 
 Judgment log03:48UTC: one consultation round, agreement on the bounded operator money request. Cut another response-only author/reviewer pair and defer process grants, consolidation and new infrastructure. Preserve the final interpretation slots and complete research scope. Both maintenance loops ended after their own services completed; positive terminal reconciliation confirmed success, so no retry or repair was launched. No model/GPU or watcher is active. All11 daily calls remain counted.
+
+03:56 UTC stopping check: both scientific calls and the administrative consultation are COMPLETE, with successful inactive services and no pending model call. The same money/scope decision remained unanswered across three consecutive goal turns. Goal status is now BLOCKED pending that decision; this is not completion. No additional model call, compute, process exception or implementation was started.
