@@ -119,8 +119,8 @@ def test_independent_review16_refusals_preserve_accounting(corrected_ready):
 
 def test_actual_frozen_scope_and_exact_module_guard():
  root=Path(__file__).parents[1];p=json.loads((root/post.CORRECTED_REVIEW_DOCUMENT).read_bytes())
- assert post.scope(p,'a'*64)['rounds']=={'run_spec_author':20,'run_spec_review':15}
- for field,replacement in [('run_limit',39),('batch_limit',77),('author_attempt',21),('review_attempt',17),('execution_authorized',True),('automatic_retry',True),('diagnostic_micro_usd',26000000),('stage1_micro_usd',151000000)]:
+ assert post.scope(p,'a'*64)['rounds']=={'run_spec_author':21,'run_spec_review':15}
+ for field,replacement in [('run_limit',40),('batch_limit',78),('author_attempt',22),('review_attempt',17),('execution_authorized',True),('automatic_retry',True),('diagnostic_micro_usd',26000000),('stage1_micro_usd',151000000)]:
   changed=copy.deepcopy(p);changed[field]=replacement
   with pytest.raises(ValueError):post.scope(changed,'a'*64)
  with pytest.raises(ValueError):post.validate_diagnostic_delta(p['baseline_plan'].encode(),b'not accepted science',p)

@@ -133,18 +133,23 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
     if corrected_native is not None:
         require(diagnostic_fixture is not None and response_stage.corrected_review(corrected_native),'CORRECTED_NATIVE_PREREQUISITES')
         response_stage.scope(corrected_native,corrected_native_approval)
-        response_stage.connect_roles(author_revision_accounting,manual_recovery,corrected_native,corrected_native_approval)
-        sequence=sequence[:-2]+(('run_spec_review',16),)+sequence[-2:]
-        cap=38
+        if fixture_audit is None:
+            response_stage.connect_roles(author_revision_accounting,manual_recovery,corrected_native,corrected_native_approval)
+        require(not response_stage.audited_review(corrected_native) or fixture_audit is not None,'AUDITED_NATIVE_PREREQUISITE')
+        if fixture_audit is None:
+            sequence=sequence[:-2]+(('run_spec_review',16),)+sequence[-2:]
+            cap=38
     else:require(corrected_native_approval is None,'UNBOUND_CORRECTED_NATIVE_APPROVAL')
 
     if fixture_audit is not None:
-        require(diagnostic_fixture is not None and corrected_native is None and
+        require(diagnostic_fixture is not None and (corrected_native is None or response_stage.audited_review(corrected_native)) and
             response_stage.fixture_audit(fixture_audit),'AUDIT_PREREQUISITES')
         response_stage.scope(fixture_audit,fixture_audit_approval)
         response_stage.connect_roles(author_revision_accounting,manual_recovery,fixture_audit,fixture_audit_approval)
         sequence=sequence[:-2]+(('run_spec_author',21),('run_spec_review',16))+sequence[-2:]
         cap=39
+        if corrected_native is not None:
+            response_stage.connect_roles(author_revision_accounting,manual_recovery,corrected_native,corrected_native_approval)
     else:require(fixture_audit_approval is None,'UNBOUND_AUDIT_APPROVAL')
 
     def snapshot(store,*,inserted=False):
@@ -243,12 +248,12 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'DIAGNOSTIC_FIXTURE_CONTEXT')
             response_stage.ready(driver,continuation.state(store),diagnostic_fixture,diagnostic_fixture_approval)
-        if corrected_native is not None and len(tail)==13:
+        if corrected_native is not None and len(tail)==(14 if fixture_audit is not None else 13):
             from orchestrator import author_revision_accounting
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'CORRECTED_NATIVE_CONTEXT')
             response_stage.ready(driver,value,corrected_native,corrected_native_approval)
-        if fixture_audit is not None and len(tail)>=13:
+        if fixture_audit is not None and len(tail)>=13 and not (corrected_native is not None and len(tail)>=14):
             require(len(tail)==13 and stage=='run_spec_author','AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
             from orchestrator import author_revision_accounting
             driver=author_revision_accounting.context(store,RUN)
@@ -337,8 +342,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         expected=[continuation.sha((RUN+':'+st+':'+str(n)).encode()) for st,n in sequence]
         require(len(tail)<len(sequence) and len(rows)==60+len(tail) and
             [r['id'] for r in tail]==expected[:len(tail)] and ident==expected[len(tail)],'BATCH_EXTENSION_SEQUENCE')
-        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':fixture_audit_approval if fixture_audit is not None else corrected_native_approval if corrected_native is not None else diagnostic_fixture_approval if diagnostic_fixture is not None else diagnostic_plaintext_approval if diagnostic_plaintext is not None else diagnostic_native_approval if diagnostic_native is not None else diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(fixture_audit if fixture_audit is not None else corrected_native if corrected_native is not None else diagnostic_fixture if diagnostic_fixture is not None else diagnostic_plaintext if diagnostic_plaintext is not None else diagnostic_native if diagnostic_native is not None else diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
+        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':corrected_native_approval if corrected_native is not None else fixture_audit_approval if fixture_audit is not None else diagnostic_fixture_approval if diagnostic_fixture is not None else diagnostic_plaintext_approval if diagnostic_plaintext is not None else diagnostic_native_approval if diagnostic_native is not None else diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(corrected_native if corrected_native is not None else fixture_audit if fixture_audit is not None else diagnostic_fixture if diagnostic_fixture is not None else diagnostic_plaintext if diagnostic_plaintext is not None else diagnostic_native if diagnostic_native is not None else diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
 
     def amendment(store,run,policy):
         if run!=RUN:return old_allowance(store,run,policy)
@@ -346,8 +351,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         _,tail=snapshot(store,inserted=True)
         require(tail and tail[-1]['id']==active['id'],'RESERVED_CALL')
         return {'authority_sha256':continuation.AUTHORITY,'run_limit':cap,
-            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':fixture_audit_approval if fixture_audit is not None else corrected_native_approval if corrected_native is not None else diagnostic_fixture_approval if diagnostic_fixture is not None else diagnostic_plaintext_approval if diagnostic_plaintext is not None else diagnostic_native_approval if diagnostic_native is not None else diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(fixture_audit if fixture_audit is not None else corrected_native if corrected_native is not None else diagnostic_fixture if diagnostic_fixture is not None else diagnostic_plaintext if diagnostic_plaintext is not None else diagnostic_native if diagnostic_native is not None else diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else response if response is not None else mechanical if mechanical is not None else frozen))}
+            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':corrected_native_approval if corrected_native is not None else fixture_audit_approval if fixture_audit is not None else diagnostic_fixture_approval if diagnostic_fixture is not None else diagnostic_plaintext_approval if diagnostic_plaintext is not None else diagnostic_native_approval if diagnostic_native is not None else diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(corrected_native if corrected_native is not None else fixture_audit if fixture_audit is not None else diagnostic_fixture if diagnostic_fixture is not None else diagnostic_plaintext if diagnostic_plaintext is not None else diagnostic_native if diagnostic_native is not None else diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else response if response is not None else mechanical if mechanical is not None else frozen))}
 
     def validate(accounts,event,allowance):
         store=active.get('store')

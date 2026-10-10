@@ -201,6 +201,8 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         item_runs = _item4_runs(db, compute)
         from orchestrator.item4_closed_asset_billing import effective as asset_effective
         asset_amounts = {row["id"]:(asset_effective(accounts,row,billing_snapshot,now) if purpose==synthetic.PURPOSE else row["reserved_micro_usd"]) for row in assets}
+        if purpose==synthetic.PURPOSE:
+            asset_amounts=diagnostic.closed_native_amounts(accounts,terminal_assets,billing_snapshot,asset_amounts)
         assets_cost = sum(asset_amounts[row["id"]] for row in assets
                           if row["run"] in item_runs or selected_download(row) or selected_asset(row))
         exposure = modal_terminal_cost.exposure(db, compute, billing_snapshot)

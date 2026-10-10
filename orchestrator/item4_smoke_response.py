@@ -29,7 +29,9 @@ SCOPED_SCHEMA = 'item4-cpu-diagnostic-scoped-review/v1'
 CORRECTED_REVIEW_SCHEMA='item4-corrected-native-scientific-review/v1'
 CORRECTED_REVIEW_DOCUMENT='docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json'
 REVIEW15_REPORT='c2469bdd71627d675d1965f9eb8ded3faf65d5b3d10baa5bd3c72305b6179ba4'
-def corrected_review(p):return p.get('schema')==CORRECTED_REVIEW_SCHEMA
+AUDITED_REVIEW_SCHEMA='item4-audited-native-scientific-review/v1'
+def audited_review(p):return p.get('schema')==AUDITED_REVIEW_SCHEMA
+def corrected_review(p):return p.get('schema') in {CORRECTED_REVIEW_SCHEMA,AUDITED_REVIEW_SCHEMA}
 PLAINTEXT_SCHEMA = 'item4-cpu-diagnostic-plaintext-recovery/v1'
 from orchestrator import item4_fixture_correction as fixture
 FIXTURE_SCHEMA = fixture.SCHEMA
@@ -53,7 +55,7 @@ FAILED_AUTHOR = sha((RUN+':run_spec_author:16').encode())
 FAILED_REASON = 'OUTPUT_VALIDATION_REFUSED: NOTEBOOK_EXECUTION_ENTRYPOINT:synthetic_tests'
 
 def diagnostic(p):
-    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA, AUDIT_SCHEMA}
+    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA, AUDITED_REVIEW_SCHEMA, AUDIT_SCHEMA}
 
 def plaintext_recovery(p):
     return p.get('schema') == PLAINTEXT_SCHEMA
@@ -62,7 +64,7 @@ def native_harness(p):
     return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA,AUDIT_SCHEMA}
 
 def scoped_review(p):
-    return p.get('schema') in {SCOPED_SCHEMA,CORRECTED_REVIEW_SCHEMA}
+    return p.get('schema') in {SCOPED_SCHEMA,CORRECTED_REVIEW_SCHEMA,AUDITED_REVIEW_SCHEMA}
 
 
 
@@ -73,6 +75,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if audited_review(p):
+        return dict(author=21,reviewer=16,count=36,batch=74,limit=39,batch_limit=77,
+            event='REVIEWED_ITEM4_AUDITED_NATIVE_REVIEW',field='audited_native_review_scope',
+            assessment='cpu_diagnostic_fixture_correction',previous_reason='WHOLE_FIXTURE_AUTHOR_ACCEPTED_NATIVE_AND_REVIEW_REQUIRED',
+            previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
+            folder='audited-native-review',result='audited_native_scientific_review')
     if corrected_review(p):
         return dict(author=20,reviewer=16,count=35,batch=73,limit=38,batch_limit=76,
             event='REVIEWED_ITEM4_CORRECTED_NATIVE_REVIEW',field='corrected_native_review_scope',
@@ -218,7 +226,7 @@ def frozen_author(driver,p,value=None):
     if value is not None:
         current=value['artifacts'];prefix=profile(p)['folder']+'-'
         require(current[:len(refs)]==refs and all(ref.get('type')=='result_tables' and
-            (ref.get('id','').startswith(prefix) or (corrected_review(p) and ref.get('id','').startswith('diagnostic-native20-'))) for ref in current[len(refs):]) and
+            (ref.get('id','').startswith(prefix) or (corrected_review(p) and ref.get('id','').startswith('diagnostic-native21-' if audited_review(p) else 'diagnostic-native20-'))) for ref in current[len(refs):]) and
             value.get('notebook_revision_result')==old.get('notebook_revision_result'),'SCOPED_ARTIFACT_CHANGED')
     for ref in refs:
         if ref.get('version')==profile(p)['author']:
@@ -396,7 +404,8 @@ def validate_diagnostic_delta(plan_raw,module_raw,p):
                 functions[0].args.posonlyargs,functions[0].args.vararg,functions[0].args.kwarg)),
             'NATIVE_ENTRYPOINT_REQUIRED')
     if corrected_review(p):
-        require(sha(module_raw)==p['module_sha256']=='501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749'
+        require(sha(module_raw)==p['module_sha256']==('fa54d6e41db935c4a7671abe278d4a40423bda41cfce32692b58ed1364638d20'
+            if audited_review(p) else '501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749')
             and sha(plan_raw)==p['diagnostic_plan_sha256']=='31c3e4a57f8df616b1b8be0aa37516408196d5c545ded0efb5eaad1b4e23370a',
             'CORRECTED_ACCEPTED_BYTES')
     if fixture_correction(p):fixture.correction(module_raw,p)
@@ -429,6 +438,7 @@ def protected_keys(p):
     if fixture_correction(p):keys+=('cpu_diagnostic_plaintext_scope',)
     if corrected_review(p) or fixture_audit(p):keys+=('cpu_diagnostic_native_harness_scope','cpu_diagnostic_plaintext_scope',
         'cpu_diagnostic_fixture_scope','cpu_diagnostic_fixture_correction','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
+    if audited_review(p):keys+=('whole_fixture_author_scope',)
     return keys
 
 
@@ -699,13 +709,13 @@ SCOPED_GUIDANCE=(
 def guidance(p):
     if fixture_audit(p):return fixture.AUDIT_GUIDANCE
     if corrected_review(p):
-        return SCOPED_GUIDANCE.replace('unchanged accepted author17','unchanged accepted author20').replace('All review13 and earlier','All review15 and earlier')+(
-            ' This is review16 responding to genuine REVISE15. Read diagnostic-native20-index.json and ALL ordered pages '
+        return SCOPED_GUIDANCE.replace('unchanged accepted author17','unchanged accepted author'+str(profile(p)['author'])).replace('All review13 and earlier','All review15 and earlier')+(
+            ' This is review16 responding to genuine REVISE15. Read the bound diagnostic-native index and ALL ordered pages '
             'of the complete actual corrected-module CPU integration receipt, console, selection and transport proof. '
             'Assess whether that evidence closes DIAG-U2 for these two fits; an outer PASS is not sufficient. '
             'Judge real trainer hooks, workers/loader waits, telemetry thread lifecycle, cadence15/LR250/save10, '
             '2100s stop and cpu-diagnostic.json/hash closure. CPU-only durable-invalid GPU telemetry is a limitation, '
-            'not GPU or production evidence. The original failed author19 native test, review15 and every charge remain preserved. '
+            'not GPU or production evidence. Both original failed native tests, review15 and every charge remain preserved. '
             'No requested verdict, automatic retry, scientific edit, GPU dispatch or full-plan acceptance.')
     if fixture_correction(p):return fixture.GUIDANCE
     if plaintext_recovery(p):return PLAINTEXT_GUIDANCE+NATIVE_GUIDANCE.replace(

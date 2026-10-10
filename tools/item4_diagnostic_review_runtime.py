@@ -1,10 +1,10 @@
-"""Actual author20 native receipt delivered to the already-reserved reviewer16."""
+"""Actual author21 native receipt delivered to the already-reserved reviewer16."""
 from pathlib import Path
 import hashlib,importlib.util,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools import item4_diagnostic_native_runtime as native
 ROOT=native.ROOT
-PREFIX='diagnostic-native20-'
+PREFIX='diagnostic-native21-'
 sha,require,trusted=native.sha,native.require,native.trusted
 
 def load(name,path):
@@ -66,7 +66,7 @@ def deliver(driver,value):
     from orchestrator import experiment_collection as collection
     expected=pages(evidence(driver.store.batch))
     for name,raw in expected.items():
-        collection.artifact(driver,value,'result_tables',PREFIX+name,'diagnostic-native20/'+name,raw)
+        collection.artifact(driver,value,'result_tables',PREFIX+name,'diagnostic-native21/'+name,raw)
     actual=[r for r in value['artifacts'] if r['id'].startswith(PREFIX)]
     require(len(actual)==len(expected) and {r['id']:r['sha256'] for r in actual}==
         {PREFIX+n:sha(raw) for n,raw in expected.items()},'NATIVE_DELIVERY_MEMBERS')
@@ -161,7 +161,7 @@ def main(argv=None):
                     not driver.store.db.execute('SELECT 1 FROM manual_calls WHERE id=?',(helper.call(p,'review'),)).fetchone(),
                     'REVIEW_ALREADY_STARTED')
                 mark=marker(driver.store.batch)
-                with pr.open_file(driver.state/'diagnostic-native20-activation.json','xb') as stream:stream.write(canonical(mark))
+                with pr.open_file(driver.state/'diagnostic-native21-activation.json','xb') as stream:stream.write(canonical(mark))
                 helper.activate(driver,p,approval,driver.state/helper.profile(p)['folder'])
                 value=driver.current();value['diagnostic_native_evidence']=mark
                 helper.ready(driver,value,p,approval);driver.save(value)
