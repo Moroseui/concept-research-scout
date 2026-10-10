@@ -1,4 +1,4 @@
-"""Both scientific roles receive lossless failure pages; omissions fail closed."""
+"""Lossless evidence assembly retains both failures; it does not authorize a role."""
 import json,copy
 from pathlib import Path
 import pytest
@@ -13,8 +13,15 @@ def with_failure(response_delivery,monkeypatch,tmp_path):
  originals={'console.txt':('synthetic full failure record\n'*2000).encode(),'proof.json':b'{"status":"FAIL","no_automatic_retry":true}'}
  for name,raw in originals.items():(folder/name).write_bytes(raw)
  frozen={'files':{n:route.sha(raw) for n,raw in originals.items()}}
- monkeypatch.setattr(fixture,'STATE',folder);monkeypatch.setattr(fixture,'failure',lambda *args:frozen)
- monkeypatch.setattr(route,'failure_qualification',lambda:{'status':'FAIL','scientific_acceptance':False})
+ old={'synthetic':'first'}
+ root=tmp_path/'source';(root/fixture.DOCUMENT).parent.mkdir(parents=True)
+ (root/fixture.DOCUMENT).write_text(json.dumps(old))
+ monkeypatch.setattr(route,'ROOT',root);monkeypatch.setattr(route,'trusted',lambda p:Path(p))
+ monkeypatch.setattr(fixture,'failure',lambda *args:frozen)
+ monkeypatch.setattr(fixture,'scope',lambda p:frozen)
+ monkeypatch.setattr(fixture,'parameters',lambda p:{'state':folder})
+ monkeypatch.setattr(route,'failure_qualification',lambda:{'status':'FAIL','attempt':1,'scientific_acceptance':False})
+ monkeypatch.setattr(route,'audit_failure_qualification',lambda:{'status':'FAIL','attempt':2,'scientific_acceptance':False})
  route.deliver_failure(d,value,p)
  return d,value,p,originals
 
@@ -32,8 +39,11 @@ def test_complete_original_failure_reaches_both_roles(with_failure,stage):
   assert len(raw)==page['bytes'] and route.sha(raw)==page['sha256'];reconstructed+=raw
  assert route.sha(reconstructed)==manifest['sha256'] and len(reconstructed)==manifest['bytes']
  result=json.loads(reconstructed)
- assert result['files']=={n:raw.decode() for n,raw in originals.items()}
- assert result['corrected_fixture_executed'] is False and result['qualification']['status']=='FAIL'
+ assert len(result['attempts'])==2
+ for number,attempt in enumerate(result['attempts'],1):
+  assert attempt['files']=={n:raw.decode() for n,raw in originals.items()}
+  assert attempt['qualification']['status']=='FAIL' and attempt['qualification']['attempt']==number
+ assert result['corrected_fixture_executed'] is False and result['scientific_acceptance'] is False
 
 @pytest.mark.parametrize('stage',['run_spec_author','run_spec_review'])
 @pytest.mark.parametrize('fault',['missing-page','changed-page','missing-index'])

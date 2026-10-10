@@ -8,12 +8,12 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-author18-plaintext-recovery-20261010'
-REVIEW_CHANGE='item4-author18-plaintext-recovery-20261010'
+CHANGE='item4-whole-fixture-author-20261010'
+REVIEW_CHANGE='item4-whole-fixture-author-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-diagnostic-native-harness-20261010.service')
-PRIOR_UNIT_SHA='4b009948aa6559ba3241667d5648289a3aa6eea5b4d21ab02c62d133b993db2a'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-native-fixture-correction-20261010.service')
+PRIOR_UNIT_SHA='c4af0e7bd79e023de631b5d80343ddf8e4177d4bfb6a12edd6d6c4c0974de381'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -33,7 +33,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-diagnostic-native-harness-20261010/tools/item4_smoke_response_runtime.py run'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py run'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_smoke_response_runtime.py')+' run'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
@@ -73,10 +73,12 @@ def install(source,review,direction):
     require(not any(p.exists() or p.is_symlink() for p in (ROOT,RECORD,UNIT,retention_service,retention_timer)),'EXISTS_RECONCILE')
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
+    # Preserve the genuine unresolved direction report as evidence. It grants
+    # nothing: the following independent implementation APPROVE is mandatory.
     delegated=verify_result(direction)
-    require(delegated['verdict']=='APPROVE' and delegated['change_id']=='item4-author16-entrypoint-recovery-20261010'
-        and delegated['source_sha']=='7dc3d1da418c0e7c53aae65ea14739e9b686221d'
-        and delegated['report_sha256']=='ddcdc756df490d35c42784b8ede667be783ca72a2161bb938c4888745a43b9ca','RECOVERY_DIRECTION_APPROVE')
+    require(delegated['verdict']=='REVISE' and delegated['change_id']=='item4-second-native-failure-direction-20261010'
+        and delegated['source_sha']=='b60badd65283e7df5f801a6a6a20b3fd63504544'
+        and delegated['report_sha256']=='e9636a72940a498855af4d8585e6f549ac87a380e7d0fa634408451a9fe925a3','AUDIT_DIRECTION_EVIDENCE')
     approved=verify_result(review)
     require(approved['verdict']=='APPROVE' and approved['change_id']==REVIEW_CHANGE,'GENUINE_IMPLEMENTATION_APPROVE')
     manifest=json.loads((review/'packet-manifest.json').read_bytes())

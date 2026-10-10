@@ -33,9 +33,12 @@ def corrected_review(p):return p.get('schema')==CORRECTED_REVIEW_SCHEMA
 PLAINTEXT_SCHEMA = 'item4-cpu-diagnostic-plaintext-recovery/v1'
 from orchestrator import item4_fixture_correction as fixture
 FIXTURE_SCHEMA = fixture.SCHEMA
+AUDIT_SCHEMA=fixture.AUDIT_SCHEMA
+AUDIT_DOCUMENT=fixture.AUDIT_DOCUMENT
+def fixture_audit(p):return fixture.audit(p)
 FIXTURE_DOCUMENT = fixture.DOCUMENT
 
-def fixture_correction(p):return p.get('schema')==FIXTURE_SCHEMA
+def fixture_correction(p):return p.get('schema') in {FIXTURE_SCHEMA,AUDIT_SCHEMA}
 PLAINTEXT_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json'
 OPAQUE_AUTHOR = sha((RUN+':run_spec_author:18').encode())
 OPAQUE_REASON = 'OUTPUT_VALIDATION_REFUSED: PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED'
@@ -50,13 +53,13 @@ FAILED_AUTHOR = sha((RUN+':run_spec_author:16').encode())
 FAILED_REASON = 'OUTPUT_VALIDATION_REFUSED: NOTEBOOK_EXECUTION_ENTRYPOINT:synthetic_tests'
 
 def diagnostic(p):
-    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA}
+    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA, AUDIT_SCHEMA}
 
 def plaintext_recovery(p):
     return p.get('schema') == PLAINTEXT_SCHEMA
 
 def native_harness(p):
-    return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA}
+    return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA,AUDIT_SCHEMA}
 
 def scoped_review(p):
     return p.get('schema') in {SCOPED_SCHEMA,CORRECTED_REVIEW_SCHEMA}
@@ -76,6 +79,12 @@ def profile(p):
             assessment='cpu_diagnostic_fixture_correction',previous_reason='CPU_DIAGNOSTIC_AUTHORING_REVISE_EXECUTION_HELD',
             previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
             folder='corrected-native-review',result='corrected_native_scientific_review')
+    if fixture_audit(p):
+        return dict(author=21,reviewer=16,count=35,batch=73,limit=39,batch_limit=77,
+            event='REVIEWED_ITEM4_WHOLE_FIXTURE_AUTHOR',field='whole_fixture_author_scope',
+            assessment='cpu_diagnostic_fixture_correction',previous_reason='CPU_DIAGNOSTIC_AUTHORING_REVISE_EXECUTION_HELD',
+            previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
+            folder='whole-fixture-author',result='whole_fixture_author')
     if fixture_correction(p):
         return dict(author=20, reviewer=15, count=33, batch=71, limit=37, batch_limit=75,
             event='REVIEWED_ITEM4_DIAGNOSTIC_FIXTURE_CORRECTION', field='cpu_diagnostic_fixture_scope',
@@ -158,7 +167,14 @@ def scope(p,approval):
             and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
                 'call_id':call(p,'author'),'stage':'run_spec_author','attempt':q['author'],'output_sha256':p['author_outputs']},
             'SCOPED_REVIEW_AUTHORITY')
-    if native_harness(p):
+    if fixture_audit(p):
+        require(a['report_sha256']==REVIEW15_REPORT and a.get('global_findings_closed') is False
+            and p.get('reference_author_call_id')==sha((RUN+':run_spec_author:20').encode())
+            and p.get('diagnostic_plan_sha256')==p['author_outputs']['execution.plan.json']
+            and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
+                'call_id':p['reference_author_call_id'],'stage':'run_spec_author','attempt':20,
+                'output_sha256':p['author_outputs']},'AUDIT_REFERENCE_AUTHORITY')
+    elif native_harness(p):
         require(a['report_sha256']==NATIVE_REVIEW14_REPORT and a.get('global_findings_closed') is False
             and a.get('scientific_scope')=='two-cpu-diagnostic-fits-only'
             and p.get('reference_author_call_id')==sha((RUN+':run_spec_author:17').encode())
@@ -291,7 +307,17 @@ def review_binding(driver,p,approval):
     # This exact existing budget finding permits drafting a response, not a
     # changed budget or execution. All other reserved findings still refuse.
     reserved=[f for f in decision['findings'] if f['category'] in {'budget','privacy/secret','test-set/leakage'}]
-    if native_harness(p):
+    if fixture_audit(p):
+        require([(f['id'],f['category']) for f in decision['findings']]==[
+            ('DIAG-U2-changed-module-native-integration-unverified','execution authority/provenance'),
+            ('U1-input-provenance','execution authority/provenance'),
+            ('U2-runtime-interface-native-integration','code/spec mismatch'),
+            ('U3-coverage-arm-source-validation','code/spec mismatch'),
+            ('STAGE1-full-projection-exceeds-authorized-caps','budget'),
+            ('STAGE1-partial-arm-coverage-and-single-arm-extrapolation','metric/statistic'),
+            ('F-SELF-REVIEW-NOT-OPPOSING','execution authority/provenance')],'EXACT_REVISE15_FINDINGS')
+        reference_author(driver,p)
+    elif native_harness(p):
         require(not reserved and [f['id'] for f in decision['findings']]==
             ['DIAG-U2-changed-module-native-integration-unverified'],'NATIVE_FINDING_SCOPE')
         reference_author(driver,p)
@@ -401,7 +427,7 @@ def protected_keys(p):
         'cpu_diagnostic_recovery','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
     if plaintext_recovery(p) or fixture_correction(p):keys+=('cpu_diagnostic_native_harness_scope',)
     if fixture_correction(p):keys+=('cpu_diagnostic_plaintext_scope',)
-    if corrected_review(p):keys+=('cpu_diagnostic_native_harness_scope','cpu_diagnostic_plaintext_scope',
+    if corrected_review(p) or fixture_audit(p):keys+=('cpu_diagnostic_native_harness_scope','cpu_diagnostic_plaintext_scope',
         'cpu_diagnostic_fixture_scope','cpu_diagnostic_fixture_correction','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
     return keys
 
@@ -411,6 +437,7 @@ def ready(driver,value,p,approval):
     q=profile(p)
     require(value.get(q['field'])==proof(p,approval) and not value.get('pending'),'STATE_SCOPE')
     stage=value.get('phase');rounds=value.get('rounds')
+    if fixture_audit(p):require(stage=='run_spec_author','AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
     if native_harness(p) and not fixture_correction(p):
         # This installation admits authoring only. Native execution and delivery
         # need their own reviewed connection before the reserved reviewer slot.
@@ -473,12 +500,27 @@ def connect_roles(accounting,recovery,p,approval):
                             and previous['id']==FAILED_AUTHOR)
                         fixture_pair=(fixture_correction(p) and
                             (previous['attempt'],row['attempt'],saved['review_round'])==(18,19,14)
-                            and previous['id']==OPAQUE_AUTHOR and row['id']==p['fixture_reference']['accepted_author']['id'])
-                        require((original_pair or fixture_pair) and not accounting._accepted(store,previous)
-                            and accounting._accepted(store,row),'HISTORICAL_DUPLICATE_REVISION')
+                            and previous['id']==OPAQUE_AUTHOR
+                            and row['id']==call({'schema':PLAINTEXT_SCHEMA},'author'))
+                        # The whole-fixture successor retains the already
+                        # approved, accepted author19 -> author20 correction.
+                        # Exact frozen row/receipt checks above still apply.
+                        accepted_fixture_pair=(fixture_audit(p) and
+                            (previous['attempt'],row['attempt'],saved['review_round'])==(19,20,14)
+                            and previous['id']==call({'schema':PLAINTEXT_SCHEMA},'author')
+                            and row['id']==p['fixture_reference']['accepted_author']['id']
+                            and accounting._accepted(store,previous))
+                        require(((original_pair or fixture_pair) and not accounting._accepted(store,previous)
+                            or accepted_fixture_pair) and accounting._accepted(store,row),
+                            'HISTORICAL_DUPLICATE_REVISION')
                     used[saved['review_call_id']]=row
                 new=binding(driver,stage,q['previous_review'],q['author'])
-                if fixture_correction(p):
+                if fixture_audit(p):
+                    # Author21 answers the new genuine review15, never another
+                    # response to review14. Both failed assets remain qualified.
+                    require(new['review_call_id'] not in used,'NEW_REVIEW_REQUIRED')
+                    fixture.failure(store,p)
+                elif fixture_correction(p):
                     previous=used.get(new['review_call_id'])
                     require(previous is not None and previous['id']==p['fixture_reference']['accepted_author']['id']
                         and previous['attempt']==19 and accounting._accepted(store,previous),'EXACT_NATIVE_FAILURE_AUTHOR')
@@ -513,6 +555,7 @@ def connect_roles(accounting,recovery,p,approval):
 
 
 def finish_review(driver,value,p,approval):
+    require(not fixture_audit(p),'AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
     from orchestrator.experiment_approval import verified_review_delivery
     from orchestrator.review_contract import scientific
     from orchestrator.manual_driver import write_once
@@ -654,6 +697,7 @@ SCOPED_GUIDANCE=(
 )
 
 def guidance(p):
+    if fixture_audit(p):return fixture.AUDIT_GUIDANCE
     if corrected_review(p):
         return SCOPED_GUIDANCE.replace('unchanged accepted author17','unchanged accepted author20').replace('All review13 and earlier','All review15 and earlier')+(
             ' This is review16 responding to genuine REVISE15. Read diagnostic-native20-index.json and ALL ordered pages '
@@ -733,7 +777,7 @@ def deliver(driver,value,p,approval,supplemental):
     before=list(value['artifacts'])
     def add(name,raw):
         collection.artifact(driver,value,'result_tables',q['folder']+'-'+name,q['folder']+'/'+name,raw)
-    raw=pr.check(driver.state/('cpu-diagnostic-fixture-correction/review.json' if corrected_review(p) else 'cpu-diagnostic-scoped-review/review.json' if native_harness(p) else 'cpu-diagnostic-recovery/review.json' if scoped_review(p) else 'post-smoke-response/review.json' if diagnostic(p) else 'smoke-review11/review.json')).read_bytes()
+    raw=pr.check(driver.state/('cpu-diagnostic-fixture-correction/review.json' if corrected_review(p) or fixture_audit(p) else 'cpu-diagnostic-scoped-review/review.json' if native_harness(p) else 'cpu-diagnostic-recovery/review.json' if scoped_review(p) else 'post-smoke-response/review.json' if diagnostic(p) else 'smoke-review11/review.json')).read_bytes()
     require(sha(raw)==p['assessment']['report_sha256'],'ORIGINAL_REVIEW11')
     add('scientific-review'+str(q['previous_review'])+'.json',raw)
     add('scientific-assessment'+str(q['previous_review'])+'.json',canonical(p['assessment']))

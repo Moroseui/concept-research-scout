@@ -3,15 +3,19 @@ from pathlib import Path
 import pytest
 from tools import item4_smoke_response_runtime as route,install_item4_smoke_response as installer
 
+def prior_unit():
+    # Existing immutable snapshot plus its already-installed exact substitution.
+    raw=(Path(__file__).parents[1]/'docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt').read_bytes()
+    return raw.replace(b'/item4-author18-plaintext-recovery-20261010/',b'/item4-native-fixture-correction-20261010/')
+
 def test_installer_preserves_every_other_unit_line():
-    old=Path(__file__).parents[1]/'docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt'
-    raw=old.read_bytes();new=installer.unit_bytes(raw)
-    before=b'/item4-author18-plaintext-recovery-20261010/tools/item4_smoke_response_runtime.py run'
-    after=b'/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py run'
+    raw=prior_unit();new=installer.unit_bytes(raw)
+    before=b'/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py run'
+    after=b'/item4-whole-fixture-author-20261010/tools/item4_smoke_response_runtime.py run'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 
-@pytest.mark.parametrize('damage',['none','reject','source','review','change','member','file','unit','extra-unit','import'])
+@pytest.mark.parametrize('damage',['none','reject','revise','source','review','change','member','file','unit','extra-unit','import'])
 def test_authority_rejects_incomplete_or_changed_installation(tmp_path,monkeypatch,damage):
     import json
     from orchestrator import autonomy_review
@@ -31,6 +35,7 @@ def test_authority_rejects_incomplete_or_changed_installation(tmp_path,monkeypat
     def verified(path):return result
     monkeypatch.setattr(autonomy_review,'verify_result',verified)
     if damage=='reject':result['verdict']='REJECT'
+    elif damage=='revise':result['verdict']='REVISE'
     elif damage=='source':install['source']='c'*40
     elif damage=='review':install['review_sha256']='c'*64
     elif damage=='change':result['change_id']='other'
@@ -57,11 +62,11 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
     (review/'packet-manifest.json').write_text(json.dumps({'source_sha':'a'*40,'source_files':files}))
     monkeypatch.setattr(installer.os,'geteuid',lambda:0)
     for key in ['ROOT','RECORD','UNIT']:monkeypatch.setattr(installer,key,tmp_path/('absent-'+key))
-    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).parents[1]/'docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt').read_bytes())
+    prior=tmp_path/'prior-unit';prior.write_bytes(prior_unit())
     monkeypatch.setattr(installer,'PRIOR_UNIT',prior)
     monkeypatch.setattr(installer,'trusted',lambda path:Path(path))
     def verified(path):
-        if str(path)=='direction':return {'verdict':'APPROVE','change_id':'item4-native-failure-direction-20261010','source_sha':'81cd8225365a26944128ab5eb3fceda9e36d5f3d','report_sha256':'93eb8a687a27133bd4f355d403546357e19c6f7faab04fda124a72ec7ee4aa22'}
+        if str(path)=='direction':return {'verdict':'REVISE','change_id':'item4-second-native-failure-direction-20261010','source_sha':'b60badd65283e7df5f801a6a6a20b3fd63504544','report_sha256':'e9636a72940a498855af4d8585e6f549ac87a380e7d0fa634408451a9fe925a3'}
         return result
     monkeypatch.setattr(autonomy_review,'verify_result',verified)
     monkeypatch.setattr(installer.subprocess,'check_output',lambda *a,**kw:f'MainPID={pid}\nControlGroup={group}\nActiveState={state}\n')
@@ -80,7 +85,7 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
 
 
 def test_recovery_adds_one_held_unit_and_no_cleanup_timer():
-    raw=(Path(__file__).parents[1]/'docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt').read_bytes()
+    raw=prior_unit()
     rendered=installer.unit_bytes(raw)
     assert installer.retention_units(rendered)=={installer.UNIT:rendered}
     assert b'cleanup-' not in rendered
