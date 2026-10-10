@@ -1,13 +1,21 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Author 19's diagnostic package is accepted; controller tests passed, and the native connector is installed.
-The bounded native CPU service started once at 10:17 UTC. Its existing invocation is being observed.
-Run B awaits native evidence and scientific review 15; full training and coverage-dependent arms remain held.
-Identified compute spend is $24.29; pre-launch stage commitments were $110.11 of $150. The native quote is at most $1.12 inside the $25 diagnostic allowance; billing remains separate from reservations.
-The next expected result is native CPU validation, within its 15-minute compute bound after admission, followed by scientific judgment.
-Run B goes first; A requires enough confirmed remaining allowance. No automatic compute retry is permitted.
-Today's calls: 28/50 (5 authors, 4 scientific reviews, 16 administrative reviews, 3 direction checks). Latest Claude direction: PROCEED, one round, no cuts.
+The native CPU test found a fixture bug: nnU-Net requires a `continue_training` field that the author omitted.
+That attempt has ended; nothing is being retried. A short Claude recovery-direction consultation is running.
+Run B and scientific review 15 are held because native integration has not passed. The GPU timing question remains unanswered.
+Known compute spend remains $24.29; counted stage commitments are $111.23 of $150. The failed native attempt's $1.118950 reservation remains within diagnostic $25; its actual cost is not yet billed.
+Next expected result: an agreed scientific correction/handoff path in roughly 15 minutes; the GPU timing estimate is pending that decision.
+No automatic compute retry is permitted. Full-training, coverage and the $1,200 projection gate remain held.
+Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews, 4 direction checks). Last completed direction: PROCEED before this new failure; recovery advice is pending.
+
+## Actual native failure and preserved accounting
+
+[The run summary](run-summaries/item4-native-diagnostic-20261010.md) records the result. Complete original output, transport receipts, package hashes, failure and reservation are retained privately. The provider independently reports terminal exit 1. This is a known ended failure, while the conservative accounting row remains `UNCERTAIN`; nothing is marked successful or released. Billing has not yet covered the attempt's hour.
+
+Judgment: stop compute under the explicit no-retry instruction. Root will not patch scientific code. Consult Claude before building another custom handoff: consider a bounded author correction and genuine scientific review of whether the still-unstarted Run B can supply integration evidence. The consultation cannot override the no-retry instruction or the scientific finding. No new infrastructure or call limit has been changed.
+
+The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. There is no active watcher or compute process; only the one direction call is running.
 
 ## Installed and started once
 
