@@ -5,8 +5,8 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-sender-continuation-20261010'
-REVIEW_CHANGE='item4-sender-continuation-20261010'
+CHANGE='item4-driver-round-repair-20261010'
+REVIEW_CHANGE='item4-driver-round-repair-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')
@@ -251,8 +251,23 @@ def sender_qualification(row):
     return classifier.qualify(row,json.loads(trusted(ROOT/'docs/ITEM4_AUTHOR22_TERMINAL_PRIVATE.json').read_bytes()),lambda path:pr.check(path).read_bytes())
 
 
+def continuation_grant():
+    """Carry the genuine, already-activated grant; never activate a second one."""
+    from orchestrator.autonomy_review import verify_result
+    folder=Path('/var/lib/research-system-manual-sprint10-deployment/item4-sender-continuation-20261010/review')
+    approved=verify_result(trusted(folder))
+    require(approved['verdict']=='APPROVE' and approved['change_id']=='item4-sender-continuation-20261010'
+        and approved['source_sha']=='478a47243454b1f9ba6e6ecb82ba5d0132cef001'
+        and approved['report_sha256']=='aff49bc6cc3ec2b402c7a89549cd643be8c2ed038260c4bff49f0522a829af5f','ORIGINAL_CONTINUATION_APPROVAL')
+    manifest=json.loads(trusted(folder/'packet-manifest.json').read_bytes())
+    name='docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json'
+    require(sha(trusted(ROOT/name).read_bytes())==manifest['source_files'][name],'ORIGINAL_CONTINUATION_SCOPE')
+    return approved
+
+
 def connect():
-    approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction();audit_approval=historical_audit()
+    authority()  # Genuine independent approval of this corrected implementation.
+    approved=continuation_grant();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction();audit_approval=historical_audit()
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_SOURCE_CHANGED')
     route=module('_post_smoke_prior',PRIOR);original_factory=route.module;substituted=[]
     def factory(name,path):
@@ -541,7 +556,7 @@ def reconcile_closed_costs(driver,helper,p,approval):
 def main(argv=None):
     argv=list(sys.argv[1:] if argv is None else argv)
     require(os.getuid()==os.getgid()==1003 and Path(__file__).resolve()==ROOT/FILES[0],'SERVICE_IDENTITY')
-    require(len(argv)==1 and argv[0] in {'verify','activate','run','reconcile-cost'},'ACTION_SCOPE')
+    require(len(argv)==1 and argv[0] in {'verify','run'},'ACTION_SCOPE')
     connected,smoke,smoke_p,smoke_approval,helper,p,approval=connect()
     c,policy,original,evidence,base,fresh=connected
     from orchestrator.experiment_driver import ExperimentDriver
@@ -566,6 +581,14 @@ def main(argv=None):
         result['author_submission']=af.verify_native(work,pins[af.CONFIG],pr.check(Path(work)/'console.log').read_text())
         return result
     class ResponseDriver(ExperimentDriver):
+        def model_round_number(self,value):
+            # Failed/unaccepted admissions consume attempts, not accepted-round
+            # state. Keep that state intact and use the exact frozen next slot.
+            require(value['phase']=='run_spec_author' and not value.get('pending'),'ATTEMPT_STAGE')
+            next_attempt=self.store.db.execute(
+                'SELECT count(*) FROM manual_calls WHERE stage=?',('run_spec_author',)).fetchone()[0]+1
+            require(next_attempt==author_round(),'ATTEMPT_SEQUENCE')
+            return next_attempt
         def task(self,stage_name,value):
             require(stage_name=='run_spec_author','ONLY_RESPONSE_STAGES')
             task=super().task(stage_name,value)+'\n'+helper.guidance(p)
@@ -603,10 +626,6 @@ def main(argv=None):
                 helper.originals(driver.store,p,approval);helper.review_binding(driver,p,approval)
                 retained_smoke_evidence(driver,value,smoke,smoke_p,smoke_approval,helper)
                 result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
-            elif argv[0]=='reconcile-cost':
-                result=reconcile_closed_costs(driver,helper,p,approval)
-            elif argv[0]=='activate':
-                result=helper.activate(driver,p,approval,driver.state/helper.profile(p)['field'])
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)
