@@ -14,6 +14,27 @@ TOKEN = re.compile(r'(?:ya29\.[A-Za-z0-9_-]+|eyJ[A-Za-z0-9_-]{16,}\.[A-Za-z0-9_-
 ASSIGNMENT = re.compile(r'''(?ix)["']?(?:token|access_token|refresh_token|id_token|token_secret|client_secret|api_key|private_key|authorization|password)["']?\s*[:=]\s*["']?([^\s,"'}\]]+)''')
 
 
+OPAQUE = re.compile(r'[A-Za-z0-9+/]{256,}={0,2}')
+
+
+def text_variants(text):
+    values = [text]
+    for _ in range(2):
+        decoded = html.unescape(unquote(values[-1]))
+        decoded = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m[1], 16)), decoded)
+        if decoded == values[-1]:
+            break
+        values.append(decoded)
+    return values
+
+
+def reject_opaque(raw):
+    """Same predicate for early feedback; the full host scan stays mandatory."""
+    for value in text_variants(raw.decode('utf-8')):
+        if OPAQUE.search(value):
+            raise ValueError('PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED')
+
+
 def scan(raw, cases, *, kind, reason=''):
     """Two mandatory fail-closed scans; returns counts, never rejected values.
 
@@ -28,19 +49,12 @@ def scan(raw, cases, *, kind, reason=''):
     text = raw.decode('utf-8')
     # Notebook JSON is decoded before this function. Also inspect common textual
     # escaping so a literal escaped identifier/token cannot evade the check.
-    variants = [text]
-    for _ in range(2):
-        decoded = html.unescape(unquote(variants[-1]))
-        decoded = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m[1], 16)), decoded)
-        if decoded == variants[-1]:
-            break
-        variants.append(decoded)
     found = set()
-    for value in variants:
+    for value in text_variants(text):
         if SECRET.search(value.encode()) or TOKEN.search(value) or ASSIGNMENT.search(value):
             raise ValueError('PRIVATE_INTAKE_SECRET_REJECTED')
         # Long encoded blobs cannot be inspected as plain scientific text.
-        if re.search(r'[A-Za-z0-9+/]{256,}={0,2}', value):
+        if OPAQUE.search(value):
             raise ValueError('PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED')
         for match in ID.finditer(value):
             digits = re.search(r'[0-9]+', match[0])[0]
