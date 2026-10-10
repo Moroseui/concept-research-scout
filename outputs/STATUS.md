@@ -2,16 +2,18 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The native CPU test found a fixture bug: nnU-Net requires a `continue_training` field that the author omitted.
-That attempt has ended; no compute is being retried. The corrective handoff passed 125 tests and its read-only server rehearsal; Claude approved the bundle; installation and postchecks passed. Author20 completed and its correction was accepted; reviewer15 is starting.
+That attempt has ended; no compute is being retried. The corrective handoff passed 125 tests and its read-only server rehearsal; Claude approved the bundle; installation and postchecks passed. Author20 completed and its correction was accepted; reviewer15 is running.
 Reviewer15 will judge the one-line fixture correction and authentic failure. Run B remains held; GPU timing is still unanswered.
 Provider-observed compute spend is $24.3153; counted stage commitments remain $111.23 of $150. The failed native attempt cost $0.02512208; its original $1.118950 reservation stays counted pending reviewed reconciliation.
 Next expected result: scientific review15 in roughly10-20 minutes. GPU timing follows scientific acceptance and normal admission.
 No automatic compute retry is permitted. Full-training, coverage and the $1,200 projection gate remain held.
-Today's calls: 31/50 (6 authors, 4 scientific reviews, 17 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
+Today's calls: 32/50 (6 authors, 5 scientific reviews, 17 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
 
 ## Current call purposes
 
-The six author calls cover the smoke response, executable timing proposal, interface correction, native fixture, accepted plaintext correction and the current fixture-only correction. The four scientific reviews cover smoke, timing response, diagnostic design and scoped native evidence. Seventeen administrative reviews cover the necessary implementation/accounting repairs; the latest completed call combined the fixture handoff, its one-use process allowance, complete failure delivery, installation and direction. Four standalone direction checks addressed scope and recovery. Administrative overhead remains the majority; further related repairs will be batched wherever possible.
+The six author calls cover the smoke response, executable timing proposal, interface correction, native fixture, accepted plaintext correction and the current fixture-only correction. The five scientific reviews cover smoke, timing response, diagnostic design, scoped native evidence and the current fixture correction. Seventeen administrative reviews cover the necessary implementation/accounting repairs; the latest completed call combined the fixture handoff, its one-use process allowance, complete failure delivery, installation and direction. Four standalone direction checks addressed scope and recovery. Administrative overhead remains the majority; further related repairs will be batched wherever possible.
+
+## Historical audit ? dated states below are superseded by the current status above
 
 ## Agreed recovery direction
 
@@ -21,11 +23,11 @@ What changed: omit any second CPU rehearsal, preserve the complete failure and f
 
 ## Actual native failure and preserved accounting
 
-[The run summary](run-summaries/item4-native-diagnostic-20261010.md) records the result. Complete original output, transport receipts, package hashes, failure and reservation are retained privately. The provider independently reports terminal exit 1. This is a known ended failure, while the conservative accounting row remains `UNCERTAIN`; nothing is marked successful or released. Billing has not yet covered the attempt's hour.
+[The run summary](run-summaries/item4-native-diagnostic-20261010.md) records the result. Complete original output, transport receipts, package hashes, failure and reservation are retained privately. The provider independently reports terminal exit 1. This is a known ended failure, while the conservative accounting row remains `UNCERTAIN`; nothing is marked successful or released. Billing now covers the attempt: observed actual cost is $0.02512208. The original reservation remains counted pending reviewed reconciliation.
 
 Judgment: stop compute under the explicit no-retry instruction. Root will not patch scientific code. Consult Claude before building another custom handoff: consider a bounded author correction and genuine scientific review of whether the still-unstarted Run B can supply integration evidence. The consultation cannot override the no-retry instruction or the scientific finding. No new infrastructure or call limit has been changed.
 
-The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. All task-specific model calls, compute and temporary monitors are terminal. The correction handoff is in preparation; no new call or compute is admitted.
+The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. This paragraph records the earlier stopping point. Current status: author20 is accepted and reviewer15 is running; compute remains held.
 
 ## Installed and started once
 
@@ -446,7 +448,7 @@ Current draft backup exclusions: `docs/ITEM4_AUTHOR19_NATIVE_REFERENCE_PRIVATE.p
 
 The [implementation review summary](reviews/item4-fixture-handoff-20261010-summary.md) records approval and static-inspection limitations. The raw report was withheld because the credential-path scanner flagged its text; the exact original remains private. No separate direction label was supplied; the last explicit direction remains the agreed omission of another CPU rehearsal. Latest model-call estimate $6.55740125 is preserved separately from compute spending.
 
-Live reconciliation11:18UTC: author20 is RUNNING in both ledgers with one service invocation. The approved bounded host checks are active; no duplicate call or watcher was started. Installer, activation, tests and administrative review are positively terminal. Review15 remains unstarted.
+Live reconciliation11:29UTC: author20 is COMPLETE and accepted. Reviewer15 is RUNNING in both ledgers under its original service invocation, with one bounded host-check maintenance loop. No call or watcher was duplicated. Installer, activation, tests and administrative review are positively terminal.
 
 Author20 is COMPLETE and controller-accepted. The exact module change adds `continue_training=False` only to the synthetic fixture constructor; production bytes and execution plan remain unchanged. Five controller groups and all15 module tests passed. The corrected fixture has not been rerun in the pinned image. The original author output, submission, controller receipt and module bytes are preserved privately.
 
