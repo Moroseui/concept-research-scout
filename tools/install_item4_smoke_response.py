@@ -8,12 +8,12 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-cpu-starvation-diagnostic-20261010'
-REVIEW_CHANGE='item4-cpu-diagnostic-route-20261010'
+CHANGE='item4-author16-entrypoint-recovery-20261010'
+REVIEW_CHANGE='item4-author16-entrypoint-implementation-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-post-smoke-response-20261010.service')
-PRIOR_UNIT_SHA='5e49ee1f4f5b231e8ffa840322f31b79e6352e1e26de95c584ff4dd1f769b910'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-cpu-starvation-diagnostic-20261010.service')
+PRIOR_UNIT_SHA='55aa93c5d9f3938299aa39c7b4d43873dfd9fae5a19cff9aa9425f04260bd92a'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -33,7 +33,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-post-smoke-response-20261010/tools/item4_smoke_response_runtime.py run'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-cpu-starvation-diagnostic-20261010/tools/item4_smoke_response_runtime.py run'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_smoke_response_runtime.py')+' run'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
@@ -65,7 +65,7 @@ def put(path,raw):
     os.chown(path,0,1003);path.chmod(0o440)
 
 
-def install(source,review):
+def install(source,review,direction):
     require(os.geteuid()==0,'ROOT_REQUIRED')
     source=trusted(source);review=Path(review)
     retention_service=UNIT.with_name('research-'+CHANGE+'-retention.service')
@@ -73,6 +73,10 @@ def install(source,review):
     require(not any(p.exists() or p.is_symlink() for p in (ROOT,RECORD,UNIT,retention_service,retention_timer)),'EXISTS_RECONCILE')
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
+    delegated=verify_result(direction)
+    require(delegated['verdict']=='APPROVE' and delegated['change_id']=='item4-author16-entrypoint-recovery-20261010'
+        and delegated['source_sha']=='7dc3d1da418c0e7c53aae65ea14739e9b686221d'
+        and delegated['report_sha256']=='ddcdc756df490d35c42784b8ede667be783ca72a2161bb938c4888745a43b9ca','RECOVERY_DIRECTION_APPROVE')
     approved=verify_result(review)
     require(approved['verdict']=='APPROVE' and approved['change_id']==REVIEW_CHANGE,'GENUINE_IMPLEMENTATION_APPROVE')
     manifest=json.loads((review/'packet-manifest.json').read_bytes())
@@ -95,7 +99,7 @@ def install(source,review):
     # this held installation does not activate or dispatch any work.
     put(RECORD/'INSTALL_INTENT.json',json.dumps({'source':approved['source_sha'],'review_sha256':approved['report_sha256']},sort_keys=True).encode())
     for name,raw in bodies.items():put(ROOT/name,raw)
-    for dest,origin in [('review',review)]:
+    for dest,origin in [('review',review),('direction',Path(direction))]:
         for path in origin.iterdir():
             require(path.is_file() and not path.is_symlink(),'REVIEW_MEMBER')
             put(RECORD/dest/path.name,path.read_bytes())
@@ -118,5 +122,5 @@ def install(source,review):
     return {'status':'INSTALLED_HELD','model_calls':0,'provider_calls':0}
 
 if __name__=='__main__':
-    os.umask(0o077);p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--review',required=True);a=p.parse_args()
-    print(json.dumps(install(a.source,a.review),sort_keys=True))
+    os.umask(0o077);p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--review',required=True);p.add_argument('--direction',required=True);a=p.parse_args()
+    print(json.dumps(install(a.source,a.review,a.direction),sort_keys=True))

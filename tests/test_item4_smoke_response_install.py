@@ -4,10 +4,10 @@ import pytest
 from tools import item4_smoke_response_runtime as route,install_item4_smoke_response as installer
 
 def test_installer_preserves_every_other_unit_line():
-    old=Path(__file__).with_name('fixtures')/'item4_cpu_diagnostic_prior_unit_PRIVATE.txt'
+    old=Path(__file__).with_name('fixtures')/'item4_entrypoint_recovery_prior_unit_PRIVATE.txt'
     raw=old.read_bytes();new=installer.unit_bytes(raw)
-    before=b'/item4-post-smoke-response-20261010/tools/item4_smoke_response_runtime.py run'
-    after=b'/item4-cpu-starvation-diagnostic-20261010/tools/item4_smoke_response_runtime.py run'
+    before=b'/item4-cpu-starvation-diagnostic-20261010/tools/item4_smoke_response_runtime.py run'
+    after=b'/item4-author16-entrypoint-recovery-20261010/tools/item4_smoke_response_runtime.py run'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 
@@ -57,10 +57,12 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
     (review/'packet-manifest.json').write_text(json.dumps({'source_sha':'a'*40,'source_files':files}))
     monkeypatch.setattr(installer.os,'geteuid',lambda:0)
     for key in ['ROOT','RECORD','UNIT']:monkeypatch.setattr(installer,key,tmp_path/('absent-'+key))
-    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_cpu_diagnostic_prior_unit_PRIVATE.txt').read_bytes())
+    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_entrypoint_recovery_prior_unit_PRIVATE.txt').read_bytes())
     monkeypatch.setattr(installer,'PRIOR_UNIT',prior)
     monkeypatch.setattr(installer,'trusted',lambda path:Path(path))
-    def verified(path):return result
+    def verified(path):
+        if str(path)=='direction':return {'verdict':'APPROVE','change_id':'item4-author16-entrypoint-recovery-20261010','source_sha':'7dc3d1da418c0e7c53aae65ea14739e9b686221d','report_sha256':'ddcdc756df490d35c42784b8ede667be783ca72a2161bb938c4888745a43b9ca'}
+        return result
     monkeypatch.setattr(autonomy_review,'verify_result',verified)
     monkeypatch.setattr(installer.subprocess,'check_output',lambda *a,**kw:f'MainPID={pid}\nControlGroup={group}\nActiveState={state}\n')
     monkeypatch.setattr(installer,'verify_units',lambda units:None) # Native parser tested separately.
@@ -68,17 +70,17 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
     def stop(path,raw):writes.append(path);raise RuntimeError('FIRST_WRITE_BOUNDARY')
     monkeypatch.setattr(installer,'put',stop)
     if allowed:
-        with pytest.raises(RuntimeError,match='FIRST_WRITE_BOUNDARY'):installer.install(source,review)
+        with pytest.raises(RuntimeError,match='FIRST_WRITE_BOUNDARY'):installer.install(source,review,'direction')
         assert writes==[installer.RECORD/'INSTALL_INTENT.json']
     else:
-        with pytest.raises(ValueError,match='PRIOR_ACTIVE'):installer.install(source,review)
+        with pytest.raises(ValueError,match='PRIOR_ACTIVE'):installer.install(source,review,'direction')
         assert not writes
 
 
 
 
 def test_recovery_adds_one_held_unit_and_no_cleanup_timer():
-    raw=(Path(__file__).with_name('fixtures')/'item4_cpu_diagnostic_prior_unit_PRIVATE.txt').read_bytes()
+    raw=(Path(__file__).with_name('fixtures')/'item4_entrypoint_recovery_prior_unit_PRIVATE.txt').read_bytes()
     rendered=installer.unit_bytes(raw)
     assert installer.retention_units(rendered)=={installer.UNIT:rendered}
     assert b'cleanup-' not in rendered
