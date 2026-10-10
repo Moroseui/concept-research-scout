@@ -1,12 +1,24 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The base smokes and benchmarks are real technical results, but timing still does not establish an affordable complete training plan.
-Author 15 passed validation; scientific review 12 returned REVISE, keeping the budget, remaining-arm and coverage requirements open.
-Nothing is running. The goal is blocked on one operator money/scope decision: up to $25 for the proposed diagnostic within the existing $150 cap.
-Identified provider compute is $24.29; effective stage exposure is $110.11/$150 including retained obligations. Model estimates and unsettled asset costs are separate.
-Next result depends on that decision, then author-owned code and independent review; there is no reliable launch time yet. No diagnostic or full training is authorized.
-UTC October 10 calls: 11/50 (1 author, 2 scientific reviews, 5 administrative reviews, 3 direction checks). Latest Claude advice agrees with the bounded money request.
+The current B200 code requests 12 augmentation workers on 16 CPUs; CPU starvation is plausible but unproven.
+The operator approved up to $25 within the existing $150 stage cap for two approximately 15-epoch timing runs, with a higher-CPU run prioritized if both cannot fit.
+One accounting and process consultation is running; no GPU job is running. The author will own the diagnostic code and scientific comparison.
+Identified provider compute is $24.29; effective stage exposure is $110.11/$150 including retained obligations, before new diagnostic admission. Model estimates are separate.
+Next expected result is an executable, independently reviewed diagnostic plan in about 1-2 hours; GPU timing depends on that review. Full training and coverage-dependent arms remain held.
+UTC October 10 calls: 12/50 (1 author, 2 scientific reviews, 6 administrative reviews, 3 direction checks). The latest consultation concerns reusing the existing route without another layer of infrastructure.
+
+## Current approved CPU comparison
+
+The exact operator decision is preserved at outputs/proposals/item4-cpu-starvation-operator-decision-20261010.txt. Its SHA256 is 5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85c68ca33. It supersedes the earlier single 30-epoch settling proposal and resolves the prior money wait.
+
+Run A uses current resources and about 15 epochs. Run B uses the same arm and fold with substantially more CPU capacity and an increased augmentation-worker count, also about 15 epochs. The author selects and justifies the exact settings. Both must record GPU utilization, CPU allocation, configured and effective worker counts, epoch timing and cost, and separately measured checkpoint overhead. Existing B200 runs use 16 CPUs and the executed source sets nnUNet_n_proc_DA to 12; observed worker counts still need measurement.
+
+Hard stops, no automatic retry, a combined $25 diagnostic allowance and the $150 stage cap all apply. Admission must use current actual spend plus retained reservations. Run B comes first if the two hard quotes cannot both fit. The $1,200 full-training projection gate and $1,275 total remain unchanged. The cheapest configuration that performs well will inform a provisional complete-plan projection; whether a CPU-richer A100 can match the B200 must distinguish measured evidence from extrapolation.
+
+Judgment log 04:22 UTC: approval recorded verbatim and hash-bound, previous server work reconciled COMPLETE, nothing duplicated. A required accounting consultation is examining a bounded reuse of the current connector while retaining every old call and the full-plan interpretation slots. No engineering permission question was sent to the operator. Existing safeguards, frozen development inputs, scientific REVISE findings and all spending records remain intact. The consultation is counted once as administrative review; its direction advice will be folded into the implementation work. No code has been installed or compute admitted.
+
+The detailed chronology below records earlier states and proposals; the current approval above supersedes its prior money wait and 30-epoch proposal.
 
 ## Results and readiness
 

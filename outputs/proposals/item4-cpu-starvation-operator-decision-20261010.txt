@@ -1,0 +1,9 @@
+Money decision (operator): approved, up to $25 within the existing $150 stage-1 cap for a timing diagnostic, with hard stops and no automatic retry. The $1,200 gate and $1,275 total are unchanged.
+
+Please restructure it to answer whether the GPU is CPU-starved, not only whether timing settles. Sprint 12 A1 ran about 36 s/epoch, and our B200 runs at 71?90 s.
+
+- **Run A:** current resource settings, about 15 epochs.
+- **Run B:** same arm and fold, with substantially more CPU cores (for example 16?32) and the nnU-Net augmentation worker count raised to match (nnUNet_n_proc_DA), about 15 epochs.
+- **Both:** record GPU utilization, CPU count, worker count, and steady-state seconds and cost per epoch, plus checkpoint overhead.
+
+If the two runs together would exceed $25 or the cap, run B first, since it's the more informative one. Then project full-plan cost for the cheapest configuration that performs well, and note whether an A100 with more CPUs would match the B200.
