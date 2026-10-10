@@ -2,12 +2,18 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The native CPU test found a fixture bug: nnU-Net requires a `continue_training` field that the author omitted.
-That attempt has ended; nothing is being retried. A short Claude recovery-direction consultation is running.
+That attempt has ended; nothing is being retried. Claude agrees on an author correction and a narrower scientific-review handoff.
 Run B and scientific review 15 are held because native integration has not passed. The GPU timing question remains unanswered.
 Known compute spend remains $24.29; counted stage commitments are $111.23 of $150. The failed native attempt's $1.118950 reservation remains within diagnostic $25; its actual cost is not yet billed.
-Next expected result: an agreed scientific correction/handoff path in roughly 15 minutes; the GPU timing estimate is pending that decision.
+Next expected result: the author correction in roughly an hour, conditional on a reviewed handoff. GPU timing follows scientific acceptance.
 No automatic compute retry is permitted. Full-training, coverage and the $1,200 projection gate remain held.
-Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews, 4 direction checks). Last completed direction: PROCEED before this new failure; recovery advice is pending.
+Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
+
+## Agreed recovery direction
+
+Claude's independent consultation approved the narrow direction, report 93eb8a68, one round; root agrees. The production and base-rehearsal paths already supply `continue_training`; the new diagnostic fixture omitted it. The author must correct that scientific fixture. Then a minimally scoped, independently reviewed handoff can let scientific reviewer 15 judge the complete correction and authentic failure, including whether the still-unstarted Run B should supply remaining integration evidence. This consultation is neither installation authority nor scientific acceptance.
+
+What changed: omit any second CPU rehearsal, preserve the complete failure and full reservation, and batch the author correction with reviewer delivery. No automatic GPU retry. No PASS is fabricated and review 14 remains open. The separate whole-plan review pair must remain reserved. A draft worktree and concrete scope exist; no source patch, new process allowance, installation or scientific call has occurred yet. Estimated consultation model cost $4.5146265 remains counted separately from compute.
 
 ## Actual native failure and preserved accounting
 
@@ -15,7 +21,7 @@ Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews
 
 Judgment: stop compute under the explicit no-retry instruction. Root will not patch scientific code. Consult Claude before building another custom handoff: consider a bounded author correction and genuine scientific review of whether the still-unstarted Run B can supply integration evidence. The consultation cannot override the no-retry instruction or the scientific finding. No new infrastructure or call limit has been changed.
 
-The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. There is no active watcher or compute process; only the one direction call is running.
+The installed connector and tests are backed up on `remote-server` and the scanned working branch. Private frozen records, evidence, ledgers, packets, native streams and synthetic row-level console output remain withheld. All model calls, compute and watchers are terminal. The correction handoff is in preparation; no new call or compute is admitted.
 
 ## Installed and started once
 
