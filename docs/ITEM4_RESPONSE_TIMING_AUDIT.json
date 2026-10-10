@@ -1,0 +1,58 @@
+{
+  "schema": "read-only-timer-boundary-audit/v1",
+  "science_or_projection_changed": false,
+  "source_pins": {
+    "native_trainer": "7096efb2040135eb60df3c8bf39cdbcc373e299671fcee365b3aff2f4da4dfbd",
+    "author14": "3925313395199992195412e5db908e764e8215df52f59c408ba27619653993d8",
+    "adapter": "060c1afeba306d43c585c0d8973173e7a1da570f8d8614f1851d92667d180d8f",
+    "progress": "221acdc9a0776a01d97d41150c1da4dc8a26fe92fecf3de7579711de755faad1"
+  },
+  "native_log_observation_sha256": "6ca35d4038617a1861707cb287338d70784d04c838007337b809065e0b710b16",
+  "native_log_sha256": "818f8d2d934030e229d5a4763368ce1999a3f9478cc0964147e18cbf260fe109",
+  "rows": [
+    {
+      "epoch": 0,
+      "returned_synchronized_seconds": 262.43112928600004,
+      "native_rounded_seconds": 241.52,
+      "difference_seconds": 20.911129286000033
+    },
+    {
+      "epoch": 1,
+      "returned_synchronized_seconds": 103.62266581900008,
+      "native_rounded_seconds": 65.39,
+      "difference_seconds": 38.232665819000076
+    },
+    {
+      "epoch": 2,
+      "returned_synchronized_seconds": 93.73232179000001,
+      "native_rounded_seconds": 61.54,
+      "difference_seconds": 32.192321790000015
+    },
+    {
+      "epoch": 3,
+      "returned_synchronized_seconds": 86.49648697200007,
+      "native_rounded_seconds": 61.3,
+      "difference_seconds": 25.196486972000073
+    },
+    {
+      "epoch": 4,
+      "returned_synchronized_seconds": 77.78218869900002,
+      "native_rounded_seconds": 61.85,
+      "difference_seconds": 15.932188699000015
+    }
+  ],
+  "facts": [
+    "Native end timestamp is recorded before checkpointing and plotting (pinned trainer lines1169-1193).",
+    "Author14 starts synchronized timer before superclass on_epoch_start, stops after superclass on_epoch_end and GPU synchronize (1092-1103).",
+    "Author14 calls save_every1 for SMOKE and10 for FULL (1198).",
+    "Adapter wraps checkpoint_latest/best/final saves in progress.publish; initial checkpoint before run_training; final checkpoint and actual validation occur outside epoch loop.",
+    "Progress.publish writes checkpoint, fsyncs, hashes, records and performs two commits (129-158).",
+    "Best checkpoint is also saved whenever native EMA improves, independent of periodic save_every."
+  ],
+  "limits": [
+    "Difference combines logging, checkpoints, plotting, synchronization and boundary differences; it is not a measured checkpoint-only cost.",
+    "Native rounded time is not interchangeable with returned cost timing; genuine overall billed wall time also includes startup/validation/final writes.",
+    "Smoke uses a different periodic save frequency from FULL, so direct epoch extrapolation needs scientific author judgment.",
+    "Cannot establish warm-up plateau, all-arm timings, Sprint12 workload equivalence or an affordable full plan from this source audit."
+  ]
+}

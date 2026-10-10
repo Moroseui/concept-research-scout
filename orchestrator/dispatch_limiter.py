@@ -230,7 +230,7 @@ def admit_manual(store, config, event, now=None, *, allowance=None):
     if allowance is not None:
         from orchestrator import autonomy_limits
         autonomy_limits.authority()
-        if allowance.get('run_limit') in (23,24,26,27):
+        if allowance.get('run_limit') in (23,24,26,27,29):
             if type(allowance['run_limit']) is not int:raise ValueError('MANUAL_LIMIT_AMENDMENT_BINDING')
             from orchestrator.item4_scoped_calls import validate_allowance
             validate_allowance(store,event,allowance)

@@ -20,7 +20,7 @@ def validate_allowance(accounts,event,allowance):
     require(_validate is not None,'NOT_CONNECTED')
     _validate(accounts,event,allowance)
 
-def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None,batch_extension=None,batch_approval=None,smoke=None,smoke_approval=None):
+def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None,batch_extension=None,batch_approval=None,smoke=None,smoke_approval=None,post_smoke=None,post_smoke_approval=None):
     """Only called from the hash-verified installed helper; once per process."""
     global _validate
     from orchestrator import autonomy_limits as limits
@@ -69,6 +69,16 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         cap=27
     else:require(smoke_approval is None,'UNBOUND_SMOKE_APPROVAL')
 
+    from orchestrator import item4_smoke_response as response_stage
+    if post_smoke is not None:
+        require(smoke is not None,'POST_SMOKE_PREREQUISITES')
+        response_stage.scope(post_smoke,post_smoke_approval)
+        from orchestrator import author_revision_accounting,manual_recovery
+        response_stage.connect_roles(author_revision_accounting,manual_recovery,post_smoke,post_smoke_approval)
+        sequence=sequence[:3]+(('run_spec_author',15),('run_spec_review',12))+sequence[3:]
+        cap=29
+    else:require(post_smoke_approval is None,'UNBOUND_POST_SMOKE_APPROVAL')
+
     def snapshot(store,*,inserted=False):
         rows=continuation.originals(store,RUN,frozen)
         continuation.granted(store,frozen,approval)
@@ -81,6 +91,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             continuation.granted(store,response,response_approval)
             require({r['id'] for r in rows[:22]}==set(response['local_calls']),'RESPONSE_PREFIX')
         if smoke is not None:stage_review.granted(store,smoke,smoke_approval)
+        if post_smoke is not None:response_stage.granted(store,post_smoke,post_smoke_approval)
         tail=rows[prefix:]
         require(len(tail)<=len(sequence),'CAP')
         global_rows=[dict(r) for r in store.batch.db.execute(
@@ -115,7 +126,12 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'SMOKE_CONTEXT')
             stage_review.ready(driver,value,smoke,smoke_approval)
-        if len(tail)>=(3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
+        if post_smoke is not None and len(tail) in (3,4):
+            from orchestrator import author_revision_accounting
+            driver=author_revision_accounting.context(store,RUN)
+            require(driver is not None,'POST_SMOKE_CONTEXT')
+            response_stage.ready(driver,value,post_smoke,post_smoke_approval)
+        if len(tail)>=(5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
             # The two reserved interpretation slots are not early-smoke approval.
             # Reuse the ordinary complete execution/collection verifier.
             from orchestrator import experiment_collection,author_revision_accounting
@@ -139,6 +155,9 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         if smoke is not None:
             if not store.db.execute('SELECT 1 FROM events WHERE id=?',(stage_review.EVENT,)).fetchone():return 26
             stage_review.granted(store,smoke,smoke_approval)
+        if post_smoke is not None:
+            if not store.db.execute('SELECT 1 FROM events WHERE id=?',(response_stage.EVENT,)).fetchone():return 27
+            response_stage.granted(store,post_smoke,post_smoke_approval)
         return cap
 
     def global_limit(batch,run):
@@ -163,8 +182,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         expected=[continuation.sha((RUN+':'+st+':'+str(n)).encode()) for st,n in sequence]
         require(len(tail)<len(sequence) and len(rows)==60+len(tail) and
             [r['id'] for r in tail]==expected[:len(tail)] and ident==expected[len(tail)],'BATCH_EXTENSION_SEQUENCE')
-        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':smoke_approval if smoke is not None else batch_approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
+        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(post_smoke if post_smoke is not None else smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
 
     def amendment(store,run,policy):
         if run!=RUN:return old_allowance(store,run,policy)
@@ -172,8 +191,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         _,tail=snapshot(store,inserted=True)
         require(tail and tail[-1]['id']==active['id'],'RESERVED_CALL')
         return {'authority_sha256':continuation.AUTHORITY,'run_limit':cap,
-            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':smoke_approval if smoke is not None else response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(smoke if smoke is not None else response if response is not None else mechanical if mechanical is not None else frozen))}
+            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(post_smoke if post_smoke is not None else smoke if smoke is not None else response if response is not None else mechanical if mechanical is not None else frozen))}
 
     def validate(accounts,event,allowance):
         store=active.get('store')
