@@ -20,7 +20,7 @@ def validate_allowance(accounts,event,allowance):
     require(_validate is not None,'NOT_CONNECTED')
     _validate(accounts,event,allowance)
 
-def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None,batch_extension=None,batch_approval=None,smoke=None,smoke_approval=None,post_smoke=None,post_smoke_approval=None,diagnostic=None,diagnostic_approval=None,diagnostic_recovery=None,diagnostic_recovery_approval=None):
+def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None,batch_extension=None,batch_approval=None,smoke=None,smoke_approval=None,post_smoke=None,post_smoke_approval=None,diagnostic=None,diagnostic_approval=None,diagnostic_recovery=None,diagnostic_recovery_approval=None,diagnostic_scoped=None,diagnostic_scoped_approval=None):
     """Only called from the hash-verified installed helper; once per process."""
     global _validate
     from orchestrator import autonomy_limits as limits
@@ -96,6 +96,14 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         cap=32
     else:require(diagnostic_recovery_approval is None,'UNBOUND_DIAGNOSTIC_RECOVERY_APPROVAL')
 
+    if diagnostic_scoped is not None:
+        require(diagnostic_recovery is not None and response_stage.scoped_review(diagnostic_scoped),'DIAGNOSTIC_SCOPED_PREREQUISITES')
+        response_stage.scope(diagnostic_scoped,diagnostic_scoped_approval)
+        response_stage.connect_roles(author_revision_accounting,manual_recovery,diagnostic_scoped,diagnostic_scoped_approval)
+        sequence=sequence[:8]+(('run_spec_review',14),)+sequence[8:]
+        cap=33
+    else:require(diagnostic_scoped_approval is None,'UNBOUND_DIAGNOSTIC_SCOPED_APPROVAL')
+
     def snapshot(store,*,inserted=False):
         rows=continuation.originals(store,RUN,frozen)
         continuation.granted(store,frozen,approval)
@@ -111,6 +119,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         if post_smoke is not None:response_stage.granted(store,post_smoke,post_smoke_approval)
         if diagnostic is not None:response_stage.granted(store,diagnostic,diagnostic_approval)
         if diagnostic_recovery is not None:response_stage.granted(store,diagnostic_recovery,diagnostic_recovery_approval)
+        if diagnostic_scoped is not None:response_stage.granted(store,diagnostic_scoped,diagnostic_scoped_approval)
         tail=rows[prefix:]
         require(len(tail)<=len(sequence),'CAP')
         global_rows=[dict(r) for r in store.batch.db.execute(
@@ -163,7 +172,12 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'DIAGNOSTIC_RECOVERY_CONTEXT')
             response_stage.ready(driver,value,diagnostic_recovery,diagnostic_recovery_approval)
-        if len(tail)>=(8 if diagnostic_recovery is not None else 7 if diagnostic is not None else 5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
+        if diagnostic_scoped is not None and len(tail)==8:
+            from orchestrator import author_revision_accounting
+            driver=author_revision_accounting.context(store,RUN)
+            require(driver is not None,'DIAGNOSTIC_SCOPED_CONTEXT')
+            response_stage.ready(driver,value,diagnostic_scoped,diagnostic_scoped_approval)
+        if len(tail)>=(9 if diagnostic_scoped is not None else 8 if diagnostic_recovery is not None else 7 if diagnostic is not None else 5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
             # The two reserved interpretation slots are not early-smoke approval.
             # Reuse the ordinary complete execution/collection verifier.
             from orchestrator import experiment_collection,author_revision_accounting
@@ -198,6 +212,10 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             event=response_stage.profile(diagnostic_recovery)['event']
             if not store.db.execute('SELECT 1 FROM events WHERE id=?',(event,)).fetchone():return 31
             response_stage.granted(store,diagnostic_recovery,diagnostic_recovery_approval)
+        if diagnostic_scoped is not None:
+            event=response_stage.profile(diagnostic_scoped)['event']
+            if not store.db.execute('SELECT 1 FROM events WHERE id=?',(event,)).fetchone():return 32
+            response_stage.granted(store,diagnostic_scoped,diagnostic_scoped_approval)
         return cap
 
     def global_limit(batch,run):
@@ -222,8 +240,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         expected=[continuation.sha((RUN+':'+st+':'+str(n)).encode()) for st,n in sequence]
         require(len(tail)<len(sequence) and len(rows)==60+len(tail) and
             [r['id'] for r in tail]==expected[:len(tail)] and ident==expected[len(tail)],'BATCH_EXTENSION_SEQUENCE')
-        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
+        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
 
     def amendment(store,run,policy):
         if run!=RUN:return old_allowance(store,run,policy)
@@ -231,8 +249,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         _,tail=snapshot(store,inserted=True)
         require(tail and tail[-1]['id']==active['id'],'RESERVED_CALL')
         return {'authority_sha256':continuation.AUTHORITY,'run_limit':cap,
-            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
-            'checkpoint_sha256':continuation.sha(continuation.canonical(diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else response if response is not None else mechanical if mechanical is not None else frozen))}
+            'scoped_run_id':RUN,'call_id':active['id'],'review_sha256':diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else response_approval if response is not None else mechanical_approval if mechanical is not None else approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else response if response is not None else mechanical if mechanical is not None else frozen))}
 
     def validate(accounts,event,allowance):
         store=active.get('store')

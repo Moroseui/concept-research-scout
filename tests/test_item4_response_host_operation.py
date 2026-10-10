@@ -9,13 +9,13 @@ import pytest
 def op(monkeypatch,tmp_path):
     p=Path(__file__).parents[1]/'tools/item4_response_host_operation.py'
     spec=importlib.util.spec_from_file_location('_host_operation_test',p);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
-    root=tmp_path/'operation';root.mkdir();monkeypatch.setattr(m,'RECORD',root);monkeypatch.setattr(m,'STAGE','author')
+    root=tmp_path/'operation';root.mkdir();monkeypatch.setattr(m,'RECORD',root);monkeypatch.setattr(m,'STAGE','reviewer')
     receipt=tmp_path/'proof.json';receipt.write_text('{}');monkeypatch.setattr(m,'RECEIPT',receipt)
     # Disposable filesystem boundary only; no root/systemd/policy command runs.
     monkeypatch.setattr(m,'trusted',lambda p:Path(p));monkeypatch.setattr(m,'boot',lambda:'test-boot')
     monkeypatch.setattr(m.os,'kill',lambda pid,sig:None);monkeypatch.setattr(m.time,'monotonic',lambda:1000.)
     monkeypatch.setattr(m.time,'time',lambda:2000.)
-    run={'stage':'author','invocation':'a'*32,'started_monotonic_us':900000000,'boot_id':'test-boot','review_sha256':'b'*64,'source_sha':'c'*40}
+    run={'stage':'reviewer','invocation':'a'*32,'started_monotonic_us':900000000,'boot_id':'test-boot','review_sha256':'b'*64,'source_sha':'c'*40}
     approval={'report_sha256':'b'*64,'source_sha':'c'*40};frozen={'hashes':{str(m.RUNTIME):'d'*64}}
     value={'ActiveState':'activating','MainPID':'123','InvocationID':run['invocation'],'ControlGroup':'/system.slice/'+m.UNIT,'ExecMainStatus':'0','ExecMainStartTimestampMonotonic':'900000000'}
     calls=[]
@@ -144,7 +144,7 @@ def test_wrong_bound_approval_stops_original_without_refresh(op):
 
 
 def test_author_record_cannot_refresh_reviewer_stage(op):
-    op.monkeypatch.setattr(op.m,'STAGE','reviewer')
+    op.monkeypatch.setattr(op.m,'STAGE','author')
     with pytest.raises(ValueError,match='RUN_AUTHORITY'):op.m.pulse(op.frozen,op.approval)
     assert not any(str(op.m.HOOK) in a for a,k in op.calls)
 
