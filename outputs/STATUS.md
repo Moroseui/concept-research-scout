@@ -1,13 +1,29 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The CPU diagnostic design passed scientific scrutiny; the remaining finding requires a native integration test of its new instrumentation.
-The author-admission repair passed 69 tests and the server rehearsal, received independent APPROVE, and is installed; author18 is admitted and running in both ledgers.
-No diagnostic GPU job has started. Native execution and the next scientific review remain held; full training and coverage-dependent arms remain held.
-Identified compute spend is $24.29; retained stage exposure is $110.11 of $150. Diagnostic actual spend and reservations are both $0 of $25; model charges are separate.
-Next expected result is the author-owned native test and its CPU receipt, provisionally 1-2 hours after approval; GPU timing remains dependent on that result.
-B runs first because the maximum A+B quotes exceed $25; A follows only if confirmed closed costs leave enough room. No automatic retry.
-UTC October 10 calls: 24/50 -- 4 scientific authors, 4 scientific reviewers, 13 administrative reviews and 3 standalone direction checks. Latest Claude direction: proceed with this narrow author-only step; no cuts requested.
+Author18 finished, but the controller refused an encoded code block; its output was not accepted and its charge remains counted.
+All model calls, services and monitors are terminal. No native CPU test or diagnostic GPU run has started.
+A repair moves the existing opaque-text check into same-call author feedback; 89 tests and a replay of the actual failure pass. It is uninstalled.
+Identified compute spend remains $24.29; last retained stage exposure is $110.11 of $150. Diagnostic actual spend and reservations are both $0 of $25; model charges are separate.
+Next milestone is the reviewed corrective-author route, then accepted plaintext code and native CPU evidence. The earlier native-result ETA is withdrawn pending this repair.
+B remains first because the maximum A+B quotes exceed $25; A requires enough confirmed remaining allowance. No automatic compute retry.
+UTC October10 calls:24/50 -- 4 authors,4 scientific reviewers,13 administrative reviews,3 standalone direction checks. Latest Claude agreement predates this failure; the new repair is not yet reviewed.
+
+## Plaintext correction in preparation
+
+08:22 UTC reconciliation: author18 is COMPLETE in both ledgers, the service ended with controller failure, no accepted-author event exists, and the bounded monitor terminated after12 pulses. Nothing was restarted. The failed attempt and all original output/stream/submission/charge records are preserved privately.
+
+The unchanged privacy scanner correctly rejected a 16668-character compressed/base64 code block. Bounded read-only decoding yielded37999 bytes of author-owned Python, matching its declared hash; AST parsing and the existing private-intake scan passed with zero patient identifiers. That decoded text is reference evidence only. Root did not execute it, substitute it for the submitted output, or claim scientific acceptance. The original encoded output remains refused.
+
+The tested infrastructure patch shares the exact existing opaque-text predicate with early author feedback, including escaping and the full reconstructed visible module. The host privacy scanner remains authoritative; file-size limits and all patient/secret rules remain. A genuine isolated submission-process test rejects opaque code without a receipt and permits the author to correct it within that same process. The actual preserved author18 output is also refused by the early check, with no new receipt.89 focused tests pass; the first test failure (missing recoverable-error routing) is preserved, and only that exact fixed error is now returned as feedback.
+
+Source89fbc557020e5c192bfa9c8705555ee97745a6e3 contains the feedback patch only. Corrective author19 admission remains to be implemented and independently reviewed: preserve32 existing local/70 batch calls, add only one corrective author slot, keep the unused reviewer15 and final full-plan pair. No model allowance or live accounting change has been installed. The scientific author must provide compact plaintext code within the existing output bound; root will not alter the science or accept encoded code.
+
+Judgment: mechanical output failure, with the privacy guard correctly refusing. Preserve the refusal and fix feedback plus author output, without a decoder exception or new validation subsystem. Claude consultation and the direction check for the estimate slip will be folded into the required implementation/accounting review once the concrete admission repair is ready. No operator money decision is pending.
+
+The draft native execution worktree is deferred until accepted plaintext output exists. Its intended scope batches one existing CPU worker execution and receipt delivery to reviewer15 into one release, avoiding a separate delivery-only installation. No native/GPU reservation or provider action has been made. Scientific review14's native-integration finding and all full-training/coverage holds remain open.
+
+The tested feedback files passed scans and are backed up on a separate working branch, unmerged until approved and installed. Original evidence, decoded reference, packets and ledgers remain private.
 
 ## Current native-test author route
 
