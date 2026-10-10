@@ -1,12 +1,22 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-CPU starvation remains unproven; the diagnostic compares 16 CPUs/12 workers with 32 CPUs/24 workers on the same B200 workload.
-The author submission repair passed 141 focused tests, a server rehearsal and independent review; installation and verification are complete.
-Corrective author 17 service is preparing its inputs; its bounded monitor is active. Scientific reviewer 13 follows accepted output. No diagnostic GPU job is running.
+CPU starvation remains unproven; the proposed diagnostic compares 16 CPUs/12 workers with 32 CPUs/24 workers on the same B200 workload.
+Author 17 is accepted; controller validation passed all five synthetic-check groups, including 15 execution-module tests with zero skips.
+Scientific reviewer 13's service started once and is preparing its inputs; its bounded monitor is active. No diagnostic GPU job is running.
 Identified compute spend remains $24.29; retained exposure is $110.11 against $150. Diagnostic spending and reservations remain $0/$25.
-Next expected result: corrected executable code and scientific review in about 20-40 minutes. B goes first after scientific review and bounded admission.
-UTC October 10 calls: 16/50 (2 authors, 2 scientific reviews, 9 administrative reviews, 3 direction checks). Latest Claude outcome: implementation APPROVE; shortest safe path confirmed.
+Next expected result: independent scientific judgment in about 10-20 minutes. B goes first after scientific review and bounded admission.
+UTC October 10 calls: 17/50 (3 authors, 2 scientific reviews, 9 administrative reviews, 3 direction checks). Latest Claude administrative outcome: implementation APPROVE; shortest safe path confirmed.
+
+## Latest scientific handoff
+
+06:18 UTC: author17 completed in both accounting records and passed ordinary controller acceptance. Its genuine same-call submission, exact outputs and controller results are preserved. Execution module hash is 433c625b656bbe7f2d5471a8ce4fff931eb66977b65a692ebfea6e8064779150; plan hash is 31c3e4a57f8df616b1b8be0aa37516408196d5c545ded0efb5eaad1b4e23370a. Controller checks ran in isolation without patient data, credentials or network. These are synthetic checks, not native GPU evidence or scientific approval. The full original 51-fit plan is retained, with the two diagnostic fits supplemental. The proposed plan is backed up under outputs/proposals/item4-cpu-starvation-plan17-20261010.json and remains subject to scientific review.
+
+The author service finished successfully. Its bounded monitor refused another refresh after the invocation ended; read-only reconciliation confirmed successful completion, so no restart or repair was made. The unused reviewer13 service then started once. Its scientific call was not yet admitted at this snapshot. Every original call and charge is retained, including failed author16. The three author purposes today are the smoke-response author, the failed executable diagnostic author, and the accepted correction. Earlier detailed call breakdowns below are historical snapshots.
+
+Withheld: outputs/proposals/item4-cpu-starvation-author17-20261010.md, because the raw specification triggered the credential/infrastructure-reference scan. It is preserved privately and will still reach the scientific reviewer. No scan rule was relaxed. The associated plan passed scans. Evidence, raw streams, accounting records and original notebooks stay private.
+
+Judgment 06:18 UTC: continue through the already-reviewed unused scientific review slot after genuine acceptance; do not treat synthetic PASS as scientific acceptance. No new Claude administrative consultation is needed. Read-only tracing identifies existing provisioning, reservation and retention code for the next bounded connection; no new execution component or spending has been introduced while the scientific judgment is pending.
 
 ## Latest recovery and backup
 
