@@ -96,11 +96,11 @@ def test_wrong_attempt_history_or_stage_refused_before_writes(entry,fault):
     assert calls==[] and list(db.execute('SELECT * FROM manual_calls'))==before
     assert not list(driver.state.iterdir())
 
-def test_repair_has_no_activation_or_cost_entrypoint():
+def test_repair_has_activation_but_no_cost_or_provider_entrypoint():
     t=ast.parse((ROOT/'tools/item4_smoke_response_runtime.py').read_bytes())
     main=next(n for n in t.body if isinstance(n,ast.FunctionDef) and n.name=='main')
-    allowed=next(n for n in ast.walk(main) if isinstance(n,ast.Set) and {x.value for x in n.elts if isinstance(x,ast.Constant)}=={'verify','run'})
-    assert len(allowed.elts)==2
+    allowed=next(n for n in ast.walk(main) if isinstance(n,ast.Set) and {x.value for x in n.elts if isinstance(x,ast.Constant)}=={'verify','activate','run'})
+    assert len(allowed.elts)==3
 
 @pytest.mark.parametrize('fault',['none','verdict','source','report','change','scope'])
 def test_only_genuine_unchanged_original_grant_is_carried(tmp_path,monkeypatch,fault):
@@ -109,7 +109,7 @@ def test_only_genuine_unchanged_original_grant_is_carried(tmp_path,monkeypatch,f
         'source_sha':'478a47243454b1f9ba6e6ecb82ba5d0132cef001',
         'report_sha256':'aff49bc6cc3ec2b402c7a89549cd643be8c2ed038260c4bff49f0522a829af5f'}
     name='docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json'
-    pin=route.sha((ROOT/name).read_bytes())
+    pin=route.sha((ROOT/'docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json').read_bytes())
     manifest=tmp_path/'packet-manifest.json'
     manifest.write_text(json.dumps({'source_files':{name:'0'*64 if fault=='scope' else pin}}))
     if fault!='none' and fault!='scope':

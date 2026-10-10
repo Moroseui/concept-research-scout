@@ -157,7 +157,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             response_stage.report_snapshot(report_snapshot),'REPORT_SNAPSHOT_PREREQUISITES')
         response_stage.scope(report_snapshot,report_snapshot_approval)
         response_stage.connect_roles(author_revision_accounting,manual_recovery,report_snapshot,report_snapshot_approval)
-        sequence=sequence[:14]+(('run_spec_author',22),)+( (('run_spec_author',23),) if response_stage.sender_recovery(report_snapshot) else () )+sequence[14:]
+        sequence=sequence[:14]+(('run_spec_author',22),)+( (('run_spec_author',23),) if response_stage.sender_recovery(report_snapshot) else () )+( (('run_spec_author',24),) if response_stage.delivery_recovery(report_snapshot) else () )+sequence[14:]
         cap=response_stage.profile(report_snapshot)['limit']
     else:require(report_snapshot_approval is None,'UNBOUND_REPORT_SNAPSHOT_APPROVAL')
 
@@ -215,6 +215,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             from orchestrator import author_revision_accounting
             if report_snapshot is not None and response_stage.sender_recovery(report_snapshot) and tail[-1]['id']==response_stage.SENDER_FAILED_CALL and stage=='run_spec_author':
                 response_stage.failed_sender(store,report_snapshot)
+            elif report_snapshot is not None and response_stage.delivery_recovery(report_snapshot) and tail[-1]['id']==response_stage.DELIVERY_FAILED_CALL and stage=='run_spec_author':
+                response_stage.failed_delivery(store,report_snapshot)
             elif diagnostic_recovery is not None and len(tail)==6 and stage=='run_spec_author':
                 require(tail[-1]['id']==response_stage.FAILED_AUTHOR,'EXACT_FAILED_AUTHOR')
                 response_stage.failed_author(store,diagnostic_recovery)
@@ -281,7 +283,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'REPORT_SNAPSHOT_CONTEXT')
             response_stage.ready(driver,value,report_snapshot,report_snapshot_approval)
-        if len(tail)>=(16 if report_snapshot is not None else 15 if fixture_audit is not None else 14 if corrected_native is not None else 13 if diagnostic_fixture is not None else 12 if diagnostic_plaintext is not None else 11 if diagnostic_native is not None else 9 if diagnostic_scoped is not None else 8 if diagnostic_recovery is not None else 7 if diagnostic is not None else 5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
+        if len(tail)>=(17 if report_snapshot is not None and response_stage.delivery_recovery(report_snapshot) else 16 if report_snapshot is not None else 15 if fixture_audit is not None else 14 if corrected_native is not None else 13 if diagnostic_fixture is not None else 12 if diagnostic_plaintext is not None else 11 if diagnostic_native is not None else 9 if diagnostic_scoped is not None else 8 if diagnostic_recovery is not None else 7 if diagnostic is not None else 5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
             # The two reserved interpretation slots are not early-smoke approval.
             # Reuse the ordinary complete execution/collection verifier.
             from orchestrator import experiment_collection,author_revision_accounting
@@ -368,7 +370,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         expected=[continuation.sha((RUN+':'+st+':'+str(n)).encode()) for st,n in sequence]
         require(len(tail)<len(sequence) and len(rows)==60+len(tail) and
             [r['id'] for r in tail]==expected[:len(tail)] and ident==expected[len(tail)],'BATCH_EXTENSION_SEQUENCE')
-        return {'limit':60+len(sequence),'authority_sha256':continuation.AUTHORITY,'review_sha256':report_snapshot_approval if report_snapshot is not None else corrected_native_approval if corrected_native is not None else fixture_audit_approval if fixture_audit is not None else diagnostic_fixture_approval if diagnostic_fixture is not None else diagnostic_plaintext_approval if diagnostic_plaintext is not None else diagnostic_native_approval if diagnostic_native is not None else diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
+        return {'limit':(79 if report_snapshot is not None and response_stage.delivery_recovery(report_snapshot) else 60+len(sequence)),'authority_sha256':continuation.AUTHORITY,'review_sha256':report_snapshot_approval if report_snapshot is not None else corrected_native_approval if corrected_native is not None else fixture_audit_approval if fixture_audit is not None else diagnostic_fixture_approval if diagnostic_fixture is not None else diagnostic_plaintext_approval if diagnostic_plaintext is not None else diagnostic_native_approval if diagnostic_native is not None else diagnostic_scoped_approval if diagnostic_scoped is not None else diagnostic_recovery_approval if diagnostic_recovery is not None else diagnostic_approval if diagnostic is not None else post_smoke_approval if post_smoke is not None else smoke_approval if smoke is not None else batch_approval,
             'checkpoint_sha256':continuation.sha(continuation.canonical(report_snapshot if report_snapshot is not None else corrected_native if corrected_native is not None else fixture_audit if fixture_audit is not None else diagnostic_fixture if diagnostic_fixture is not None else diagnostic_plaintext if diagnostic_plaintext is not None else diagnostic_native if diagnostic_native is not None else diagnostic_scoped if diagnostic_scoped is not None else diagnostic_recovery if diagnostic_recovery is not None else diagnostic if diagnostic is not None else post_smoke if post_smoke is not None else smoke if smoke is not None else batch_extension)),'scoped_run_id':RUN}
 
     def amendment(store,run,policy):

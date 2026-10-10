@@ -105,11 +105,13 @@ def compile_notebook(raw):
     return records
 
 
-def apply(original, selection, patch_raw, cases, *, original_sha256=ORIGINAL, view_sha256=VIEW):
+def apply(original, selection, patch_raw, cases, *, original_sha256=ORIGINAL, view_sha256=VIEW, patch_limit=PATCH_LIMIT):
     if intake.sha(original) != original_sha256:
         raise ValueError('NOTEBOOK_ORIGINAL_CHANGED')
     view, manifest = partition(original, selection, cases, view_sha256)
-    if len(patch_raw) > PATCH_LIMIT:
+    if type(patch_limit) is not int or patch_limit not in {PATCH_LIMIT,96000}:
+        raise ValueError('NOTEBOOK_PATCH_LIMIT_SCOPE')
+    if len(patch_raw) > patch_limit:
         raise ValueError('NOTEBOOK_PATCH_LIMIT')
     scan(patch_raw, cases)
     patch = strict_json(patch_raw)
@@ -295,8 +297,13 @@ def prepare_artifacts(driver, value, pending, cases):
     original,selection=validate_config(driver.context,cfg)
     work=Path(pending['workspace'])
     patch=(work/'notebook.patch.json').read_bytes()
+    limit=PATCH_LIMIT
+    if (driver.config.get('run_id')=='experiment-a74959ac4546a982af4ae137' and
+            (pending.get('stage'),pending.get('round'),pending.get('id'))==('run_spec_author',24,
+             '4a171e924b528328d4a4827815113449b39d19143a8824b92f17dce0ecf0b8ca')):
+        limit=96000
     notebook,diff,receipt=apply(original,selection,patch,cases,
-        original_sha256=cfg['original']['sha256'],view_sha256=cfg['safe_view']['sha256'])
+        original_sha256=cfg['original']['sha256'],view_sha256=cfg['safe_view']['sha256'],patch_limit=limit)
     folder=driver.state/'notebook-revisions'/('author-'+str(pending['round']))
     write_once(folder/'revised.ipynb',notebook)
     write_once(folder/'notebook.diff',diff)

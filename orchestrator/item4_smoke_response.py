@@ -41,6 +41,8 @@ SNAPSHOT_SCHEMA=fixture.SNAPSHOT_SCHEMA
 SNAPSHOT_DOCUMENT=fixture.SNAPSHOT_DOCUMENT
 SENDER_FAILED_CALL='af4547778fe7e1f35698089607ab524d08346618131512c232670b7ccbf02ab8'
 _sender_verifier=None
+DELIVERY_FAILED_CALL='fed0c73d8288bbf8fda82f96d6559ddb4f6c85ac39f927e53939bf909bd7545e'
+def delivery_recovery(p):return sender_recovery(p) and 'delivery_recovery' in p
 def report_snapshot(p):return fixture.snapshot(p)
 def sender_recovery(p):return report_snapshot(p) and 'sender_recovery' in p
 def fixture_audit(p):return fixture.audit(p)
@@ -81,6 +83,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if delivery_recovery(p):
+        return dict(author=24,reviewer=16,count=38,batch=76,limit=41,batch_limit=79,
+            event='REVIEWED_ITEM4_AUTHOR24_DELIVERY',field='author24_delivery_scope',
+            assessment='cpu_diagnostic_fixture_correction',previous_reason='OUTPUT_VALIDATION_REFUSED: ITEM4_FIXTURE_ORIGINAL_TESTS_CHANGED',
+            previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
+            folder='author24-delivery',result='report_snapshot_author')
     if sender_recovery(p):
         return dict(author=23,reviewer=16,count=37,batch=75,limit=41,batch_limit=79,
             event='REVIEWED_ITEM4_SENDER_CONTINUATION',field='sender_continuation_scope',
@@ -165,10 +173,10 @@ def scope(p,approval):
     old=json.loads(p['original_state'])
     require(sha(p['original_state'].encode())==p['state_sha256'] and old['phase']=='BLOCKED'
         and old['reason']==q['previous_reason']
-        and ((old.get('pending') or {}).get('id')==SENDER_FAILED_CALL if sender_recovery(p) else
+        and ((old.get('pending') or {}).get('id')==(DELIVERY_FAILED_CALL if delivery_recovery(p) else SENDER_FAILED_CALL) if sender_recovery(p) else
             ((old.get('pending') or {}).get('id')==(OPAQUE_AUTHOR if plaintext_recovery(p) else FAILED_AUTHOR)
             if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p) else not old.get('pending')))
-        and old['rounds']=={'run_spec_author':21 if sender_recovery(p) else q['author']-(not scoped_review(p)),'run_spec_review':q['previous_review']},'CHECKPOINT')
+        and old['rounds']=={'run_spec_author':23 if delivery_recovery(p) else 21 if sender_recovery(p) else q['author']-(not scoped_review(p)),'run_spec_review':q['previous_review']},'CHECKPOINT')
     if sender_recovery(p):
         rec=p['sender_recovery'];previous=rec['previous_scope']
         require(set(rec)=={'failed_call_id','previous_scope','previous_approval','classifier_approval'}
@@ -176,9 +184,22 @@ def scope(p,approval):
             and rec['previous_approval']=='4d59456204b35a061102a839efcc5239aba6abfe9f58cebac87d72a5b726e5a5'
             and rec['classifier_approval']=='a54ef800461b974db328d18fba65e4d6d819044a3a003d9699a59603b0710139','SENDER_RECOVERY_AUTHORITY')
         scope(previous,rec['previous_approval'])
-        require(set(p['local_calls'])==set(previous['local_calls'])|{SENDER_FAILED_CALL}
-            and set(p['batch_calls'])==set(previous['batch_calls'])|{SENDER_FAILED_CALL}
+        require(set(p['local_calls'])==set(previous['local_calls'])|{SENDER_FAILED_CALL}|({DELIVERY_FAILED_CALL} if delivery_recovery(p) else set())
+            and set(p['batch_calls'])==set(previous['batch_calls'])|{SENDER_FAILED_CALL}|({DELIVERY_FAILED_CALL} if delivery_recovery(p) else set())
             and all(p[k]==previous[k] for k in ('fixture_reference','native_failure','assessment','author_outputs','baseline_plan','diagnostic_micro_usd','stage1_micro_usd','projection_micro_usd','total_micro_usd')),'SENDER_RECOVERY_PRESERVED_SCOPE')
+    if delivery_recovery(p):
+        rec=p['delivery_recovery'];previous=rec['previous_scope']
+        require(set(rec)=={'failed_call_id','previous_scope','previous_approval','outputs','native_format','original_module_sha256','patch_limit_bytes','direction_report_sha256'}
+            and rec['failed_call_id']==DELIVERY_FAILED_CALL and sender_recovery(previous) and not delivery_recovery(previous)
+            and rec['previous_approval']=='aff49bc6cc3ec2b402c7a89549cd643be8c2ed038260c4bff49f0522a829af5f'
+            and rec['patch_limit_bytes']==96000 and rec['direction_report_sha256']=='caab7b6bfbb60bfba05b94233ce174156a11a811a26e8a0b27d529da208f5a88'
+            and rec['original_module_sha256']=='8e633a1e72457efa8d59099663ab64e6e43b21dbb0216996c3103aec9a67bd04',
+            'DELIVERY_RECOVERY_SCOPE')
+        scope(previous,rec['previous_approval'])
+        require(set(p['local_calls'])==set(previous['local_calls'])|{DELIVERY_FAILED_CALL}
+            and set(p['batch_calls'])==set(previous['batch_calls'])|{DELIVERY_FAILED_CALL}
+            and all(p[k]==previous[k] for k in ('fixture_reference','native_failure','assessment','author_outputs','baseline_plan','diagnostic_micro_usd','stage1_micro_usd','projection_micro_usd','total_micro_usd')),
+            'DELIVERY_RECOVERY_PRESERVED_SCOPE')
     a=p['assessment']
     flags=('full_training_admitted','coverage_released',
         'execution_authorized' if diagnostic(p) else 'whole_plan_complete')
@@ -315,6 +336,26 @@ def failed_sender(store,p):
     return dict(row)
 
 
+
+def failed_delivery(store,p):
+    from orchestrator import private_records as pr,author_revision_accounting as accounting
+    require(delivery_recovery(p),'DELIVERY_SCOPE_REQUIRED')
+    rec=p['delivery_recovery'];row=store.db.execute('SELECT * FROM manual_calls WHERE id=?',(DELIVERY_FAILED_CALL,)).fetchone()
+    other=store.batch.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(DELIVERY_FAILED_CALL,)).fetchone()
+    require(row is not None and other is not None and row['status']==other['status']=='COMPLETE'
+        and row['attempt']==23 and row['stage']=='run_spec_author' and not accounting._accepted(store,dict(row))
+        and sha(canonical(dict(row)))==p['local_calls'][DELIVERY_FAILED_CALL]
+        and sha(canonical(dict(other)))==p['global_calls'][DELIVERY_FAILED_CALL],'EXACT_REFUSED_AUTHOR23')
+    saved=json.loads(row['receipt']);work=Path(saved['workspace'])
+    require(saved['output_sha256']==rec['outputs'] and saved['native']['author_submission']==rec['native_format']
+        and work.name=='run_spec_author-23' and str(work)==json.loads(p['original_state'])['pending']['workspace'],
+        'DELIVERY_ORIGINAL_BINDING')
+    for name,pin in rec['outputs'].items():require(sha(pr.check(work/name).read_bytes())==pin,'DELIVERY_ORIGINAL_CHANGED')
+    require(sha(pr.check(work/'.author-submission.json').read_bytes())==rec['native_format']['record_sha256']
+        and sha(pr.check(work/'console.log').read_bytes())==saved['native']['console_sha256'],'DELIVERY_NATIVE_CHANGED')
+    return dict(row)
+
+
 def originals(store,p,approval):
     scope(p,approval)
     require(sha((Path(store.path).parent/'lane.json').read_bytes())==p['configuration_sha256'],'CONFIGURATION')
@@ -328,6 +369,9 @@ def originals(store,p,approval):
     if sender_recovery(p):
         granted(store,p['sender_recovery']['previous_scope'],p['sender_recovery']['previous_approval'])
         failed_sender(store,p)
+    if delivery_recovery(p):
+        granted(store,p['delivery_recovery']['previous_scope'],p['delivery_recovery']['previous_approval'])
+        failed_delivery(store,p)
 
 
 def proof(p,approval):
@@ -503,7 +547,7 @@ def ready(driver,value,p,approval):
     if scoped_review(p):
         require(stage=='run_spec_review','SCOPED_REVIEW_STAGE_ONLY')
         frozen_author(driver,p,value)
-    require((stage,rounds) in [('run_spec_author',{'run_spec_author':21 if sender_recovery(p) else q['author']-1,'run_spec_review':q['previous_review']}),
+    require((stage,rounds) in [('run_spec_author',{'run_spec_author':23 if delivery_recovery(p) else 21 if sender_recovery(p) else q['author']-1,'run_spec_review':q['previous_review']}),
         ('run_spec_review',{'run_spec_author':q['author'],'run_spec_review':q['previous_review']})],'STATE')
     old=scope(p,approval)
     for key in protected_keys(p):
@@ -514,7 +558,9 @@ def ready(driver,value,p,approval):
 
 def connect_roles(accounting,recovery,p,approval):
     scope(p,approval);q=profile(p)
-    if sender_recovery(p):
+    if delivery_recovery(p):
+        rec=p['delivery_recovery'];connect_roles(accounting,recovery,rec['previous_scope'],rec['previous_approval'])
+    elif sender_recovery(p):
         rec=p['sender_recovery'];connect_roles(accounting,recovery,rec['previous_scope'],rec['previous_approval'])
     if scoped_review(p):
         old_limit=recovery.role_limit
@@ -549,6 +595,8 @@ def connect_roles(accounting,recovery,p,approval):
                 used={};failures=0
                 for row in rows:
                     if row['stage']!=stage:continue
+                    if delivery_recovery(p) and row['id']==DELIVERY_FAILED_CALL:
+                        failed_delivery(store,p);failures+=1;continue
                     if sender_recovery(p) and row['id']==SENDER_FAILED_CALL:
                         failed_sender(store,p);failures+=1;continue
                     saved=json.loads(row['receipt']).get(accounting.FIELD)
@@ -764,6 +812,16 @@ SCOPED_GUIDANCE=(
 )
 
 def guidance(p):
+    if delivery_recovery(p):return fixture.SNAPSHOT_GUIDANCE.replace('Author22:', 'Author24:')+(
+        ' Author23 completed but was refused because no regression method was appended to the actual module. '
+        'Read the supplied refused-author23-SPEC.proposed.md, refused-author23-notebook.patch.json and refused-author23-execution.plan.json, whose exact original bytes are unaccepted reference. Preserve that plan and the report detachment correction; use the authored SPEC regression as reference and submit a conforming module yourself: '
+        'append the regression method to synthetic_tests.Checks in the actual notebook patch, not only the SPEC. '
+        'For THIS author24 only, notebook.patch.json may be at most96000 bytes; this supersedes generic80000-byte '
+        'notebook-patch guidance. SPEC and plan remain80000 bytes, SPEC12000 characters; all other limits unchanged. '
+        'The same unchanged fixture-body/additive-test AST check now runs inside submit_author so missing/mutated '
+        'tests are returned as correctable errors in this call. No fabricated receipt or root-authored scientific code. '
+        'Keep the exact plan, all production AST, old tests, image, data and safeguards. Native validation/scientific '
+        'review remain required; no GPU or training is launched by this author-only call.')
     if report_snapshot(p):return fixture.SNAPSHOT_GUIDANCE
     if fixture_audit(p):return fixture.AUDIT_GUIDANCE
     if corrected_review(p):
@@ -823,6 +881,7 @@ NATIVE_GUIDANCE=(
     'native evidence is supplied through its reviewed delivery route. Preserve review14 and every prior charge.'
 )
 NATIVE_SUPPLEMENTAL={'previous-native-harness.py','native-worker-interface.py'}
+DELIVERY_SUPPLEMENTAL={'refused-author23-SPEC.proposed.md','refused-author23-notebook.patch.json','refused-author23-execution.plan.json'}
 SNAPSHOT_SUPPLEMENTAL={'actual-native-worker.py','report-lifecycle-counterexample.py','report-lifecycle-counterexample-result.json'}
 RECOVERY_SUPPLEMENTAL={'failed-author16-SPEC.md','failed-author16-notebook.patch.json','failed-author16-execution.plan.json'}
 SUPPLEMENTAL={'current-cap-decision.txt','timing-audit.json','native-trainer.py','checkpoint-adapter.py','durable-progress.py'}
@@ -838,6 +897,11 @@ def deliver(driver,value,p,approval,supplemental):
         require(sha(supplemental['previous-native-harness.py'])==p['reference_native_harness_sha256'],
             'REFERENCE_NATIVE_HARNESS_CHANGED')
     if report_snapshot(p):expected_names|=SNAPSHOT_SUPPLEMENTAL
+    if delivery_recovery(p):
+        expected_names|=DELIVERY_SUPPLEMENTAL
+        failed_delivery(driver.store,p)
+        for name,pin in p['delivery_recovery']['outputs'].items():
+            require(sha(supplemental['refused-author23-'+name])==pin,'DELIVERY_REFUSED_BYTES_CHANGED')
     require(set(supplemental)==expected_names,'SUPPLEMENTAL_SET')
     if p['schema']==RECOVERY_SCHEMA:
         for target,original in [('SPEC.md','SPEC.proposed.md'),('notebook.patch.json','notebook.patch.json'),('execution.plan.json','execution.plan.json')]:
@@ -876,7 +940,7 @@ def verify_delivered(driver,value,stage,work,prompt,measurement,p):
     retained=[r for r in old['artifacts'] if r['id'].startswith('smoke-review11-')]
     require(len(retained)==19 and all(r in value['artifacts'] for r in retained),'COLLECTED_EVIDENCE_PRESERVED')
     extra=[r for r in value['artifacts'] if r['id'].startswith(q['folder']+'-')]
-    require(len(extra)==len(SUPPLEMENTAL)+2+diagnostic(p)+(len(RECOVERY_SUPPLEMENTAL) if p['schema']==RECOVERY_SCHEMA else len(NATIVE_SUPPLEMENTAL) if native_harness(p) else 0)+(len(SNAPSHOT_SUPPLEMENTAL) if report_snapshot(p) else 0),'DELIVERY_MEMBERS')
+    require(len(extra)==len(SUPPLEMENTAL)+2+diagnostic(p)+(len(RECOVERY_SUPPLEMENTAL) if p['schema']==RECOVERY_SCHEMA else len(NATIVE_SUPPLEMENTAL) if native_harness(p) else 0)+(len(SNAPSHOT_SUPPLEMENTAL) if report_snapshot(p) else 0)+(len(DELIVERY_SUPPLEMENTAL) if delivery_recovery(p) else 0),'DELIVERY_MEMBERS')
     if scoped_review(p):
         frozen_author(driver,p,value)
         retained+=[r for r in old['artifacts'] if r['id'].startswith('cpu-diagnostic-recovery-')]
