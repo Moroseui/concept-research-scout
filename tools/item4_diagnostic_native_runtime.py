@@ -1,15 +1,15 @@
-"""One reviewed author19 native CPU operation and evidence-gated reviewer15.
+"""One reviewed author20 native CPU operation and evidence-gated reviewer16.
 
 No GPU entrypoint, automatic retry, author call, or full-plan approval.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
-CHANGE='item4-diagnostic-native-execution-20261010'
-REVIEW_CHANGE='item4-diagnostic-native-install-20261010'
+CHANGE='item4-corrected-native-verification-20261010'
+REVIEW_CHANGE='item4-corrected-native-verification-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author19-diagnostic-native-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author20-diagnostic-native-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
@@ -25,7 +25,10 @@ FILES=('tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review
  'orchestrator/modal_environment_inventory.py','orchestrator/modal_pinned_image.py',
  'docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json','docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json',
  'docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json','docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt',
- 'docs/ITEM4_STAGE1_CAP_OPERATOR_DECISION_20261009.txt','docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt')
+ 'docs/ITEM4_STAGE1_CAP_OPERATOR_DECISION_20261009.txt','docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt',
+ 'docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json','orchestrator/item4_smoke_response.py',
+ 'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
+ 'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json')
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def require(ok,why):
@@ -37,7 +40,7 @@ def trusted(path):
         st=p.lstat();require(not p.is_symlink() and st.st_uid==0 and not st.st_mode&0o022,'TRUSTED_SOURCE')
     return path
 
-def authority():
+def reviewed_source():
     from orchestrator.autonomy_review import verify_result
     record=json.loads(trusted(RECORD/'installed.json').read_bytes())
     result=verify_result(trusted(RECORD/'review'))
@@ -50,6 +53,11 @@ def authority():
     for name in FILES:
         require(sha(trusted(ROOT/name).read_bytes())==record['files'][name]==manifest['source_files'][name],'SOURCE_CHANGED')
     require(Path(__file__).resolve()==ROOT/FILES[0],'EXECUTED_SOURCE')
+    return result,record
+
+
+def authority():
+    result,record=reviewed_source()
     config=json.loads(trusted(CONFIG).read_bytes())
     require(sha(trusted(CONFIG).read_bytes())==record['config_sha256'],'CONFIG_CHANGED')
     from orchestrator import item4_diagnostic_native as d
@@ -60,19 +68,39 @@ def authority():
     for name,raw in units.items():require(trusted(Path('/etc/systemd/system')/name).read_bytes()==raw,'UNIT_CHANGED')
     return result
 
-PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-author18-plaintext-recovery-20261010/tools/item4_smoke_response_runtime.py')
-PRIOR_SHA='8f884032ec1e1f6119e38db0de529d1b172fcc8941a4f17e554bc9d3879ab54f'
-PRIOR_REVIEW='ff43deb433ca844548298b459295cd8c4db14bafb9bfcb8699d017be9e9e108b'
+PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py')
+PRIOR_SHA='8a4cdb9fcc03dd3a252901bf447c16c615cb21a4809bd24c8d63ac9b6d494a80'
+PRIOR_REVIEW='da282dcc042bef7a597789362ded7a0b6db31bacd641f7fffce95219c79d64cd'
 
-def verified_prior():
+def verified_prior(*,scientific=False):
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_RUNTIME_CHANGED')
     sys.path.insert(0,'/opt/research-system/manual-sprint10/research-manual-sprint10-timeout-continuation-8e042339')
     spec=importlib.util.spec_from_file_location('_native_verified_prior',PRIOR)
     prior=importlib.util.module_from_spec(spec);spec.loader.exec_module(prior)
     approved=prior.authority()
-    require(approved['source_sha']=='5b884b7c45f64957e6f8c9952529a079e4fea94f'
+    require(approved['source_sha']=='e50aa51bd1973517973bb94ba0056c1f375a530d'
         and approved['report_sha256']==PRIOR_REVIEW,'PRIOR_APPROVAL')
-    return prior,prior.connect()
+    if scientific:
+        original_factory=prior.module
+        def factory(name,path):
+            if name not in {'orchestrator.item4_smoke_response','orchestrator.item4_scoped_calls'}:
+                return original_factory(name,path)
+            loaded=original_factory(name,ROOT/(name.replace('.','/')+'.py'))
+            if name=='orchestrator.item4_scoped_calls':
+                original_connect=loaded.connect
+                def extended(*args,**kwargs):
+                    require('corrected_native' not in kwargs and 'corrected_native_approval' not in kwargs,'DUPLICATE_NATIVE_SCOPE')
+                    p=json.loads(trusted(ROOT/'docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json').read_bytes())
+                    return original_connect(*args,**kwargs,corrected_native=p,corrected_native_approval=reviewed_source()[0]['report_sha256'])
+                loaded.connect=extended
+            return loaded
+        prior.module=factory
+    connection=prior.connect()
+    if scientific:
+        from orchestrator import dispatch_limiter
+        limiter=prior.module('_corrected_native_limiter',ROOT/'orchestrator/dispatch_limiter.py')
+        dispatch_limiter.admit_manual=limiter.admit_manual
+    return prior,connection
 
 def overlay(root):
     # Reuse the genuine installed accounting/checkpoint connections intact.
@@ -81,7 +109,7 @@ def overlay(root):
     import importlib,orchestrator,tools
     root=Path(root);orchestrator.__path__.insert(0,str(root/'orchestrator'))
     tools.__path__=[str(root/'tools'),*tools.__path__]
-    names=[name[:-3].replace('/','.') for name in FILES if name.startswith('orchestrator/')]
+    names=[name[:-3].replace('/','.') for name in FILES if name.startswith('orchestrator/') and name.split('/')[-1] not in {'item4_smoke_response.py','item4_scoped_calls.py','dispatch_limiter.py','item4_fixture_correction.py'}]
     for name in names:
         sys.modules.pop(name,None)
         if hasattr(orchestrator,name.split('.')[-1]):delattr(orchestrator,name.split('.')[-1])
@@ -123,8 +151,8 @@ LockPersonality=true
 """
     cpu=common+f'ExecStart=/usr/bin/python3 -s -B {ROOT}/tools/item4_diagnostic_native_runtime.py run\nTimeoutStartSec=1200\nReadWritePaths={STATE} {LEDGER}\n'
     prior=(Path(__file__).resolve().parents[1]/'docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt').read_bytes()
-    require(sha(prior)=='eaebd47bd4c016e0aff1df821bbd36f309bbf8c820d6538c81154bfe8821ed2a','PRIOR_REVIEW_UNIT')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-author18-plaintext-recovery-20261010/tools/item4_smoke_response_runtime.py run'
+    require(sha(prior)=='c4af0e7bd79e023de631b5d80343ddf8e4177d4bfb6a12edd6d6c4c0974de381','PRIOR_REVIEW_UNIT')
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-native-fixture-correction-20261010/tools/item4_smoke_response_runtime.py run'
     require(prior.decode().count(before)==1,'PRIOR_REVIEW_COMMAND')
     review=prior.decode().replace(before,f'ExecStart=/usr/bin/python3 -s -B {ROOT}/tools/item4_diagnostic_review_runtime.py run')
     return {CPU_UNIT:cpu.encode(),REVIEW_UNIT:review.encode()}
@@ -143,13 +171,19 @@ def accepted(accounts,*,review=False):
         require(value['notebook_revision_result']==before['notebook_revision_result']
             and all(r in value['artifacts'] for r in before['artifacts']),'AUTHOR_ARTIFACTS_CHANGED')
         for key in before:
-            if key not in {'phase','reason','pending','artifacts','rounds'}:
+            if key not in {'phase','reason','pending','artifacts','rounds'} and not (review and key=='interventions'):
                 require(value.get(key)==before[key],'PRIOR_AUTHORITY_CHANGED')
+        if review:
+            from orchestrator import item4_smoke_response as helper
+            p=d.document(d.CORRECTED,d.CORRECTED_SHA);approval=authority()['report_sha256']
+            old_interventions=before.get('interventions',[])
+            require(value.get('interventions',[]) in [old_interventions,[*old_interventions,helper.proof(p,approval)]],
+                'INTERVENTIONS_CHANGED')
         if not review:
-            require(value['phase']=='BLOCKED' and value['reason']=='NATIVE_HARNESS_ACCEPTED_NATIVE_EVIDENCE_REQUIRED'
+            require(value['phase']=='BLOCKED' and value['reason']=='CPU_DIAGNOSTIC_AUTHORING_REVISE_EXECUTION_HELD'
                 and not value.get('pending') and value['rounds']==before['rounds'],'HELD_AUTHOR_REQUIRED')
         local_ids={r[0] for r in db.execute('SELECT id FROM manual_calls')}
-        review_id=sha(('experiment-a74959ac4546a982af4ae137:run_spec_review:15').encode())
+        review_id=sha(('experiment-a74959ac4546a982af4ae137:run_spec_review:16').encode())
         require(local_ids in ([set(frozen['local_calls']),set(frozen['local_calls'])|{review_id}] if review else [set(frozen['local_calls'])]),'UNEXPECTED_CALL')
         for ident,pin in frozen['local_calls'].items():
             row=db.execute('SELECT * FROM manual_calls WHERE id=?',(ident,)).fetchone()
@@ -165,7 +199,7 @@ def accepted(accounts,*,review=False):
         rawtests=pr.check(folder/'synthetic/receipt.json').read_bytes();tests=json.loads(rawtests)
         require(tests['status']=='PASS' and tests['exit_code']==0 and tests_passed(tests['tests'],selected['module_sha256']),
             'CONTROLLER_TESTS')
-        testref=next(r for r in value['artifacts'] if r['id']=='synthetic_tests' and r['version']==19)
+        testref=next(r for r in value['artifacts'] if r['id']=='synthetic_tests' and r['version']==20)
         from orchestrator.context_budget import relative_file
         raw=pr.check(relative_file(json.loads(config_raw)['context'],testref['path'])).read_bytes()
         require(sha(raw)==selected['controller_receipt_sha256'] and json.loads(raw)==tests,'CONTROLLER_BINDING')

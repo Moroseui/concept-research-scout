@@ -1,4 +1,4 @@
-"""Install one reviewed native CPU + reviewer15 bundle, disabled and unspent."""
+"""Install one reviewed native CPU + reviewer16 bundle, disabled and unspent."""
 from pathlib import Path
 import argparse,base64,gzip,hashlib,importlib.util,json,os,stat,subprocess,sys,tempfile
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
@@ -39,7 +39,7 @@ def install(source,review,bundle,*,preflight=False):
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approval=verify_result(review);manifest=json.loads(trusted(review/'packet-manifest.json').read_bytes())
-    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='item4-diagnostic-native-install-20261010'
+    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='item4-corrected-native-verification-20261010'
         and approval['source_sha']==manifest['source_sha'] and approval['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()),'GENUINE_APPROVAL')
     path=source/'tools/item4_diagnostic_native_runtime.py'
     require(sha(trusted(path).read_bytes())==manifest['source_files']['tools/item4_diagnostic_native_runtime.py'],'RUNTIME_SOURCE')
@@ -65,7 +65,7 @@ def install(source,review,bundle,*,preflight=False):
     require(sha(code)==selected['code_bundle_sha256'] and len(code)==selected['code_bundle_bytes'],'BUNDLE_CHANGED')
     with tempfile.TemporaryDirectory(prefix='diagnostic-native-source-check-') as folder:
         worker.unpack(base64.b64encode(gzip.compress(code,mtime=0)).decode(),selected,Path(folder));worker.check_package(Path(folder),selected)
-    for unit in ('research-item4-author18-plaintext-recovery-20261010.service',h.CPU_UNIT,h.REVIEW_UNIT):
+    for unit in ('research-item4-native-fixture-correction-20261010.service',h.CPU_UNIT,h.REVIEW_UNIT):
         observed=dict(line.split('=',1) for line in subprocess.check_output(['systemctl','show',unit,'-p','ActiveState','-p','MainPID'],text=True).splitlines())
         require(observed.get('MainPID')=='0' and observed.get('ActiveState') in {'inactive','failed'},'ACTIVE_WRITER')
     targets=[h.ROOT,h.RECORD,h.CONFIG.parent,h.STATE,*[Path('/etc/systemd/system')/name for name in units]]

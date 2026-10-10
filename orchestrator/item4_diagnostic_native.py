@@ -1,4 +1,4 @@
-"""Exact author19 native admission; preserves historical proofs and every charge."""
+"""Exact author20 native admission; preserves historical proofs and every charge."""
 from pathlib import Path
 import hashlib,json,subprocess
 from orchestrator.modal_executor import canonical
@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 RETAINED='docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json'
 RETAINED_SHA='9bdcdaa8704dbe8548aff8884ffddaaa1a04b92707c102bb81d04765a2f78521'
 ACCEPTED='docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json'
-ACCEPTED_SHA='dbedfcd37dace318baceb05d676423becd79597c3a1866dcc6b7c116d97a6da2'
+ACCEPTED_SHA='fca5931dd8fba48d54a63a94e084633dc5feed4708cf12ff7bbdbc78d0772675'
 OPERATOR='5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85c68ca33'
 STAGE_CAP=150_000_000
 DIAGNOSTIC_CAP=25_000_000
@@ -26,7 +26,14 @@ def document(name,pin):
     raw=(ROOT/name).read_bytes();require(sha(raw)==pin,'DOCUMENT_CHANGED')
     return strict_json(raw)
 
+FAILED_ASSET='27146f38f1722579ed096a880f59cc607bc36e993fe57634b6ffe271ae92c157'
+CORRECTED='docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json'
+CORRECTED_SHA='b8988329f73cc1838829b68750a36fdf661039782276f3183d70c851a8751e67'
+
 def historical_asset(row):
+    if dict(row).get('id')==FAILED_ASSET:
+        require(dict(row)==document(CORRECTED,CORRECTED_SHA)['original_failed_asset'],'FAILED_ROW_CHANGED')
+        return True
     if dict(row).get('id') not in OLD_NATIVE:return False
     proof=document(RETAINED,RETAINED_SHA)
     require(dict(row)==proof['native_rows'][row['id']],'HISTORICAL_ASSET_CHANGED')
@@ -37,9 +44,9 @@ def limit(binding):
     require(binding.get('purpose')==n.PURPOSE and binding.get('operation_id')==n.OPERATION
         and binding.get('run_id')==n.RUN,'FIXED_OPERATION')
     selected=n.selected(binding.get('native_synthetic'))
-    require(selected['author_attempt']==19 and selected['module_sha256']==
-        '8a6e446bfc96f2240c25716a2f56e2b367c56c9d220647805efd701f627c092b'
-        and selected['code_bundle_sha256']=='57d3d7a422520301812f2f2d9254f5811a46ba384d2746e92419d693679aa4c8',
+    require(selected['author_attempt']==20 and selected['module_sha256']==
+        '501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749'
+        and selected['code_bundle_sha256']=='dc145614124687fea4fa4c4386720866259f1bae6b26f3a16f21f8a8a1495159',
         'ACCEPTED_SELECTION')
     require(sha((ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt').read_bytes())==OPERATOR
         and sha((ROOT/item4_stage1_cap.DOCUMENT).read_bytes())==item4_stage1_cap.OPERATOR_SHA,'OPERATOR_CHANGED')
@@ -58,7 +65,18 @@ def retained_terminal(accounts,binding):
         for ident,pin in proof[kind].items():
             row=accounts.db.execute('SELECT * FROM '+table+' WHERE id=?',(ident,)).fetchone()
             require(row is not None and sha(canonical(dict(row)))==pin,'RETAINED_ROW_CHANGED')
-    return set(proof['assets'])|set(proof['native_ready']),set(proof['compute'])
+    # Qualify this one positively terminal FAIL through its original installed
+    # verifier. Its UNCERTAIN row and full reservation remain immutable.
+    raw=subprocess.check_output(['/usr/bin/python3','-s','-B',str(ROOT/'tools/item4_validation_retained.py'),
+        '--diagnostic-failure'],timeout=120)
+    require(strict_json(raw)=={'source':'81cd8225365a26944128ab5eb3fceda9e36d5f3d',
+        'implementation_review_sha256':'b5dfa4bf3c7d3bb45733dd7bffcf8aa5a4344cfc99a16dbdb7468e292f28679a',
+        'asset_id':FAILED_ASSET,'module_sha256':'8a6e446bfc96f2240c25716a2f56e2b367c56c9d220647805efd701f627c092b',
+        'exit_code':1,'status':'FAIL','package_unchanged':True,'scientific_acceptance':False,
+        'no_automatic_retry':True},'ORIGINAL_NATIVE_FAILURE')
+    row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(FAILED_ASSET,)).fetchone()
+    require(row is not None and historical_asset(row),'FAILED_ROW_REQUIRED')
+    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET},set(proof['compute'])
 
 def subcap(accounts,assets,compute,asset_amounts,snapshot,amount):
     """Count diagnostic preparations and fits, including every unreleased row.

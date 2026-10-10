@@ -1,14 +1,10 @@
-"""Actual author19 native receipt delivered to the already-reserved reviewer15."""
+"""Actual author20 native receipt delivered to the already-reserved reviewer16."""
 from pathlib import Path
 import hashlib,importlib.util,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools import item4_diagnostic_native_runtime as native
 ROOT=native.ROOT
-PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-author18-plaintext-recovery-20261010/tools/item4_smoke_response_runtime.py')
-PRIOR_SHA='8f884032ec1e1f6119e38db0de529d1b172fcc8941a4f17e554bc9d3879ab54f'
-PRIOR_REVIEW='ff43deb433ca844548298b459295cd8c4db14bafb9bfcb8699d017be9e9e108b'
-PRIOR_SOURCE='5b884b7c45f64957e6f8c9952529a079e4fea94f'
-PREFIX='diagnostic-native19-'
+PREFIX='diagnostic-native20-'
 sha,require,trusted=native.sha,native.require,native.trusted
 
 def load(name,path):
@@ -16,10 +12,11 @@ def load(name,path):
     sys.modules[name]=module;spec.loader.exec_module(module);return module
 
 def connect():
-    prior,connected=native.verified_prior()
+    prior,connected=native.verified_prior(scientific=True)
     native.overlay(ROOT)
-    native.authority()
-    return prior,connected
+    approval=native.authority()['report_sha256']
+    p=json.loads(trusted(ROOT/'docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json').read_bytes())
+    return prior,(*connected[:5],p,approval)
 
 
 def evidence(accounts):
@@ -41,39 +38,20 @@ def marker(accounts):
     raw=evidence(accounts)
     return {'schema':'item4-diagnostic-native-evidence-binding/v1','implementation_sha256':native.authority()['report_sha256'],
         'receipt_sha256':sha(raw),'selection_sha256':n.SELECTION_SHA,'author_call_id':n.selected()['author_call_id'],
-        'review_attempt':15,'execution_authorized':False,'full_training_admitted':False,'coverage_released':False}
+        'review_attempt':16,'execution_authorized':False,'full_training_admitted':False,'coverage_released':False}
 
 def attach(driver,helper,p,approval):
-    saved_ready,saved_guidance=helper.ready,helper.guidance
+    saved_ready=helper.ready
     def ready(current,value,scope,grant):
-        if not helper.plaintext_recovery(scope) or value.get('phase')!='run_spec_review':
-            return saved_ready(current,value,scope,grant)
+        result=saved_ready(current,value,scope,grant)
+        if not helper.corrected_review(scope):return result
         require(current.store is driver.store and current.state==driver.state and current.config==driver.config
-            and scope==p and grant==approval==PRIOR_REVIEW,'REVIEW_SCOPE')
-        helper.granted(driver.store,p,approval)
-        q=helper.profile(p)
-        require(not value.get('pending') and value['rounds']=={'run_spec_author':19,'run_spec_review':14}
-            and value.get(q['field'])==helper.proof(p,approval),'REVIEW_STATE')
-        old=helper.scope(p,approval)
-        for key in helper.protected_keys(p):require(value.get(key)==old.get(key),'PRIOR_EXECUTION_HOLD')
-        helper.review_binding(driver,p,approval);helper.executable_candidate(driver,value,p)
+            and scope==p and grant==approval==native.authority()['report_sha256'],'REVIEW_SCOPE')
         require(value.get('diagnostic_native_evidence')==marker(driver.store.batch),'ACTUAL_NATIVE_EVIDENCE_REQUIRED')
-    def guidance(scope):
-        if not helper.plaintext_recovery(scope):return saved_guidance(scope)
-        return helper.SCOPED_GUIDANCE.replace('unchanged accepted author17','accepted author19')+(
-            ' This is reviewer15 responding to genuine REVISE14, DIAG-U2-changed-module-native-integration-unverified. '
-            'The original review14 and all prior open findings remain delivered. Read diagnostic-native19-index.json '
-            'and every ordered page: together they contain the COMPLETE authentic pinned-image CPU receipt, console, '
-            'selection and transport proofs. Judge whether it closes the native integration finding for these two fits. '
-            'An outer PASS is not enough: assess actual DiagnosticTrainer hooks, loader workers/waits, telemetry '
-            'thread lifecycle, 15 epochs/LR250/save10,2100s stop and cpu-diagnostic.json/hash closure. '
-            'CPU-only durable-invalid GPU telemetry is truthful and was allowed by review14; no GPU or production '
-            'validation is claimed. Do not substitute old native13 or unaccepted author18 for the actual author19 result. '
-            'Use the complete current code, plan, controller tests and native limitations. All whole-plan, coverage '
-            'and projection findings stay open. No requested verdict is implied; genuine APPROVE is necessary '
-            'before separate normal admission of the B-first GPU diagnostic. No compute starts from this call.')
-    helper.ready,helper.guidance=ready,guidance
-    return lambda:(setattr(helper,'ready',saved_ready),setattr(helper,'guidance',saved_guidance))
+        return result
+    helper.ready=ready
+    return lambda:setattr(helper,'ready',saved_ready)
+
 
 def pages(raw):
     from orchestrator.modal_executor import canonical
@@ -88,13 +66,14 @@ def deliver(driver,value):
     from orchestrator import experiment_collection as collection
     expected=pages(evidence(driver.store.batch))
     for name,raw in expected.items():
-        collection.artifact(driver,value,'result_tables',PREFIX+name,'diagnostic-native19/'+name,raw)
+        collection.artifact(driver,value,'result_tables',PREFIX+name,'diagnostic-native20/'+name,raw)
     actual=[r for r in value['artifacts'] if r['id'].startswith(PREFIX)]
     require(len(actual)==len(expected) and {r['id']:r['sha256'] for r in actual}==
         {PREFIX+n:sha(raw) for n,raw in expected.items()},'NATIVE_DELIVERY_MEMBERS')
     driver.save(value)
 
 def verify_delivery(driver,value):
+    require(value.get('diagnostic_native_evidence')==marker(driver.store.batch),'NATIVE_MARKER_CHANGED')
     from orchestrator import context_budget as cb,private_records as pr
     expected=pages(evidence(driver.store.batch))
     actual=[r for r in value['artifacts'] if r['id'].startswith(PREFIX)]
@@ -121,9 +100,9 @@ def bind_admission(driver,c,original,helper,p,approval):
         return [result['failed_id'],original[3].CALL]
     def command(work,stage_name):
         argv=saved[2](work,stage_name);pending=driver.current().get('pending') or {}
-        expected=Path(driver.config.get('workspace_root',driver.state.parent/(driver.state.name+'-scientific-workspaces')))/'run_spec_review-15'
+        expected=Path(driver.config.get('workspace_root',driver.state.parent/(driver.state.name+'-scientific-workspaces')))/'run_spec_review-16'
         require(stage_name=='run_spec_review' and Path(work)==expected and pending.get('id')==helper.call(p,'review')
-            and pending.get('round')==15 and pending.get('stage')==stage_name,'REVIEW_COMMAND_SCOPE')
+            and pending.get('round')==16 and pending.get('stage')==stage_name,'REVIEW_COMMAND_SCOPE')
         for db,table in [(driver.store.db,'manual_calls'),(driver.store.batch.db,'autonomy_calls')]:
             row=db.execute('SELECT status FROM '+table+' WHERE id=?',(helper.call(p,'review'),)).fetchone()
             require(row is not None and row[0]=='RUNNING','REVIEW_ADMISSION_REQUIRED')
@@ -148,7 +127,7 @@ def main(argv=None):
         def task(self,stage,value):
             require(stage=='run_spec_review','REVIEW_ONLY');return super().task(stage,value)+'\n'+helper.guidance(p)
         def prepare_input(self,value,stage,work):
-            require((stage,self.model_round_number(value))==('run_spec_review',15),'INPUT_SCOPE')
+            require((stage,self.model_round_number(value))==('run_spec_review',16),'INPUT_SCOPE')
             helper.deliver(self,value,p,approval,prior.supplemental(self,p));deliver(self,value)
             body,measurement=super().prepare_input(value,stage,work)
             helper.verify_delivered(self,value,stage,work,body,measurement,p);verify_delivery(self,value)
@@ -156,14 +135,14 @@ def main(argv=None):
         def _accept_completed(self,value):
             pending=value.get('pending') or {};work=Path(pending.get('workspace',''))
             require((pending.get('stage'),pending.get('round'),pending.get('id'))==
-                ('run_spec_review',15,helper.call(p,'review')),'COMPLETION_SCOPE')
+                ('run_spec_review',16,helper.call(p,'review')),'COMPLETION_SCOPE')
             helper.verify_delivered(self,value,'run_spec_review',work,pr.check(work/'prompt.md').read_text(),
                 json.loads(pr.check(work/'input-measurement.json').read_bytes()),p);verify_delivery(self,value)
             result=helper.finish_review(self,value,p,approval)
             assessment=value[helper.profile(p)['result']]
             value['diagnostic_native_scientific_assessment']={**assessment,
                 'scientific_scope':'two-cpu-diagnostic-fits-only','global_findings_closed':False,
-                'carried_review_sha256':helper.NATIVE_REVIEW14_REPORT,
+                'carried_review_sha256':helper.REVIEW15_REPORT,
                 'native_evidence':value['diagnostic_native_evidence']}
             self.save(value);return self.status()
     try:
@@ -182,10 +161,11 @@ def main(argv=None):
                     not driver.store.db.execute('SELECT 1 FROM manual_calls WHERE id=?',(helper.call(p,'review'),)).fetchone(),
                     'REVIEW_ALREADY_STARTED')
                 mark=marker(driver.store.batch)
-                with pr.open_file(driver.state/'diagnostic-native19-activation.json','xb') as stream:stream.write(canonical(mark))
-                value.update(phase='run_spec_review',reason='REVIEWED_ACTUAL_NATIVE19_EVIDENCE',diagnostic_native_evidence=mark)
+                with pr.open_file(driver.state/'diagnostic-native20-activation.json','xb') as stream:stream.write(canonical(mark))
+                helper.activate(driver,p,approval,driver.state/helper.profile(p)['folder'])
+                value=driver.current();value['diagnostic_native_evidence']=mark
                 helper.ready(driver,value,p,approval);driver.save(value)
-                result={'status':'READY_REVIEW15','model_calls':0,'provider_calls':0}
+                result={'status':'READY_REVIEW16','model_calls':0,'provider_calls':0}
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)
