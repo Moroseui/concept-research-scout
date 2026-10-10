@@ -2,13 +2,13 @@
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
 All three benchmarks, the five-epoch smoke with real interruption/resume, and the repeat are complete; no GPU is running.
-Scientific review stopped before model admission because its host-isolation proof expired during verification; the original attempt is preserved and uncharged.
-A bounded operation using the unchanged host check passed 22 tests; Claude is reviewing the explicit enforcement after requesting it in round one.
+The original scientific preflight failed before model admission; its approved single retry is now preparing with genuine host-policy refreshes. No scientific call is admitted yet.
+The bounded operation passed 22 tests and independent APPROVE; its first live refresh passed. No expiry, policy check or privilege was changed.
 Identified provider compute is $24.29; effective stage-1 exposure is $110.11/$150. All original reservations and unsettled obligations remain recorded.
-Next result: scientific smoke assessment, roughly 45-60 minutes if this review approves. The provisional $3,575 full-plan projection exceeds the unchanged $1,200 gate.
-UTC October 10 calls: 5/50, comprising 3 administrative reviews and 2 direction calls. Latest direction: SIMPLIFY, with the narrowed response under review.
+Next result: scientific smoke assessment, roughly 45-60 minutes from the retry start. The provisional $3,575 full-plan projection exceeds the unchanged $1,200 gate.
+UTC October 10 calls: 5/50, comprising 3 administrative reviews and 2 direction calls. Latest direction: PROCEED after two rounds; inspectable enforcement resolved both findings.
 
-Updated 2026-10-10T01:53:24.456484+00:00.
+Updated 2026-10-10T01:58:34.786855+00:00.
 
 ## Results and readiness
 
@@ -30,7 +30,7 @@ Identified provider compute is $24.29013445, including the repeat at $4.65640856
 
 Current effective stage-1 exposure is $110.111178/$150 after the installed reconciliation policy applied completed-hour repeat billing. Original compute reservations total $147.7164 and remain preserved. The repeat keeps its original $16.5924 reservation alongside provider compute of $4.65640856 and a conservative closed bound of $9.707803. The $6.884597 excess is no longer included in effective exposure; unsettled overhead is retained. Both base segment originals and their closed bounds remain. No manual credit, ledger rewrite or release for an open or uncertain attempt occurred. The aggregate billing record is under outputs/sprint13b/STAGE1_SMOKE_BILLING.json.
 
-UTC October 10: 0 scientific author, 0 scientific reviewer, 3 administrative reviews, 2 direction calls. Administrative purposes: installed smoke-review connection, first host-proof operational opinion, and the current revision with inspectable enforcement. The first operational opinion returned REVISE, estimated $3.544358; its revision is running. Direction discussion is folded into these operational reviews and is not counted again. Their purposes were the shortest smoke-review path and clarification of its exact call-accounting exception. Both are completed administrative calls, with model estimates $2.7915255 and $2.13659325. The implementation review is also complete, with a model estimate of $4.94008025; the original scientific request stopped before model admission, without a scientific charge. October 9 remains 50 calls: 3 scientific author, 4 scientific reviewer, 37 administrative implementation reviews and 6 direction checks. No usage was reset or relabeled. The completed implementation review bundled the complete smoke connection, accounting, evidence delivery and installation. No extra standalone direction call was made.
+UTC October 10: 0 scientific author, 0 scientific reviewer, 3 administrative reviews, 2 direction calls. Administrative purposes: installed smoke-review connection, first host-proof operational opinion, and the current revision with inspectable enforcement. The first operational opinion returned REVISE, estimated $3.544358; revision two returned APPROVE, estimated $3.7232215. Direction discussion is folded into these operational reviews and is not counted again. Their purposes were the shortest smoke-review path and clarification of its exact call-accounting exception. Both are completed administrative calls, with model estimates $2.7915255 and $2.13659325. The implementation review is also complete, with a model estimate of $4.94008025; the original scientific request stopped before model admission, without a scientific charge. October 9 remains 50 calls: 3 scientific author, 4 scientific reviewer, 37 administrative implementation reviews and 6 direction checks. No usage was reset or relabeled. The completed implementation review bundled the complete smoke connection, accounting, evidence delivery and installation. No extra standalone direction call was made.
 
 ## Blockers and judgment calls
 
@@ -48,7 +48,7 @@ The installed smoke-review connection is still independently approved. Its first
 
 Claude's first operational review returned genuine REVISE: a prose-only procedure did not show enforceable binding to the live invocation or equivalent protection. That report and all original charges remain. The response supplies source 173abad055d282c3479331be01e666510d208486 and 22 passing tests for a bounded operator command. It starts the existing exact scientific unit once, captures its actual invocation, and permits fresh executions of the unchanged host-policy check only for that invocation, with hash, process, time and count bounds. It neither extends the expiry nor installs a timer, daemon, permission or service. Failed checks stop the same invocation; a different invocation is never refreshed or stopped. The actual service-account read-only starting-state check confirms all 24 call hashes and the preserved workspace.
 
-Direction discussion: accept the demand for inspectable enforcement and defer generic infrastructure; the remaining question is this bounded existing operation versus a larger change to the two internal privilege boundaries. The second independent review is running with both original findings retained. Nothing from this candidate has been used to refresh a live proof or retry the scientific call. No money decision is pending; the stage, projection and total caps remain unchanged.
+Direction discussion: accept the demand for inspectable enforcement and defer generic infrastructure; the remaining question is this bounded existing operation versus a larger change to the two internal privilege boundaries. The second independent review returned genuine APPROVE, resolving both findings, with direction PROCEED. Report hash: 451cfd4a595107edcf8a364f4b4e128b415fc5dd6b40a7d3ffdffd4919c46a59. The exact approved operator command started one retry; the first genuine live policy refresh passed. Further pulses are bounded by the same invocation, 62 checks and 3,700 seconds. The model and GPU have no new privilege, and no installed service or timer was added. No money decision is pending; the stage, projection and total caps remain unchanged.
 
 ## Files withheld from public backup
 
