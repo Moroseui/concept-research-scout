@@ -70,11 +70,20 @@ class BoundedLog(io.TextIOBase):
 def progress_factory(selection):
     from orchestrator.modal_fit_progress import FitProgress
     from orchestrator import private_records as pr
+    authenticated_root=None
+    authenticated_inputs=None
     def factory(mount,fit,plans,environment):
+        nonlocal authenticated_root,authenticated_inputs
         mount=Path(mount)
-        require(mount.name=='durable' and mount.parent.name.startswith('item4-native-synthetic-')
+        require(mount.is_absolute() and '..' not in mount.parts
+            and mount.name in {'durable','diagnostic'}
+            and mount.parent.name.startswith('item4-native-synthetic-')
             and fit=='synthetic-fit','PROGRESS_SCOPE')
-        pr.mkdir(mount,parents=True,exist_ok=True)
+        # Both authored outputs are exact siblings of the same generated inputs.
+        # Keep the two fits separate without accepting arbitrary subdirectories.
+        pr.check(mount.parent)
+        require(authenticated_root is None or mount.parent==authenticated_root,'PROGRESS_ROOT_CHANGED')
+        pr.mkdir(mount,parents=False,exist_ok=True)
         # Bind actual generated fixture bytes, never production inputs.
         inputs=mount.parent/'inputs'
         require(inputs.is_dir() and not inputs.is_symlink(),'SYNTHETIC_INPUTS')
@@ -86,10 +95,14 @@ def progress_factory(selection):
                 require('sub-stroke' not in name,'PATIENT_PATH')
                 inventory[name]={'bytes':path.stat().st_size,'sha256':sha(path.read_bytes())}
         require(len(inventory)==893,'SYNTHETIC_INPUT_MEMBERSHIP')
+        inputs_pin=sha(json.dumps(inventory,sort_keys=True,allow_nan=False).encode())
+        require(authenticated_inputs is None or inputs_pin==authenticated_inputs,'SYNTHETIC_INPUTS_CHANGED')
+        authenticated_root=mount.parent
+        authenticated_inputs=inputs_pin
         binding={'run_id':'item4-native-synthetic','arm':'A1_repeat','fold':0,'realization':'synthetic',
             'spec_sha256':sha(b'synthetic rehearsal, no approval'),
             'code_sha256':selection['module_sha256'],
-            'input_contract_sha256':sha(json.dumps(inventory,sort_keys=True,allow_nan=False).encode()),
+            'input_contract_sha256':inputs_pin,
             'environment_sha256':environment,'plans_sha256':plans}
         return FitProgress(mount,fit,binding)
     return factory

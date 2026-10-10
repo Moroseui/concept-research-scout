@@ -65,12 +65,20 @@ def qualify(*, diagnostic=False):
                 for i in sorted({budget.NATIVE_ID,*assets}-{budget.SOURCE_PREDECESSOR_ID})}
         return result
 
-def qualify_diagnostic_failure(*,corrected=False):
+def qualify_diagnostic_failure(*,corrected=False,audited=False):
     """Qualify the preserved FAIL as FAIL; never create, poll, retry or release."""
     if os.getuid()!=1003 or os.getgid()!=1003 or not sys.flags.no_user_site:
         raise ValueError('DIAGNOSTIC_FAILURE_SERVICE_IDENTITY')
-    if type(corrected) is not bool:raise ValueError('DIAGNOSTIC_FAILURE_SELECTOR')
+    if type(corrected) is not bool or type(audited) is not bool or (corrected and audited):
+        raise ValueError('DIAGNOSTIC_FAILURE_SELECTOR')
     selected_proof=(
+        ('item4-audited-native-verification-20261010',
+         'e3c0ceb164bb9f28c4a9038463ca9510792e5b65c4ef7c412a9609311c721048',
+         'ea529258841dd75608ec9834bcc21c34e39aaa81',
+         '4fba65d315c552192d8230af33a1b889021dd092b9067beb703c19e2b8ece22a',
+         '81e4dd6571ee65c4b0f7b6a6ff9c8732c66d15bee2f6738b8c0336c4b81398cf',
+         '35523bcdda31ea115b9038e734dcc85749655c2859b666b0e7a0eb17c7f3e891',
+         'ValueError: NATIVE_REHEARSAL_PROGRESS_SCOPE\n') if audited else
         ('item4-corrected-native-verification-20261010',
          '19cc5b660dbd252bca4cfade6087656687c7c70e4f8ad9b648ce7912a1f4e414',
          'b60badd65283e7df5f801a6a6a20b3fd63504544',
@@ -143,7 +151,8 @@ def qualify_diagnostic_failure(*,corrected=False):
         'scientific_acceptance':False,'no_automatic_retry':True}
 
 if __name__=='__main__':
-    if sys.argv[1:] not in ([],['--diagnostic-native'],['--diagnostic-failure'],['--diagnostic-audit-failure']):raise ValueError('VALIDATION_TERMINAL_ARGUMENTS')
-    result=(qualify_diagnostic_failure(corrected=True) if sys.argv[1:]==['--diagnostic-audit-failure'] else
+    if sys.argv[1:] not in ([],['--diagnostic-native'],['--diagnostic-failure'],['--diagnostic-audit-failure'],['--diagnostic-progress-failure']):raise ValueError('VALIDATION_TERMINAL_ARGUMENTS')
+    result=(qualify_diagnostic_failure(audited=True) if sys.argv[1:]==['--diagnostic-progress-failure'] else
+        qualify_diagnostic_failure(corrected=True) if sys.argv[1:]==['--diagnostic-audit-failure'] else
         qualify_diagnostic_failure() if sys.argv[1:]==['--diagnostic-failure'] else qualify(diagnostic=bool(sys.argv[1:])))
     print(json.dumps(result,sort_keys=True))

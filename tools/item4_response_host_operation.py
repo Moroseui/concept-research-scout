@@ -11,11 +11,11 @@ import subprocess
 import sys
 import time
 
-CHANGE='item4-audited-native-verification-20261010'
-REVIEW_CHANGE='item4-audited-native-verification-20261010'
+CHANGE='item4-progress-scope-repair-20261010'
+REVIEW_CHANGE='item4-progress-scope-repair-20261010'
 FILE='tools/item4_response_host_operation.py'
 DOCUMENT='docs/ITEM4_RESPONSE_HOST_PRIVATE.json'
-UNIT='research-item4-audited-native-verification-20261010-review.service'
+UNIT='research-item4-progress-scope-repair-20261010-review.service'
 FAILED='00000000000000000000000000000000'
 STAGE=None
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-timeout-continuation-8e042339')
@@ -109,7 +109,7 @@ from types import SimpleNamespace as NS
 assert os.getuid()==os.getgid()==1003
 base,lane,stage,source,report=sys.argv[1:];lane=Path(lane)
 sys.path.insert(0,base)
-p=Path('/opt/research-system/manual-repair-helpers/item4-audited-native-verification-20261010/tools/item4_diagnostic_review_runtime.py')
+p=Path('/opt/research-system/manual-repair-helpers/item4-progress-scope-repair-20261010/tools/item4_diagnostic_review_runtime.py')
 s=importlib.util.spec_from_file_location('_response_start_authority',p);route=importlib.util.module_from_spec(s);s.loader.exec_module(route)
 prior,connection=route.connect()
 a=route.native.authority();assert a['source_sha']==source and a['report_sha256']==report
