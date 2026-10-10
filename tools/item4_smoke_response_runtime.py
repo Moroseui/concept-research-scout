@@ -5,8 +5,8 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-report-snapshot-author-20261010'
-REVIEW_CHANGE='item4-report-snapshot-host-repair-20261010'
+CHANGE='item4-sender-continuation-20261010'
+REVIEW_CHANGE='item4-sender-continuation-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')
@@ -32,7 +32,10 @@ FILES=('tools/item4_smoke_response_runtime.py','tools/install_item4_smoke_respon
     'docs/ITEM4_WHOLE_FIXTURE_AUTHOR_PRIVATE.json','docs/ITEM4_AUTHOR20_NATIVE_REFERENCE_PRIVATE.py',
     'docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json','docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py',
     'docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py','docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json',
-    'docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json','tools/item4_native_worker.py')
+    'docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json','tools/item4_native_worker.py',
+    'tools/review_sender_recovery_once.py','docs/ITEM4_AUTHOR22_TERMINAL_PRIVATE.json',
+    'orchestrator/item4_diagnostic_native.py','docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json',
+    'docs/ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json')
 
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
@@ -230,6 +233,24 @@ def progress_failure_qualification():
     return dict(_progress_proof)
 
 
+def sender_qualification(row):
+    from orchestrator.autonomy_review import verify_result
+    from orchestrator import private_records as pr
+    approval=verify_result(Path('/var/lib/research-system-autonomy/reviews/a27b9e0bdf19ec037711ff079725ee83afe02e4d2b95fd751ac1ab9a7e81e04d'))
+    require(approval['verdict']=='APPROVE' and approval['source_sha']=='41b93574a0ad0fb546745095ff0078debd6f133d'
+        and approval['report_sha256']=='a54ef800461b974db328d18fba65e4d6d819044a3a003d9699a59603b0710139','SENDER_CLASSIFIER_APPROVAL')
+    original=Path('/var/lib/research-system-manual-sprint10-deployment/item4-report-snapshot-author-20261010/review')
+    previous=verify_result(original)
+    require(previous['verdict']=='APPROVE' and previous['source_sha']=='58474dd17dbeda22c6b79820fb5517c850e7b335'
+        and previous['report_sha256']=='4d59456204b35a061102a839efcc5239aba6abfe9f58cebac87d72a5b726e5a5','PREVIOUS_HANDOFF_APPROVAL')
+    doc='docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json'
+    raw=trusted(Path('/opt/research-system/manual-repair-helpers/item4-report-snapshot-author-20261010')/doc).read_bytes()
+    manifest=json.loads(trusted(original/'packet-manifest.json').read_bytes())
+    require(sha(raw)==manifest['source_files'][doc] and json.loads(trusted(ROOT/doc).read_bytes())['sender_recovery']['previous_scope']==json.loads(raw),'PREVIOUS_FROZEN_SCOPE')
+    classifier=module('_approved_sender_terminal',ROOT/'tools/review_sender_recovery_once.py')
+    return classifier.qualify(row,json.loads(trusted(ROOT/'docs/ITEM4_AUTHOR22_TERMINAL_PRIVATE.json').read_bytes()),lambda path:pr.check(path).read_bytes())
+
+
 def connect():
     approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction();audit_approval=historical_audit()
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_SOURCE_CHANGED')
@@ -241,7 +262,7 @@ def connect():
         fixture=module('orchestrator.item4_fixture_correction',ROOT/'orchestrator/item4_fixture_correction.py')
         fixture._verifier=failure_qualification;fixture._audit_verifier=audit_failure_qualification;fixture._snapshot_verifier=snapshot_failure_qualification;fixture._progress_verifier=progress_failure_qualification;orchestrator.item4_fixture_correction=fixture
         helper=module('orchestrator.item4_smoke_response',ROOT/'orchestrator/item4_smoke_response.py')
-        orchestrator.item4_smoke_response=helper
+        orchestrator.item4_smoke_response=helper;helper._sender_verifier=sender_qualification
         p=json.loads(trusted(ROOT/helper.DOCUMENT).read_bytes());helper.scope(p,old_approval)
         diagnostic=json.loads(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json').read_bytes())
         helper.scope(diagnostic,diagnostic_approval)
@@ -305,14 +326,14 @@ def bind_admission(driver,c,original,helper,p,approval):
         if run!=helper.RUN:return result
         require(store is driver.store and result is not None,'LOCAL_OWNER')
         c.originals(driver,*original);helper.granted(store,p,approval)
-        return {**result,'preserved_failures':[result['failed_id'],original[3].CALL]}
+        return {**result,'preserved_failures':[result['failed_id'],original[3].CALL,helper.SENDER_FAILED_CALL]}
     def admission(batch,run,stage_name,ident,source,receipt):
         if run!=helper.RUN:return saved[1](batch,run,stage_name,ident,source,receipt)
         require(batch is driver.store.batch and source==driver.config['source'] and
             (stage_name,ident)==('run_spec_author',helper.call(p,'author')),'AUTHOR_ONLY_GLOBAL_OWNER')
         c.originals(driver,*original);helper.ready(driver,driver.current(),p,approval)
         result=saved[0](driver.store,run);require(result is not None,'TIMEOUT_QUALIFICATION')
-        return [result['failed_id'],original[3].CALL]
+        return [result['failed_id'],original[3].CALL,helper.SENDER_FAILED_CALL]
     recovery.permit,old_recovery.admission=permit,admission
     def restore():recovery.permit,old_recovery.admission=saved
     return restore
@@ -390,12 +411,20 @@ def verify_failure_delivery(driver,value,p):
             'FAILURE_DELIVERY_BYTES')
 
 
+def active_profile():
+    from orchestrator import item4_smoke_response as helper
+    p=json.loads(trusted(ROOT/helper.SNAPSHOT_DOCUMENT).read_bytes())
+    require(helper.sender_recovery(p),'ACTIVE_SENDER_RECOVERY_SCOPE')
+    return helper.profile(p)
+
+def author_round():return active_profile()['author']
+
 def author_work():
-    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces/run_spec_author-22')
+    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces')/('run_spec_author-'+str(author_round()))
 
 
 def pins_path():
-    return author_work().parent.parent/'lane/report-snapshot-author/runtime-pins-22.json'
+    return author_work().parent.parent/'lane'/active_profile()['folder']/('runtime-pins-'+str(author_round())+'.json')
 
 
 def send(expected,family,command):
@@ -425,8 +454,8 @@ def author_sender_admitted(config,expected):
     """A prepared format tool is not permission for an uncounted model call."""
     import sqlite3
     from orchestrator import item4_smoke_response as helper,private_records as pr
-    binding=config['bindings'];ident=helper.call({'schema':helper.SNAPSHOT_SCHEMA},'author')
-    require(binding['call_id']==ident and binding['round']==22 and binding['stage']=='run_spec_author'
+    binding=config['bindings'];ident=helper.sha((helper.RUN+':run_spec_author:'+str(author_round())).encode())
+    require(binding['call_id']==ident and binding['round']==author_round() and binding['stage']=='run_spec_author'
         and binding['run_id']==helper.RUN and binding['input_sha256']==expected,'AUTHOR_SENDER_CALL_BINDING')
     lane=author_work().parent.parent/'lane'
     with sqlite3.connect(pr.check(lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as local, sqlite3.connect(
@@ -437,8 +466,8 @@ def author_sender_admitted(config,expected):
         value=json.loads(local.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
         pending=value.get('pending') or {}
         require(row is not None and other is not None and row['status']==other['status']=='RUNNING'
-            and row['stage']=='run_spec_author' and row['attempt']==22 and value['phase']=='MODEL_RUNNING'
-            and pending=={'id':ident,'stage':'run_spec_author','round':22,'workspace':str(author_work())},
+            and row['stage']=='run_spec_author' and row['attempt']==author_round() and value['phase']=='MODEL_RUNNING'
+            and pending=={'id':ident,'stage':'run_spec_author','round':author_round(),'workspace':str(author_work())},
             'AUTHOR_SENDER_ADMISSION_REQUIRED')
         receipt=json.loads(row['receipt'])
         require(receipt['input_sha256']==expected and receipt['workspace']==str(author_work()),'AUTHOR_SENDER_RECEIPT')
@@ -476,7 +505,7 @@ def prepare_author_feedback(driver,p,body,measurement,work):
             if value.get('view_sha256')==patch['view_sha256']:manifests.append(raw)
     require(len(manifests)==1,'AUTHOR_BOUND_OMISSIONS_REQUIRED')
     binding=helper.review_binding(driver,p,authority()['report_sha256'])
-    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':22,
+    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':author_round(),
         'source_sha':driver.config['source'],'runtime_sha256':sha(trusted(Path('/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json')).read_bytes()),'input_sha256':sha(body.encode())},
         {'review_call_id':binding['review_call_id'],'review_sha256':binding['review_sha256'],
             'operator_scope_sha256':plan['operator_scope_sha256'],'original_sha256':patch['original_sha256'],'view_sha256':patch['view_sha256']},
@@ -484,10 +513,35 @@ def prepare_author_feedback(driver,p,body,measurement,work):
     with pr.open_file(pins_path(),'xb') as stream:stream.write(af.canonical(pins))
     return pins
 
+def reconcile_closed_costs(driver,helper,p,approval):
+    """Append confirmed closed compute costs; every original row stays intact."""
+    from types import SimpleNamespace
+    helper.originals(driver.store,p,approval)
+    # originals verifies all four native failures, unchanged package/streams and
+    # stopped sender. Never infer terminal status from an UNCERTAIN row.
+    costs=module('_reviewed_native_closed_costs',ROOT/'orchestrator/item4_diagnostic_native.py')
+    frozen=json.loads(trusted(ROOT/'docs/ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json').read_bytes())
+    selected={helper.fixture.ASSET,helper.fixture.AUDIT_ASSET,*frozen['rows']}
+    require(len(selected)==4,'EXACT_FOUR_CLOSED_COSTS')
+    db=driver.store.batch.db
+    before=[dict(r) for r in db.execute('SELECT * FROM autonomy_assets ORDER BY id')]
+    amounts={r['id']:r['reserved_micro_usd'] for r in before}
+    db.execute('BEGIN IMMEDIATE')
+    try:
+        helper.originals(driver.store,p,approval)
+        effective=costs.closed_native_amounts(SimpleNamespace(db=db),selected,frozen['billing'],amounts,include_later=True)
+        require([dict(r) for r in db.execute('SELECT * FROM autonomy_assets ORDER BY id')]==before,'ORIGINAL_COST_ROWS_CHANGED')
+        db.execute('COMMIT')
+    except BaseException:db.execute('ROLLBACK');raise
+    return {'status':'FOUR_CLOSED_NATIVE_COSTS_RECORDED','effective_micro_usd':{i:effective[i] for i in sorted(selected)},
+        'original_reservations_preserved':True,'overhead_retained_micro_usd':4000000,'model_calls':0,'provider_calls':0,
+        'scope':'Reviewed closed costs. Older admission readers remain conservative until this source is carried into the next native release.'}
+
+
 def main(argv=None):
     argv=list(sys.argv[1:] if argv is None else argv)
     require(os.getuid()==os.getgid()==1003 and Path(__file__).resolve()==ROOT/FILES[0],'SERVICE_IDENTITY')
-    require(len(argv)==1 and argv[0] in {'verify','activate','run'},'ACTION_SCOPE')
+    require(len(argv)==1 and argv[0] in {'verify','activate','run','reconcile-cost'},'ACTION_SCOPE')
     connected,smoke,smoke_p,smoke_approval,helper,p,approval=connect()
     c,policy,original,evidence,base,fresh=connected
     from orchestrator.experiment_driver import ExperimentDriver
@@ -498,7 +552,7 @@ def main(argv=None):
     from orchestrator import experiment_context as ec
     saved_accept=ec.accept_author
     def accept_author(current, value, pending):
-        require(current is driver and pending['round']==22,'AUTHOR_ACCEPT_SCOPE')
+        require(current is driver and pending['round']==author_round(),'AUTHOR_ACCEPT_SCOPE')
         saved_accept(current,value,pending)
         helper.executable_candidate(current,value,p)
     saved_author=(stage._invoke,stage.transport_profile)
@@ -520,7 +574,7 @@ def main(argv=None):
                 task+='\nRequired exact author output schema: '+json.dumps(schema(),sort_keys=True)
             return task
         def prepare_input(self,value,stage_name,work):
-            require((stage_name,self.model_round_number(value)) ==('run_spec_author',22),'INPUT_SCOPE')
+            require((stage_name,self.model_round_number(value)) ==('run_spec_author',author_round()),'INPUT_SCOPE')
             helper.deliver(self,value,p,approval,supplemental(self,p));deliver_failure(self,value,p)
             body,measurement=super().prepare_input(value,stage_name,work)
             helper.verify_delivered(self,value,stage_name,work,body,measurement,p);verify_failure_delivery(self,value,p)
@@ -528,7 +582,7 @@ def main(argv=None):
             return body,measurement
         def _accept_completed(self,value):
             pending=value.get('pending') or {};stage=pending.get('stage')
-            require((stage,pending.get('round'),pending.get('id')) ==('run_spec_author',22,helper.call(p,'author')),'COMPLETION_SCOPE')
+            require((stage,pending.get('round'),pending.get('id')) ==('run_spec_author',author_round(),helper.call(p,'author')),'COMPLETION_SCOPE')
             work=Path(pending['workspace'])
             helper.verify_delivered(self,value,stage,work,pr.check(work/'prompt.md').read_text(),
                 json.loads(pr.check(work/'input-measurement.json').read_bytes()),p)
@@ -549,8 +603,10 @@ def main(argv=None):
                 helper.originals(driver.store,p,approval);helper.review_binding(driver,p,approval)
                 retained_smoke_evidence(driver,value,smoke,smoke_p,smoke_approval,helper)
                 result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
+            elif argv[0]=='reconcile-cost':
+                result=reconcile_closed_costs(driver,helper,p,approval)
             elif argv[0]=='activate':
-                result=helper.activate(driver,p,approval,driver.state/'report-snapshot-author')
+                result=helper.activate(driver,p,approval,driver.state/helper.profile(p)['field'])
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)

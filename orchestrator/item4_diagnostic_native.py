@@ -125,13 +125,14 @@ def subcap(accounts,assets,compute,asset_amounts,snapshot,amount):
     return used
 
 
-def closed_native_amounts(accounts,qualified,billing,amounts):
+def closed_native_amounts(accounts,qualified,billing,amounts,*,include_later=False):
     """Release only excess CPU/RAM reservation of the two proven closed failures.
 
     Every original row and its full reservation remain immutable. The original
     one-dollar overhead allowance stays committed until its obligations settle.
     Actual per-app billing uses a persistent hourly high-water mark.
     """
+    require(type(include_later) is bool,'CLOSED_COST_SELECTION')
     ids={r[0] for r in accounts.db.execute('SELECT id FROM autonomy_assets')}
     if not ({FAILED_ASSET,SECOND_FAILED_ASSET}&ids):return dict(amounts)
     from decimal import Decimal
@@ -144,16 +145,23 @@ def closed_native_amounts(accounts,qualified,billing,amounts):
         'CLOSED_BILLING_WINDOW')
     selected={FAILED_ASSET:('original_failed_asset',25123),SECOND_FAILED_ASSET:('second_failed_asset',23472)}
     frozen=document(CORRECTED,CORRECTED_SHA);views=[billing]
+    selected={ident:(frozen[field],floor) for ident,(field,floor) in selected.items()}
+    if include_later:
+        later=document('docs/ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json','c004b4a3850131138573b6d050c057edb7351f74333b38294530a57826f71ae4')
+        require(set(later['rows'])==set(later['actual_floor_micro_usd'])=={THIRD_FAILED_ASSET,'1e5bb3d0f1f807a99039e106cba34a40e9400dd01aae16c1f3e7212165d91d49'}
+            and instant(billing['report_end_exclusive'])>=instant('2026-10-10T16:00:00+00:00'),'LATER_CLOSED_BILLING_WINDOW')
+        selected.update({ident:(row,later['actual_floor_micro_usd'][ident]) for ident,row in later['rows'].items()})
+        views.append(later['billing'])
     for row in accounts.db.execute("SELECT id,payload FROM events WHERE id LIKE 'item4-billing:%'"):
         saved=strict_json(row['payload'])
         require(row['id']=='item4-billing:'+sha(row['payload'].encode()) and
             saved['schema']=='item4-billing-highwater/v1','BILLING_HIGHWATER_CHANGED')
         views.append(saved['snapshot'])
     result=dict(amounts);apps=set()
-    for ident,(field,floor) in selected.items():
+    for ident,(frozen_row,floor) in selected.items():
         require(ident in qualified,'CLOSED_TERMINAL_QUALIFICATION_REQUIRED')
         row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(ident,)).fetchone()
-        require(row is not None and dict(row)==frozen[field] and historical_asset(row),'CLOSED_ROW_CHANGED')
+        require(row is not None and dict(row)==frozen_row and row['status']=='UNCERTAIN','CLOSED_ROW_CHANGED')
         receipt=strict_json(row['receipt']);app=receipt['app_id'];require(app not in apps,'SHARED_BILLING_APP');apps.add(app)
         hours={}
         for view in views:

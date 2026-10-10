@@ -56,6 +56,7 @@ def test_bound_original_streams_cannot_change(history,index):
 
 def test_snapshot_checkpoint_exact_author_and_caps():
     p=json.loads((Path(__file__).parents[1]/fixture.SNAPSHOT_DOCUMENT).read_bytes())
+    p=p.get('sender_recovery',{}).get('previous_scope',p)
     assert post.scope(p,'a'*64)['rounds']=={'run_spec_author':21,'run_spec_review':15}
     q=post.profile(p);assert (q['author'],q['count'],q['batch'],q['limit'],q['batch_limit'])==(22,36,74,40,78)
     for key,value in [('run_limit',41),('batch_limit',79),('author_attempt',23),('automatic_retry',True),('execution_authorized',True),('diagnostic_micro_usd',25000001),('stage1_micro_usd',150000001)]:

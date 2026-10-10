@@ -9,7 +9,7 @@ def prior_unit():
 def test_installer_preserves_every_other_unit_line():
     raw=prior_unit();new=installer.unit_bytes(raw)
     before=b'/item4-whole-fixture-author-20261010/tools/item4_smoke_response_runtime.py run'
-    after=b'/item4-report-snapshot-author-20261010/tools/item4_smoke_response_runtime.py run'
+    after=('/'+installer.CHANGE+'/tools/item4_smoke_response_runtime.py run').encode()
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 

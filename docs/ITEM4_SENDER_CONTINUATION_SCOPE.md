@@ -1,0 +1,37 @@
+# Final counted author continuation and closed-cost reconciliation
+
+The last author handoff admitted attempt22, then the sender rejected its own round before invoking the backend. A genuine independent APPROVE a54ef800461b974db328d18fba65e4d6d819044a3a003d9699a59603b0710139 covers the minimal sender correction and exact terminal classifier at source41b93574. That intermediate patch is not installed into the exhausted release. This candidate makes the real continuation concrete.
+
+## Exact behavior
+
+Reuse the existing author-only runtime. One authoritative frozen profile selects author23, its call identity, workspace, feedback config, runtime-pins filename, admission and acceptance scope. Host unit and authority entrypoint derive from the same release identity. The prior report evidence is reused byte-for-byte by hash; a separate grant directory and new pins filename preserve the old grant and files. Production scientific code, accepted author21 reference, training plan, image, arm/fold/resource choices, existing tests, input and privacy protections remain unchanged. The author chooses the final-report lifecycle correction and added regression.
+
+Preserve author22's exact local/global UNCERTAIN rows, original charge, source/config/streams, and failed service invocation. A separately verified terminal classifier proves the pre-backend failure; no receipt or success is fabricated. A new normal admission counts author23. Accepted-round state remains21 until a real accepted submission; no completed scientific round is invented. Existing schema feedback and final independent scientific review remain required.
+
+The bounded process allowance is41 local /79 scientific batch to retain the counted failure and later reviewer/final pair. Current37/75 calls remain counted. The dispatcher validates the exact connected allowance; no general permission or reset. This release exposes author-only admission and refuses reviewer16, result interpretation, training and compute. The latest operator delegation permits Claude to judge this process exception. Daily50 and every dollar limit remain unchanged.
+
+The author still receives exact accepted source, complete four native failures, actual worker/checkpoint interfaces, and the fast final-report aliasing counterexample. All genuine scientific REVISE15 findings remain open. Administrative approval cannot close them. No native PASS or GPU result is claimed.
+
+## Closed-cost accounting
+
+Provider billing through16:00UTC confirms native attempt3 compute0.02466453 and attempt4 compute0.03461146. An optional exact later-cost selection extends the existing accounting function to those two hash-pinned, positively qualified closed rows. The caller revalidates all four original terminal proofs and wraps recording in one transaction. Original rows/reservations are immutable; all4USD original overhead is retained; hourly high-water costs can only increase effective actuals. Missing/changed/unqualified/open rows, inadequate billing window or shared billing app refuse without partial credit. Default older-reader behavior remains conservative.
+
+After genuine APPROVE, a separate no-provider/no-model action can append the four closed-cost records. First-two effective amounts remain1025123 and1023472microUSD; later amounts1024665 and1034612. The additional excess CPU/RAM credit is178623microUSD. Stage commitments using this reviewed accounting become114219050/150000000; diagnostic4107872/25000000. Older admission readers retain the more conservative prior amount until this reviewed source is carried into the next native release; no unchecked lower amount is injected into them. Original reservation figures are still visible. Projection1200000000 and total1275000000 unchanged.
+
+## Review and installation order
+
+One linked administrative request reuses only the exact byte-verified approved terminal classifier after verifying its genuine prior APPROVE. Original bootstrap dispatch remains consumed and the previous review/charge remain unchanged. The new request is separately counted, bound to this candidate, and uses the existing normal reviewer/daily admission/host preflight/isolation/sealing. All other uncertain outcomes use the original verifier; a duplicate new review request refuses. This is judgment under the operator's current engineering/process delegation, not a scientific or compute exception.
+
+Require a genuine independent implementation APPROVE before installing this final source. Then install held, verify, append closed-cost reconciliation, activate only its author grant, and run exactly one normal counted author call with existing bounded host maintenance. Preserve every original. On completion, hold for authentic native validation and scientific reviewer judgment; no automatic CPU/GPU retry or training.
+
+## Required direction answer
+
+Goal: complete approved item6 and item4 research and make the system usable by a human. Item6 is complete, including352 comparable independent reproduction matches. Item4 CPU-starvation timing remains unanswered. Its last synthetic native run completed15 diagnostic epochs but failed final report consistency, requiring the author's correction. Next barriers: this counted author correction, fast lifecycle regression/native validation, scientific review, then bounded A/B GPU timing. B first when both estimates exceed25USD. No claim that a higher-CPU A100 matches B200 without measurement.
+
+Today44/50 calls:8 scientific author admissions,5 scientific reviews,24 administrative implementation reviews,7 standalone direction checks. Administrative overhead dominates. Prior direction question was supplied but no explicit PROCEED/SIMPLIFY recommendation was returned. Do not simply approve code without answering it this time.
+
+Is this the shortest safe path to the next result, or is overhead growing? Put one explicit recommendation in your rationale: PROCEED, SIMPLIFY (say exactly what to cut/defer), or ASK PARTHO only for money. Past failure mode: building infrastructure to prove infrastructure, layers of reviews, little science. Raw commits and diff stats since the last check, goal, charter and current operator delegation are supplied. Proposed next hours: install the reviewed existing-route patch, run author23, judge the author's correction through the normal scientific path, then the diagnostic. No new subsystem or optional cleanup. If you recommend simplifying the sequence or evidence, specify the equivalent safeguard rather than removing it. Root will follow an agreed simplification; current scientific code and conclusions stay with author/reviewer.
+
+## Verification scope
+
+278 focused local tests pass. The first server rehearsal found the missing dispatcher allowance before any real admission; corrected. The second passed12 refusal cases and the full sender boundary assertion, then its test-only cwd cleanup failed. That harness issue is corrected; its original failure is retained. The final rehearsal completes the positive path and cost recording on disposable copies, with source deltas explicitly disclosed. Native process/model boundary is stubbed. Live databases are read-only, no provider launch, no credentials changed. Simulated future approval markers are test-only and never deployment authority. Host authority entrypoint and unit target are independently checked to derive from the installed release identity; final installed preflight still precedes real admission.

@@ -157,8 +157,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             response_stage.report_snapshot(report_snapshot),'REPORT_SNAPSHOT_PREREQUISITES')
         response_stage.scope(report_snapshot,report_snapshot_approval)
         response_stage.connect_roles(author_revision_accounting,manual_recovery,report_snapshot,report_snapshot_approval)
-        sequence=sequence[:14]+(('run_spec_author',22),)+sequence[14:]
-        cap=40
+        sequence=sequence[:14]+(('run_spec_author',22),)+( (('run_spec_author',23),) if response_stage.sender_recovery(report_snapshot) else () )+sequence[14:]
+        cap=response_stage.profile(report_snapshot)['limit']
     else:require(report_snapshot_approval is None,'UNBOUND_REPORT_SNAPSHOT_APPROVAL')
 
     def snapshot(store,*,inserted=False):
@@ -192,7 +192,9 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             stage,attempt=sequence[index]
             ident=continuation.sha((RUN+':'+stage+':'+str(attempt)).encode())
             gr=global_rows[prefix+index];binding=json.loads(gr['binding'])
-            status='RUNNING' if inserted and index==len(tail)-1 else 'COMPLETE'
+            failed_sender=(report_snapshot is not None and response_stage.sender_recovery(report_snapshot) and ident==response_stage.SENDER_FAILED_CALL)
+            if failed_sender:response_stage.failed_sender(store,report_snapshot)
+            status='UNCERTAIN' if failed_sender else 'RUNNING' if inserted and index==len(tail)-1 else 'COMPLETE'
             require((row['id'],row['stage'],row['attempt'],row['status'])==(ident,stage,attempt,status)
                 and gr['status']==status and gr['round']==prefix+1+index and
                 binding['stage']==stage and binding['run_id']==RUN,'SEQUENCE_OR_OUTCOME')
@@ -205,11 +207,15 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         require(value.get('phase')==stage and not value.get('pending'),'STATE')
         rounds={'run_spec_author':13 if mechanical is not None else 12,'run_spec_review':7}
         if response is not None:rounds={'run_spec_author':13,'run_spec_review':9}
-        for st,n in sequence[:len(tail)]:rounds[st]=n
+        for st,n in sequence[:len(tail)]:
+            if report_snapshot is not None and response_stage.sender_recovery(report_snapshot) and (st,n)==('run_spec_author',22):continue
+            rounds[st]=n
         require(value.get('rounds')==rounds,'ROUNDS')
         if tail and tail[-1]['stage'].endswith('_author'):
             from orchestrator import author_revision_accounting
-            if diagnostic_recovery is not None and len(tail)==6 and stage=='run_spec_author':
+            if report_snapshot is not None and response_stage.sender_recovery(report_snapshot) and tail[-1]['id']==response_stage.SENDER_FAILED_CALL and stage=='run_spec_author':
+                response_stage.failed_sender(store,report_snapshot)
+            elif diagnostic_recovery is not None and len(tail)==6 and stage=='run_spec_author':
                 require(tail[-1]['id']==response_stage.FAILED_AUTHOR,'EXACT_FAILED_AUTHOR')
                 response_stage.failed_author(store,diagnostic_recovery)
             elif diagnostic_plaintext is not None and len(tail)==10 and stage=='run_spec_author':
@@ -270,7 +276,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             require(driver is not None,'AUDIT_CONTEXT')
             response_stage.ready(driver,value,fixture_audit,fixture_audit_approval)
         if report_snapshot is not None and len(tail)>=14:
-            require(len(tail)==14 and stage=='run_spec_author','REPORT_SNAPSHOT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
+            require(len(tail)==response_stage.profile(report_snapshot)['count']-prefix and stage=='run_spec_author','REPORT_SNAPSHOT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
             from orchestrator import author_revision_accounting
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'REPORT_SNAPSHOT_CONTEXT')

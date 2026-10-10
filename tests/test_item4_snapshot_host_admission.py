@@ -22,6 +22,7 @@ def state(monkeypatch):
     local.execute('CREATE TABLE manual_calls(id TEXT)');batch.execute('CREATE TABLE autonomy_calls(id TEXT,status TEXT)')
     local.executemany('INSERT INTO manual_calls VALUES(?)',[(str(n),) for n in range(36)])
     p=json.loads((ROOT/helper.SNAPSHOT_DOCUMENT).read_bytes())
+    p=p.get('sender_recovery',{}).get('previous_scope',p)
     data=dict(stage='author',value={'phase':'run_spec_author'},helper=helper,frozen=p,db=local,
         global_db=batch,store=NS(db=local,batch=NS(db=batch)),source='test-source',report='test-review',json=json)
     monkeypatch.setattr(manual_recovery,'role_limit',lambda *args:22)
