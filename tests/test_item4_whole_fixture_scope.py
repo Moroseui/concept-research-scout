@@ -4,11 +4,11 @@ from pathlib import Path
 import pytest
 from orchestrator import item4_fixture_correction as fixture
 
-@pytest.fixture
-def candidate():
+@pytest.fixture(params=[False,True])
+def candidate(request):
     root=Path(__file__).parents[1]
-    scope=json.loads((root/fixture.AUDIT_DOCUMENT).read_bytes())
-    source=(root/fixture.AUDIT_REFERENCE).read_bytes();tree=ast.parse(source)
+    scope=json.loads((root/(fixture.SNAPSHOT_DOCUMENT if request.param else fixture.AUDIT_DOCUMENT)).read_bytes())
+    source=(root/(fixture.SNAPSHOT_REFERENCE if request.param else fixture.AUDIT_REFERENCE)).read_bytes();tree=ast.parse(source)
     block=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_native_diagnostic_fixture')
     # An inert AST addition exercises the permission boundary, not the science.
     block.body.append(ast.Pass())

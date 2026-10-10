@@ -37,10 +37,13 @@ from orchestrator import item4_fixture_correction as fixture
 FIXTURE_SCHEMA = fixture.SCHEMA
 AUDIT_SCHEMA=fixture.AUDIT_SCHEMA
 AUDIT_DOCUMENT=fixture.AUDIT_DOCUMENT
+SNAPSHOT_SCHEMA=fixture.SNAPSHOT_SCHEMA
+SNAPSHOT_DOCUMENT=fixture.SNAPSHOT_DOCUMENT
+def report_snapshot(p):return fixture.snapshot(p)
 def fixture_audit(p):return fixture.audit(p)
 FIXTURE_DOCUMENT = fixture.DOCUMENT
 
-def fixture_correction(p):return p.get('schema') in {FIXTURE_SCHEMA,AUDIT_SCHEMA}
+def fixture_correction(p):return p.get('schema') in {FIXTURE_SCHEMA,AUDIT_SCHEMA,SNAPSHOT_SCHEMA}
 PLAINTEXT_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json'
 OPAQUE_AUTHOR = sha((RUN+':run_spec_author:18').encode())
 OPAQUE_REASON = 'OUTPUT_VALIDATION_REFUSED: PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED'
@@ -55,13 +58,13 @@ FAILED_AUTHOR = sha((RUN+':run_spec_author:16').encode())
 FAILED_REASON = 'OUTPUT_VALIDATION_REFUSED: NOTEBOOK_EXECUTION_ENTRYPOINT:synthetic_tests'
 
 def diagnostic(p):
-    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA, AUDITED_REVIEW_SCHEMA, AUDIT_SCHEMA}
+    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA, AUDITED_REVIEW_SCHEMA, AUDIT_SCHEMA,SNAPSHOT_SCHEMA}
 
 def plaintext_recovery(p):
     return p.get('schema') == PLAINTEXT_SCHEMA
 
 def native_harness(p):
-    return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA,AUDIT_SCHEMA}
+    return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA,AUDIT_SCHEMA,SNAPSHOT_SCHEMA}
 
 def scoped_review(p):
     return p.get('schema') in {SCOPED_SCHEMA,CORRECTED_REVIEW_SCHEMA,AUDITED_REVIEW_SCHEMA}
@@ -75,6 +78,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if report_snapshot(p):
+        return dict(author=22,reviewer=16,count=36,batch=74,limit=40,batch_limit=78,
+            event='REVIEWED_ITEM4_REPORT_SNAPSHOT_AUTHOR',field='report_snapshot_author_scope',
+            assessment='cpu_diagnostic_fixture_correction',previous_reason='WHOLE_FIXTURE_AUTHOR_ACCEPTED_NATIVE_AND_REVIEW_REQUIRED',
+            previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
+            folder='report-snapshot-author',result='report_snapshot_author')
     if audited_review(p):
         return dict(author=21,reviewer=16,count=36,batch=74,limit=39,batch_limit=77,
             event='REVIEWED_ITEM4_AUDITED_NATIVE_REVIEW',field='audited_native_review_scope',
@@ -177,10 +186,10 @@ def scope(p,approval):
             'SCOPED_REVIEW_AUTHORITY')
     if fixture_audit(p):
         require(a['report_sha256']==REVIEW15_REPORT and a.get('global_findings_closed') is False
-            and p.get('reference_author_call_id')==sha((RUN+':run_spec_author:20').encode())
+            and p.get('reference_author_call_id')==sha((RUN+':run_spec_author:'+str(fixture.parameters(p)['attempt'])).encode())
             and p.get('diagnostic_plan_sha256')==p['author_outputs']['execution.plan.json']
             and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
-                'call_id':p['reference_author_call_id'],'stage':'run_spec_author','attempt':20,
+                'call_id':p['reference_author_call_id'],'stage':'run_spec_author','attempt':fixture.parameters(p)['attempt'],
                 'output_sha256':p['author_outputs']},'AUDIT_REFERENCE_AUTHORITY')
     elif native_harness(p):
         require(a['report_sha256']==NATIVE_REVIEW14_REPORT and a.get('global_findings_closed') is False
@@ -438,7 +447,7 @@ def protected_keys(p):
     if fixture_correction(p):keys+=('cpu_diagnostic_plaintext_scope',)
     if corrected_review(p) or fixture_audit(p):keys+=('cpu_diagnostic_native_harness_scope','cpu_diagnostic_plaintext_scope',
         'cpu_diagnostic_fixture_scope','cpu_diagnostic_fixture_correction','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
-    if audited_review(p):keys+=('whole_fixture_author_scope',)
+    if audited_review(p) or report_snapshot(p):keys+=('whole_fixture_author_scope',)
     return keys
 
 
@@ -518,14 +527,19 @@ def connect_roles(accounting,recovery,p,approval):
                         accepted_fixture_pair=(fixture_audit(p) and
                             (previous['attempt'],row['attempt'],saved['review_round'])==(19,20,14)
                             and previous['id']==call({'schema':PLAINTEXT_SCHEMA},'author')
-                            and row['id']==p['fixture_reference']['accepted_author']['id']
+                            and row['id']==sha((RUN+':run_spec_author:20').encode())
                             and accounting._accepted(store,previous))
                         require(((original_pair or fixture_pair) and not accounting._accepted(store,previous)
                             or accepted_fixture_pair) and accounting._accepted(store,row),
                             'HISTORICAL_DUPLICATE_REVISION')
                     used[saved['review_call_id']]=row
                 new=binding(driver,stage,q['previous_review'],q['author'])
-                if fixture_audit(p):
+                if report_snapshot(p):
+                    previous=used.get(new['review_call_id'])
+                    require(previous is not None and previous['id']==p['fixture_reference']['accepted_author']['id']
+                        and previous['attempt']==21 and accounting._accepted(store,previous),'EXACT_REPORT_FAILURE_AUTHOR')
+                    fixture.failure(store,p)
+                elif fixture_audit(p):
                     # Author21 answers the new genuine review15, never another
                     # response to review14. Both failed assets remain qualified.
                     require(new['review_call_id'] not in used,'NEW_REVIEW_REQUIRED')
@@ -707,6 +721,7 @@ SCOPED_GUIDANCE=(
 )
 
 def guidance(p):
+    if report_snapshot(p):return fixture.SNAPSHOT_GUIDANCE
     if fixture_audit(p):return fixture.AUDIT_GUIDANCE
     if corrected_review(p):
         return SCOPED_GUIDANCE.replace('unchanged accepted author17','unchanged accepted author'+str(profile(p)['author'])).replace('All review13 and earlier','All review15 and earlier')+(
@@ -765,6 +780,7 @@ NATIVE_GUIDANCE=(
     'native evidence is supplied through its reviewed delivery route. Preserve review14 and every prior charge.'
 )
 NATIVE_SUPPLEMENTAL={'previous-native-harness.py','native-worker-interface.py'}
+SNAPSHOT_SUPPLEMENTAL={'actual-native-worker.py','report-lifecycle-counterexample.py','report-lifecycle-counterexample-result.json'}
 RECOVERY_SUPPLEMENTAL={'failed-author16-SPEC.md','failed-author16-notebook.patch.json','failed-author16-execution.plan.json'}
 SUPPLEMENTAL={'current-cap-decision.txt','timing-audit.json','native-trainer.py','checkpoint-adapter.py','durable-progress.py'}
 
@@ -778,6 +794,7 @@ def deliver(driver,value,p,approval,supplemental):
         expected_names|=NATIVE_SUPPLEMENTAL
         require(sha(supplemental['previous-native-harness.py'])==p['reference_native_harness_sha256'],
             'REFERENCE_NATIVE_HARNESS_CHANGED')
+    if report_snapshot(p):expected_names|=SNAPSHOT_SUPPLEMENTAL
     require(set(supplemental)==expected_names,'SUPPLEMENTAL_SET')
     if p['schema']==RECOVERY_SCHEMA:
         for target,original in [('SPEC.md','SPEC.proposed.md'),('notebook.patch.json','notebook.patch.json'),('execution.plan.json','execution.plan.json')]:
@@ -816,7 +833,7 @@ def verify_delivered(driver,value,stage,work,prompt,measurement,p):
     retained=[r for r in old['artifacts'] if r['id'].startswith('smoke-review11-')]
     require(len(retained)==19 and all(r in value['artifacts'] for r in retained),'COLLECTED_EVIDENCE_PRESERVED')
     extra=[r for r in value['artifacts'] if r['id'].startswith(q['folder']+'-')]
-    require(len(extra)==len(SUPPLEMENTAL)+2+diagnostic(p)+(len(RECOVERY_SUPPLEMENTAL) if p['schema']==RECOVERY_SCHEMA else len(NATIVE_SUPPLEMENTAL) if native_harness(p) else 0),'DELIVERY_MEMBERS')
+    require(len(extra)==len(SUPPLEMENTAL)+2+diagnostic(p)+(len(RECOVERY_SUPPLEMENTAL) if p['schema']==RECOVERY_SCHEMA else len(NATIVE_SUPPLEMENTAL) if native_harness(p) else 0)+(len(SNAPSHOT_SUPPLEMENTAL) if report_snapshot(p) else 0),'DELIVERY_MEMBERS')
     if scoped_review(p):
         frozen_author(driver,p,value)
         retained+=[r for r in old['artifacts'] if r['id'].startswith('cpu-diagnostic-recovery-')]

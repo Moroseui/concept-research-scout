@@ -23,9 +23,23 @@ AUDIT_MODULE='501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749'
 AUDIT_ASSET='8c40fe36f279a1bab97dab6b2c59bf8f45d7e2901f508f36c1dac0f0a2c01653'
 AUDIT_STATE=STATE.with_name('item4-author20-diagnostic-native-v1')
 
-def audit(p):return p.get('schema')==AUDIT_SCHEMA
+SNAPSHOT_SCHEMA='item4-report-snapshot-author/v1'
+SNAPSHOT_DOCUMENT='docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json'
+SNAPSHOT_REFERENCE='docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py'
+SNAPSHOT_MODULE='fa54d6e41db935c4a7671abe278d4a40423bda41cfce32692b58ed1364638d20'
+SNAPSHOT_STATE=STATE.with_name('item4-author21-progress-native-v1')
+_snapshot_verifier=None
+_progress_verifier=None
+
+def snapshot(p):return p.get('schema')==SNAPSHOT_SCHEMA
+def audit(p):return p.get('schema') in {AUDIT_SCHEMA,SNAPSHOT_SCHEMA}
 
 def parameters(p):
+    if snapshot(p):
+        return dict(schema=SNAPSHOT_SCHEMA,direction='10129ee9f765ed5a88dfd7ff8524857e67a335d4960db451b0628dc238898ece',
+            module=SNAPSHOT_MODULE,attempt=21,asset='1e5bb3d0f1f807a99039e106cba34a40e9400dd01aae16c1f3e7212165d91d49',
+            state=SNAPSHOT_STATE,reference=SNAPSHOT_REFERENCE,source='9b568290e809ae897a54eab4a126c37a6ecadef7',
+            review='10129ee9f765ed5a88dfd7ff8524857e67a335d4960db451b0628dc238898ece')
     if audit(p):
         return dict(schema=AUDIT_SCHEMA,direction=AUDIT_DIRECTION,module=AUDIT_MODULE,attempt=20,
             asset=AUDIT_ASSET,state=AUDIT_STATE,reference=AUDIT_REFERENCE,
@@ -58,11 +72,19 @@ def scope(p):
 
 def failure(store,p):
     f=scope(p);q=parameters(p)
-    if audit(p):failure(store,strict_json(pr.check(ROOT/DOCUMENT).read_bytes()))
+    if snapshot(p):
+        failure(store,strict_json(pr.check(ROOT/AUDIT_DOCUMENT).read_bytes()))
+        original=strict_json(pr.check(ROOT/'docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json').read_bytes())
+        require(_progress_verifier is not None,'UNCONNECTED_PROGRESS_QUALIFIER')
+        # The third failure has no author correction: preserve its exact row and qualification too.
+        row=store.batch.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(original['third_failed_asset']['id'],)).fetchone()
+        require(row is not None and dict(row)==original['third_failed_asset'],'THIRD_FAILURE_ROW_CHANGED')
+        require(_progress_verifier()==original['qualification'],'THIRD_FAILURE_QUALIFICATION')
+    elif audit(p):failure(store,strict_json(pr.check(ROOT/DOCUMENT).read_bytes()))
     row=store.batch.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(q['asset'],)).fetchone()
     require(row is not None and dict(row)==f['asset_row'],'FAILURE_ROW_CHANGED')
     for name,pin in f['files'].items():require(sha(pr.check(q['state']/name).read_bytes())==pin,'FAILURE_FILE_CHANGED')
-    verifier=_audit_verifier if audit(p) else _verifier
+    verifier=_snapshot_verifier if snapshot(p) else _audit_verifier if audit(p) else _verifier
     require(verifier is not None,'UNCONNECTED_NATIVE_QUALIFIER')
     require(verifier()=={'source':f['source'],'implementation_review_sha256':f['implementation_review_sha256'],
         'asset_id':q['asset'],'module_sha256':q['module'],'exit_code':1,'status':'FAIL',
@@ -121,8 +143,9 @@ GUIDANCE=(
 def audit_correction(raw,p):
     """Only fixture-body repair and additive tests; all old checks stay exact."""
     scope(p)
-    before=pr.check(ROOT/AUDIT_REFERENCE).read_bytes()
-    require(sha(before)==AUDIT_MODULE,'AUDIT_REFERENCE_CHANGED')
+    q=parameters(p)
+    before=pr.check(ROOT/q['reference']).read_bytes()
+    require(sha(before)==q['module'],'AUDIT_REFERENCE_CHANGED')
     old,new=ast.parse(before),ast.parse(raw)
     names={'_native_diagnostic_fixture','synthetic_tests'}
     def split(tree):
@@ -155,7 +178,7 @@ def audit_correction(raw,p):
         'ADDITIVE_TESTS_ONLY')
     method_names=[n.name for n in new_checks.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))]
     require(len(method_names)==len(set(method_names)),'TEST_OVERRIDE_REFUSED')
-    return {'module_sha256':sha(raw),'reference_module_sha256':AUDIT_MODULE,'production_ast_unchanged':True,
+    return {'module_sha256':sha(raw),'reference_module_sha256':q['module'],'production_ast_unchanged':True,
         'existing_tests_unchanged':True,'added_contract_tests':[n.name for n in added],
         'corrected_fixture_executed':False,'scientific_acceptance':False}
 
@@ -175,3 +198,22 @@ AUDIT_GUIDANCE=(
  'GPU dispatch are NOT authorized here. No automatic retry. Full original failures/charges and review15 '
  'findings remain open, including coverage, all-arm evidence, opposing review and projection1200/total1275. '
  'Diagnostic25 and stage150 caps are unchanged.')
+
+SNAPSHOT_GUIDANCE=(
+ 'Author22: repair the complete final-report lifecycle of the existing synthetic diagnostic fixture. '
+ 'Read the complete four native failure page sets, accepted21 source, actual progress factory and FitProgress '
+ 'interfaces, and exact AST counterexample. Fourth run completed all15 synthetic CPU diagnostic epochs '
+ 'then failed E173: receipt recording appends to the same event list referenced by the serialized report. '
+ 'The saved file hash remained unchanged in the local counterexample; it is not a native PASS. '
+ 'Choose the scientific correction yourself. Preserve the report consistency check with equivalent or '
+ 'stronger semantics; do not delete assertions to make the fixture pass. Audit serialization, receipt '
+ 'publication and final returned evidence together. Add a fast regression of the actual report lifecycle '
+ 'that fails for accepted21 and passes your correction without paid compute. '
+ 'Only _native_diagnostic_fixture body and APPENDED test_* methods in synthetic_tests.Checks may change. '
+ 'Production AST, interfaces, every existing test, exact plan, image, scientific choices, inputs and '
+ 'safeguards stay unchanged. New test helpers/imports stay inside appended methods. '
+ 'Use the exact output schema and same-call submit_author feedback. Do not claim GPU evidence, CPU-starvation '
+ 'results, or native success. This is ONE author-only call; stop held after accepted output. No native '
+ 'retry, reviewer16, GPU or full training is dispatched here. Genuine scientific REVISE15 and all findings '
+ 'remain open; every earlier attempt and charge is preserved. Diagnostic25/stage150/projection1200/total1275 '
+ 'unchanged. Explain exact correction, full lifecycle audit and positive/negative regression evidence.')
