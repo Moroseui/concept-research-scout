@@ -2,18 +2,22 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The native CPU test found a fixture bug: nnU-Net requires a `continue_training` field that the author omitted.
-That attempt has ended; no compute is being retried. The corrective handoff passed its read-only server rehearsal; tests are finishing.
+That attempt has ended; no compute is being retried. The corrective handoff passed 125 tests and its read-only server rehearsal; Claude is reviewing the bundle.
 Run B and scientific review 15 are held because native integration has not passed. The GPU timing question remains unanswered.
 Known compute spend remains $24.29; counted stage commitments are $111.23 of $150. The failed native attempt's $1.118950 reservation remains within diagnostic $25; its actual cost is not yet billed.
 Next expected result: the author correction in about an hour, conditional on implementation review and installation. GPU timing follows scientific acceptance.
 No automatic compute retry is permitted. Full-training, coverage and the $1,200 projection gate remain held.
-Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
+Today's calls: 30/50 (5 authors, 4 scientific reviews, 17 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
+
+## Current call purposes
+
+The five author calls cover the smoke response, executable timing proposal, interface correction, native fixture and accepted plaintext correction. The four scientific reviews cover smoke, timing response, diagnostic design and scoped native evidence. Seventeen administrative reviews cover the necessary implementation/accounting repairs; the current call combines the fixture handoff, its one-use process allowance, complete failure delivery, installation and direction. Four standalone direction checks addressed scope and recovery. Administrative overhead remains the majority; further related repairs will be batched wherever possible.
 
 ## Agreed recovery direction
 
 Claude's independent consultation approved the narrow direction, report 93eb8a68, one round; root agrees. The production and base-rehearsal paths already supply `continue_training`; the new diagnostic fixture omitted it. The author must correct that scientific fixture. Then a minimally scoped, independently reviewed handoff can let scientific reviewer 15 judge the complete correction and authentic failure, including whether the still-unstarted Run B should supply remaining integration evidence. This consultation is neither installation authority nor scientific acceptance.
 
-What changed: omit any second CPU rehearsal, preserve the complete failure and full reservation, and batch the author correction with reviewer delivery. No automatic GPU retry. No PASS is fabricated and review 14 remains open. The separate whole-plan review pair must remain reserved. Concrete source e50aa51b is committed but unreviewed and uninstalled. Its cold server rehearsal passed with genuine historical authority and disposable admission; no live ledger or model/compute call was changed. Focused installation, host-control, submission and complete-evidence tests passed; the longer regression is finishing. One combined independent implementation/accounting/evidence review comes next. Estimated consultation model cost $4.5146265 remains counted separately from compute.
+What changed: omit any second CPU rehearsal, preserve the complete failure and full reservation, and batch the author correction with reviewer delivery. No automatic GPU retry. No PASS is fabricated and review 14 remains open. The separate whole-plan review pair must remain reserved. Concrete source e50aa51b is committed but unreviewed and uninstalled. Its cold server rehearsal passed with genuine historical authority and disposable admission; no live ledger or model/compute call was changed. All 125 focused tests passed. One combined independent implementation/accounting/evidence review is running; no installation or scientific call starts before genuine approval. Estimated consultation model cost $4.5146265 remains counted separately from compute.
 
 ## Actual native failure and preserved accounting
 
