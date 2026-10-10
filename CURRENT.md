@@ -1,6 +1,7 @@
-Item6 complete;13B CPU-starvation measurement remains held.
-Installed ea529258 has genuine APPROVE4fba65d3/PROCEED; both runtime checks passed.
-One CPU validation is RUNNING on the provider, observed14:18 UTC; $1.118950 reserved. Do not duplicate or automatically retry.
-Stage1 counted commitments $113.278723/$150; diagnostic $3.167545/$25 after bounded credit, both old reservation records preserved.
-Reviewer16 requires actual nativePASS. GPU/full/coverage remain held.
-All38 model calls terminal; see outputs/STATUS.md.
+Item6 complete;13B CPU-starvation measurement held.
+Third native validation terminalFAIL at root adapter path check; original evidence/charge preserved. Noautomaticretry.
+Claude direction8a6cd85c recommends narrow adapter repair; formalREVISE, no installation/compute authority.
+Draftc5d00700 passes81 focused tests and actual-source factory calls. Complete release bindings and independent review remain.
+All39 model calls complete; no active compute/watcher.
+Stage1 commitments$113.278723/$150; diagnostic$3.167545/$25. Latest actualpending, full$1.118950 held.
+Reviewer16 still requires genuine nativePASS; GPU/full/coverage held. See outputs/STATUS.md.
