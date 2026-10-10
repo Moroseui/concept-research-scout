@@ -2,21 +2,23 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. The latest synthetic validation completed all 15 diagnostic epochs, then failed its final report-consistency check.
+13B CPU starvation remains unanswered. Synthetic validation completed all 15 diagnostic epochs, then failed its final report-consistency check; the author still owns the correction.
 
-Nothing is running. Author attempt 22 stopped before backend model invocation because a sender check still expected attempt 21. Its counted admission and complete failure evidence are preserved.
+Nothing is running. The attempted author handoff failed before the model started; its admission and original evidence remain counted and preserved.
 
-The handoff was independently approved, installed and verified. Its 169 focused tests missed this separate sender predicate; a complete sender-path regression and Claude recurrence check are required before any continuation.
+Claude approved the narrow sender repair and terminal-failure classifier. 51 focused tests pass, including the previously missed full sender entry. The final counted continuation still needs implementation and its combined review.
 
-Identified compute spending remains $24.33873; the third and fourth native attempts? bills are pending. Commitments remain $114.397673/$150 for stage 1, including $4.286495/$25 for this diagnostic. No new compute was launched.
+Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic; $0.178623 of confirmed excess CPU/RAM reservation awaits the accounting-scope extension.
 
-Next target: a corrected author submission after reviewed sender recovery, provisionally 60?90 minutes. There is no reliable GPU-result ETA until this passes.
+Next target: the author's report-lifecycle correction after the reviewed continuation, provisionally 60-90 minutes. GPU timing has no reliable ETA yet. Run B remains first; full training and coverage-dependent arms remain held.
 
-Run B remains first. Full training, coverage-dependent arms and the $1,200 projection gate remain held.
+Today: 44/50 calls - 8 author admissions, 5 scientific reviews, 24 implementation reviews and 7 standalone direction checks. The latest recurrence check was bundled into implementation review.
 
-Today?s calls: 43/50?8 author admissions, 5 scientific reviewers, 23 implementation reviews and 7 standalone direction checks. The failed author admission remains counted; 42 earlier calls completed. Latest completed Claude direction: PROCEED, before this new failure.
+Latest Claude outcome: APPROVE for the sender repair; no explicit PROCEED/SIMPLIFY direction recommendation was returned. Carry that question into the final continuation review; do not infer approval of unwritten work.
 
 ## Current work and evidence
+
+The latest repair review genuinely approved source41b93574, reporta54ef800, with no findings. It removes only the stale duplicate attempt21 comparison; the immediate exact dual-ledger attempt22 check still gates the sender. Tests reproduce the original failure and exercise actual format pins, client command, both admission ledgers and read-only protection assembly up to a stubbed native process boundary. The exact failed row, original files, configuration, source and terminal invocation qualify read-only; any changed, live, unknown or repeated request refuses. The bounded administrative bootstrap preserved original accounting and confinement. This intermediate candidate is not installed into the exhausted handoff and does not authorize another scientific call. The next continuation must use a new counted attempt and receive its own combined implementation review. The direction question was supplied but received no explicit recommendation; it remains for that review.
 
 Approved source9b568290 fixes the root adapter's rejection of the author's separate diagnostic output directory. It accepts only the exact durable/diagnostic siblings under the same private synthetic root, binds both to the same893 generated inputs and hashes, and rejects other roots, nesting, traversal, relative paths and aliases. No scientific source, plan, image, resources or limits changed. Accepted author21 remains the exact [author-owned module](proposals/item4-cpu-diagnostic-author21.py).
 
@@ -36,20 +38,23 @@ Scientific review15 remains genuine REVISE. Native integration, provenance, cove
 
 ## Spending and call purposes
 
-- Live stage1 commitments:$114.397673/$150; diagnostic effective actuals plus retained/open allowances:$4.286495/$25. The new$1.118950 reservation is confirmed admitted. Both the third and fourth failed attempts retain their full reservations; their actual costs remain pending.
-- First native actual:$0.02512208; second:$0.02347152. Both original$1.118950 reservations remain recorded. Confirmed excess CPU/RAM credits total$0.189305; each retains$1 overhead. The third full$1.118950 remains committed because its bill is unavailable. No third-attempt release is implemented.
-- Identified compute total:$24.33872805, excluding unknown later actuals. Model charges are separate. The direction call estimated$2.41803125 and the latest implementation review$4.03566975; all are preserved and counted. No GPU reservation.
-- Full-plan projection gate$1,200 and total cap$1,275 unchanged. Installed local39 and scientific-batch77 remain; this candidate proposes one bounded 40/78 process amendment. Daily50 and every dollar cap remain unchanged.
-- Eight scientific author admissions (one terminal before backend invocation): smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction whole-fixture audit, and the failed report-lifecycle handoff.
+- Stage-1 commitments: $114.397673/$150; diagnostic commitments: $4.286495/$25. No new compute was launched.
+- Confirmed native compute actuals: first $0.02512208; second $0.02347152; third $0.02466453; fourth $0.03461146. Original $1.118950 reservations remain preserved for each. These are observed provider charges, not a claim of final invoices.
+- First two excess CPU/RAM credits total $0.189305; their $2 overhead remains held. The last two still retain their full reservations because the installed reconciliation check selects only the first two. A reviewed extension can release $0.178623 while retaining the other $2 overhead. Actual costs are recorded; no check was bypassed.
+- Identified compute total: $24.39800404. Model charges are separate; the latest review estimate is $4.47346225, preserved and counted.
+- Projection gate $1,200 and total cap $1,275 unchanged. Installed bounded process allowance is 40 local / 78 scientific batch calls; actual usage is 37 / 75. Daily cap remains 50.
+- Eight scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit and the failed report-lifecycle handoff. The latest failed before backend invocation but remains counted.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
-- Twenty-three implementation reviews: bounded handoffs, native connector, installation and accounting repairs; latest bundles the adapter, third-failure preservation, installation and sequence clarification.
-- Seven direction checks: scope/recovery decisions. Administrative work dominates. The latest repair and direction follow-up were combined in one review; another author call, new subsystem and optional cleanup were cut.
+- Twenty-four implementation reviews: bounded handoffs, native integration, installation and accounting repairs; latest reviews the sender repair and exact terminal classifier, with the recurrence/direction question included.
+- Seven standalone direction checks: scope and recovery decisions. Administrative work dominates. Batch the final continuation, process accounting and closed-cost reconciliation into one review; keep subsequent direction discussion there.
 
 ## Judgment highlights
 
-Latest Claude outcome: APPROVE/PROCEED for the installed repair and its single now-failed CPU operation, one implementation round following the direction consultation. That approval remains at its original scope; it cannot authorize a retry. The prior direction's ambiguous installation ordering was explicitly resolved in the mandatory review; no safeguard was bypassed. Only infrastructure findings closed. All four failed attempts and their full original records remain.
+Latest Claude outcome: APPROVE for the minimal sender fix and administrative-only terminal classifier. Root agrees. The opinion does not approve an unwritten continuation. No explicit direction recommendation was returned; the question will accompany the final combined review.
 
-Root judgment: preserve the fourth failure and full charge, reproduce its final boundary with exact authored methods, and route the correction to the scientific author through one reviewed handoff. Fold Claude direction and process-scope judgment into that review. No automatic retry, root scientific edit or duplicate watcher.
+Root judgment: consolidate the contradictory round checks into the existing authoritative dual-ledger gate; test the full sender entry and preserve all failed admissions. Reuse the existing author-only route for a new counted continuation, with one combined review before installation. The scientific author chooses the report-lifecycle correction. No automatic compute retry, scientific edits by root or duplicate watcher.
+
+Provider billing was checked read-only while Claude reviewed. Actual costs for both later closed validations are now recorded, but their excess remains held until the existing narrow reconciliation scope is extended under normal review.
 
 ## Backup and exclusions
 
@@ -244,3 +249,5 @@ Corrected implementation review estimate $3.48473825 is preserved separately fro
 The full corrected host approval report is withheld after publication-scan flags: CREDENTIAL_OR_HOST_REFERENCE. The original remains private; approval and scope are summarized above.
 
 Current recovery judgment: preserve the failed43rd admission and every original charge; do not rerun the exhausted grant. The repeated hard-coded attempt mismatch requires Claude?s second opinion and a complete sender/receiver boundary regression before a reviewed continuation. No new subsystem or isolated one-line retry is proposed. The current implementation approvals are preserved but do not authorize another invocation.
+
+Current sender repair: safe draft62a36640 on `astra/public-sender-recovery-20261010`, not installed or merged. Its two private source documents are excluded. Full accepted reporta54ef800 is withheld for CREDENTIAL_OR_HOST_REFERENCE; the public report is an explicitly labelled scope summary. Originals remain private and unchanged.
