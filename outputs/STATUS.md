@@ -2,29 +2,35 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
+13B CPU starvation remains unanswered. The last synthetic native check completed 15 epochs, then failed report consistency.
 
-Author23 completed, but the controller refused its regression placement. Claude is judging a bounded recovery; no author, native or GPU run is active.
+The author corrected the fixture, but its added regression was delivered in the submitted report and the controller refused that placement.
 
-The driver repair worked. Original tests are unchanged; the added regression was delivered separately in the submitted report. Its exact authored code passes locally. Claude is judging whether that delivery can be recovered safely.
+The exact authored regression now passes in the existing isolated sandbox. Recovery passed on copied history; the live submission remains held while Claude reviews the concrete fix.
 
-Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
+Identified compute spending is $24.39800404. Stage-1 commitments are $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: Claude direction in about10-15 minutes. Native validation and GPU timing await the accepted correction; their ETA is uncertain.
+Next target: implementation review in about 10-15 minutes. Native validation and GPU timing still need their remaining gates; their ETA is uncertain.
 
-Today: 48/50 calls - 9 author admissions, 5 scientific reviews, 26 administrative reviews and 8 standalone direction checks.
+Today: 49/50 calls - 9 author admissions, 5 scientific reviews, 27 administrative reviews and 8 standalone direction checks. This review includes the direction follow-up.
 
 Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
 ## Current evidence
 
-Current outcome: author23 call is COMPLETE in both ledgers; the controller refused the output and no accepted-author event exists. The service and bounded maintenance are positively terminal. The refusal text is broader than the actual defect: every original test and every production node is unchanged, but zero new methods were appended to the notebook module. The required regression is instead in the submitted report.
+Author23 is COMPLETE in both ledgers, with its submission and original charges retained. The controller refused its test placement; no live accepted-author event exists. The submitted module preserves all old tests and production code. The added test and runner are exact code blocks in the submitted report, not new scientific code written by the operator assistant.
 
-The exact submitted report blocks, including the authored3429-byte method, were copied without edits and executed locally:16 original tests PASS,17 extended tests PASS, and the retained accepted21 negative control fails exactly E173. No native, patient, GPU, model or provider execution occurred in this check. The unbound workspace runner differs and is not proposed for use. Details are in the labelled author23 delivery proposal.
+The original16 tests, augmented17 tests and expected old-code E173 negative control passed under the existing service-account synthetic sandbox.42 focused and existing guard tests passed. The actual recovery entrypoint also passed on copied context and SQLite history, using the normal validators and accepted-event writer. Its test substituted installation authority and redirected canonical paths to disposable copies; the live state, calls and events were verified unchanged. This is contract evidence, not a native/GPU result or scientific acceptance.
 
-A direction-only administrative call is running to judge equivalent delivery recovery versus another author call. It grants no installation, scientific acceptance or execution authority. The initial review start was refused while the existing cleanup watcher ran; that watcher completed normally with no action due. The unstarted intent is preserved and consumed no call. The registered review then started once.
+Latest completed Claude direction: genuine REVISE. It required concrete code and isolated provenance; those requirements are now met by the candidate and submitted for judgment. The follow-up also corrects a mistaken runner-provenance interpretation and cites the later operator delegation. Direction discussion round2 is folded into the implementation review; no additional scope-only call was made. No recovery is approved or installed yet.
 
+Judgment: preserve the refusal and exact authored outputs; replace only the pinned submission's placement requirement with the original strict additive-test check plus separately recorded isolated execution. Keep all later native/scientific gates. Test harness failures and the diagnosed historical-input bookkeeping fix are preserved privately.
 
+Backup: the uninstalled draft is on astra/public-spec-regression-recovery-20261010. Excluded from public backup: docs/ITEM4_SPEC_REGRESSION_RECOVERY_PRIVATE.json; it contains frozen state and accounting evidence. All evidence folders, raw ledgers, review packets and native streams remain private. Installed releases remain on remote-server; main is unchanged.
+
+Call purposes: author calls prepared13B scientific responses and fixture corrections; scientific reviews judged the smoke and diagnostic work; administrative reviews covered execution, provenance, accounting and mechanical repairs; direction checks assessed the shortest safe path. Administrative overhead remains dominant, so this implementation review batches the equivalence decision and direction follow-up.
+
+## Earlier history
 
 The installed continuation478a4724 failed before input preparation/admission: the inherited driver selected accepted-round21 +1, while the preserved failed attempt22 means the next counted slot is23. The service and maintenance are positively terminal; no23 row/workspace or new scientific charge exists. The original journal is preserved privately.
 
