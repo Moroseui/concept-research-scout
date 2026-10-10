@@ -65,22 +65,37 @@ def qualify(*, diagnostic=False):
                 for i in sorted({budget.NATIVE_ID,*assets}-{budget.SOURCE_PREDECESSOR_ID})}
         return result
 
-def qualify_diagnostic_failure():
+def qualify_diagnostic_failure(*,corrected=False):
     """Qualify the preserved FAIL as FAIL; never create, poll, retry or release."""
     if os.getuid()!=1003 or os.getgid()!=1003 or not sys.flags.no_user_site:
         raise ValueError('DIAGNOSTIC_FAILURE_SERVICE_IDENTITY')
-    root=Path('/opt/research-system/manual-repair-helpers/item4-diagnostic-native-execution-20261010')
+    if type(corrected) is not bool:raise ValueError('DIAGNOSTIC_FAILURE_SELECTOR')
+    selected_proof=(
+        ('item4-corrected-native-verification-20261010',
+         '19cc5b660dbd252bca4cfade6087656687c7c70e4f8ad9b648ce7912a1f4e414',
+         'b60badd65283e7df5f801a6a6a20b3fd63504544',
+         '35aeaa0a9d6836f4caa5bf7033434b43952bb242777d4376a91259eee0ba5bb9',
+         '8c40fe36f279a1bab97dab6b2c59bf8f45d7e2901f508f36c1dac0f0a2c01653',
+         '8877b8d5e93b4ded054ad8cf85f54b9faf58050739493080f8acfda6e83a7a0d',
+         "AttributeError: 'CPUObserver' object has no attribute '_sampling_loop'\n") if corrected else
+        ('item4-diagnostic-native-execution-20261010',
+         '1f8b8d34dea50a31faa208022886b2a68fdda526882ee9320817b5eabc6125f7',
+         '81cd8225365a26944128ab5eb3fceda9e36d5f3d',
+         'b5dfa4bf3c7d3bb45733dd7bffcf8aa5a4344cfc99a16dbdb7468e292f28679a',
+         '27146f38f1722579ed096a880f59cc607bc36e993fe57634b6ffe271ae92c157',
+         '2c2916dbc751fd2d3ce8835b0ec6e687b342905b88bc4f158b2862b4138d5aa5',
+         "KeyError: 'continue_training'\n"))
+    name,runtime_pin,source,report,asset_pin,stdout_pin,error_suffix=selected_proof
+    root=Path('/opt/research-system/manual-repair-helpers')/name
     path=root/'tools/item4_diagnostic_native_runtime.py'
     for p in (path,*path.parents):
         st=p.lstat()
         if p.is_symlink() or st.st_uid!=0 or st.st_mode&0o022:raise ValueError('DIAGNOSTIC_FAILURE_SOURCE_TRUST')
-    if hashlib.sha256(path.read_bytes()).hexdigest()!='1f8b8d34dea50a31faa208022886b2a68fdda526882ee9320817b5eabc6125f7':
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=runtime_pin:
         raise ValueError('DIAGNOSTIC_FAILURE_RUNTIME_CHANGED')
     spec=importlib.util.spec_from_file_location('_failed_native_original',path)
     native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
     native.bootstrap();approval=native.authority()
-    source='81cd8225365a26944128ab5eb3fceda9e36d5f3d'
-    report='b5dfa4bf3c7d3bb45733dd7bffcf8aa5a4344cfc99a16dbdb7468e292f28679a'
     native.require(approval['source_sha']==source and approval['report_sha256']==report,'FAILURE_AUTHORITY')
     from orchestrator import private_records as pr,modal_environment_budget as budget,modal_environment_provider as provider
     from orchestrator import modal_native_synthetic as n
@@ -92,7 +107,7 @@ def qualify_diagnostic_failure():
         all(binding[k]==config[k] for k in ('operation_id','source','image_id','base_image','worker_sha256','native_synthetic','owner_sha256')),
         'FAILURE_CONFIG')
     ident=native.sha(canonical(binding))
-    native.require(ident=='27146f38f1722579ed096a880f59cc607bc36e993fe57634b6ffe271ae92c157','FAILED_ASSET')
+    native.require(ident==asset_pin,'FAILED_ASSET')
     with sqlite3.connect((LEDGER/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
         db.row_factory=sqlite3.Row;db.execute('PRAGMA query_only=ON')
         row=db.execute('SELECT * FROM autonomy_assets WHERE id=?',(ident,)).fetchone()
@@ -108,7 +123,7 @@ def qualify_diagnostic_failure():
         native.require(meta['truncated'] is False and meta['read_error'] is None,'COMPLETE_FAILURE_STREAMS')
     n.verify_stdin(binding,root)
     raw=pr.check(root/'stdout.bin').read_bytes()
-    native.require(native.sha(raw)=='2c2916dbc751fd2d3ce8835b0ec6e687b342905b88bc4f158b2862b4138d5aa5'
+    native.require(native.sha(raw)==stdout_pin
         and pr.check(root/'stderr.bin').read_bytes()==b'','EXACT_ORIGINAL_FAILURE')
     v=strict_json(raw);selected=n.selected(binding['native_synthetic'])
     native.require(v['schema']=='item4-native-rehearsal-result/v1' and v['status']=='FAIL' and v['native'] is None
@@ -117,7 +132,7 @@ def qualify_diagnostic_failure():
         and v['package_unchanged'] is True and v['observed_environment']==selected['environment']['expected']
         and all(v[k] is False for k in ('console_truncated','patient_data','network_permission','gpu','scientific_approval'))
         and native.sha(v['console'].encode())==v['console_sha256'] and v['durability_scope']==n.worker.DURABILITY_SCOPE
-        and v['failure'].endswith("KeyError: 'continue_training'\n"),'BOUND_FAILURE_RESULT')
+        and v['failure'].endswith(error_suffix),'BOUND_FAILURE_RESULT')
     import subprocess
     props=dict(line.split('=',1) for line in subprocess.check_output(['systemctl','show',native.CPU_UNIT,
         '--property=ActiveState,MainPID,ExecMainStatus'],text=True).splitlines())
@@ -128,6 +143,7 @@ def qualify_diagnostic_failure():
         'scientific_acceptance':False,'no_automatic_retry':True}
 
 if __name__=='__main__':
-    if sys.argv[1:] not in ([],['--diagnostic-native'],['--diagnostic-failure']):raise ValueError('VALIDATION_TERMINAL_ARGUMENTS')
-    result=qualify_diagnostic_failure() if sys.argv[1:]==['--diagnostic-failure'] else qualify(diagnostic=bool(sys.argv[1:]))
+    if sys.argv[1:] not in ([],['--diagnostic-native'],['--diagnostic-failure'],['--diagnostic-audit-failure']):raise ValueError('VALIDATION_TERMINAL_ARGUMENTS')
+    result=(qualify_diagnostic_failure(corrected=True) if sys.argv[1:]==['--diagnostic-audit-failure'] else
+        qualify_diagnostic_failure() if sys.argv[1:]==['--diagnostic-failure'] else qualify(diagnostic=bool(sys.argv[1:])))
     print(json.dumps(result,sort_keys=True))
