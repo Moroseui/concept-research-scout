@@ -2,23 +2,25 @@
 
 Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
 
-The [13B execution plan](13B_EXECUTION_PLAN.md) is written. Analysis, Colab preparation, timing and private meeting support remain active workstreams.
+The [13B execution plan](13B_EXECUTION_PLAN.md) is written; first Colab instructions and the timing result are pending.
 
-No scientific call or GPU job has started since the new direction. Review 51 completed with APPROVE; its held installation failed a service-account directory-access check.
+No new scientific call or GPU job has started. The bundled administrative review has ended; its submitted APPROVE did not qualify because a required manifest read exceeded the reader limit.
 
-A narrow permission repair is being batched with the analysis and Colab admission review. The originals remain preserved; no check was bypassed or attempt duplicated.
+The complete attempt and charge are preserved. A paginated-read correction is being prepared; installation stays held and the check remains unchanged.
 
-Identified compute spent: $24.39800404; commitments $114.397673/$150 stage 1 and $4.286495/$25 diagnostic. Today: 51 calls (9 author, 5 scientific review, 29 administrative review, 8 direction); model charges separate.
+Identified compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Today: 52 calls (9 author, 5 scientific review, 30 administrative review, 8 direction); model charges separate.
 
-Next: first synthesis and critique 1-2 hours after reviewed admission; first reviewed Colab smoke notebook 2-4 hours from the new direction. Timing remains conditional on author, native tests and scientific review.
+Next: first analysis draft 30-60 minutes after approved installation, followed by critique. First reviewed Colab notebook remains targeted 2-4 hours from the new direction; timing depends on author/native/scientific gates.
 
-No action is needed from Partho. ROLES/HANDOVER are being maintained; the exact six-condition swap gate is not reached. The latest completed direction remains PROCEED for author delivery; broader advice is still pending.
+No action is needed from Partho. Latest Claude direction: PROCEED, defer further infrastructure expansion until analysis or Colab produces a result. The six-condition swap gate is not reached.
 
 ## Current installation and judgment
 
-The dated daily-cap source passed independent review (report c7b151f2, source b2daefc0). Call 51 charged $4.0183349999999995. Its original files were installed held, then actual service-account verification failed because directory creation under umask 0077 lacked explicit final chmod. Five directories need the originally intended traversal permissions. No file, owner, credential, ledger, limit or safeguard change is proposed by this repair. Normal independent review and actual service-account verification will precede use. Original install intent and failed logs stay preserved.
+Call 51 genuinely approved the dated-cap implementation, costing $4.018335. Its held installation then failed service-account verification because five directories lacked intended traversal permissions. Original files, owners, approvals and failure records remain intact. The narrow directory-only repair was bundled with analysis/Colab preparation for review.
 
-Judgment: 21:01 UTC, repair the diagnosed directory-mode fault and batch it with B/Colab admission; Claude implementation review pending. No repeated install or scientific launch. Call 51 approved only its implementation scope and did not resolve the broader advisory questions.
+Call 52 submitted APPROVE with no findings, costing $9.80947025, but remains FAILED qualification: the reviewer attempted an oversized manifest read and did not retry it in pages. This is not an installation approval. A mechanical successor will explicitly require bounded paginated reads, preserving the same verification rule and all original attempts and charges. The earlier mixed-history packet refusal happened before admission and incurred no model call or charge.
+
+Judgment log highlights: preserve every failed attempt; batch the permission repair, preparation admission and direction questions; accept Claude's recommendation to defer sandbox and rotation installation until a first analysis/Colab result. Actual service-account tests and copied-history admission rehearsals passed. These do not replace independent approval or live installation verification.
 
 ## October 10 direction
 
