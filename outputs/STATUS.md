@@ -2,10 +2,10 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The native CPU test found a fixture bug: nnU-Net requires a `continue_training` field that the author omitted.
-That attempt has ended; nothing is being retried. Claude agrees on an author correction and a narrower scientific-review handoff.
+That attempt has ended; no compute is being retried. The corrective handoff passed its read-only server rehearsal; tests are finishing.
 Run B and scientific review 15 are held because native integration has not passed. The GPU timing question remains unanswered.
 Known compute spend remains $24.29; counted stage commitments are $111.23 of $150. The failed native attempt's $1.118950 reservation remains within diagnostic $25; its actual cost is not yet billed.
-Next expected result: the author correction in roughly an hour, conditional on a reviewed handoff. GPU timing follows scientific acceptance.
+Next expected result: the author correction in about an hour, conditional on implementation review and installation. GPU timing follows scientific acceptance.
 No automatic compute retry is permitted. Full-training, coverage and the $1,200 projection gate remain held.
 Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
 
@@ -13,7 +13,7 @@ Today's calls: 29/50 (5 authors, 4 scientific reviews, 16 implementation reviews
 
 Claude's independent consultation approved the narrow direction, report 93eb8a68, one round; root agrees. The production and base-rehearsal paths already supply `continue_training`; the new diagnostic fixture omitted it. The author must correct that scientific fixture. Then a minimally scoped, independently reviewed handoff can let scientific reviewer 15 judge the complete correction and authentic failure, including whether the still-unstarted Run B should supply remaining integration evidence. This consultation is neither installation authority nor scientific acceptance.
 
-What changed: omit any second CPU rehearsal, preserve the complete failure and full reservation, and batch the author correction with reviewer delivery. No automatic GPU retry. No PASS is fabricated and review 14 remains open. The separate whole-plan review pair must remain reserved. A draft worktree and concrete scope exist; no source patch, new process allowance, installation or scientific call has occurred yet. Estimated consultation model cost $4.5146265 remains counted separately from compute.
+What changed: omit any second CPU rehearsal, preserve the complete failure and full reservation, and batch the author correction with reviewer delivery. No automatic GPU retry. No PASS is fabricated and review 14 remains open. The separate whole-plan review pair must remain reserved. Concrete source e50aa51b is committed but unreviewed and uninstalled. Its cold server rehearsal passed with genuine historical authority and disposable admission; no live ledger or model/compute call was changed. Focused installation, host-control, submission and complete-evidence tests passed; the longer regression is finishing. One combined independent implementation/accounting/evidence review comes next. Estimated consultation model cost $4.5146265 remains counted separately from compute.
 
 ## Actual native failure and preserved accounting
 
@@ -437,3 +437,5 @@ Claude's administrative consultation completed with APPROVE of the proposed mone
 Judgment log03:48UTC: one consultation round, agreement on the bounded operator money request. Cut another response-only author/reviewer pair and defer process grants, consolidation and new infrastructure. Preserve the final interpretation slots and complete research scope. Both maintenance loops ended after their own services completed; positive terminal reconciliation confirmed success, so no retry or repair was launched. No model/GPU or watcher is active. All11 daily calls remain counted.
 
 03:56 UTC stopping check: both scientific calls and the administrative consultation are COMPLETE, with successful inactive services and no pending model call. The same money/scope decision remained unanswered across three consecutive goal turns. Goal status is now BLOCKED pending that decision; this is not completion. No additional model call, compute, process exception or implementation was started.
+
+Current draft backup exclusions: `docs/ITEM4_AUTHOR19_NATIVE_REFERENCE_PRIVATE.py`, `docs/ITEM4_CPU_DIAGNOSTIC_FIXTURE_PRIVATE.json`, `docs/ITEM4_RESPONSE_HOST_PRIVATE.json`, and `tools/install_item4_smoke_response.py` were withheld for private records or infrastructure references. Raw private histories, evidence, ledgers and native streams remain excluded. Safe draft code is on `astra/public-native-fixture-correction-20261010`; only installed code is merged here.
