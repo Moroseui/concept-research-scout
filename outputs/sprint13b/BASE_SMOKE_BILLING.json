@@ -1,0 +1,37 @@
+{
+  "schema": "aggregate-provider-billing-observation/v1",
+  "scope": "base smoke, original interrupted segment and completed continuation together",
+  "billing_observed_at": "2026-10-10T00:06:35.117910+00:00",
+  "completed_hour_start": "2026-10-09T23:00:00+00:00",
+  "report_end_exclusive": "2026-10-10T00:00:00+00:00",
+  "provider_compute_usd": "3.66466686",
+  "cost_by_resource": {
+    "B200": "1.97569514",
+    "CPU": "0.71787805",
+    "Memory": "0.97109367"
+  },
+  "original_reservations_usd": [
+    "16.5924",
+    "16.5924"
+  ],
+  "original_reservations_preserved": true,
+  "closed_attempt_conservative_bounds_usd": [
+    "9.585439",
+    "8.075207"
+  ],
+  "bound_includes_unsettled_obligations": true,
+  "actual_attribution": "combined existing billing object; no fabricated per-segment allocation",
+  "known_identified_provider_compute_usd": "19.63372589",
+  "stage_exposure_micro_usd": 116995775,
+  "stage_cap_micro_usd": 150000000,
+  "full_projection_gate_micro_usd": 1200000000,
+  "total_cap_micro_usd": 1275000000,
+  "repeat_full_reservation_micro_usd": 16592400,
+  "open_or_uncertain_reservations_released": false,
+  "billing_snapshot_sha256": "fbfcfb9c19b57060f608a64884f8e1c2c581670ec67e43c6255f8a664c8fa15d",
+  "limitations": [
+    "Provider compute only; not a final all-cost invoice.",
+    "Asset/storage and model costs remain separate.",
+    "No additional manual credit or ledger mutation was made by this observation."
+  ]
+}
