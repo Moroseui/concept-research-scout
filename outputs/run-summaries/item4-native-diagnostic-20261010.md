@@ -1,3 +1,13 @@
+# Native diagnostic verification attempts
+
+The second deliberately reviewed CPU verification of corrected author20 code ended with provider exit1. The fixture passed its prior constructor error, then failed at `CPUObserver.start`: `_sampling_loop` does not exist on the parent monitor. No diagnostic training, GPU measurement or scientific acceptance resulted. Package integrity was unchanged; patient data, GPU and network access were absent. Complete originals remain private, and no automatic retry is scheduled.
+
+Module: `501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749`. Untruncated output:22,419bytes, SHA256 `8877b8d5e93b4ded054ad8cf85f54b9faf58050739493080f8acfda6e83a7a0d`; stderr empty. The new reservation is $1.118950; actual cost awaits provider billing. Together the two native diagnostic reservations are $2.237900, both preserved and counted.
+
+Next action is a Claude direction consultation on author-owned whole-fixture repair and avoiding repeated isolated fixes. Scientific REVISE15 and all whole-plan findings remain open. The installed reviewer16 route correctly refuses this failure as success evidence.
+
+## Preserved first-attempt summary
+
 # Native diagnostic preparation outcome
 
 The single bounded CPU preparation attempt failed before exercising the diagnostic trainer. It used generated synthetic inputs in the pinned environment; no GPU or patient data was used.

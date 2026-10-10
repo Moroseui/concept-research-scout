@@ -1,15 +1,24 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The corrected connector passed 123 focused tests, both admission rehearsals and independent implementation review.
-Installation completed successfully. One bounded CPU verification service started; the GPU diagnostic has not started.
-Scientific review still requires actual corrected native integration evidence before GPU dispatch; full training and coverage remain held.
-Provider-observed compute spend is $24.3153. Last verified stage commitments are $111.230128/$150; the new CPU quote is at most $1.118950.
-Next expected result: CPU integration outcome within about 20 minutes, then scientific review; GPU timing remains pending.
-B remains first because the combined A/B GPU quotes exceed the $25 diagnostic cap. CPU starvation is still unanswered.
-Today's calls are 34/50: 6 authors, 5 scientific reviews, 18 implementation reviews and 5 direction checks, all complete.
+The second synthetic CPU verification failed: the fixture calls a telemetry-thread method that does not exist.
+Compute has stopped. No GPU diagnostic or scientific review16 has started; no automatic retry is scheduled.
+Claude is reviewing how to recover without another sequence of isolated fixture fixes; the scientific author must own any correction.
+Provider-observed compute spend remains $24.3153; the new attempt's actual bill is pending. Counted commitments are $112.349078/$150, including $2.237900/$25 for both CPU attempts.
+Next expected result: a recovery-direction decision in about 10 minutes. The GPU start estimate is withdrawn.
+CPU starvation remains unanswered; B is still the intended first GPU diagnostic. Full training, coverage and the $1,200 projection gate remain held.
+Today's calls are 35/50: 6 authors, 5 scientific reviews, 18 implementation reviews and 6 direction checks; the latest direction call is running.
 
-## Installed connector and current execution
+## Current native failure and next decision
+
+The corrected author20 module passed the previous constructor issue, then failed when its synthetic `CPUObserver.start` referenced `_sampling_loop`. The parent monitor defines its sampling loop locally inside `start`, so that method is absent. Complete original output, transport receipts, terminal exit1 and immutable package hashes are preserved privately. This is a genuine FAIL; the accounting row remains UNCERTAIN with its full reservation, not a fabricated success. The first failed attempt also remains unchanged and counted. No patient or GPU computation occurred in either synthetic verification.
+
+The successful installation and 123 passing infrastructure tests did not demonstrate that the scientific fixture works. The genuine-PASS scientific-review gate correctly stayed closed. Root has made no scientific edit and will not repeat the operation automatically. The direction check is triggered by two fixture/execution cycles without the requested GPU measurement, despite the recent previous consultation. It asks for a whole-fixture author audit and the shortest scientifically valid path, with exact cuts to unnecessary process. No new component is under development while that decision is pending.
+
+Current stage commitments are confirmed by normal admission: $111.230128 before the new $1.118950 reservation, now $112.349078. Both CPU reservations total $2.237900 within the diagnostic $25 cap. First-attempt actual cost $0.02512208 is recorded but its full reservation remains counted; the second actual cost is not yet confirmed. No reservation has been released. Related accounting work remains deferred unless needed in the next required admission patch.
+
+## Previous approved connector and execution checkpoint
+
 
 [Independent implementation APPROVE](reports/item4-corrected-native-verification-20261010.json), report35aeaa0a on sourceb60badd6, has no findings. Latest Claude direction: PROCEED, one round; explicitly agrees that one deliberate corrected CPU verification fits the no-automatic-retry instruction. The exact one-use38/76 review allowance preserves all originals and the final whole-plan interpretation pair. Root agrees; no additional component or optional accounting work was added. Estimated model cost for this review is $7.9995695, separate from provider compute.
 
