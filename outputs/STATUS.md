@@ -4,7 +4,7 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
 
-The driver repair is independently approved, installed and verified. Its single start request is in preflight, reusing the existing author grant.
+Author attempt23 is admitted through normal accounting. The corrected service and bounded host-check maintenance are running; no author result or GPU run is complete.
 
 Claude approved the driver repair without findings. The prior SIMPLIFY direction remains: proceed to the author, defer optional cost cleanup, and avoid a separate direction call.
 
@@ -12,7 +12,7 @@ Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397
 
 Next target: the author correction, provisionally30-60 minutes after launch. GPU timing still requires validation and scientific review.
 
-Today: 46/50 calls - 8 author admissions, 5 scientific reviews, 26 administrative reviews and 7 standalone direction checks.
+Today: 47/50 calls - 9 author admissions, 5 scientific reviews, 26 administrative reviews and 7 standalone direction checks.
 
 Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
@@ -22,7 +22,7 @@ The installed continuation478a4724 failed before input preparation/admission: th
 
 Candidate1d074a4b overrides this selector at the actual driver entry and requires the frozen next slot to equal the count of author admissions +1. It independently verifies and reuses the same genuine activated grant, with no new activation or cost entrypoint. Accepted round21, history, limits and all downstream checks remain unchanged. The installer additionally requires the exact old terminal service invocation.
 
-100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. Independent reviewe7aaa1e4 returned genuine APPROVE without findings. Exact source1d074a4b is installed; held verification passed with zero model/provider calls. The corrected service start request is in preflight.
+100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. Independent reviewe7aaa1e4 returned genuine APPROVE without findings. Exact source1d074a4b is installed; held verification passed with zero model/provider calls. The corrected service started once and author23 was admitted. Pre-model checks are continuing; an admitted RUNNING row is not evidence of successful output or submission.
 
 
 
@@ -42,7 +42,7 @@ Earlier A100278.1671s, H100228.1379s and B200166.2836s measurements were first e
 - Identified provider compute actuals: $24.39800404. Four closed synthetic attempts cost$0.02512208,$0.02347152,$0.02466453,$0.03461146. Each original$1.118950 reservation stays preserved.
 - First two excess CPU/RAM credits total$0.189305, retaining$2 overhead. The later$0.178623 excess is verified and its accounting extension approved, but remains reserved until the next native release. The other$2 overhead stays held. No unknown outcome was released.
 - Latest administrative review model estimate:$5.09852225, separately preserved. Caps remain$150 stage1,$25 diagnostic,$1,200 projection gate,$1,275 total.
-- Eight scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit and failed report-lifecycle handoff.
+- Nine scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit, failed report-lifecycle handoff and its counted continuation.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
 - Twenty-six administrative reviews: bounded handoffs, native integration, installation and accounting repairs. Latest is the narrow driver-selection repair with the recurrence/direction question bundled.
 - Seven standalone direction checks: scope and recovery. Administrative work dominates; further direction discussion is folded into required reviews.
