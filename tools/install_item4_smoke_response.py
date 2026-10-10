@@ -8,11 +8,12 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-post-smoke-response-20261010'
+CHANGE='item4-cpu-starvation-diagnostic-20261010'
+REVIEW_CHANGE='item4-cpu-diagnostic-route-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-smoke-scientific-review-20261010.service')
-PRIOR_UNIT_SHA='429b891e687fd5b52d3ca0cef94f78c5e36acd7b03587b1c5bfd41f60ad4e550'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-post-smoke-response-20261010.service')
+PRIOR_UNIT_SHA='5e49ee1f4f5b231e8ffa840322f31b79e6352e1e26de95c584ff4dd1f769b910'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -32,7 +33,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py run'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-post-smoke-response-20261010/tools/item4_smoke_response_runtime.py run'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_smoke_response_runtime.py')+' run'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
@@ -73,7 +74,7 @@ def install(source,review):
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approved=verify_result(review)
-    require(approved['verdict']=='APPROVE' and approved['change_id']==CHANGE,'GENUINE_IMPLEMENTATION_APPROVE')
+    require(approved['verdict']=='APPROVE' and approved['change_id']==REVIEW_CHANGE,'GENUINE_IMPLEMENTATION_APPROVE')
     manifest=json.loads((review/'packet-manifest.json').read_bytes())
     require(manifest['source_sha']==approved['source_sha'],'SOURCE_BINDING')
     policy_path=trusted(source/'tools/item4_smoke_response_runtime.py')
