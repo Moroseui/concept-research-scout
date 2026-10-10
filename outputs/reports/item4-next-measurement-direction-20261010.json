@@ -1,0 +1,15 @@
+{
+  "status": "administrative route approved; no scientific or spending authority",
+  "verdict": "APPROVE",
+  "report_sha256": "923d83b02f375140abeaa263e3e696e97ed21c9def4bc3f76c36fc1a4caad114",
+  "source_sha": "90da59b2f67e2e32c2232f170135199b11bdc036",
+  "rounds": 1,
+  "recommendation": "Request operator allocation of at most25 within existing150 for new diagnostic milestone scope; preserve scientific REVISE and review-before-launch gates.",
+  "direction_label": "The requested PROCEED/SIMPLIFY/ASK PARTHO label was not supplied; recommendation is explicit in rationale.",
+  "what_changed": "Prefer allocation within150 rather than cap175; defer further response-only calls, process grants and infrastructure until necessary authority.",
+  "limitations": [
+    "Read-only consultation relied on supplied originals; no independent live billing observation.",
+    "No scientific diagnostic endorsement, new process allowance or execution authority.",
+    "Report calls six scientific findings seven; original preserved, actual array has six."
+  ]
+}
