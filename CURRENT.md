@@ -1,1 +1,4 @@
-Item6 complete. Corrected native CPU verification ended FAIL at missing CPUObserver._sampling_loop; no GPU or reviewer16, no retry. Originals and both full reservations retained. Stage $112.349078/$150; diagnostic $2.237900/$25; second actual bill pending. Direction consultation running about whole-fixture author recovery, no new implementation. Daily35/50:6authors5scientific18implementation6direction. See outputs/STATUS.md.
+Current work: item 6 complete; 13B diagnostic held pending whole-fixture author repair.
+See outputs/STATUS.md for current evidence, spending, call counts and exclusions.
+Draft 28a6e1a5 is uninstalled and requires independent implementation approval.
+Both CPU failures and reservations remain preserved; no automatic retry or GPU start.
