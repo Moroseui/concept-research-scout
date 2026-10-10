@@ -3,12 +3,14 @@
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 CPU starvation remains unproven; the diagnostic compares 16 CPUs/12 workers with 32 CPUs/24 workers on the same B200 workload.
 The author submission repair passed 141 focused tests, a server rehearsal and independent review; installation and verification are complete.
-Activation for corrective author 17 is underway; scientific reviewer 13 follows accepted output. No diagnostic GPU job is running.
+Corrective author 17 service is preparing its inputs; its bounded monitor is active. Scientific reviewer 13 follows accepted output. No diagnostic GPU job is running.
 Identified compute spend remains $24.29; retained exposure is $110.11 against $150. Diagnostic spending and reservations remain $0/$25.
 Next expected result: corrected executable code and scientific review in about 20-40 minutes. B goes first after scientific review and bounded admission.
 UTC October 10 calls: 16/50 (2 authors, 2 scientific reviews, 9 administrative reviews, 3 direction checks). Latest Claude outcome: implementation APPROVE; shortest safe path confirmed.
 
 ## Latest recovery and backup
+
+06:06 UTC: activation passed and the author service started once; input preparation is active, with no new model admission yet. The bounded monitor has refreshed the existing host proof. No duplicate watcher was created.
 
 06:04 UTC: source 3577bcca8e89f5308e49da382939ea04e3891aa4 independently approved by report a13832042a73361de181ed18e4722462f2a69e89a814af16a90b6955a9a93605, installed and verified held. No scientific code was edited by the infrastructure operator. The existing author submission tool now returns entry-point errors inside the same model call. Host extraction and synthetic tests remain authoritative. Original author16 output, refusal and charge are preserved. The allowance is exactly corrective author17 followed by unused reviewer13; all scientific review outcomes remain execution-held. No new timer or subsystem was added.
 
