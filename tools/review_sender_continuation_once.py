@@ -6,7 +6,7 @@ Normal reviewer, daily admission, accounting, isolation and other refusals stay.
 """
 import hashlib,importlib.util,json,os,sys
 from pathlib import Path
-CHANGE='item4-driver-round-repair-20261010'
+CHANGE='item4-spec-regression-recovery-20261010'
 CP=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006')/CHANGE
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 PRIOR=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006/item4-sender-recovery-20261010/packet/source')
