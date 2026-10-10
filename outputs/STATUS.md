@@ -2,13 +2,13 @@
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
 All three benchmarks, the five-epoch smoke with real interruption/resume, and the repeat are complete; no GPU is running.
-The original scientific preflight failed before model admission; its approved single retry is now preparing with genuine host-policy refreshes. No scientific call is admitted yet.
-The bounded operation passed 22 tests and independent APPROVE; its first live refresh passed. No expiry, policy check or privilege was changed.
+The original scientific preflight failed before model admission; its approved single retry has now passed both the host and nested-sandbox pre-reservation checks. Normal call admission is still in progress; no scientific call is admitted yet.
+The bounded operation passed 22 tests and independent APPROVE; live refreshes and the actual pre-reservation isolation check passed. No expiry, policy check or privilege was changed.
 Identified provider compute is $24.29; effective stage-1 exposure is $110.11/$150. All original reservations and unsettled obligations remain recorded.
-Next result: scientific smoke assessment, roughly 45-60 minutes from the retry start. The provisional $3,575 full-plan projection exceeds the unchanged $1,200 gate.
+Next result: scientific smoke assessment, expected around 02:40-02:55 UTC. The provisional $3,575 full-plan projection exceeds the unchanged $1,200 gate.
 UTC October 10 calls: 5/50, comprising 3 administrative reviews and 2 direction calls. Latest direction: PROCEED after two rounds; inspectable enforcement resolved both findings.
 
-Updated 2026-10-10T01:58:34.786855+00:00.
+Updated 2026-10-10T02:06:49.080463+00:00.
 
 ## Results and readiness
 
@@ -212,3 +212,5 @@ Judgment: reuse the existing read-only progress and reservation replay tools for
 - tests > fixtures > item4_smoke_review_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
 
 - docs > ITEM4_HOST_PROOF_PREFLIGHT_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+
+The original pre-reservation host and nested-sandbox receipt was independently read and matched the actual retry invocation and pinned runtime. Both checks report PASS; receipt hash 49d8880967c352b93fb10ccd750a0821b0243a93be643fd8cc79d4f1e8ef2e94. This crosses the previous failure point without changing its freshness requirement. The same request is now performing normal admission; no duplicate was launched.
