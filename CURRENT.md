@@ -2,19 +2,17 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. Synthetic validation completed all 15 diagnostic epochs, then failed its final report-consistency check; the author still owns the correction.
+13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
 
-Nothing is running. The attempted author handoff failed before the model started; its admission and original evidence remain counted and preserved.
+The approved author-submission repair is installed and verified. Its single-author grant is being activated; no new scientific call or compute has started.
 
-Claude approved the narrow sender repair and terminal-failure classifier. 51 focused tests pass, including the previously missed full sender entry. The final counted continuation still needs implementation and its combined review.
+Claude returned APPROVE and SIMPLIFY. We are proceeding directly to the author correction, with no additional review of this bundle.
 
-Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic; $0.178623 of confirmed excess CPU/RAM reservation awaits the accounting-scope extension.
+Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: the author's report-lifecycle correction after the reviewed continuation, provisionally 60-90 minutes. GPU timing has no reliable ETA yet. Run B remains first; full training and coverage-dependent arms remain held.
+Next target: the author's correction, provisionally 30-60 minutes after launch. GPU timing still requires validation and scientific review.
 
-Today: 44/50 calls - 8 author admissions, 5 scientific reviews, 24 implementation reviews and 7 standalone direction checks. The latest recurrence check was bundled into implementation review.
+Today: 45/50 calls - 8 author admissions, 5 scientific reviews, 25 administrative reviews and 7 standalone direction checks.
 
-Latest Claude outcome: APPROVE for the sender repair; no explicit PROCEED/SIMPLIFY direction recommendation was returned. Carry that question into the final continuation review; do not infer approval of unwritten work.
+Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
-
-See outputs/STATUS.md for detailed evidence, spending, call purposes, judgments and exclusions. No work is running and no retry is scheduled.

@@ -2,59 +2,48 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. Synthetic validation completed all 15 diagnostic epochs, then failed its final report-consistency check; the author still owns the correction.
+13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
 
-Nothing is running. The attempted author handoff failed before the model started; its admission and original evidence remain counted and preserved.
+The approved author-submission repair is installed and verified. Its single-author grant is being activated; no new scientific call or compute has started.
 
-Claude approved the narrow sender repair and terminal-failure classifier. 51 focused tests pass, including the previously missed full sender entry. The final counted continuation still needs implementation and its combined review.
+Claude returned APPROVE and SIMPLIFY. We are proceeding directly to the author correction, with no additional review of this bundle.
 
-Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic; $0.178623 of confirmed excess CPU/RAM reservation awaits the accounting-scope extension.
+Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: the author's report-lifecycle correction after the reviewed continuation, provisionally 60-90 minutes. GPU timing has no reliable ETA yet. Run B remains first; full training and coverage-dependent arms remain held.
+Next target: the author's correction, provisionally 30-60 minutes after launch. GPU timing still requires validation and scientific review.
 
-Today: 44/50 calls - 8 author admissions, 5 scientific reviews, 24 implementation reviews and 7 standalone direction checks. The latest recurrence check was bundled into implementation review.
+Today: 45/50 calls - 8 author admissions, 5 scientific reviews, 25 administrative reviews and 7 standalone direction checks.
 
-Latest Claude outcome: APPROVE for the sender repair; no explicit PROCEED/SIMPLIFY direction recommendation was returned. Carry that question into the final continuation review; do not infer approval of unwritten work.
+Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
-## Current work and evidence
+## Current evidence
 
-The latest repair review genuinely approved source41b93574, reporta54ef800, with no findings. It removes only the stale duplicate attempt21 comparison; the immediate exact dual-ledger attempt22 check still gates the sender. Tests reproduce the original failure and exercise actual format pins, client command, both admission ledgers and read-only protection assembly up to a stubbed native process boundary. The exact failed row, original files, configuration, source and terminal invocation qualify read-only; any changed, live, unknown or repeated request refuses. The bounded administrative bootstrap preserved original accounting and confinement. This intermediate candidate is not installed into the exhausted handoff and does not authorize another scientific call. The next continuation must use a new counted attempt and receive its own combined implementation review. The direction question was supplied but received no explicit recommendation; it remains for that review.
+The approved continuation is source478a4724, independent reportaff49bc6. Held-state installation verification passed with zero model and provider calls. One new author23 admission will preserve failed author22 and all prior charges. Entry, sender, workspace and acceptance checks now derive the author round from the same frozen profile. This engineering repair changes no scientific source, plan, inputs, image or safeguards.
 
-Approved source9b568290 fixes the root adapter's rejection of the author's separate diagnostic output directory. It accepts only the exact durable/diagnostic siblings under the same private synthetic root, binds both to the same893 generated inputs and hashes, and rejects other roots, nesting, traversal, relative paths and aliases. No scientific source, plan, image, resources or limits changed. Accepted author21 remains the exact [author-owned module](proposals/item4-cpu-diagnostic-author21.py).
+278 unique focused tests passed. The later administrative-wrapper correction passed25 overlapping tests. The server rehearsal used real preserved history, actual feedback and dual-ledger sender code to a stubbed native boundary; it refused invalid admissions and preserved the original rows. Live ledger writes, model calls and provider calls were all zero. This is not proof of scientific correction or GPU success.
 
-The independent implementation review, report10129ee9, resolved both infrastructure findings and explicitly approved the safe order: held installation, one deliberately reviewed bounded CPU verification, then reviewer16 only after actual native PASS. Installation, native runtime verification and reviewer-route verification all passed with zero model/provider calls. The one CPU operation is now positively terminal with exit1. Its full reservation, complete original streams and original accounting event are preserved. The single approved operation is exhausted; the approval does not authorize another run. There is no automatic retry.
+The last native failure was reproduced locally: receipt publication appends an event to the list referenced by the in-memory report, making it differ from the saved JSON. The author owns the correction and regression test. Scientific review15 remains REVISE; no scientific findings were closed administratively.
 
-159 focused tests passed. A separate check extracts all three actual factory calls from the accepted scientific source and exercises real checkpoint storage; all now pass, while the old adapter reproduces the observed failure. Both server rehearsals passed with real read-only history and disposable ledger copies. They preserved original events and reservations and refused over-cap admission, reviewer admission without native success, duplicates and full-plan admission. Their simulated future approval/PASS markers were test-only and never live authority. These checks do not claim full native or GPU success. The subsequent native run logged all15 diagnostic epochs with250 training and50 validation iterations each, then failed at final report consistency.
+The diagnostic compares B200 with16 CPU cores versus32, with more augmentation workers for B and the same arm, fold, seed, memory, image and15-epoch work. Required outputs include utilization coverage, steady-state time and cost per epoch, and checkpoint overhead. A100 equivalence is not established.
 
-The third prior CPU operation is positively terminal with exit1. Preprocessing and base synthetic training/resume/scoring completed, then the infrastructure path check stopped it before the15-epoch diagnostic. Full streams, original reservation and unchanged package evidence remain private. No patient files, GPU or network were used. Earlier failures were a constructor-field mismatch and a missing callback. The new operation has a distinct identity and preserves all three; none was restarted or relabelled PASS.
-
-The fourth failure is E173 at the final report comparison. Root extracted the exact accepted canonical/file-info/write-once and DiagnosticProgress methods and exercised them with real checkpoint storage and generated inputs. The report equals its saved JSON before receipt publication. Publication appends a receipt event to the shared in-memory list; afterward the file hash is unchanged but equality fails. This deterministically reproduces the failure without paid compute or scientific edits. It is not permission to drop the consistency check or declare native PASS. The author must choose the correction and regression test.
-
-The handoff reuses the existing author-only route for one correction of the complete final report lifecycle. The exact accepted source, all four original failures, real interfaces and local counterexample are delivered together. Production code and interfaces, every existing test, plan, image and safeguards stay fixed; the scientific author chooses the fixture correction and appended regression. Current 36 run calls and 74 batch scientific calls are preserved. The proposed 40/78 process allowance reserves the later reviewer and final pair but refuses those calls in this release. The first bundle received genuine APPROVE1d825dcf and PROCEED. Before installation, root found that the host-start predicate still expected the previous 35 calls and role 21. Corrected candidate58474dd1 expects the reviewed current 36 calls and role 22, with a focused regression executing the actual predicate. The original predicate demonstrably refuses; the corrected one accepts only the exact new state and still rejects wrong counts, roles, stages and duplicate/live calls. A fresh linked implementation review returned genuine APPROVE4d594562 for corrected source58474dd1, with no findings. That exact source is installed and its held-state verification passed with zero model/provider calls. The one-author grant activated successfully and the service started once. The counted author22 admission then failed before backend model invocation at a separate sender config check that still required attempt21. Service exit1, no remaining process or control group, and bounded maintenance terminated normally. The original local/global rows retain their uncertain status; this terminal transport failure is documented separately. No correction output or submission exists, and no retry is scheduled. The original approval and charge remain preserved.
-
-158 focused tests pass. The server check verified authentic prior approvals and four terminal failures, then exercised one counted author22 admission on disposable database copies. It refused the daily cap, altered old calls, all four altered reservations, missing grant, pending work, reviewer16, full-plan calls and duplicates. Live ledgers were read-only. Two final sender/delivery corrections are covered by positive and negative local tests; the earlier server check is not represented as testing those final bytes. The combined implementation review included Claude?s direction and recurrence judgment. The actual launch exposed an uncovered sender predicate despite passing component tests; those tests are not represented as a complete sender-path pass. No separate direction call or new subsystem was created.
-
-Scientific review15 remains genuine REVISE. Native integration, provenance, coverage, full-plan projection and opposing-review findings stay open. No administrative approval closes them. Reviewer16 is still held by the genuine native-PASS gate. The author22 route was attempted and failed before the backend model started; no GPU dispatch occurred. Item6 remains complete and independent of this path.
+Earlier A100278.1671s, H100228.1379s and B200166.2836s measurements were first epochs and include warm-up. The A100 value extrapolates to19.32 GPU hours per250-epoch fold, not a steady-state estimate. Sprint12 A1 reported about36s per epoch and2.69-2.74h per fold; workload comparability remains unverified. Earlier B200 smoke timing was still declining. Prior full-plan sensitivities of$2,963.89-$3,574.95 exceeded the$1,200 gate; they are not a validated final projection. The scientific author/reviewer must replace them using the timing diagnostic.
 
 ## Spending and call purposes
 
-- Stage-1 commitments: $114.397673/$150; diagnostic commitments: $4.286495/$25. No new compute was launched.
-- Confirmed native compute actuals: first $0.02512208; second $0.02347152; third $0.02466453; fourth $0.03461146. Original $1.118950 reservations remain preserved for each. These are observed provider charges, not a claim of final invoices.
-- First two excess CPU/RAM credits total $0.189305; their $2 overhead remains held. The last two still retain their full reservations because the installed reconciliation check selects only the first two. A reviewed extension can release $0.178623 while retaining the other $2 overhead. Actual costs are recorded; no check was bypassed.
-- Identified compute total: $24.39800404. Model charges are separate; the latest review estimate is $4.47346225, preserved and counted.
-- Projection gate $1,200 and total cap $1,275 unchanged. Installed bounded process allowance is 40 local / 78 scientific batch calls; actual usage is 37 / 75. Daily cap remains 50.
-- Eight scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit and the failed report-lifecycle handoff. The latest failed before backend invocation but remains counted.
+- Stage1 commitment: $114.397673/$150; diagnostic: $4.286495/$25. No new compute for the sender repair.
+- Identified provider compute actuals: $24.39800404. Four closed synthetic attempts cost$0.02512208,$0.02347152,$0.02466453,$0.03461146. Each original$1.118950 reservation stays preserved.
+- First two excess CPU/RAM credits total$0.189305, retaining$2 overhead. The later$0.178623 excess is verified and its accounting extension approved, but remains reserved until the next native release. The other$2 overhead stays held. No unknown outcome was released.
+- Latest administrative review model estimate:$5.09852225, separately preserved. Caps remain$150 stage1,$25 diagnostic,$1,200 projection gate,$1,275 total.
+- Eight scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit and failed report-lifecycle handoff.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
-- Twenty-four implementation reviews: bounded handoffs, native integration, installation and accounting repairs; latest reviews the sender repair and exact terminal classifier, with the recurrence/direction question included.
-- Seven standalone direction checks: scope and recovery decisions. Administrative work dominates. Batch the final continuation, process accounting and closed-cost reconciliation into one review; keep subsequent direction discussion there.
+- Twenty-five administrative reviews: bounded handoffs, native integration, installation and accounting repairs. Latest bundled continuation, process accounting, closed-cost extension and direction check.
+- Seven standalone direction checks: scope and recovery. Administrative work dominates; further direction discussion is folded into required reviews.
 
 ## Judgment highlights
 
-Latest Claude outcome: APPROVE for the minimal sender fix and administrative-only terminal classifier. Root agrees. The opinion does not approve an unwritten continuation. No explicit direction recommendation was returned; the question will accompany the final combined review.
+Claude: APPROVE and advisory SIMPLIFY, one round. Root agrees: no further administrative request for this approved bundle; defer the optional closed-cost action to the next native release; prioritize author correction, validation, scientific review and GPU timing. The completed review cannot be undone and stays counted.
 
-Root judgment: consolidate the contradictory round checks into the existing authoritative dual-ledger gate; test the full sender entry and preserve all failed admissions. Reuse the existing author-only route for a new counted continuation, with one combined review before installation. The scientific author chooses the report-lifecycle correction. No automatic compute retry, scientific edits by root or duplicate watcher.
-
-Provider billing was checked read-only while Claude reviewed. Actual costs for both later closed validations are now recorded, but their excess remains held until the existing narrow reconciliation scope is extended under normal review.
+An earlier unstarted request is preserved. Its wrapper incorrectly assumed ownership of a review manifest; the correction uses the existing verifier and private-record contract. It stopped before admission and consumed no call. The eventual review admitted once and completed.
 
 ## Backup and exclusions
 
@@ -251,3 +240,9 @@ The full corrected host approval report is withheld after publication-scan flags
 Current recovery judgment: preserve the failed43rd admission and every original charge; do not rerun the exhausted grant. The repeated hard-coded attempt mismatch requires Claude?s second opinion and a complete sender/receiver boundary regression before a reviewed continuation. No new subsystem or isolated one-line retry is proposed. The current implementation approvals are preserved but do not authorize another invocation.
 
 Current sender repair: safe draft62a36640 on `astra/public-sender-recovery-20261010`, not installed or merged. Its two private source documents are excluded. Full accepted reporta54ef800 is withheld for CREDENTIAL_OR_HOST_REFERENCE; the public report is an explicitly labelled scope summary. Originals remain private and unchanged.
+
+Approved continuation source478a4724 is backed up by safe projectionece58e95 on astra/public-sender-recovery-20261010. The installed release is merged into remote-server. The genuine scan-passing administrative report is included under outputs/reports. Raw private ancestry remains excluded. Additional withheld files:
+
+- docs > ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- docs > ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- tools > install_item4_smoke_response.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
