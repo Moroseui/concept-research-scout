@@ -1,17 +1,29 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The native CPU test found a fixture bug: nnU-Net requires a `continue_training` field that the author omitted.
-That attempt has ended; no compute is being retried. The corrective handoff passed 125 tests and its read-only server rehearsal; Claude approved the bundle; installation and postchecks passed. Author20 completed and its correction was accepted; reviewer15 is running.
-Reviewer15 will judge the one-line fixture correction and authentic failure. Run B remains held; GPU timing is still unanswered.
-Provider-observed compute spend is $24.3153; counted stage commitments remain $111.23 of $150. The failed native attempt cost $0.02512208; its original $1.118950 reservation stays counted pending reviewed reconciliation.
-Next expected result: scientific review15 in roughly10-20 minutes. GPU timing follows scientific acceptance and normal admission.
-No automatic compute retry is permitted. Full-training, coverage and the $1,200 projection gate remain held.
-Today's calls: 32/50 (6 authors, 5 scientific reviews, 17 implementation reviews, 4 direction checks). Latest direction: agreed in one round to correct the fixture, use reviewer 15, and omit another CPU rehearsal.
+Author20 corrected the fixture constructor; the plan and production code are unchanged, and controller tests passed.
+Scientific reviewer15 returned REVISE: the corrected module still needs a successful native integration test before GPU dispatch.
+No compute or scientific call is running. Claude's direction follow-up is running to resolve the conflict with the earlier no-second-CPU plan.
+Provider-observed compute spend is $24.3153; counted stage commitments remain $111.23/$150, including the failed CPU attempt's full $1.118950 reservation.
+Next expected result: direction decision in roughly 5-10 minutes from 11:38 UTC. The GPU timing estimate is pending that decision.
+CPU-starvation remains unanswered. No automatic retry, coverage release or full training has been authorized; the $1,200 projection gate remains held.
+Today's calls: 33/50 (6 authors, 5 scientific reviews, 17 implementation reviews, 5 direction checks, including the running follow-up).
 
-## Current call purposes
+## Current evidence and next action
 
-The six author calls cover the smoke response, executable timing proposal, interface correction, native fixture, accepted plaintext correction and the current fixture-only correction. The five scientific reviews cover smoke, timing response, diagnostic design, scoped native evidence and the current fixture correction. Seventeen administrative reviews cover the necessary implementation/accounting repairs; the latest completed call combined the fixture handoff, its one-use process allowance, complete failure delivery, installation and direction. Four standalone direction checks addressed scope and recovery. Administrative overhead remains the majority; further related repairs will be batched wherever possible.
+[Scientific review15 summary](reports/item4-fixture-review15-20261010-summary.md) records the genuine REVISE, report c2469bdd. Both ledgers are COMPLETE; the service ended successfully. The existing native-submission verifier confirms the exact report, submission and assessment agree. The temporary maintenance loop stopped after its completed invocation disappeared; no call or watcher was restarted.
+
+The reviewer accepts the minimal fixture correction but explicitly requires native integration of the corrected instrumentation before either paid diagnostic. Global coverage, all-arm smoke, full-path integration and budget findings also remain open. The earlier agreed direction omitted another CPU rehearsal, so this new scientific outcome requires a direction discussion. The administrative call cannot close the scientific finding or authorize installation/compute. Root proposes considering one deliberate, separately reviewed verification using the existing connector and unchanged protections; if that conflicts with the operator's no-automatic-retry instruction, compute stays parked. No implementation has begun and no reservation has been released.
+
+The original failed CPU attempt is positively terminal and its provider-observed cost is $0.02512208. The conservative reservation remains counted until a reviewed reconciliation qualifies it; actual billing is not being substituted into admission by hand. Diagnostic exposure remains $1.118950/$25. The full $1,275 cap is unchanged.
+
+## Current call purposes and judgments
+
+Six author calls: smoke response, executable timing proposal, interface correction, native fixture, plaintext correction and fixture-only correction. Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction. Seventeen implementation reviews: the required implementation/accounting repairs, most recently the fixture handoff and process allowance. Five direction calls: scope/recovery consultations, including the current discussion of genuine REVISE15. Administrative overhead remains the majority; related repairs and any necessary accounting work will be batched, and no optional infrastructure is planned.
+
+Latest completed direction: report93eb8a68, agreement in one round to correct the fixture, use reviewer15 and omit a second CPU rehearsal. Current follow-up is pending and explicitly includes that original report plus the new opposing scientific evidence. Judgment11:38UTC: do not relabel a genuine REVISE or repeat its scientific review unchanged; consult Claude before another connection or compute attempt. The previous goal turn was a verified wait; this turn completed, preserved and qualified scientific15.
+
+The raw scientific report remains private because the public credential/infrastructure scanner flagged its text. The linked summary is explicitly a summary. Existing source exclusions and historical scan decisions remain listed below. Two read-only qualification-script setup errors (old module import, then stale runtime configuration assumption) were preserved; using the authenticated installed route and actual lane configuration passed. No production fix or safeguard relaxation was involved.
 
 ## Historical audit ? dated states below are superseded by the current status above
 
