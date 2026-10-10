@@ -1,12 +1,26 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Author 17 passed controller checks; scientific review 13 verified the diagnostic code/design but returned genuine REVISE with six preserved full-plan findings.
-CPU starvation remains unproven. No diagnostic GPU job is running; diagnostic execution lacks an explicit scoped scientific approval.
-Claude confirmed current safeguards but did not decide the proposed scope exception. A narrow reviewer-only change is being prepared; no job or model call is running.
-Identified compute spend remains $24.29; retained exposure is $110.11 against $150. Diagnostic spending and reservations remain $0/$25.
-Next scientific result is the CPU timing diagnostic, provisionally 1-3 hours if scope resolution and required reviews pass; the next step is a combined implementation/scope review. B remains first.
-UTC October 10 calls: 19/50 (3 authors, 3 scientific reviews, 10 administrative reviews, 3 direction checks). Latest scientific verdict: REVISE. Latest administrative verdict: APPROVE of current safeguards, without authority for the proposed new review.
+Author 17 passed controller checks; scientific review 13 remains a genuine REVISE with six full-plan findings open.
+CPU starvation remains unproven. No diagnostic GPU job is running; full training and coverage-dependent arms remain held.
+A narrow diagnostic-only review route passed 75 tests and a server rehearsal. One combined implementation/process/direction review is running; the candidate is not installed.
+Identified compute spend is $24.29; retained exposure is $110.11 against $150. Diagnostic spend and reservations are $0 against $25.
+Next expected result is the CPU timing diagnostic, provisionally 1?3 hours if the required reviews pass. Run B goes first because the combined conservative quotes exceed $25.
+Before the new review, UTC October 10 usage was 19/50 calls: 3 authors, 3 scientific reviewers, 10 administrative reviews and 3 direction checks. This review is the next administrative call; direction advice is bundled.
+
+## Current candidate and backup
+
+06:54 UTC: candidate6dfcb73f6d86d267a68a2aba57bac1950488843d is committed but uninstalled. The existing reviewer route adds exactly one independent diagnostic-scoped judgment of unchanged accepted author17. All six original full-plan findings, original calls/charges and full/coverage/execution holds remain. No new author, generic bypass, timer or subsystem. The exact one-use allowance preserves the final whole-plan interpretation pair; daily and dollar limits stay unchanged.
+
+Validation: 59 runtime/installer/host/frozen-author tests plus16 accounting/historical-regression tests passed. Exact-source server rehearsal verified genuine prior authorities and author bytes, used disposable accounting copies, admitted only reviewer14, and refused duplicate and premature whole-plan admission. It made zero model/provider calls and zero live-accounting changes. Its simulated candidate approval is test-only, not authority to install.
+
+One combined independent implementation, process/accounting and direction review has started. The previous current-state consultation did not grant this exception and is not reused as permission. The new reviewer must judge the concrete change explicitly. Scientific review13 remains REVISE; no approval is inferred from positive prose.
+
+Safe working projection: astra/public-diagnostic-scoped-review-20261010 at a141a79dec425514afbebded70996bfe56f06e83. It is not installed code and is not merged into this branch. Installed source remains3577bcca. Withheld after scans: docs/ITEM4_CPU_DIAGNOSTIC_SCOPED_REVIEW_PRIVATE.json, docs/ITEM4_RESPONSE_HOST_PRIVATE.json, tests/fixtures/item4_scoped_review_prior_unit_PRIVATE.txt and tools/install_item4_smoke_response.py. The last file contains infrastructure references. All evidence, native streams, review packets and accounting records remain private; the public projection is intentionally not independently deployable.
+
+Judgment: use the operator-delegated process rule for this narrow patch, preserve all scientific disagreements and ask Claude through the required implementation review. Fold the direction check into that call; defer unrelated infrastructure. No operator decision is pending. Latest completed Claude outcome is current-state APPROVE only; the new exception remains pending.
+
+Current call purposes before the new review: scientific authors?smoke response, failed diagnostic entrypoint attempt, accepted correction; scientific reviewers?smoke assessment, timing response, executable diagnostic proposal. Ten administrative calls?smoke-review connection, initial host proof, corrected host proof, post-smoke author-route consultation, response allowance implementation, diagnostic-route consultation, executable-authoring implementation, failed-entrypoint recovery direction, recovery implementation, current-state scope consultation. Three standalone direction checks?shortest smoke-review route, accounting scope, next money proposal. The current combined review adds one administrative call; no double-counted direction call.
 
 ## Latest scoped-judgment question
 
