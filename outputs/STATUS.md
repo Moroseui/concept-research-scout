@@ -3,14 +3,14 @@
 Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
 The [13B execution plan](13B_EXECUTION_PLAN.md) is ready; the first reviewed Colab notebook and timing result are still pending.
 Review 53 genuinely approved the repair and preparation component; installation and service-account verification passed.
-The timing-author service failed its host check before any model call; the outcome is preserved with no automatic restart. Analysis and Colab lanes remain installed held.
+The timing-author service stopped before model admission after hourly retention replaced its shared host proof. Analysis initialization is now running through the unchanged route; no model is confirmed yet.
 Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Snapshot: 53 calls (9 author, 5 scientific review, 31 administrative review, 8 direction); model charges separate.
-Next: reconcile the host path, then admit analysis. First synthesis is estimated 30-60 minutes after admission; the admission ETA is being re-estimated during this bounded diagnosis. Training and coverage holds remain.
+Next: finish initialization and admit analysis through the existing checks. First synthesis is estimated 30-60 minutes after admission; Colab and timing follow their gates. Full-training and coverage holds remain.
 No action is needed from Partho. Claude says PROCEED toward analysis/Colab results and defer further infrastructure expansion. The swap gate is not reached.
 
 ## Current installation and judgment
 
-Independent review 53 returned genuine APPROVE without findings for source `304cae4a`; the [implementation summary](reports/preparation-cap-repair-20261010.md) records the exact source and report digests. The dated-cap component and preparation runtime passed service-account verification. Installation did not initialize the two preparation lanes or launch models/compute. The timing-author start ran once and stopped with `HOST_PROOF_WRONG_INVOCATION` before admission. Reconciliation confirms 38 item calls, 76 scientific batch calls and zero running model calls; daily usage remains 53 with no author charge. The original outcome is preserved; no automatic restart is authorized by this status.
+Independent review 53 returned genuine APPROVE without findings for source `304cae4a`; the [implementation summary](reports/preparation-cap-repair-20261010.md) records the exact source and report digests. The dated-cap component and preparation runtime passed service-account verification. Installation did not initialize the two preparation lanes or launch models/compute. The timing-author start ran once and stopped with `HOST_PROOF_WRONG_INVOCATION` before admission. Reconciliation confirms 38 item calls, 76 scientific batch calls and zero running model calls; daily usage remains 53 with no author charge. The original outcome is preserved. Diagnosis confirmed that hourly retention overwrote the shared proof; it completed at 21:52 UTC and is next scheduled at 22:51 UTC. Analysis initialization is now running through the unchanged route; no model admission has yet been confirmed at this snapshot.
 
 Review 51 genuinely approved the dated cap ($4.018335). Its first service-account verification failed because five directory modes lacked traversal permissions. The reviewed directory-only repair passed, preserving all 22 original files and unit bytes. A subsequent verification omitted the existing runtime environment; that failed check was preserved, and the corrected environment-only continuation passed. Completed repair steps were not replayed.
 
@@ -81,6 +81,42 @@ The following 55 files failed the existing privacy, secret or infrastructure sca
 - `tools/item6_input_preparation.py`: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 - `tools/manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 - `tools/repair_temporary_daily_cap_permissions.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+
+## Inherited files removed from this public tip
+
+The full-tree scan flagged these 31 previously published files. They are removed from the current public projection, with private copies and existing history preserved. No history was rewritten. Some rules are conservative; no scanner or allowlist was relaxed. The projection remains incomplete and not deployable.
+
+- `PUBLICATION_MANIFEST.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `REVIEW_PACKET_POLICY.md`: PRIVATE_RECORD_PATH.
+- `CLOSEOUT_RULINGS_PROPOSED.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `PRIVATE_COORDINATOR_PLAN.md`: PRIVATE_RECORD_PATH.
+- `PRIVATE_COORDINATOR_SETUP.fish`: PRIVATE_RECORD_PATH.
+- `pilot-workflows-r1.response.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `DEPLOYMENT_CLOSEOUT_CHECKLIST.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `DEPLOYMENT_REVIEW_GATE.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `DRIVE_ACCESS_APPROVED_20260908.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `DRIVE_CONNECTOR_REVIEW_R1_20260907.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `DRIVE_CONNECTOR_REVIEW_R2_20260908.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `DRIVE_RUNTIME_CREDENTIAL_REVIEW_20260908.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `FIRST_HANDOVER_READY_FOR_PERMISSION_20260907.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `HANDOVER_PROTECTED_INTAKE_FOLLOWUP_20260907.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `HANDOVER_PROTECTED_INTAKE_REVIEW_20260907.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `HISTORICAL_PUBLICATION_PREFIX.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `HOSTED_CAMPAIGN_ADAPTER_PREPARATION_20260907.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `PR5_MERGED_MILESTONE_20260907.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `PROVENANCE_SETUP_REVIEW_20260908.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `RESTART_HANDOFF_20260906.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `RESTART_HANDOFF_20260907.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `PREDICTION_READINESS_DIRECTION_20260906.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `candidates_all.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `scout_candidates.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `ledger.py`: PRIVATE_RECORD_PATH.
+- `2026-10-07-private-staging-and-final-tests.md`: PRIVATE_RECORD_PATH.
+- `REPORT.md`: CREDENTIAL_OR_HOST_REFERENCE.
+- `interpretation-review.json`: CREDENTIAL_OR_HOST_REFERENCE.
+- `test_continuing_research.py`: CREDENTIAL_OR_HOST_REFERENCE.
+- `test_live_research_install.py`: CREDENTIAL_OR_HOST_REFERENCE.
+- `test_server_terminal_review.py`: CREDENTIAL_OR_HOST_REFERENCE.
 
 ## Prior checkpoint (superseded where the October 10 direction differs)
 
