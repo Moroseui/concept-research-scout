@@ -77,3 +77,33 @@ def test_observation_persists_native_highwater_before_admission(closed,monkeypat
     for row in later['rows']:row['cost']='0.001';row['cost_by_resource']={'cpu':'0.001'}
     seal(later)
     assert d.closed_native_amounts(a,ids,later,amounts)=={d.FAILED_ASSET:1025123,d.SECOND_FAILED_ASSET:1023472}
+
+
+def test_third_failed_attempt_keeps_its_full_reservation(closed):
+    a,ids,view,amounts=closed
+    row=d.document(d.PROGRESS,d.PROGRESS_SHA)['third_failed_asset']
+    a.db.execute('INSERT INTO autonomy_assets VALUES(?,?,?,?,?,?)',tuple(row[k] for k in ('id','run','binding','status','reserved_micro_usd','receipt')))
+    before=[tuple(r) for r in a.db.execute('SELECT * FROM autonomy_assets')]
+    ids.add(row['id']);amounts[row['id']]=row['reserved_micro_usd']
+    result=d.closed_native_amounts(a,ids,view,amounts)
+    assert result[row['id']]==1118950
+    assert before==[tuple(r) for r in a.db.execute('SELECT * FROM autonomy_assets')]
+    assert not a.db.execute('SELECT 1 FROM events WHERE id LIKE ?',(row['id']+':%',)).fetchone()
+
+
+@pytest.mark.parametrize('field',['binding','status','reserved_micro_usd','receipt','run'])
+def test_third_original_failure_row_cannot_change(field):
+    row=d.document(d.PROGRESS,d.PROGRESS_SHA)['third_failed_asset']
+    assert d.historical_asset(row)
+    changed=copy.deepcopy(row);changed[field]=1 if field=='reserved_micro_usd' else 'changed'
+    with pytest.raises(ValueError,match='THIRD_FAILED_ROW_CHANGED'):d.historical_asset(changed)
+
+
+@pytest.mark.parametrize('field',['asset_id','source','status','exit_code','scientific_acceptance'])
+def test_third_failure_qualification_cannot_be_substituted(monkeypatch,field):
+    frozen=d.document(d.PROGRESS,d.PROGRESS_SHA)
+    monkeypatch.setattr(d.subprocess,'check_output',lambda *a,**kw:json.dumps(frozen['qualification']).encode())
+    assert d.progress_failure()==frozen
+    changed=copy.deepcopy(frozen['qualification']);changed[field]='changed'
+    monkeypatch.setattr(d.subprocess,'check_output',lambda *a,**kw:json.dumps(changed).encode())
+    with pytest.raises(ValueError,match='THIRD_NATIVE_FAILURE'):d.progress_failure()

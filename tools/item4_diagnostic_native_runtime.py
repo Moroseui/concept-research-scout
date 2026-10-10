@@ -4,12 +4,12 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
-CHANGE='item4-audited-native-verification-20261010'
-REVIEW_CHANGE='item4-audited-native-verification-20261010'
+CHANGE='item4-progress-scope-repair-20261010'
+REVIEW_CHANGE='item4-progress-scope-repair-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author21-diagnostic-native-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author21-progress-native-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
@@ -27,7 +27,8 @@ FILES=('tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review
  'docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json','docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json',
  'docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json','docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt',
  'docs/ITEM4_STAGE1_CAP_OPERATOR_DECISION_20261009.txt','docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt',
- 'docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json','orchestrator/item4_smoke_response.py',
+ 'docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json','docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json',
+ 'orchestrator/item4_smoke_response.py',
  'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
  'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json')
 
@@ -237,6 +238,7 @@ def verify():
     raw=subprocess.check_output(['/usr/bin/python3','-s','-B',str(ROOT/'tools/item4_validation_retained.py'),
         '--diagnostic-native'],timeout=120)
     require(json.loads(raw)==d.document(d.RETAINED,d.RETAINED_SHA),'ORIGINAL_IMAGE_AND_TERMINAL_PROOFS')
+    d.progress_failure()  # Original third FAIL is read-only qualified, never relabelled.
     selected=n.selected();proof=json.loads(raw)['image_proof']
     require(proof['scientific_environment']==selected['environment'] and proof['scientific_acceptance'] is False,'IMAGE_PROOF')
     return json.loads(trusted(CONFIG).read_bytes())

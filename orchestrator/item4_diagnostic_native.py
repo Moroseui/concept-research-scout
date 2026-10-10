@@ -30,8 +30,22 @@ FAILED_ASSET='27146f38f1722579ed096a880f59cc607bc36e993fe57634b6ffe271ae92c157'
 SECOND_FAILED_ASSET='8c40fe36f279a1bab97dab6b2c59bf8f45d7e2901f508f36c1dac0f0a2c01653'
 CORRECTED='docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json'
 CORRECTED_SHA='1d035fef5b3fe6e5de2e03c068a10d401c4a3a6285074f552a7e0a4ef6d176ff'
+THIRD_FAILED_ASSET='81e4dd6571ee65c4b0f7b6a6ff9c8732c66d15bee2f6738b8c0336c4b81398cf'
+PROGRESS='docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json'
+PROGRESS_SHA='c32de52dcb830296f305c3fcc2aff8ca7fb81d361418fb3522f0dcfe2a9eed9a'
+
+def progress_failure():
+    frozen=document(PROGRESS,PROGRESS_SHA)
+    raw=subprocess.check_output(['/usr/bin/python3','-s','-B',str(ROOT/'tools/item4_validation_retained.py'),
+        '--diagnostic-progress-failure'],timeout=120)
+    require(strict_json(raw)==frozen['qualification'],'THIRD_NATIVE_FAILURE')
+    return frozen
+
 
 def historical_asset(row):
+    if dict(row).get('id')==THIRD_FAILED_ASSET:
+        require(dict(row)==document(PROGRESS,PROGRESS_SHA)['third_failed_asset'],'THIRD_FAILED_ROW_CHANGED')
+        return True
     if dict(row).get('id')==SECOND_FAILED_ASSET:
         require(dict(row)==document(CORRECTED,CORRECTED_SHA)['second_failed_asset'],'SECOND_FAILED_ROW_CHANGED')
         return True
@@ -89,7 +103,10 @@ def retained_terminal(accounts,binding):
         'no_automatic_retry':True},'SECOND_NATIVE_FAILURE')
     row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(SECOND_FAILED_ASSET,)).fetchone()
     require(row is not None and historical_asset(row),'SECOND_FAILED_ROW_REQUIRED')
-    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET,SECOND_FAILED_ASSET},set(proof['compute'])
+    progress_failure()
+    row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(THIRD_FAILED_ASSET,)).fetchone()
+    require(row is not None and historical_asset(row),'THIRD_FAILED_ROW_REQUIRED')
+    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET,SECOND_FAILED_ASSET,THIRD_FAILED_ASSET},set(proof['compute'])
 
 def subcap(accounts,assets,compute,asset_amounts,snapshot,amount):
     """Count diagnostic preparations and fits, including every unreleased row.
