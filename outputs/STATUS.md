@@ -4,9 +4,9 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run has started.
 
-The author-delivery repair is approved and installed. It catches the missing regression test during the author call and keeps the original acceptance check.
+The author-delivery repair is approved, installed and activated for the next author call. It catches the missing regression test during the author call and keeps the original acceptance check.
 
-Nothing is running. The daily 50-call cap holds authoring until 00:00 UTC (8 p.m. New York time) on October10.
+No experiment or model call is running. Existing housekeeping timers remain enabled. The daily 50-call cap holds authoring until 00:00 UTC (8 p.m. New York time) on October10.
 
 Identified compute spent: $24.39800404. Stage commitments: $114.397673/$150; diagnostic: $4.286495/$25. Model charges are separate; the latest review reported $11.11010825.
 
@@ -18,7 +18,7 @@ Latest Claude direction: PROCEED, no additional scope. The alternative recovery 
 
 ## Current evidence
 
-Independent implementation review b22327dc returned genuine APPROVE without findings for source 782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. A separate read-only check confirmed that the live scientific state is unchanged, author24 has not been activated or admitted, all research services are inactive, and no model call is running. No timer was added.
+Independent implementation review b22327dc returned genuine APPROVE without findings for source 782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. The approved activation is now complete. A separate read-only check confirmed exactly the reviewed grant transition, with original records and counts preserved: 38 item calls and 76 scientific batch calls. Author24 is ready but has not been admitted or started. All five existing housekeeping services completed their latest observed runs successfully; their timers were left unchanged. No model or experiment is running and no timer was added.
 
 The patch permits at most 96,000 bytes for this exact author24 notebook patch at the submission tool, controller output collection and notebook application. All other files/calls retain 80,000 bytes; the SPEC retains 12,000 characters. The unchanged strict fixture/additive-test guard now also runs inside the same author call, so a placement error can be corrected before submitting. The author receives the exact refused author23 outputs as unaccepted reference. All attempts remain counted. The engineering work changes no scientific source, original test, plan, image, patient selection or dollar cap.
 

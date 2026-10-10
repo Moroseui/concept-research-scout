@@ -4,9 +4,9 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run has started.
 
-The author-delivery repair is approved and installed. It catches the missing regression test during the author call and keeps the original acceptance check.
+The author-delivery repair is approved, installed and activated for the next author call. It catches the missing regression test during the author call and keeps the original acceptance check.
 
-Nothing is running. The daily 50-call cap holds authoring until 00:00 UTC (8 p.m. New York time) on October10.
+No experiment or model call is running. Existing housekeeping timers remain enabled. The daily 50-call cap holds authoring until 00:00 UTC (8 p.m. New York time) on October10.
 
 Identified compute spent: $24.39800404. Stage commitments: $114.397673/$150; diagnostic: $4.286495/$25. Model charges are separate; the latest review reported $11.11010825.
 
