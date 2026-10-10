@@ -4,25 +4,25 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation is still unanswered; two synthetic fixture failures stopped the path to GPU measurement.
 
-The approved handoff is installed and verified. Author21 is running; no compute job has started.
+Author21 is accepted. All 16 controller tests pass, including the new callback regression test. No job is running.
 
 Claude approved the exact author-only handoff with no findings and recommends PROCEED; root agrees.
 
 Identified compute cost is $24.33873. Both failed CPU attempts cost $0.04859; their full reservations remain counted. Commitments are $112.349078/$150, including $2.237900/$25 for the diagnostic.
 
-Next expected result: the author-owned whole-fixture repair and fast failure test, approximately 45-60 minutes after author admission. GPU timing has no reliable ETA yet.
+Next expected result: reviewed native CPU validation of the corrected fixture, roughly 60-90 minutes from 13:46 UTC. GPU timing has no reliable ETA yet.
 
 Run B remains first. Full training, coverage-dependent arms and the $1,200 projection gate remain held.
 
-Today's calls: 37/50: 7 authors, 5 scientific reviews, 19 implementation reviews and 6 direction checks. Author21 is the sole running call.
+Today's calls: 37/50: 7 authors, 5 scientific reviews, 19 implementation reviews and 6 direction checks. All 37 calls are terminal.
 
 ## Current work and evidence
 
-Live check at 13:33 UTC: the original author21 invocation remains RUNNING in both ledgers, its output stream is growing, and the existing bounded host-check loop has passed 16 refreshes. Draft files are not accepted results. No extra model call, compute, retry or infrastructure component was started during this monitoring interval.
+Live check at 13:45 UTC: author21 is COMPLETE in both ledgers, the service exited successfully, and the bounded host-check loop has ended. The preserved code, all 26 controller-file hashes and the canonical controller receipt match. Production AST, original tests and the plan remain unchanged. Root has prepared a draft update to the existing native-validation/reviewer connector; it is unreviewed and uninstalled. Read-only and disposable-ledger checks are in progress. No scientific or compute call has been launched.
 
 The latest genuine direction report e9636a72 is REVISE because the scientific defect remains, with PROCEED/SIMPLIFY advice for a whole-fixture repair. It is not installation approval. The earlier constructor error was followed by a missing telemetry callback in the corrected fixture. Both native operations are positively terminal failures; complete originals remain private. Neither used patients or a GPU. No automatic retry is scheduled.
 
-Approved source 28a6e1a5 permits one author21 response to genuine scientific review15. Only the synthetic fixture body and appended contract tests may change. Production code, interfaces, existing tests, scientific choices, plan and image remain fixed. Both failure records and all seven scientific findings reach the author. Acceptance ends with execution and reviewer16 held. [Independent implementation APPROVE](reports/item4-whole-fixture-author-20261010.json), report931c7a1a, covers this exact scope. Installation, held runtime verification and zero-call activation passed. Author21 was admitted once through normal accounting and is RUNNING in both ledgers. The same service invocation has one bounded loop that re-runs the existing host checks; no duplicate call or watcher was started.
+Approved source 28a6e1a5 permits one author21 response to genuine scientific review15. Only the synthetic fixture body and appended contract tests may change. Production code, interfaces, existing tests, scientific choices, plan and image remain fixed. Both failure records and all seven scientific findings reach the author. Acceptance ends with execution and reviewer16 held. [Independent implementation APPROVE](reports/item4-whole-fixture-author-20261010.json), report931c7a1a, covers this exact scope. Installation, held runtime verification and zero-call activation passed. Author21 was admitted once through normal accounting and completed. The author repaired the whole synthetic fixture and demonstrated the retained callback failure; the controller accepted the result. This is synthetic evidence, not native or GPU evidence. No duplicate call or watcher was started.
 
 The real server rehearsal passed using read-only live records and disposable ledger copies. It admitted exactly one counted author call with the proposed bounded 39/77 allowance, preserved all original events, and refused duplicate, reviewer16 and full-plan calls. The simulated future approval was test-only. No live ledger changed. There are 84 passing current focused checks. The first broad regression had 266 passes; its 15 outdated handoff-test errors/failures subsequently passed after fixture updates. Four legacy compute-budget tests still fail identically on the installed baseline and candidate, in unchanged source; they are disclosed and deferred, not labelled passes. Claude explicitly found they do not block this non-compute release. The final real-server rehearsal also refused the 51st daily call, changed original rows/reservations, missing authority and pending work. The first failed rehearsal and all initial test failures remain preserved.
 
@@ -43,7 +43,7 @@ Scientific review15 remains a genuine REVISE: corrected instrumentation needs na
 
 Latest Claude check: the mandatory implementation review also gave PROCEED, one round agreement, with no findings. Audit the whole fixture, add a fast counterexample test, reuse existing routes, and defer optional infrastructure. Preserve the formal REVISE and both failed reservations.
 
-Root's engineering judgment: the author-only successor needs exact historical accounting bindings, not a general duplicate-review exception. It requires a new genuine review15 response and refuses later calls. Claude independently approved the concrete scope and exact equivalent historical checks. The installed runtime verification passed and the one approved author call is running. Root has made no scientific repair.
+Root's engineering judgment: the author-only successor needs exact historical accounting bindings, not a general duplicate-review exception. It requires a new genuine review15 response and refuses later calls. Claude independently approved the concrete scope and exact equivalent historical checks. The installed runtime verification passed and the one approved author call completed. Root has made no scientific repair. The next draft reuses the native connector for exact accepted21 bytes, retaining both failures and the existing 39/77 call allowance. Claude must independently approve it before installation; GPU dispatch remains outside that scope.
 
 The status file has been consolidated in place to remove contradictory historical checkpoints. Earlier versions remain in Git history; private originals and judgment logs are retained.
 
