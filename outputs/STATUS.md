@@ -1,20 +1,24 @@
 # Research status
 
-Item 6 is complete: all 352 comparable values match the independent Colab run.
+Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
 
-Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run has started.
+The October 10 direction starts three workstreams: 13B execution, analysis and ideas, and a private visual case-review plan. See the [13B execution plan](13B_EXECUTION_PLAN.md).
 
-The author-delivery repair is approved, installed and activated for the next author call. It catches the missing regression test during the author call and keeps the original acceptance check.
+No model or experiment was running at the 20:36 UTC reconciliation. The timing author is ready but unstarted; Colab notebook authoring and analysis intake are being prepared independently.
 
-The goal is blocked by the daily 50-call cap until 00:00 UTC (8 p.m. New York time) on October 10. The next author call is ready but unstarted; no automatic launch is scheduled. Existing housekeeping timers remain enabled.
+The installed daily guard is still 50; today's authorized 100 requires a dated source patch and review. The analysis launcher also needs a scoped parallel lane. Neither check has been bypassed.
 
-Identified compute spent: $24.39800404. Stage commitments: $114.397673/$150; diagnostic: $4.286495/$25. Model charges are separate; the latest review reported $11.11010825.
+Identified compute spent: $24.39800404; commitments $114.397673/$150 stage 1 and $4.286495/$25 diagnostic. Today: 50 calls (9 author, 5 scientific review, 28 administrative review, 8 direction); model charges separate.
 
-Today: 50/50 calls - 9 scientific author, 5 scientific reviewer, 28 administrative review and 8 direction check-ins.
+Target: first reviewed Colab smoke notebook in 2-4 hours; full training still needs scientific smoke acceptance and an accepted cost projection. No action is needed from Partho yet.
 
-From resumption after the reset: about 30 minutes for the notebook correction, and a conditional 2-3 hours for GPU numbers if authoring, native validation and scientific review pass.
+Latest Claude direction remains the earlier PROCEED for author delivery; consultation on the new scope is pending. Engineering changes will be batched where practical.
 
-Latest Claude direction: PROCEED, no additional scope. The alternative recovery was dropped; the author must submit a conforming module.
+## October 10 direction
+
+The operator direction is recorded verbatim and hash-pinned (644410e1). The [execution plan](13B_EXECUTION_PLAN.md) explicitly assigns all eight arms and five folds, preserves coverage/full-training holds, and makes Colab and the diagnostic independent workstreams. Intake preparation is active; no new scientific analysis call has yet been admitted. The daily override must expire at the next UTC boundary.
+
+## Prior checkpoint (superseded where the October 10 direction differs)
 
 ## Current evidence
 
