@@ -4,19 +4,27 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
 
-The approved author-submission repair is installed and verified. Its single-author grant is being activated; no new scientific call or compute has started.
+The author service stopped before admission at a remaining driver round-selection mismatch. Its existing grant and all prior calls remain intact; Claude is reviewing the narrow correction.
 
-Claude returned APPROVE and SIMPLIFY. We are proceeding directly to the author correction, with no additional review of this bundle.
+Latest completed Claude direction: SIMPLIFY. The newly discovered driver defect requires a combined implementation/recurrence review; no separate direction call or optional cost action.
 
 Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: the author's correction, provisionally 30-60 minutes after launch. GPU timing still requires validation and scientific review.
+Next target: the driver-repair review decision in about10-15 minutes. The author correction and GPU timing remain held; their timing is uncertain.
 
-Today: 45/50 calls - 8 author admissions, 5 scientific reviews, 25 administrative reviews and 7 standalone direction checks.
+Today: 46/50 calls - 8 author admissions, 5 scientific reviews, 26 administrative reviews and 7 standalone direction checks.
 
 Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
 ## Current evidence
+
+The installed continuation478a4724 failed before input preparation/admission: the inherited driver selected accepted-round21 +1, while the preserved failed attempt22 means the next counted slot is23. The service and maintenance are positively terminal; no23 row/workspace or new scientific charge exists. The original journal is preserved privately.
+
+Candidate1d074a4b overrides this selector at the actual driver entry and requires the frozen next slot to equal the count of author admissions +1. It independently verifies and reuses the same genuine activated grant, with no new activation or cost entrypoint. Accepted round21, history, limits and all downstream checks remain unchanged. The installer additionally requires the exact old terminal service invocation.
+
+100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. The independent review is running; candidate1d074a4b is not installed.
+
+
 
 The approved continuation is source478a4724, independent reportaff49bc6. Held-state installation verification passed with zero model and provider calls. One new author23 admission will preserve failed author22 and all prior charges. Entry, sender, workspace and acceptance checks now derive the author round from the same frozen profile. This engineering repair changes no scientific source, plan, inputs, image or safeguards.
 
@@ -36,7 +44,7 @@ Earlier A100278.1671s, H100228.1379s and B200166.2836s measurements were first e
 - Latest administrative review model estimate:$5.09852225, separately preserved. Caps remain$150 stage1,$25 diagnostic,$1,200 projection gate,$1,275 total.
 - Eight scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit and failed report-lifecycle handoff.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
-- Twenty-five administrative reviews: bounded handoffs, native integration, installation and accounting repairs. Latest bundled continuation, process accounting, closed-cost extension and direction check.
+- Twenty-six administrative reviews: bounded handoffs, native integration, installation and accounting repairs. Latest is the narrow driver-selection repair with the recurrence/direction question bundled.
 - Seven standalone direction checks: scope and recovery. Administrative work dominates; further direction discussion is folded into required reviews.
 
 ## Judgment highlights
@@ -246,3 +254,5 @@ Approved continuation source478a4724 is backed up by safe projectionece58e95 on 
 - docs > ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - docs > ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - tools > install_item4_smoke_response.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+
+Draft driver repair1d074a4b is safely projected to ede35d6c on astra/public-driver-round-repair-20261010, not merged as installed. The installer remains excluded for INFRASTRUCTURE_OR_CREDENTIAL_PATH; no private evidence or raw working ancestry is pushed.
