@@ -5,10 +5,10 @@ All three benchmarks, the five-epoch base smoke with real interruption/resume, a
 The repeat's post-first-epoch times average 90.41 seconds and are still declining; stable steady-state timing and scientific acceptance remain unestablished.
 Provisional repeat-based full-plan cost is about $3,575 over 291.1 GPU-hours with existing allowances, above the unchanged $1,200 gate.
 Identified provider compute is $24.29; current effective stage-1 exposure is $110.11/$150, retaining original reservations and unsettled overhead.
-The connection passed 137 tests, cold rehearsal and independent implementation review; it is installed and activated. The server is preparing the single scientific review, expected within 30-60 minutes.
+The connection passed 137 tests, cold rehearsal and independent implementation review; it is installed and activated. At 01:30 UTC the original server process remains active in preflight, with no scientific model call admitted yet. The assessment remains expected by roughly 01:52-02:22 UTC.
 UTC October 10 calls: 3/50: one implementation review and two rounds of one direction discussion. Latest Claude outcome: PROCEED/agreement; full training and coverage arms stay held.
 
-Updated 2026-10-10T01:23:28.528152+00:00.
+Updated 2026-10-10T01:30:26.741260+00:00.
 
 ## Results and readiness
 
