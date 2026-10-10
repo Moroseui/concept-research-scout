@@ -1,15 +1,24 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The author corrected the synthetic fixture; scientific review still requires native integration before GPU dispatch.
-The connector draft passed 123 focused tests and both real read-only/disposable admission rehearsals.
-One combined independent implementation and direction review is running. No installation or paid compute has started.
-Provider-observed compute spend is $24.3153; counted stage commitments are $111.230128/$150, including the failed CPU reservation.
-Next expected result: independent implementation decision in about 10-20 minutes; GPU timing has no reliable start estimate yet.
-CPU starvation remains unanswered. B is first because the combined A/B quotes exceed the $25 diagnostic cap.
-Today's calls are 34/50: 6 authors, 5 scientific reviews, 18 implementation reviews and 5 direction checks.
+The corrected connector passed 123 focused tests, both admission rehearsals and independent implementation review.
+Installation completed successfully. One bounded CPU verification service started; the GPU diagnostic has not started.
+Scientific review still requires actual corrected native integration evidence before GPU dispatch; full training and coverage remain held.
+Provider-observed compute spend is $24.3153. Last verified stage commitments are $111.230128/$150; the new CPU quote is at most $1.118950.
+Next expected result: CPU integration outcome within about 20 minutes, then scientific review; GPU timing remains pending.
+B remains first because the combined A/B GPU quotes exceed the $25 diagnostic cap. CPU starvation is still unanswered.
+Today's calls are 34/50: 6 authors, 5 scientific reviews, 18 implementation reviews and 5 direction checks, all complete.
 
-## Current draft and verification
+## Installed connector and current execution
+
+[Independent implementation APPROVE](reports/item4-corrected-native-verification-20261010.json), report35aeaa0a on sourceb60badd6, has no findings. Latest Claude direction: PROCEED, one round; explicitly agrees that one deliberate corrected CPU verification fits the no-automatic-retry instruction. The exact one-use38/76 review allowance preserves all originals and the final whole-plan interpretation pair. Root agrees; no additional component or optional accounting work was added. Estimated model cost for this review is $7.9995695, separate from provider compute.
+
+Both installed runtime postchecks passed. The CPU service started once at12:21UTC and must complete normal reservation before provider mutation. This is a synthetic, non-patient CPU integration test of unchanged author-owned accepted bytes in the pinned image. No GPU, scientific success or automatic retry is implied. A genuine native success can be passed to scientific reviewer16; every verdict still holds GPU dispatch for the separate execution admission and retains all whole-plan findings.
+
+The previous failed native reservation remains fully counted at $1.118950 even though observed actual cost is $0.02512208. If normal admission accepts the unchanged new quote, diagnostic reservations become $2.237900/$25 and stage commitments approximately $112.349078/$150, subject to fresh billing. No credit or release has been applied. Projection1200 and total1275 are unchanged.
+
+## Prior draft checkpoint (now installed)
+
 
 Draft b60badd6 reuses the existing native connector, exact corrected author bytes and existing evidence-gated reviewer route. It preserves all original charges and findings. The latest direction report remains ambiguous; explicit clarification is folded into the mandatory implementation review, with no standalone check. No approval is inferred from tests or administrative advice.
 
