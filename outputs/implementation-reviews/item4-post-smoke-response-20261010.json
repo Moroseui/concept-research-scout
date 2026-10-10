@@ -1,0 +1,21 @@
+{
+  "source_sha": "90da59b2f67e2e32c2232f170135199b11bdc036",
+  "verdict": "APPROVE",
+  "report_sha256": "ad2bb148d756a450bc0a9f1f242ee77f31a08dfbd28d4ef9514ae88e92e3ddee",
+  "scope": "Exact proposal-only author15/reviewer12 allowance and bounded operation; no execution authorization",
+  "tests": {
+    "distinct_passed": 149,
+    "cold_original_evidence": "PASS",
+    "disposable_admission": "PASS",
+    "installation_verification": "PASS",
+    "activation": "PASS"
+  },
+  "direction": "PROCEED; consolidate layered exceptions after next scientific result",
+  "review_limitations": [
+    "Reviewer did not independently execute tests",
+    "Targeted private checkpoint inspection; lossless pages available",
+    "Partial host test read",
+    "Antecedent authorities reviewed at declared scope"
+  ],
+  "publication": "Summary of accepted implementation review; original report and private authority records retained privately"
+}
