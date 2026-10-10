@@ -1,12 +1,28 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Author 17 passed controller checks; scientific review 13 remains a genuine REVISE with six full-plan findings open.
-CPU starvation remains unproven. No diagnostic GPU job is running; full training and coverage-dependent arms remain held.
-A narrow diagnostic-only review route passed 75 tests and a server rehearsal. One combined implementation/process/direction review is running; the candidate is not installed.
-Identified compute spend is $24.29; retained exposure is $110.11 against $150. Diagnostic spend and reservations are $0 against $25.
-Next expected result is the CPU timing diagnostic, provisionally 1?3 hours if the required reviews pass. Run B goes first because the combined conservative quotes exceed $25.
-Before the new review, UTC October 10 usage was 19/50 calls: 3 authors, 3 scientific reviewers, 10 administrative reviews and 3 direction checks. This review is the next administrative call; direction advice is bundled.
+The CPU diagnostic code passed controller checks. Full-plan scientific review13 remains REVISE; its six findings stay open.
+The diagnostic-only reviewer route is now independently approved, installed and verified. Activation is running; no diagnostic GPU job has started.
+CPU starvation remains unproven. The next scientific step is one scoped review of the unchanged diagnostic code, followed by bounded B-first execution if accepted.
+Identified compute spend is $24.29; retained exposure is $110.11 against $150. Diagnostic spend and reservations remain $0 against $25.
+The next GPU result is provisionally 1?3 hours away, conditional on scientific review and normal execution preparation. Full training and coverage-dependent arms stay held.
+UTC October 10 calls:21/50?3 scientific authors,3 scientific reviewers,12 administrative reviews,3 standalone direction checks. Latest implementation verdict:APPROVE; latest direction agreement:reuse the existing route.
+
+## Installed diagnostic review route
+
+07:08 UTC: source491542ae31d593517fa7a2520ba2b63e23f6c3fa is installed and verified held after genuine independent APPROVEa77a3998a92339f4a8eca41c893c0e54911720c9c424f583dc0cf7dc7a8d7756. Activation is running once. No scientific call14 or GPU launch is claimed. The safe working projection a31694c88b780b445b71da4287cfa89ca2d8e1c3 has been merged into remote-server; main remains untouched.
+
+Original scope implementation6df was independently approved by98bd3ddc289ed3ef2b6462c6705ce0e3cabe51b476492ddd036c2721b6562ae5, explicitly covering one reviewer14-only transition and equivalent preservation of all full-plan findings/holds. Its first installation failed before writes because root omitted unchanged modal_billing.py from the packet source list. That failure, approval and estimated$5.53166725 model charge remain preserved. Read-only reconciliation confirmed no partial release. A reused-identifier review request was then refused before admission; it made no model call and is not counted as one.
+
+The completed packet includes every required installation file. The only source repair is three approval-identity constants, requiring a new genuine approval for the complete set; it cannot inherit installation permission from the first approval. Independent repair review approved this treatment and implementation, estimated modelcost$3.099092, preserved separately from compute. It found no guard, budget, credential or scientific changes. All existing usage is retained. No generic review exception or limit reset was installed.
+
+Validation:59 affected runtime/installer/host tests passed on491;16 accounting tests and the exact-source server rehearsal passed on6df, with that code unchanged. Those historical checks are not claimed as rerun on491. Installation's held verification passed with zero model/provider calls. Source scanning and the full required-file comparison now precede packet freezing, addressing the packaging cause.
+
+Judgment log: bounded repair of a setup failure under operator delegation; Claude consulted through the normal implementation review. The earlier current-state consultation was never treated as permission for review14. Latest direction agreement is one round approving reuse of the existing helper/runtime, without a new wrapper, timer or subsystem. Scientific review13 remains genuineREVISE, no finding silently closed. No operator decision pending.
+
+Additional withheld report: outputs/implementation-reviews/item4-scoped-install-packet-repair-20261010.json triggered the credential/infrastructure-reference scan; its genuine original is preserved privately and this summary records its conclusion/limitations. The first scope implementation report passed scans and is published. Previously listed private checkpoint/host fixture/installer files remain withheld. Public source is intentionally incomplete for deployment.
+
+The two newest administrative purposes are the combined diagnostic-scope implementation/accounting/direction review and the mechanical installation-packet repair review. Earlier call purposes below remain the audit record. Bundled direction advice is counted once, not as an extra direction call.
 
 ## Current candidate and backup
 
