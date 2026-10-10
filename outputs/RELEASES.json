@@ -175,6 +175,14 @@
       "role": "native timing compatibility and frozen base-smoke connection",
       "review": "8d1b54f44b373ed169f172ee7eb697ed7f8162eaccafa707af61c76e5276fef8",
       "selection": "exact safe source projection; private fixtures and ancestry withheld"
+    },
+    {
+      "source": "304cae4aa12d53eb99254499950eec4e71df8075",
+      "role": "dated-cap directory repair and aggregate/Colab preparation installed held",
+      "review": "2e0986357b941577f16fcaa686844757f32c96579815109fb918ef8029e7139f",
+      "selection": "32 exact safe changed files;55 component exclusions in STATUS; private ancestry and evidence withheld",
+      "status": "APPROVED_INSTALLED_VERIFIED_HELD",
+      "public_source_branch": "astra/public-preparation-cap-repair-20261010"
     }
   ],
   "source_files_count": 1369,

@@ -110,24 +110,21 @@ class BatchAccounts(ReviewQueue):
             pending=self.db.execute("SELECT id FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')").fetchall()
             from orchestrator.completed_run import closed_ids
             closed=closed_ids(self,run,root=self.filesystem_root)
-            from orchestrator.preparation_interleaving import terminal_ids
-            allowed=[*allowed,*terminal_ids(self,run,stage,ident,source,receipt)]
             if any(row['id'] not in allowed and row['id'] not in closed for row in pending):raise ValueError('BATCH_UNCERTAIN_OR_RUNNING_CALL')
             day=datetime.now(timezone.utc).date().isoformat()
             cap=limits.global_limit(self,run)
-            daily=limits.daily_allowance(day)
-            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=daily['limit']:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
+            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=limits.DAILY:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
             batch_allowance=limits.scientific_batch_allowance(self,run,stage,ident,source,receipt)
             if self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific'").fetchone()[0]>=batch_allowance['limit']:raise ValueError('AUTONOMY_BATCH_CALL_LIMIT')
             count=self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific' AND change_id=?",(run,)).fetchone()[0]
             if count>=cap:raise ValueError('AUTONOMY_RUN_CALL_LIMIT')
-            raw=json.dumps({'run_id':run,'stage':stage,'source':source,'input':receipt,**({'batch_continuation':batch_allowance} if batch_allowance['limit']!=limits.SCIENTIFIC_BATCH else {}),'caps':{'batch':batch_allowance['limit'],'run':cap,'daily_all_roles':daily['limit'],'daily_limit_authority_sha256':daily['authority_sha256'],'operator_decision_sha256':limits.cap_authority(cap)}},sort_keys=True)
+            raw=json.dumps({'run_id':run,'stage':stage,'source':source,'input':receipt,**({'batch_continuation':batch_allowance} if batch_allowance['limit']!=limits.SCIENTIFIC_BATCH else {}),'caps':{'batch':batch_allowance['limit'],'run':cap,'daily_all_roles':limits.DAILY,'daily_limit_authority_sha256':limits.DAILY_AUTHORITY,'operator_decision_sha256':limits.cap_authority(cap)}},sort_keys=True)
             self.db.execute("INSERT INTO jobs(id,binding,phase,status) VALUES(?,?,'dispatch','RUNNING')",(ident,raw))
             self.db.execute("INSERT INTO autonomy_calls VALUES(?,?,?,?,?,'RUNNING',?,NULL)",(ident,'scientific',run,count+1,day,raw))
             self.db.execute('INSERT INTO events VALUES(?,?,?)',(ident+':reserved',ident,json.dumps({'kind':'SCIENTIFIC_CALL_RESERVED','charged_units':1,'binding_sha256':digest(raw.encode())})))
             self.db.execute('COMMIT')
         except BaseException:self.db.execute('ROLLBACK');raise
-        return {'id':ident,'accounting_units':1,'batch_limit':batch_allowance['limit'],'run_limit':cap,'daily_limit':daily['limit'],'daily_limit_authority_sha256':daily['authority_sha256'],'operator_decision_sha256':limits.cap_authority(cap)}
+        return {'id':ident,'accounting_units':1,'batch_limit':batch_allowance['limit'],'run_limit':cap,'daily_limit':limits.DAILY,'daily_limit_authority_sha256':limits.DAILY_AUTHORITY,'operator_decision_sha256':limits.cap_authority(cap)}
 
     def finish_scientific(self, ident, receipt, status):
         old=self.status(ident)

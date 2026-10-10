@@ -11,10 +11,16 @@ from orchestrator.autonomy_review_runner import ReviewQueue
 @pytest.mark.parametrize('kind', ['administrative'])
 @pytest.mark.parametrize('count,admitted', [(30, True), (49, True), (50, False)])
 def test_mixed_original_usage_is_preserved_and_fifty_is_hard_boundary(tmp_path, monkeypatch, kind, count, admitted):
+    # The permanent 50 ceiling is exercised outside the dated October 10 grant.
+    class OrdinaryDay:
+        @staticmethod
+        def now(zone): return datetime(2026, 10, 9, 12, tzinfo=timezone.utc)
+    monkeypatch.setattr('orchestrator.autonomy_review_runner.datetime', OrdinaryDay)
+    monkeypatch.setattr('orchestrator.autonomy_accounting.datetime', OrdinaryDay)
     monkeypatch.setattr('orchestrator.connectivity.require', lambda *a, **k: {'synthetic': True})
     q = BatchAccounts(tmp_path/'ledger') if kind == 'scientific' else ReviewQueue(tmp_path/'ledger')
     if kind == 'scientific': q.register_run('new-run', {})
-    today = datetime.now(timezone.utc).date()
+    today = OrdinaryDay.now(timezone.utc).date()
     for n in range(count):
         role = 'scientific' if n % 3 == 0 else 'implementation_review'
         status = 'FAILED' if n % 2 == 0 else 'COMPLETE'

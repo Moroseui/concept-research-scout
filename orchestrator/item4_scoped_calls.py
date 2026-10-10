@@ -363,6 +363,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         from orchestrator import item4_batch_recovery
         item4_batch_recovery.granted(active['store'],batch_extension,batch_approval)
         rows=[dict(r) for r in batch.db.execute("SELECT * FROM autonomy_calls WHERE kind='scientific' ORDER BY rowid")]
+        from orchestrator.preparation_interleaving import item4_sequence_view
+        rows=item4_sequence_view(batch,rows)
         pins=batch_extension['global_calls'];by_id={r['id']:r for r in rows}
         require(all(i in by_id and continuation.sha(continuation.canonical(by_id[i]))==h
             for i,h in pins.items()),'BATCH_ORIGINAL_CHANGED')

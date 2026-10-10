@@ -1,30 +1,86 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
-
-The [13B execution plan](13B_EXECUTION_PLAN.md) is written; first Colab instructions and the timing result are pending.
-
-No new scientific call or GPU job has started. The bundled administrative review has ended; its submitted APPROVE did not qualify because a required manifest read exceeded the reader limit.
-
-The complete attempt and charge are preserved. A paginated-read correction is being prepared; installation stays held and the check remains unchanged.
-
-Identified compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Today: 52 calls (9 author, 5 scientific review, 30 administrative review, 8 direction); model charges separate.
-
-Next: first analysis draft 30-60 minutes after approved installation, followed by critique. First reviewed Colab notebook remains targeted 2-4 hours from the new direction; timing depends on author/native/scientific gates.
-
-No action is needed from Partho. Latest Claude direction: PROCEED, defer further infrastructure expansion until analysis or Colab produces a result. The six-condition swap gate is not reached.
+The [13B execution plan](13B_EXECUTION_PLAN.md) is ready; the first reviewed Colab notebook and timing result are still pending.
+Review 53 genuinely approved the repair and preparation component; installation and service-account verification passed.
+Analysis and Colab lanes are installed held. Timing-author start was requested once; admission is not yet confirmed, so do not duplicate it.
+Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Snapshot: 53 calls (9 author, 5 scientific review, 31 administrative review, 8 direction); model charges separate.
+Next: first synthesis 30-60 minutes after admission, then critique; reviewed Colab notebook target 2-4 hours after its author starts. Full training and coverage-dependent arms remain held.
+No action is needed from Partho. Claude says PROCEED toward analysis/Colab results and defer further infrastructure expansion. The swap gate is not reached.
 
 ## Current installation and judgment
 
-Call 51 genuinely approved the dated-cap implementation, costing $4.018335. Its held installation then failed service-account verification because five directories lacked intended traversal permissions. Original files, owners, approvals and failure records remain intact. The narrow directory-only repair was bundled with analysis/Colab preparation for review.
+Independent review 53 returned genuine APPROVE without findings for source `304cae4a`; the [implementation summary](reports/preparation-cap-repair-20261010.md) records the exact source and report digests. The dated-cap component and preparation runtime passed service-account verification. Installation did not initialize the two preparation lanes or launch models/compute. The timing-author start is a separate operation whose outcome must be reconciled.
 
-Call 52 submitted APPROVE with no findings, costing $9.80947025, but remains FAILED qualification: the reviewer attempted an oversized manifest read and did not retry it in pages. This is not an installation approval. A mechanical successor will explicitly require bounded paginated reads, preserving the same verification rule and all original attempts and charges. The earlier mixed-history packet refusal happened before admission and incurred no model call or charge.
+Review 51 genuinely approved the dated cap ($4.018335). Its first service-account verification failed because five directory modes lacked traversal permissions. The reviewed directory-only repair passed, preserving all 22 original files and unit bytes. A subsequent verification omitted the existing runtime environment; that failed check was preserved, and the corrected environment-only continuation passed. Completed repair steps were not replayed.
 
-Judgment log highlights: preserve every failed attempt; batch the permission repair, preparation admission and direction questions; accept Claude's recommendation to defer sandbox and rotation installation until a first analysis/Colab result. Actual service-account tests and copied-history admission rehearsals passed. These do not replace independent approval or live installation verification.
+Review 52 submitted APPROVE but failed required-read qualification after an oversized manifest read. All nine original records and its $9.80947025 charge remain preserved and counted. Review 53 qualified using paginated reads with the same guard. The earlier mixed-history packet refusal was pre-admission and incurred no model call or charge.
+
+Judgment highlights: batch preparation and permission repair; preserve every failed attempt; reconcile before continuation; use the existing service account for live SQLite; defer sandbox and operator-rotation installation until the first analysis/Colab result. The installed preparation allowance is two eight-call lanes alongside existing item 4, with actual shared counting up to 95; original rows and all dollar limits remain unchanged.
 
 ## October 10 direction
 
-The operator direction is recorded verbatim and hash-pinned (644410e1). The [execution plan](13B_EXECUTION_PLAN.md) explicitly assigns all eight arms and five folds, preserves coverage/full-training holds, and makes Colab and the diagnostic independent workstreams. Intake preparation is active; no new scientific analysis call has yet been admitted. The daily override must expire at the next UTC boundary.
+The operator direction is verbatim and hash-pinned (`644410e1`). The [execution plan](13B_EXECUTION_PLAN.md) assigns eight arms and five folds, preserves coverage/full-training holds, and makes Colab and the diagnostic independent workstreams. October 10 UTC's 100-call limit automatically returns to 50 on subsequent days. The first new synthesis and Colab author calls have not yet been confirmed admitted at this snapshot.
+
+## Current component publication exclusions
+
+The following 55 files failed the existing privacy, secret or infrastructure scans. Only filenames and rule names are listed; their contents, private histories and evidence remain withheld. The public source projection is deliberately incomplete and not deployable.
+
+- `docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_AUTHOR19_NATIVE_REFERENCE_PRIVATE.py`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_AUTHOR20_NATIVE_REFERENCE_PRIVATE.py`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_AUTHOR22_TERMINAL_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CPU_DIAGNOSTIC_FIXTURE_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CPU_DIAGNOSTIC_NATIVE_HARNESS_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CPU_DIAGNOSTIC_RECOVERY_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_CPU_DIAGNOSTIC_SCOPED_REVIEW_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_POST_SMOKE_RESPONSE_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_RESPONSE_HOST_PRIVATE.json`: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+- `docs/ITEM4_WHOLE_FIXTURE_AUTHOR_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `docs/PREPARATION_CAP_CALL52_MECHANICAL_PRIVATE.json`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `orchestrator/cpu_isolation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/experiment_provisioning.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/inspection_access.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/inspection_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/item4_private_staging_retry.py`: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- `orchestrator/item4_smoke_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/manual_auth.py`: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/manual_isolation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/manual_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/manual_stage.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/notebook_synthetic.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `orchestrator/private_records.py`: PRIVATE_RECORD_PATH, PUBLICATION_TYPE_REJECTED.
+- `tests/test_autonomy_m1.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_autonomy_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_item6_input_preparation.py`: CASE_LEVEL_RECORD_REJECTED, CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_live_research_preparation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_manual_isolation.py`: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_manual_rc2.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_manual_rc3.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_manual_release.py`: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_notebook_revision.py`: CASE_LEVEL_RECORD_REJECTED, SECRET_SHAPED_CONTENT.
+- `tools/autonomy_review_host.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/deploy_autonomy_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/environment_inventory_service.py`: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/install_item4_smoke_response.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/install_m3_post_smoke_host.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/install_modal_transition.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/install_preparation_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/install_temporary_daily_cap.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/item6_input_preparation.py`: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/repair_temporary_daily_cap_permissions.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 
 ## Prior checkpoint (superseded where the October 10 direction differs)
 

@@ -35,13 +35,10 @@ def reserve(accounts,ident,run,binding,*,billing_snapshot,now=None):
         resolved=resolved_failure_ids(accounts,root=accounts.batch.filesystem_root)
         require(not any(row['status']!='READY' and row['id'] not in resolved for row in assets),'MODAL_UNCERTAIN_ASSET_PREPARATION')
         require(not any(row['status']=='UNCERTAIN' for row in rows),'MODAL_UNCERTAIN_COMPUTE')
-        from orchestrator.diagnostics_mount_retry import retained_parent
-        stopped=retained_parent(accounts,binding)
-        require(not any(row['run']==run and row['id'] not in stopped for row in rows),'DIAGNOSTICS_ALREADY_SUBMITTED_NO_RESTART')
-        require(not any(row['id'] not in stopped and row['status'] not in {'COLLECTED','ACCOUNTED'} and json.loads(row['binding']).get('purpose')!='M4_ITEM4' for row in rows),'DIAGNOSTICS_OTHER_EXECUTION_ACTIVE')
+        require(not any(row['run']==run for row in rows),'DIAGNOSTICS_ALREADY_SUBMITTED_NO_RESTART')
+        require(not any(row['status'] not in {'COLLECTED','ACCOUNTED'} and json.loads(row['binding']).get('purpose')!='M4_ITEM4' for row in rows),'DIAGNOSTICS_OTHER_EXECUTION_ACTIVE')
         run_assets=sum(row['reserved_micro_usd'] for row in assets if row['run']==run)
-        run_compute=sum(max(row['reserved_micro_usd'],row['actual_micro_usd'] or 0) for row in rows if row['run']==run)
-        require(run_assets+run_compute+amount<=policy.TOTAL_MICRO_USD,'DIAGNOSTICS_HARD_COST_CAP')
+        require(run_assets+amount<=policy.TOTAL_MICRO_USD,'DIAGNOSTICS_HARD_COST_CAP')
         commitments={'compute:'+row['id']:max(row['reserved_micro_usd'],row['actual_micro_usd'] or 0) for row in rows}
         commitments.update({'asset:'+row['id']:row['reserved_micro_usd'] for row in assets})
         view=headroom(billing_snapshot,now=now,usage_limit_micro=USAGE_CEILING,spend_limit_micro=SPEND_CEILING,commitments=commitments)
