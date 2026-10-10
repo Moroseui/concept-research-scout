@@ -5,6 +5,7 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
 CHANGE='item4-diagnostic-native-execution-20261010'
+REVIEW_CHANGE='item4-diagnostic-native-install-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
@@ -41,7 +42,7 @@ def authority():
     record=json.loads(trusted(RECORD/'installed.json').read_bytes())
     result=verify_result(trusted(RECORD/'review'))
     manifest=json.loads(trusted(RECORD/'review/packet-manifest.json').read_bytes())
-    require(result['verdict']=='APPROVE' and result['change_id']==CHANGE
+    require(result['verdict']=='APPROVE' and result['change_id']==REVIEW_CHANGE
         and result['source_sha']==record['source']==manifest['source_sha']
         and result['report_sha256']==record['review_sha256']
         and result['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()),'GENUINE_APPROVAL')

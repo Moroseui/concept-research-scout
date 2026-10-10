@@ -1,6 +1,6 @@
 """Install one reviewed native CPU + reviewer15 bundle, disabled and unspent."""
 from pathlib import Path
-import argparse,base64,gzip,hashlib,importlib.util,json,os,subprocess,sys,tempfile
+import argparse,base64,gzip,hashlib,importlib.util,json,os,stat,subprocess,sys,tempfile
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME=Path('/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json')
 
@@ -22,12 +22,24 @@ def put(path,raw):
     with path.open('xb') as stream:stream.write(raw)
     os.chown(path,0,1003);path.chmod(0o440)
 
-def install(source,review,bundle):
+def state_parent(path):
+    # Preserve the actual existing service-private container and root-owned
+    # inventory. Only this exact topology is allowed; do not chmod/chown it.
+    path=Path(path)
+    require(path==Path('/var/lib/research-system-manual-sprint10/environment-inventory'),'STATE_PARENT_PATH')
+    for p,uid,gid,mode in ((path,0,1003,0o750),(path.parent,1003,1003,0o700)):
+        st=p.lstat()
+        require(stat.S_ISDIR(st.st_mode) and not p.is_symlink() and
+            (st.st_uid,st.st_gid,stat.S_IMODE(st.st_mode))==(uid,gid,mode),'STATE_PARENT')
+    trusted(path.parent.parent)
+
+
+def install(source,review,bundle,*,preflight=False):
     require(os.geteuid()==0,'ROOT_REQUIRED');source=trusted(source);review=trusted(review);bundle=trusted(bundle)
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approval=verify_result(review);manifest=json.loads(trusted(review/'packet-manifest.json').read_bytes())
-    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='item4-diagnostic-native-execution-20261010'
+    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='item4-diagnostic-native-install-20261010'
         and approval['source_sha']==manifest['source_sha'] and approval['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()),'GENUINE_APPROVAL')
     path=source/'tools/item4_diagnostic_native_runtime.py'
     require(sha(trusted(path).read_bytes())==manifest['source_files']['tools/item4_diagnostic_native_runtime.py'],'RUNTIME_SOURCE')
@@ -58,11 +70,9 @@ def install(source,review,bundle):
         require(observed.get('MainPID')=='0' and observed.get('ActiveState') in {'inactive','failed'},'ACTIVE_WRITER')
     targets=[h.ROOT,h.RECORD,h.CONFIG.parent,h.STATE,*[Path('/etc/systemd/system')/name for name in units]]
     require(all(not p.exists() and not p.is_symlink() for p in targets),'EXISTS_RECONCILE')
-    # Reuse the original checked service-owned state parent; other parents are
+    # Reuse the original checked private state topology; release parents are
     # root-owned. No ownership or permissions on any existing path are changed.
-    stateparent=h.STATE.parent;st=stateparent.lstat()
-    require(not stateparent.is_symlink() and st.st_uid==1003 and st.st_gid==1003 and st.st_mode&0o777==0o700,'STATE_PARENT')
-    trusted(stateparent.parent)
+    state_parent(h.STATE.parent)
     for target in targets:
         if target==h.STATE:continue
         ancestor=target.parent
@@ -74,6 +84,7 @@ def install(source,review,bundle):
             p=Path(folder)/name;p.write_bytes(raw);files.append(str(p))
         checked=subprocess.run(['systemd-analyze','verify',*files],capture_output=True,text=True)
         require(checked.returncode==0,'UNIT_PARSE: '+checked.stderr)
+    if preflight:return {'status':'PREFLIGHT_PASS','model_calls':0,'provider_calls':0,'installation_writes':0}
     put(h.RECORD/'INSTALL_INTENT.json',json.dumps({'source':approval['source_sha'],'review':approval,'status':'HELD_UNSPENT'},sort_keys=True).encode())
     for name,raw in bodies.items():put(h.ROOT/name,raw)
     for p in review.iterdir():
@@ -100,4 +111,5 @@ def install(source,review,bundle):
 if __name__=='__main__':
     os.umask(0o077);p=argparse.ArgumentParser()
     for name in ('source','review','bundle'):p.add_argument('--'+name,required=True)
-    a=p.parse_args();print(json.dumps(install(a.source,a.review,a.bundle)))
+    p.add_argument('--preflight',action='store_true')
+    a=p.parse_args();print(json.dumps(install(a.source,a.review,a.bundle,preflight=a.preflight)))
