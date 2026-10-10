@@ -1,4 +1,4 @@
-"""One fixed accepted-author synthetic rehearsal, using the original item4 owner."""
+"""One fixed accepted author19 diagnostic synthetic rehearsal, using the original item4 owner."""
 import base64
 import gzip
 from pathlib import Path
@@ -8,14 +8,14 @@ from orchestrator.modal_item4_policy import quote
 from orchestrator.review_contract import strict_json
 from tools import item4_native_worker as worker
 
-PURPOSE='M4_ITEM4_NATIVE_SYNTHETIC'
-OPERATION='item4-author13-native-synthetic-v1'
+PURPOSE='M4_ITEM4_DIAGNOSTIC_NATIVE'
+OPERATION='item4-author19-diagnostic-native-v1'
 SCHEMA='item4-native-synthetic-operation/v1'
 from orchestrator.experiment_context import ITEM4_RUN as RUN
 RESOURCES={'gpu':None,'cpu':2,'memory_mib':8192,'timeout_seconds':900}
-SELECTION=Path(__file__).resolve().parents[1]/'docs/ITEM4_NATIVE_SYNTHETIC_SELECTION_20261008.json'
-SELECTION_SHA='dec5c80e690fb13ea3ba68e7e1b784225f301c302de6a871145866b2e9a762f8'
-BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/item4-native-cpu-rehearsal-20261008/code-bundle.json')
+SELECTION=Path(__file__).resolve().parents[1]/'docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json'
+SELECTION_SHA='fa7be0c3cec0ad585c026c709f9a336bdc20464460d4c0771936002e513ca305'
+BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/item4-diagnostic-native-execution-20261010/code-bundle.json')
 
 
 def selected(value=None):
@@ -87,96 +87,6 @@ def verify_stdin(binding,root):
     for name in ('stdin-intent.json','stdin-sent.json'):
         if strict_json(pr.check(root/name).read_bytes())!=expected:raise ValueError('NATIVE_STDIN_RECEIPT')
     return expected
-
-
-REFUSAL=SELECTION.with_name('ITEM4_NATIVE_PRECREATE_REFUSAL_20261008.json')
-REFUSAL_SHA='4e106e3f7d09e284efaca93ff35de9d3fdc8a67d53f6411de27cc8a1938601b9'
-
-
-def precreate_snapshot(binding,root):
-    from orchestrator import private_records as pr
-    raw=REFUSAL.read_bytes()
-    if digest(raw)!=REFUSAL_SHA:raise ValueError('NATIVE_REFUSAL_PROOF_CHANGED')
-    proof=strict_json(raw);root=Path(root);pr.check_tree(root)
-    if digest(canonical(binding))!=proof['binding_sha256']:raise ValueError('NATIVE_RECOVERY_EXACT_RESERVATION')
-    actual={p.name:digest(pr.check(p).read_bytes()) for p in root.iterdir() if p.is_file()}
-    if actual!=proof['provider_files'] or any(not p.is_file() for p in root.iterdir()):
-        raise ValueError('NATIVE_RECOVERY_ORIGINALS_CHANGED_OR_USED')
-    intent=strict_json(pr.check(root/'intent.json').read_bytes())
-    original=strict_json(pr.check(root/'sandbox-intent.json').read_bytes())
-    old_args=original['args']
-    expected=selected(binding['native_synthetic'])
-    # This original payload exactly identifies the client-side refusal. No
-    # transport timeout or unknown provider outcome can qualify by size alone.
-    import io
-    encoded=old_args[5]
-    if not isinstance(encoded,str) or len(encoded)>120000:raise ValueError('NATIVE_PRECREATE_PAYLOAD_BOUND')
-    with gzip.GzipFile(fileobj=io.BytesIO(base64.b64decode(encoded,validate=True))) as stream:
-        original_code=stream.read(worker.MAX_BUNDLE+1)
-    if original_code!=bundle():raise ValueError('NATIVE_PRECREATE_SOURCE_CHANGED')
-    # Original record hashes above pin every transport byte. Compare decoded
-    # source too: Python 3.12/3.13 gzip OS header bytes can legitimately differ.
-    old=(expected['environment']['python_executable'],'-I','-B','-c',Path(worker.__file__).read_text(),
-        encoded,canonical(expected).decode(),digest(canonical(binding)))
-    if (intent['binding']!=binding or list(old)!=old_args or sum(len(a) for a in old_args)!=96135
-        or original['resources']!=RESOURCES or original['block_network'] is not True
-        or original['mounts']!={} or original['secrets']!=[] or original['environment']!={}
-        or original['oidc'] is not False):raise ValueError('NATIVE_PRECREATE_REFUSAL_BINDING')
-    return proof,old_args
-
-
-def recover_precreate(provider,accounts,binding,root,*,now=None):
-    """One reviewed continuation of this proven pre-RPC refusal, same charge."""
-    from datetime import datetime,timezone
-    import importlib
-    from orchestrator import private_records as pr,modal_environment_budget as budget
-    from orchestrator.modal_environment_provider import require_reserved,record
-    from orchestrator.manual_host_guard import trusted
-    ident=require_reserved(accounts,binding);root=Path(root)
-    proof,old_args=precreate_snapshot(binding,root)
-    if accounts.db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone():
-        raise ValueError('NATIVE_RECOVERY_RUNNING_MODEL')
-    sdk=trusted(Path(provider.config['sdk_package'])/'modal/sandbox.py')
-    if digest(sdk.read_bytes())!=proof['sandbox_py_sha256']:raise ValueError('NATIVE_RECOVERY_SDK_CHANGED')
-    validator=importlib.import_module('modal.sandbox')._validate_exec_args
-    try:validator(old_args)
-    except provider.modal.exception.InvalidError as error:
-        if str(error)!='Total length of CMD arguments cannot exceed 65536 bytes (ARG_MAX). Got 96135 bytes.':
-            raise ValueError('NATIVE_RECOVERY_DIFFERENT_FAILURE') from error
-    else:raise ValueError('NATIVE_RECOVERY_NOT_PRECREATE_REFUSAL')
-    args=arguments(binding);validator(args)
-    view=provider.billing_snapshot()
-    if budget.reserve(accounts,ident,RUN,binding,billing_snapshot=view,now=now) is not False:
-        raise ValueError('NATIVE_RECOVERY_NEW_RESERVATION_REFUSED')
-    if provider.config['workspace']!='moroseui':raise ValueError('NATIVE_RECOVERY_WORKSPACE')
-    provider.client.hello()
-    ws=provider.modal.Workspace.from_context(client=provider.client);ws.hydrate(client=provider.client)
-    if ws.name!='moroseui':raise ValueError('NATIVE_RECOVERY_WORKSPACE')
-    app_record=strict_json(pr.check(root/'app.json').read_bytes())
-    if app_record['app_id']!=proof['app_id']:raise ValueError('NATIVE_RECOVERY_APP_CHANGED')
-    app=provider.modal.App.lookup(app_record['name'],create_if_missing=False,client=provider.client)
-    if app.app_id!=proof['app_id']:raise ValueError('NATIVE_RECOVERY_APP_CHANGED')
-    try:provider.modal.Sandbox.from_name(app_record['name'],'environment-'+ident[:32],client=provider.client)
-    except provider.modal.exception.NotFoundError:pass
-    else:raise ValueError('NATIVE_RECOVERY_SANDBOX_EXISTS')
-    image=provider.modal.Image.from_id(binding['image_id'],client=provider.client);image.build(app)
-    if image.object_id!=proof['image_id']:raise ValueError('NATIVE_RECOVERY_IMAGE_CHANGED')
-    # Never overwrite any original record. This exclusive intent permits just
-    # one create; a crash before a returned handle stops for reconciliation.
-    with pr.open_file(root/'stdin-recovery-intent.json','xb') as out:
-        out.write(canonical({'binding_sha256':ident,'refusal_proof_sha256':REFUSAL_SHA,
-            'args':args,'billing':view,'resources':RESOURCES,'at':datetime.now(timezone.utc).isoformat(),
-            'original_charge_retained':True,'new_reservation':False,'named_sandbox_lookup':'NOT_FOUND'}))
-    sb=provider.modal.Sandbox.create(*args,app=app,name='environment-'+ident[:32],image=image,
-        gpu=None,cpu=(2,2),memory=(8192,8192),timeout=900,block_network=True,
-        include_oidc_identity_token=False,secrets=[],env={},encrypted_ports=[],h2_ports=[],unencrypted_ports=[],
-        volumes={},client=provider.client)
-    from orchestrator.modal_environment_provider import text
-    if not text(sb.object_id,128,pattern=r'sb-[A-Za-z0-9_-]+'):raise ValueError('NATIVE_RECOVERY_PROVIDER_ID')
-    handle={'provider_id':sb.object_id,'app_id':app.app_id,'image_id':image.object_id,
-        'binding_sha256':ident,'worker_sha256':worker_sha256(),'launched_at':datetime.now(timezone.utc).isoformat()}
-    record(root,'sandbox',handle);send_stdin(sb,binding,root)
-    return handle
 
 
 def validate_result(raw,binding):
