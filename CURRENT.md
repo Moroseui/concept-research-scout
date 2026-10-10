@@ -1,6 +1,8 @@
 Item6 complete;13B CPU-starvation measurement held.
-Installed9b568290 has independentAPPROVE10129ee9/PROCEED; installer and both runtime checks passed.
-One CPU validation confirmedRUNNING on provider14:58 UTC, reservation$1.118950. Do not duplicate or automatically retry.
-Confirmed stage1 commitments$114.397673/$150; diagnostic$4.286495/$25. Third/fourth actuals pending; both full reservations retained.
-All40model calls complete; reviewer16 requires genuine nativePASS; GPU/full/coverage held.
-See outputs/STATUS.md; full approval report withheld after infrastructure scan.
+Fourth native validation positively terminalFAIL after15 synthetic diagnostic epochs, at saved-report consistency check E173.
+Exact authored methods plus real checkpoint storage reproduce mutation of the in-memory event list after serialization; saved hash unchanged.
+Author-owned correction required; bounded author22 handoff proposed only. No retry, author call or reviewer16 activation scheduled.
+All40model calls and allCPUattempts terminal; no active jobs/watchers.
+Stage1 commitments$114.397673/$150; diagnostic$4.286495/$25; third/fourth actuals pending/full reservations retained.
+LatestClaude10129APPROVE/PROCEED applies to the now-exhausted single operation. Next direction check will be bundled into required handoff review.
+See outputs/STATUS.md; GPU/full/coverage remain held.
