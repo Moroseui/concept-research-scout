@@ -1,11 +1,12 @@
 """One no-patient item4 environment inventory in the existing asset ledger.
 
 This grants no scientific allowance and does not reuse a completed owner. Its
-full reservation counts in the original item4 smoke/total caps permanently.
+original reservations remain immutable. The exact diagnostic route reuses
+qualified closed-cost accounting and the operator diagnostic/stage caps.
 """
 from datetime import datetime, timezone
 from orchestrator import modal_native_synthetic as synthetic
-from orchestrator import modal_native_successor as successor
+from orchestrator import item4_diagnostic_native as diagnostic
 import json
 import re
 from orchestrator.modal_item4_policy import (AUTHORITY, TEAM_AUTHORITY, SMOKE_CAP,
@@ -94,7 +95,7 @@ def owner(binding):
 
 def selected_asset(row):
     """Recognize only this operation; malformed claimed scope fails closed."""
-    if successor.previous_asset(row):return True
+    if diagnostic.historical_asset(row):return True
     value = strict_json(row["binding"])
     from orchestrator.modal_environment_closure_route import PURPOSE as CLOSURE
     from orchestrator.modal_pinned_image import PURPOSE as IMAGE
@@ -174,7 +175,8 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         if any(row["id"] not in closed for row in pending): raise ValueError("BATCH_UNCERTAIN_OR_RUNNING_CALL")
         assets = db.execute("SELECT * FROM autonomy_assets").fetchall()
         compute = db.execute("SELECT * FROM autonomy_compute").fetchall()
-        prior_native = successor.qualify(accounts,binding) if purpose==synthetic.PURPOSE else set()
+        terminal_assets, diagnostic_compute = diagnostic.retained_terminal(accounts,binding) if purpose==synthetic.PURPOSE else (set(),set())
+        prior_native = terminal_assets
         # A fixed reviewed successor qualifies only its exact diagnosed terminal predecessor.
         # All other changed-source/price/image/config retries still refuse.
         if any(row["id"] not in prior_native and selected_operation(row) and strict_json(row["binding"])["purpose"] == purpose for row in assets):
@@ -183,7 +185,7 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         resolved = resolved_failure_ids(accounts, root=accounts.batch.filesystem_root) | prior_native
         if any(row["status"] != "READY" and row["id"] not in resolved for row in assets):
             raise ValueError("MODAL_UNCERTAIN_ASSET_PREPARATION")
-        stopped=terminal_failed_compute(accounts) if purpose in {image.PURPOSE,synthetic.PURPOSE} else set()
+        stopped=diagnostic_compute if purpose==synthetic.PURPOSE else terminal_failed_compute(accounts) if purpose==image.PURPOSE else set()
         if not isinstance(stopped,set) or not stopped <= {row["id"] for row in compute}:
             raise ValueError("ENVIRONMENT_TERMINAL_COMPUTE_SCOPE")
         if any(row["id"] not in stopped and (row["status"]=="UNCERTAIN" or (row["status"] not in {"COLLECTED", "ACCOUNTED"} and not (is_cpu and strict_json(row["binding"]).get("purpose")=="M4_ITEM4"))) for row in compute):
@@ -197,23 +199,27 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
             local_wheels(binding['closure'])
         from orchestrator.modal_direct_budget import selected_asset as selected_download
         item_runs = _item4_runs(db, compute)
-        assets_cost = sum(row["reserved_micro_usd"] for row in assets
+        from orchestrator.item4_closed_asset_billing import effective as asset_effective
+        asset_amounts = {row["id"]:(asset_effective(accounts,row,billing_snapshot,now) if purpose==synthetic.PURPOSE else row["reserved_micro_usd"]) for row in assets}
+        assets_cost = sum(asset_amounts[row["id"]] for row in assets
                           if row["run"] in item_runs or selected_download(row) or selected_asset(row))
         exposure = modal_terminal_cost.exposure(db, compute, billing_snapshot)
         total = assets_cost + sum(exposure["run_cost"].get(r, 0) for r in item_runs)
         smoke = assets_cost + sum(exposure["smoke_cost"].get(r, 0) for r in item_runs)
+        smoke_cap = diagnostic.limit(binding) if purpose==synthetic.PURPOSE else SMOKE_CAP
+        if purpose==synthetic.PURPOSE:diagnostic.subcap(accounts,assets,compute,asset_amounts,billing_snapshot,amount)
         item6_cost=None
         if is_cpu:
             item6_cost=sum(r['reserved_micro_usd'] for r in assets if r['run']==cpu.RUN)+sum(
                 max(r['reserved_micro_usd'],r['actual_micro_usd'] or 0) for r in compute if r['run']==cpu.RUN)
             if any(r['run']==cpu.RUN for r in compute):raise ValueError('DIAGNOSTICS_IMAGE_BEFORE_EXECUTION_REQUIRED')
             if item6_cost+amount>cpu.policy.TOTAL_MICRO_USD:raise ValueError('DIAGNOSTICS_HARD_COST_CAP')
-        elif total + amount > TOTAL_CAP or smoke + amount > SMOKE_CAP:
+        elif total + amount > TOTAL_CAP or smoke + amount > smoke_cap:
             raise ValueError("ITEM4_HARD_COST_CAP")
         if exposure["underestimated_apps"]: raise ValueError("ITEM4_COST_BOUND_BELOW_BILLING")
         commitments = ({'compute-reservation:'+r['id']:max(r['reserved_micro_usd'],r['actual_micro_usd'] or 0) for r in compute}
             if is_cpu else dict(exposure["commitments"]))
-        commitments.update({"asset-reservation:"+row["id"]:row["reserved_micro_usd"] for row in assets})
+        commitments.update({"asset-reservation:"+row["id"]:asset_amounts[row["id"]] for row in assets})
         view = headroom(billing_snapshot, now=now, usage_limit_micro=USAGE_CEILING,
                         spend_limit_micro=SPEND_CEILING, commitments=commitments)
         if amount > min(view["usage_headroom_micro"], view["spend_headroom_micro"]):
@@ -222,7 +228,7 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
         event = {"kind":"ITEM4_ENVIRONMENT_INVENTORY_RESERVED", "operation_id":operation,
             "binding_sha256":ident, "micro_usd":amount, "billing_snapshot":billing_snapshot,
             "headroom":view, "terminal_exposure":exposure, "scientific_calls":0,
-            "caps":{"smoke":SMOKE_CAP, "total":TOTAL_CAP}, "prior_item4_smoke_micro_usd":smoke,
+            "caps":{"smoke":smoke_cap, "total":TOTAL_CAP}, "prior_item4_smoke_micro_usd":smoke,
             "prior_item4_total_micro_usd":total,
             "scope":"No-patient infrastructure; full reservation counts in item4 smoke and total caps"}
         if is_cpu:

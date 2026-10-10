@@ -12,7 +12,7 @@ SOURCE='28726e3d5cdf32f1d80c63187f5abd9146cbfcd0'
 SOURCE_ASSET='9878e7923ea81dceefce162166a113aa7d0a53dd65c4199a42b4276fe952d365'
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
 
-def qualify():
+def qualify(*, diagnostic=False):
     if os.getuid()!=1003 or os.getgid()!=1003 or not sys.flags.no_user_site:
         raise ValueError('VALIDATION_TERMINAL_SERVICE_IDENTITY')
     path=ROOT/'tools/item4_source_preparation.py'
@@ -47,10 +47,24 @@ def qualify():
                 if row is None:raise ValueError('VALIDATION_TERMINAL_ROW_MISSING')
                 result[ident]=hashlib.sha256(canonical(dict(row))).hexdigest()
             return result
-        return {'schema':'item4-retained-terminal-qualification/v1',
+        result = {'schema':'item4-retained-terminal-qualification/v1',
             'source_sha':release['source'],'source_asset':SOURCE_ASSET,
             'assets':pins('autonomy_assets',assets),'compute':pins('autonomy_compute',compute)}
+        if diagnostic:
+            # Native13 was authenticated above through its original provider receipt.
+            result['native_ready']=pins('autonomy_assets',{budget.NATIVE_ID})
+            from orchestrator import spending_continuation,modal_pinned_image as image
+            from orchestrator import private_records as pr
+            image_helper=native.image_helper()
+            result['image_config']=image_helper.verify()
+            image_binding=json.loads(pr.check(native.IMAGE_STATE/'binding.json').read_bytes())
+            result['image_proof']=image.consumer_proof(accounts,image_binding,native.IMAGE_STATE)
+            closed=image_helper.qualified_closed(spending_continuation.closed_ids,batch,budget.RUN)
+            result['closed_calls']=pins('autonomy_calls',closed)
+            result['native_rows']={i:dict(db.execute('SELECT * FROM autonomy_assets WHERE id=?',(i,)).fetchone())
+                for i in sorted({budget.NATIVE_ID,*assets}-{budget.SOURCE_PREDECESSOR_ID})}
+        return result
 
 if __name__=='__main__':
-    if len(sys.argv)!=1:raise ValueError('VALIDATION_TERMINAL_ARGUMENTS')
-    print(json.dumps(qualify(),sort_keys=True))
+    if sys.argv[1:] not in ([],['--diagnostic-native']):raise ValueError('VALIDATION_TERMINAL_ARGUMENTS')
+    print(json.dumps(qualify(diagnostic=bool(sys.argv[1:])),sort_keys=True))
