@@ -1,12 +1,12 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The current B200 code requests 12 augmentation workers on 16 CPUs; CPU starvation is plausible but unproven.
-The operator approved up to $25 within the existing $150 stage cap for two approximately 15-epoch timing runs, with a higher-CPU run prioritized if both cannot fit.
-One accounting and process consultation is running; no GPU job is running. The author will own the diagnostic code and scientific comparison.
-Identified provider compute is $24.29; effective stage exposure is $110.11/$150 including retained obligations, before new diagnostic admission. Model estimates are separate.
-Next expected result is an executable, independently reviewed diagnostic plan in about 1-2 hours; GPU timing depends on that review. Full training and coverage-dependent arms remain held.
-UTC October 10 calls: 12/50 (1 author, 2 scientific reviews, 6 administrative reviews, 3 direction checks). The latest consultation concerns reusing the existing route without another layer of infrastructure.
+The current B200 code requests 12 augmentation workers on 16 CPUs; CPU starvation remains unproven.
+The approved comparison is two approximately 15-epoch runs, with substantially more CPUs and workers in B; B goes first if both cannot fit the budget.
+The executable-authoring connector is drafted and has passed 108 focused tests. A server rehearsal is running on disposable accounting copies; no model or GPU job is running.
+Identified provider compute is $24.29; retained stage exposure is $110.11/$150 before diagnostic admission. The diagnostic is limited to $25 inside that cap, with hard stops and no automatic retry.
+Next expected result: author-owned executable diagnostic and scientific review within the original 1-2 hour estimate, subject to the pending implementation review. Full training and coverage-dependent arms remain held.
+UTC October 10 calls: 12/50 (1 author, 2 scientific reviews, 6 administrative reviews, 3 direction checks), all complete. Latest Claude verdict requires an executable scoped change; that change is now drafted but unapproved.
 
 ## Current approved CPU comparison
 
@@ -17,6 +17,18 @@ Run A uses current resources and about 15 epochs. Run B uses the same arm and fo
 Hard stops, no automatic retry, a combined $25 diagnostic allowance and the $150 stage cap all apply. Admission must use current actual spend plus retained reservations. Run B comes first if the two hard quotes cannot both fit. The $1,200 full-training projection gate and $1,275 total remain unchanged. The cheapest configuration that performs well will inform a provisional complete-plan projection; whether a CPU-richer A100 can match the B200 must distinguish measured evidence from extrapolation.
 
 Judgment log 04:22 UTC: approval recorded verbatim and hash-bound, previous server work reconciled COMPLETE, nothing duplicated. A required accounting consultation is examining a bounded reuse of the current connector while retaining every old call and the full-plan interpretation slots. No engineering permission question was sent to the operator. Existing safeguards, frozen development inputs, scientific REVISE findings and all spending records remain intact. The consultation is counted once as administrative review; its direction advice will be folded into the implementation work. No code has been installed or compute admitted.
+
+Latest implementation progress: candidate7dc3d1da418c0e7c53aae65ea14739e9b686221d reuses the existing connector, installer and host operation. It requires exactly two supplementary diagnostic fits and a changed executable module while preserving the original plan. It proposes author16/reviewer13 with all27item/65batch calls retained and the full-plan final pair reserved (exact31/69limits); this process exception still needs a genuine independent APPROVE. Every review outcome remains execution-held. No code is installed and no scientific author call has started.
+
+The initial administrative consultation is genuine REVISE, report2e530f728deb36d54c7c212deaade3834b9be44bc96776e6d575d1a998f42199, estimated model cost$4.12479425. It treated the supplied historical connector as the current implementation and correctly noted that it lacked the requested executable diagnostic. Its option to implement the new scope is accepted; no process grant or source approval is inferred. The actual changed candidate will receive a linked second-round implementation review, with accounting and direction batched in that call.
+
+Judgment log: retain all original failures and charges; correct the historical-state replay to verify authentic old evidence plus unchanged current execution authority. Local setup and synthetic-fixture errors were fixed without weakening checks. The server rehearsal also exposed an overbroad test-only receipt cache; it was corrected to key by exact scope. Live records remain read-only and no model/provider action occurs in rehearsals. The draft is backed up on astra/public-cpu-starvation-diagnostic-20261010 as a safe source projection; it is not an installed or approved release.
+
+Additional withheld candidate files:
+
+- docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json: private checkpoint and accounting bindings.
+- docs/ITEM4_RESPONSE_HOST_PRIVATE.json: private host binding.
+- tests/fixtures/item4_cpu_diagnostic_prior_unit_PRIVATE.txt: private infrastructure fixture.
 
 The detailed chronology below records earlier states and proposals; the current approval above supersedes its prior money wait and 30-epoch proposal.
 
