@@ -1,22 +1,45 @@
 # Research status
 
-Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
-The [13B execution plan](13B_EXECUTION_PLAN.md) is ready; a reviewed Colab notebook and the CPU-starvation timing result are still pending.
-Review 55 approved the narrow branch/accounting repair; reconciliation, held installation and verification passed at 22:35 UTC.
-At 22:38 UTC, analysis author2 is running as call 56; Colab preparation is initialized and ready with zero calls used. The earlier failed slot remains counted; no GPU job is running.
-Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Latest administrative review cost $8.31239; model charges are separate.
-Next: collect the first synthesis, then obtain scientific critique. Synthesis is estimated 30-60 minutes after admission; no new scientific result or Colab instructions are ready.
-No action is needed from Partho. Claude says PROCEED with a warning about overhead: obtain analysis and Colab results and defer more custom recovery work. The six-condition swap gate is not met.
+Item 6 is complete (352/352 Sprint 14 comparison values match); the saved-results synthesis is complete and independently approved at both scientific stages.
+The [accepted synthesis](reports/aggregate-synthesis-20261010.md) attributes a +0.0404 fixed-amount Dice gain to placement; fusion versus processed nnU-Net and steady-state hardware speed remain uncertain.
+At 23:13 UTC, Colab notebook author1 is running as call 61 after the reviewed contract correction; no GPU job is running.
+Timing author24 still needs its narrow recovery; no timing result or reviewed Colab instructions exist, and opposite-family administrative rotation is not installed.
+Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Latest scientific review cost $4.23612225 and administrative review $4.301282; model charges are separate.
+Next: a reviewed Colab handoff, estimated 30?60 minutes after author admission, subject to review; timing remains conditional on its scientific gates. See the [execution plan](13B_EXECUTION_PLAN.md).
+No action is needed from Partho. Review 60 approved only the Colab repair and did not answer direction questions; the latest direction remains review 55's PROCEED with overhead caution. The swap gate is not met.
+
+## Accepted scientific result
+
+The analysis lane completed its proposal, independent proposal review, interpretation and independent interpretation review. Both scientific verdicts are APPROVE. The [published report](reports/aggregate-synthesis-20261010.md) contains verbatim author-written scientific sections; its private provenance/navigation and private case-review plan are explicitly omitted. The [next-decision proposal](reports/aggregate-next-decision-20261010.json) stops this bounded saved-evidence synthesis while preserving unperformed candidate tests. This is not an instruction to stop the separate Colab/timing workstreams, and it grants no experiment, patient access or spending authority.
+
+The accepted interpretation is hash-bound to `cb028b56d0de61998594e29a240659a96142ed3819c81bd9cbdaf174a29a25c7`. Item 6's prior acceptance and the smoke review's REVISE remain distinct. The private case-selection rule is proposed and reviewed, but no cases were selected or images opened for this synthesis. No full-training permission follows.
 
 ## Current installation and judgment
 
-Independent review 55 returned genuine APPROVE for source `9f3bf42c5178eafe57389cf97607348d8dd18b4c`, report `873f591025afce516ca54ddf363bbe5c20dacb7dfad2e09b8b7789b260487e3f`. The [implementation summary](reports/preparation-branch-admission-repair-20261010.md) records the narrow scope and validation. Reconciliation and held installation completed at 22:35 UTC, with service-account verification. Installation started no models or providers. The original source, scientific inputs, run identities, scope and review remain bound; the continuation uses separately reviewed accounting logic and an equivalent branch check.
+The [Colab contract repair](reports/colab-contract-repair-20261010.md) received genuine independent review 60 APPROVE at source `f2cda160b3da852604c290891e617c1dc925887b`, report `fc0e18fd6137540e60f5835d467dee8dd3643b987083a8a3824fbcf310de35df`; 75 focused tests passed. Its exact zero-call configuration/state correction completed successfully, preserving the original refusal and counters. The existing installed runtime now honors the already required structured-review contract; the strict notebook output-scope guard is unchanged. No new runtime or host component was installed. The forward initializer fix is preserved as reviewed source.
 
-The first analysis attempt reached a branch/accounting refusal before the author client launched. Read-only evidence established that outcome; normal reconciliation now records the global slot as FAILED while preserving the original local BLOCKED_BEFORE_MODEL record and counted usage. The 22:38 UTC capture confirms analysis author2 running as call 56, with matching global and local accounting. Its scientific engine, source and inputs remain unchanged. Colab preparation initialization is complete and READY, with zero of its eight calls used; initialization invoked no model. Daily usage is 56 counted calls/reservations: 11 scientific author, 5 scientific reviewer, 32 administrative review and 8 direction checks. Call 54 remains counted despite launching no model; review 55 cost $8.31239.
+At 23:13 UTC, Colab author1 is confirmed running as call 61. Do not duplicate it. Daily counted calls/reservations are 61: 13 scientific author, 7 scientific reviewer, 33 administrative review and 8 direction checks. The earlier analysis slot 54 remains counted FAILED globally with its original local blocked record preserved; it never launched an author client. Its later synthesis completed normally. Scientific review 57 cost $4.50478; scientific review 59 cost $4.23612225; administrative review 60 cost $4.301282. OpenAI author usage is recorded without a native dollar total; no dollar estimate is invented.
 
-Two registered review requests failed preflight before model admission and cost no calls or charges. The first packet omitted a required authority file; the second exposed an incomplete workspace inventory. The correction binds all 135 staged evidence inputs and the exact workspace tree to frozen hashes, with unexpected entries refused. Both original packets, captures and failures remain preserved. Earlier reviews, genuine verdicts and charges also remain preserved, including unqualified review 52 and its $9.80947025 charge.
+Review 60 did not answer the bundled timing, rotation or sandbox advisory questions; no new PROCEED or design agreement is claimed. The latest answered direction remains review 55: PROCEED with SIMPLIFY caution about scaffolding versus science. The accepted synthesis is now a real scientific result. Prioritize the reviewed Colab handoff and narrow timing recovery; use only necessary engineering for the explicitly requested rotation capability, preserving independent review and equivalent safeguards. The notebook estimate has slipped by more than half and was disclosed in the combined packet. No advisory omission is treated as approval.
 
-Claude's latest direction is PROCEED with SIMPLIFY caution: too much scaffolding has accumulated relative to scientific output. We agree. The next work is B synthesis and its critique, then the reviewed Colab handoff; additional sandbox, rotation and custom recovery work is deferred. The estimate has slipped by more than half from the earlier 15-minute target; that slippage and both preflight failures were explicitly included in review 55. No scientific conclusions or full-training permission follow from this administrative approval.
+Judgment log highlights: batch the immediate Colab contract repair with the direction questions; preserve the correct guard rather than weaken it; use the existing runtime for exact zero-call correction; preserve all original attempts and accounting; publish the author's accepted aggregate text as verbatim excerpts; keep unanswered design questions open. Claude was consulted for the repair and gave genuine APPROVE only within that implementation scope.
+
+## Daily calls and purposes
+
+The 61 counted calls/reservations retain their existing ledger categories; none are reset or relabelled.
+
+| Type | Count | Recorded purposes |
+|---|---:|---|
+| Scientific author | 13 | Scientific timing revisions, B synthesis and interpretation, and current Colab notebook authoring; preserved failed author reservations remain counted. |
+| Scientific reviewer | 7 | Timing/smoke scientific judgments and the independent B proposal and interpretation reviews. |
+| Administrative review | 33 | Mechanical admission, cap/configuration, confinement, formatting and installation repairs; original disqualified attempts remain counted. |
+| Direction check-in | 8 | Shortest-path and overhead checks under the existing operator direction schedule. |
+
+Administrative reviews are the majority (33/61). Batch the forthcoming rotation capability, narrow timing recovery and outstanding direction questions into one whole-component review when ready. Avoid a standalone direction call unless an agreed trigger cannot be covered promptly by that bundle. Review 60 is still administrative implementation review despite its unanswered advisory questions. The temporary 100-call allowance returns to 50 at UTC midnight; normal admission waits if the daily limit is reached.
+
+## This update's publication exclusions
+
+Four Colab code/test files pass the unchanged privacy, secret and infrastructure scans. `COLAB_REVIEW_CONTRACT_PRIVATE.json` is withheld (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH). The raw scientific report's private provenance/navigation and private visual plan remain private; public sections are labelled verbatim excerpts. No evidence folders, ledgers, review packets, native streams or private source ancestry are published. The public code projection is a safe backup, not a standalone installation package.
 
 ## October 10 direction
 
