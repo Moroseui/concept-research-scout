@@ -1,12 +1,12 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Three benchmarks, the five-epoch base smoke with real interruption/resume, and the repeat are complete.
-Scientific review returned REVISE: base technical execution is accepted, but full training and coverage-dependent work remain held.
-The scientific author is now running after preflight and normal admission; no new GPU job is running.
-Identified provider compute is $24.29; effective stage-1 exposure is $110.11/$150, including retained obligations. Model estimates and unsettled asset costs are separate.
-Next result: the author's timing and budget response in about 45-60 minutes, then scientific review. Full training has no date.
-UTC October 10 calls: 9/50 (1 scientific author, 1 scientific review, 5 administrative reviews, 2 direction checks). Latest direction: PROCEED at 03:11 UTC.
+The benchmarks, interrupted/resumed base smoke and repeat are complete; their five-epoch timings do not establish steady state or an affordable full plan.
+Author15 passed submission validation and 23 controller synthetic tests with zero skips; scientific code is unchanged.
+Scientific review12 is running on the author's response and proposed timing diagnostic. No GPU job is running; full training and coverage work remain held.
+Fresh billing identifies $24.29 compute; effective stage exposure remains $110.11/$150, including retained obligations. Model estimates and unsettled asset costs are separate.
+Next result: the scientific verdict, estimated 15-30 minutes. The proposed extra $25 diagnostic is not approved, implemented or launched.
+UTC October 10 calls: 10/50 (1 scientific author, 2 scientific reviews, 5 administrative reviews, 2 direction checks). Latest direction: PROCEED at 03:11 UTC.
 
 ## Results and readiness
 
@@ -22,7 +22,7 @@ The resumed base smoke's last three epochs averaged 71.43 seconds. The repeat's 
 
 The reviewer quoted the older $75 stage-1 cap from its frozen source context. The operator-approved, independently reviewed and installed cap is $150 for the benchmark/base/resume/repeat milestone. This context discrepancy is preserved for correction in the next scientific context, without rewriting the genuine REVISE or changing its unaffected $1,200 budget finding. The completed milestone does not itself authorize additional arm spending.
 
-The timer boundary audit and current cap authority are now delivered to the ordinary author and reviewer contexts. The author response is running under the reviewed allowance after successful preflight. No additional GPU job has launched. No reliable full-training date is available while the budget and scientific findings remain open.
+The timer boundary audit and current cap authority are now delivered to the ordinary author and reviewer contexts. The author response is validated; its independent scientific review is now running. No additional GPU job has launched. No reliable full-training date is available while the budget and scientific findings remain open.
 
 ## Spending and calls
 
@@ -30,7 +30,7 @@ The cap increase to $150 was independently approved and installed before the mil
 
 The latest provider snapshot identifies compute of $24.29013445. Effective stage-1 exposure is $110.111178/$150, not a final invoice. Original compute reservations total $147.7164 and remain preserved. The repeat's original $16.5924 reservation, provider compute $4.65640856, closed bound $9.707803 and released excess $6.884597 are all retained. Base segments have a combined provider bill of $3.66466686; no invented per-segment allocation is used. Unsettled obligations remain counted. See outputs/sprint13b/STAGE1_SMOKE_BILLING.json.
 
-UTC October 10 call purposes: scientific author 1 (response to smoke REVISE, running); scientific reviewer 1 (assessment of three benchmarks and two smokes); administrative review 5 (smoke-review connection, initial host-proof procedure, corrected enforceable procedure, post-smoke author-route consultation, and implemented response allowance plus bounded operation); standalone direction checks 2 (shortest route to smoke assessment and its exact accounting scope). Direction in implementation reviews is not counted twice. Administrative model estimates are $4.94008025, $3.544358, $3.7232215, $3.92290325 and $4.518938; direction estimates are $2.7915255 and $2.13659325. These are model estimates, not a provider invoice. Scientific usage remains preserved. October 9's 50 calls remain: 3 author, 4 scientific review, 37 administrative review and 6 direction checks. Nothing was reset or relabeled. The latest review bundled implementation, accounting, bounded operation and direction; avoid another standalone check before the next trigger.
+UTC October 10 call purposes: scientific author 1 (response to smoke REVISE, complete and validated); scientific reviewer 2 (completed smoke assessment and current review of the timing/budget response); administrative review 5 (smoke-review connection, initial host-proof procedure, corrected enforceable procedure, post-smoke author-route consultation, and implemented response allowance plus bounded operation); standalone direction checks 2 (shortest route to smoke assessment and its exact accounting scope). Direction in implementation reviews is not counted twice. Administrative model estimates are $4.94008025, $3.544358, $3.7232215, $3.92290325 and $4.518938; direction estimates are $2.7915255 and $2.13659325. These are model estimates, not a provider invoice. Scientific usage remains preserved. October 9's 50 calls remain: 3 author, 4 scientific review, 37 administrative review and 6 direction checks. Nothing was reset or relabeled. The latest review bundled implementation, accounting, bounded operation and direction; avoid another standalone check before the next trigger.
 
 ## Judgment-call log highlights
 
@@ -45,7 +45,7 @@ Installed smoke-review connection: source 7a8f4d662a2a3f8bb2b7032f0e7bfd3d620c76
 
 The read-only audit matches the exact pinned native trainer and author source. Native logged epoch time stops before checkpointing and plotting; the returned synchronized time stops afterward. Smoke uses a periodic checkpoint every epoch, while full training uses every ten epochs; best-checkpoint saves remain independent. Repeat timer differences range from 15.93 to 38.23 seconds per epoch, but combine several overheads and cannot be attributed entirely to checkpointing. See outputs/reports/item4-timing-boundaries-20261010.md. No scientific code, checkpoint frequency, projection rule or protection was changed.
 
-The response allowance is now independently approved and installed: author15/reviewer12, preserving all 25 prior local and 63 batch scientific calls and the final interpretation pair. Exact limits are 29 item and 67 batch scientific calls; daily50 and dollars are unchanged. This is proposal-only: every new review outcome leaves execution held. The earlier genuine REVISE and all obligations remain preserved. The author service was started once; preflight passed and author15 is RUNNING in both local and global accounting. The reviewer service has not started.
+The response allowance is now independently approved and installed: author15/reviewer12, preserving all 25 prior local and 63 batch scientific calls and the final interpretation pair. Exact limits are 29 item and 67 batch scientific calls; daily50 and dollars are unchanged. This is proposal-only: every new review outcome leaves execution held. The earlier genuine REVISE and all obligations remain preserved. Author15 completed in both accounting records, received its validated-output event and passed controller synthetic checks. Reviewer12 was then started once and is RUNNING in both accounting records. No scientific verdict on the response exists yet.
 
 Implementation source 90da59b2f67e2e32c2232f170135199b11bdc036 received genuine independent APPROVE in report ad2bb148d756a450bc0a9f1f242ee77f31a08dfbd28d4ef9514ae88e92e3ddee. Validation: 149 distinct passing tests; cold proof of original smoke evidence and genuine REVISE; disposable admission preserved old counts and refused duplicates. Installation verification and activation passed with zero model/provider calls. The reviewer explicitly approved the exact allowance and gave direction PROCEED. It cautioned against further layered extensions; defer consolidation until after the next scientific result. This source is backed up as a safe projection with private fixtures withheld, not a deployable public bundle.
 Claude's administrative report 45fae8e28c276f2da4c813085836e604e62b0ceb512b56fc76fb2861703481b3 genuinely APPROVEs the inspected existing controls but explicitly says the proposed extension is not implemented. It does not explicitly answer the requested new allowance or direction. Judgment: preserve that limitation; do not treat it as a grant. That exact scope was subsequently implemented and approved in the single bundled implementation review above, without another standalone planning call. Also preserve its mistaken use of preflight zero-charge/model-not-launched fields as call-wide evidence: the earlier scientific call did run and remains COMPLETE and counted. Neither statement changes any charge or scientific verdict.
@@ -226,3 +226,15 @@ Additional withheld files from this release:
 - docs/ITEM4_POST_SMOKE_RESPONSE_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - docs/ITEM4_RESPONSE_HOST_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - tests/fixtures/item4_smoke_response_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+
+## Validated author response and current scientific review
+
+Author15's exact specification is preserved at outputs/proposals/item4-post-smoke-author15-20261010.md, hash23ac2939c7a98620a0879af27e47b8ffde5f7ae993eb3aba4248cdd6328fa216. The execution plan, notebook patch, notebook and exported scientific module are unchanged. This is submission validation, not scientific acceptance. The controller rechecked the original output hashes and accepted-submission event, compiled the notebook, and ran its synthetic suite including 23 module tests with zero skips; no patient data or network was available to those tests.
+
+The author agrees that the measured timing subsets show no plateau and cannot justify full-plan admission. It distinguishes elapsed-time reductions from reciprocal throughput gains, preserves the adverse cost scenarios and retains all eight arms/five folds/250 epochs. Sprint12 workload and timer equivalence remains unverified; timing gaps are not checkpoint-only costs.
+
+Its proposed next measurement is a separate, newly registered 30-epoch base B200 diagnostic with the 250-epoch learning-rate horizon and full-training checkpoint cadence. It would separately measure core, synchronized, checkpoint, plotting and billed wall time, stop after 30 epochs or 45 minutes, and permit no automatic retry. The proposed additional $25 cap would require a money decision; it is not part of the unchanged current execution plan. Scientific review12 must judge that proposal before an operator request or implementation. No diagnostic or full-training spending has been admitted.
+
+03:35 UTC billing refresh: provider rows and every effective compute/asset obligation are unchanged from the earlier attribution. Identified compute remains24.29013445 and effective exposure110.111178/150. This was read-only, with zero ledger mutations; no uncertain reservation was released.
+
+Judgment log: author maintenance ended after the completed service cleared its invocation. Read-only reconciliation established COMPLETE, accepted output, successful inactive service and the next review phase; no restart or repair was needed. The already-approved separate reviewer operation started once, with the same host checks and one bounded refresh loop. Latest direction remains03:11PROCEED; no extra administrative consultation was added.

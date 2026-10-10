@@ -1,7 +1,7 @@
 {
   "schema": "item4-stage1-closed-smoke-billing/v1",
-  "observed_at": "2026-10-10T01:01:19.395969+00:00",
-  "billing_snapshot_sha256": "d945579595fb2314f3940643e7d41b4ea8f7d4ed5786935e7f11e9246cc0615f",
+  "observed_at": "2026-10-10T03:35:38.303508+00:00",
+  "billing_snapshot_sha256": "dd1d92ca895bdd84c3621c091179711f8a4b6118dbb4905a98016f17de8f295f",
   "repeat_provider_compute_usd": "4.65640856",
   "base_both_segments_provider_compute_usd": "3.66466686",
   "identified_provider_compute_total_usd": "24.29013445",
@@ -19,5 +19,6 @@
     "Provider compute for completed reporting hours, separate from assets/model costs/final invoice.",
     "The installed reconciliation retains a conservative closed bound including unsettled overhead; no manual credit or ledger rewrite.",
     "Both base segments share one provider bill; no per-segment actual split is invented."
-  ]
+  ],
+  "refresh_verification": "Provider rows, effective compute and retained asset obligations unchanged from prior attribution; read-only refresh, zero ledger mutations."
 }
