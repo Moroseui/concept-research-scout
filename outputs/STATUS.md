@@ -3,10 +3,10 @@
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 CPU starvation remains unproven; the diagnostic draft compares 16 CPUs/12 workers with 32 CPUs/24 workers on the same B200 workload.
 Author 16 finished, but controller validation refused duplicate synthetic_tests entry points; its output and charge are preserved, and no scientific review has started.
-Claude is assessing the narrow recovery and restoration of the existing same-call author validator. No diagnostic GPU job is running.
+Claude approved the narrow recovery direction: restore existing same-call author validation, make one corrective author call, then scientific review. No diagnostic GPU job is running.
 Identified compute spend remains $24.29; retained exposure is $110.11 against $150. Diagnostic spending and reservations remain $0/$25.
 Next expected result is corrected executable code and scientific review in roughly 45-90 minutes. Provisional maximum quotes exceed $25 together, so B goes first after approval and admission.
-UTC October 10 calls: 15/50 (2 authors, 2 scientific reviews, 8 administrative reviews, 3 direction checks). Latest completed Claude outcome: connector APPROVE; recovery consultation pending.
+UTC October 10 calls: 15/50 (2 authors, 2 scientific reviews, 8 administrative reviews, 3 direction checks). Latest Claude outcome: recovery direction APPROVE, with agreement in one round; implementation still needs review.
 
 ## Current approved CPU comparison
 
@@ -26,15 +26,19 @@ The first administrative consultation remains genuine REVISE, report2e530f728deb
 
 05:02 UTC read-only billing refresh: provider attributions and all retained compute/asset obligations remain unchanged. Identified compute$24.29013445, effective exposure$110.111178/$150, original reservations$147.7164 preserved, retained assets$23.685928 included. No reservation for an open or uncertain attempt was released. The new diagnostic has no GPU reservation or spend yet.
 
-Current daily call purposes: 2 scientific authors (completed smoke response; completed but controller-refused executable CPU diagnostic), 2 scientific reviewers (completed smoke and timing-response judgments), 8 administrative reviews (smoke-review connection; initial host proof; corrected host proof; post-smoke author-route consultation; implemented response allowance/operation; CPU-diagnostic route consultation; linked executable-authoring implementation and accounting approval; current mechanical recovery/accounting/direction consultation), and 3 standalone direction checks (shortest smoke-review route; its accounting scope; next money/scope decision). Bundled direction is not counted twice. All previous days and charges remain preserved.
+Current daily call purposes: 2 scientific authors (completed smoke response; completed but controller-refused executable CPU diagnostic), 2 scientific reviewers (completed smoke and timing-response judgments), 8 administrative reviews (smoke-review connection; initial host proof; corrected host proof; post-smoke author-route consultation; implemented response allowance/operation; CPU-diagnostic route consultation; linked executable-authoring implementation and accounting approval; completed mechanical recovery/accounting/direction consultation), and 3 standalone direction checks (shortest smoke-review route; its accounting scope; next money/scope decision). Bundled direction is not counted twice. All previous days and charges remain preserved.
 
-05:27 UTC judgment: exact failed outputs show two synthetic_tests definitions, while the existing controller requires exactly one. Preserve the refusal and use the scientific author for correction; no host edit to science. The newer response driver omitted existing same-call author validation wiring. Claude is assessing a narrow reuse of that tool and one corrective author17 before the unused reviewer13, with normal implementation review before installation. No generic attempt reset or weakening of the controller is proposed. Current source remains unchanged. The consultation also addresses overhead after review cycles without a new GPU result. No operator decision is pending.
+05:27 UTC judgment: exact failed outputs show two synthetic_tests definitions, while the existing controller requires exactly one. Preserve the refusal and use the scientific author for correction; no host edit to science. The newer response driver omitted existing same-call author validation wiring. Claude approved a narrow reuse of that tool and one corrective author17 before the unused reviewer13, with normal implementation review before installation. No generic attempt reset or weakening of the controller is proposed. Current source remains unchanged. The consultation also addresses overhead after review cycles without a new GPU result. No operator decision is pending.
+
+05:30 UTC Claude check: one round, genuine APPROVE of the bounded recovery direction, report ddcdc756df490d35c42784b8ede667be783ca72a2161bb938c4888745a43b9ca. Root agrees: reuse the existing validator with entry-point feedback and keep host extraction and synthetic tests authoritative. No extra wrapper or validation subsystem. This is process/direction approval, not approval to install unreviewed code, scientific acceptance, or GPU admission. Estimated administrative model cost $8.12227 is preserved separately from compute billing. The source is still unchanged while the patch is prepared.
 
 Provisional arithmetic using the current recorded resource rates, the draft 2400-second hard lifetime and unchanged $5 per-fit overhead gives maximum reservations A=$12.728267 and B=$14.241867, before shared preparation. The combined $26.970134 exceeds $25, so B has priority. These are neither reservations nor actual charges. A later A requires confirmed costs and retained obligations to fit all caps; no automatic retry is permitted.
 
 Judgment log: fixed a historical-state replay by verifying the authentic old checkpoint plus unchanged current execution authority. Corrected local setup/synthetic-fixture mistakes and a test-only receipt cache that had mixed two scopes; earlier failures are preserved. Required changed executable output rather than another prose-only response. Batched the process grant, implementation and direction into the successful linked review; installed only after genuine APPROVE. All scientific methods and conclusions remain with the native author and reviewer.
 
 Additional withheld candidate files:
+
+- outputs/reports/item4-author16-recovery-direction-20261010.json: raw administrative report flagged by the credential/infrastructure reference scan; preserved privately, outcome summarized above.
 
 - docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json: private checkpoint and accounting bindings.
 - docs/ITEM4_RESPONSE_HOST_PRIVATE.json: private host binding.
