@@ -1,34 +1,34 @@
 # Research status
 
-Item 6 is complete: all352 comparable values match the independent Colab run.
+Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run has started.
 
 The author-delivery repair is approved and installed. It catches the missing regression test during the author call and keeps the original acceptance check.
 
-Nothing is running. The daily50-call cap holds authoring until00:00UTC,8p.m.New York time on October10.
+Nothing is running. The daily 50-call cap holds authoring until 00:00 UTC (8 p.m. New York time) on October10.
 
-Identified compute spent:$24.39800404. Stage commitments:$114.397673/$150; diagnostic:$4.286495/$25. Model charges are separate; the latest review reported$11.11010825.
+Identified compute spent: $24.39800404. Stage commitments: $114.397673/$150; diagnostic: $4.286495/$25. Model charges are separate; the latest review reported $11.11010825.
 
-Today:50/50 calls -9 scientific author,5 scientific reviewer,28 administrative review and8 direction check-ins.
+Today: 50/50 calls ? 9 scientific author, 5 scientific reviewer, 28 administrative review and 8 direction check-ins.
 
-Next notebook correction: about30 minutes after reset. Conditional planning estimate for GPU numbers:10-11p.m.New York time, if authoring, native validation and scientific review pass.
+Next notebook correction: about 30 minutes after reset. Conditional planning estimate for GPU numbers:10?11 p.m. New York time, if authoring, native validation and scientific review pass.
 
 Latest Claude direction: PROCEED, no additional scope. The alternative recovery was dropped; the author must submit a conforming module.
 
 ## Current evidence
 
-Independent implementation review b22327dc returned genuine APPROVE without findings for source782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. A separate read-only check confirmed that the live scientific state is unchanged, author24 has not been activated or admitted, all research services are inactive, and no model call is running. No timer was added.
+Independent implementation review b22327dc returned genuine APPROVE without findings for source 782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. A separate read-only check confirmed that the live scientific state is unchanged, author24 has not been activated or admitted, all research services are inactive, and no model call is running. No timer was added.
 
-The patch permits at most96,000 bytes for this exact author24 notebook patch at the submission tool, controller output collection and notebook application. All other files/calls retain80,000 bytes; the SPEC retains12,000 characters. The unchanged strict fixture/additive-test guard now also runs inside the same author call, so a placement error can be corrected before submitting. The author receives the exact refused author23 outputs as unaccepted reference. All attempts remain counted. The engineering work changes no scientific source, original test, plan, image, patient selection or dollar cap.
+The patch permits at most 96,000 bytes for this exact author24 notebook patch at the submission tool, controller output collection and notebook application. All other files/calls retain 80,000 bytes; the SPEC retains 12,000 characters. The unchanged strict fixture/additive-test guard now also runs inside the same author call, so a placement error can be corrected before submitting. The author receives the exact refused author23 outputs as unaccepted reference. All attempts remain counted. The engineering work changes no scientific source, original test, plan, image, patient selection or dollar cap.
 
-161 tests and9 subtests passed. The strict guard's AST was mechanically verified unchanged. The actual server driver prepared its context and read-only feedback files, admitted author24 into disposable copies of both ledgers and reached the actual sender's stubbed backend. Limits41/79 and original rows were preserved; no model/provider process ran, and live records stayed unchanged. Two earlier rehearsal setup failures were preserved; the successful rehearsal matched production import order and adapted only the copied read-context identity. This is engineering evidence, not GPU evidence or scientific approval.
+161 tests and 9 subtests passed. The strict guard's AST was mechanically verified unchanged. The actual server driver prepared its context and read-only feedback files, admitted author24 into disposable copies of both ledgers and reached the actual sender's stubbed backend. Limits 41/79 and original rows were preserved; no model/provider process ran, and live records stayed unchanged. Two earlier rehearsal setup failures were preserved; the successful rehearsal matched production import order and adapted only the copied read-context identity. This is engineering evidence, not GPU evidence or scientific approval.
 
-Latest direction log:2026-10-10 18:37UTC, one implementation round, APPROVE/PROCEED. Root adopted Claude's conforming-author alternative and kept the original placement check; no further scope was added. The prior SPEC-regression recovery was never installed or applied. Native validation and a genuine scientific review remain required after the new author submission. Full training and coverage-dependent arms remain held.
+Latest direction log: 2026-10-10 18:37 UTC, one implementation round, APPROVE/PROCEED. Root adopted Claude's conforming-author alternative and kept the original placement check; no further scope was added. The prior SPEC-regression recovery was never installed or applied. Native validation and a genuine scientific review remain required after the new author submission. Full training and coverage-dependent arms remain held.
 
-The diagnostic compares the same B200 arm/fold with16 CPU cores and12 training/6 validation workers versus32 CPU cores and24 training/12 validation workers, about15 epochs each. It must report utilization, steady-state time and cost per epoch, and checkpoint overhead. Run B goes first if both estimates exceed the remaining approved diagnostic budget. There is no automatic GPU retry. A100 equivalence remains unmeasured.
+The diagnostic compares the same B200 arm/fold with 16 CPU cores and 12 training / 6 validation workers versus 32 CPU cores and 24 training / 12 validation workers, about 15 epochs each. It must report utilization, steady-state time and cost per epoch, and checkpoint overhead. Run B goes first if both estimates exceed the remaining approved diagnostic budget. There is no automatic GPU retry. A100 equivalence remains unmeasured.
 
-Call purposes: scientific authors prepared13B responses and fixture corrections; scientific reviewers assessed smoke and diagnostic work; administrative reviews covered execution, provenance, accounting and mechanical repairs; direction check-ins assessed the shortest safe path. Administrative work dominates the count. The last review combined implementation and direction; no separate direction call was added.
+Call purposes: scientific authors prepared 13B responses and fixture corrections; scientific reviewers assessed smoke and diagnostic work; administrative reviews covered execution, provenance, accounting and mechanical repairs; direction check-ins assessed the shortest safe path. Administrative work dominates the count. The last review combined implementation and direction; no separate direction call was added.
 
 Backup: the reviewed safe code projection is merged into remote-server and retained on astra/public-author24-delivery-20261010. Excluded from this projection: docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json and docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json (private frozen state/accounting), plus tools/install_item4_smoke_response.py (flagged infrastructure references). Raw evidence folders, ledgers, review packets, native streams and per-patient material remain private. The aggregate implementation review summary is in outputs/reports/item4-author24-delivery-implementation-review-20261010.md. DATA_NOTICE.md is present; main is unchanged.
 
@@ -48,7 +48,7 @@ The approved continuation is source478a4724, independent reportaff49bc6. Held-st
 
 The last native failure was reproduced locally: receipt publication appends an event to the list referenced by the in-memory report, making it differ from the saved JSON. The author owns the correction and regression test. Scientific review15 remains REVISE; no scientific findings were closed administratively.
 
-The diagnostic compares B200 with16 CPU cores versus32, with more augmentation workers for B and the same arm, fold, seed, memory, image and15-epoch work. Required outputs include utilization coverage, steady-state time and cost per epoch, and checkpoint overhead. A100 equivalence is not established.
+The diagnostic compares B200 with 16 CPU cores versus32, with more augmentation workers for B and the same arm, fold, seed, memory, image and15-epoch work. Required outputs include utilization coverage, steady-state time and cost per epoch, and checkpoint overhead. A100 equivalence is not established.
 
 Earlier A100278.1671s, H100228.1379s and B200166.2836s measurements were first epochs and include warm-up. The A100 value extrapolates to19.32 GPU hours per250-epoch fold, not a steady-state estimate. Sprint12 A1 reported about36s per epoch and2.69-2.74h per fold; workload comparability remains unverified. Earlier B200 smoke timing was still declining. Prior full-plan sensitivities of$2,963.89-$3,574.95 exceeded the$1,200 gate; they are not a validated final projection. The scientific author/reviewer must replace them using the timing diagnostic.
 
