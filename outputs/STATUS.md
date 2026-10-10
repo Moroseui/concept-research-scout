@@ -1,13 +1,19 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Author 19's diagnostic package is accepted; its controller tests passed.
-Claude approved the CPU/reviewer connector; a small installer repair is now under review.
-GPU execution awaits native validation and scientific acceptance. No diagnostic compute has started.
-Identified compute spend is $24.29; stage commitments are $110.11 of $150. Diagnostic spending is $0 actual and $0 reserved of $25; model charges are separate.
-The next expected result is native CPU validation, targeted for about 11:15 UTC subject to review and installation.
+Author 19's diagnostic package is accepted; controller tests passed, and the native connector is installed.
+The bounded native CPU service started once at 10:17 UTC. Its existing invocation is being observed.
+Run B awaits native evidence and scientific review 15; full training and coverage-dependent arms remain held.
+Identified compute spend is $24.29; pre-launch stage commitments were $110.11 of $150. The native quote is at most $1.12 inside the $25 diagnostic allowance; billing remains separate from reservations.
+The next expected result is native CPU validation, within its 15-minute compute bound after admission, followed by scientific judgment.
 Run B goes first; A requires enough confirmed remaining allowance. No automatic compute retry is permitted.
-Today's calls: 28/50 (5 authors, 4 scientific reviews, 16 administrative reviews, 3 direction checks). Latest completed Claude direction: PROCEED; the running repair review also includes direction.
+Today's calls: 28/50 (5 authors, 4 scientific reviews, 16 administrative reviews, 3 direction checks). Latest Claude direction: PROCEED, one round, no cuts.
+
+## Installed and started once
+
+Installer amendment 81cd8225 received genuine APPROVE b5dfa4bf, with no findings. Claude explicitly judged the directory check equivalent or stronger; its limitations are retained in the accepted report. The review's estimated $2.998627 model cost remains counted separately. The read-only preflight and both held runtime checks passed; installation completed without model or provider calls. The CPU service then started once through its normal admission path. At 10:17:56 UTC its original invocation was active, the exclusive start intent existed, and no reservation had yet appeared. No retry is scheduled.
+
+The installed public code and tests have been merged into `remote-server`; private frozen records remain withheld. Both earlier pre-write installation failures, the original APPROVE79d3 and all charges remain preserved. Latest judgment: proceed with the narrow approved installer correction and existing CPU/reviewer route; no optional component, safeguard removal or permission change.
 
 ## Native diagnostic installation
 
