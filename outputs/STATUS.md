@@ -4,9 +4,9 @@ Item 6 is complete; all 352 comparable values match the independent Colab run.
 All three benchmarks, the five-epoch base smoke with real interruption/resume, and the repeat are collected, hash-verified and terminated. No GPU is running.
 The repeat's post-first-epoch times average 90.41 seconds and are still declining; stable steady-state timing and scientific acceptance remain unestablished.
 Provisional repeat-based full-plan cost is about $3,575 over 291.1 GPU-hours with existing allowances, above the unchanged $1,200 gate.
-Identified provider compute is $19.63 so far; repeat billing is pending. Last admitted exposure was $117.00/$150, with all original reservations retained.
-Next result: an independent scientific smoke assessment after the scoped connection passes tests and implementation review; working estimate 1-2 hours.
-UTC October 10 calls: 2/50, both rounds of one direction discussion. Latest Claude outcome: PROCEED/agreement; full training and coverage arms stay held.
+Identified provider compute is $24.29; current effective stage-1 exposure is $110.11/$150, retaining original reservations and unsettled overhead.
+The review connection passed 137 tests and a cold rehearsal; its combined independent implementation review is running. Scientific assessment is expected in roughly 1-2 hours if approved.
+UTC October 10 calls: 3/50: one implementation review and two rounds of one direction discussion. Latest Claude outcome: PROCEED/agreement; full training and coverage arms stay held.
 
 Updated 2026-10-10T00:33:40.731457+00:00.
 
@@ -26,11 +26,11 @@ Sprint 12 A1 reported a rounded median of 36 seconds per epoch. Identical worklo
 
 The stage-1 cap is $150; the full-training projection gate is $1,200 and item total cap is $1,275. The cap change passed independent implementation review and over-cap refusals before installation.
 
-Identified provider compute is $19.63372589 so far, including both base segments together at $3.66466686. This is partial provider compute, separate from asset costs, model estimates and final invoices; repeat billing is not yet available. No fabricated per-segment allocation is made for the provider's combined base bill.
+Identified provider compute is $24.29013445, including the repeat at $4.65640856 and both base segments together at $3.66466686. This is identified provider compute, separate from asset costs, model estimates and final invoices. No fabricated per-segment allocation is made for the provider's combined base bill.
 
-The last admitted effective exposure was $116.995775, including effective assets of $23.685928 and the full $16.5924 repeat reservation. Original compute reservations total $147.7164 and remain preserved alongside closed-attempt bounds; this original total is not added again to effective exposure. Both base segments retain their original $16.5924 records; their conservative closed bounds are $9.585439 and $8.075207. No new credit is claimed from incomplete hourly billing and no open or uncertain attempt's reservation is released.
+Current effective stage-1 exposure is $110.111178/$150 after the installed reconciliation policy applied completed-hour repeat billing. Original compute reservations total $147.7164 and remain preserved. The repeat keeps its original $16.5924 reservation alongside provider compute of $4.65640856 and a conservative closed bound of $9.707803. The $6.884597 excess is no longer included in effective exposure; unsettled overhead is retained. Both base segment originals and their closed bounds remain. No manual credit, ledger rewrite or release for an open or uncertain attempt occurred. The aggregate billing record is under outputs/sprint13b/STAGE1_SMOKE_BILLING.json.
 
-UTC October 10: 0 scientific author, 0 scientific reviewer, 0 implementation review, 2 direction calls. Their purposes were the shortest smoke-review path and clarification of its exact call-accounting exception. Both are completed administrative calls, with model estimates $2.7915255 and $2.13659325. October 9 remains 50 calls: 3 scientific author, 4 scientific reviewer, 37 administrative implementation reviews and 6 direction checks. No usage was reset or relabeled. Batch the next administrative review around the complete smoke-review connection; no standalone direction check is currently due.
+UTC October 10: 0 scientific author, 0 scientific reviewer, 1 implementation review, 2 direction calls. Their purposes were the shortest smoke-review path and clarification of its exact call-accounting exception. Both are completed administrative calls, with model estimates $2.7915255 and $2.13659325. October 9 remains 50 calls: 3 scientific author, 4 scientific reviewer, 37 administrative implementation reviews and 6 direction checks. No usage was reset or relabeled. The implementation review bundles the complete smoke connection, accounting, evidence delivery and installation. No extra standalone direction call was made.
 
 ## Blockers and judgment calls
 
@@ -38,7 +38,9 @@ Claude and root reached agreement after two rounds at 00:18 UTC: use one ordinar
 
 The original repeat was observed COMPLETE, collected once, then verified against returned file hashes and native/local/global receipts with positive termination. Judgment: reuse the installed control and read-only inspection/export tools; no installed repair, extra launch, new watcher or model call was needed. Claude was not consulted again for these already-approved operations. A private read-only snapshot preserves the five-fit checkpoint and every original call hash for the scoped connection.
 
-No main merge, BACKLOG edit, credential change, patient restriction change or safeguard relaxation occurred. Full training and coverage-dependent arms remain held. No money decision is pending. The current development checkout has no source edits; installed source and safe working-branch projections are unchanged.
+No main merge, BACKLOG edit, credential change, patient restriction change or safeguard relaxation occurred. Full training and coverage-dependent arms remain held. No money decision is pending. The uninstalled candidate is source 7a8f4d662a2a3f8bb2b7032f0e7bfd3d620c7671; its safe source projection is backed up on the working branch. The installed execution release is unchanged.
+
+The complete focused suite passed 137 tests. A cold server rehearsal verified the actual five collections and refused whole-plan acceptance, then exercised ordinary review admission and duplicate refusal against disposable ledger copies. Every historical charge event and reset record stayed unchanged; the existing UTC-day counter rollover was checked separately from lifetime call rows. Earlier harness failures are preserved privately. No model/provider call or live ledger mutation occurred during these tests. Judgment: implement only the exact one-review scope agreed with Claude, retain the final pair, and seek normal independent implementation approval before installation.
 
 ## Files withheld from public backup
 
@@ -196,3 +198,7 @@ Billing reconciliation: B200 completed-hour compute is $2.00291173. Its original
 Real interruption evidence: first smoke segment completed epoch 0 (native rounded log duration 159.8 seconds), then stopped with a positive termination receipt and exit code 137. The full checkpoint proof has next_epoch=1 of total_epochs=5. The original interruption event, stop intent, observation, termination record and preserved $16.5924 reservation were cross-checked. Aggregate interruption record hash: 6e41b30824ef939e6b314bf7c548a84d8025acdc4bb74b93e08cfac13ed408f4. The subsequent collected continuation now proves completion after resume; independent scientific acceptance is still pending. No extra launch or repeated termination occurred.
 
 Judgment: reuse the existing read-only progress and reservation replay tools for the admitted continuation, without an installed change, new watcher, launch or model call. Claude consultation was not needed for these observations; the approved control and latest PROCEED direction remain unchanged.
+
+- docs > ITEM4_SMOKE_REVIEW_CHECKPOINT_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+- orchestrator > item4_smoke_review.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- tests > fixtures > item4_smoke_review_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.

@@ -1,0 +1,23 @@
+{
+  "schema": "item4-stage1-closed-smoke-billing/v1",
+  "observed_at": "2026-10-10T01:01:19.395969+00:00",
+  "billing_snapshot_sha256": "d945579595fb2314f3940643e7d41b4ea8f7d4ed5786935e7f11e9246cc0615f",
+  "repeat_provider_compute_usd": "4.65640856",
+  "base_both_segments_provider_compute_usd": "3.66466686",
+  "identified_provider_compute_total_usd": "24.29013445",
+  "stage1_effective_exposure_usd": "110.111178",
+  "original_compute_reservations_usd": "147.7164",
+  "repeat_original_reservation_usd": "16.5924",
+  "repeat_conservative_closed_bound_usd": "9.707803",
+  "repeat_excess_no_longer_in_effective_exposure_usd": "6.884597",
+  "stage1_cap_usd": 150,
+  "full_training_projection_gate_usd": 1200,
+  "item_total_cap_usd": 1275,
+  "open_or_uncertain_reservations_released": false,
+  "original_records_preserved": true,
+  "limitations": [
+    "Provider compute for completed reporting hours, separate from assets/model costs/final invoice.",
+    "The installed reconciliation retains a conservative closed bound including unsettled overhead; no manual credit or ledger rewrite.",
+    "Both base segments share one provider bill; no per-segment actual split is invented."
+  ]
+}
