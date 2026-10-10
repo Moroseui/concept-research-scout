@@ -4,21 +4,23 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation is still unanswered; two synthetic fixture failures stopped the path to GPU measurement.
 
-Author21 is accepted. All 16 controller tests pass, including the new callback regression test. One combined administrative review is running; no compute job is active.
+Author21 is accepted. All 16 controller tests pass, including the new callback regression test. The reviewed connector is installed. One CPU-validation service is preparing admission; provider launch is not yet confirmed.
 
-Claude approved the exact author-only handoff with no findings and recommends PROCEED; root agrees.
+Claude approved the native-validation and accounting bundle with no findings and recommends PROCEED; root agrees.
 
 Identified compute cost is $24.33873. Both failed CPU attempts cost $0.04859; their full reservations remain counted. Commitments are $112.349078/$150, including $2.237900/$25 for the diagnostic.
 
-Next expected result: reviewed native CPU validation of the corrected fixture, roughly 60-90 minutes from 13:46 UTC. GPU timing has no reliable ETA yet.
+Next expected result: native CPU validation within about 20 minutes of the14:15 UTC service start. GPU timing follows only after native success and scientific review.
 
 Run B remains first. Full training, coverage-dependent arms and the $1,200 projection gate remain held.
 
-Today's calls: 38/50: 7 authors, 5 scientific reviews, 20 implementation reviews and 6 direction checks. The combined native-validation review is the sole running call.
+Today's calls: 38/50: 7 authors, 5 scientific reviews, 20 implementation reviews and 6 direction checks. All model calls are terminal; no new scientific call has started.
 
 ## Current work and evidence
 
-Live check at 13:45 UTC: author21 is COMPLETE in both ledgers, the service exited successfully, and the bounded host-check loop has ended. The preserved code, all 26 controller-file hashes and the canonical controller receipt match. Production AST, original tests and the plan remain unchanged. Root has prepared a draft update to the existing native-validation/reviewer connector; it is unreviewed and uninstalled. All 165 focused checks pass, plus the final role-order recheck. Both current-source server rehearsals passed: exact native admission, preserved original rows and over-cap refusal after credit; exact one reviewer16 admission only with a simulated future native PASS in a disposable copy, no-native/duplicate/full refusal. No live ledger changed. One combined independent implementation, accounting and direction review is now RUNNING, observed at14:07 UTC. No scientific or compute call has been launched.
+Live check at14:15 UTC: the approved CPU-validation service was started once and is preparing normal admission. No reservation or provider-launch record exists yet. Installation completed with both runtime checks passing and zero model/provider calls. Do not duplicate the service. Its single CPU operation has a900-second provider hard stop and no automatic retry.
+
+[Independent implementation APPROVE](reports/item4-audited-native-verification-20261010.json), report4fba65d3, covers exact sourceea529258, one deliberately reviewed CPU operation and actual-PASS-gated reviewer16. The review also approved compute-only billing reconciliation with original rows retained and two overhead allowances still held. All165 focused tests and the final4-test role-order recheck pass. Current-source server rehearsals verified the original history, normal native reservation, over-cap refusal after credit, and one counted review16 only with a test-only simulated future PASS in a disposable copy. No live ledger changed in rehearsals. Scientific review15 and all global findings remain open. The [author-owned module](proposals/item4-cpu-diagnostic-author21.py) is an exact scan-passing copy of accepted21; it is not scientific approval or GPU evidence.
 
 The latest genuine direction report e9636a72 is REVISE because the scientific defect remains, with PROCEED/SIMPLIFY advice for a whole-fixture repair. It is not installation approval. The earlier constructor error was followed by a missing telemetry callback in the corrected fixture. Both native operations are positively terminal failures; complete originals remain private. Neither used patients or a GPU. No automatic retry is scheduled.
 
@@ -32,18 +34,18 @@ Scientific review15 remains a genuine REVISE: corrected instrumentation needs na
 
 - Stage 1: conservative counted commitments $112.349078 of $150; diagnostic reservations $2.237900 of $25.
 - First native attempt: provider actual $0.02512208; original reservation $1.118950 remains counted. Second: confirmed actual $0.02347152; full $1.118950 reservation retained. No release or invented settlement. The reviewed settlement path must be extended in the next required compute-admission change before credits can be used.
-- Identified compute total $24.33872805 includes the newly confirmed second attempt and is separate from model costs. Every older usage row is unchanged; the newly billed rows belong only to this second attempt. The latest administrative review estimated $5.702344, separately retained and counted.
+- Identified compute total $24.33872805 includes the newly confirmed second attempt and is separate from model costs. Every older usage row is unchanged; the newly billed rows belong only to this second attempt. The latest administrative review estimated $5.782551, separately retained and counted.
 - Full-plan projection gate $1,200 and total cap $1,275 are unchanged. No new GPU diagnostic reservation has been made.
 - Seven author calls: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction and the current whole-fixture audit.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
 - Twenty implementation reviews: bounded author/reviewer handoffs, native connector, installation and accounting repairs; most recently the current native-validation and bounded billing bundle.
-- Six direction checks: scope and recovery decisions, most recently the second native fixture failure. Related engineering checks are bundled into the currently running implementation review; no optional component or separate direction call is planned.
+- Six direction checks: scope and recovery decisions, most recently the second native fixture failure. Related engineering checks were bundled into the approved implementation review; no optional component or separate direction call is planned.
 
 ## Judgment highlights
 
 Latest Claude check: the mandatory implementation review also gave PROCEED, one round agreement, with no findings. Audit the whole fixture, add a fast counterexample test, reuse existing routes, and defer optional infrastructure. Preserve the formal REVISE and both failed reservations.
 
-Root's engineering judgment: the author-only successor needs exact historical accounting bindings, not a general duplicate-review exception. It requires a new genuine review15 response and refuses later calls. Claude independently approved the concrete scope and exact equivalent historical checks. The installed runtime verification passed and the one approved author call completed. Root has made no scientific repair. The next draft reuses the native connector for exact accepted21 bytes, retaining both failures and the existing 39/77 call allowance. Claude must independently approve it before installation; GPU dispatch remains outside that scope.
+Root's engineering judgment: the author-only successor needs exact historical accounting bindings, not a general duplicate-review exception. It requires a new genuine review15 response and refuses later calls. Claude independently approved the concrete scope and exact equivalent historical checks. The installed runtime verification passed and the one approved author call completed. Root has made no scientific repair. The independently approved connector now binds exact accepted21 bytes, retains both failures and the existing39/77 call allowance, and admits reviewer16 only after genuine native PASS. GPU dispatch remains outside that scope.
 
 The status file has been consolidated in place to remove contradictory historical checkpoints. Earlier versions remain in Git history; private originals and judgment logs are retained.
 
@@ -51,7 +53,7 @@ The status file has been consolidated in place to remove contradictory historica
 
 Installed code is on `remote-server`, including the reviewed whole-fixture handoff. Safe projection f03283ac from `astra/public-whole-fixture-author-20261010` is merged as the installed release and contains byte-exact scan-passing source and tests. Private frozen documents are excluded, so this public projection is not independently deployable. Raw working history is withheld because it contains forbidden records. Main is unchanged.
 
-Uninstalled audited-native draft ae85e8bb is backed up separately on `astra/public-audited-native-verification-20261010`; it is not merged as installed. It reuses the existing validation connector and proposes a compute-only credit of $0.189305 for two positively closed attempts, retaining $2 overhead. No live credit, new compute reservation or scientific call has occurred. The mandatory combined administrative review is running.
+Installed audited-native sourceea529258 is backed up through safe projectionae85e8bb from `astra/public-audited-native-verification-20261010`, now merged into `remote-server`. Its four private contracts remain withheld. The approved reconciliation releases only $0.189305 of excess CPU/RAM reservation after normal admission, retaining $2 overhead; no live credit or new compute reservation was observed at the latest check.
 
 Before each push, every new reachable blob and commit message is scanned for privacy, secrets and infrastructure details. Evidence, ledgers, review packets, native streams, private files and patient-level data remain excluded. Flagged files retained privately include:
 
