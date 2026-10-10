@@ -6,7 +6,7 @@ import json
 import os
 import sys
 CHANGE='item4-report-snapshot-author-20261010'
-REVIEW_CHANGE='item4-report-snapshot-author-20261010'
+REVIEW_CHANGE='item4-report-snapshot-host-repair-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')

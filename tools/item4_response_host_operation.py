@@ -12,7 +12,7 @@ import sys
 import time
 
 CHANGE='item4-report-snapshot-author-20261010'
-REVIEW_CHANGE='item4-report-snapshot-author-20261010'
+REVIEW_CHANGE='item4-report-snapshot-host-repair-20261010'
 FILE='tools/item4_response_host_operation.py'
 DOCUMENT='docs/ITEM4_RESPONSE_HOST_PRIVATE.json'
 UNIT='research-item4-report-snapshot-author-20261010.service'
@@ -122,13 +122,13 @@ with sqlite3.connect((lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db, s
  value=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
  helper.ready(driver,value,frozen,approval)
  assert stage=='author'
- expected,count,ident='run_spec_author',35,helper.call(frozen,'author')
+ expected,count,ident='run_spec_author',36,helper.call(frozen,'author')
  assert value['phase']==expected and db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==count
  assert not db.execute('SELECT 1 FROM manual_calls WHERE id=?',(ident,)).fetchone()
  assert not global_db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
  assert not global_db.execute('SELECT 1 FROM autonomy_calls WHERE id=?',(ident,)).fetchone()
  from orchestrator import manual_recovery
- assert manual_recovery.role_limit(store,helper.RUN,expected)==21
+ assert manual_recovery.role_limit(store,helper.RUN,expected)==22
  print(json.dumps({'status':'GENUINE_INSTALLED_DIAGNOSTIC_AUTHORING_GRANT','stage':stage,'local_calls':count,'call_id':ident,'source':source,'review_sha256':report}))
 """
     return json.loads(command(['runuser','-u','partho','--','env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),
