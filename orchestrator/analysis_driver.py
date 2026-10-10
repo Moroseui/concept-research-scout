@@ -241,7 +241,9 @@ def initialize(root, state, engine_review, plan_path):
               'item_number': item.number, 'item_sha256': item.sha256,
               'workspace_root': str(state.parent/(state.name+'-scientific-workspaces'))}
     if scoped: config[key] = plan[key]
-    if plan.get('colab_preparation'): config['notebook_revision'] = plan['notebook_revision']
+    if plan.get('colab_preparation'):
+        config['notebook_revision'] = plan['notebook_revision']
+        config['review_contract'] = 'bound-review/v1'
     if item.number in (2,5):
         from orchestrator.analysis_revisions import POLICY
         config.update(review_contract='bound-review/v1',accepted_stocktake=plan['accepted_stocktake'],revision_policy=POLICY)
@@ -294,6 +296,8 @@ class AnalysisDriver(Driver):
             if self.config['notebook_revision'] != plan.get('notebook_revision'):
                 raise ValueError('NOTEBOOK_REVISION_PLAN_CHANGED')
             if self.config.get('colab_preparation'):
+                if self.config.get('review_contract') != 'bound-review/v1':
+                    raise ValueError('COLAB_BOUND_REVIEW_CONTRACT_REQUIRED')
                 scoped.validate_notebook_config(self.context,self.config['notebook_revision'])
             else:
                 validate_config(self.context,self.config['notebook_revision'])
