@@ -1,4 +1,3 @@
-Current work: item 6 complete; 13B diagnostic held pending whole-fixture author repair.
-See outputs/STATUS.md for current evidence, spending, call counts and exclusions.
-Draft 28a6e1a5 is uninstalled and requires independent implementation approval.
-Both CPU failures and reservations remain preserved; no automatic retry or GPU start.
+Item 6 complete; 13B CPU-starvation diagnostic remains held.
+Source28a6e1a5 received genuine implementation APPROVE931c7a1a; installation and held runtime verification passed.
+Author21 activation is underway; no author or compute call yet. Read outputs/STATUS.md for current spending, evidence and exclusions.
