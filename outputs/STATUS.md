@@ -1,25 +1,27 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Author 19's plaintext diagnostic package is accepted; its controller tests passed.
-One combined Claude implementation and direction review is running for the CPU test and reviewer 15 connection.
-GPU execution is held for actual native CPU evidence and scientific acceptance; no diagnostic compute has started.
-Identified compute spend is $24.29; verified stage exposure is $110.11 of $150. Diagnostic spending is $0 actual and $0 reserved of $25; model charges are separate.
-The next expected result is the native CPU test, targeted for about 11:15 UTC subject to review and installation.
-B runs first; A requires enough confirmed remaining allowance. No automatic compute retry is permitted.
-Today's calls: 27/50 (5 authors, 4 scientific reviews, 15 administrative reviews, 3 direction checks). Latest completed Claude direction: PROCEED; the new check is included in the running review.
+Author 19's diagnostic package is accepted; its controller tests passed.
+Claude approved the CPU/reviewer connector; a small installer repair is now under review.
+GPU execution awaits native validation and scientific acceptance. No diagnostic compute has started.
+Identified compute spend is $24.29; stage commitments are $110.11 of $150. Diagnostic spending is $0 actual and $0 reserved of $25; model charges are separate.
+The next expected result is native CPU validation, targeted for about 11:15 UTC subject to review and installation.
+Run B goes first; A requires enough confirmed remaining allowance. No automatic compute retry is permitted.
+Today's calls: 28/50 (5 authors, 4 scientific reviews, 16 administrative reviews, 3 direction checks). Latest completed Claude direction: PROCEED; the running repair review also includes direction.
 
-## Native CPU and reviewer connection under review
+## Native diagnostic installation
 
-Candidate 81916032d461fa94308812a6e26ad3a5c31cd8f2 has 207 passing focused tests. The exact server rehearsals pass: accepted author/controller/image records are read-only; spending and reviewer admission are tested only on disposable ledger copies. Missing actual native evidence refuses review. Positive reviewer test evidence is explicitly synthetic and makes no scientific claim. Reviewer 15 retains the existing 36/74 limits and preserves every prior call and charge. The worker, pinned image, patient exclusion, network restriction, absent credentials, file hashes and transport bounds remain unchanged.
+The connector received genuine independent APPROVE on source 81916032, report 79d3badc, after 207 focused tests and read-only/disposable admission rehearsals. Direction: PROCEED, one round, no cuts. This approves infrastructure only; the native test and scientific review 15 remain necessary. The original review and estimated $6.95379 model charge are preserved separately from compute.
 
-At 09:55 UTC the combined implementation, accounting/confinement and direction review is RUNNING. No installation, native reservation or GPU call has occurred. The native quote is $1.118950, including its existing overhead, within both the $25 diagnostic allowance and $150 stage cap. The current $110.111178 stage exposure was verified with fresh read-only provider billing. Full training still requires scientific acceptance and the unchanged $1,200 projection gate; the total cap remains $1,275.
+Two installation attempts stopped before release writes: first an omitted existing runtime setting, then an incorrect assumption about ownership of the existing state directory. Both are terminal and preserved; neither launched or reserved compute. Candidate 81cd8225 checks the exact existing private directory topology without changing any permissions. It adds an installation preflight and refusal tests; 225 focused tests pass, and the actual read-only directory check passes. The small amendment is in one independent implementation/confinement review, with the direction check folded in. No original safeguard or charge is discarded.
 
-Judgment: use one release for the CPU operation and complete reviewer delivery; preserve the existing reviewed accounting connections instead of copying unconnected helpers. Tests exposed and corrected historical-record lookup and hash-encoding mismatches without relaxing checks. Claude is consulted in this one mandatory review because accounting and confinement are involved; direction advice is included, with no standalone call. All original failed tests and rehearsals remain private and preserved.
+The native CPU reservation quote remains $1.118950, counted inside diagnostic $25 and stage $150. Fresh qualified stage exposure is $110.111178. Original reservations remain in history; only confirmed closed costs affect current exposure. The total cap is $1,275 and the full-training projection gate is $1,200. GPU execution is not authorized by an administrative review.
 
-The safe working branch `astra/public-diagnostic-native-execution-20261010` backs up the draft code and tests. It is not installed and its code is not yet merged into `remote-server`. Withheld after scans: `docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json`, `docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json`, `docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json` and `docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt`. Evidence, ledgers, review packets and native streams remain private. The public projection cannot be deployed by itself.
+Judgment: correct the installer assumption to the exact existing root-owned inventory inside its service-private container; retain symlink, path, ownership and permission refusals. Claude is consulted because this replaces a blocking safeguard check. Use the existing worker and reviewer route; no new subsystem or timer. Preserve the original approved connector and both failed installations.
 
-Daily purposes: authors 15-19 covered the smoke response, timing proposal, interface correction, failed native harness and accepted plaintext correction. Scientific reviews 11-14 covered smoke, response, diagnostic and scoped native evidence. The 15 administrative calls cover implementation/accounting repairs; the latest batches native execution, reviewer delivery and direction. The three standalone checks addressed research direction. Administrative calls remain the majority, so required repairs and direction checks continue to be bundled.
+Safe working branch: `astra/public-diagnostic-native-execution-20261010`. Code is backed up but not installed or merged into `remote-server` yet. Withheld: `docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json`, `docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json`, `docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json`, `docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt`. Evidence, ledgers, review packets and native streams remain private; the public source projection is not independently deployable.
+
+Daily purposes: authors 15-19 covered smoke response, timing proposal, interface correction, failed native harness and accepted plaintext correction. Reviews 11-14 covered smoke, response, diagnostic and scoped native evidence. The 16 administrative reviews cover implementation/accounting repairs; the latest is the installer correction with direction. Three standalone calls addressed direction. Administrative work remains the majority, so direction checks are folded into required repair reviews.
 
 ## Accepted plaintext author and next native connection
 
