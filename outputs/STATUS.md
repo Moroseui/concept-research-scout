@@ -1,12 +1,12 @@
 # Research status
 
-Item6 is complete: all352 comparable values match the independent Colab run.
+Item 6 is complete: all 352 comparable values match the independent Colab run.
 The base smokes and benchmarks are real technical results, but timing still does not establish an affordable complete training plan.
-Author15 passed validation; scientific review12 returned REVISE, keeping the budget, remaining-arm and coverage requirements open.
-Nothing is running. One operator money/scope decision is pending: up to$25 for the proposed timing diagnostic within the existing$150 cap.
-Identified provider compute is$24.29; effective stage exposure is$110.11/$150 including retained obligations. Model estimates and unsettled asset costs are separate.
+Author 15 passed validation; scientific review 12 returned REVISE, keeping the budget, remaining-arm and coverage requirements open.
+Nothing is running. One operator money/scope decision is pending: up to $25 for the proposed timing diagnostic within the existing $150 cap.
+Identified provider compute is $24.29; effective stage exposure is $110.11/$150 including retained obligations. Model estimates and unsettled asset costs are separate.
 Next result depends on that decision, then author-owned code and independent review; there is no reliable launch time yet. No diagnostic or full training is authorized.
-UTC October10 calls:11/50 (1author,2scientific reviews,5administrative reviews,3direction checks). Latest Claude advice agrees with the bounded money request; no new cap or process grant.
+UTC October 10 calls: 11/50 (1 author, 2 scientific reviews, 5 administrative reviews, 3 direction checks). Latest Claude advice agrees with the bounded money request.
 
 ## Results and readiness
 
