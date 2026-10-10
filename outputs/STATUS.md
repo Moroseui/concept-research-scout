@@ -1,34 +1,36 @@
 # Research status
 
-Item 6 is complete: all 352 comparable values match the independent Colab run.
+Item 6 is complete: all352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. The last synthetic native check completed 15 epochs, then failed report consistency.
+Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run has started.
 
-The author corrected the fixture, but its added regression was delivered in the submitted report and the controller refused that placement.
+The author-delivery repair is approved and installed. It catches the missing regression test during the author call and keeps the original acceptance check.
 
-The exact authored regression passes in isolation, but Claude declined recovery of its placement. The candidate remains uninstalled; the next route is an author submission that passes the original check.
+Nothing is running. The daily50-call cap holds authoring until00:00UTC,8p.m.New York time on October10.
 
-Identified compute spending is $24.39800404. Stage-1 commitments are $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
+Identified compute spent:$24.39800404. Stage commitments:$114.397673/$150; diagnostic:$4.286495/$25. Model charges are separate; the latest review reported$11.11010825.
 
-Next target: a bounded author delivery repair for review. A new author result will likely wait until the UTC call reset; GPU timing has no reliable ETA yet.
+Today:50/50 calls -9 scientific author,5 scientific reviewer,28 administrative review and8 direction check-ins.
 
-Today: 49/50 calls - 9 author admissions, 5 scientific reviews, 27 administrative reviews and 8 standalone direction checks. The last administrative review included the direction follow-up; one call remains today.
+Next notebook correction: about30 minutes after reset. Conditional planning estimate for GPU numbers:10-11p.m.New York time, if authoring, native validation and scientific review pass.
 
-Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
+Latest Claude direction: PROCEED, no additional scope. The alternative recovery was dropped; the author must submit a conforming module.
 
 ## Current evidence
 
-Author23 is COMPLETE in both ledgers, with its submission and original charges retained. The controller refused its test placement; no live accepted-author event exists. The submitted module preserves all old tests and production code. The added test and runner are exact code blocks in the submitted report, not new scientific code written by the operator assistant.
+Independent implementation review b22327dc returned genuine APPROVE without findings for source782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. A separate read-only check confirmed that the live scientific state is unchanged, author24 has not been activated or admitted, all research services are inactive, and no model call is running. No timer was added.
 
-The original16 tests, augmented17 tests and expected old-code E173 negative control passed under the existing service-account synthetic sandbox.42 focused and existing guard tests passed. The actual recovery entrypoint also passed on copied context and SQLite history, using the normal validators and accepted-event writer. Its test substituted installation authority and redirected canonical paths to disposable copies; the live state, calls and events were verified unchanged. This is contract evidence, not a native/GPU result or scientific acceptance.
+The patch permits at most96,000 bytes for this exact author24 notebook patch at the submission tool, controller output collection and notebook application. All other files/calls retain80,000 bytes; the SPEC retains12,000 characters. The unchanged strict fixture/additive-test guard now also runs inside the same author call, so a placement error can be corrected before submitting. The author receives the exact refused author23 outputs as unaccepted reference. All attempts remain counted. The engineering work changes no scientific source, original test, plan, image, patient selection or dollar cap.
 
-Latest Claude implementation/direction result: genuine REVISE caab7b6b. It accepted the concrete isolated-test evidence and narrowed the objection to recovery replacing author-delivered test placement. The root agent adopts its simpler route: obtain a conforming author submission and keep the original placement check. The recovery candidate is uninstalled and will not be applied. No separate third direction call is planned; the next concrete author-delivery repair will carry any remaining authority discussion. The later operator rule still limits user questions to money.
+161 tests and9 subtests passed. The strict guard's AST was mechanically verified unchanged. The actual server driver prepared its context and read-only feedback files, admitted author24 into disposable copies of both ledgers and reached the actual sender's stubbed backend. Limits41/79 and original rows were preserved; no model/provider process ran, and live records stayed unchanged. Two earlier rehearsal setup failures were preserved; the successful rehearsal matched production import order and adapted only the copied read-context identity. This is engineering evidence, not GPU evidence or scientific approval.
 
-Judgment: follow Claude on obtaining an author-delivered conforming module. Investigate a bounded patch-size correction because the author filled79997 of80000 permitted bytes before adding the regression. Keep the original test-placement check and all native/scientific gates. No further author or administrative call has started. All refusals, test failures, charges and the uninstalled proposal remain preserved.
+Latest direction log:2026-10-10 18:37UTC, one implementation round, APPROVE/PROCEED. Root adopted Claude's conforming-author alternative and kept the original placement check; no further scope was added. The prior SPEC-regression recovery was never installed or applied. Native validation and a genuine scientific review remain required after the new author submission. Full training and coverage-dependent arms remain held.
 
-Backup: the uninstalled draft is on astra/public-spec-regression-recovery-20261010. Excluded from public backup: docs/ITEM4_SPEC_REGRESSION_RECOVERY_PRIVATE.json; it contains frozen state and accounting evidence. All evidence folders, raw ledgers, review packets and native streams remain private. Installed releases remain on remote-server; main is unchanged.
+The diagnostic compares the same B200 arm/fold with16 CPU cores and12 training/6 validation workers versus32 CPU cores and24 training/12 validation workers, about15 epochs each. It must report utilization, steady-state time and cost per epoch, and checkpoint overhead. Run B goes first if both estimates exceed the remaining approved diagnostic budget. There is no automatic GPU retry. A100 equivalence remains unmeasured.
 
-Call purposes: author calls prepared13B scientific responses and fixture corrections; scientific reviews judged the smoke and diagnostic work; administrative reviews covered execution, provenance, accounting and mechanical repairs; direction checks assessed the shortest safe path. Administrative overhead remains dominant, so this implementation review batches the equivalence decision and direction follow-up.
+Call purposes: scientific authors prepared13B responses and fixture corrections; scientific reviewers assessed smoke and diagnostic work; administrative reviews covered execution, provenance, accounting and mechanical repairs; direction check-ins assessed the shortest safe path. Administrative work dominates the count. The last review combined implementation and direction; no separate direction call was added.
+
+Backup: the reviewed safe code projection is merged into remote-server and retained on astra/public-author24-delivery-20261010. Excluded from this projection: docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json and docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json (private frozen state/accounting), plus tools/install_item4_smoke_response.py (flagged infrastructure references). Raw evidence folders, ledgers, review packets, native streams and per-patient material remain private. The aggregate implementation review summary is in outputs/reports/item4-author24-delivery-implementation-review-20261010.md. DATA_NOTICE.md is present; main is unchanged.
 
 ## Earlier history
 
@@ -36,7 +38,7 @@ The installed continuation478a4724 failed before input preparation/admission: th
 
 Candidate1d074a4b overrides this selector at the actual driver entry and requires the frozen next slot to equal the count of author admissions +1. It independently verifies and reuses the same genuine activated grant, with no new activation or cost entrypoint. Accepted round21, history, limits and all downstream checks remain unchanged. The installer additionally requires the exact old terminal service invocation.
 
-100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. Independent reviewe7aaa1e4 returned genuine APPROVE without findings. Exact source1d074a4b is installed; held verification passed with zero model/provider calls. The corrected service started once and author23 was admitted. Pre-model checks are continuing; an admitted RUNNING row is not evidence of successful output or submission.
+100 focused tests passed, including exact old-source reproduction and the actual driver entry through input preparation/admission to a stubbed backend. Content/accounting/backend are explicit local-test boundaries; this is not a scientific run. A read-only server check verified the real unchanged grant/history and old22 versus candidate23 selection, with zero writes or model/provider calls. Independent reviewe7aaa1e4 returned genuine APPROVE without findings. Exact source1d074a4b is installed; held verification passed with zero model/provider calls. The corrected service started once and author23 was admitted. That author call later completed and was refused because its added regression was outside the module; the original refusal and charge remain preserved.
 
 
 
@@ -55,7 +57,7 @@ Earlier A100278.1671s, H100228.1379s and B200166.2836s measurements were first e
 - Stage1 commitment: $114.397673/$150; diagnostic: $4.286495/$25. No new compute for the sender repair.
 - Identified provider compute actuals: $24.39800404. Four closed synthetic attempts cost$0.02512208,$0.02347152,$0.02466453,$0.03461146. Each original$1.118950 reservation stays preserved.
 - First two excess CPU/RAM credits total$0.189305, retaining$2 overhead. The later$0.178623 excess is verified and its accounting extension approved, but remains reserved until the next native release. The other$2 overhead stays held. No unknown outcome was released.
-- Latest administrative review model estimate:$5.09852225, separately preserved. Caps remain$150 stage1,$25 diagnostic,$1,200 projection gate,$1,275 total.
+- Latest administrative review model-reported charge:$11.11010825, separately preserved. Caps remain$150 stage1,$25 diagnostic,$1,200 projection gate,$1,275 total.
 - Nine scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit, failed report-lifecycle handoff and its counted continuation.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
 - Twenty-six administrative reviews: bounded handoffs, native integration, installation and accounting repairs. Latest is the narrow driver-selection repair with the recurrence/direction question bundled.

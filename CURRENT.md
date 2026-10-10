@@ -1,18 +1,18 @@
 # Research status
 
-Item 6 is complete: all 352 comparable values match the independent Colab run.
+Item 6 is complete: all352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. The last synthetic native check completed 15 epochs, then failed report consistency.
+Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run has started.
 
-The author corrected the fixture, but its added regression was delivered in the submitted report and the controller refused that placement.
+The author-delivery repair is approved and installed. It catches the missing regression test during the author call and keeps the original acceptance check.
 
-The exact authored regression passes in isolation, but Claude declined recovery of its placement. The candidate remains uninstalled; the next route is an author submission that passes the original check.
+Nothing is running. The daily50-call cap holds authoring until00:00UTC,8p.m.New York time on October10.
 
-Identified compute spending is $24.39800404. Stage-1 commitments are $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
+Identified compute spent:$24.39800404. Stage commitments:$114.397673/$150; diagnostic:$4.286495/$25. Model charges are separate; the latest review reported$11.11010825.
 
-Next target: a bounded author delivery repair for review. A new author result will likely wait until the UTC call reset; GPU timing has no reliable ETA yet.
+Today:50/50 calls -9 scientific author,5 scientific reviewer,28 administrative review and8 direction check-ins.
 
-Today: 49/50 calls - 9 author admissions, 5 scientific reviews, 27 administrative reviews and 8 standalone direction checks. The last administrative review included the direction follow-up; one call remains today.
+Next notebook correction: about30 minutes after reset. Conditional planning estimate for GPU numbers:10-11p.m.New York time, if authoring, native validation and scientific review pass.
 
-Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
+Latest Claude direction: PROCEED, no additional scope. The alternative recovery was dropped; the author must submit a conforming module.
 
