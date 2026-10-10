@@ -108,7 +108,7 @@ def candidate(tmp_path,monkeypatch):
     (review/'packet-manifest.json').write_text(json.dumps(manifest))
     approval={'verdict':'APPROVE','change_id':install.CHANGE,'source_sha':'d'*40,'report_sha256':'e'*64}
     monkeypatch.setattr('orchestrator.autonomy_review.verify_result',lambda p:approval)
-    answers={'rev-parse':'d'*40,'branch':'astra/test','status':'','ls-files':'tools/install_preparation_runtime.py\0','systemctl':'MainPID=0\nActiveState=inactive\n'}
+    answers={'rev-parse':'d'*40,'branch':'astra/manual-test','status':'','ls-files':'tools/install_preparation_runtime.py\0','systemctl':'MainPID=0\nActiveState=inactive\n'}
     def read(argv,**kw):
         if argv[0]=='runuser':return 'Synthetic Test' if argv[-1]=='user.name' else 'synthetic@example.invalid'
         return answers['systemctl' if argv[0]=='systemctl' else argv[1]]
@@ -116,13 +116,14 @@ def candidate(tmp_path,monkeypatch):
     return source,review,scope_path,inputs,root,record,approval,answers
 
 
-@pytest.mark.parametrize('fault,error',[('destination','DESTINATION_EXISTS'),('dirty','CLEAN_SOURCE'),
+@pytest.mark.parametrize('fault,error',[('destination','DESTINATION_EXISTS'),('dirty','CLEAN_SOURCE'),('branch','CLEAN_SOURCE'),
  ('source','REVIEWED_SOURCE'),('plan','PLAN_BINDING'),('context','CONTEXT_MEMBERSHIP_HASHES'),
  ('scope','REVIEWED_SCOPE'),('review','GENUINE_APPROVAL'),('active','PRIOR_NOT_HELD')])
 def test_invalid_install_refuses_before_any_installation(candidate,fault,error):
     source,review,scope,inputs,root,record,approval,answers=candidate
     if fault=='destination':root.mkdir()
     elif fault=='dirty':answers['status']=' M tools/install_preparation_runtime.py'
+    elif fault=='branch':answers['branch']='astra/workstream-b-aggregate-20261010'
     elif fault=='source':(source/'tools/install_preparation_runtime.py').write_bytes(b'changed')
     elif fault=='plan':(inputs/'aggregate_analysis/analysis-plan.json').write_text('{}')
     elif fault=='context':(inputs/'aggregate_analysis/protected-context/aggregate.md').write_bytes(b'changed')

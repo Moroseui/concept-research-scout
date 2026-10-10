@@ -13,6 +13,11 @@ from orchestrator.experiment_context import ITEM4_RUN
 STAGES = ('run_spec_author','run_spec_review','result_interpretation_author','result_interpretation_review')
 SCHEMA = 'preparation-interleaving/v1'
 _ACTIVE = None
+_PREMODEL = None
+PREMODEL_CALL = 'e41d3d88958bef07e8cf854cb65125ba496b5537f42d26206ae1cee2df9e0e67'
+PREMODEL_RUN = 'aggregate-d695a5269c3647c4cb81b91a'
+PREMODEL_SOURCE = '304cae4aa12d53eb99254499950eec4e71df8075'
+
 
 
 def sha(raw): return hashlib.sha256(raw).hexdigest()
@@ -53,6 +58,115 @@ def lane_for(scope, run):
     return next(((key,value) for key,value in scope['lanes'].items() if value['run_id']==run),None)
 
 
+def configure_premodel(proof):
+    """The separately reviewed continuation supplies its genuine exact proof.
+
+    Disabled in ordinary imports. This is not a status conversion: FAILED and
+    BLOCKED_BEFORE_MODEL remain the original terminal/accounting observations.
+    """
+    global _PREMODEL
+    require(_PREMODEL is None and callable(getattr(proof,'verify_global',None))
+        and callable(getattr(proof,'verify_local',None)),'PREMODEL_PROOF_CONFIGURATION')
+    _PREMODEL = proof
+
+
+def premodel_global(scope,row):
+    require(_PREMODEL is not None and scope['source_sha']==PREMODEL_SOURCE
+        and row.get('id')==PREMODEL_CALL and row.get('change_id')==PREMODEL_RUN
+        and row.get('kind')=='scientific' and row.get('status')=='FAILED'
+        and row.get('round')==1,'PREMODEL_EXACT_ROW_REQUIRED')
+    binding=json.loads(row['binding'])
+    require(binding.get('source')==PREMODEL_SOURCE and binding.get('run_id')==PREMODEL_RUN
+        and binding.get('stage')=='run_spec_author','PREMODEL_ORIGINAL_BINDING')
+    proof=_PREMODEL.verify_global(scope,row)
+    require(isinstance(proof,dict) and proof.get('id')==PREMODEL_CALL
+        and proof.get('model_client_launched') is False and proof.get('proof_sha256'),
+        'PREMODEL_TERMINAL_PROOF')
+    return proof
+
+
+def premodel_local(scope,row,item):
+    premodel_global(scope,row)
+    require(item is not None and item['id']==PREMODEL_CALL
+        and item['status']=='BLOCKED_BEFORE_MODEL' and item['stage']=='run_spec_author'
+        and item['attempt']==1,'PREMODEL_LOCAL_ORIGINAL')
+    proof=_PREMODEL.verify_local(scope,row,dict(item))
+    require(isinstance(proof,dict) and proof.get('id')==PREMODEL_CALL
+        and proof.get('model_client_launched') is False and proof.get('proof_sha256'),
+        'PREMODEL_LOCAL_TERMINAL_PROOF')
+
+
+def install_driver_hook(module,proof):
+    """Use author2 for the exact counted pre-model failure; no accepted-round edit."""
+    require(_PREMODEL is proof and not getattr(module.AnalysisDriver,'_premodel_hook',False),
+        'PREMODEL_DRIVER_CONFIGURATION')
+    original=module.AnalysisDriver
+    class PremodelRecoveryAnalysisDriver(original):
+        _premodel_hook=True
+        def _advance(self,collect_folder=None,identity_refusal=None):
+            value=self.current()
+            if (self.config.get('run_id')!=PREMODEL_RUN or value.get('phase')!='REPORT'
+                    or collect_folder is not None or identity_refusal is not None):
+                return super()._advance(collect_folder,identity_refusal)
+            self.guard()
+            row=self.store.batch.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(PREMODEL_CALL,)).fetchone()
+            require(row is not None and _ACTIVE is not None,'PREMODEL_REPORT_SCOPE')
+            calls=self.store.db.execute('SELECT * FROM manual_calls ORDER BY rowid').fetchall()
+            first=next((r for r in calls if r['id']==PREMODEL_CALL),None)
+            premodel_local(_ACTIVE.scope,dict(row),first)
+            # A pre-model refusal has no native outcome field. Display its true
+            # saved status; never add a made-up outcome to the retained receipt.
+            receipts=[]
+            for call in calls:
+                receipt=json.loads(call['receipt'])
+                if call['id']==PREMODEL_CALL:
+                    outcome='BLOCKED_BEFORE_MODEL (retained reservation; no model launched)'
+                else:
+                    require(call['status']=='COMPLETE' and receipt.get('outcome')=='COMPLETE','PREMODEL_REPORT_UNRESOLVED')
+                    outcome=receipt['outcome']
+                receipts.append((receipt['stage'],receipt['input_characters'],outcome))
+            from datetime import datetime,timezone
+            from orchestrator import private_records
+            elapsed=(datetime.now(timezone.utc)-datetime.fromisoformat(self.config['started_utc'])).total_seconds()
+            body='# Stock-take ready for operator review\n\n'+Path(value['interpretation']).read_text()
+            body+='\n\n## Run record\nAnalysis only; no notebook, CPU or GPU execution. Operator review is required before any next backlog item.\n'
+            body+=f'Calls: {len(calls)}/{self.status()["call_limit"]}; elapsed seconds: {elapsed:.1f}; rounds: '+json.dumps(value['rounds'])+'.\n'
+            body+='\n| Stage | Input characters | Outcome |\n| --- | ---: | --- |\n'
+            for stage,characters,outcome in receipts:body+=f'| {stage} | {characters} | {outcome} |\n'
+            private_records.write_text(self.state/'REPORT.md',body)
+            value.update(phase='COMPLETE',operator_review_pending=True);self.save(value)
+            self.store.batch.complete_run(PREMODEL_RUN,{'report_sha256':sha((self.state/'REPORT.md').read_bytes()),'operator_review_pending':True})
+            return self.status()
+        def model_round_number(self,value):
+            if self.config.get('run_id')!=PREMODEL_RUN or value.get('phase')!='run_spec_author':
+                return super().model_round_number(value)
+            rows=self.store.db.execute('SELECT * FROM manual_calls WHERE stage=? ORDER BY rowid',
+                ('run_spec_author',)).fetchall()
+            if len(rows)!=1:return super().model_round_number(value)
+            require(self.config.get('source')==PREMODEL_SOURCE and not value.get('pending')
+                and not value.get('rounds',{}).get('run_spec_author') and _ACTIVE is not None,
+                'PREMODEL_AUTHOR2_STATE')
+            row=self.store.batch.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(PREMODEL_CALL,)).fetchone()
+            require(row is not None,'PREMODEL_AUTHOR2_GLOBAL_ROW')
+            premodel_local(_ACTIVE.scope,dict(row),rows[0])
+            return 2
+    # Reuse the existing completion exception seam, with one verified terminal
+    # reservation. The generic unresolved-row refusal and FAILED row stay intact.
+    from orchestrator import stocktake_review_recovery
+    prior_completion=stocktake_review_recovery.completion
+    def completion(batch,run):
+        allowed=prior_completion(batch,run)
+        if run!=PREMODEL_RUN:return allowed
+        require(_ACTIVE is not None,'PREMODEL_COMPLETION_SCOPE')
+        row=batch.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(PREMODEL_CALL,)).fetchone()
+        require(row is not None,'PREMODEL_COMPLETION_ROW')
+        premodel_global(_ACTIVE.scope,dict(row))
+        return [*(allowed or []),PREMODEL_CALL]
+    stocktake_review_recovery.completion=completion
+    module.AnalysisDriver=PremodelRecoveryAnalysisDriver
+    return original
+
+
 def classify(scope, rows):
     """Pure, strict history classification. Never used as the accounting count."""
     validate_scope(scope)
@@ -71,7 +185,8 @@ def classify(scope, rows):
             retained.append(row);continue
         key,lane=pair;binding=json.loads(row['binding'])
         permitted={identity(lane['run_id'],stage,n):(stage,n) for stage in STAGES for n in (1,2)}
-        require(row['id'] in permitted and row['kind']=='scientific' and row['status']=='COMPLETE','PREPARATION_ROW_UNQUALIFIED')
+        require(row['id'] in permitted and row['kind']=='scientific','PREPARATION_ROW_UNQUALIFIED')
+        if row['status']!='COMPLETE':premodel_global(scope,row)
         stage,attempt=permitted[row['id']]
         require(attempt==attempts.get((key,stage),0)+1,'PREPARATION_STAGE_ORDER')
         attempts[key,stage]=attempt
@@ -153,10 +268,13 @@ class Overlay:
                 local.row_factory=sqlite3.Row
                 for global_row in [r for r in rows if r['change_id']==run]:
                     item=local.execute('SELECT * FROM manual_calls WHERE id=?',(global_row['id'],)).fetchone()
-                    require(item is not None and item['status']=='COMPLETE'
-                        and json.loads(item['receipt'])==json.loads(global_row['receipt'])
-                        and identity(run,item['stage'],item['attempt'])==global_row['id']
-                        and all(json.loads(item['receipt']).get(k)==v for k,v in json.loads(global_row['binding']).get('input',{}).items()),'LOCAL_GLOBAL_HISTORY')
+                    if global_row['status']=='FAILED' and global_row['id']==PREMODEL_CALL:
+                        premodel_local(self.scope,global_row,item)
+                    else:
+                        require(item is not None and item['status']=='COMPLETE'
+                            and json.loads(item['receipt'])==json.loads(global_row['receipt'])
+                            and identity(run,item['stage'],item['attempt'])==global_row['id']
+                            and all(json.loads(item['receipt']).get(k)==v for k,v in json.loads(global_row['binding']).get('input',{}).items()),'LOCAL_GLOBAL_HISTORY')
         config=json.loads(self.path(self.scope['item4_scope']['configuration']['path']).read_bytes())
         with sqlite3.connect((self.path(self.scope['item4_scope']['configuration']['path']).parent/'jobs.sqlite').resolve().as_uri()+'?mode=ro',uri=True) as local:
             local.row_factory=sqlite3.Row

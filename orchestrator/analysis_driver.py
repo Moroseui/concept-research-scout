@@ -9,6 +9,7 @@ import argparse
 from datetime import datetime, timezone
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 
@@ -156,8 +157,8 @@ def initialize(root, state, engine_review, plan_path):
     if git(root, 'status', '--porcelain'):
         raise ValueError('CLEAN_REVIEWED_SOURCE_REQUIRED')
     source = git(root, 'rev-parse', 'HEAD'); branch = git(root, 'branch', '--show-current')
-    if not branch.startswith('astra/'):
-        raise ValueError('REVIEWED_WORK_BRANCH_REQUIRED')
+    if re.fullmatch(r'astra/manual-[a-z0-9-]+', branch) is None:
+        raise ValueError('MANUAL_ACCOUNTING_BRANCH_REQUIRED')
     from orchestrator.autonomy_review import verify_result
     approved = verify_result(engine_review.parent)
     # Review packets bind the literal configuration file. The separately
