@@ -1,0 +1,80 @@
+{
+  "schema": "provisional-aggregate-timing-comparison/v1",
+  "timing_sha256": "be6662bab86303eab4f17fbdae6f0224b317e828607b55d84187fb3424c15143",
+  "fit_id": "smoke-A1_repeat2",
+  "gpu": "B200",
+  "epoch_records": [
+    {
+      "elapsed": 262.43112928600004,
+      "epoch": 0,
+      "loader_wait": 0.3343620569995096,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 103.62266581900008,
+      "epoch": 1,
+      "loader_wait": 1.5044686980005508,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 93.73232179000001,
+      "epoch": 2,
+      "loader_wait": 0.16454155200028708,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 86.49648697200007,
+      "epoch": 3,
+      "loader_wait": 0.24818258199911725,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    },
+    {
+      "elapsed": 77.78218869900002,
+      "epoch": 4,
+      "loader_wait": 0.4228991079996831,
+      "training_iterations": 250,
+      "validation_iterations": 50
+    }
+  ],
+  "warmup_epoch_indices": [
+    0
+  ],
+  "steady_state_candidate_epoch_indices": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "steady_state_candidate_mean_seconds": 90.40841582000004,
+  "sprint12_A1_reported_median_epoch_seconds": 36,
+  "comparison_ratio_to_sprint12": 2.5113448838888903,
+  "full_fits": 40,
+  "epochs_per_fit": 250,
+  "provisional_epoch_gpu_hours": 251.134488388889,
+  "fixed_hours_total": 40,
+  "provisional_total_gpu_hours": 291.134488388889,
+  "gpu_only_epoch_cost_usd": 1569.5905524305563,
+  "reserved_configuration_hourly_usd": 11.5924,
+  "fixed_dollars_total": 200,
+  "provisional_full_resource_plus_allowances_usd": 3574.9474431993567,
+  "full_training_projection_gate_usd": 1200,
+  "scientifically_accepted": false,
+  "installed_projection_changed": false,
+  "limitations": [
+    "Arithmetic diagnostic extrapolation of one base arm and fold, separately for the repeat; no full training admission.",
+    "Repeat returned epoch durations continue declining from 103.62 to 77.78 seconds after epoch zero, so a stable steady-state plateau is not established. The candidate mean excludes only the first epoch and must not be called established steady-state.",
+    "Warm-up filtering and cross-arm extrapolation remain for the scientific reviewer to judge.",
+    "The returned synchronized timing encloses superclass epoch-end work; the live rounded native log timer is narrower.",
+    "Sprint12 reports rounded epoch medians from full runs; identical timing boundaries and workloads have not been established.",
+    "All five validation fits are collected and verified; scientific smoke acceptance remains pending."
+  ],
+  "stable_plateau_established": false,
+  "last_three_epoch_mean_seconds": 86.00366582033337,
+  "base_smoke_timing_sha256": "0538943789bd252c0abfe51dfa280359badb81fc9e7ab35e927dab3a0e2161fb",
+  "base_smoke_last_three_mean_seconds": 71.43208736166666,
+  "base_smoke_provisional_full_resource_plus_allowances_usd": 2963.8885820316236
+}
