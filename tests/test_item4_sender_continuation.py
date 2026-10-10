@@ -10,7 +10,7 @@ from test_item4_full_author_sender import full_sender
 from test_item4_snapshot_host_admission import state,predicate
 ROOT=Path(__file__).parents[1]
 
-def frozen():return json.loads((ROOT/helper.SNAPSHOT_DOCUMENT).read_bytes())
+def frozen():return json.loads((ROOT/'docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json').read_bytes())
 
 def test_exact_scope_preserves_original_and_authority():
     p=frozen();old=helper.scope(p,'a'*64);q=helper.profile(p)
@@ -69,9 +69,9 @@ def test_host23_refuses_other_profile_roles(state,monkeypatch,number):
 
 def test_runtime_profile_drives_workspace_pins_and_round(monkeypatch):
     monkeypatch.setattr(route,'ROOT',ROOT);monkeypatch.setattr(route,'trusted',Path)
-    assert route.author_round()==23 and route.author_work().name=='run_spec_author-23'
-    assert route.pins_path().name=='runtime-pins-23.json'
-    assert route.active_profile()['folder']==helper.profile(frozen())['folder']
+    assert route.author_round()==24 and route.author_work().name=='run_spec_author-24'
+    assert route.pins_path().name=='runtime-pins-24.json'
+    assert route.active_profile()['folder']=='author24-delivery'
     tree=ast.parse((ROOT/'tools/item4_smoke_response_runtime.py').read_bytes())
     fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='main')
     # All six independent scope callers use the same function rather than literals.
@@ -81,7 +81,7 @@ def test_runtime_profile_drives_workspace_pins_and_round(monkeypatch):
 
 def test_host_and_installer_target_the_same_release(monkeypatch):
     from tools import item4_response_host_operation as host,install_item4_smoke_response as installer
-    assert host.CHANGE==installer.CHANGE==route.CHANGE=='item4-driver-round-repair-20261010'
+    assert host.CHANGE==installer.CHANGE==route.CHANGE=='item4-author24-delivery-20261010'
     assert host.UNIT==installer.UNIT.name=='research-'+route.CHANGE+'.service'
     assert host.ENTRY==route.ROOT/route.FILES[0]
     captured=[]

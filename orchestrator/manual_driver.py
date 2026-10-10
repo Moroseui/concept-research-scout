@@ -301,6 +301,9 @@ class Driver:
     def model_workspace(self,value,stage,round_no):
         return Path(self.config.get('workspace_root',self.state.parent/(self.state.name+'-scientific-workspaces')))/(stage+'-'+str(round_no))
 
+    def model_output_limit(self,value,name):
+        return 80000
+
     def _model_step(self,value):
         from orchestrator.manual_recovery import role_limit
         stage=value['phase']
@@ -350,7 +353,7 @@ class Driver:
                 path=work/name
                 if path.is_symlink() or not path.is_file():raise ValueError('MISSING_REGULAR_MODEL_OUTPUT')
                 raw=path.read_bytes();scan('context/'+name,raw)
-                if len(raw)>80000:raise ValueError('MODEL_OUTPUT_TOO_LARGE')
+                if len(raw)>self.model_output_limit(value,name):raise ValueError('MODEL_OUTPUT_TOO_LARGE')
                 output[name]=digest(raw)
             receipt.update(native=native,output_sha256=output,completed_utc=stamp(),outcome='COMPLETE')
             self.store.finish_call(ident,receipt,'COMPLETE')

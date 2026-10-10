@@ -11,7 +11,7 @@ PATCH_FIELDS = {"schema", "original_sha256", "view_sha256", "edits"}
 EDIT_FIELDS = {"unit", "start", "end", "before_sha256", "replacement"}
 
 
-def schema():
+def schema(*, notebook_patch_bytes=80000):
     return {"execution.plan.json": {"required_exact_fields": sorted(PLAN_FIELDS),
                 "schema": requirements.PLAN_SCHEMA, "dispatch_mode": "incremental",
                 "fits[]": "fit_id, stage (SMOKE/FULL), arm, fold (nonnegative integer), realization, outputs, validation_checks, preprocessing_id when preprocessing is declared",
@@ -24,7 +24,7 @@ def schema():
                 "bounds": "1..80 nonoverlapping edits; integer byte spans within the supplied safe view"},
             "SPEC.proposed.md": "Exactly one each: run_id, operator_scope_sha256, execution_plan_sha256; match bindings and exact plan bytes",
             "execution_module": "Exactly one undecorated main(input_root, output_root, contract), synthetic_tests(), preprocess(input_root, output_root, contract), validate_preprocessing(output_root, contract); no defaults/varargs/keyword-only/positional-only arguments. The host tests require zero skips and failures.",
-            "limits": "Each file at most80000 bytes. Strict JSON, no duplicate keys/nonfinite values. No execution or scientific approval from format acceptance."}
+            "limits": f"SPEC and execution.plan.json at most80000 bytes each; notebook.patch.json at most{notebook_patch_bytes} bytes. Strict JSON, no duplicate keys/nonfinite values. No execution or scientific approval from format acceptance."}
 
 
 def plan(value, binding):
@@ -70,7 +70,7 @@ def patch(value, binding):
         spans.setdefault(row['unit'],[]).append((row['start'],row['end']))
 
 
-def visible_module(patch_value, view, manifest):
+def visible_module(patch_value, view, manifest, *, fixture_reference=None):
     """Reconstruct only complete visible writefile cells; never omitted bytes.
 
     This is supplementary same-call feedback. The host still applies the patch
@@ -140,4 +140,7 @@ def visible_module(patch_value, view, manifest):
     try:entrypoints(source,preprocessing=True)
     except (SyntaxError,ValueError) as error:
         raise ValueError('AUTHOR_MODULE_ENTRYPOINT: '+str(error)) from error
+    if fixture_reference is not None:
+        from orchestrator.fixture_contract import check
+        check(fixture_reference,source.encode())
     return sha(source.encode())

@@ -5,14 +5,14 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-driver-round-repair-20261010'
-REVIEW_CHANGE='item4-driver-round-repair-20261010'
+CHANGE='item4-author24-delivery-20261010'
+REVIEW_CHANGE='item4-author24-delivery-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')
 PRIOR_SHA='98208d5e8366c05fa2f400cc76bca5e4efc85400c5fcb272b13fec7a53095ac2'
 PRIOR_REVIEW='fb04e156b4b29bfbc99e86437d7266ce1df51186f72c0baef754d39a0dac1aef'
-FILES=('tools/item4_smoke_response_runtime.py','tools/install_item4_smoke_response.py',
+FILES=('tools/item4_smoke_response_runtime.py','orchestrator/manual_driver.py','docs/OVERNIGHT_AUTONOMY_OPERATOR_DECISION_20261008.txt','orchestrator/fixture_contract.py','orchestrator/notebook_revision.py','docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json','tools/install_item4_smoke_response.py',
     'orchestrator/item4_smoke_response.py','orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
     'docs/ITEM4_POST_SMOKE_RESPONSE_PRIVATE.json','docs/ITEM4_RESPONSE_TIMING_AUDIT.json',
     'docs/ITEM4_RESPONSE_NATIVE_TRAINER.py','docs/ITEM4_STAGE1_CAP_OPERATOR_DECISION_20261009.txt',
@@ -261,13 +261,14 @@ def continuation_grant():
         and approved['report_sha256']=='aff49bc6cc3ec2b402c7a89549cd643be8c2ed038260c4bff49f0522a829af5f','ORIGINAL_CONTINUATION_APPROVAL')
     manifest=json.loads(trusted(folder/'packet-manifest.json').read_bytes())
     name='docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json'
-    require(sha(trusted(ROOT/name).read_bytes())==manifest['source_files'][name],'ORIGINAL_CONTINUATION_SCOPE')
+    require(sha(trusted(ROOT/'docs/ITEM4_AUTHOR23_DELIVERY_PRIOR_PRIVATE.json').read_bytes())==manifest['source_files'][name],'ORIGINAL_CONTINUATION_SCOPE')
     return approved
 
 
 def connect():
-    authority()  # Genuine independent approval of this corrected implementation.
-    approved=continuation_grant();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction();audit_approval=historical_audit()
+    approved=authority()  # Author24 needs this candidate's genuine independent approval.
+    continuation_grant()  # Preserve and verify the already-consumed author23 grant.
+    old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness();plaintext_approval=historical_plaintext();fixture_direction();fixture_approval=historical_fixture();audit_direction();audit_approval=historical_audit()
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_SOURCE_CHANGED')
     route=module('_post_smoke_prior',PRIOR);original_factory=route.module;substituted=[]
     def factory(name,path):
@@ -311,8 +312,14 @@ def connect():
     dispatch_limiter.admit_manual=limiter.admit_manual
     p=json.loads(trusted(ROOT/helper.SNAPSHOT_DOCUMENT).read_bytes())
     import orchestrator
-    for name in ('privacy_patterns','scientific_view_scan','notebook_execution','author_output_schema','author_format_submission'):
+    for name in ('privacy_patterns','scientific_view_scan','notebook_execution','author_output_schema','author_format_submission','fixture_contract','notebook_revision'):
         loaded=module('orchestrator.'+name,ROOT/'orchestrator'/(name+'.py'));setattr(orchestrator,name,loaded)
+    # Keep the established driver class/import graph; carry only the reviewed
+    # output-size hook and its otherwise unchanged model-step implementation.
+    from orchestrator.manual_driver import Driver
+    output_driver=module('_author24_output_driver',ROOT/'orchestrator/manual_driver.py').Driver
+    Driver.model_output_limit=output_driver.model_output_limit
+    Driver._model_step=output_driver._model_step
     return connected,smoke,smoke_p,smoke_approval,helper,p,approved['report_sha256']
 
 
@@ -370,6 +377,10 @@ def supplemental(driver,p):
                 'report-lifecycle-counterexample.py':'docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py',
                 'report-lifecycle-counterexample-result.json':'docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json'}.items():
                 result[name]=trusted(ROOT/path).read_bytes()
+        if helper.delivery_recovery(p):
+            row=helper.failed_delivery(driver.store,p);receipt=json.loads(row['receipt']);work=Path(receipt['workspace'])
+            for name in p['delivery_recovery']['outputs']:
+                result['refused-author23-'+name]=pr.check(work/name).read_bytes()
         return result
     if helper.scoped_review(p):return result
     failed=helper.failed_author(driver.store,p);receipt=json.loads(failed['receipt']);work=Path(receipt['workspace'])
@@ -524,7 +535,8 @@ def prepare_author_feedback(driver,p,body,measurement,work):
         'source_sha':driver.config['source'],'runtime_sha256':sha(trusted(Path('/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json')).read_bytes()),'input_sha256':sha(body.encode())},
         {'review_call_id':binding['review_call_id'],'review_sha256':binding['review_sha256'],
             'operator_scope_sha256':plan['operator_scope_sha256'],'original_sha256':patch['original_sha256'],'view_sha256':patch['view_sha256']},
-        notebook={af.MODULE_VIEW:view,af.MODULE_MANIFEST:manifests[0]})
+        notebook={af.MODULE_VIEW:view,af.MODULE_MANIFEST:manifests[0]},
+        fixture_reference=trusted(ROOT/'docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py').read_bytes())
     with pr.open_file(pins_path(),'xb') as stream:stream.write(af.canonical(pins))
     return pins
 
@@ -556,7 +568,7 @@ def reconcile_closed_costs(driver,helper,p,approval):
 def main(argv=None):
     argv=list(sys.argv[1:] if argv is None else argv)
     require(os.getuid()==os.getgid()==1003 and Path(__file__).resolve()==ROOT/FILES[0],'SERVICE_IDENTITY')
-    require(len(argv)==1 and argv[0] in {'verify','run'},'ACTION_SCOPE')
+    require(len(argv)==1 and argv[0] in {'verify','activate','run'},'ACTION_SCOPE')
     connected,smoke,smoke_p,smoke_approval,helper,p,approval=connect()
     c,policy,original,evidence,base,fresh=connected
     from orchestrator.experiment_driver import ExperimentDriver
@@ -581,6 +593,13 @@ def main(argv=None):
         result['author_submission']=af.verify_native(work,pins[af.CONFIG],pr.check(Path(work)/'console.log').read_text())
         return result
     class ResponseDriver(ExperimentDriver):
+        def model_output_limit(self,value,name):
+            pending=value.get('pending') or {}
+            if (helper.delivery_recovery(p) and self.config['run_id']==helper.RUN and
+                    (pending.get('stage'),pending.get('round'),pending.get('id'),name)==
+                    ('run_spec_author',24,helper.call(p,'author'),'notebook.patch.json')):
+                return 96000
+            return 80000
         def model_round_number(self,value):
             # Failed/unaccepted admissions consume attempts, not accepted-round
             # state. Keep that state intact and use the exact frozen next slot.
@@ -594,7 +613,7 @@ def main(argv=None):
             task=super().task(stage_name,value)+'\n'+helper.guidance(p)
             if stage_name=='run_spec_author':
                 from orchestrator.author_output_schema import schema
-                task+='\nRequired exact author output schema: '+json.dumps(schema(),sort_keys=True)
+                task+='\nRequired exact author output schema: '+json.dumps(schema(notebook_patch_bytes=96000),sort_keys=True)
             return task
         def prepare_input(self,value,stage_name,work):
             require((stage_name,self.model_round_number(value)) ==('run_spec_author',author_round()),'INPUT_SCOPE')
@@ -626,6 +645,8 @@ def main(argv=None):
                 helper.originals(driver.store,p,approval);helper.review_binding(driver,p,approval)
                 retained_smoke_evidence(driver,value,smoke,smoke_p,smoke_approval,helper)
                 result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
+            elif argv[0]=='activate':
+                result=helper.activate(driver,p,approval,driver.state/'author24-delivery')
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)

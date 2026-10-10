@@ -18,7 +18,10 @@ LIMIT = 80000
 REVISION_SCHEMA = 'item4-scientific-revision-submission/v1'
 MODULE_VIEW = RUNTIME+'/module-view.txt'
 MODULE_MANIFEST = RUNTIME+'/module-view-manifest.json'
-LIBRARIES = ('author_output_schema', 'experiment_plan_validation', 'experiment_environment_requirements', 'modal_billing', 'notebook_execution', 'scientific_view_scan', 'privacy_patterns')
+FIXTURE_REFERENCE=RUNTIME+'/fixture-reference.py'
+AUTHOR24_CALL='4a171e924b528328d4a4827815113449b39d19143a8824b92f17dce0ecf0b8ca'
+FIXTURE_PIN='fa54d6e41db935c4a7671abe278d4a40423bda41cfce32692b58ed1364638d20'
+LIBRARIES = ('author_output_schema', 'experiment_plan_validation', 'experiment_environment_requirements', 'modal_billing', 'notebook_execution', 'scientific_view_scan', 'privacy_patterns', 'fixture_contract')
 
 
 def canonical(value):
@@ -208,7 +211,7 @@ def prepare(root, bindings, originals, output_schema):
 
 
 def load_revision(value):
-    if set(value) not in ({'schema','bindings','revision','output_schema'}, {'schema','bindings','revision','output_schema','notebook'}):
+    if set(value) not in ({'schema','bindings','revision','output_schema'}, {'schema','bindings','revision','output_schema','notebook'}, {'schema','bindings','revision','output_schema','notebook','delivery'}):
         raise ValueError('AUTHOR_CONFIG_SCHEMA')
     b = value['bindings'];r = value['revision']
     fields = {'call_id','run_id','stage','round','source_sha','runtime_sha256','input_sha256'}
@@ -218,12 +221,18 @@ def load_revision(value):
             set(r)!={'review_call_id','review_sha256','operator_scope_sha256','original_sha256','view_sha256'} or
             any(not isinstance(pin,str) or len(pin)!=64 or any(c not in '0123456789abcdef' for c in pin) for pin in r.values())):
         raise ValueError('AUTHOR_CONFIG_BINDING')
+    if 'delivery' in value:
+        d=value['delivery']
+        if (b['round']!=24 or b['call_id']!=AUTHOR24_CALL or
+                d!={'notebook_patch_bytes':96000,'fixture_reference':{'path':FIXTURE_REFERENCE,'sha256':FIXTURE_PIN}}):
+            raise ValueError('AUTHOR24_DELIVERY_SCOPE')
     return value
 
 
 def validate_revision(root, config):
     from orchestrator import author_output_schema as output
-    current = {name:regular(root/name) for name in OUTPUTS}
+    limit=config.get('delivery',{}).get('notebook_patch_bytes',LIMIT)
+    current = {name:regular(root/name,limit=limit if name=='notebook.patch.json' else LIMIT) for name in OUTPUTS}
     binding = {**config['bindings'], **config['revision']}
     output.plan(strict(current['execution.plan.json']), binding)
     patch_value=strict(current['notebook.patch.json'])
@@ -235,7 +244,11 @@ def validate_revision(root, config):
         if set(refs)!={MODULE_VIEW,MODULE_MANIFEST}:raise ValueError('AUTHOR_MODULE_REFERENCES')
         raw={name:regular(root/name,limit=1400000) for name in refs}
         if {name:sha(body) for name,body in raw.items()}!=refs:raise ValueError('AUTHOR_MODULE_FILES_CHANGED')
-        output.visible_module(strict(current['notebook.patch.json']),raw[MODULE_VIEW],strict(raw[MODULE_MANIFEST]))
+        reference=None
+        if 'delivery' in config:
+            reference=regular(root/FIXTURE_REFERENCE,limit=200000)
+            if sha(reference)!=FIXTURE_PIN:raise ValueError('AUTHOR_FIXTURE_REFERENCE_CHANGED')
+        output.visible_module(strict(current['notebook.patch.json']),raw[MODULE_VIEW],strict(raw[MODULE_MANIFEST]),fixture_reference=reference)
     text=current['SPEC.proposed.md'].decode()
     if len(text)>12000:
         raise ValueError('EXPERIMENT_SPEC_LIMIT: SPEC.proposed.md must be at most 12000 characters; shorten it before submitting')
@@ -248,7 +261,7 @@ def validate_revision(root, config):
     return {name:sha(raw) for name,raw in current.items()}
 
 
-def prepare_revision(root, bindings, revision, *, notebook=None):
+def prepare_revision(root, bindings, revision, *, notebook=None, fixture_reference=None):
     from orchestrator.author_output_schema import schema
     root=Path(root)
     if (root/RECORD).exists() or (root/RECORD).is_symlink():
@@ -265,6 +278,12 @@ def prepare_revision(root, bindings, revision, *, notebook=None):
         if sha(notebook[MODULE_VIEW])!=revision['view_sha256'] or strict(notebook[MODULE_MANIFEST]).get('view_sha256')!=revision['view_sha256']:
             raise ValueError('AUTHOR_MODULE_VIEW_BINDING')
         bodies.update(notebook);config['notebook']={name:sha(raw) for name,raw in notebook.items()}
+    if fixture_reference is not None:
+        if notebook is None or sha(fixture_reference)!=FIXTURE_PIN:raise ValueError('AUTHOR_FIXTURE_REFERENCE_SCOPE')
+        config['delivery']={'notebook_patch_bytes':96000,'fixture_reference':{'path':FIXTURE_REFERENCE,'sha256':FIXTURE_PIN}}
+        config['output_schema']=schema(notebook_patch_bytes=96000)
+        load_revision(config)
+        bodies[FIXTURE_REFERENCE]=fixture_reference
     bodies[CONFIG]=canonical(config)
     for name,raw in bodies.items():
         fd=os.open(root/name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
@@ -283,10 +302,11 @@ def check_runtime(root, pins):
     if config.get('notebook') is not None:
         if set(config['notebook'])!={MODULE_VIEW,MODULE_MANIFEST}:raise ValueError('AUTHOR_MODULE_REFERENCES')
         expected|=set(config['notebook'])
+    if 'delivery' in config:expected.add(FIXTURE_REFERENCE)
     if set(pins) != expected:
         raise ValueError('AUTHOR_RUNTIME_FILE_SET')
     for name, pin in pins.items():
-        if sha(regular(Path(root)/name,limit=1400000 if name in {MODULE_VIEW,MODULE_MANIFEST} else LIMIT)) != pin:
+        if sha(regular(Path(root)/name,limit=1400000 if name in {MODULE_VIEW,MODULE_MANIFEST} else 200000 if name==FIXTURE_REFERENCE else LIMIT)) != pin:
             raise ValueError('AUTHOR_RUNTIME_CHANGED')
     load(root, pins[CONFIG])
 
