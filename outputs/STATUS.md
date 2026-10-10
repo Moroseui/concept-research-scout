@@ -2,18 +2,18 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The author corrected the synthetic fixture; scientific review still requires native integration before GPU dispatch.
-The connector draft passed 123 focused tests and disposable CPU admission; its separate server review rehearsal is running.
-No new model call, installation or paid compute has started. One combined implementation and direction review is being prepared.
+The connector draft passed 123 focused tests and both real read-only/disposable admission rehearsals.
+One combined independent implementation and direction review is running. No installation or paid compute has started.
 Provider-observed compute spend is $24.3153; counted stage commitments are $111.230128/$150, including the failed CPU reservation.
-Next expected result: independent implementation decision within the earlier 1-2 hour window; GPU timing has no reliable start estimate yet.
+Next expected result: independent implementation decision in about 10-20 minutes; GPU timing has no reliable start estimate yet.
 CPU starvation remains unanswered. B is first because the combined A/B quotes exceed the $25 diagnostic cap.
-Today's calls remain 33/50: 6 authors, 5 scientific reviews, 17 implementation reviews and 5 direction checks.
+Today's calls are 34/50: 6 authors, 5 scientific reviews, 18 implementation reviews and 5 direction checks.
 
 ## Current draft and verification
 
 Draft b60badd6 reuses the existing native connector, exact corrected author bytes and existing evidence-gated reviewer route. It preserves all original charges and findings. The latest direction report remains ambiguous; explicit clarification is folded into the mandatory implementation review, with no standalone check. No approval is inferred from tests or administrative advice.
 
-The prior read-only rehearsal ended after its observation connection timed out; its final result was not retained and is not claimed. The current test has durable server logs and only disposable accounting writes. Historical authorities and accepted author bytes are genuine; future approval and native success are explicitly simulated for the admission test. No live admission or scientific success is fabricated.
+The prior read-only rehearsal ended after its observation connection timed out; its final result was not retained and is not claimed. The current test ended successfully with durable server logs and only disposable accounting writes. Historical authorities and accepted author bytes are genuine; future approval and native success are explicitly simulated for the admission test. No live admission or scientific success is fabricated.
 
 Judgment: make the minimal engineering patch under standing authority, defer optional accounting cleanup, and keep compute held until the required review explicitly approves. Tests preserve both dollar-cap refusals and failed-attempt accounting. See the scanned working branch `astra/public-corrected-native-verification-20261010`; draft code is not installed or merged into this branch.
 
@@ -24,6 +24,8 @@ Withheld from this draft projection after scans:
 - docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH).
 - docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt (EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH).
 - docs/ITEM4_RESPONSE_HOST_PRIVATE.json (EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH).
+
+## Previous checkpoint details (superseded where noted)
 
 ## Current evidence and next action
 
