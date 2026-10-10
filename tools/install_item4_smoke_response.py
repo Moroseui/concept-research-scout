@@ -8,12 +8,12 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-diagnostic-native-harness-20261010'
-REVIEW_CHANGE='item4-diagnostic-native-harness-20261010'
+CHANGE='item4-author18-plaintext-recovery-20261010'
+REVIEW_CHANGE='item4-author18-plaintext-recovery-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-diagnostic-scoped-review-20261010.service')
-PRIOR_UNIT_SHA='d4460ff71c817dd4ada6eda2e3cb861284a07cf60045b5cb5913a999694561dc'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-diagnostic-native-harness-20261010.service')
+PRIOR_UNIT_SHA='4b009948aa6559ba3241667d5648289a3aa6eea5b4d21ab02c62d133b993db2a'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -33,7 +33,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-diagnostic-scoped-review-20261010/tools/item4_smoke_response_runtime.py run'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-diagnostic-native-harness-20261010/tools/item4_smoke_response_runtime.py run'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_smoke_response_runtime.py')+' run'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
