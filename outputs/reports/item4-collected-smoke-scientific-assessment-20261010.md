@@ -1,0 +1,15 @@
+# Collected smoke scientific assessment
+
+The native scientific reviewer completed review 11 with REVISE. Its authentic report, accepted submission, call receipt and installed assessment agree on report hash 1d022825750500ffbe7f614626b7c78d4c1681244662aa229216663db652c7fc. Both call records are COMPLETE. No full-training admission, whole-plan completion or coverage release was granted.
+
+The reviewer accepts the base path as genuine technical execution: three GPU benchmarks, two five-epoch smokes, native checkpoint interruption/resume, finite losses, held-out scoring and passing declared validation checks. This resolves the base path's demand for real integration evidence. The exploratory smoke metrics are not evidence of efficacy.
+
+Four findings remain: full composed-input provenance; source validation for coverage-dependent arms; full-plan cost above the authorized projection gate; and incomplete arm coverage with unvalidated timing extrapolation. Coverage-dependent arms remain held. The other four coverage-independent arms have not been smoked. Completing the frozen full research plan is still required; it has not been silently narrowed.
+
+A100 measured 278.17 seconds in its first epoch, including warm-up within that timer but excluding preparation before it. H100 measured 228.14 seconds and B200 166.28 seconds. Sprint 12 A1's measured median was 36 seconds, but equivalent workloads and timing boundaries have not been established. The returned synchronized timer includes work outside the narrower native log timer.
+
+The resumed base smoke's last three epochs averaged 71.43 seconds. The repeat's four post-first epochs averaged 90.41 seconds, with successive times still declining; its last-three mean was 86.00 seconds. There is no established steady-state plateau. Simple extrapolation for 40 fits of 250 epochs gives 198.42-251.13 training GPU hours, or 238.42-291.13 hours including the existing 40-hour allowance. At the recorded GPU, CPU and RAM rates plus the fixed allowance, this gives approximately $2,964-$3,575. These are provisional scenarios, not an accepted full-plan estimate. Both exceed the unchanged $1,200 projection gate and $1,275 total cap. Full training remains stopped.
+
+The reviewer quoted the older $75 stage-1 cap from its frozen source context. The operator-approved, independently reviewed and installed cap is $150 for the benchmark/base/resume/repeat milestone. This context discrepancy is preserved for correction in the next scientific context, without rewriting the genuine REVISE or changing its unaffected $1,200 budget finding. The completed milestone does not itself authorize additional arm spending.
+
+Next work should reconcile the two timer boundaries and prepare an author-owned response with the current cap authority before proposing another run or a larger budget. No additional GPU job or model call was launched after this assessment. No reliable full-training date is available while the budget and scientific findings remain open.
