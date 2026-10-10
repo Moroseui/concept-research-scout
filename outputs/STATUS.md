@@ -2,7 +2,7 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 Author 18 finished but its encoded code was refused; its output remains unaccepted and its charge is preserved.
-Claude approved the combined repair and recommended PROCEED. Installation verification is running; no native CPU or diagnostic GPU run has started.
+Claude approved the combined repair and recommended PROCEED. Installation verification passed and activation is running; no native CPU or diagnostic GPU run has started.
 The repair passed 127 checks and a server rehearsal using disposable ledger copies; live ledgers were unchanged.
 Identified compute spend is $24.29; last retained stage exposure is $110.11 of $150. Diagnostic actual spend and reservations are $0 of $25; model charges are separate.
 Next expected result is corrected author output, roughly 30?60 minutes after review approval and installation. GPU timing remains dependent on native CPU evidence and scientific review.
@@ -11,7 +11,7 @@ UTC October 10 calls: 25/50 ? 4 authors, 4 scientific reviewers, 14 administrati
 
 ## Corrective author implementation review
 
-08:49 UTC: candidate 5b884b7c45f64957e6f8c9952529a079e4fea94f received genuine independent APPROVE ff43deb433ca844548298b459295cd8c4db14bafb9bfcb8699d017be9e9e108b, with native submission verified. It explicitly approves the one-use corrective admission and equivalent early opaque check. Direction: PROCEED, one round, no cuts requested. Installation is running once and awaits post-install verification; author19 remains unstarted. Model cost estimate $8.14927075 is preserved separately from compute. No compute reservation has been made. The accepted report and its inspection limitations are published below outputs/implementation-reviews/.
+08:49 UTC: candidate 5b884b7c45f64957e6f8c9952529a079e4fea94f received genuine independent APPROVE ff43deb433ca844548298b459295cd8c4db14bafb9bfcb8699d017be9e9e108b, with native submission verified. It explicitly approves the one-use corrective admission and equivalent early opaque check. Direction: PROCEED, one round, no cuts requested. Installation completed and post-install verification passed. Activation is running once; author19 remains unstarted. Model cost estimate $8.14927075 is preserved separately from compute. No compute reservation has been made. The accepted report and its inspection limitations are published below outputs/implementation-reviews/.
 
 The candidate shares the unchanged host opaque-text predicate with same-call author submission feedback, including escaped strings and the complete reconstructed visible module. The host privacy scanner remains authoritative, and the existing output-size limit stays unchanged. An actual isolated submission process refuses opaque code without a receipt, then permits a plaintext correction in that same process. A copied replay of the actual failed author18 output also refuses before any new receipt.
 
@@ -23,7 +23,7 @@ Judgment: fix the mechanical author-output failure with early feedback and one b
 
 Daily purposes: scientific authors15?18 covered the smoke response, executable timing proposal, interface correction and native integration fixture (the last failed host acceptance). Scientific reviews11?14 covered smoke, timing response, executable diagnostic and the scoped native-evidence decision. Administrative reviews cover implementation, admission/accounting and mechanical repairs; the latest combines plaintext feedback, corrective admission and direction. Three standalone directions covered the shortest smoke route, accounting scope and the next money proposal. Administrative reviews remain the majority14/25, so required repairs and direction advice continue to be batched.
 
-Safe working projection: astra/public-author18-plaintext-recovery-20261010 at98e4411a8719f3970669dacd18b757194ffdf647, unmerged until installation verification completes. Withheld after scans: docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py, docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json and tests/fixtures/item4_plaintext_prior_unit_PRIVATE.txt. Original evidence, decoded reference, packets, native streams and ledgers remain private. This public projection is intentionally incomplete for deployment.
+Safe working projection: astra/public-author18-plaintext-recovery-20261010 at98e4411a8719f3970669dacd18b757194ffdf647, merged into remote-server after genuine approval and completed installation verification. Withheld after scans: docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py, docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json and tests/fixtures/item4_plaintext_prior_unit_PRIVATE.txt. Original evidence, decoded reference, packets, native streams and ledgers remain private. This public projection is intentionally incomplete for deployment.
 
 ## Earlier author18 installation (now terminal)
 
