@@ -4,19 +4,27 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation remains unanswered. Synthetic validation completed all 15 epochs, then failed the final report-consistency check.
 
-Author attempt23 is admitted through normal accounting. The corrected service and bounded host-check maintenance are running; no author result or GPU run is complete.
+Author23 completed, but the controller refused its regression placement. Claude is judging a bounded recovery; no author, native or GPU run is active.
 
-Claude approved the driver repair without findings. The prior SIMPLIFY direction remains: proceed to the author, defer optional cost cleanup, and avoid a separate direction call.
+The driver repair worked. Original tests are unchanged; the added regression was delivered separately in the submitted report. Its exact authored code passes locally. Claude is judging whether that delivery can be recovered safely.
 
 Identified compute spending is $24.39800404. Stage-1 commitments remain $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: the author correction, provisionally30-60 minutes after launch. GPU timing still requires validation and scientific review.
+Next target: Claude direction in about10-15 minutes. Native validation and GPU timing await the accepted correction; their ETA is uncertain.
 
-Today: 47/50 calls - 9 author admissions, 5 scientific reviews, 26 administrative reviews and 7 standalone direction checks.
+Today: 48/50 calls - 9 author admissions, 5 scientific reviews, 26 administrative reviews and 8 standalone direction checks.
 
 Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
 ## Current evidence
+
+Current outcome: author23 call is COMPLETE in both ledgers; the controller refused the output and no accepted-author event exists. The service and bounded maintenance are positively terminal. The refusal text is broader than the actual defect: every original test and every production node is unchanged, but zero new methods were appended to the notebook module. The required regression is instead in the submitted report.
+
+The exact submitted report blocks, including the authored3429-byte method, were copied without edits and executed locally:16 original tests PASS,17 extended tests PASS, and the retained accepted21 negative control fails exactly E173. No native, patient, GPU, model or provider execution occurred in this check. The unbound workspace runner differs and is not proposed for use. Details are in the labelled author23 delivery proposal.
+
+A direction-only administrative call is running to judge equivalent delivery recovery versus another author call. It grants no installation, scientific acceptance or execution authority. The initial review start was refused while the existing cleanup watcher ran; that watcher completed normally with no action due. The unstarted intent is preserved and consumed no call. The registered review then started once.
+
+
 
 The installed continuation478a4724 failed before input preparation/admission: the inherited driver selected accepted-round21 +1, while the preserved failed attempt22 means the next counted slot is23. The service and maintenance are positively terminal; no23 row/workspace or new scientific charge exists. The original journal is preserved privately.
 
@@ -45,7 +53,7 @@ Earlier A100278.1671s, H100228.1379s and B200166.2836s measurements were first e
 - Nine scientific author admissions: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction, whole-fixture audit, failed report-lifecycle handoff and its counted continuation.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
 - Twenty-six administrative reviews: bounded handoffs, native integration, installation and accounting repairs. Latest is the narrow driver-selection repair with the recurrence/direction question bundled.
-- Seven standalone direction checks: scope and recovery. Administrative work dominates; further direction discussion is folded into required reviews.
+- Eight standalone direction checks: scope and recovery. Administrative work dominates; further direction discussion is folded into required reviews.
 
 ## Judgment highlights
 
