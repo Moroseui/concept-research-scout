@@ -4,10 +4,10 @@ Scientific authors own every byte of this module. The controller removes only
 known notebook writefile directives and preserves their actual concatenation.
 """
 import ast
-from orchestrator.notebook_revision import strict_json, clean_source
 
 
 def extract(raw, *, preprocessing=False):
+    from orchestrator.notebook_revision import strict_json, clean_source
     nb = strict_json(raw)
     parts = []
     for index, cell in enumerate(nb['cells']):
@@ -28,6 +28,12 @@ def extract(raw, *, preprocessing=False):
     if not parts:
         raise ValueError('NOTEBOOK_EXECUTION_MODULE_REQUIRED')
     source = ''.join(parts)
+    entrypoints(source, preprocessing=preprocessing)
+    return source.encode()
+
+
+def entrypoints(source, *, preprocessing=False):
+    """The same static interface check for controller and same-call feedback."""
     tree = ast.parse(source, filename='execution.py')
     compile(tree, 'execution.py', 'exec', dont_inherit=True)
     required=[('main', ['input_root', 'output_root', 'contract']),('synthetic_tests', [])]
@@ -41,7 +47,6 @@ def extract(raw, *, preprocessing=False):
                 or entries[0].args.vararg or entries[0].args.kwarg
                 or entries[0].args.defaults or entries[0].decorator_list):
             raise ValueError('NOTEBOOK_EXECUTION_ENTRYPOINT:'+name)
-    return source.encode()
 
 
 def tests_passed(tests, module_sha256):

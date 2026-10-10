@@ -16,7 +16,9 @@ RECORD = '.author-submission.json'
 OUTPUTS = ('SPEC.proposed.md', 'execution.plan.json', 'notebook.patch.json')
 LIMIT = 80000
 REVISION_SCHEMA = 'item4-scientific-revision-submission/v1'
-LIBRARIES = ('author_output_schema', 'experiment_plan_validation', 'experiment_environment_requirements', 'modal_billing')
+MODULE_VIEW = RUNTIME+'/module-view.txt'
+MODULE_MANIFEST = RUNTIME+'/module-view-manifest.json'
+LIBRARIES = ('author_output_schema', 'experiment_plan_validation', 'experiment_environment_requirements', 'modal_billing', 'notebook_execution')
 
 
 def canonical(value):
@@ -206,7 +208,7 @@ def prepare(root, bindings, originals, output_schema):
 
 
 def load_revision(value):
-    if set(value) != {'schema','bindings','revision','output_schema'}:
+    if set(value) not in ({'schema','bindings','revision','output_schema'}, {'schema','bindings','revision','output_schema','notebook'}):
         raise ValueError('AUTHOR_CONFIG_SCHEMA')
     b = value['bindings'];r = value['revision']
     fields = {'call_id','run_id','stage','round','source_sha','runtime_sha256','input_sha256'}
@@ -225,6 +227,12 @@ def validate_revision(root, config):
     binding = {**config['bindings'], **config['revision']}
     output.plan(strict(current['execution.plan.json']), binding)
     output.patch(strict(current['notebook.patch.json']), binding)
+    if 'notebook' in config:
+        refs=config['notebook']
+        if set(refs)!={MODULE_VIEW,MODULE_MANIFEST}:raise ValueError('AUTHOR_MODULE_REFERENCES')
+        raw={name:regular(root/name,limit=1400000) for name in refs}
+        if {name:sha(body) for name,body in raw.items()}!=refs:raise ValueError('AUTHOR_MODULE_FILES_CHANGED')
+        output.visible_module(strict(current['notebook.patch.json']),raw[MODULE_VIEW],strict(raw[MODULE_MANIFEST]))
     text=current['SPEC.proposed.md'].decode()
     if len(text)>12000:
         raise ValueError('EXPERIMENT_SPEC_LIMIT: SPEC.proposed.md must be at most 12000 characters; shorten it before submitting')
@@ -236,7 +244,7 @@ def validate_revision(root, config):
     return {name:sha(raw) for name,raw in current.items()}
 
 
-def prepare_revision(root, bindings, revision):
+def prepare_revision(root, bindings, revision, *, notebook=None):
     from orchestrator.author_output_schema import schema
     root=Path(root)
     if (root/RECORD).exists() or (root/RECORD).is_symlink():
@@ -246,7 +254,14 @@ def prepare_revision(root, bindings, revision):
     bodies={SERVER:Path(__file__).read_bytes(), RUNTIME+'/orchestrator/__init__.py':b''}
     for name in LIBRARIES:
         bodies[RUNTIME+'/orchestrator/'+name+'.py']=Path(__file__).with_name(name+'.py').read_bytes()
-    bodies[CONFIG]=canonical({'schema':REVISION_SCHEMA,'bindings':bindings,'revision':revision,'output_schema':schema()})
+    config={'schema':REVISION_SCHEMA,'bindings':bindings,'revision':revision,'output_schema':schema()}
+    if notebook is not None:
+        if not isinstance(notebook,dict) or set(notebook)!={MODULE_VIEW,MODULE_MANIFEST} or any(not isinstance(raw,bytes) or len(raw)>1400000 for raw in notebook.values()):
+            raise ValueError('AUTHOR_MODULE_INPUTS')
+        if sha(notebook[MODULE_VIEW])!=revision['view_sha256'] or strict(notebook[MODULE_MANIFEST]).get('view_sha256')!=revision['view_sha256']:
+            raise ValueError('AUTHOR_MODULE_VIEW_BINDING')
+        bodies.update(notebook);config['notebook']={name:sha(raw) for name,raw in notebook.items()}
+    bodies[CONFIG]=canonical(config)
     for name,raw in bodies.items():
         fd=os.open(root/name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
         with os.fdopen(fd,'wb') as target:target.write(raw)
@@ -261,10 +276,13 @@ def check_runtime(root, pins):
                  *(RUNTIME+'/orchestrator/'+name+'.py' for name in LIBRARIES)}
                 if config['schema'] == REVISION_SCHEMA else
                 {CONFIG, SERVER, *(RUNTIME+'/originals/'+name for name in OUTPUTS)})
+    if config.get('notebook') is not None:
+        if set(config['notebook'])!={MODULE_VIEW,MODULE_MANIFEST}:raise ValueError('AUTHOR_MODULE_REFERENCES')
+        expected|=set(config['notebook'])
     if set(pins) != expected:
         raise ValueError('AUTHOR_RUNTIME_FILE_SET')
     for name, pin in pins.items():
-        if sha(regular(Path(root)/name)) != pin:
+        if sha(regular(Path(root)/name,limit=1400000 if name in {MODULE_VIEW,MODULE_MANIFEST} else LIMIT)) != pin:
             raise ValueError('AUTHOR_RUNTIME_CHANGED')
     load(root, pins[CONFIG])
 
@@ -333,7 +351,7 @@ def serve(root, pin):
                     answer = submit(root, pin, params.get('arguments', {}))
                     failed = False
                 except ValueError as error:
-                    if str(error) not in recoverable and not (config['schema'] == REVISION_SCHEMA and str(error).startswith(('AUTHOR_PLAN_', 'AUTHOR_PREPROCESSING_', 'AUTHOR_PATCH_', 'AUTHOR_SPEC_', 'EXPERIMENT_'))):
+                    if str(error) not in recoverable and not (config['schema'] == REVISION_SCHEMA and str(error).startswith(('AUTHOR_PLAN_', 'AUTHOR_PREPROCESSING_', 'AUTHOR_PATCH_', 'AUTHOR_SPEC_', 'AUTHOR_MODULE_', 'EXPERIMENT_'))):
                         raise
                     answer = {'validation_error': str(error), 'required_output_schema': config['output_schema']}
                     failed = True

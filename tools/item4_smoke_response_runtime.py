@@ -5,8 +5,8 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-cpu-starvation-diagnostic-20261010'
-REVIEW_CHANGE='item4-cpu-diagnostic-route-20261010'
+CHANGE='item4-author16-entrypoint-recovery-20261010'
+REVIEW_CHANGE='item4-author16-entrypoint-implementation-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')
@@ -18,7 +18,11 @@ FILES=('tools/item4_smoke_response_runtime.py','tools/install_item4_smoke_respon
     'docs/ITEM4_RESPONSE_NATIVE_TRAINER.py','docs/ITEM4_STAGE1_CAP_OPERATOR_DECISION_20261009.txt',
     'orchestrator/modal_nnunet.py','orchestrator/modal_fit_progress.py',
     'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json',
-    'docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json','docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt')
+    'docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json','docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt',
+    'docs/ITEM4_CPU_DIAGNOSTIC_RECOVERY_PRIVATE.json','orchestrator/author_format_submission.py',
+    'orchestrator/author_output_schema.py','orchestrator/notebook_execution.py',
+    'orchestrator/experiment_plan_validation.py','orchestrator/experiment_environment_requirements.py',
+    'orchestrator/modal_billing.py')
 
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
@@ -65,8 +69,24 @@ def historical_response():
     return old['report_sha256']
 
 
+def historical_diagnostic():
+    from orchestrator.autonomy_review import verify_result
+    record=Path('/var/lib/research-system-manual-sprint10-deployment/item4-cpu-starvation-diagnostic-20261010/review')
+    result=verify_result(trusted(record))
+    require(result['verdict']=='APPROVE' and result['source_sha']=='7dc3d1da418c0e7c53aae65ea14739e9b686221d'
+        and result['report_sha256']=='f009c2c6e8459b4ad545f7c1d13badb39c6ae6443ebb2f75dfb27403282888ea','HISTORICAL_DIAGNOSTIC_APPROVAL')
+    manifest=json.loads(trusted(record/'packet-manifest.json').read_bytes())
+    require(sha(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json').read_bytes())==manifest['source_files']['docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json'],
+        'HISTORICAL_DIAGNOSTIC_SCOPE')
+    direction=verify_result(trusted(RECORD/'direction'))
+    require(direction['verdict']=='APPROVE' and direction['change_id']=='item4-author16-entrypoint-recovery-20261010'
+        and direction['source_sha']==result['source_sha'] and direction['report_sha256']=='ddcdc756df490d35c42784b8ede667be783ca72a2161bb938c4888745a43b9ca',
+        'RECOVERY_DIRECTION_APPROVAL')
+    return result['report_sha256']
+
+
 def connect():
-    approved=authority();old_approval=historical_response()
+    approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic()
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_SOURCE_CHANGED')
     route=module('_post_smoke_prior',PRIOR);original_factory=route.module;substituted=[]
     def factory(name,path):
@@ -77,14 +97,16 @@ def connect():
         orchestrator.item4_smoke_response=helper
         p=json.loads(trusted(ROOT/helper.DOCUMENT).read_bytes());helper.scope(p,old_approval)
         diagnostic=json.loads(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json').read_bytes())
-        helper.scope(diagnostic,approved['report_sha256'])
+        helper.scope(diagnostic,diagnostic_approval)
+        recovery=json.loads(trusted(ROOT/helper.RECOVERY_DOCUMENT).read_bytes());helper.scope(recovery,approved['report_sha256'])
         require(sha(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt').read_bytes())==helper.DIAGNOSTIC_DECISION,'OPERATOR_DECISION')
         calls=module(name,ROOT/'orchestrator/item4_scoped_calls.py');orchestrator.item4_scoped_calls=calls
         original=calls.connect
         def scoped(*args,**kw):
-            require(not {'post_smoke','post_smoke_approval','diagnostic','diagnostic_approval'}&set(kw),'DUPLICATE_SCOPE')
+            require(not {'post_smoke','post_smoke_approval','diagnostic','diagnostic_approval','diagnostic_recovery','diagnostic_recovery_approval'}&set(kw),'DUPLICATE_SCOPE')
             return original(*args,**kw,post_smoke=p,post_smoke_approval=old_approval,
-                diagnostic=diagnostic,diagnostic_approval=approved['report_sha256'])
+                diagnostic=diagnostic,diagnostic_approval=diagnostic_approval,
+                diagnostic_recovery=recovery,diagnostic_recovery_approval=approved['report_sha256'])
         calls.connect=scoped;substituted.append(name);return calls
     route.module=factory
     connected,smoke,smoke_p,smoke_approval=route.connect()
@@ -92,7 +114,10 @@ def connect():
     from orchestrator import dispatch_limiter,item4_smoke_response as helper
     limiter=module('_post_smoke_limiter',ROOT/'orchestrator/dispatch_limiter.py')
     dispatch_limiter.admit_manual=limiter.admit_manual
-    p=json.loads(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_PRIVATE.json').read_bytes())
+    p=json.loads(trusted(ROOT/helper.RECOVERY_DOCUMENT).read_bytes())
+    import orchestrator
+    for name in ('notebook_execution','author_output_schema','author_format_submission'):
+        loaded=module('orchestrator.'+name,ROOT/'orchestrator'/(name+'.py'));setattr(orchestrator,name,loaded)
     return connected,smoke,smoke_p,smoke_approval,helper,p,approved['report_sha256']
 
 
@@ -146,13 +171,111 @@ def bind_admission(driver,c,original,helper,p,approval):
     return restore
 
 
-def supplemental():
+def supplemental(driver,p):
     names={'current-cap-decision.txt':'docs/ITEM4_STAGE1_CAP_OPERATOR_DECISION_20261009.txt',
         'timing-audit.json':'docs/ITEM4_RESPONSE_TIMING_AUDIT.json','native-trainer.py':'docs/ITEM4_RESPONSE_NATIVE_TRAINER.py',
         'checkpoint-adapter.py':'orchestrator/modal_nnunet.py','durable-progress.py':'orchestrator/modal_fit_progress.py',
         'cpu-diagnostic-operator-decision.txt':'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt'}
-    return {name:trusted(ROOT/path).read_bytes() for name,path in names.items()}
+    result={name:trusted(ROOT/path).read_bytes() for name,path in names.items()}
+    from orchestrator import item4_smoke_response as helper,private_records as pr
+    failed=helper.failed_author(driver.store,p);receipt=json.loads(failed['receipt']);work=Path(receipt['workspace'])
+    for target,origin in [('SPEC.md','SPEC.proposed.md'),('notebook.patch.json','notebook.patch.json'),('execution.plan.json','execution.plan.json')]:
+        result['failed-author16-'+target]=pr.check(work/origin).read_bytes()
+    return result
 
+
+
+def author_work():
+    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces/run_spec_author-17')
+
+
+def pins_path():
+    return author_work().parent.parent/'lane/cpu-diagnostic-recovery/runtime-pins-17.json'
+
+
+def send(expected,family,command):
+    require(os.getuid()==os.getgid()==1003 and Path(__file__).resolve()==ROOT/FILES[0],'AUTHOR_SENDER_IDENTITY')
+    connect()
+    from orchestrator import author_format_submission as af,manual_stage as stage,private_records as pr
+    require(Path.cwd().resolve()==author_work() and family=='codex','AUTHOR_SENDER_SCOPE')
+    pins=json.loads(pr.check(pins_path()).read_bytes());config=af.load(author_work(),pins[af.CONFIG])
+    require(config['bindings']['input_sha256']==expected and config['bindings']['round']==17,'AUTHOR_SENDER_BINDING')
+    author_sender_admitted(config,expected)
+    base=['/tools/node','/tools/codex/bin/codex.js','exec','--ignore-user-config','--ignore-rules','--model','gpt-6-astra',
+        '-s','workspace-write','-c','approval_policy="never"','-c','sandbox_workspace_write.network_access=false','--json','-']
+    require(command==af.client_command(base,author_work(),pins),'AUTHOR_SENDER_COMMAND')
+    original=stage.isolation.command
+    def protected(workspace,*args,**kw):
+        require(Path(workspace).resolve()==author_work(),'AUTHOR_SENDER_WORKSPACE')
+        return af.protect_command(original(workspace,*args,**kw),author_work(),pins)
+    stage.isolation.command=protected
+    try:return stage.send_bound(expected,command,family=family)
+    finally:stage.isolation.command=original
+
+
+
+def author_sender_admitted(config,expected):
+    """A prepared format tool is not permission for an uncounted model call."""
+    import sqlite3
+    from orchestrator import item4_smoke_response as helper,private_records as pr
+    binding=config['bindings'];ident=helper.call({'schema':helper.RECOVERY_SCHEMA},'author')
+    require(binding['call_id']==ident and binding['round']==17 and binding['stage']=='run_spec_author'
+        and binding['run_id']==helper.RUN and binding['input_sha256']==expected,'AUTHOR_SENDER_CALL_BINDING')
+    lane=author_work().parent.parent/'lane'
+    with sqlite3.connect(pr.check(lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as local, sqlite3.connect(
+            'file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as global_db:
+        local.row_factory=sqlite3.Row;global_db.row_factory=sqlite3.Row
+        row=local.execute('SELECT * FROM manual_calls WHERE id=?',(ident,)).fetchone()
+        other=global_db.execute('SELECT * FROM autonomy_calls WHERE id=?',(ident,)).fetchone()
+        value=json.loads(local.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
+        pending=value.get('pending') or {}
+        require(row is not None and other is not None and row['status']==other['status']=='RUNNING'
+            and row['stage']=='run_spec_author' and row['attempt']==17 and value['phase']=='MODEL_RUNNING'
+            and pending=={'id':ident,'stage':'run_spec_author','round':17,'workspace':str(author_work())},
+            'AUTHOR_SENDER_ADMISSION_REQUIRED')
+        receipt=json.loads(row['receipt'])
+        require(receipt['input_sha256']==expected and receipt['workspace']==str(author_work()),'AUTHOR_SENDER_RECEIPT')
+
+def author_profile(original,expected,commands,*,sink=False,stage=None):
+    if sink or stage!='run_spec_author':return original(expected,commands,sink=sink,stage=stage)
+    from orchestrator import author_format_submission as af,private_records as pr
+    pins=json.loads(pr.check(pins_path()).read_bytes())
+    changed=[(family,af.client_command(command,author_work(),pins) if family=='codex' else command) for family,command in commands]
+    text=original(expected,changed,stage=stage)
+    before=json.dumps([sys.executable,'-m','orchestrator.manual_stage','--send-bound'])[:-1]
+    after=json.dumps([sys.executable,'-s','-B',str(ROOT/'tools/item4_smoke_response_runtime.py'),'send'])[:-1]
+    require(text.count(before)==2,'AUTHOR_PROFILE_SENDER_BINDING')
+    return text.replace(before,after)
+
+
+def prepare_author_feedback(driver,p,body,measurement,work):
+    from orchestrator import author_format_submission as af,private_records as pr,context_budget as cb
+    require(Path(work)==author_work(),'AUTHOR_FEEDBACK_WORKSPACE')
+    files=measurement['workspace_files']
+    from orchestrator import item4_smoke_response as helper
+    receipt=json.loads(helper.failed_author(driver.store,p)['receipt'])
+    patch=json.loads(pr.check(Path(receipt['workspace'])/'notebook.patch.json').read_bytes())
+    plan=json.loads(pr.check(Path(receipt['workspace'])/'execution.plan.json').read_bytes())
+    views=[ref for ref in files if ref.get('sha256')==patch['view_sha256']]
+    require(len(views)==1,'AUTHOR_VISIBLE_VIEW_REQUIRED')
+    view=pr.check(cb.relative_file(work,views[0]['path'])).read_bytes()
+    require(sha(view)==patch['view_sha256'],'AUTHOR_VISIBLE_VIEW_CHANGED')
+    manifests=[]
+    for ref in files:
+        if ref['path'].endswith('-omissions.json'):
+            raw=pr.check(cb.relative_file(work,ref['path'])).read_bytes()
+            require(sha(raw)==ref['sha256'],'AUTHOR_OMISSIONS_CHANGED')
+            value=json.loads(raw)
+            if value.get('view_sha256')==patch['view_sha256']:manifests.append(raw)
+    require(len(manifests)==1,'AUTHOR_BOUND_OMISSIONS_REQUIRED')
+    binding=helper.review_binding(driver,p,authority()['report_sha256'])
+    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':17,
+        'source_sha':driver.config['source'],'runtime_sha256':sha(trusted(Path('/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json')).read_bytes()),'input_sha256':sha(body.encode())},
+        {'review_call_id':binding['review_call_id'],'review_sha256':binding['review_sha256'],
+            'operator_scope_sha256':plan['operator_scope_sha256'],'original_sha256':patch['original_sha256'],'view_sha256':patch['view_sha256']},
+        notebook={af.MODULE_VIEW:view,af.MODULE_MANIFEST:manifests[0]})
+    with pr.open_file(pins_path(),'xb') as stream:stream.write(af.canonical(pins))
+    return pins
 
 def main(argv=None):
     argv=list(sys.argv[1:] if argv is None else argv)
@@ -164,20 +287,36 @@ def main(argv=None):
     from orchestrator.manual_executor import lock
     from orchestrator import private_records as pr
     restore=None;driver=None
+    from orchestrator import manual_stage as stage,author_format_submission as af
+    saved_author=(stage._invoke,stage.transport_profile)
+    def profile(expected,commands,*,sink=False,stage=None):
+        return author_profile(saved_author[1],expected,commands,sink=sink,stage=stage)
+    def invoke(work,stage_name,clients,expected):
+        if stage_name!='run_spec_author':return saved_author[0](work,stage_name,clients,expected)
+        require(Path(work)==author_work(),'AUTHOR_INVOCATION_SCOPE')
+        pins=json.loads(pr.check(pins_path()).read_bytes());af.check_runtime(work,pins)
+        result=saved_author[0](work,stage_name,clients,expected);af.check_runtime(work,pins)
+        result['author_submission']=af.verify_native(work,pins[af.CONFIG],pr.check(Path(work)/'console.log').read_text())
+        return result
     class ResponseDriver(ExperimentDriver):
         def task(self,stage_name,value):
             require(stage_name in {'run_spec_author','run_spec_review'},'ONLY_RESPONSE_STAGES')
-            return super().task(stage_name,value)+'\n'+helper.guidance(p)
+            task=super().task(stage_name,value)+'\n'+helper.guidance(p)
+            if stage_name=='run_spec_author':
+                from orchestrator.author_output_schema import schema
+                task+='\nRequired exact author output schema: '+json.dumps(schema(),sort_keys=True)
+            return task
         def prepare_input(self,value,stage_name,work):
-            require((stage_name,self.model_round_number(value)) in {('run_spec_author',16),('run_spec_review',13)},'INPUT_SCOPE')
-            helper.deliver(self,value,p,approval,supplemental())
+            require((stage_name,self.model_round_number(value)) in {('run_spec_author',17),('run_spec_review',13)},'INPUT_SCOPE')
+            helper.deliver(self,value,p,approval,supplemental(self,p))
             body,measurement=super().prepare_input(value,stage_name,work)
             helper.verify_delivered(self,value,stage_name,work,body,measurement,p)
+            if stage_name=='run_spec_author':prepare_author_feedback(self,p,body,measurement,work)
             return body,measurement
         def _accept_completed(self,value):
             pending=value.get('pending') or {};stage=pending.get('stage')
             require((stage,pending.get('round'),pending.get('id')) in {
-                ('run_spec_author',16,helper.call(p,'author')),('run_spec_review',13,helper.call(p,'review'))},'COMPLETION_SCOPE')
+                ('run_spec_author',17,helper.call(p,'author')),('run_spec_review',13,helper.call(p,'review'))},'COMPLETION_SCOPE')
             work=Path(pending['workspace'])
             helper.verify_delivered(self,value,stage,work,pr.check(work/'prompt.md').read_text(),
                 json.loads(pr.check(work/'input-measurement.json').read_bytes()),p)
@@ -195,17 +334,20 @@ def main(argv=None):
                 retained_smoke_evidence(driver,value,smoke,smoke_p,smoke_approval,helper)
                 result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
             elif argv[0]=='activate':
-                result=helper.activate(driver,p,approval,driver.state/'cpu-diagnostic-authoring')
+                result=helper.activate(driver,p,approval,driver.state/'cpu-diagnostic-recovery')
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)
+                stage._invoke,stage.transport_profile=invoke,profile
                 result=driver._model_step(value) # One stage only; never dispatch or auto-loop.
         print(json.dumps(result,sort_keys=True))
     finally:
+        stage._invoke,stage.transport_profile=saved_author
         if restore is not None:restore()
         if driver is not None:driver.store.db.close();driver.store.batch.db.close()
 
 if __name__=='__main__':
     os.umask(0o077)
     sys.path.insert(0,'/opt/research-system/manual-sprint10/research-manual-sprint10-timeout-continuation-8e042339')
+    if len(sys.argv)>5 and sys.argv[1]=='send' and sys.argv[4]=='--':raise SystemExit(send(sys.argv[2],sys.argv[3],sys.argv[5:]))
     main()
