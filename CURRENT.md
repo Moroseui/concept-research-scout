@@ -1,1 +1,1 @@
-Item 6 is complete. Item 4 handoff source e50aa51b passed125 tests and a read-only server rehearsal. Its combined implementation/accounting/evidence review is running; author20, reviewer15 and GPU remain unstarted. No compute retry. See outputs/STATUS.md for actual versus reserved costs, blockers and call purposes.
+Item 6 complete. Item 4 fixture handoff e50aa51b:125 tests and cold rehearsal pass, independent APPROVE da282dcc. Held installation in progress; author20/reviewer15/GPU not started. No CPU or automatic GPU retry. See outputs/STATUS.md.
