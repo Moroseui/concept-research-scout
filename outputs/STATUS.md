@@ -1,19 +1,35 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Author20 corrected the fixture constructor; the plan and production code are unchanged, and controller tests passed.
-Scientific reviewer15 returned REVISE: the corrected module still needs a successful native integration test before GPU dispatch.
-All calls and compute have ended. A narrow CPU-verification candidate is scoped for development; nothing new is installed or admitted.
-Provider-observed compute spend is $24.3153; counted stage commitments remain $111.23/$150, including the failed CPU attempt's full $1.118950 reservation.
-Next expected checkpoint: concrete implementation review in about 1-2 hours; native CPU evidence can follow only if that review explicitly approves the planned verification. GPU timing remains pending.
-CPU-starvation remains unanswered. No automatic retry, coverage release or full training has been authorized; the $1,200 projection gate remains held.
-Today's calls: 33/50 (6 authors, 5 scientific reviews, 17 implementation reviews, 5 direction checks; all complete).
+The author corrected the synthetic fixture; scientific review still requires native integration before GPU dispatch.
+The connector draft passed 123 focused tests and disposable CPU admission; its separate server review rehearsal is running.
+No new model call, installation or paid compute has started. One combined implementation and direction review is being prepared.
+Provider-observed compute spend is $24.3153; counted stage commitments are $111.230128/$150, including the failed CPU reservation.
+Next expected result: independent implementation decision within the earlier 1-2 hour window; GPU timing has no reliable start estimate yet.
+CPU starvation remains unanswered. B is first because the combined A/B quotes exceed the $25 diagnostic cap.
+Today's calls remain 33/50: 6 authors, 5 scientific reviews, 17 implementation reviews and 5 direction checks.
+
+## Current draft and verification
+
+Draft b60badd6 reuses the existing native connector, exact corrected author bytes and existing evidence-gated reviewer route. It preserves all original charges and findings. The latest direction report remains ambiguous; explicit clarification is folded into the mandatory implementation review, with no standalone check. No approval is inferred from tests or administrative advice.
+
+The prior read-only rehearsal ended after its observation connection timed out; its final result was not retained and is not claimed. The current test has durable server logs and only disposable accounting writes. Historical authorities and accepted author bytes are genuine; future approval and native success are explicitly simulated for the admission test. No live admission or scientific success is fabricated.
+
+Judgment: make the minimal engineering patch under standing authority, defer optional accounting cleanup, and keep compute held until the required review explicitly approves. Tests preserve both dollar-cap refusals and failed-attempt accounting. See the scanned working branch `astra/public-corrected-native-verification-20261010`; draft code is not installed or merged into this branch.
+
+Withheld from this draft projection after scans:
+
+- docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH).
+- docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH).
+- docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json (EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH).
+- docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt (EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH).
+- docs/ITEM4_RESPONSE_HOST_PRIVATE.json (EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH).
 
 ## Current evidence and next action
 
 [Scientific review15 summary](reports/item4-fixture-review15-20261010-summary.md) records the genuine REVISE, report c2469bdd. Both ledgers are COMPLETE; the service ended successfully. The existing native-submission verifier confirms the exact report, submission and assessment agree. The temporary maintenance loop stopped after its completed invocation disappeared; no call or watcher was restarted.
 
-The reviewer accepts the minimal fixture correction but explicitly requires native integration of the corrected instrumentation before either paid diagnostic. Global coverage, all-arm smoke, full-path integration and budget findings also remain open. The earlier agreed direction omitted another CPU rehearsal, so the new scientific outcome prompted the completed direction discussion. The completed administrative call cannot close the scientific finding or authorize installation/compute. Root proposes considering one deliberate, separately reviewed verification using the existing connector and unchanged protections; if that conflicts with the operator's no-automatic-retry instruction, compute stays parked. A separate worktree and [bounded development scope](proposals/item4-corrected-native-verification-20261010.md) now exist; there are no source edits yet and no reservation has been released.
+The reviewer accepts the minimal fixture correction but explicitly requires native integration of the corrected instrumentation before either paid diagnostic. Global coverage, all-arm smoke, full-path integration and budget findings also remain open. The earlier agreed direction omitted another CPU rehearsal, so the new scientific outcome prompted the completed direction discussion. The completed administrative call cannot close the scientific finding or authorize installation/compute. Root proposes considering one deliberate, separately reviewed verification using the existing connector and unchanged protections; if that conflicts with the operator's no-automatic-retry instruction, compute stays parked. A separate worktree and [bounded development scope](proposals/item4-corrected-native-verification-20261010.md) now exist; the uninstalled draft is now implemented and tested; no reservation has been released.
 
 The original failed CPU attempt is positively terminal and its provider-observed cost is $0.02512208. The conservative reservation remains counted until a reviewed reconciliation qualifies it; actual billing is not being substituted into admission by hand. Diagnostic exposure remains $1.118950/$25. The full $1,275 cap is unchanged.
 
