@@ -4,9 +4,9 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation remains unanswered. The latest synthetic validation completed all 15 diagnostic epochs, then failed its final report-consistency check.
 
-One combined implementation and direction review is running for the author correction handoff. No scientific call or compute is running.
+Claude approved the author handoff and recommended PROCEED. A remaining host-start counter mismatch was caught before installation; its corrected bundle is under independent review. No scientific call or compute is running.
 
-The handoff passed 158 focused tests and a server check using disposable ledger copies. It preserves all four failures and charges, and admits only one author correction if independently approved.
+The handoff passed 169 unique focused tests and a server check using disposable ledger copies. It preserves all four failures and charges, and admits only one author correction if independently approved.
 
 Identified compute spending remains $24.33873; the third and fourth attempts? bills are pending. Commitments remain $114.397673/$150 overall for stage 1, including $4.286495/$25 for this diagnostic.
 
@@ -14,7 +14,7 @@ Next target: the author?s corrected fixture, approximately 60?90 minutes after h
 
 Run B remains first. Full training, coverage-dependent arms and the $1,200 projection gate remain held.
 
-Today?s calls: 41/50?7 authors, 5 scientific reviewers, 22 implementation reviews and 7 standalone direction checks. The current review includes the direction and process-limit opinion.
+Today?s calls: 42/50?7 authors, 5 scientific reviewers, 23 implementation reviews and 7 standalone direction checks. Direction advice was included in the handoff review.
 
 ## Current work and evidence
 
@@ -28,7 +28,7 @@ The third prior CPU operation is positively terminal with exit1. Preprocessing a
 
 The fourth failure is E173 at the final report comparison. Root extracted the exact accepted canonical/file-info/write-once and DiagnosticProgress methods and exercised them with real checkpoint storage and generated inputs. The report equals its saved JSON before receipt publication. Publication appends a receipt event to the shared in-memory list; afterward the file hash is unchanged but equality fails. This deterministically reproduces the failure without paid compute or scientific edits. It is not permission to drop the consistency check or declare native PASS. The author must choose the correction and regression test.
 
-Candidate 0a19e3e3 reuses the existing author-only route for one correction of the complete final report lifecycle. The exact accepted source, all four original failures, real interfaces and local counterexample are delivered together. Production code and interfaces, every existing test, plan, image and safeguards stay fixed; the scientific author chooses the fixture correction and appended regression. Current 36 run calls and 74 batch scientific calls are preserved. The proposed 40/78 process allowance reserves the later reviewer and final pair but refuses those calls in this release. It is under independent review, not installed.
+The handoff reuses the existing author-only route for one correction of the complete final report lifecycle. The exact accepted source, all four original failures, real interfaces and local counterexample are delivered together. Production code and interfaces, every existing test, plan, image and safeguards stay fixed; the scientific author chooses the fixture correction and appended regression. Current 36 run calls and 74 batch scientific calls are preserved. The proposed 40/78 process allowance reserves the later reviewer and final pair but refuses those calls in this release. The first bundle received genuine APPROVE1d825dcf and PROCEED. Before installation, root found that the host-start predicate still expected the previous 35 calls and role 21. Corrected candidate58474dd1 expects the reviewed current 36 calls and role 22, with a focused regression executing the actual predicate. The original predicate demonstrably refuses; the corrected one accepts only the exact new state and still rejects wrong counts, roles, stages and duplicate/live calls. A fresh linked implementation review is running. Neither candidate has been installed; the original approval and charge are preserved.
 
 158 focused tests pass. The server check verified authentic prior approvals and four terminal failures, then exercised one counted author22 admission on disposable database copies. It refused the daily cap, altered old calls, all four altered reservations, missing grant, pending work, reviewer16, full-plan calls and duplicates. Live ledgers were read-only. Two final sender/delivery corrections are covered by positive and negative local tests; the earlier server check is not represented as testing those final bytes. The combined implementation review includes Claude?s direction and recurrence judgment. No separate direction call or new subsystem was created.
 
@@ -42,7 +42,7 @@ Scientific review15 remains genuine REVISE. Native integration, provenance, cove
 - Full-plan projection gate$1,200 and total cap$1,275 unchanged. Installed local39 and scientific-batch77 remain; this candidate proposes one bounded 40/78 process amendment. Daily50 and every dollar cap remain unchanged.
 - Seven scientific authors: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction and whole-fixture audit.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
-- Twenty-two implementation reviews: bounded handoffs, native connector, installation and accounting repairs; latest bundles the adapter, third-failure preservation, installation and sequence clarification.
+- Twenty-three implementation reviews: bounded handoffs, native connector, installation and accounting repairs; latest bundles the adapter, third-failure preservation, installation and sequence clarification.
 - Seven direction checks: scope/recovery decisions. Administrative work dominates. The latest repair and direction follow-up were combined in one review; another author call, new subsystem and optional cleanup were cut.
 
 ## Judgment highlights
@@ -234,3 +234,7 @@ Before each push, every new reachable blob and commit message is scanned for pri
 - outputs/reports/item4-progress-scope-repair-20261010.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH; full approval report withheld, private original preserved. Verdict and scope are summarized above.
 
 Draft publication exclusions: docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_RESPONSE_HOST_PRIVATE.json (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_SNAPSHOT_PRIOR_UNIT_PRIVATE.txt (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), tools/install_item4_smoke_response.py (INFRASTRUCTURE_OR_CREDENTIAL_PATH). These private originals remain preserved locally.
+
+Latest judgment: agree with Claude PROCEED on the existing author-only route. Hold installation for the diagnosed host-preflight mismatch; two corrected constants plus new review identity, tested and independently reviewed before use. Original administrative review estimate $5.63655375 remains counted separately from compute.
+
+The full author-handoff approval report is withheld after publication-scan flags: CREDENTIAL_OR_HOST_REFERENCE. Its original remains private; the verdict and scope above are a summary.
