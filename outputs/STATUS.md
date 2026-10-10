@@ -3,14 +3,14 @@
 Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
 The [13B execution plan](13B_EXECUTION_PLAN.md) is ready; the first reviewed Colab notebook and timing result are still pending.
 Review 53 genuinely approved the repair and preparation component; installation and service-account verification passed.
-Analysis and Colab lanes are installed held. Timing-author start was requested once; admission is not yet confirmed, so do not duplicate it.
+The timing-author service failed its host check before any model call; the outcome is preserved with no automatic restart. Analysis and Colab lanes remain installed held.
 Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Snapshot: 53 calls (9 author, 5 scientific review, 31 administrative review, 8 direction); model charges separate.
-Next: first synthesis 30-60 minutes after admission, then critique; reviewed Colab notebook target 2-4 hours after its author starts. Full training and coverage-dependent arms remain held.
+Next: reconcile the host path, then admit analysis. First synthesis is estimated 30-60 minutes after admission; the admission ETA is being re-estimated during this bounded diagnosis. Training and coverage holds remain.
 No action is needed from Partho. Claude says PROCEED toward analysis/Colab results and defer further infrastructure expansion. The swap gate is not reached.
 
 ## Current installation and judgment
 
-Independent review 53 returned genuine APPROVE without findings for source `304cae4a`; the [implementation summary](reports/preparation-cap-repair-20261010.md) records the exact source and report digests. The dated-cap component and preparation runtime passed service-account verification. Installation did not initialize the two preparation lanes or launch models/compute. The timing-author start is a separate operation whose outcome must be reconciled.
+Independent review 53 returned genuine APPROVE without findings for source `304cae4a`; the [implementation summary](reports/preparation-cap-repair-20261010.md) records the exact source and report digests. The dated-cap component and preparation runtime passed service-account verification. Installation did not initialize the two preparation lanes or launch models/compute. The timing-author start ran once and stopped with `HOST_PROOF_WRONG_INVOCATION` before admission. Reconciliation confirms 38 item calls, 76 scientific batch calls and zero running model calls; daily usage remains 53 with no author charge. The original outcome is preserved; no automatic restart is authorized by this status.
 
 Review 51 genuinely approved the dated cap ($4.018335). Its first service-account verification failed because five directory modes lacked traversal permissions. The reviewed directory-only repair passed, preserving all 22 original files and unit bytes. A subsequent verification omitted the existing runtime environment; that failed check was preserved, and the corrected environment-only continuation passed. Completed repair steps were not replayed.
 
