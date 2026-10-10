@@ -3,12 +3,16 @@
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 Author 17 passed controller checks; scientific review 13 verified the diagnostic code/design but returned genuine REVISE with six preserved full-plan findings.
 CPU starvation remains unproven. No diagnostic GPU job is running; diagnostic execution lacks an explicit scoped scientific approval.
-Claude is reviewing the shortest legitimate way to judge the funded diagnostic separately while retaining every full-plan hold; no repair or new scientific call has started.
+Claude confirmed current safeguards but did not decide the proposed scope exception. A narrow reviewer-only change is being prepared; no job or model call is running.
 Identified compute spend remains $24.29; retained exposure is $110.11 against $150. Diagnostic spending and reservations remain $0/$25.
-Next scientific result is the CPU timing diagnostic, provisionally 1-3 hours if scope resolution and required reviews pass; the scope consultation should finish in 5-10 minutes. B remains first.
-UTC October 10 calls: 19/50 (3 authors, 3 scientific reviews, 10 administrative reviews, 3 direction checks). Latest completed scientific verdict: REVISE; current administrative direction check is running.
+Next scientific result is the CPU timing diagnostic, provisionally 1-3 hours if scope resolution and required reviews pass; the next step is a combined implementation/scope review. B remains first.
+UTC October 10 calls: 19/50 (3 authors, 3 scientific reviews, 10 administrative reviews, 3 direction checks). Latest scientific verdict: REVISE. Latest administrative verdict: APPROVE of current safeguards, without authority for the proposed new review.
 
 ## Latest scoped-judgment question
+
+06:32 UTC: the consultation completed with genuine current-state APPROVE, report709f1c5cd4474c5e1595d2be65e40c0cb532298ff0aa75e13483a26a2f265851, estimated model cost$4.20089125. It confirmed existing safeguards and that review13 cannot be used for diagnostic dispatch; it did not explicitly decide the proposed reviewer-only exception or shortest route. Root does not treat it as that authority. The agreed preservation conclusions remain; the missing decision will be folded into review of the concrete narrow patch, avoiding another abstract consultation. No scientific verdict has been relabeled. All calls and monitors are now positively terminal.
+
+Root judgment: prepare one exact reviewer14-only transition under the operator own-judgment rule, with unchanged author17 science, separate verbatim/open full-plan findings, unchanged execution holds, daily/dollar caps and original accounting. The candidate must independently pass tests and implementation review explicitly covering the new scope/allowance before installation or use. No author18 or new runtime subsystem. Only the isolated worktree and proposed scope exist so far; installed source3577 remains unchanged. The historical entries below preserve the prior consultation-in-progress state.
 
 06:28 UTC: scientific review13 is COMPLETE, genuinely submitted and preserved, report00ac3c5bdf863f1f5aba76b2a151c572a36edd6f5de9208d3237c1306dcb62e7. It positively checked the entrypoint correction, unchanged original plan plus two diagnostic fits, hard resource/time bounds, budget-order arithmetic and held coverage arms. It identified no new diagnostic-specific code defect, but retains U1 provenance, U2 all-arm/full integration, U3 coverage source validation, full-plan cost projection, partial-arm extrapolation and the self-review/provenance finding. Its verdict is REVISE and explicitly does not permit diagnostic dispatch. That is not reclassified as a mechanical failure or treated as approval.
 
