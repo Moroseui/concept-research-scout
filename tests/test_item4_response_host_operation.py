@@ -119,7 +119,7 @@ def test_authority_refuses_unapproved_or_changed_bytes(op,tmp_path,bad):
     m=op.m;op.monkeypatch.setattr(m.os,'getuid',lambda:0)
     engine=tmp_path/'engine.json';engine.write_text('{"files":{}}');op.monkeypatch.setattr(m,'ENGINE_RECEIPT',engine);op.monkeypatch.setattr(m,'ENGINE_PIN',m.sha(engine.read_bytes()))
     from orchestrator import autonomy_review
-    approval={'verdict':'APPROVE','change_id':m.CHANGE,'source_sha':'c'*40}
+    approval={'verdict':'APPROVE','change_id':m.REVIEW_CHANGE,'source_sha':'c'*40}
     if bad=='verdict':approval['verdict']='REVISE'
     if bad=='change':approval['change_id']='unrelated'
     op.monkeypatch.setattr(autonomy_review,'verify_result',lambda p:approval)

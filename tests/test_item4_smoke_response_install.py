@@ -4,10 +4,10 @@ import pytest
 from tools import item4_smoke_response_runtime as route,install_item4_smoke_response as installer
 
 def test_installer_preserves_every_other_unit_line():
-    old=Path(__file__).with_name('fixtures')/'item4_smoke_response_prior_unit_PRIVATE.txt'
+    old=Path(__file__).with_name('fixtures')/'item4_cpu_diagnostic_prior_unit_PRIVATE.txt'
     raw=old.read_bytes();new=installer.unit_bytes(raw)
-    before=b'/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py run'
-    after=b'/item4-post-smoke-response-20261010/tools/item4_smoke_response_runtime.py run'
+    before=b'/item4-post-smoke-response-20261010/tools/item4_smoke_response_runtime.py run'
+    after=b'/item4-cpu-starvation-diagnostic-20261010/tools/item4_smoke_response_runtime.py run'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 
@@ -23,7 +23,7 @@ def test_authority_rejects_incomplete_or_changed_installation(tmp_path,monkeypat
     fixture=tmp_path/'unit';fixture.write_text('Synthetic protected unit')
     units=[unit]
     install={'source':'a'*40,'review_sha256':'b'*64,'files':dict(files),'units':{str(x):route.sha(fixture.read_bytes()) for x in units}}
-    result={'verdict':'APPROVE','change_id':route.CHANGE,'source_sha':'a'*40,'report_sha256':'b'*64}
+    result={'verdict':'APPROVE','change_id':route.REVIEW_CHANGE,'source_sha':'a'*40,'report_sha256':'b'*64}
     (record/'review/packet-manifest.json').write_text(json.dumps({'source_sha':'a'*40,'source_files':files}))
     monkeypatch.setattr(route,'ROOT',root);monkeypatch.setattr(route,'RECORD',record)
     monkeypatch.setattr(route,'__file__',str(root/route.FILES[0]))
@@ -53,11 +53,11 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
     source=tmp_path/'source';review=tmp_path/'review';review.mkdir();files={}
     for name in route.FILES:
         p=source/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((Path(__file__).parents[1]/name).read_bytes());files[name]=route.sha(p.read_bytes())
-    result={'verdict':'APPROVE','change_id':route.CHANGE,'source_sha':'a'*40,'report_sha256':'b'*64}
+    result={'verdict':'APPROVE','change_id':route.REVIEW_CHANGE,'source_sha':'a'*40,'report_sha256':'b'*64}
     (review/'packet-manifest.json').write_text(json.dumps({'source_sha':'a'*40,'source_files':files}))
     monkeypatch.setattr(installer.os,'geteuid',lambda:0)
     for key in ['ROOT','RECORD','UNIT']:monkeypatch.setattr(installer,key,tmp_path/('absent-'+key))
-    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_smoke_response_prior_unit_PRIVATE.txt').read_bytes())
+    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_cpu_diagnostic_prior_unit_PRIVATE.txt').read_bytes())
     monkeypatch.setattr(installer,'PRIOR_UNIT',prior)
     monkeypatch.setattr(installer,'trusted',lambda path:Path(path))
     def verified(path):return result
@@ -78,7 +78,7 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
 
 
 def test_recovery_adds_one_held_unit_and_no_cleanup_timer():
-    raw=(Path(__file__).with_name('fixtures')/'item4_smoke_response_prior_unit_PRIVATE.txt').read_bytes()
+    raw=(Path(__file__).with_name('fixtures')/'item4_cpu_diagnostic_prior_unit_PRIVATE.txt').read_bytes()
     rendered=installer.unit_bytes(raw)
     assert installer.retention_units(rendered)=={installer.UNIT:rendered}
     assert b'cleanup-' not in rendered
