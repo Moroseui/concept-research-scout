@@ -340,18 +340,38 @@ def test_reviewer_reader_turn_allowance_requires_exact_dual_admission(monkeypatc
  local=sqlite3.connect(':memory:');batch=sqlite3.connect(':memory:')
  local.execute('CREATE TABLE manual_calls(id TEXT,status TEXT)')
  batch.execute('CREATE TABLE autonomy_calls(id TEXT,status TEXT)')
- p={'schema':helper.PLAINTEXT_SCHEMA};ident=helper.call(p,'review')
+ p={'schema':helper.CORRECTED_REVIEW_SCHEMA};ident=helper.call(p,'review')
  local.execute('INSERT INTO manual_calls VALUES(?,?)',(ident,'COMPLETE' if fault=='local' else 'RUNNING'))
  batch.execute('INSERT INTO autonomy_calls VALUES(?,?)',(ident,'COMPLETE' if fault=='global' else 'RUNNING'))
- work=tmp_path/'run_spec_review-15';pending={'id':ident,'round':15,'stage':'run_spec_review'}
+ work=tmp_path/'run_spec_review-16';pending={'id':ident,'round':16,'stage':'run_spec_review'}
  if fault=='pending':pending['round']=14
  store=NS(db=local,batch=NS(db=batch));driver=NS(store=store,state=tmp_path/'state',
   config={'workspace_root':str(tmp_path)},current=lambda:{'pending':pending})
  monkeypatch.setattr(manual_stage,'reviewer_command',lambda *args:['claude','--max-turns','60' if fault=='shape' else '30'])
- restore=runtime.bind_admission(driver,None,None,helper,p,runtime.PRIOR_REVIEW)
+ restore=runtime.bind_admission(driver,None,None,helper,p,'a'*64)
  try:
   if fault:
    with pytest.raises(ValueError):manual_stage.reviewer_command(tmp_path/'other' if fault=='work' else work,
        'run_spec_author' if fault=='stage' else 'run_spec_review')
   else:assert manual_stage.reviewer_command(work,'run_spec_review')==['claude','--max-turns','60']
  finally:restore();local.close();batch.close()
+
+
+@pytest.mark.parametrize('extra',[0,1])
+def test_corrected_native_total_cap_still_refuses_full_stage_exposure(unreserved,extra):
+ f=unreserved;amount=f.binding['envelope']['cost']['reserved_micro_usd']
+ compute(f.accounts.batch,budget.TOTAL_CAP-amount+extra,ident='old-full-fit',stage='FULL',run=rehearsal.RUN)
+ old=[tuple(r) for r in f.accounts.db.execute('SELECT * FROM autonomy_compute')]
+ # At the item boundary the independent provider headroom gate still holds;
+ # one micro-dollar above it is refused by the item gate first.
+ with pytest.raises(ValueError,match='ITEM4_HARD_COST_CAP' if extra else 'ITEM4_PROVIDER_HEADROOM_WAIT'):reserve(f)
+ assert not list(f.accounts.db.execute('SELECT * FROM autonomy_assets'))
+ assert [tuple(r) for r in f.accounts.db.execute('SELECT * FROM autonomy_compute')]==old
+ assert not f.calls
+
+@pytest.mark.parametrize('field',['status','receipt','reserved_micro_usd','binding','run'])
+def test_exact_failed_native_row_cannot_be_discounted_or_relabelled(field):
+ d=budget.diagnostic;row=d.document(d.CORRECTED,d.CORRECTED_SHA)['original_failed_asset']
+ assert d.historical_asset(row) and row['reserved_micro_usd']==1118950 and row['status']=='UNCERTAIN'
+ changed=dict(row);changed[field]=0 if field=='reserved_micro_usd' else 'changed'
+ with pytest.raises(ValueError,match='FAILED_ROW_CHANGED'):d.historical_asset(changed)

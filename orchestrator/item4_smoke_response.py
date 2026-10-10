@@ -26,6 +26,10 @@ DIAGNOSTIC_DECISION = '5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85
 DIAGNOSTIC_SCHEMA = 'item4-cpu-diagnostic-authoring/v1'
 RECOVERY_SCHEMA = 'item4-cpu-diagnostic-entrypoint-recovery/v1'
 SCOPED_SCHEMA = 'item4-cpu-diagnostic-scoped-review/v1'
+CORRECTED_REVIEW_SCHEMA='item4-corrected-native-scientific-review/v1'
+CORRECTED_REVIEW_DOCUMENT='docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json'
+REVIEW15_REPORT='c2469bdd71627d675d1965f9eb8ded3faf65d5b3d10baa5bd3c72305b6179ba4'
+def corrected_review(p):return p.get('schema')==CORRECTED_REVIEW_SCHEMA
 PLAINTEXT_SCHEMA = 'item4-cpu-diagnostic-plaintext-recovery/v1'
 from orchestrator import item4_fixture_correction as fixture
 FIXTURE_SCHEMA = fixture.SCHEMA
@@ -46,7 +50,7 @@ FAILED_AUTHOR = sha((RUN+':run_spec_author:16').encode())
 FAILED_REASON = 'OUTPUT_VALIDATION_REFUSED: NOTEBOOK_EXECUTION_ENTRYPOINT:synthetic_tests'
 
 def diagnostic(p):
-    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA}
+    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA, CORRECTED_REVIEW_SCHEMA}
 
 def plaintext_recovery(p):
     return p.get('schema') == PLAINTEXT_SCHEMA
@@ -55,7 +59,7 @@ def native_harness(p):
     return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA, FIXTURE_SCHEMA}
 
 def scoped_review(p):
-    return p.get('schema') == SCOPED_SCHEMA
+    return p.get('schema') in {SCOPED_SCHEMA,CORRECTED_REVIEW_SCHEMA}
 
 
 
@@ -66,6 +70,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if corrected_review(p):
+        return dict(author=20,reviewer=16,count=35,batch=73,limit=38,batch_limit=76,
+            event='REVIEWED_ITEM4_CORRECTED_NATIVE_REVIEW',field='corrected_native_review_scope',
+            assessment='cpu_diagnostic_fixture_correction',previous_reason='CPU_DIAGNOSTIC_AUTHORING_REVISE_EXECUTION_HELD',
+            previous_review=15,previous_call=sha((RUN+':run_spec_review:15').encode()),
+            folder='corrected-native-review',result='corrected_native_scientific_review')
     if fixture_correction(p):
         return dict(author=20, reviewer=15, count=33, batch=71, limit=37, batch_limit=75,
             event='REVIEWED_ITEM4_DIAGNOSTIC_FIXTURE_CORRECTION', field='cpu_diagnostic_fixture_scope',
@@ -143,10 +153,10 @@ def scope(p,approval):
             and set(p.get('failed_outputs',{}))=={'SPEC.proposed.md','execution.plan.json','notebook.patch.json'},
             'RECOVERY_AUTHORITY')
     if scoped_review(p):
-        require(a['report_sha256']==SCOPED_REVIEW13_REPORT
+        require(a['report_sha256']==(REVIEW15_REPORT if corrected_review(p) else SCOPED_REVIEW13_REPORT)
             and set(p.get('author_outputs',{}))=={'SPEC.proposed.md','execution.plan.json','notebook.patch.json'}
             and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
-                'call_id':call(p,'author'),'stage':'run_spec_author','attempt':17,'output_sha256':p['author_outputs']},
+                'call_id':call(p,'author'),'stage':'run_spec_author','attempt':q['author'],'output_sha256':p['author_outputs']},
             'SCOPED_REVIEW_AUTHORITY')
     if native_harness(p):
         require(a['report_sha256']==NATIVE_REVIEW14_REPORT and a.get('global_findings_closed') is False
@@ -185,17 +195,17 @@ def frozen_author(driver,p,value=None):
     row=driver.store.db.execute('SELECT * FROM manual_calls WHERE id=?',(call(p,'author'),)).fetchone()
     require(row is not None and accounting._accepted(driver.store,dict(row)),'SCOPED_ACCEPTED_AUTHOR')
     receipt=json.loads(row['receipt']);work=Path(receipt['workspace'])
-    require(receipt['output_sha256']==p['author_outputs'] and work.name=='run_spec_author-17','SCOPED_AUTHOR_BINDING')
+    require(receipt['output_sha256']==p['author_outputs'] and work.name=='run_spec_author-'+str(profile(p)['author']),'SCOPED_AUTHOR_BINDING')
     for name,pin in p['author_outputs'].items():
         require(sha(pr.check(work/name).read_bytes())==pin,'SCOPED_AUTHOR_CHANGED')
     old=json.loads(p['original_state']);refs=old['artifacts']
     if value is not None:
         current=value['artifacts'];prefix=profile(p)['folder']+'-'
         require(current[:len(refs)]==refs and all(ref.get('type')=='result_tables' and
-            ref.get('id','').startswith(prefix) for ref in current[len(refs):]) and
+            (ref.get('id','').startswith(prefix) or (corrected_review(p) and ref.get('id','').startswith('diagnostic-native20-'))) for ref in current[len(refs):]) and
             value.get('notebook_revision_result')==old.get('notebook_revision_result'),'SCOPED_ARTIFACT_CHANGED')
     for ref in refs:
-        if ref.get('version')==17:
+        if ref.get('version')==profile(p)['author']:
             raw=pr.check(cb.relative_file(Path(driver.config['context']),ref['path'])).read_bytes()
             require(sha(raw)==ref['sha256'],'SCOPED_ARTIFACT_BYTES_CHANGED')
     return dict(row)
@@ -289,7 +299,7 @@ def review_binding(driver,p,approval):
         require(len(reserved)==1 and reserved[0]['category']=='budget'
             and reserved[0]['id']=='STAGE1-full-projection-exceeds-authorized-caps','PROPOSAL_ONLY_BUDGET_SCOPE')
     if scoped_review(p):
-        return {'schema':'cpu-diagnostic-scoped-review-context/v1','stage':'run_spec_review','round':14,
+        return {'schema':'cpu-diagnostic-scoped-review-context/v1','stage':'run_spec_review','round':q['reviewer'],
             'author_call_id':call(p,'author'),'carried_review_sha256':sha(raw),
             'carried_submission_sha256':sha(submission),'global_findings_closed':False,
             'implementation_review_sha256':approval,'execution_authorized':False}
@@ -324,8 +334,8 @@ def activate(driver,p,approval,dest):
         db.execute('INSERT INTO events VALUES(?,?,?)',(q['event'],RUN,json.dumps(grant,sort_keys=True)))
         db.execute('UPDATE manual_state SET payload=? WHERE id=1',(json.dumps(value),));db.execute('COMMIT')
     except BaseException:db.execute('ROLLBACK');raise
-    pr.write_bytes(Path(dest)/'applied.json',canonical({'status':('READY_DIAGNOSTIC_REVIEW14' if scoped_review(p) else 'READY_DIAGNOSTIC_AUTHOR'+str(q['author']) if diagnostic(p) else 'READY_PROPOSAL_AUTHOR15'),'binding':binding,'grant':grant,'model_calls':0}))
-    return {'status':('READY_DIAGNOSTIC_REVIEW14' if scoped_review(p) else 'READY_DIAGNOSTIC_AUTHOR'+str(q['author']) if diagnostic(p) else 'READY_PROPOSAL_AUTHOR15'),'model_calls':0,'execution_authorized':False}
+    pr.write_bytes(Path(dest)/'applied.json',canonical({'status':('READY_DIAGNOSTIC_REVIEW'+str(q['reviewer']) if scoped_review(p) else 'READY_DIAGNOSTIC_AUTHOR'+str(q['author']) if diagnostic(p) else 'READY_PROPOSAL_AUTHOR15'),'binding':binding,'grant':grant,'model_calls':0}))
+    return {'status':('READY_DIAGNOSTIC_REVIEW'+str(q['reviewer']) if scoped_review(p) else 'READY_DIAGNOSTIC_AUTHOR'+str(q['author']) if diagnostic(p) else 'READY_PROPOSAL_AUTHOR15'),'model_calls':0,'execution_authorized':False}
 
 
 def validate_diagnostic_delta(plan_raw,module_raw,p):
@@ -359,6 +369,10 @@ def validate_diagnostic_delta(plan_raw,module_raw,p):
             and not any((functions[0].args.defaults,functions[0].args.kwonlyargs,
                 functions[0].args.posonlyargs,functions[0].args.vararg,functions[0].args.kwarg)),
             'NATIVE_ENTRYPOINT_REQUIRED')
+    if corrected_review(p):
+        require(sha(module_raw)==p['module_sha256']=='501cb5b8e8487a2b73f1e139fe5cc96cb6c3315c1c8832ffefd351e31f5c8749'
+            and sha(plan_raw)==p['diagnostic_plan_sha256']=='31c3e4a57f8df616b1b8be0aa37516408196d5c545ded0efb5eaad1b4e23370a',
+            'CORRECTED_ACCEPTED_BYTES')
     if fixture_correction(p):fixture.correction(module_raw,p)
     return {'execution_plan_sha256':sha(plan_raw),'module_sha256':sha(module_raw),
         'fit_ids':[f['fit_id'] for f in extra],'execution_authorized':False}
@@ -387,6 +401,8 @@ def protected_keys(p):
         'cpu_diagnostic_recovery','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
     if plaintext_recovery(p) or fixture_correction(p):keys+=('cpu_diagnostic_native_harness_scope',)
     if fixture_correction(p):keys+=('cpu_diagnostic_plaintext_scope',)
+    if corrected_review(p):keys+=('cpu_diagnostic_native_harness_scope','cpu_diagnostic_plaintext_scope',
+        'cpu_diagnostic_fixture_scope','cpu_diagnostic_fixture_correction','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
     return keys
 
 
@@ -422,7 +438,7 @@ def connect_roles(accounting,recovery,p,approval):
             driver=accounting.context(store,run);require(driver is not None,'REVIEW_CONTEXT')
             ready(driver,value,p,approval)
             require(store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==q['count'],'SCOPED_REVIEW_ONCE')
-            return 14
+            return q['reviewer']
         recovery.role_limit=scoped_limit
         return
     old_binding,old_inspect,old_limit=accounting.review_binding,accounting.inspect,recovery.role_limit
@@ -513,7 +529,7 @@ def finish_review(driver,value,p,approval):
     rows=[dict(r) for r in driver.store.db.execute('SELECT * FROM manual_calls ORDER BY rowid')]
     if scoped_review(p):
         require(len(rows)==q['count']+1 and (rows[-1]['id'],rows[-1]['stage'],rows[-1]['attempt'],rows[-1]['status'])==
-            (call(p,'review'),'run_spec_review',14,'COMPLETE'),'COMPLETED_SCOPED_REVIEW')
+            (call(p,'review'),'run_spec_review',q['reviewer'],'COMPLETE'),'COMPLETED_SCOPED_REVIEW')
         frozen_author(driver,p,value);review_binding(driver,p,approval)
     else:
         require(len(rows)==q['count']+2 and [(r['id'],r['stage'],r['attempt'],r['status']) for r in rows[-2:]]==[
@@ -638,6 +654,15 @@ SCOPED_GUIDANCE=(
 )
 
 def guidance(p):
+    if corrected_review(p):
+        return SCOPED_GUIDANCE.replace('unchanged accepted author17','unchanged accepted author20').replace('All review13 and earlier','All review15 and earlier')+(
+            ' This is review16 responding to genuine REVISE15. Read diagnostic-native20-index.json and ALL ordered pages '
+            'of the complete actual corrected-module CPU integration receipt, console, selection and transport proof. '
+            'Assess whether that evidence closes DIAG-U2 for these two fits; an outer PASS is not sufficient. '
+            'Judge real trainer hooks, workers/loader waits, telemetry thread lifecycle, cadence15/LR250/save10, '
+            '2100s stop and cpu-diagnostic.json/hash closure. CPU-only durable-invalid GPU telemetry is a limitation, '
+            'not GPU or production evidence. The original failed author19 native test, review15 and every charge remain preserved. '
+            'No requested verdict, automatic retry, scientific edit, GPU dispatch or full-plan acceptance.')
     if fixture_correction(p):return fixture.GUIDANCE
     if plaintext_recovery(p):return PLAINTEXT_GUIDANCE+NATIVE_GUIDANCE.replace(
         'its separate preserved base native harness is supplied as historical author-owned reference only, not new evidence.',
@@ -708,7 +733,7 @@ def deliver(driver,value,p,approval,supplemental):
     before=list(value['artifacts'])
     def add(name,raw):
         collection.artifact(driver,value,'result_tables',q['folder']+'-'+name,q['folder']+'/'+name,raw)
-    raw=pr.check(driver.state/('cpu-diagnostic-scoped-review/review.json' if native_harness(p) else 'cpu-diagnostic-recovery/review.json' if scoped_review(p) else 'post-smoke-response/review.json' if diagnostic(p) else 'smoke-review11/review.json')).read_bytes()
+    raw=pr.check(driver.state/('cpu-diagnostic-fixture-correction/review.json' if corrected_review(p) else 'cpu-diagnostic-scoped-review/review.json' if native_harness(p) else 'cpu-diagnostic-recovery/review.json' if scoped_review(p) else 'post-smoke-response/review.json' if diagnostic(p) else 'smoke-review11/review.json')).read_bytes()
     require(sha(raw)==p['assessment']['report_sha256'],'ORIGINAL_REVIEW11')
     add('scientific-review'+str(q['previous_review'])+'.json',raw)
     add('scientific-assessment'+str(q['previous_review'])+'.json',canonical(p['assessment']))
