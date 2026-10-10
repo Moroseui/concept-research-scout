@@ -1,1 +1,1 @@
-Item 6 complete. Item 4 handoff e50aa51b installed with successful held postchecks,125 tests and independent APPROVE da282dcc. Author20 activation underway; model call and reviewer15/GPU not started. No CPU or automatic GPU retry. See outputs/STATUS.md.
+Item6 complete. Item4 author20 running through normal admission after125 tests, approved handoff e50aa51b/da282dcc and successful installation. Scientific reviewer15 then judges the fixture correction and genuine native failure; GPU stays held. No CPU or automatic GPU retry. Daily31/50. See outputs/STATUS.md.
