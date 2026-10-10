@@ -6,13 +6,13 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 The author corrected the fixture, but its added regression was delivered in the submitted report and the controller refused that placement.
 
-The exact authored regression now passes in the existing isolated sandbox. Recovery passed on copied history; the live submission remains held while Claude reviews the concrete fix.
+The exact authored regression passes in isolation, but Claude declined recovery of its placement. The candidate remains uninstalled; the next route is an author submission that passes the original check.
 
 Identified compute spending is $24.39800404. Stage-1 commitments are $114.397673/$150, including $4.286495/$25 for the diagnostic. Model charges are separate.
 
-Next target: implementation review in about 10-15 minutes. Native validation and GPU timing still need their remaining gates; their ETA is uncertain.
+Next target: a bounded author delivery repair for review. A new author result will likely wait until the UTC call reset; GPU timing has no reliable ETA yet.
 
-Today: 49/50 calls - 9 author admissions, 5 scientific reviews, 27 administrative reviews and 8 standalone direction checks. This review includes the direction follow-up.
+Today: 49/50 calls - 9 author admissions, 5 scientific reviews, 27 administrative reviews and 8 standalone direction checks. The last administrative review included the direction follow-up; one call remains today.
 
 Run B remains first if both estimates exceed $25. Full training and coverage-dependent arms remain held.
 
@@ -22,9 +22,9 @@ Author23 is COMPLETE in both ledgers, with its submission and original charges r
 
 The original16 tests, augmented17 tests and expected old-code E173 negative control passed under the existing service-account synthetic sandbox.42 focused and existing guard tests passed. The actual recovery entrypoint also passed on copied context and SQLite history, using the normal validators and accepted-event writer. Its test substituted installation authority and redirected canonical paths to disposable copies; the live state, calls and events were verified unchanged. This is contract evidence, not a native/GPU result or scientific acceptance.
 
-Latest completed Claude direction: genuine REVISE. It required concrete code and isolated provenance; those requirements are now met by the candidate and submitted for judgment. The follow-up also corrects a mistaken runner-provenance interpretation and cites the later operator delegation. Direction discussion round2 is folded into the implementation review; no additional scope-only call was made. No recovery is approved or installed yet.
+Latest Claude implementation/direction result: genuine REVISE caab7b6b. It accepted the concrete isolated-test evidence and narrowed the objection to recovery replacing author-delivered test placement. The root agent adopts its simpler route: obtain a conforming author submission and keep the original placement check. The recovery candidate is uninstalled and will not be applied. No separate third direction call is planned; the next concrete author-delivery repair will carry any remaining authority discussion. The later operator rule still limits user questions to money.
 
-Judgment: preserve the refusal and exact authored outputs; replace only the pinned submission's placement requirement with the original strict additive-test check plus separately recorded isolated execution. Keep all later native/scientific gates. Test harness failures and the diagnosed historical-input bookkeeping fix are preserved privately.
+Judgment: follow Claude on obtaining an author-delivered conforming module. Investigate a bounded patch-size correction because the author filled79997 of80000 permitted bytes before adding the regression. Keep the original test-placement check and all native/scientific gates. No further author or administrative call has started. All refusals, test failures, charges and the uninstalled proposal remain preserved.
 
 Backup: the uninstalled draft is on astra/public-spec-regression-recovery-20261010. Excluded from public backup: docs/ITEM4_SPEC_REGRESSION_RECOVERY_PRIVATE.json; it contains frozen state and accounting evidence. All evidence folders, raw ledgers, review packets and native streams remain private. Installed releases remain on remote-server; main is unchanged.
 
