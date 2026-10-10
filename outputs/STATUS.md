@@ -2,17 +2,23 @@
 
 Item 6 is complete: all 352 comparable values match the independent Sprint 14 run.
 
-The October 10 direction starts three workstreams: 13B execution, analysis and ideas, and a private visual case-review plan. See the [13B execution plan](13B_EXECUTION_PLAN.md).
+The [13B execution plan](13B_EXECUTION_PLAN.md) is written. Analysis, Colab preparation, timing and private meeting support remain active workstreams.
 
-No model or experiment was running at the 20:36 UTC reconciliation. The timing author is ready but unstarted; Colab notebook authoring and analysis intake are being prepared independently.
+No scientific call or GPU job has started since the new direction. Review 51 completed with APPROVE; its held installation failed a service-account directory-access check.
 
-The installed daily guard is still 50; today's authorized 100 requires a dated source patch and review. The analysis launcher also needs a scoped parallel lane. Neither check has been bypassed.
+A narrow permission repair is being batched with the analysis and Colab admission review. The originals remain preserved; no check was bypassed or attempt duplicated.
 
-Identified compute spent: $24.39800404; commitments $114.397673/$150 stage 1 and $4.286495/$25 diagnostic. Today: 50 calls (9 author, 5 scientific review, 28 administrative review, 8 direction); model charges separate.
+Identified compute spent: $24.39800404; commitments $114.397673/$150 stage 1 and $4.286495/$25 diagnostic. Today: 51 calls (9 author, 5 scientific review, 29 administrative review, 8 direction); model charges separate.
 
-Target: first reviewed Colab smoke notebook in 2-4 hours; full training still needs scientific smoke acceptance and an accepted cost projection. No action is needed from Partho yet.
+Next: first synthesis and critique 1-2 hours after reviewed admission; first reviewed Colab smoke notebook 2-4 hours from the new direction. Timing remains conditional on author, native tests and scientific review.
 
-Latest Claude direction remains the earlier PROCEED for author delivery; consultation on the new scope is pending. Engineering changes will be batched where practical.
+No action is needed from Partho. ROLES/HANDOVER are being maintained; the exact six-condition swap gate is not reached. The latest completed direction remains PROCEED for author delivery; broader advice is still pending.
+
+## Current installation and judgment
+
+The dated daily-cap source passed independent review (report c7b151f2, source b2daefc0). Call 51 charged $4.0183349999999995. Its original files were installed held, then actual service-account verification failed because directory creation under umask 0077 lacked explicit final chmod. Five directories need the originally intended traversal permissions. No file, owner, credential, ledger, limit or safeguard change is proposed by this repair. Normal independent review and actual service-account verification will precede use. Original install intent and failed logs stay preserved.
+
+Judgment: 21:01 UTC, repair the diagnosed directory-mode fault and batch it with B/Colab admission; Claude implementation review pending. No repeated install or scientific launch. Call 51 approved only its implementation scope and did not resolve the broader advisory questions.
 
 ## October 10 direction
 
@@ -22,7 +28,7 @@ The operator direction is recorded verbatim and hash-pinned (644410e1). The [exe
 
 ## Current evidence
 
-At 18:56 UTC the live ledger still showed 50 calls, no running model calls, and the ready author service inactive. The daily-cap blocker has persisted across three consecutive goal turns; the goal is marked blocked pending that external reset. The full objective remains incomplete. No new scope or approval is requested.
+At 18:56 UTC the live ledger still showed 50 calls, no running model calls, and the ready author service inactive. The daily-cap blocker has persisted across three consecutive goal turns; that earlier blocked status was superseded by the October 10 direction and active goal. The full objective remains incomplete. No new scope or approval is requested.
 
 Independent implementation review b22327dc returned genuine APPROVE without findings for source 782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. The approved activation is now complete. A separate read-only check confirmed exactly the reviewed grant transition, with original records and counts preserved: 38 item calls and 76 scientific batch calls. Author24 is ready but has not been admitted or started. All five existing housekeeping services completed their latest observed runs successfully; their timers were left unchanged. No model or experiment is running and no timer was added.
 
@@ -40,7 +46,7 @@ Backup: the reviewed safe code projection is merged into remote-server and retai
 
 ## Earlier results and spending
 
-The earlier A100 278.1671 s, H100 228.1379 s and B200 166.2836 s measurements were first epochs and include warm-up. The A100 value extrapolates to 19.32 GPU hours per 250-epoch fold; it is not a steady-state estimate. Sprint 12 A1 reported about 36 s per epoch and 2.69?2.74 hours per fold. Workload comparability remains unverified, and later B200 smoke timing was still declining. Earlier full-plan sensitivities of $2,963.89?$3,574.95 exceeded the $1,200 gate; they are not a validated final projection. The scientific author and reviewer must replace them using the timing diagnostic.
+The earlier A100 278.1671 s, H100 228.1379 s and B200 166.2836 s measurements were first epochs and include warm-up. The A100 value extrapolates to 19.32 GPU hours per 250-epoch fold; it is not a steady-state estimate. Sprint 12 A1 reported about 36 s per epoch and 2.69-2.74 hours per fold. Workload comparability remains unverified, and later B200 smoke timing was still declining. Earlier full-plan sensitivities of $2,963.89-$3,574.95 exceeded the $1,200 gate; they are not a validated final projection. The scientific author and reviewer must replace them using the timing diagnostic.
 
 The four closed synthetic attempts cost $0.02512208, $0.02347152, $0.02466453 and $0.03461146. Every original $1.118950 reservation remains preserved. Confirmed credits for the first two total $0.189305 while retaining $2 overhead. A further $0.178623 excess has been verified and its accounting extension approved, but remains reserved until the next native release; the other $2 overhead stays held. No open or uncertain reservation was released.
 
