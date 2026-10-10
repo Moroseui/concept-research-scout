@@ -4,11 +4,11 @@ Item6 is complete: all352 comparable values match the independent Colab run.
 
 13B CPU starvation remains unanswered. Three prior CPU validations failed; their originals and charges are preserved.
 
-The independently approved adapter repair is installed. One deliberately reviewed CPU validation service started at14:55 UTC and is preparing admission and provider launch.
+The independently approved adapter repair is installed. One deliberately reviewed CPU validation is confirmed RUNNING on the provider, observed14:58 UTC, with a$1.118950 reservation.
 
 Claude returned APPROVE with no findings and PROCEED, explicitly confirming installation before one bounded verification and scientific review only after genuine native success.
 
-Identified compute spend remains$24.33873; the third attempt's actual bill is pending. Last verified commitments are$113.278723/$150, including$3.167545/$25 for the diagnostic. The new quote is$1.118950; it is not yet included until admission is observed.
+Identified compute spend remains$24.33873; the third attempt's actual bill is pending. Normal admission is confirmed: commitments are$114.397673/$150, including$4.286495/$25 for the diagnostic. The current full$1.118950 reservation remains counted; actual cost is pending.
 
 Next expected result: native CPU outcome within about20 minutes of14:55 UTC. GPU timing remains gated by native success and scientific review.
 
@@ -20,7 +20,7 @@ Today's calls:40/50:7 authors,5 scientific reviews,21 implementation reviews and
 
 Approved source9b568290 fixes the root adapter's rejection of the author's separate diagnostic output directory. It accepts only the exact durable/diagnostic siblings under the same private synthetic root, binds both to the same893 generated inputs and hashes, and rejects other roots, nesting, traversal, relative paths and aliases. No scientific source, plan, image, resources or limits changed. Accepted author21 remains the exact [author-owned module](proposals/item4-cpu-diagnostic-author21.py).
 
-The independent implementation review, report10129ee9, resolved both infrastructure findings and explicitly approved the safe order: held installation, one deliberately reviewed bounded CPU verification, then reviewer16 only after actual native PASS. Installation, native runtime verification and reviewer-route verification all passed with zero model/provider calls. The one CPU service was started once; its outcome and actual reservation must be observed before further action. There is no automatic retry.
+The independent implementation review, report10129ee9, resolved both infrastructure findings and explicitly approved the safe order: held installation, one deliberately reviewed bounded CPU verification, then reviewer16 only after actual native PASS. Installation, native runtime verification and reviewer-route verification all passed with zero model/provider calls. The one CPU service was started once and the provider confirms it running. Its full reservation and original accounting event are preserved; await the actual outcome before further action. There is no automatic retry.
 
 159 focused tests passed. A separate check extracts all three actual factory calls from the accepted scientific source and exercises real checkpoint storage; all now pass, while the old adapter reproduces the observed failure. Both server rehearsals passed with real read-only history and disposable ledger copies. They preserved original events and reservations and refused over-cap admission, reviewer admission without native success, duplicates and full-plan admission. Their simulated future approval/PASS markers were test-only and never live authority. These checks do not claim that native diagnostic training or GPU timing has succeeded.
 
@@ -30,7 +30,7 @@ Scientific review15 remains genuine REVISE. Native integration, provenance, cove
 
 ## Spending and call purposes
 
-- Last verified stage1 commitments:$113.278723/$150; diagnostic effective actuals plus retained/open allowances:$3.167545/$25. A proposed new$1.118950 reservation would make these$114.397673 and$4.286495, subject to normal admission and fresh billing. Do not treat the quote as an admitted charge until observed.
+- Live stage1 commitments:$114.397673/$150; diagnostic effective actuals plus retained/open allowances:$4.286495/$25. The new$1.118950 reservation is confirmed admitted. Both the third failed and fourth running attempts retain their full reservations; their actual costs remain pending.
 - First native actual:$0.02512208; second:$0.02347152. Both original$1.118950 reservations remain recorded. Confirmed excess CPU/RAM credits total$0.189305; each retains$1 overhead. The third full$1.118950 remains committed because its bill is unavailable. No third-attempt release is implemented.
 - Identified compute total:$24.33872805, excluding unknown later actuals. Model charges are separate. The direction call estimated$2.41803125 and the latest implementation review$4.03566975; all are preserved and counted. No GPU reservation.
 - Full-plan projection gate$1,200 and total cap$1,275 unchanged. Existing local39, scientific-batch77 and daily50 call limits unchanged.
