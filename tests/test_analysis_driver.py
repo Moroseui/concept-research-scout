@@ -477,3 +477,37 @@ def test_saved_completed_author_requalifies_without_another_call(analysis_lane, 
     with pytest.raises(KeyError):
         d.accept_completed(d.current())
     assert d.status()['calls_used'] == 1
+
+
+@pytest.mark.parametrize('branch',['astra/workstream-b-aggregate-20261010','astra/manual-BAD','main'])
+def test_init_rejects_local_accounting_branch_before_owner_or_allowance(initialization,branch):
+    d,review,_=initialization
+    subprocess.run(['git','checkout','-qb',branch],cwd=d.root,check=True)
+    before=[tuple(r) for r in d.store.batch.db.execute('SELECT * FROM autonomy_runs')]
+    target=d.state/'new-analysis'
+    with pytest.raises(ValueError,match='^MANUAL_ACCOUNTING_BRANCH_REQUIRED$'):
+        analysis_driver.initialize(d.root,target,review,d.state/'preparation-plan.json')
+    assert not target.exists() and not list((d.root/'.git').glob('analysis-owner-*'))
+    assert [tuple(r) for r in d.store.batch.db.execute('SELECT * FROM autonomy_runs')]==before
+    assert not d.store.batch.db.execute('SELECT 1 FROM autonomy_calls').fetchone()
+
+
+def test_real_initialize_then_both_ledgers_reserve_uses_same_branch_contract(initialization):
+    from orchestrator.manual_executor import ManualExecutor
+    d,review,_=initialization
+    d.store.batch.complete_run(d.config['run_id'],{'synthetic':True})
+    target=d.state/'new-analysis'
+    result=analysis_driver.initialize(d.root,target,review,d.state/'preparation-plan.json')
+    config=read(target/'lane.json')
+    assert result['calls_used']==0
+    assert re.fullmatch(r'astra/manual-[a-z0-9-]+',config['branch'])
+    batch=BatchAccounts(config['batch_ledger']);store=ManualExecutor(target/'jobs.sqlite',batch=batch)
+    try:
+        ident,n,receipt=store.reserve_call(config['run_id'],'run_spec_author',config['source'],config['branch'],config['policy'],{'synthetic':True})
+        assert n==1 and receipt['accounting']['status']=='ADMITTED'
+        assert store.db.execute('SELECT status FROM manual_calls WHERE id=?',(ident,)).fetchone()[0]=='RUNNING'
+        assert batch.db.execute('SELECT status FROM autonomy_calls WHERE id=?',(ident,)).fetchone()[0]=='RUNNING'
+        account=json.loads(store.db.execute('SELECT payload FROM manual_account WHERE id=1').fetchone()[0])
+        assert account['count']==1 and len(account['events'])==1
+        assert batch.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==1
+    finally:store.db.close();batch.db.close()
