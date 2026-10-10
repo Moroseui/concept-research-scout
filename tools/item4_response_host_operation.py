@@ -12,7 +12,7 @@ import sys
 import time
 
 CHANGE='item4-diagnostic-scoped-review-20261010'
-REVIEW_CHANGE='item4-diagnostic-scoped-review-20261010'
+REVIEW_CHANGE='item4-scoped-install-packet-repair-20261010'
 FILE='tools/item4_response_host_operation.py'
 DOCUMENT='docs/ITEM4_RESPONSE_HOST_PRIVATE.json'
 UNIT='research-item4-diagnostic-scoped-review-20261010.service'
