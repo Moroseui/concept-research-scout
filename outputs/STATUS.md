@@ -1,13 +1,27 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-Scientific review14 accepts the CPU diagnostic design and budget boundaries, but returns REVISE for one concrete native-runtime test gap.
-The new instrumentation needs a pinned-image CPU integration test using generated fixtures before paid GPU dispatch; no patient data or GPU is needed for that test.
-The existing author-owned native harness does not cover the instrumentation, and its required entrypoint is absent from the accepted module. The scientific author must supply that test coverage.
-All reviews, services and monitors are now terminal. No diagnostic GPU job has started; full training and coverage-dependent arms remain held.
-Identified compute spend is $24.29; retained exposure is $110.11 against $150. Diagnostic spend/reservations remain $0/$25. Model charges are separate and preserved.
-Next target: native-test receipt in roughly1?2 hours, conditional on author/review completion. The earlier GPU ETA is no longer reliable; B remains first when execution is accepted.
-UTC October10 calls:22/50?3 scientific authors,4 scientific reviewers,12 administrative reviews,3 standalone direction checks. Latest scientific verdict:REVISE; latest implementation verdict:APPROVE.
+The CPU diagnostic design passed scientific scrutiny; the remaining finding requires a native integration test of its new instrumentation.
+The author-admission repair passed 69 focused tests and a server rehearsal; one combined Claude implementation/accounting/direction review is running.
+No diagnostic GPU job has started. Native execution and the next scientific review remain held; full training and coverage-dependent arms remain held.
+Identified compute spend is $24.29; retained stage exposure is $110.11 of $150. Diagnostic actual spend and reservations are both $0 of $25; model charges are separate.
+Next expected result is the author-owned native test and its CPU receipt, provisionally 1-2 hours after approval; GPU timing remains dependent on that result.
+B runs first because the maximum A+B quotes exceed $25; A follows only if confirmed closed costs leave enough room. No automatic retry.
+UTC October 10 calls: 23/50 -- 3 scientific authors, 4 scientific reviewers, 13 administrative reviews and 3 standalone direction checks. Latest direction check is pending within the current review.
+
+## Current native-test author route
+
+07:51 UTC: source f80421dabdf05dd900147adf114f1450b702ef02 is committed, tested and uninstalled. One combined independent implementation, process/accounting and direction review is running. It must genuinely approve this exact candidate before installation or author18. The candidate reuses the existing author submission feedback and controller tests, keeps the complete diagnostic plan byte-for-byte, and requires the missing native-test entrypoint before acceptance. Scientific code is authored through the system.
+
+The accounting tests exposed that failed author16 and its approved corrective author17 reference the same review12. The general duplicate-review refusal remains. Only the exact new admission replaces it with all frozen historical row hashes, genuine prior receipt checks and the specifically approved unaccepted16-to-accepted17 relationship. Every other repeated review refuses. Three extra tests reject a fabricated acceptance, deleted reference acceptance or changed grant. No historical usage or charge changes.
+
+Validation: 58 fast tests, eight accounting tests and three tamper tests passed. The exact-source server rehearsal used genuine existing authorities and read-only live records, then disposable ledger copies. Only author18 was admitted in the copies; duplicates, premature reviewer15 and whole-plan calls refused. No model/provider call or live-accounting mutation occurred in testing. All preliminary failures remain preserved privately.
+
+Judgment: author18 is necessary because the accepted module has no native-test entrypoint and the historical authored harness covers only the base path. Reuse the existing native worker and pinned image. Claude is consulted because the repair touches accounting and an equivalent check; the overdue shortest-path direction check is folded into the same required review. It includes the estimate slip and prior failure mode of excessive infrastructure with little science. No operator decision is pending.
+
+The added administrative call covers this repair, its bounded process exception and direction together. Administrative reviews remain the majority (13/23). The previous 22 calls and their purposes are retained below; direction advice inside an administrative review is counted once.
+
+Safe working projection: astra/public-diagnostic-native-harness-20261010 at ca0538406053e3d85bba70fb4451bd2af15756ca. It is an uninstalled candidate and has not been merged into remote-server. Withheld after scans: docs/ITEM4_CPU_DIAGNOSTIC_NATIVE_HARNESS_PRIVATE.json, docs/ITEM4_RESPONSE_HOST_PRIVATE.json and tests/fixtures/item4_native_harness_prior_unit_PRIVATE.txt. Earlier flagged proposals/reports remain withheld. Evidence, packets, native streams, ledgers and patient-level material remain private. This public source projection is intentionally incomplete for deployment.
 
 ## Current scientific finding and next step
 
