@@ -8,6 +8,10 @@ DOCUMENT = 'docs/LIMIT_OPERATOR_DECISION.txt'
 DAILY_AUTHORITY = 'fcfaa8f3e3c17ffc0ea76c08e76177ddc3ed510a3456d019ad6ed2148283b48d'
 DAILY_DOCUMENT = 'docs/DAILY_LIMIT_OPERATOR_DECISION_20261007.txt'
 DAILY = 50
+TEMPORARY_DAY = '2026-10-10'
+TEMPORARY_DAILY = 100
+TEMPORARY_AUTHORITY = '644410e1659c8998040c3cc9035aaa0eb2c5c3708fba37cfbb1a91fadf9f00e6'
+TEMPORARY_DOCUMENT = 'docs/OPERATOR_DIRECTION_20261010.txt'
 SCIENTIFIC_BATCH = 60
 REVISE_ROUNDS = 3
 
@@ -21,6 +25,26 @@ def authority(root=None):
     if p.is_symlink() or hashlib.sha256(p.read_bytes()).hexdigest() != DAILY_AUTHORITY:
         raise ValueError('DAILY_LIMIT_OPERATOR_AUTHORITY_CHANGED')
     return AUTHORITY
+
+
+def daily_allowance(day, root=None):
+    """Select from the admission transaction's UTC day, never process start time.
+
+    A past or future day has the original limit. No caller-selected cap and no
+    ledger mutation occurs here. The temporary operator direction is mandatory
+    only when its increased allowance would be used.
+    """
+    from datetime import date
+    authority(root)
+    if type(day) is not str or date.fromisoformat(day).isoformat() != day:
+        raise ValueError('DAILY_ADMISSION_DATE_REQUIRED')
+    if day != TEMPORARY_DAY:
+        return {'limit': DAILY, 'authority_sha256': DAILY_AUTHORITY}
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    p = root / TEMPORARY_DOCUMENT
+    if p.is_symlink() or hashlib.sha256(p.read_bytes()).hexdigest() != TEMPORARY_AUTHORITY:
+        raise ValueError('TEMPORARY_DAILY_AUTHORITY_CHANGED')
+    return {'limit': TEMPORARY_DAILY, 'authority_sha256': TEMPORARY_AUTHORITY}
 
 
 def selected_run_limit(config, run):

@@ -41,8 +41,7 @@ class ReviewQueue(Store):
                 self.db.execute('COMMIT');return old,False
             from orchestrator.administrative_terminal import administrative_exceptions
             reconciled_scientific=administrative_exceptions(self.db,self.folder.parent/'scientific-terminal')
-            daily=limits.daily_allowance(day)
-            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=daily['limit']:
+            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=limits.DAILY:
                 raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
             rows=self.db.execute('SELECT * FROM autonomy_calls WHERE change_id=? ORDER BY round',(manifest['change_id'],)).fetchall()
             if (type(manifest['round']) is not int or len(rows)>=review.MAX_ROUNDS or manifest['round']!=len(rows)+1
@@ -102,7 +101,7 @@ class ReviewQueue(Store):
             from orchestrator import connectivity
             preflight={**preflight,'connectivity':connectivity.require(['claude'], self.folder/'connectivity.json')}
             binding={'manifest':manifest,'preflight':preflight,'administrative_only_reconciliations':reconciled_scientific,'accounting_unit':'one native Claude invocation',
-                     'scope':'implementation review; excluded from scientific batch call allowance','daily_limit':daily['limit'],'max_rounds':review.MAX_ROUNDS,'round_authority_sha256':round_authority,'limit_authority_sha256':limits.AUTHORITY,'daily_limit_authority_sha256':daily['authority_sha256']}
+                     'scope':'implementation review; excluded from scientific batch call allowance','daily_limit':limits.DAILY,'max_rounds':review.MAX_ROUNDS,'round_authority_sha256':round_authority,'limit_authority_sha256':limits.AUTHORITY,'daily_limit_authority_sha256':limits.DAILY_AUTHORITY}
             raw=json.dumps(binding,sort_keys=True)
             self.db.execute("INSERT INTO jobs(id,binding,phase,status) VALUES(?,?,'dispatch','RUNNING')",(ident,raw))
             self.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,NULL)',

@@ -61,7 +61,7 @@ def authority():
 
 
 def unit_state(unit):
-    if not re.fullmatch(r'research-manual-sprint10-[a-zA-Z0-9_-]+\.service',unit):raise ValueError('ADMIN_TERMINAL_UNIT_SCOPE')
+    if unit != 'research-item4-author-submission-20261008.service' and not re.fullmatch(r'research-manual-sprint10-[a-zA-Z0-9_-]+\.service',unit):raise ValueError('ADMIN_TERMINAL_UNIT_SCOPE')
     raw=subprocess.check_output(['/usr/bin/systemctl','show',unit,'-p','LoadState','-p','ActiveState','-p','MainPID','-p','ControlGroup','-p','InvocationID'],text=True,timeout=15)
     v=dict(line.split('=',1) for line in raw.splitlines())
     if v.get('LoadState')!='loaded' or v.get('ActiveState') not in {'inactive','failed'} or v.get('MainPID')!='0' or v.get('ControlGroup'):
@@ -72,6 +72,10 @@ def unit_state(unit):
 def proof_kind(row,bodies):
     if row['kind']!='scientific' or row['status']!='UNCERTAIN':raise ValueError('ADMIN_TERMINAL_SCIENTIFIC_ONLY')
     if row['id']==AUTHOR_TIMEOUT_ID:return exact_author_timeout(row,bodies)
+    from orchestrator import author_submission_recovery as recovery
+    if row['id']==recovery.CALL:
+        recovery.terminal(row,bodies)
+        return 'PROVEN_EXACT_AUTHOR5_SUBMISSION_REFUSAL_ADMIN_ONLY'
     if row['id']==PRECLIENT_ID:
         if row_hash(row)!=PRECLIENT_ROW or set(bodies)!=set(PRECLIENT_PINS):raise ValueError('ADMIN_PRECLIENT_BINDING')
         if any(digest(bodies[n])!=pin for n,pin in PRECLIENT_PINS.items()):raise ValueError('ADMIN_PRECLIENT_EVIDENCE_CHANGED')

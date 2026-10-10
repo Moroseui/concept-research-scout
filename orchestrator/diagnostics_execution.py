@@ -53,9 +53,7 @@ def selection(driver,value):
 
 def support_files():
     from orchestrator.diagnostics_modal import WORKER
-    # Component replacement preserves the original package support bytes.
-    from orchestrator import diagnostics_contract
-    root=Path(diagnostics_contract.__file__).parent
+    root=Path(__file__).parent
     names=('diagnostics_contract.py','experiment_result.py','private_records.py','scientific_view_scan.py','privacy_patterns.py')
     return {'run.py':WORKER.encode(),'orchestrator/__init__.py':b'',**{'orchestrator/'+name:(root/name).read_bytes() for name in names}}
 
@@ -70,8 +68,6 @@ def prepared_contents(driver,value,binding):
 
 
 def verify_prepared(folder,binding):
-    from orchestrator.diagnostics_mount_retry import parent_binding
-    binding=parent_binding(binding)
     require(binding.get('purpose')==PURPOSE and binding.get('run_id')==policy.RUN_ID and binding.get('authority_sha256')==policy.authority(),'DIAGNOSTICS_PACKAGE_SCOPE')
     program_contract(binding['program_contract'])
     folder=Path(folder);pr.check_tree(folder);manifest=strict((folder/'manifest.json').read_bytes())
@@ -103,8 +99,7 @@ def prepare(driver,value):
         write_once(folder/'manifest.json',encoded(manifest))
     verify_prepared(folder,selected['binding'])
     require(inventory(folder)=={**manifest['files'],'manifest.json':sha(encoded(manifest))},'DIAGNOSTICS_PREPARED_CHANGED')
-    from orchestrator.diagnostics_mount_retry import select
-    return select(selected)
+    return selected
 
 
 def executor(driver,selected):
@@ -118,11 +113,9 @@ def executor(driver,selected):
 def advance(driver,value):
     selected=prepare(driver,value)
     if selected is None:return {**driver.status(),'status':'WAIT_CPU_PROVISIONING','reason':'Reviewed program ready; genuine immutable image and exact development-only data/package selections are required. No execution admitted.'}
-    from orchestrator.diagnostics_mount_retry import job as execution_job
-    job=execution_job(selected['binding']);folder=driver.state/'diagnostics-package';exe=executor(driver,selected)
+    job=policy.RUN_ID;folder=driver.state/'diagnostics-package';exe=executor(driver,selected)
     try:
-        emitted='diagnostics-contract-retry1-emitted' if 'mechanical_retry' in selected['binding'] else 'diagnostics-emitted'
-        outcome=exe.submit(job,selected['binding'],folder,driver.state/emitted)
+        outcome=exe.submit(job,selected['binding'],folder,driver.state/'diagnostics-emitted')
         if outcome['status']=='COMPLETE':value.update(phase='COLLECT_EXPERIMENT',diagnostics_selection_sha256=selected['sha256']);driver.save(value)
         elif outcome['status'] in {'FAILED','UNKNOWN','UNRESOLVED_SUBMISSION'}:raise ValueError('DIAGNOSTICS_EXECUTION_BLOCKED_NO_RETRY')
         return {**driver.status(),'execution':outcome}
@@ -133,19 +126,16 @@ def verified(driver,value):
     from orchestrator.modal_executor import ModalExecutor
     selected=prepare(driver,value);require(selected is not None,'DIAGNOSTICS_PROVISIONING_REQUIRED')
     require(value.get('diagnostics_selection_sha256')==selected['sha256'],'DIAGNOSTICS_COLLECTION_SELECTION')
-    from orchestrator.diagnostics_mount_retry import job as execution_job,validate_collected_proof
-    job=execution_job(selected['binding'])
     folder=driver.state/'diagnostics-results';result=validate_outputs(folder,selected['binding'])
-    local=driver.store.db.execute('SELECT status,binding FROM jobs WHERE id=?',(job,)).fetchone()
+    local=driver.store.db.execute('SELECT status,binding FROM jobs WHERE id=?',(policy.RUN_ID,)).fetchone()
     global_row=driver.store.batch.db.execute('SELECT status,binding FROM autonomy_compute WHERE id=?',(sha(encoded(selected['binding'])),)).fetchone()
-    collection=driver.store.db.execute('SELECT manifest FROM manual_collections WHERE job=?',(job,)).fetchone()
+    collection=driver.store.db.execute('SELECT manifest FROM manual_collections WHERE job=?',(policy.RUN_ID,)).fetchone()
     require(local is not None and local['status']=='COMPLETE' and strict(local['binding'])==selected['binding'] and global_row is not None and global_row['status']=='COLLECTED' and strict(global_row['binding'])==selected['binding'],'DIAGNOSTICS_COLLECTED_LEDGERS_REQUIRED')
     files={n:r['sha256'] for n,r in result['files'].items()}
     require(collection is not None and strict(collection['manifest'])==files,'DIAGNOSTICS_COLLECTION_HASHES')
-    native=pr.check(ModalExecutor._paths(driver.store,job)/'collection-receipt.json').read_bytes();receipt=strict(native)
+    native=pr.check(ModalExecutor._paths(driver.store,policy.RUN_ID)/'collection-receipt.json').read_bytes();receipt=strict(native)
     require(sha(native)==value.get('diagnostics_collection_receipt_sha256') and receipt['binding_sha256']==sha(encoded(selected['binding'])) and receipt['file_sha256']==files,'DIAGNOSTICS_COLLECTION_RECEIPT')
     require(receipt.get('native_preflight',{}).get('status')=='PASS' and receipt['native_preflight']['binding_sha256']==receipt['binding_sha256'],'DIAGNOSTICS_NATIVE_PROOF_REQUIRED')
-    validate_collected_proof(receipt,selected['binding'])
     require((driver.state/'validation.json').read_bytes()==encoded(result),'DIAGNOSTICS_FINAL_VALIDATION_CHANGED')
     return result
 
@@ -154,14 +144,12 @@ def verified(driver,value):
 def collect(driver,value):
     from orchestrator.experiment_collection import artifact
     selected=prepare(driver,value);require(selected is not None,'DIAGNOSTICS_PROVISIONING_REQUIRED')
-    from orchestrator.diagnostics_mount_retry import job as execution_job
-    job=execution_job(selected['binding'])
     exe=executor(driver,selected);folder=driver.state/'diagnostics-results'
     def validate(path):return {'status':'VALID','scientific_validation':validate_outputs(path,selected['binding'])}
     try:
-        result=exe.collect_remote(job,driver.state/'diagnostics-package',folder,validate)
+        result=exe.collect_remote(policy.RUN_ID,driver.state/'diagnostics-package',folder,validate)
         require(result.get('status')=='VALID','DIAGNOSTICS_COLLECTION_REFUSED')
-        native=pr.check(exe._paths(job)/'collection-receipt.json').read_bytes()
+        native=pr.check(exe._paths(policy.RUN_ID)/'collection-receipt.json').read_bytes()
     finally:exe.db.close()
     validation=validate_outputs(folder,selected['binding']);write_once(driver.state/'validation.json',encoded(validation))
     value['diagnostics_collection_receipt_sha256']=sha(native)

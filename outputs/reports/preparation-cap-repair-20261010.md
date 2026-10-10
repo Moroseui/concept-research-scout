@@ -1,0 +1,13 @@
+# Preparation and dated-cap implementation acceptance
+
+Independent administrative review 53 returned a qualified **APPROVE** with no findings for source `304cae4aa12d53eb99254499950eec4e71df8075`. The accepted report digest is `2e0986357b941577f16fcaa686844757f32c96579815109fb918ef8029e7139f`. This is implementation approval; scientific authoring, critique, smoke acceptance and training gates remain separate.
+
+The installed change repairs five directory traversal modes while preserving all 22 original files, owners, review records and units. The dated limit is 100 model calls on October 10 UTC and 50 afterward. Two reviewed preparation lanes provide aggregate analysis and Colab notebook authoring, with up to eight calls each and an actual shared scientific ceiling of 95. Existing item 4 accounting, original row identities, uncertainty refusals, patient exclusions and dollar caps remain enforced.
+
+The preparation component passed service-account verification and was installed held on October 10. Neither preparation lane was initialized or launched by installation. The separate timing-author start ran afterward and failed its host invocation check before model admission. Its original outcome is preserved, with no author charge or automatic restart. Analysis and Colab remain installed held while the host-path mismatch is diagnosed. No new GPU execution or scientific result is claimed.
+
+Review 52's submitted APPROVE failed required-read qualification. Its nine original records and $9.80947025 charge remain preserved and counted; it never authorized installation. The successful successor retained the qualification rule and used bounded, paginated reads. Review 51's genuine approval and $4.018335 charge also remain preserved. The failed permission verification and a later omitted-environment verification failure were retained; the corrected check used the existing runtime environment and passed. Completed operations were not repeated.
+
+Validation includes 101 focused root tests, actual service-account readability under a restrictive umask, and copied-history rehearsals of both new preparation and the existing timing-author route. The latter reached a stubbed sender after two completed preparation calls while preserving live histories. This is infrastructure validation, not model or GPU evidence.
+
+Publication contains 32 exact safe changed files from the reviewed source. Fifty-five flagged component files and all raw private ancestry, packets, ledgers and streams remain withheld. See [STATUS](../STATUS.md) for exclusions and current work.

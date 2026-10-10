@@ -1,0 +1,47 @@
+**Operator direction (10 October), replacing the narrow next-step plan. Read fully before acting.**
+
+**0. Today only:** the daily model-call cap is 100 for this UTC day, then back to 50. Record it verbatim and hash-pinned, as with other approvals.
+
+**1. Research principle (applies to everything).** The goal is understanding, not Dice at any cost; my professor has stressed this too.
+
+- Ideas need a logical basis in biology, mathematics or computer science. Each one states why it should help, and how we'll tell whether it did.
+- For every gain, measure where it comes from: placement vs amount, infarct size, region, fragmentation.
+- A model that scores well for unclear reasons isn't dropped. Dissect it until we know where the accuracy comes from.
+
+**2. Run several workstreams at once, not one queue.**
+
+- **(A) 13B execution.**
+- **(B) Analysis and ideas.** Whenever new results arrive, the system analyses them, debates them and proposes ideas. Recent results haven't been through that yet: item 6, the three benchmarks, the two smoke runs, and my Sprint 13A and 14 runs (project docs). Start B now in parallel; don't wait for A. My parked ideas in the research ideas doc can enter through the normal idea channel.
+- **(C) Next week's meeting.** My professor wants a visual case review for a few patients: admission CT, follow-up MRI, reference mask, each model's predicted mask, clinical information, with cases chosen by a rule fixed in advance. Plan how the system or I will produce it, private only.
+
+**3. Speed over platform uniformity, for now.**
+
+- The work is exploratory, so get arms trained quickly across platforms. Minor hardware differences are acceptable now; thorough single-platform testing comes later for promising models.
+- **I will run arms on Colab myself.** I have 1,001 compute units, all available for this. Sprint 12 measured about 36 s/epoch on Colab's A100, vs 71–90 s on Modal's B200, so Colab may be the faster route for standard-size arms.
+- Run the baseline repeat on both platforms if practical, so platform effects can be estimated.
+
+**4. Own the how and the why.** Before the next run, write and keep updated a one-page **13B execution plan** (in `outputs/`, linked from STATUS):
+
+- every arm × fold;
+- where each runs: server CPU, Modal CPU, Modal GPU, or **"Partho on Colab", stated explicitly**, with exactly which notebook and settings I should run and how results come back to the system;
+- what runs in parallel;
+- estimated time and cost, including my Colab units;
+- which arms are held and why;
+- what you need from me.
+
+Choose venues deliberately. The server is fine for synthetic tests and small CPU analyses. Colab notebooks for me are authored by the scientific author (the original 13B Colab notebook is a starting point) and packaged by you. Keep the CPU-starvation timing diagnostic, but don't let it block arms that can run on Colab now.
+
+**5. The system's author writes the code; fix the loop that slows it.** Keep the principle: the scientific author writes scientific code, you build infrastructure, and I give direction.
+
+- **Author sandbox:** give the author a sandbox where it can run its own code against the synthetic fixtures and test suite, and iterate until they pass within one call before submitting. Cap the loops; no patient data. That's how coding agents and Sakana's AI Scientist work. 23 author attempts for one timing test shows the current loop doesn't scale.
+- Build this as engineering under the judgment rule, with Claude's second opinion and normal review.
+
+**6. Reviews should see the whole component.** Implementation reviews currently get whole files, but only a hand-picked subset, so findings keep surfacing things that weren't in the packet.
+
+- **Review packet:** for each review, include the entire relevant component (for 13B, the full pipeline package and notebook), its tests and latest test results, the diff as a starting guide, and the approvals it relies on.
+- **One pass:** ask the reviewer to report all findings at once. That should cut revise rounds.
+- Apply the same idea to scientific reviews where the context limit allows.
+
+**7. Unchanged:** money caps and gates, the locked 25/24 patients, credentials, no publishing patient-derived data, no merges to main, no BACKLOG edits. Ask Claude when unsure, and me only for money or when you need me to run something on Colab.
+
+Start by writing the execution plan and starting workstream B, then send me my first Colab instructions as soon as a notebook is ready.

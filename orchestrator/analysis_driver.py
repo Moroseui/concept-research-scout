@@ -29,9 +29,23 @@ def bound_file(root, ref):
     return raw
 
 
+def preparation_scope(plan):
+    keys = [key for key in ('aggregate_analysis', 'colab_preparation') if key in plan]
+    if len(keys) > 1: raise ValueError('ONE_PREPARATION_SCOPE_REQUIRED')
+    if not keys: return None
+    if keys[0] == 'aggregate_analysis':
+        from orchestrator import aggregate_analysis_scope
+        return aggregate_analysis_scope
+    from orchestrator import colab_preparation_scope
+    return colab_preparation_scope
+
+
 def verify_plan(plan):
     fields = {'schema', 'context', 'context_files', 'backlog', 'backlog_binding', 'operator',
               'item_number', 'item_sha256', 'private_intake', 'idea_ids', 'artifacts', 'batch_ledger'}
+    scoped = preparation_scope(plan) if isinstance(plan, dict) else None
+    if scoped:
+        fields = fields | ({'aggregate_analysis'} if 'aggregate_analysis' in plan else {'colab_preparation', 'notebook_revision'})
     if isinstance(plan,dict) and plan.get('item_number') in (2,5):
         fields=fields|{'accepted_stocktake'}
         if plan['item_number']==5: fields=fields|{'directions'}
@@ -39,6 +53,7 @@ def verify_plan(plan):
     if not isinstance(plan, dict) or set(plan) != fields or plan['schema'] != 'stocktake-analysis/v1':
         raise ValueError('ANALYSIS_PLAN_FIELDS')
     scopes={1:'sprints-stocktake',2:'sprint13-proposal',5:'research-directions'}
+    if scoped: scopes[4] = 'sprint13b-execution'
     if (type(plan['item_number']) is not int or plan['item_number'] not in scopes
             or not isinstance(plan['idea_ids'],list) or not plan['idea_ids']
             or plan['idea_ids'][0]!=scopes[plan['item_number']]):
@@ -48,8 +63,11 @@ def verify_plan(plan):
     if observed != plan['context_files'] or any(p.is_symlink() for p in [root, *root.rglob('*')]):
         raise ValueError('ANALYSIS_CONTEXT_INVENTORY_CHANGED')
     if 'notebook_revision' in plan:
-        from orchestrator.notebook_revision import validate_config
-        validate_config(root, plan['notebook_revision'])
+        if 'colab_preparation' in plan:
+            scoped.validate_notebook_config(root, plan['notebook_revision'])
+        else:
+            from orchestrator.notebook_revision import validate_config
+            validate_config(root, plan['notebook_revision'])
     raw = bound_file(root, plan['backlog'])
     authority = bound_file(root, plan['operator'])
     if plan['item_number'] in (2,5):
@@ -68,7 +86,10 @@ def verify_plan(plan):
         validate_plan(plan)
     binding = json.loads(bound_file(root, plan['backlog_binding']))
     backlog = autonomy_backlog.load(raw, binding, authority)
-    item = autonomy_backlog.require_item(backlog, plan['item_number'], plan['item_sha256'], 'analysis', completed_items=(1,2,3) if plan['item_number']==5 else (1,) if plan['item_number'] == 2 else ())
+    if scoped:
+        item = scoped.validate(plan, backlog)
+    else:
+        item = autonomy_backlog.require_item(backlog, plan['item_number'], plan['item_sha256'], 'analysis', completed_items=(1,2,3) if plan['item_number']==5 else (1,) if plan['item_number'] == 2 else ())
     # Validate actual views and ordinary artifacts before any owner or allowance
     # record is created. Workspace materialization happens only after preflight.
     load_views(root, plan['private_intake'], stage='run_spec_author', idea_ids=plan['idea_ids'])
@@ -151,10 +172,13 @@ def initialize(root, state, engine_review, plan_path):
         raise ValueError('QUALIFIED_EXACT_ENGINE_APPROVAL_REQUIRED')
     plan_raw = plan_path.read_bytes(); plan = json.loads(plan_raw)
     review_manifest = read(engine_review.parent/'packet-manifest.json')
-    if review_manifest['files'].get('evidence/analysis-plan.json') != digest(plan_raw):
+    plan_evidence = ('evidence/aggregate-analysis-plan.json' if 'aggregate_analysis' in plan else
+                     'evidence/colab-preparation-plan.json' if 'colab_preparation' in plan else
+                     'evidence/analysis-plan.json')
+    if review_manifest['files'].get(plan_evidence) != digest(plan_raw):
         raise ValueError('REVIEWED_ANALYSIS_PLAN_REQUIRED')
     backlog, item = verify_plan(plan)
-    if plan.get("notebook_revision"):
+    if plan.get("notebook_revision") and not plan.get("colab_preparation"):
         raise ValueError("NOTEBOOK_SCOPE_USES_SAME_RUN_CONTINUATION_ONLY")
     if item.number in (2,5):
         from orchestrator.completed_run import validate as completed
@@ -166,6 +190,8 @@ def initialize(root, state, engine_review, plan_path):
     git(root, 'var', 'GIT_AUTHOR_IDENT'); git(root, 'var', 'GIT_COMMITTER_IDENT')
     clients = manual_stage.preflight()
     run_id = 'stocktake-' + digest((backlog.sha256 + ':' + item.sha256).encode())[:24]
+    scoped = preparation_scope(plan)
+    if scoped: run_id = scoped.run_id(plan)
     batch = BatchAccounts(plan['batch_ledger'])
     if item.number==5:
         from orchestrator.directions_analysis import require_item2_complete
@@ -174,7 +200,7 @@ def initialize(root, state, engine_review, plan_path):
         raise ValueError('EXISTING_ANALYSIS_OWNER_NO_NEW_ALLOWANCE')
     if (batch.folder/'HALT').exists():
         raise ValueError('AUTONOMY_BATCH_HALTED')
-    if batch.db.execute("SELECT 1 FROM autonomy_runs WHERE status!='COMPLETE'").fetchone():
+    if not scoped and batch.db.execute("SELECT 1 FROM autonomy_runs WHERE status!='COMPLETE'").fetchone():
         raise ValueError('ONE_ACTIVE_RESEARCH_RUN')
     common = Path(git(root, 'rev-parse', '--git-common-dir'))
     common = common if common.is_absolute() else root/common
@@ -189,8 +215,15 @@ def initialize(root, state, engine_review, plan_path):
     # partial failure remains visible and refuses a fresh init; no blind retry.
     owner_binding = {'state': str(state.resolve()), 'source': source, 'run_id': run_id,
                      'plan_sha256': digest(plan_raw), 'review_sha256': digest(engine_review.read_bytes())}
+    if scoped:
+        key = 'aggregate_analysis' if 'aggregate_analysis' in plan else 'colab_preparation'
+        owner_binding[key] = plan[key]
     write_once(owner, json.dumps(owner_binding, sort_keys=True).encode())
-    batch.register_run(run_id, owner_binding)
+    if scoped:
+        from orchestrator.aggregate_analysis_scope import register
+        register(batch, run_id, owner_binding)
+    else:
+        batch.register_run(run_id, owner_binding)
     policy = {'status': 'RATIFIED', 'operator_approval': backlog.operator_sha256,
               'state_write_permission': 'OPERATOR_AUTHORIZED', 'n': 4, 'window': 'UTC_CALENDAR_DAY',
               'state_ref': 'refs/heads/automation/dispatch-state', 'manual_semantics': 'OPERATOR_STEP_D_MAX_EIGHT'}
@@ -206,6 +239,8 @@ def initialize(root, state, engine_review, plan_path):
               'backlog': plan['backlog'], 'backlog_binding': plan['backlog_binding'], 'operator': plan['operator'],
               'item_number': item.number, 'item_sha256': item.sha256,
               'workspace_root': str(state.parent/(state.name+'-scientific-workspaces'))}
+    if scoped: config[key] = plan[key]
+    if plan.get('colab_preparation'): config['notebook_revision'] = plan['notebook_revision']
     if item.number in (2,5):
         from orchestrator.analysis_revisions import POLICY
         config.update(review_contract='bound-review/v1',accepted_stocktake=plan['accepted_stocktake'],revision_policy=POLICY)
@@ -243,13 +278,24 @@ class AnalysisDriver(Driver):
             bound_file(self.context, {k: artifact[k] for k in ('path', 'sha256')})
         backlog = autonomy_backlog.load(bound_file(self.context, self.config['backlog']),
             json.loads(bound_file(self.context, self.config['backlog_binding'])), bound_file(self.context, self.config['operator']))
-        autonomy_backlog.require_item(backlog, self.config['item_number'], self.config['item_sha256'], 'analysis',
-            completed_items=(1,2,3) if self.config['item_number']==5 else (1,) if self.config['item_number'] == 2 else ())
+        scoped = preparation_scope(plan)
+        if scoped or preparation_scope(self.config):
+            key = 'aggregate_analysis' if 'aggregate_analysis' in plan else 'colab_preparation'
+            if (scoped is None or self.config.get(key) != plan.get(key)
+                    or preparation_scope(self.config) is not scoped or self.config['run_id'] != scoped.run_id(plan)):
+                raise ValueError('AGGREGATE_ANALYSIS_CONFIG_CHANGED')
+            scoped.validate({**plan, 'context': str(self.context)}, backlog)
+        else:
+            autonomy_backlog.require_item(backlog, self.config['item_number'], self.config['item_sha256'], 'analysis',
+                completed_items=(1,2,3) if self.config['item_number']==5 else (1,) if self.config['item_number'] == 2 else ())
         if self.config.get('notebook_revision'):
             from orchestrator.notebook_revision import validate_config
             if self.config['notebook_revision'] != plan.get('notebook_revision'):
                 raise ValueError('NOTEBOOK_REVISION_PLAN_CHANGED')
-            validate_config(self.context,self.config['notebook_revision'])
+            if self.config.get('colab_preparation'):
+                scoped.validate_notebook_config(self.context,self.config['notebook_revision'])
+            else:
+                validate_config(self.context,self.config['notebook_revision'])
         load_views(self.context, self.config['private_intake'], stage='run_spec_author', idea_ids=self.config['idea_ids'])
         if self.config['item_number']==5:
             from orchestrator.directions_analysis import validate_plan, require_item2_complete
@@ -269,6 +315,8 @@ class AnalysisDriver(Driver):
 
 
     def task(self, stage, value):
+        scoped = preparation_scope(self.config)
+        if scoped: return scoped.instructions(stage, read(self.state/'preparation-plan.json'))
         if self.config['item_number']==5:
             from orchestrator.directions_analysis import instructions
             from orchestrator.analysis_revisions import instructions as revisions
@@ -343,7 +391,7 @@ class AnalysisDriver(Driver):
         result=manual_context.prepare(self.context, stage=stage, idea_ids=self.config['idea_ids'],
             task=self.task(stage, value), artifacts=value['artifacts'], workspace=work, private_intake=intake,
             structured_review=self.config.get('review_contract')=='bound-review/v1',
-            reference_prior_results=self.config['item_number'] in (2,5),
+            reference_prior_results=self.config['item_number'] in (2,5) or preparation_scope(self.config) is not None,
             notebook_patch=bool(self.config.get('notebook_revision')) and stage=='run_spec_author')
         if self.config['item_number']==5:
             from orchestrator.directions_analysis import check_delivery
@@ -379,7 +427,11 @@ class AnalysisDriver(Driver):
             from orchestrator.notebook_revision import prepare_artifacts
             from orchestrator.scientific_intake import cohort
             registry=read(self.context/self.config['private_intake']['path'])
-            prepare_artifacts(self,value,pending,cohort((self.context/registry['cohort']).read_bytes()))
+            cases = cohort((self.context/registry['cohort']).read_bytes())
+            if self.config.get('colab_preparation'):
+                preparation_scope(self.config).prepare_notebook_artifacts(self,value,pending,cases)
+            else:
+                prepare_artifacts(self,value,pending,cases)
         n = pending['round']; value['rounds']['run_spec_author'] = n
         for kind in ('run_spec', 'proposed_run_spec'):
             self.artifact(value, kind, 'ANALYSIS-SPEC-'+str(n)+'.md', raw, n)
