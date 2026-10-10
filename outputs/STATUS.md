@@ -2,7 +2,7 @@
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
 The CPU diagnostic design passed scientific scrutiny; the remaining finding requires a native integration test of its new instrumentation.
-The author-admission repair passed 69 tests and a server rehearsal, received independent APPROVE and is installed; activation is running once.
+The author-admission repair passed 69 tests and the server rehearsal, received independent APPROVE, and is installed; author18 service is preparing its call.
 No diagnostic GPU job has started. Native execution and the next scientific review remain held; full training and coverage-dependent arms remain held.
 Identified compute spend is $24.29; retained stage exposure is $110.11 of $150. Diagnostic actual spend and reservations are both $0 of $25; model charges are separate.
 Next expected result is the author-owned native test and its CPU receipt, provisionally 1-2 hours after approval; GPU timing remains dependent on that result.
@@ -11,7 +11,7 @@ UTC October 10 calls: 23/50 -- 3 scientific authors, 4 scientific reviewers, 13 
 
 ## Current native-test author route
 
-07:58 UTC: source f80421dabdf05dd900147adf114f1450b702ef02 is installed and verified held after genuine independent APPROVE a51934e4bf446c5b19ba96c6877049947975fe6ebab146fccff6f75285f4484a. Activation is running once; author18 has not started. The reviewer explicitly approved the accounting replacement and bounded author response, and judged the author-only staging proportionate. Model cost estimate $4.28182725 is preserved separately from compute. Review limitations are retained in the published report. The candidate reuses the existing author submission feedback and controller tests, keeps the complete diagnostic plan byte-for-byte, and requires the missing native-test entrypoint before acceptance. Scientific code is authored through the system.
+07:58 UTC: source f80421dabdf05dd900147adf114f1450b702ef02 is installed and verified held after genuine independent APPROVE a51934e4bf446c5b19ba96c6877049947975fe6ebab146fccff6f75285f4484a. Activation completed and author18 service started once. At 08:01 UTC its input is prepared but the model call is not yet admitted; the bounded monitor is active. The reviewer explicitly approved the accounting replacement and bounded author response, and judged the author-only staging proportionate. Model cost estimate $4.28182725 is preserved separately from compute. Review limitations are retained in the published report. The candidate reuses the existing author submission feedback and controller tests, keeps the complete diagnostic plan byte-for-byte, and requires the missing native-test entrypoint before acceptance. Scientific code is authored through the system.
 
 The accounting tests exposed that failed author16 and its approved corrective author17 reference the same review12. The general duplicate-review refusal remains. Only the exact new admission replaces it with all frozen historical row hashes, genuine prior receipt checks and the specifically approved unaccepted16-to-accepted17 relationship. Every other repeated review refuses. Three extra tests reject a fabricated acceptance, deleted reference acceptance or changed grant. No historical usage or charge changes.
 
