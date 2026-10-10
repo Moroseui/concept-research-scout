@@ -51,6 +51,8 @@ The status file has been consolidated in place to remove contradictory historica
 
 Installed code is on `remote-server`, including the reviewed whole-fixture handoff. Safe projection f03283ac from `astra/public-whole-fixture-author-20261010` is merged as the installed release and contains byte-exact scan-passing source and tests. Private frozen documents are excluded, so this public projection is not independently deployable. Raw working history is withheld because it contains forbidden records. Main is unchanged.
 
+Uninstalled audited-native draft ae85e8bb is backed up separately on `astra/public-audited-native-verification-20261010`; it is not merged as installed. It reuses the existing validation connector and proposes a compute-only credit of $0.189305 for two positively closed attempts, retaining $2 overhead. No live credit, new reservation or call has occurred.
+
 Before each push, every new reachable blob and commit message is scanned for privacy, secrets and infrastructure details. Evidence, ledgers, review packets, native streams, private files and patient-level data remain excluded. Flagged files retained privately include:
 
 - configs > pilot > colab-worker-future.json ? INFRASTRUCTURE_OR_CREDENTIAL_PATH
@@ -212,3 +214,11 @@ Before each push, every new reachable blob and commit message is scanned for pri
 - tools > recover_item4_provenance_20261008.py ? INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - tools/install_item4_private_staging.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 - tools/item4_private_staging_runtime.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
+
+- docs > ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH; audited-native draft withheld.
+
+- docs > ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH; audited-native draft withheld.
+
+- docs > ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH; audited-native draft withheld.
+
+- docs > ITEM4_RESPONSE_HOST_PRIVATE.json: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH; audited-native draft withheld.
