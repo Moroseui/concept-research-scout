@@ -6,17 +6,19 @@ Whether the B200 is CPU-starved remains unanswered; neither diagnostic GPU run h
 
 The author-delivery repair is approved, installed and activated for the next author call. It catches the missing regression test during the author call and keeps the original acceptance check.
 
-No experiment or model call is running. Existing housekeeping timers remain enabled. The daily 50-call cap holds authoring until 00:00 UTC (8 p.m. New York time) on October10.
+The goal is blocked by the daily 50-call cap until 00:00 UTC (8 p.m. New York time) on October 10. The next author call is ready but unstarted; no automatic launch is scheduled. Existing housekeeping timers remain enabled.
 
 Identified compute spent: $24.39800404. Stage commitments: $114.397673/$150; diagnostic: $4.286495/$25. Model charges are separate; the latest review reported $11.11010825.
 
-Today: 50/50 calls ? 9 scientific author, 5 scientific reviewer, 28 administrative review and 8 direction check-ins.
+Today: 50/50 calls - 9 scientific author, 5 scientific reviewer, 28 administrative review and 8 direction check-ins.
 
-Next notebook correction: about 30 minutes after reset. Conditional planning estimate for GPU numbers:10?11 p.m. New York time, if authoring, native validation and scientific review pass.
+From resumption after the reset: about 30 minutes for the notebook correction, and a conditional 2-3 hours for GPU numbers if authoring, native validation and scientific review pass.
 
 Latest Claude direction: PROCEED, no additional scope. The alternative recovery was dropped; the author must submit a conforming module.
 
 ## Current evidence
+
+At 18:56 UTC the live ledger still showed 50 calls, no running model calls, and the ready author service inactive. The daily-cap blocker has persisted across three consecutive goal turns; the goal is marked blocked pending that external reset. The full objective remains incomplete. No new scope or approval is requested.
 
 Independent implementation review b22327dc returned genuine APPROVE without findings for source 782cedde. Its originals and all earlier REVISE decisions and charges are preserved. The code is installed in a held state; post-installation verification passed. The approved activation is now complete. A separate read-only check confirmed exactly the reviewed grant transition, with original records and counts preserved: 38 item calls and 76 scientific batch calls. Author24 is ready but has not been admitted or started. All five existing housekeeping services completed their latest observed runs successfully; their timers were left unchanged. No model or experiment is running and no timer was added.
 
