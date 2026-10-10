@@ -4,17 +4,17 @@ Item 6 is complete: all 352 comparable values match the independent Colab run.
 
 13B CPU starvation is unanswered. The third synthetic CPU validation stopped at an infrastructure path check before diagnostic training.
 
-No compute or model call is running. Claude recommends the narrow adapter repair; root agrees. No automatic retry is scheduled.
+The combined implementation review is running. No compute is running and no automatic retry is scheduled. Claude previously recommended the narrow repair; root agrees.
 
-The draft adapter repair now passes81 focused tests and all three actual authored factory-call paths. It is not independently approved or installed.
+The complete candidate passes159 focused tests, all three actual authored factory-call paths, and both server rehearsals using disposable ledger copies. It is not yet independently approved or installed.
 
 Identified compute spend remains $24.33873, with the latest attempt's actual cost pending. Counted commitments are $113.278723/$150, including $3.167545/$25 for the diagnostic; its full $1.118950 reservation remains held.
 
-Next expected result: a complete repair bundle for independent review, estimated45-60 minutes. A reliable GPU-result time is not yet available.
+Next expected result: implementation review in about5-10 minutes from14:46 UTC. Only an unambiguous approval can permit installation and one deliberate CPU verification; GPU timing remains gated.
 
 Run B remains first. Full training, coverage-dependent arms and the $1,200 projection gate remain held.
 
-Today's calls:39/50:7 authors,5 scientific reviews,20 implementation reviews and7 direction checks. All are complete.
+Today's calls:40/50:7 authors,5 scientific reviews,21 implementation reviews and7 direction checks. Only the latest implementation review is running.
 
 ## Current work and evidence
 
@@ -38,18 +38,18 @@ Earlier native failures were a constructor-field mismatch and a missing callback
 - Full-plan projection gate$1,200 and total cap$1,275 unchanged.
 - Seven scientific authors: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction and whole-fixture audit.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
-- Twenty implementation reviews: bounded author/reviewer handoffs, native connector, installation and accounting repairs, most recently native validation plus closed-attempt accounting.
+- Twenty-one implementation reviews: bounded author/reviewer handoffs, native connector, installation and accounting repairs, most recently the complete adapter repair, exact prior-failure preservation, installation and sequencing clarification.
 - Seven direction checks: scope/recovery decisions; the latest is required by repeated failed validation cycles. Administrative work dominates. Batch any necessary adapter, admission and installation repair into one review; defer optional infrastructure and avoid another author call for this infrastructure mismatch.
 
 ## Judgment highlights
 
-Latest Claude check: direction report8a6cd85c recommends the narrow Option A, one round agreement on development; formal REVISE with two unresolved findings, not approval. Both the adapter mismatch and missing contract test are addressed by draftc5d00700. Installation/admission bindings and independent approval remain outstanding. No extra standalone direction call is planned.
+Latest Claude check: direction report8a6cd85c recommends the narrow Option A, one round agreement on development; formal REVISE with two unresolved findings, not approval. Both the adapter mismatch and missing contract test are addressed by draft9b568290. Installation/admission bindings are complete and independently under review. Both server rehearsals passed; no live ledger changed. No extra standalone direction call is planned.
 
-Root judgment: preserve the terminal failure and charge; follow the narrow repair direction, batch its admission and installation work into one review, and retain every execution hold. Draftc5d00700 accepts only the two exact sibling outputs, binds both to the same private synthetic root and unchanged generated input hash, and rejects relative/traversal/nested/symlink/cross-root paths.81 focused tests and an independent actual-source contract check pass. The older adapter provides the failing negative control. No scientific edit or paid rerun occurred.
+Root judgment: preserve the terminal failure and charge; follow the narrow repair direction, batch its admission and installation work into one review, and retain every execution hold. Draft9b568290 accepts only the two exact sibling outputs, binds both to the same private synthetic root and unchanged generated input hash, and rejects relative/traversal/nested/symlink/cross-root paths.159 focused tests and an independent actual-source contract check pass. The native admission rehearsal retained the third full reservation and refused over-cap admission; the reviewer rehearsal preserved every old event and refused missing native evidence, duplicate calls and full-plan admission. The older adapter provides the failing negative control. No scientific edit or paid rerun occurred.
 
 ## Backup and exclusions
 
-Draftc5d00700 is backed up separately on `astra/public-progress-scope-repair-20261010`; it is not installed or merged into the installed release. Its three source/test files pass all required publication scans. No new private contracts are published.
+Draft9b568290 is backed up separately on `astra/public-progress-scope-repair-20261010`; it is not installed or merged into the installed release. Its scan-passing source and tests are backed up; private contracts remain excluded. This draft is not installed.
 
 Installed code is on `remote-server`, including the reviewed whole-fixture handoff. Safe projection f03283ac from `astra/public-whole-fixture-author-20261010` is merged as the installed release and contains byte-exact scan-passing source and tests. Private frozen documents are excluded, so this public projection is not independently deployable. Raw working history is withheld because it contains forbidden records. Main is unchanged.
 
@@ -224,3 +224,5 @@ Before each push, every new reachable blob and commit message is scanned for pri
 - docs > ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH; audited-native draft withheld.
 
 - docs > ITEM4_RESPONSE_HOST_PRIVATE.json: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH; audited-native draft withheld.
+
+- docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
