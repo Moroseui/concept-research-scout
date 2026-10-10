@@ -1,20 +1,20 @@
 # Research status
 
-Item6 is complete: all352 comparable values match the independent Colab run.
+Item 6 is complete: all 352 comparable values match the independent Colab run.
 
-13B CPU starvation remains unanswered. The fourth CPU validation completed all15 synthetic diagnostic epochs, then failed its final saved-report consistency check.
+13B CPU starvation remains unanswered. The latest synthetic validation completed all 15 diagnostic epochs, then failed its final report-consistency check.
 
-Nothing is running. The failed operation is preserved with its full reservation; no automatic retry is scheduled.
+One combined implementation and direction review is running for the author correction handoff. No scientific call or compute is running.
 
-A local counterexample reproduces the final defect: recording a receipt mutates the in-memory event list after serialization. The saved file hash stays unchanged, but the equality check fails. The scientific author must correct this fixture code.
+The handoff passed 158 focused tests and a server check using disposable ledger copies. It preserves all four failures and charges, and admits only one author correction if independently approved.
 
-Identified compute spend remains$24.33873; the third and fourth attempts' actual bills are pending. Normal admission is confirmed: commitments are$114.397673/$150, including$4.286495/$25 for the diagnostic. The current full$1.118950 reservation remains counted; actual cost is pending.
+Identified compute spending remains $24.33873; the third and fourth attempts? bills are pending. Commitments remain $114.397673/$150 overall for stage 1, including $4.286495/$25 for this diagnostic.
 
-Next target: the author's correction, roughly60-90 minutes after a reviewed handoff is prepared. No reliable GPU-result estimate yet; native success and scientific review remain required.
+Next target: the author?s corrected fixture, approximately 60?90 minutes after handoff approval. The GPU comparison has no reliable ETA while validation and scientific review remain open.
 
-Run B remains first. Full training, coverage-dependent arms and the$1,200 projection gate remain held.
+Run B remains first. Full training, coverage-dependent arms and the $1,200 projection gate remain held.
 
-Today's calls:40/50:7 authors,5 scientific reviews,21 implementation reviews and7 direction checks. All model calls and CPU attempts are terminal. No active job or watcher.
+Today?s calls: 41/50?7 authors, 5 scientific reviewers, 22 implementation reviews and 7 standalone direction checks. The current review includes the direction and process-limit opinion.
 
 ## Current work and evidence
 
@@ -28,7 +28,9 @@ The third prior CPU operation is positively terminal with exit1. Preprocessing a
 
 The fourth failure is E173 at the final report comparison. Root extracted the exact accepted canonical/file-info/write-once and DiagnosticProgress methods and exercised them with real checkpoint storage and generated inputs. The report equals its saved JSON before receipt publication. Publication appends a receipt event to the shared in-memory list; afterward the file hash is unchanged but equality fails. This deterministically reproduces the failure without paid compute or scientific edits. It is not permission to drop the consistency check or declare native PASS. The author must choose the correction and regression test.
 
-A bounded author22 handoff is proposed but not yet implemented, reviewed or dispatched. Its required implementation review will also carry the recurrence/direction check and any exact process allowance. Preserve production code, plan, image, all four failures and every charge; no extra standalone direction call or new subsystem. Reviewer16 remains unactivated.
+Candidate 0a19e3e3 reuses the existing author-only route for one correction of the complete final report lifecycle. The exact accepted source, all four original failures, real interfaces and local counterexample are delivered together. Production code and interfaces, every existing test, plan, image and safeguards stay fixed; the scientific author chooses the fixture correction and appended regression. Current 36 run calls and 74 batch scientific calls are preserved. The proposed 40/78 process allowance reserves the later reviewer and final pair but refuses those calls in this release. It is under independent review, not installed.
+
+158 focused tests pass. The server check verified authentic prior approvals and four terminal failures, then exercised one counted author22 admission on disposable database copies. It refused the daily cap, altered old calls, all four altered reservations, missing grant, pending work, reviewer16, full-plan calls and duplicates. Live ledgers were read-only. Two final sender/delivery corrections are covered by positive and negative local tests; the earlier server check is not represented as testing those final bytes. The combined implementation review includes Claude?s direction and recurrence judgment. No separate direction call or new subsystem was created.
 
 Scientific review15 remains genuine REVISE. Native integration, provenance, coverage, full-plan projection and opposing-review findings stay open. No administrative approval closes them. Reviewer16 is still held by the genuine native-PASS gate. No author22 or GPU dispatch has started. Item6 remains complete and independent of this path.
 
@@ -37,10 +39,10 @@ Scientific review15 remains genuine REVISE. Native integration, provenance, cove
 - Live stage1 commitments:$114.397673/$150; diagnostic effective actuals plus retained/open allowances:$4.286495/$25. The new$1.118950 reservation is confirmed admitted. Both the third and fourth failed attempts retain their full reservations; their actual costs remain pending.
 - First native actual:$0.02512208; second:$0.02347152. Both original$1.118950 reservations remain recorded. Confirmed excess CPU/RAM credits total$0.189305; each retains$1 overhead. The third full$1.118950 remains committed because its bill is unavailable. No third-attempt release is implemented.
 - Identified compute total:$24.33872805, excluding unknown later actuals. Model charges are separate. The direction call estimated$2.41803125 and the latest implementation review$4.03566975; all are preserved and counted. No GPU reservation.
-- Full-plan projection gate$1,200 and total cap$1,275 unchanged. Existing local39, scientific-batch77 and daily50 call limits unchanged.
+- Full-plan projection gate$1,200 and total cap$1,275 unchanged. Installed local39 and scientific-batch77 remain; this candidate proposes one bounded 40/78 process amendment. Daily50 and every dollar cap remain unchanged.
 - Seven scientific authors: smoke response, timing proposal, interface correction, native fixture, plaintext correction, fixture correction and whole-fixture audit.
 - Five scientific reviews: smoke, timing response, diagnostic design, scoped native evidence and fixture correction.
-- Twenty-one implementation reviews: bounded handoffs, native connector, installation and accounting repairs; latest bundles the adapter, third-failure preservation, installation and sequence clarification.
+- Twenty-two implementation reviews: bounded handoffs, native connector, installation and accounting repairs; latest bundles the adapter, third-failure preservation, installation and sequence clarification.
 - Seven direction checks: scope/recovery decisions. Administrative work dominates. The latest repair and direction follow-up were combined in one review; another author call, new subsystem and optional cleanup were cut.
 
 ## Judgment highlights
@@ -230,3 +232,5 @@ Before each push, every new reachable blob and commit message is scanned for pri
 - docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json: EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 
 - outputs/reports/item4-progress-scope-repair-20261010.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH; full approval report withheld, private original preserved. Verdict and scope are summarized above.
+
+Draft publication exclusions: docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_RESPONSE_HOST_PRIVATE.json (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_SNAPSHOT_PRIOR_UNIT_PRIVATE.txt (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), tools/install_item4_smoke_response.py (INFRASTRUCTURE_OR_CREDENTIAL_PATH). These private originals remain preserved locally.
