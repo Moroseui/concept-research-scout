@@ -5,7 +5,7 @@ The [accepted synthesis](reports/aggregate-synthesis-20261010.md) attributes a +
 At 23:13 UTC, Colab notebook author1 is running as call 61 after the reviewed contract correction; no GPU job is running.
 Timing author24 still needs its narrow recovery; no timing result or reviewed Colab instructions exist, and opposite-family administrative rotation is not installed.
 Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Latest scientific review cost $4.23612225 and administrative review $4.301282; model charges are separate.
-Next: a reviewed Colab handoff, estimated 30?60 minutes after author admission, subject to review; timing remains conditional on its scientific gates. See the [execution plan](13B_EXECUTION_PLAN.md).
+Next: a reviewed Colab handoff, estimated 30-60 minutes after author admission, subject to review; timing remains conditional on its scientific gates. See the [execution plan](13B_EXECUTION_PLAN.md).
 No action is needed from Partho. Review 60 approved only the Colab repair and did not answer direction questions; the latest direction remains review 55's PROCEED with overhead caution. The swap gate is not met.
 
 ## Accepted scientific result

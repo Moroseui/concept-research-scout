@@ -1,4 +1,4 @@
-# Accepted aggregate synthesis ? author-written excerpts
+# Accepted aggregate synthesis - author-written excerpts
 
 The scientific author wrote the text below; independent scientific review approved both its proposal and interpretation stages. These are verbatim sections from the accepted interpretation, not an operator rewrite. The full original is preserved privately with SHA-256 `cb028b56d0de61998594e29a240659a96142ed3819c81bd9cbdaf174a29a25c7`.
 
