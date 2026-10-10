@@ -1,12 +1,29 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-The CPU diagnostic code passed controller checks. Full-plan scientific review13 remains REVISE; its six findings stay open.
-The diagnostic-only reviewer route is now independently approved, installed and verified. Activation is running; no diagnostic GPU job has started.
-CPU starvation remains unproven. The next scientific step is one scoped review of the unchanged diagnostic code, followed by bounded B-first execution if accepted.
-Identified compute spend is $24.29; retained exposure is $110.11 against $150. Diagnostic spend and reservations remain $0 against $25.
-The next GPU result is provisionally 1?3 hours away, conditional on scientific review and normal execution preparation. Full training and coverage-dependent arms stay held.
-UTC October 10 calls:21/50?3 scientific authors,3 scientific reviewers,12 administrative reviews,3 standalone direction checks. Latest implementation verdict:APPROVE; latest direction agreement:reuse the existing route.
+Scientific review14 accepts the CPU diagnostic design and budget boundaries, but returns REVISE for one concrete native-runtime test gap.
+The new instrumentation needs a pinned-image CPU integration test using generated fixtures before paid GPU dispatch; no patient data or GPU is needed for that test.
+The existing author-owned native harness does not cover the instrumentation, and its required entrypoint is absent from the accepted module. The scientific author must supply that test coverage.
+All reviews, services and monitors are now terminal. No diagnostic GPU job has started; full training and coverage-dependent arms remain held.
+Identified compute spend is $24.29; retained exposure is $110.11 against $150. Diagnostic spend/reservations remain $0/$25. Model charges are separate and preserved.
+Next target: native-test receipt in roughly1?2 hours, conditional on author/review completion. The earlier GPU ETA is no longer reliable; B remains first when execution is accepted.
+UTC October10 calls:22/50?3 scientific authors,4 scientific reviewers,12 administrative reviews,3 standalone direction checks. Latest scientific verdict:REVISE; latest implementation verdict:APPROVE.
+
+## Current scientific finding and next step
+
+07:19 UTC: scoped scientific review14 completed genuinely in both accounting records, report0cf4671ce6c1641b0aa2724d5fd0405e0cf9c21f9193a5eb0a7e7a822158a11a. Its single finding is DIAG-U2-changed-module-native-integration-unverified. It judges the diagnostic scientifically suitable in design, honestly scoped, budget bounded and fail-closed. The full-plan provenance, coverage and cost-projection findings were independently judged outside this particular diagnostic decision and remain open for the full plan. This is not GPU approval.
+
+The reviewer requires the exact changed instrumentation to run with native dependencies on generated, non-patient CPU fixtures in the pinned image: trainer hooks, threaded telemetry lifecycle, worker observation, loader-wait timing, 15-epoch/LR250/checkpoint cadence, timeout handling and diagnostic output/hash closure. It allows a truthful durable-invalid telemetry result; it does not require the intended GPU measurement to have already happened. Prior real native API failures provide the concrete reason for this test. Existing mock-based tests and old base-path native receipts are insufficient.
+
+Root agrees with the runtime concern and preserved the genuine REVISE, submission, charge and original code. The service ended successfully; its bounded monitor refused another refresh after the invocation ended, then stopped. One earlier local status attempt failed before connecting; a later read confirmed the same active process, and nothing was restarted. No outstanding or uncertain execution was duplicated.
+
+Read-only inspection found the accepted author17 module lacks the old worker's native_synthetic_integration entrypoint; the separate preserved author harness covers only the old base path. This prevents a pointless replay of the old worker. Next is a bounded author18 response through the existing scientific route, followed by one native CPU test through the existing provider route and independent scientific judgment. Root will not write the scientific harness. Only an isolated draft worktree/scope exists; no new code, call, reservation or provider action has been made for this next step.
+
+Judgment: reuse the current author feedback, native worker, pinned image and normal reservations. Keep the test inside diagnostic25/stage150 and preserve all old attempts; no automatic retry. Any process allowance and accounting connection gets the required independent implementation review. Fold the direction check for the estimate slip and review overhead into that review, with the explicit shortest-path question and raw changes. Do not add another subsystem or unrelated proof layer. No operator money decision is pending.
+
+The fourth scientific-review purpose today is this scoped diagnostic judgment; the earlier three are smoke assessment, timing response and executable diagnostic proposal. Administrative reviews are the majority (12/22); the last scope/accounting/direction work was bundled, and future required repairs/native admission will be combined where possible. The packaging repair added one call; the refused reused-ID request added none. No history or usage was reset.
+
+Withheld this stop: outputs/proposals/item4-diagnostic-native-harness-20261010.txt (scan flagged; originals retained privately).
 
 ## Installed diagnostic review route
 
