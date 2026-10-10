@@ -5,8 +5,8 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-diagnostic-native-harness-20261010'
-REVIEW_CHANGE='item4-diagnostic-native-harness-20261010'
+CHANGE='item4-author18-plaintext-recovery-20261010'
+REVIEW_CHANGE='item4-author18-plaintext-recovery-20261010'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-smoke-scientific-review-20261010/tools/item4_smoke_review_runtime.py')
@@ -24,7 +24,9 @@ FILES=('tools/item4_smoke_response_runtime.py','tools/install_item4_smoke_respon
     'orchestrator/experiment_plan_validation.py','orchestrator/experiment_environment_requirements.py',
     'orchestrator/modal_billing.py','docs/ITEM4_CPU_DIAGNOSTIC_SCOPED_REVIEW_PRIVATE.json',
     'docs/ITEM4_CPU_DIAGNOSTIC_NATIVE_HARNESS_PRIVATE.json',
-    'docs/ITEM4_PREVIOUS_NATIVE_HARNESS.py','docs/ITEM4_NATIVE_WORKER_INTERFACE.py')
+    'docs/ITEM4_PREVIOUS_NATIVE_HARNESS.py','docs/ITEM4_NATIVE_WORKER_INTERFACE.py',
+    'docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json','docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py',
+    'orchestrator/scientific_view_scan.py','orchestrator/privacy_patterns.py')
 
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
@@ -112,8 +114,21 @@ def historical_scoped_review():
     return result['report_sha256']
 
 
+def historical_native_harness():
+    from orchestrator.autonomy_review import verify_result
+    record=Path('/var/lib/research-system-manual-sprint10-deployment/item4-diagnostic-native-harness-20261010/review')
+    result=verify_result(trusted(record))
+    require(result['verdict']=='APPROVE' and result['source_sha']=='f80421dabdf05dd900147adf114f1450b702ef02'
+        and result['report_sha256']=='a51934e4bf446c5b19ba96c6877049947975fe6ebab146fccff6f75285f4484a',
+        'HISTORICAL_NATIVE_HARNESS_APPROVAL')
+    manifest=json.loads(trusted(record/'packet-manifest.json').read_bytes())
+    name='docs/ITEM4_CPU_DIAGNOSTIC_NATIVE_HARNESS_PRIVATE.json'
+    require(sha(trusted(ROOT/name).read_bytes())==manifest['source_files'][name],'HISTORICAL_NATIVE_SCOPE')
+    return result['report_sha256']
+
+
 def connect():
-    approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review()
+    approved=authority();old_approval=historical_response();diagnostic_approval=historical_diagnostic();recovery_approval=historical_recovery();scoped_approval=historical_scoped_review();native_approval=historical_native_harness()
     require(sha(trusted(PRIOR).read_bytes())==PRIOR_SHA,'PRIOR_SOURCE_CHANGED')
     route=module('_post_smoke_prior',PRIOR);original_factory=route.module;substituted=[]
     def factory(name,path):
@@ -127,17 +142,19 @@ def connect():
         helper.scope(diagnostic,diagnostic_approval)
         recovery=json.loads(trusted(ROOT/helper.RECOVERY_DOCUMENT).read_bytes());helper.scope(recovery,recovery_approval)
         scoped_review=json.loads(trusted(ROOT/helper.SCOPED_DOCUMENT).read_bytes());helper.scope(scoped_review,scoped_approval)
-        native_harness=json.loads(trusted(ROOT/helper.NATIVE_DOCUMENT).read_bytes());helper.scope(native_harness,approved['report_sha256'])
+        native_harness=json.loads(trusted(ROOT/helper.NATIVE_DOCUMENT).read_bytes());helper.scope(native_harness,native_approval)
+        plaintext=json.loads(trusted(ROOT/helper.PLAINTEXT_DOCUMENT).read_bytes());helper.scope(plaintext,approved['report_sha256'])
         require(sha(trusted(ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt').read_bytes())==helper.DIAGNOSTIC_DECISION,'OPERATOR_DECISION')
         calls=module(name,ROOT/'orchestrator/item4_scoped_calls.py');orchestrator.item4_scoped_calls=calls
         original=calls.connect
         def scoped(*args,**kw):
-            require(not {'post_smoke','post_smoke_approval','diagnostic','diagnostic_approval','diagnostic_recovery','diagnostic_recovery_approval','diagnostic_scoped','diagnostic_scoped_approval','diagnostic_native','diagnostic_native_approval'}&set(kw),'DUPLICATE_SCOPE')
+            require(not {'post_smoke','post_smoke_approval','diagnostic','diagnostic_approval','diagnostic_recovery','diagnostic_recovery_approval','diagnostic_scoped','diagnostic_scoped_approval','diagnostic_native','diagnostic_native_approval','diagnostic_plaintext','diagnostic_plaintext_approval'}&set(kw),'DUPLICATE_SCOPE')
             return original(*args,**kw,post_smoke=p,post_smoke_approval=old_approval,
                 diagnostic=diagnostic,diagnostic_approval=diagnostic_approval,
                 diagnostic_recovery=recovery,diagnostic_recovery_approval=recovery_approval,
                 diagnostic_scoped=scoped_review,diagnostic_scoped_approval=scoped_approval,
-                diagnostic_native=native_harness,diagnostic_native_approval=approved['report_sha256'])
+                diagnostic_native=native_harness,diagnostic_native_approval=native_approval,
+                diagnostic_plaintext=plaintext,diagnostic_plaintext_approval=approved['report_sha256'])
         calls.connect=scoped;substituted.append(name);return calls
     route.module=factory
     connected,smoke,smoke_p,smoke_approval=route.connect()
@@ -145,9 +162,9 @@ def connect():
     from orchestrator import dispatch_limiter,item4_smoke_response as helper
     limiter=module('_post_smoke_limiter',ROOT/'orchestrator/dispatch_limiter.py')
     dispatch_limiter.admit_manual=limiter.admit_manual
-    p=json.loads(trusted(ROOT/helper.NATIVE_DOCUMENT).read_bytes())
+    p=json.loads(trusted(ROOT/helper.PLAINTEXT_DOCUMENT).read_bytes())
     import orchestrator
-    for name in ('notebook_execution','author_output_schema','author_format_submission'):
+    for name in ('privacy_patterns','scientific_view_scan','notebook_execution','author_output_schema','author_format_submission'):
         loaded=module('orchestrator.'+name,ROOT/'orchestrator'/(name+'.py'));setattr(orchestrator,name,loaded)
     return connected,smoke,smoke_p,smoke_approval,helper,p,approved['report_sha256']
 
@@ -198,7 +215,8 @@ def supplemental(driver,p):
     result={name:trusted(ROOT/path).read_bytes() for name,path in names.items()}
     from orchestrator import item4_smoke_response as helper,private_records as pr
     if helper.native_harness(p):
-        result['previous-native-harness.py']=trusted(ROOT/'docs/ITEM4_PREVIOUS_NATIVE_HARNESS.py').read_bytes()
+        result['previous-native-harness.py']=trusted(ROOT/('docs/ITEM4_AUTHOR18_DECODED_REFERENCE_PRIVATE.py'
+            if helper.plaintext_recovery(p) else 'docs/ITEM4_PREVIOUS_NATIVE_HARNESS.py')).read_bytes()
         result['native-worker-interface.py']=trusted(ROOT/'docs/ITEM4_NATIVE_WORKER_INTERFACE.py').read_bytes()
         return result
     if helper.scoped_review(p):return result
@@ -210,11 +228,11 @@ def supplemental(driver,p):
 
 
 def author_work():
-    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces/run_spec_author-18')
+    return Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane-scientific-workspaces/run_spec_author-19')
 
 
 def pins_path():
-    return author_work().parent.parent/'lane/cpu-diagnostic-native-harness/runtime-pins-18.json'
+    return author_work().parent.parent/'lane/cpu-diagnostic-plaintext-recovery/runtime-pins-19.json'
 
 
 def send(expected,family,command):
@@ -223,7 +241,7 @@ def send(expected,family,command):
     from orchestrator import author_format_submission as af,manual_stage as stage,private_records as pr
     require(Path.cwd().resolve()==author_work() and family=='codex','AUTHOR_SENDER_SCOPE')
     pins=json.loads(pr.check(pins_path()).read_bytes());config=af.load(author_work(),pins[af.CONFIG])
-    require(config['bindings']['input_sha256']==expected and config['bindings']['round']==18,'AUTHOR_SENDER_BINDING')
+    require(config['bindings']['input_sha256']==expected and config['bindings']['round']==19,'AUTHOR_SENDER_BINDING')
     author_sender_admitted(config,expected)
     base=['/tools/node','/tools/codex/bin/codex.js','exec','--ignore-user-config','--ignore-rules','--model','gpt-6-astra',
         '-s','workspace-write','-c','approval_policy="never"','-c','sandbox_workspace_write.network_access=false','--json','-']
@@ -242,8 +260,8 @@ def author_sender_admitted(config,expected):
     """A prepared format tool is not permission for an uncounted model call."""
     import sqlite3
     from orchestrator import item4_smoke_response as helper,private_records as pr
-    binding=config['bindings'];ident=helper.call({'schema':helper.NATIVE_SCHEMA},'author')
-    require(binding['call_id']==ident and binding['round']==18 and binding['stage']=='run_spec_author'
+    binding=config['bindings'];ident=helper.call({'schema':helper.PLAINTEXT_SCHEMA},'author')
+    require(binding['call_id']==ident and binding['round']==19 and binding['stage']=='run_spec_author'
         and binding['run_id']==helper.RUN and binding['input_sha256']==expected,'AUTHOR_SENDER_CALL_BINDING')
     lane=author_work().parent.parent/'lane'
     with sqlite3.connect(pr.check(lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as local, sqlite3.connect(
@@ -254,8 +272,8 @@ def author_sender_admitted(config,expected):
         value=json.loads(local.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
         pending=value.get('pending') or {}
         require(row is not None and other is not None and row['status']==other['status']=='RUNNING'
-            and row['stage']=='run_spec_author' and row['attempt']==18 and value['phase']=='MODEL_RUNNING'
-            and pending=={'id':ident,'stage':'run_spec_author','round':18,'workspace':str(author_work())},
+            and row['stage']=='run_spec_author' and row['attempt']==19 and value['phase']=='MODEL_RUNNING'
+            and pending=={'id':ident,'stage':'run_spec_author','round':19,'workspace':str(author_work())},
             'AUTHOR_SENDER_ADMISSION_REQUIRED')
         receipt=json.loads(row['receipt'])
         require(receipt['input_sha256']==expected and receipt['workspace']==str(author_work()),'AUTHOR_SENDER_RECEIPT')
@@ -293,7 +311,7 @@ def prepare_author_feedback(driver,p,body,measurement,work):
             if value.get('view_sha256')==patch['view_sha256']:manifests.append(raw)
     require(len(manifests)==1,'AUTHOR_BOUND_OMISSIONS_REQUIRED')
     binding=helper.review_binding(driver,p,authority()['report_sha256'])
-    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':18,
+    pins=af.prepare_revision(work,{'call_id':helper.call(p,'author'),'run_id':helper.RUN,'stage':'run_spec_author','round':19,
         'source_sha':driver.config['source'],'runtime_sha256':sha(trusted(Path('/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json')).read_bytes()),'input_sha256':sha(body.encode())},
         {'review_call_id':binding['review_call_id'],'review_sha256':binding['review_sha256'],
             'operator_scope_sha256':plan['operator_scope_sha256'],'original_sha256':patch['original_sha256'],'view_sha256':patch['view_sha256']},
@@ -315,7 +333,7 @@ def main(argv=None):
     from orchestrator import experiment_context as ec
     saved_accept=ec.accept_author
     def accept_author(current, value, pending):
-        require(current is driver and pending['round']==18,'AUTHOR_ACCEPT_SCOPE')
+        require(current is driver and pending['round']==19,'AUTHOR_ACCEPT_SCOPE')
         saved_accept(current,value,pending)
         helper.executable_candidate(current,value,p)
     saved_author=(stage._invoke,stage.transport_profile)
@@ -337,7 +355,7 @@ def main(argv=None):
                 task+='\nRequired exact author output schema: '+json.dumps(schema(),sort_keys=True)
             return task
         def prepare_input(self,value,stage_name,work):
-            require((stage_name,self.model_round_number(value)) in {('run_spec_author',18)},'INPUT_SCOPE')
+            require((stage_name,self.model_round_number(value)) in {('run_spec_author',19)},'INPUT_SCOPE')
             helper.deliver(self,value,p,approval,supplemental(self,p))
             body,measurement=super().prepare_input(value,stage_name,work)
             helper.verify_delivered(self,value,stage_name,work,body,measurement,p)
@@ -346,7 +364,7 @@ def main(argv=None):
         def _accept_completed(self,value):
             pending=value.get('pending') or {};stage=pending.get('stage')
             require((stage,pending.get('round'),pending.get('id')) in {
-                ('run_spec_author',18,helper.call(p,'author'))},'COMPLETION_SCOPE')
+                ('run_spec_author',19,helper.call(p,'author'))},'COMPLETION_SCOPE')
             work=Path(pending['workspace'])
             helper.verify_delivered(self,value,stage,work,pr.check(work/'prompt.md').read_text(),
                 json.loads(pr.check(work/'input-measurement.json').read_bytes()),p)
@@ -367,7 +385,7 @@ def main(argv=None):
                 retained_smoke_evidence(driver,value,smoke,smoke_p,smoke_approval,helper)
                 result={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}
             elif argv[0]=='activate':
-                result=helper.activate(driver,p,approval,driver.state/'cpu-diagnostic-native-harness')
+                result=helper.activate(driver,p,approval,driver.state/'cpu-diagnostic-plaintext-recovery')
             else:
                 helper.ready(driver,value,p,approval)
                 restore=bind_admission(driver,c,original,helper,p,approval)

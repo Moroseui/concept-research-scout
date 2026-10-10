@@ -135,6 +135,8 @@ def visible_module(patch_value, view, manifest):
         parts.append(''.join(lines[1:]))
     if set(edits)-set(groups) or not parts:raise ValueError('AUTHOR_MODULE_VISIBLE_CODE_REQUIRED')
     source=''.join(parts)
+    from orchestrator.scientific_view_scan import reject_opaque
+    reject_opaque(source.encode())
     try:entrypoints(source,preprocessing=True)
     except (SyntaxError,ValueError) as error:
         raise ValueError('AUTHOR_MODULE_ENTRYPOINT: '+str(error)) from error

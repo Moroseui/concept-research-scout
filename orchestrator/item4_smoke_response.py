@@ -26,6 +26,10 @@ DIAGNOSTIC_DECISION = '5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85
 DIAGNOSTIC_SCHEMA = 'item4-cpu-diagnostic-authoring/v1'
 RECOVERY_SCHEMA = 'item4-cpu-diagnostic-entrypoint-recovery/v1'
 SCOPED_SCHEMA = 'item4-cpu-diagnostic-scoped-review/v1'
+PLAINTEXT_SCHEMA = 'item4-cpu-diagnostic-plaintext-recovery/v1'
+PLAINTEXT_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_PLAINTEXT_PRIVATE.json'
+OPAQUE_AUTHOR = sha((RUN+':run_spec_author:18').encode())
+OPAQUE_REASON = 'OUTPUT_VALIDATION_REFUSED: PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED'
 NATIVE_SCHEMA = 'item4-cpu-diagnostic-native-harness/v1'
 NATIVE_DOCUMENT = 'docs/ITEM4_CPU_DIAGNOSTIC_NATIVE_HARNESS_PRIVATE.json'
 NATIVE_REVIEW14_REPORT = '0cf4671ce6c1641b0aa2724d5fd0405e0cf9c21f9193a5eb0a7e7a822158a11a'
@@ -37,10 +41,13 @@ FAILED_AUTHOR = sha((RUN+':run_spec_author:16').encode())
 FAILED_REASON = 'OUTPUT_VALIDATION_REFUSED: NOTEBOOK_EXECUTION_ENTRYPOINT:synthetic_tests'
 
 def diagnostic(p):
-    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA}
+    return p.get('schema') in {DIAGNOSTIC_SCHEMA, RECOVERY_SCHEMA, SCOPED_SCHEMA, NATIVE_SCHEMA, PLAINTEXT_SCHEMA}
+
+def plaintext_recovery(p):
+    return p.get('schema') == PLAINTEXT_SCHEMA
 
 def native_harness(p):
-    return p.get('schema') == NATIVE_SCHEMA
+    return p.get('schema') in {NATIVE_SCHEMA, PLAINTEXT_SCHEMA}
 
 def scoped_review(p):
     return p.get('schema') == SCOPED_SCHEMA
@@ -54,6 +61,12 @@ def profile(p):
             event=EVENT, field='post_smoke_response_scope', assessment='smoke_review',
             previous_reason='SMOKE_REVIEW_REVISE', previous_review=11,
             previous_call=smoke.CALL, folder='post-smoke-response', result='post_smoke_response')
+    if plaintext_recovery(p):
+        return dict(author=19, reviewer=15, count=32, batch=70, limit=36, batch_limit=74,
+            event='REVIEWED_ITEM4_DIAGNOSTIC_PLAINTEXT_RECOVERY', field='cpu_diagnostic_plaintext_scope',
+            assessment='cpu_diagnostic_scoped_review', previous_reason=OPAQUE_REASON,
+            previous_review=14, previous_call=sha((RUN+':run_spec_review:14').encode()),
+            folder='cpu-diagnostic-plaintext-recovery', result='cpu_diagnostic_plaintext_recovery')
     if native_harness(p):
         return dict(author=18, reviewer=15, count=31, batch=69, limit=35, batch_limit=73,
             event='REVIEWED_ITEM4_DIAGNOSTIC_NATIVE_HARNESS', field='cpu_diagnostic_native_harness_scope',
@@ -96,7 +109,8 @@ def scope(p,approval):
     old=json.loads(p['original_state'])
     require(sha(p['original_state'].encode())==p['state_sha256'] and old['phase']=='BLOCKED'
         and old['reason']==q['previous_reason']
-        and ((old.get('pending') or {}).get('id')==FAILED_AUTHOR if p['schema']==RECOVERY_SCHEMA else not old.get('pending'))
+        and ((old.get('pending') or {}).get('id')==(OPAQUE_AUTHOR if plaintext_recovery(p) else FAILED_AUTHOR)
+            if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p) else not old.get('pending'))
         and old['rounds']=={'run_spec_author':q['author']-(not scoped_review(p)),'run_spec_review':q['previous_review']},'CHECKPOINT')
     a=p['assessment']
     flags=('full_training_admitted','coverage_released',
@@ -131,6 +145,11 @@ def scope(p,approval):
             and p.get('accepted_author_event')=={'schema':'validated-author-output/v1',
                 'call_id':p['reference_author_call_id'],'stage':'run_spec_author','attempt':17,
                 'output_sha256':p['author_outputs']},'NATIVE_HARNESS_AUTHORITY')
+    if plaintext_recovery(p):
+        require(p.get('failed_call_id')==OPAQUE_AUTHOR
+            and set(p.get('failed_outputs',{}))=={'SPEC.proposed.md','execution.plan.json','notebook.patch.json'}
+            and p.get('failed_format',{}).get('status')=='ACCEPTED'
+            and p['failed_format'].get('files')==p['failed_outputs'],'PLAINTEXT_FAILURE_SCOPE')
     return old
 
 
@@ -172,25 +191,35 @@ def frozen_author(driver,p,value=None):
 def failed_author(store,p):
     """Only the frozen completed, unaccepted interface failure may be retried."""
     from orchestrator import private_records as pr
-    require(p.get('schema')==RECOVERY_SCHEMA,'RECOVERY_ONLY')
+    require(p.get('schema')==RECOVERY_SCHEMA or plaintext_recovery(p),'RECOVERY_ONLY')
+    ident=OPAQUE_AUTHOR if plaintext_recovery(p) else FAILED_AUTHOR
+    attempt=18 if plaintext_recovery(p) else 16
     rows=[]
     for db,table in [(store.db,'manual_calls'),(store.batch.db,'autonomy_calls')]:
-        row=db.execute('SELECT * FROM '+table+' WHERE id=?',(FAILED_AUTHOR,)).fetchone()
+        row=db.execute('SELECT * FROM '+table+' WHERE id=?',(ident,)).fetchone()
         require(row is not None and row['status']=='COMPLETE','FAILED_AUTHOR_TERMINAL')
         rows.append(dict(row))
     row=rows[0];receipt=json.loads(row['receipt'])
-    require(row['stage']=='run_spec_author' and row['attempt']==16
-        and not store.db.execute('SELECT 1 FROM events WHERE id=?',('author-accepted:'+FAILED_AUTHOR,)).fetchone()
+    require(row['stage']=='run_spec_author' and row['attempt']==attempt
+        and not store.db.execute('SELECT 1 FROM events WHERE id=?',('author-accepted:'+ident,)).fetchone()
         and receipt.get('output_sha256')==p['failed_outputs']
         and receipt.get('native',{}).get('transport_returncode')==0,'EXACT_UNACCEPTED_AUTHOR')
     work=Path(receipt['workspace'])
-    require(work.name=='run_spec_author-16' and work.parent==Path(store.path).parent.parent/(Path(store.path).parent.name+'-scientific-workspaces'),
+    require(work.name=='run_spec_author-'+str(attempt) and work.parent==Path(store.path).parent.parent/(Path(store.path).parent.name+'-scientific-workspaces'),
         'FAILED_WORKSPACE')
     for name,pin in p['failed_outputs'].items():
         require(sha(pr.check(work/name).read_bytes())==pin,'FAILED_OUTPUT_CHANGED')
     require(sha(pr.check(work/'console.log').read_bytes())==receipt['native']['console_sha256'],'FAILED_STREAM_CHANGED')
     require((json.loads(p['original_state']).get('pending') or {}).get('workspace')==str(work),
         'FAILED_PENDING_BINDING')
+    if plaintext_recovery(p):
+        # Authenticate original submission bytes without rerunning the new
+        # validator on an intentionally refused historical payload.
+        saved=receipt['native'].get('author_submission')
+        require(saved==p['failed_format'],'FAILED_FORMAT_RECEIPT_CHANGED')
+        require(sha(pr.check(work/'.author-submission.json').read_bytes())==saved['record_sha256']
+            and sha(pr.check(work/'.author-runtime/config.json').read_bytes())==saved['config_sha256'],
+            'FAILED_FORMAT_BYTES_CHANGED')
     return row
 
 
@@ -202,7 +231,7 @@ def originals(store,p,approval):
         for ident,pin in pins.items():
             row=db.execute('SELECT * FROM '+table+' WHERE id=?',(ident,)).fetchone()
             require(row is not None and sha(canonical(dict(row)))==pin,'ORIGINAL_CHANGED')
-    if p['schema']==RECOVERY_SCHEMA:failed_author(store,p)
+    if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p):failed_author(store,p)
 
 
 def proof(p,approval):
@@ -270,7 +299,7 @@ def activate(driver,p,approval,dest):
     pr.mkdir(dest);pr.write_bytes(Path(dest)/'original-state.json',raw.encode())
     grant=proof(p,approval);pr.write_bytes(Path(dest)/'intent.json',canonical(grant))
     value={**old,'phase':'run_spec_review' if scoped_review(p) else 'run_spec_author','reason':q['event'],q['field']:grant}
-    if p['schema']==RECOVERY_SCHEMA:value.pop('pending',None)
+    if p['schema']==RECOVERY_SCHEMA or plaintext_recovery(p):value.pop('pending',None)
     # Keep the old execution review and all obligations. The actual smoke
     # critique is supplied separately and bound through the accepted receipt.
     value['interventions']=[*old.get('interventions',[]),grant]
@@ -341,6 +370,7 @@ def protected_keys(p):
     if scoped_review(p):keys+=('cpu_diagnostic_recovery_scope','cpu_diagnostic_recovery','notebook_revision_result')
     if native_harness(p):keys+=('cpu_diagnostic_authoring_scope','cpu_diagnostic_recovery_scope',
         'cpu_diagnostic_recovery','cpu_diagnostic_scoped_review_scope','cpu_diagnostic_scoped_review')
+    if plaintext_recovery(p):keys+=('cpu_diagnostic_native_harness_scope',)
     return keys
 
 
@@ -412,7 +442,13 @@ def connect_roles(accounting,recovery,p,approval):
                             and accounting._accepted(store,row),'HISTORICAL_DUPLICATE_REVISION')
                     used[saved['review_call_id']]=row
                 new=binding(driver,stage,q['previous_review'],q['author'])
-                require(new['review_call_id'] not in used,'NEW_REVIEW_REQUIRED')
+                if plaintext_recovery(p):
+                    previous=used.get(new['review_call_id'])
+                    require(previous is not None and previous['id']==OPAQUE_AUTHOR
+                        and previous['attempt']==18 and not accounting._accepted(store,previous),
+                        'EXACT_UNACCEPTED_REVIEW14_RESPONSE')
+                    failed_author(store,p)
+                else:require(new['review_call_id'] not in used,'NEW_REVIEW_REQUIRED')
                 return {'limit':q['author'],'binding':new,'failed_attempts':failures}
         result=old_inspect(store,run,stage)
         if run!=RUN or stage!='run_spec_author':return result
@@ -573,10 +609,26 @@ SCOPED_GUIDANCE=(
 )
 
 def guidance(p):
+    if plaintext_recovery(p):return PLAINTEXT_GUIDANCE+NATIVE_GUIDANCE.replace(
+        'its separate preserved base native harness is supplied as historical author-owned reference only, not new evidence.',
+        'the supplied decoded author18 reference remains unaccepted and unexecuted.')
     if native_harness(p):return NATIVE_GUIDANCE
     if scoped_review(p):return SCOPED_GUIDANCE
     return (RECOVERY_GUIDANCE if p['schema']==RECOVERY_SCHEMA else '')+(DIAGNOSTIC_GUIDANCE if diagnostic(p) else GUIDANCE)
 
+
+PLAINTEXT_GUIDANCE=(
+    'This is the single bounded mechanical correction of failed author18. Its genuine format receipt and charge '
+    'remain preserved, but the controller refused its base64/zlib opaque code; it was NEVER accepted. '
+    'The supplied previous-native-harness.py is a byte-preserving, bounded, non-executing decode of your '
+    'failed author18 reference, hash-bound to that attempt. It is read-only reference, NOT accepted science '
+    'or native execution evidence. Produce compact PLAIN Python; no encoded/compressed payloads. '
+    'Do not duplicate helpers unnecessarily. The existing 80000-byte output bound remains unchanged; '
+    'naively expanding the entire prior payload would exceed it. You own the scientific correction. '
+    'Use submit_author and correct validation errors in the SAME call before finishing. The same opaque '
+    'predicate now runs in submission feedback and the complete visible module, while the host privacy '
+    'check remains authoritative. Preserve the exact diagnostic plan and all invariants described below. '
+)
 
 NATIVE_GUIDANCE=(
     'Respond to the genuine diagnostic-scoped scientific REVISE14, whose exact report is delivered. '

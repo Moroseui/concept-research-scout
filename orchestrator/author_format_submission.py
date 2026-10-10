@@ -18,7 +18,7 @@ LIMIT = 80000
 REVISION_SCHEMA = 'item4-scientific-revision-submission/v1'
 MODULE_VIEW = RUNTIME+'/module-view.txt'
 MODULE_MANIFEST = RUNTIME+'/module-view-manifest.json'
-LIBRARIES = ('author_output_schema', 'experiment_plan_validation', 'experiment_environment_requirements', 'modal_billing', 'notebook_execution')
+LIBRARIES = ('author_output_schema', 'experiment_plan_validation', 'experiment_environment_requirements', 'modal_billing', 'notebook_execution', 'scientific_view_scan', 'privacy_patterns')
 
 
 def canonical(value):
@@ -226,7 +226,10 @@ def validate_revision(root, config):
     current = {name:regular(root/name) for name in OUTPUTS}
     binding = {**config['bindings'], **config['revision']}
     output.plan(strict(current['execution.plan.json']), binding)
-    output.patch(strict(current['notebook.patch.json']), binding)
+    patch_value=strict(current['notebook.patch.json'])
+    output.patch(patch_value, binding)
+    from orchestrator.scientific_view_scan import reject_opaque
+    for edit in patch_value['edits']:reject_opaque(edit['replacement'].encode())
     if 'notebook' in config:
         refs=config['notebook']
         if set(refs)!={MODULE_VIEW,MODULE_MANIFEST}:raise ValueError('AUTHOR_MODULE_REFERENCES')
@@ -236,6 +239,7 @@ def validate_revision(root, config):
     text=current['SPEC.proposed.md'].decode()
     if len(text)>12000:
         raise ValueError('EXPERIMENT_SPEC_LIMIT: SPEC.proposed.md must be at most 12000 characters; shorten it before submitting')
+    for raw in (current['SPEC.proposed.md'],current['execution.plan.json']):reject_opaque(raw)
     lines=text.splitlines()
     for key,expected in {'run_id':binding['run_id'], 'operator_scope_sha256':binding['operator_scope_sha256'],
                          'execution_plan_sha256':sha(current['execution.plan.json'])}.items():
@@ -351,7 +355,7 @@ def serve(root, pin):
                     answer = submit(root, pin, params.get('arguments', {}))
                     failed = False
                 except ValueError as error:
-                    if str(error) not in recoverable and not (config['schema'] == REVISION_SCHEMA and str(error).startswith(('AUTHOR_PLAN_', 'AUTHOR_PREPROCESSING_', 'AUTHOR_PATCH_', 'AUTHOR_SPEC_', 'AUTHOR_MODULE_', 'EXPERIMENT_'))):
+                    if str(error) not in recoverable and not (config['schema'] == REVISION_SCHEMA and (str(error) == 'PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED' or str(error).startswith(('AUTHOR_PLAN_', 'AUTHOR_PREPROCESSING_', 'AUTHOR_PATCH_', 'AUTHOR_SPEC_', 'AUTHOR_MODULE_', 'EXPERIMENT_')))):
                         raise
                     answer = {'validation_error': str(error), 'required_output_schema': config['output_schema']}
                     failed = True
