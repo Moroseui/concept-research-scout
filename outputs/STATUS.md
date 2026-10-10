@@ -1,12 +1,22 @@
 # Research status
 
 Item 6 is complete: all 352 comparable values match the independent Colab run.
-CPU starvation remains unproven; the proposed diagnostic compares 16 CPUs/12 workers with 32 CPUs/24 workers on the same B200 workload.
-Author 17 is accepted; controller validation passed all five synthetic-check groups, including 15 execution-module tests with zero skips.
-Scientific reviewer 13's service started once and is preparing its inputs; its bounded monitor is active. No diagnostic GPU job is running.
+Author 17 passed controller checks; scientific review 13 verified the diagnostic code/design but returned genuine REVISE with six preserved full-plan findings.
+CPU starvation remains unproven. No diagnostic GPU job is running; diagnostic execution lacks an explicit scoped scientific approval.
+Claude is reviewing the shortest legitimate way to judge the funded diagnostic separately while retaining every full-plan hold; no repair or new scientific call has started.
 Identified compute spend remains $24.29; retained exposure is $110.11 against $150. Diagnostic spending and reservations remain $0/$25.
-Next expected result: independent scientific judgment in about 10-20 minutes. B goes first after scientific review and bounded admission.
-UTC October 10 calls: 17/50 (3 authors, 2 scientific reviews, 9 administrative reviews, 3 direction checks). Latest Claude administrative outcome: implementation APPROVE; shortest safe path confirmed.
+Next scientific result is the CPU timing diagnostic, provisionally 1-3 hours if scope resolution and required reviews pass; the scope consultation should finish in 5-10 minutes. B remains first.
+UTC October 10 calls: 19/50 (3 authors, 3 scientific reviews, 10 administrative reviews, 3 direction checks). Latest completed scientific verdict: REVISE; current administrative direction check is running.
+
+## Latest scoped-judgment question
+
+06:28 UTC: scientific review13 is COMPLETE, genuinely submitted and preserved, report00ac3c5bdf863f1f5aba76b2a151c572a36edd6f5de9208d3237c1306dcb62e7. It positively checked the entrypoint correction, unchanged original plan plus two diagnostic fits, hard resource/time bounds, budget-order arithmetic and held coverage arms. It identified no new diagnostic-specific code defect, but retains U1 provenance, U2 all-arm/full integration, U3 coverage source validation, full-plan cost projection, partial-arm extrapolation and the self-review/provenance finding. Its verdict is REVISE and explicitly does not permit diagnostic dispatch. That is not reclassified as a mechanical failure or treated as approval.
+
+The budget finding concerns the full plan's unchanged $1200 gate/$1275 total, not a request to raise the already-approved diagnostic25/stage150 allowance. No operator decision is pending. Full training and coverage remain held. The completed service was inactive with exit0; its bounded monitor ended on the terminal invocation change. No run, review or monitor was relaunched.
+
+Root requested one administrative direction/process consultation because the preserved global findings obstruct an explicit judgment about the separately funded evidence-generating diagnostic. Proposed route: a genuine independent diagnostic-scoped scientific judgment of unchanged author17 bytes, with all original findings bound and open separately; every diagnostic-relevant defect still blocks execution. An administrative answer is not scientific approval or permission to install unreviewed code. Claude must identify the shortest legitimate route; no generic bypass, inferred approval, altered scope, raised dollar cap or new subsystem is proposed. Raw commits/diff stats since the last check are empty and the prior infrastructure-overhead failure mode is included. The source remains3577bcca.
+
+The tenth administrative call bundles this recurring process issue and the direction/estimate check. Preserve all existing30local/68batch scientific calls and final full-plan interpretation slots; if one further scoped scientific review is necessary, its exact accounting requires independent approval, not an unrecorded retry. Today's three scientific reviews cover the smoke assessment, timing response, and executable CPU-diagnostic proposal. Direction advice inside administrative reviews is not counted twice.
 
 ## Latest scientific handoff
 
