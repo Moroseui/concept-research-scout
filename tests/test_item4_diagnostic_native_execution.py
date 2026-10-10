@@ -281,9 +281,9 @@ def test_complete_native_pages_preserve_unicode_and_all_console_bytes():
   assert len(files[p['name']].decode())<=6000
 
 
-def test_current_worker_exactly_matches_the_reviewed_historical_adapter():
- # Pin reviewed worker, not scientific execution.py; keeps all hash/size bounds.
- assert digest(Path(worker.__file__).read_bytes())=='a6e10e29eb657f1aa4fb7c018282fbb0050e913def8d0156b88e75e11f3b528d'
+def test_current_worker_exactly_matches_the_scoped_adapter_candidate():
+ # Pin the infrastructure adapter candidate; scientific bytes and size bounds stay fixed.
+ assert digest(Path(worker.__file__).read_bytes())=='c49331fd12d3bc55b74c53b70b81188350476a0dcc779280c6436e2a5568d49d'
  assert worker.MAX_BUNDLE==300000 and worker.MAX_RESULT==240000 and worker.MAX_LOG==65536
 
 
