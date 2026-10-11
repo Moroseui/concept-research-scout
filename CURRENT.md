@@ -1,13 +1,13 @@
-# Current research state - 11 October 2026
+# Current research state ? 11 October2026
 
-Action needed from you: none. Codex/OpenAI remains operator; the swap gate is not met.
+Action needed from you:none. Codex/OpenAI remains operator; swap gate not met.
 
-Cleanup and evidence migration are complete; never replay transfers, verifiers or removals. C: now has19.4GiB free. Server space was160.6GiB before the move,123.7 afterward,122.6 with current staging. The disk guard is independently approved. No additional setup command or larger disk is needed.
+Item6 and saved-results synthesis are independently accepted. Colab author2 and timing author24 are COMPLETE with synthetic PASS but not scientifically released. The intake repair and preservation are installed/complete. Both later source-alignment implementation reviews failed terminally on provider transport/timeout errors, without verdicts. Both originals and$3.60444775 combined charge are preserved. No alignment install or scientific call followed them.
 
-Item6 and saved-results synthesis are independently accepted. Colab author2 and timing author24 are complete with synthetic PASS, not scientifically released. The intake repair and one-use preservation are installed/complete. Its source-alignment successor's review failed mechanically with a connection error and no verdict; its$2.44399475 remains counted. Never restart the original request.
+The exact direction-only request5e2b1a7da30cecca8bb5761173a9250ea92b193424f0d2600acb437630cd3338 is RUNNING, invocationbfae5c72472e4252a5d6e2ed8d62f0cb, confirmed08:37UTC. Never register/prepare/start it again. Reconcile its terminal result and use Claude's direction before another long review. It cannot approve installation.
 
-Combined recovery request `53beab3bfb33ef10688e897ec116fa168638a93ca0f2cfce8b4be7878433c449`, source `cdf7eda92e3d8dd221e379c7cf50009b10db2c6b`, is registered/staged with144 tests and installed-reader preflight PASS. It explicitly asks Claude to approve the standing one-use recovery exception and the implementation together. The first launch check refused scheduled retention before a call or server intent, and an SSH connection later timed out. Fresh08:13:55UTC reconciliation then confirmed no active job, no target invocation, no start intent and no row. The request was started once;08:16:16UTC confirms RUNNING, invocation319645ead2ef4d96a1423d69ba8dbba3. Never start it again; observe to terminal. No install or science until genuine APPROVE. See [HANDOVER](HANDOVER.md) for exact resume state.
+Timing draft78168f9bfc2beea0a9c5ec740fd7445f33005ef6 passes124 tests and preserves existing author24 accounting/reviewer16 allowance. Actual connection/installation checks and independent review remain; no native/GPU launch. Today7/50 calls by purpose:2 authors,4 administrative reviews,1 direction,0 scientific reviewers. Completed administrative cost$12.986527; direction charge open. Compute accounting unchanged.
 
-Today6/50 calls:2 scientific authors,4 administrative reviews (one running),0 scientific reviewers,0 standalone direction checks. Completed administrative cost$11.826074. Compute accounting is unchanged. Latest answered direction:PROCEED; the new bundled check remains pending. Timing package is preserved for reviewed native binding; rotation route remains uninstalled/unqualified.
+Cleanup complete; never rerun transfers, verifiers or removals. C:about19.5GiB free. Server160.6GiB before the move,123.7 afterward,122.6 currently. Disk guard approved; no setup command or larger disk needed.
 
-Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md). Last confirmed backup before this update:`93bf3f021b066388e7fbf1a1b88e40de167bfe52`. Never merge main or edit BACKLOG.
+Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md), and [execution plan](outputs/13B_EXECUTION_PLAN.md). Last confirmed backup before this update:654e7c1b86bbe1b67b8b2a1de1e2b783bd3b9a50. Never merge main or edit BACKLOG.
