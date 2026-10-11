@@ -1,20 +1,20 @@
 # Research status
 
-- Item 6 and synthesis are accepted; 352 rounded Sprint 14 values match the same saved fits/cohort, not independent retraining.
-- The reviewed repair is installed and both service checks passed. Synthetic timing integration remains passed.
-- Colab scientific review 3 is running; no GPU or full-training job is running.
-- Timing review 16 follows Colab reconciliation. First Colab instructions and GPU timing require scientific acceptance.
-- Confirmed compute actual is $24.40; stage-1 exposure about $115.52/$150. Administrative model cost $58.39; failed scientific reviews $10.20; current review cost pending.
-- Next expected result: Colab scientific verdict, provisionally 10?20 minutes. Analysis follows new evidence in 1?2 hours; meeting synthetic package 2?4 hours after lane admission. See the [plan](13B_EXECUTION_PLAN.md).
-- Action needed: none. Today 21/50 calls, one running. C: 19.3 GiB free. No swap point.
+- Item 6 and synthesis remain accepted; 352 rounded Sprint 14 values match the same saved fits/cohort, not independent retraining.
+- Colab preparation now has scientific APPROVE and is recorded; final author/reviewer handoff work remains.
+- No model or compute job is running. The reviewed infrastructure release passed both service checks.
+- Timing activation is held by a JSON byte-hash mismatch in its approval record; original evidence and state are intact.
+- Confirmed compute actual is $24.40; stage-1 exposure about $115.52/$150. Reported Claude model charges total $81.74; author dollar totals remain unavailable.
+- Next: final Colab handoff work, provisionally 30?60 minutes if its remaining gates pass; timing needs a reviewed binding correction. Analysis follows new results in 1?2 hours. See the [plan](13B_EXECUTION_PLAN.md).
+- Action needed: none. Today 21/50 calls, all terminal. C: about 19.3 GiB free. No swap point.
 
-## Current state ? October 11, 14:39 UTC
+## Current state ? October 11, 14:58 UTC
 
-Source `d4e276292744e4eff9327e46b0c19053cf3f0da9` is installed and both actual service checks passed. Qualified review `11f613ca486e0dc4e04dd2f1b2ac22314bedd381d1a9cd359dc94b5002a3e99a` returned APPROVE with no findings; report SHA256 `276620d8cbe9e76a0e676cbec0098261883b4903e7cd2b690ab433a9d2190a62`, charge $2.13714875. This includes the import-context repair and bounded recovery review. The prior submitted approval failed mandatory manifest-read qualification and remains FAILED, with its $3.73885725 charge counted. No verdict or usage was relabeled.
+Colab scientific review 3 completed with genuine APPROVE and no findings. Its accepted review hash is `e82f707aaab63efdaec28c59708874184fe20c1dd9e29de208483658051d8730`; tool-submission record `0bad1e5fced98d3bac6cc84e481fe2d8757ba919a64bf580740566bdb686f710`. The controller recorded the reviewed specification and advanced to `result_interpretation_author`, with 5/8 lane calls used. This approves preparation only: full synthetic validation, frozen-membership hash matching and accounting admission still precede human execution. Full training remains disabled; coverage arms remain held. Review cost $13.15064175.
 
-Colab review 3 is RUNNING as scientific call `39e9c0b83484d860d68ac0d77aeea3e094a8945293bcb28db2d5cfc3b3295676`, invocation `1f7e1a672a3140feb21145568048bb4e`, observed at 14:39 UTC. Exact state restoration preserved all four prior calls with no new allowance. Normal local/global admission and the approved 60-turn bound apply. Observe this call and maintain its existing bounded host pulse; do not restart it. The first launch command used an incorrect state hash and was refused before starting a job; the installed status command supplied the actual state hash, after which guarded start succeeded. Both operation records remain preserved, with no extra charge.
+Timing activation is terminal and held before reviewer 16. The approval document pins the compact JSON serialization of the original intent; the preserved file uses spaced JSON. State bytes and evidence fields match, but the exact byte hash differs. The refusal preserved the original state and intent; no recovery intent or reviewer-16 call exists. Correct the document binding to the actual preserved bytes, add a focused regression check, and obtain independent approval before retry. Never rewrite the original intent or relax the byte check. No CPU rerun is needed.
 
-Timing author 24 and the synthetic CPU integration remain complete. Native reviewer 16 has not been activated under this release. Reuse the exact PASS and original activation intent through the reviewed recovery after Colab terminal reconciliation; no CPU rerun. Scientific acceptance precedes GPU timing and first Colab instructions. No GPU or full training is running. Coverage arms remain held.
+Source `d4e276292744e4eff9327e46b0c19053cf3f0da9` is independently approved and installed; both real service checks passed. All 21 model calls are terminal. No model or compute job is running. Existing scheduled retention services continue normally. Every old attempt and charge remains preserved, including the failed manifest-read qualification and the refused state-hash launch command.
 
 ## Verification
 
@@ -22,9 +22,9 @@ Timing author 24 and the synthetic CPU integration remain complete. Native revie
 
 ## Money and calls
 
-Today 21/50 calls: 2 scientific authors (Colab correction and timing author 24), 3 scientific reviewers (two failed Colab reviews and the current third review), 13 administrative implementation reviews, and 3 direction calls/discussions. Administrative purposes: combined continuations; intake/disk; alignment; transport recovery; connection repair; entry-point/network continuation; preservation/admission; inspection recovery; installed combined bundle; reader/history bundle; native-review/Colab-turn continuation; import-context repair; and its bounded manifest-read recovery. Direction calls comprised one failed zero-cost check and two completed discussions. All original calls remain counted; the temporary October 10 cap expired.
+Today 21/50 calls: 2 scientific authors (Colab correction and timing author 24), 3 scientific reviewers (two failed Colab reviews and one completed approved review), 13 administrative implementation reviews, and 3 direction calls/discussions. Administrative purposes: combined continuations; intake/disk; alignment; transport recovery; connection repair; entry-point/network continuation; preservation/admission; inspection recovery; installed combined bundle; reader/history bundle; native-review/Colab-turn continuation; import-context repair; and its bounded manifest-read recovery. Direction calls comprised one failed zero-cost check and two completed discussions. All original calls remain counted; the temporary October 10 cap expired.
 
-Completed administrative model cost is $58.3941875; failed scientific reviews $10.19855925; combined reported Claude cost $68.59274675. Current scientific-review cost is pending; author dollar totals are unavailable. Confirmed compute actual is $24.39800404. Estimated stage-1 exposure is $115.516623/$150 and diagnostic exposure $5.405445/$25. The $1.118950 synthetic CPU reservation remains counted pending provider-confirmed billing. Item 6 cap $100, item 4 total $1,275 and full-training projection gate $1,200 are unchanged. Full training still requires scientific smoke acceptance. Five historical uncertain labels retain their reviewed terminal proofs without global relabeling.
+Completed administrative model cost is $58.3941875; failed scientific reviews $10.19855925; completed approved scientific-review cost $13.15064175; combined reported Claude cost $81.7433885. No current review charge is pending; author dollar totals are unavailable. Confirmed compute actual is $24.39800404. Estimated stage-1 exposure is $115.516623/$150 and diagnostic exposure $5.405445/$25. The $1.118950 synthetic CPU reservation remains counted pending provider-confirmed billing. Item 6 cap $100, item 4 total $1,275 and full-training projection gate $1,200 are unchanged. Full training still requires scientific smoke acceptance. Five historical uncertain labels retain their reviewed terminal proofs without global relabeling.
 
 ## Direction and judgments
 
@@ -36,4 +36,6 @@ Cleanup is complete; never replay migration or deletion. The server verified all
 
 Withheld from public backup: evidence folders, ledgers, review packets, native streams, private authority/provenance, all *_PRIVATE* files, patient identifiers/rows/images/masks/caches and raw private Git ancestry. New excluded bindings are docs/COLAB_TURN_RECOVERY_PRIVATE.json and docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json. The safe source projection is now merged into remote-server only after actual installation checks passed. Never merge main or edit BACKLOG.
 
-Previous verified backup: f336d03b0c1326a107dfaa690b3caa363419b51b. Scan and verify this update before publishing. No swap: first Colab instructions, timing result and installed opposite-family route are still missing; one scientific review is active.
+Previous verified backup: 5b6bc634376ad5c563236480101cfa9e11f1ec05. Scan and verify this update before publishing. No swap: first Colab instructions, timing result and installed opposite-family route are still missing; all model calls are terminal.
+
+Judgment at 14:58 UTC: preserve the timing activation refusal; diagnose serialization without rewriting evidence; send the narrow binding correction to Claude before retry. Colab continued through its recording step independently, with no new call.

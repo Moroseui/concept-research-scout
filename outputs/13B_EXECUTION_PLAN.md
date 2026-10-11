@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Current checkpoint (October 11, 14:39 UTC): source d4e2762 is independently approved and installed; both service verifiers passed. Colab scientific review 3 is running. Native reviewer 16 follows reconciliation using the existing synthetic PASS. No CPU rerun; scientific acceptance precedes instructions and GPU timing.
+Current checkpoint (October 11, 14:58 UTC): Colab preparation has scientific APPROVE and is recorded; final author/reviewer handoff steps remain. Timing activation is held by a diagnosed JSON serialization mismatch in its approval record; original evidence is intact. No model or compute job is running.
 
 Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
 
@@ -35,4 +35,4 @@ Modal stage-1 commitment: **$115.516623/$150**; timing diagnostic: **$5.405445/$
 
 Action needed from Partho now: none. Colab author2 and timing author24 are complete. Installed baseline corrections passed actual verification; the subsequent synthetic CPU integration PASSED with generated fixtures and unchanged package. Its $1.118950 reservation remains counted pending confirmed actual billing. Both Colab scientific reviews exhausted30turns without submitting; preserve their charges and prose without inventing verdicts. Native reviewer16 activation failed before a model call at an older author-only guard.
 
-Installed source d4e2762 passed both actual service checks. The bounded Colab review 3 is running through normal admission with every original call counted. Expected verdict provisionally 10?20 minutes; first instructions depend on scientific acceptance. Timing reviewer 16 then judges the preserved native PASS before GPU diagnostic admission. Analysis follows new evidence in 1?2 hours; meeting synthetic package 2?4 hours after lane admission. Unrelated sandbox/rotation work remains deferred.
+Installed source d4e2762 passed both real service checks. Colab scientific review 3 APPROVED preparation, and COMMIT_SPEC completed without another model call. The normal final interpretation author/reviewer and private handoff checks remain; provisional instructions estimate 30?60 minutes if those gates pass. Timing activation needs an independently reviewed binding correction to the preserved intent's actual bytes; no original evidence rewrite and no CPU rerun. Reviewer 16 still precedes GPU diagnostic admission. Analysis follows new evidence in 1?2 hours; meeting synthetic package 2?4 hours after lane admission. Unrelated sandbox/rotation work remains deferred.
