@@ -129,3 +129,26 @@ def test_connection_reuses_exact_installed_author24_route(tmp_path,monkeypatch,d
         owner,connection=native.verified_prior(scientific=True)
         assert owner.connect() is connection and connection[5]=={'existing_scope':True}
         assert connection[6]=='preserved_approval'
+
+
+@pytest.mark.parametrize('damage',[None,'receipt-bytes','artifact-bytes','reference','frozen-pin','different-content'])
+def test_controller_receipt_authenticates_both_exact_representations(damage):
+    value={'status':'PASS','tests':[{'passed':True}],'exit_code':0}
+    receipt=json.dumps(value,indent=2).encode()
+    artifact=json.dumps(value,sort_keys=True,separators=(',',':')).encode()
+    assert receipt!=artifact
+    selection={'controller_receipt_sha256':native.sha(receipt)}
+    frozen={'id':'synthetic_tests','version':24,'sha256':native.sha(artifact)}
+    reference=dict(frozen)
+    if damage=='receipt-bytes':receipt+=b' '
+    elif damage=='artifact-bytes':artifact+=b' '
+    elif damage=='reference':reference['version']=25
+    elif damage=='frozen-pin':frozen['sha256']='0'*64;reference=dict(frozen)
+    elif damage=='different-content':
+        artifact=json.dumps({**value,'status':'FAIL'}).encode()
+        frozen['sha256']=native.sha(artifact);reference=dict(frozen)
+    if damage is None:
+        native.controller_binding(receipt,artifact,selection,reference,frozen)
+    else:
+        with pytest.raises(ValueError,match='CONTROLLER_BINDING'):
+            native.controller_binding(receipt,artifact,selection,reference,frozen)

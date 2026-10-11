@@ -148,6 +148,14 @@ LockPersonality=true
     return {CPU_UNIT:cpu.encode(),REVIEW_UNIT:review.encode()}
 
 
+def controller_binding(receipt,artifact,selection,reference,frozen_reference):
+    # The controller saves a pretty receipt and delivers a compact artifact.
+    # Authenticate each exact representation against its own preserved pin.
+    require(sha(receipt)==selection['controller_receipt_sha256'] and
+        reference==frozen_reference and sha(artifact)==frozen_reference['sha256'] and
+        json.loads(artifact)==json.loads(receipt),'CONTROLLER_BINDING')
+
+
 def accepted(accounts,*,review=False):
     from orchestrator import item4_diagnostic_native as d,modal_native_synthetic as n,private_records as pr
     from orchestrator.modal_executor import canonical
@@ -188,7 +196,8 @@ def accepted(accounts,*,review=False):
         testref=next(r for r in value['artifacts'] if r['id']=='synthetic_tests' and r['version']==24)
         from orchestrator.context_budget import relative_file
         raw=pr.check(relative_file(json.loads(config_raw)['context'],testref['path'])).read_bytes()
-        require(sha(raw)==selected['controller_receipt_sha256'] and json.loads(raw)==tests,'CONTROLLER_BINDING')
+        frozen_ref=next(r for r in before['artifacts'] if r['id']=='synthetic_tests' and r['version']==24)
+        controller_binding(rawtests,raw,selected,testref,frozen_ref)
         for name,pin in selected['files'].items():
             require(sha(pr.check(folder/'synthetic/package'/name).read_bytes())==pin,'ACCEPTED_PACKAGE_CHANGED')
     for ident,pin in frozen['batch_calls'].items():
