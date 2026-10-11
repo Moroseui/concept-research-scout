@@ -1,4 +1,4 @@
-"""Exact author21 native admission; preserves historical proofs and every charge."""
+"""Exact author24 native admission; preserves historical proofs and every charge."""
 from pathlib import Path
 import hashlib,json,subprocess
 from orchestrator.modal_executor import canonical
@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 RETAINED='docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json'
 RETAINED_SHA='9bdcdaa8704dbe8548aff8884ffddaaa1a04b92707c102bb81d04765a2f78521'
 ACCEPTED='docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json'
-ACCEPTED_SHA='a84d45d1a77b3cf400760bdd3ef2a06d6b8c2d79eca27721cfac332ea3337748'
+ACCEPTED_SHA='4f917280c6575a7f26ec473091214adf4aaab410508a632e69d6ddcbe59ec1af'
 OPERATOR='5748a56f92c8aa0048fdd94194038749737eb648e62da097a128ffa85c68ca33'
 STAGE_CAP=150_000_000
 DIAGNOSTIC_CAP=25_000_000
@@ -62,9 +62,9 @@ def limit(binding):
     require(binding.get('purpose')==n.PURPOSE and binding.get('operation_id')==n.OPERATION
         and binding.get('run_id')==n.RUN,'FIXED_OPERATION')
     selected=n.selected(binding.get('native_synthetic'))
-    require(selected['author_attempt']==21 and selected['module_sha256']==
-        'fa54d6e41db935c4a7671abe278d4a40423bda41cfce32692b58ed1364638d20'
-        and selected['code_bundle_sha256']=='6c035d8131600a6e4e026757f3fab7e2502d719136939f2866500e7cbe72a3e5',
+    require(selected['author_attempt']==24 and selected['module_sha256']==
+        '96c881d1c1779ace05f233b3a56f0b5f534b6f3e4a3fe97928da0bf1aa17e986'
+        and selected['code_bundle_sha256']=='c51cdbcb141b191522debebe7be8ccc25aeba431ef9813ab869969596c02850b',
         'ACCEPTED_SELECTION')
     require(sha((ROOT/'docs/ITEM4_CPU_DIAGNOSTIC_OPERATOR_DECISION.txt').read_bytes())==OPERATOR
         and sha((ROOT/item4_stage1_cap.DOCUMENT).read_bytes())==item4_stage1_cap.OPERATOR_SHA,'OPERATOR_CHANGED')
