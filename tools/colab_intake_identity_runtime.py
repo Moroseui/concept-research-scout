@@ -10,6 +10,9 @@ import subprocess
 import sys
 
 CHANGE = 'colab-intake-source-alignment-20261011'
+# One bounded administrative recovery review; original failed request is retained.
+REVIEW_CHANGE = 'colab-intake-transport-recovery-20261011'
+REVIEW_SCOPE = 'docs/COLAB_INTAKE_TRANSPORT_RECOVERY_SCOPE.md'
 PREVIOUS_ROOT = Path('/opt/research-system/manual-repair-helpers/colab-intake-identity-20261011')
 PREVIOUS_SOURCE = '9f28966e8228be06d76a99959d60a9aecf06f30b'
 PREVIOUS_REVIEW = 'ffce32d7f49dbe333d87dcf41daba11d08d20f208aee8207c12d804400238987'
@@ -23,7 +26,7 @@ ENTRY = 'tools/colab_intake_identity_runtime.py'
 RECOVERY = 'tools/colab_intake_identity_recovery.py'
 UNIT = 'research-'+CHANGE+'.service'
 OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparation.service'
-REQUIRED = [ENTRY, RECOVERY, 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
+REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
             'orchestrator/scientific_intake.py', 'orchestrator/scientific_search.py']
 
 
@@ -51,7 +54,7 @@ def reviewed(review):
     from orchestrator.autonomy_review import verify_result
     approval=verify_result(trusted(review))
     require(approval['verdict']=='APPROVE' and not approval.get('findings')
-            and approval['change_id']==CHANGE
+            and approval['change_id']==REVIEW_CHANGE
             and approval['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()), 'GENUINE_APPROVAL')
     manifest=json.loads(trusted(Path(review)/'packet-manifest.json').read_bytes())
     require(all(n in manifest['source_files'] for n in REQUIRED), 'WHOLE_REPAIR_COMPONENT')

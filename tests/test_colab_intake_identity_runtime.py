@@ -21,7 +21,7 @@ def test_review_must_genuinely_approve_exact_scope_and_runtime(tmp_path,monkeypa
     from orchestrator import autonomy_review
     runtime=tmp_path/'runtime.json';runtime.write_bytes(b'unchanged-config')
     manifest={'source_files':dict.fromkeys(m.REQUIRED,'b'*64)}
-    approval={'verdict':'APPROVE','findings':[],'change_id':m.CHANGE,'runtime_sha256':m.sha(runtime.read_bytes())}
+    approval={'verdict':'APPROVE','findings':[],'change_id':m.REVIEW_CHANGE,'runtime_sha256':m.sha(runtime.read_bytes())}
     if damage=='verdict':approval['verdict']='REVISE'
     elif damage=='findings':approval['findings']=[{'id':'unresolved'}]
     elif damage=='scope':approval['change_id']='other'
@@ -209,3 +209,20 @@ def test_verify_exercises_real_connection_before_held_install_complete(monkeypat
 
 def test_successor_cannot_replay_completed_preservation():
     with pytest.raises(SystemExit):m.main(['resume'])
+
+
+@pytest.mark.parametrize('damage',[None,'old-change','missing-scope'])
+def test_transport_recovery_requires_explicit_scope_and_exact_approval(tmp_path,monkeypatch,damage):
+    from orchestrator import autonomy_review
+    runtime=tmp_path/'runtime.json';runtime.write_bytes(b'unchanged')
+    manifest={'source_files':dict.fromkeys(m.REQUIRED,'b'*64)}
+    approval={'verdict':'APPROVE','findings':[],'change_id':m.REVIEW_CHANGE,
+              'runtime_sha256':m.sha(runtime.read_bytes())}
+    if damage=='old-change':approval['change_id']=m.CHANGE
+    if damage=='missing-scope':manifest['source_files'].pop(m.REVIEW_SCOPE)
+    (tmp_path/'packet-manifest.json').write_text(json.dumps(manifest))
+    monkeypatch.setattr(m,'RUNTIME',runtime);monkeypatch.setattr(m,'trusted',Path)
+    monkeypatch.setattr(autonomy_review,'verify_result',lambda folder:approval)
+    if damage is None:assert m.reviewed(tmp_path)==(approval,manifest)
+    else:
+        with pytest.raises(ValueError):m.reviewed(tmp_path)
