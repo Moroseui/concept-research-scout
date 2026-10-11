@@ -4,12 +4,12 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
-CHANGE='timing-author24-native-20261011'
-REVIEW_CHANGE='colab-timing-transport-repair-20261011'
+CHANGE='timing-author24-entrypoint-repair-20261011'
+REVIEW_CHANGE='timing-entrypoint-colab-network-recovery-20261011'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author24-report-native-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author24-entrypoint-native-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
@@ -54,7 +54,7 @@ def reviewed_source():
     require(set(record['files'])==set(FILES),'INSTALL_MEMBERS')
     for name in FILES:
         require(sha(trusted(ROOT/name).read_bytes())==record['files'][name]==manifest['source_files'][name],'SOURCE_CHANGED')
-    require(Path(__file__).resolve()==ROOT/FILES[0],'EXECUTED_SOURCE')
+    require(Path(__file__).resolve()==ROOT/'tools/item4_diagnostic_native_runtime.py','EXECUTED_SOURCE')
     return result,record
 
 

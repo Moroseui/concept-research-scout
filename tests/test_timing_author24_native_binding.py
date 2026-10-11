@@ -152,3 +152,26 @@ def test_controller_receipt_authenticates_both_exact_representations(damage):
     else:
         with pytest.raises(ValueError,match='CONTROLLER_BINDING'):
             native.controller_binding(receipt,artifact,selection,reference,frozen)
+
+
+@pytest.mark.parametrize('wrong_entry',[False,True])
+def test_executed_runtime_binds_its_name_independent_of_file_order(tmp_path,monkeypatch,wrong_entry):
+    from orchestrator import autonomy_review
+    root=tmp_path/'source';record=tmp_path/'record';record.mkdir();(record/'review').mkdir()
+    runtime=tmp_path/'runtime.json';runtime.write_bytes(b'{}')
+    names=('tools/helper.py','tools/item4_diagnostic_native_runtime.py')
+    for name in names:
+        path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(name)
+    pins={name:native.sha((root/name).read_bytes()) for name in names}
+    approval={'verdict':'APPROVE','change_id':native.REVIEW_CHANGE,'source_sha':'a'*40,
+        'report_sha256':'b'*64,'runtime_sha256':native.sha(runtime.read_bytes())}
+    (record/'installed.json').write_text(json.dumps({'source':approval['source_sha'],'review_sha256':approval['report_sha256'],'files':pins}))
+    (record/'review/packet-manifest.json').write_text(json.dumps({'source_sha':approval['source_sha'],'source_files':pins}))
+    monkeypatch.setattr(autonomy_review,'verify_result',lambda path:approval)
+    monkeypatch.setattr(native,'ROOT',root);monkeypatch.setattr(native,'RECORD',record);monkeypatch.setattr(native,'RUNTIME',runtime)
+    monkeypatch.setattr(native,'FILES',names);monkeypatch.setattr(native,'trusted',Path)
+    monkeypatch.setattr(native,'__file__',str(root/(names[0] if wrong_entry else names[1])))
+    if wrong_entry:
+        with pytest.raises(ValueError,match='EXECUTED_SOURCE'):native.reviewed_source()
+    else:
+        assert native.reviewed_source()[0]==approval
