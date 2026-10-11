@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. Item 6 and saved-results synthesis are accepted. Colab and native-admission repairs are approved, installed and verified; both subsequent attempts ended in diagnosed operational refusals and are preserved for bounded recovery. The opposite-family administrative capability remains uninstalled. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions belong to the system author and reviewer.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. Item 6 and saved-results synthesis are accepted. Colab and native-admission repairs are approved, installed and verified; both subsequent attempts ended in diagnosed operational refusals and are preserved for bounded recovery. The combined reader/history recovery is under independent Claude review, source1f22434; uninstalled. The opposite-family administrative capability remains uninstalled. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions belong to the system author and reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|

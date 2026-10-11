@@ -1,6 +1,14 @@
 # Operator handover
 
-Updated 11 October 2026, 12:20 UTC. **Current operator: Codex / OpenAI. Action needed from Partho: none.** The goal is active; no pause or rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md). This replaces older snapshots; detailed original history is retained in Git and private evidence.
+Updated 11 October 2026, 12:52 UTC. Current operator Codex/OpenAI; goal active, no swap. Action needed from Partho: none.
+
+## Immediate restart entry
+
+Combined review e76badd346b3e1717d1e636c0c9c0abba03fafd0fe83a8a1f9ce2ef05d1296c6 is RUNNING, invocation275ffcb0f6404177a04700550bf5f7cf. Do not duplicate it. Candidate1f2243448ca452abcad92ca355bead042cc731d2 is committed, 202 focused tests PASS, uninstalled. Private handoff colab-reader-native-history-20261011/HANDOFF_CURRENT_PRIVATE.md contains exact observer, request and state. The same physical checkout is on astra/colab-reader-native-history-20261011. Latest STATUS and CURRENT supersede the historical installed-release detail below.
+
+Next: observe the existing review. Genuine APPROVE must precede held installation and actual verification, exact Colab state recovery and normal retry. REVISE belongs in a bounded repair round; preserve genuine rejection/disagreement. Do not replay old units, requests or start intents. Timing requires synthetic native evidence and existing reviewer16 before GPU; Colab requires scientific acceptance before instructions. Current review includes the accounting opinion and triggered direction check.
+
+Today16/50calls, including current administrative review; completed reported Claude cost41.896011 plus current pending. Compute actual24.39800404; stage1actual+open114.397673/150 unchanged. Current draft public projectiona29e265276211e850a377b758ddad5abba4d084e, uninstalled; previous verified backup231fd8fd930bc2322e69ecdd60018b98566f1174.
 
 ## Goal and rules
 
@@ -34,7 +42,7 @@ Colab's exact 242-file workspace was renamed into private preservation after has
 
 Timing's distinct successor is source 99ae, COMPLETE with native and reviewer runtime checks PASS. Its later CPU admission failure is separate from installation success and scientific acceptance. No scientific or full-training authority follows from implementation approval. Original c428 CPU refusal and all prior provider/model attempts remain preserved.
 
-The current physical checkout is timing-author24-native-implementation-20261011/checkout on astra/colab-workspace-native-implementation-20261011. Current evidence and exact private operational paths are in colab-workspace-native-implementation-20261011/HANDOFF_CURRENT_PRIVATE.md. Use that record and its review directory, not stale root-workspace copies or earlier 51befa preparation snapshots.
+The current physical checkout is timing-author24-native-implementation-20261011/checkout on astra/colab-workspace-native-implementation-20261011. Current evidence and exact private operational paths are in colab-reader-native-history-20261011/HANDOFF_CURRENT_PRIVATE.md. Use that record and its review directory, not stale root-workspace copies or earlier 51befa preparation snapshots.
 
 ## Safe resumption
 
@@ -55,7 +63,7 @@ Today 15/50 model calls: 2 authors, 9 implementation reviews, 3 direction calls,
 
 Latest direction: agreement after two moving discussion rounds at 11:31 UTC. Use the original generic administrative route, retain whole-component availability, make the inventory inspectable, and separate current evidence from history. That authorized preparation only; the fresh implementation APPROVE followed at 11:56. All previous genuine REJECTs and unqualified attempts remain preserved and counted.
 
-Judgments: simplify to the needed repairs; verify actual installation; preserve exact workspace; use only an exact qualified historical proof during normal admission; retain the new CPU refusal and run the independent Colab review. Claude approved the installed implementation. The newly diagnosed missing-history correction and mechanical Colab recovery have not yet been implemented or approved. One read-only diagnosis needed the existing runtime environment supplied; both observations were preserved.
+Judgments: simplify to the needed repairs; verify actual installation; preserve exact workspace; use only an exact qualified historical proof during normal admission; retain the new CPU refusal and run the independent Colab review. Claude approved the installed implementation. The corrections are now implemented in candidate1f22434, tested and under the single review identified above; not approved or installed yet. One read-only diagnosis needed the existing runtime environment supplied; both observations were preserved.
 
 ## Cleanup, access, backup and swap
 
@@ -65,4 +73,4 @@ Access by name only: existing server SSH, research service account, OpenAI autho
 
 Last verified backup before this update: `5ad40f26089d9aeca906a5f51a55f38859dcab30`. Safe projection `65164c65e5dcea191836c8fc298e665b1174bdb9` was pushed and merged into remote-server for the installed repair; scan/push this latest terminal update and verify the next receipt. Private bindings, evidence, ledgers, packets, native streams, meeting brief/provenance and patient material remain excluded; see STATUS. Main stays unchanged.
 
-No swap: first Colab instructions, timing result and installed opposite-family route are still missing, and no model or compute job from these attempts remains running. Declare Swap point reached only after all six operator conditions, finish the current step, update/push handover and wait. No earlier pause is requested.
+No swap: first Colab instructions, timing result and installed opposite-family route are still missing; the combined administrative review above is running. Declare Swap point reached only after all six operator conditions, finish the current step, update/push handover and wait. No earlier pause is requested.
