@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 10 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
+Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
 
 ## Arms, folds and venues
 
@@ -31,4 +31,4 @@ Sprint 12 A1 measured 2.69-2.74 hours per 250-epoch fold, about 13.5 hours per f
 
 Modal stage-1 commitment: **$114.397673/$150**; timing diagnostic: **$4.286495/$25**, inside stage 1. Identified provider compute actual: **$24.39800404**; model charges separate. The diagnostic has no automatic GPU retry. Existing all-Modal full-plan estimates of $2,963.89-$3,574.95 exceed the $1,200 gate and are not accepted steady-state estimates. Reproject deliberately using measured Colab units and Modal cost, retaining all open reservations until billing closes them.
 
-Action needed from Partho now: none. Target first reviewed Colab smoke notebook in 2-4 hours, conditional on author/reviewer acceptance and the parallel-analysis admission patch; update the estimate if it slips. The first smoke's runtime must be estimated from the released workload, not from first-epoch benchmarks. Full arms are not held for the CPU diagnostic, but their unchanged scientific and money gates still apply.
+Action needed from Partho now: none. Colab author2 and timing author24 are complete with controller synthetic PASS. Colab review preparation needs the bounded evidence-filename repair and independent approval; timing needs exact native verification and scientific review. Target first reviewed Colab notebook1-2hours after repair approval; timing result2-3hours after its gates. These remain conditional estimates; the missed earlier estimate and outstanding direction check are recorded in STATUS. The first smoke's runtime must be estimated from the released workload, not from first-epoch benchmarks. Full arms are not held for the CPU diagnostic, but their unchanged scientific and money gates still apply.
