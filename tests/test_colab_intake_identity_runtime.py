@@ -65,17 +65,30 @@ def test_only_reviewed_intake_is_loaded_search_and_old_runtime_retained(tmp_path
     for p in [original,root]:(p/'orchestrator/scientific_search.py').write_bytes(b'same strict search')
     b={'original_intake_sha256':m.sha(b'old intake'),'original_search_sha256':m.sha(b'same strict search')}
     monkeypatch.setattr(m,'ORIGINAL',original);monkeypatch.setattr(m,'ROOT',root);monkeypatch.setattr(m,'trusted',Path)
-    monkeypatch.setattr(m,'authority',lambda:None);prior=object()
+    monkeypatch.setattr(m,'authority',lambda **kwargs:None);prior=object()
     monkeypatch.setattr(m,'original',lambda:NS(connect=lambda:prior))
     monkeypatch.setattr(m,'recovery',lambda:NS(binding=lambda:b))
     seen=[];patched=NS()
     monkeypatch.setattr(m,'load',lambda name,path:(seen.append((name,path)) or patched))
     import orchestrator
     from orchestrator import scientific_intake
+    import sys
+    search=NS(__file__=str(original/'orchestrator/scientific_search.py'))
+    monkeypatch.setattr(orchestrator,'scientific_search',search)
+    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',search)
     monkeypatch.setattr(orchestrator,'scientific_intake',scientific_intake)
     assert m.connect() is prior
     assert seen==[('orchestrator.scientific_intake',root/'orchestrator/scientific_intake.py')]
-    (root/'orchestrator/scientific_search.py').write_bytes(b'weakened')
+    # The unused rotation copy may differ; the actual loaded module must not.
+    (root/'orchestrator/scientific_search.py').write_bytes(b'unused held rotation reader')
+    assert m.connect() is prior
+    search.__file__=str(root/'orchestrator/scientific_search.py')
+    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
+    search.__file__=str(original/'orchestrator/scientific_search.py')
+    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',NS(__file__=search.__file__))
+    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
+    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',search)
+    (original/'orchestrator/scientific_search.py').write_bytes(b'weakened')
     with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
 
 
@@ -161,3 +174,38 @@ def test_postinstall_failure_remains_partial_and_refuses_retry(install_fixture):
     assert (f.record/'INSTALL_INTENT.json').exists() and (f.record/'VERIFY.stdout').exists()
     assert not (f.record/'COMPLETE.json').exists()
     with pytest.raises(ValueError,match='EXISTING_INSTALL_PRESERVED'):m.install(f.source,f.review)
+
+
+@pytest.mark.parametrize('damage',[None,'source','report','change','active','pid'])
+def test_preserved_recovery_keeps_original_approval_and_refuses_live_writer(monkeypatch,damage):
+    approved={'source_sha':m.PREVIOUS_SOURCE,'report_sha256':m.PREVIOUS_REVIEW,
+              'change_id':'colab-intake-identity-20261011'}
+    if damage in {'source','report','change'}:
+        approved[{'source':'source_sha','report':'report_sha256','change':'change_id'}[damage]]='wrong'
+    recovery=object();seen=[]
+    previous=NS(authority=lambda:approved,recovery=lambda:recovery)
+    monkeypatch.setattr(m,'load',lambda name,path:(seen.append(path) or previous))
+    unit='MainPID='+('123' if damage=='pid' else '0')+'\nActiveState='+('active' if damage=='active' else 'failed')+'\n'
+    monkeypatch.setattr(m,'subprocess',NS(check_output=lambda *a,**k:unit))
+    if damage is None:
+        assert m.recovery() is recovery
+        assert seen==[m.PREVIOUS_ROOT/m.ENTRY]
+    else:
+        with pytest.raises(ValueError,match='PREVIOUS_'):m.recovery()
+
+
+def test_verify_exercises_real_connection_before_held_install_complete(monkeypatch):
+    events=[]
+    monkeypatch.setattr(m,'os',NS(getuid=lambda:1003,getgid=lambda:1003))
+    monkeypatch.setattr(m,'sys',NS(path=[]))
+    monkeypatch.setattr(m,'authority',lambda held=True:events.append(('authority',held)))
+    monkeypatch.setattr(m,'original',lambda:events.append('original'))
+    monkeypatch.setattr(m,'connect',lambda held=True:events.append(('connect',held)))
+    monkeypatch.setattr(m,'recovery',lambda:NS(ready=lambda:events.append('preserved-ready')))
+    assert m.main(['verify'])['status']=='VERIFIED_HELD'
+    assert ('connect',False) in events and 'preserved-ready' in events
+    assert events.index(('connect',False))<events.index('preserved-ready')
+
+
+def test_successor_cannot_replay_completed_preservation():
+    with pytest.raises(SystemExit):m.main(['resume'])

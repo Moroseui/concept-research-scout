@@ -9,7 +9,10 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'colab-intake-identity-20261011'
+CHANGE = 'colab-intake-source-alignment-20261011'
+PREVIOUS_ROOT = Path('/opt/research-system/manual-repair-helpers/colab-intake-identity-20261011')
+PREVIOUS_SOURCE = '9f28966e8228be06d76a99959d60a9aecf06f30b'
+PREVIOUS_REVIEW = 'ffce32d7f49dbe333d87dcf41daba11d08d20f208aee8207c12d804400238987'
 ROOT = Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD = Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 ORIGINAL = Path('/opt/research-system/manual-repair-helpers/preparation-and-cap-repair-20261010')
@@ -80,14 +83,25 @@ def original():
 
 
 def recovery():
-    m=load('_colab_intake_recovery',ROOT/RECOVERY);m.authority=authority;return m
+    # The prior recovery is complete. Authenticate and reuse its exact verifier;
+    # never replay it or rewrite its original review binding.
+    previous=load('_colab_intake_preserved_release',PREVIOUS_ROOT/ENTRY)
+    approved=previous.authority()
+    require(approved['source_sha']==PREVIOUS_SOURCE and approved['report_sha256']==PREVIOUS_REVIEW
+            and approved['change_id']=='colab-intake-identity-20261011', 'PREVIOUS_RECOVERY_APPROVAL')
+    state=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',
+        'research-colab-intake-identity-20261011.service','-p','MainPID','-p','ActiveState'],text=True).splitlines())
+    require(state.get('MainPID')=='0' and state.get('ActiveState') in {'inactive','failed'},'PREVIOUS_WRITER')
+    return previous.recovery()
 
 
-def connect():
-    authority();branch=original();prior=branch.connect();m=recovery();b=m.binding()
+def connect(held=True):
+    authority(held=held);branch=original();prior=branch.connect();m=recovery();b=m.binding()
     require(sha(trusted(ORIGINAL/'orchestrator/scientific_intake.py').read_bytes())==b['original_intake_sha256'], 'ORIGINAL_INTAKE_CHANGED')
-    require(sha(trusted(ORIGINAL/'orchestrator/scientific_search.py').read_bytes())==b['original_search_sha256']
-            and sha(trusted(ROOT/'orchestrator/scientific_search.py').read_bytes())==b['original_search_sha256'], 'SEARCH_GUARD_UNCHANGED')
+    from orchestrator import scientific_search as search
+    require(sys.modules.get('orchestrator.scientific_search') is search
+            and Path(search.__file__).resolve()==ORIGINAL/'orchestrator/scientific_search.py'
+            and sha(trusted(search.__file__).read_bytes())==b['original_search_sha256'], 'SEARCH_GUARD_UNCHANGED')
     patched=load('orchestrator.scientific_intake',ROOT/'orchestrator/scientific_intake.py')
     import orchestrator
     orchestrator.scientific_intake=patched
@@ -166,7 +180,7 @@ def install(source, review):
 
 
 def main(argv=None):
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['install','verify','resume','ready','advance','status','start','pulse'])
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['install','verify','ready','advance','status','start','pulse'])
     p.add_argument('--source',type=Path);p.add_argument('--review',type=Path);p.add_argument('--transition');a=p.parse_args(argv)
     sys.path.insert(0,str(ORIGINAL))
     if a.action=='install':
@@ -175,9 +189,11 @@ def main(argv=None):
     if a.action in {'status','start','pulse'}:return host(a.action,a.transition)
     require(a.transition is None and os.getuid()==os.getgid()==1003,'SERVICE_ACTION')
     authority(held=a.action!='verify');original()
-    if a.action=='verify':return {'status':'VERIFIED_HELD','scientific_calls':0,'provider_calls':0}
+    if a.action=='verify':
+        connect(held=False)  # Exercise the real installed connection before completion.
+        recovery().ready()
+        return {'status':'VERIFIED_HELD','scientific_calls':0,'provider_calls':0}
     m=recovery()
-    if a.action=='resume':return m.apply()
     if a.action=='ready':return m.ready()
     m.ready();prior=connect()
     return prior.main(['advance','--scope',str(prior.RECORD/'preparation-interleaving.json'),
