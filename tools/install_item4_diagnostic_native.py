@@ -39,7 +39,7 @@ def install(source,review,bundle,*,preflight=False):
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approval=verify_result(review);manifest=json.loads(trusted(review/'packet-manifest.json').read_bytes())
-    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='timing-entrypoint-colab-network-recovery-20261011'
+    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='colab-network-workspace-preservation-20261011'
         and approval['source_sha']==manifest['source_sha'] and approval['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()),'GENUINE_APPROVAL')
     path=source/'tools/item4_diagnostic_native_runtime.py'
     require(sha(trusted(path).read_bytes())==manifest['source_files']['tools/item4_diagnostic_native_runtime.py'],'RUNTIME_SOURCE')
@@ -69,7 +69,9 @@ def install(source,review,bundle,*,preflight=False):
     require(sha(code)==selected['code_bundle_sha256'] and len(code)==selected['code_bundle_bytes'],'BUNDLE_CHANGED')
     with tempfile.TemporaryDirectory(prefix='diagnostic-native-source-check-') as folder:
         worker.unpack(base64.b64encode(gzip.compress(code,mtime=0)).decode(),selected,Path(folder));worker.check_package(Path(folder),selected)
-    for unit in ('research-timing-author24-native-20261011-cpu.service',
+    for unit in ('research-timing-author24-entrypoint-repair-20261011-cpu.service',
+            'research-timing-author24-entrypoint-repair-20261011-review.service',
+            'research-timing-author24-native-20261011-cpu.service',
             'research-timing-author24-native-20261011-review.service',
             'research-timing-author24-preparation-recovery-20261010.service',
             'research-item4-progress-scope-repair-20261010-cpu.service',
