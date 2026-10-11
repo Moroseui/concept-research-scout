@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. The saved-results analysis is now independently accepted; Colab authoring is running and the exact six-condition swap gate below is not met. Review 60 approved the Colab contract repair only and did not answer rotation advice. The opposite-family administrative capability remains uninstalled; its requested engineering must retain independent review and equivalent protections. The operator owns infrastructure, venues, sequencing, accounting, status and handover; it does not author scientific code or substitute its conclusions for scientific review.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. The saved-results analysis is now independently accepted; Colab author1 is complete with a blocked controller and the exact six-condition swap gate below is not met. Review 60 approved the Colab contract repair only and did not answer rotation advice. The opposite-family administrative capability remains uninstalled; its tested candidate awaits independent review and native qualification after the operator-requested disk cleanup. The operator owns infrastructure, venues, sequencing, accounting, status and handover; it does not author scientific code or substitute its conclusions for scientific review.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
