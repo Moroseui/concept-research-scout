@@ -277,13 +277,19 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'AUDIT_CONTEXT')
             response_stage.ready(driver,value,fixture_audit,fixture_audit_approval)
+        native_review=False
         if report_snapshot is not None and len(tail)>=14:
-            require(len(tail)==response_stage.profile(report_snapshot)['count']-prefix and stage=='run_spec_author','REPORT_SNAPSHOT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
+            q=response_stage.profile(report_snapshot)
+            native_review=(response_stage.delivery_recovery(report_snapshot)
+                and (q['author'],q['reviewer'],len(tail),stage)==(24,16,q['count']+1-prefix,'run_spec_review')
+                and response_stage._native_review_ready is not None)
+            require((len(tail)==q['count']-prefix and stage=='run_spec_author') or native_review,
+                'REPORT_SNAPSHOT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
             from orchestrator import author_revision_accounting
             driver=author_revision_accounting.context(store,RUN)
             require(driver is not None,'REPORT_SNAPSHOT_CONTEXT')
             response_stage.ready(driver,value,report_snapshot,report_snapshot_approval)
-        if len(tail)>=(17 if report_snapshot is not None and response_stage.delivery_recovery(report_snapshot) else 16 if report_snapshot is not None else 15 if fixture_audit is not None else 14 if corrected_native is not None else 13 if diagnostic_fixture is not None else 12 if diagnostic_plaintext is not None else 11 if diagnostic_native is not None else 9 if diagnostic_scoped is not None else 8 if diagnostic_recovery is not None else 7 if diagnostic is not None else 5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
+        if not native_review and len(tail)>=(17 if report_snapshot is not None and response_stage.delivery_recovery(report_snapshot) else 16 if report_snapshot is not None else 15 if fixture_audit is not None else 14 if corrected_native is not None else 13 if diagnostic_fixture is not None else 12 if diagnostic_plaintext is not None else 11 if diagnostic_native is not None else 9 if diagnostic_scoped is not None else 8 if diagnostic_recovery is not None else 7 if diagnostic is not None else 5 if post_smoke is not None else 3 if smoke is not None else 2 if response is not None else 1 if mechanical is not None else 2):
             # The two reserved interpretation slots are not early-smoke approval.
             # Reuse the ordinary complete execution/collection verifier.
             from orchestrator import experiment_collection,author_revision_accounting

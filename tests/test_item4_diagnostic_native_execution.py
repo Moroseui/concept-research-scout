@@ -348,6 +348,7 @@ def test_reviewer_reader_turn_allowance_requires_exact_dual_admission(monkeypatc
  store=NS(db=local,batch=NS(db=batch));driver=NS(store=store,state=tmp_path/'state',
   config={'workspace_root':str(tmp_path)},current=lambda:{'pending':pending})
  monkeypatch.setattr(manual_stage,'reviewer_command',lambda *args:['claude','--max-turns','60' if fault=='shape' else '30'])
+ monkeypatch.setattr(runtime,'load',lambda name,path:NS(connect_timing_admission=lambda:None))
  restore=runtime.bind_admission(driver,None,None,helper,p,'a'*64)
  try:
   if fault:

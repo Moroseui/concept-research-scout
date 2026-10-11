@@ -99,11 +99,12 @@ def test_ready_refusal_preserves_exclusive_intent_and_original_state(held):
     with pytest.raises(FileExistsError):review.activate_review(h.driver,h.helper,h.scope,h.approval)
 
 
-def test_reader_binding_preserves_existing_admission_functions(held,monkeypatch):
+def test_reader_binding_restores_existing_admission_functions(held,monkeypatch):
     from orchestrator import manual_recovery,stocktake_review_recovery,manual_stage
     h=held;before=(manual_recovery.permit,stocktake_review_recovery.admission,manual_stage.reviewer_command)
+    monkeypatch.setattr(review,'load',lambda name,path:NS(connect_timing_admission=lambda:None))
     restore=review.bind_admission(h.driver,None,None,h.helper,h.scope,h.approval)
-    assert (manual_recovery.permit,stocktake_review_recovery.admission)==before[:2]
+    assert manual_recovery.permit is not before[0] and stocktake_review_recovery.admission is not before[1]
     restore()
     assert (manual_recovery.permit,stocktake_review_recovery.admission,manual_stage.reviewer_command)==before
 

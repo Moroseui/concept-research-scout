@@ -5,8 +5,8 @@ reviewer route, credentials, confinement, cap and every original ledger row.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,runpy,sys
-CHANGE='colab-finalization-terminal-native-20261011'
-CP=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006')/(CHANGE+'-setup2')
+CHANGE='native-review-admission-20261011'
+CP=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006')/CHANGE
 EXISTING=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006/colab-finalization-native-intent-20261011/invoke_advisory_existing.py')
 EXISTING_SHA='573ae3fcd8e0fe42fd0fabe943738f4c0543aeb09f05ce58477b98036f43d803'
 AUTHORITY='5393434195dba6418242463f846dfcc0a2647a62766de1aaf2c276c34c9321b4'
@@ -37,6 +37,18 @@ def one_administrative_check(original):
         return original(db,proof_root)
     return check
 
+def approved_terminal(ar,manifest):
+    record=Path('/var/lib/research-system-manual-sprint10-deployment/continuation-binding-20261011/review')
+    result=ar.verify_result(trusted(record))
+    require(result['verdict']=='APPROVE' and not result.get('findings')
+        and result['source_sha']=='f57ab420f55596b53b0781e904d817fde4b85423'
+        and result['report_sha256']=='8bb46b53c0ed72791f1bebbea4bf3433d9d020167d98e4ac902a6fa15583c0d8'
+        and result['change_id']=='colab-finalization-terminal-native-20261011','ORIGINAL_TERMINAL_APPROVAL')
+    prior=json.loads(trusted(record/'packet-manifest.json').read_bytes())
+    for name in ('orchestrator/colab_author_terminal.py','docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json'):
+        require(manifest['source_files'][name]==prior['source_files'][name],'APPROVED_TERMINAL_BYTES')
+
+
 def main():
     require(os.getuid()==os.getgid()==1003 and sys.flags.no_user_site
         and Path(__file__).resolve()==CP/'packet/source/tools/review_colab_final_terminal_once.py','OWNER_PATH')
@@ -47,6 +59,7 @@ def main():
     packet=trusted(meta['packet_path']);manifest=ar.verify_packet(packet)
     require(ar.sha(ar.canonical(manifest))==meta['packet'] and manifest['source_sha']==meta['source']
         and manifest['change_id']==CHANGE and manifest['round']==1,'PACKET_BINDING')
+    approved_terminal(ar,manifest)
     source=CP/'packet/source';names=['tools/review_colab_final_terminal_once.py','orchestrator/colab_author_terminal.py',
         'docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json','docs/MECHANICAL_REPAIR_REVIEW_STANDING_AUTHORITY_20261007.txt']
     for name in names:require(sha(trusted(source/name).read_bytes())==manifest['source_files'][name],'SOURCE_BINDING')

@@ -9,10 +9,10 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'continuation-binding-20261011'
+CHANGE = 'native-review-admission-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'colab-finalization-terminal-native-20261011'
-REVIEW_SCOPE = 'docs/COLAB_FINALIZATION_NATIVE_INTENT_SCOPE.md'
+REVIEW_CHANGE = 'native-review-admission-20261011'
+REVIEW_SCOPE = 'docs/NATIVE_REVIEW16_ADMISSION_SCOPE.md'
 CONTINUATION_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/review-continuation-20261011')
 COLAB_RECOVERY_SOURCE = 'd4e276292744e4eff9327e46b0c19053cf3f0da9'
 COLAB_RECOVERY_REVIEW = '276620d8cbe9e76a0e676cbec0098261883b4903e7cd2b690ab433a9d2190a62'
@@ -38,7 +38,7 @@ OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparat
 REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'orchestrator/colab_author_terminal.py', 'docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json', 'tools/item4_diagnostic_review_runtime.py',
             'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json',
             'docs/COLAB_TURN_RECOVERY_PRIVATE.json','docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json',
-            'orchestrator/item4_smoke_response.py', 'orchestrator/colab_reader_recovery.py',
+            'orchestrator/item4_smoke_response.py', 'orchestrator/item4_scoped_calls.py', 'orchestrator/colab_reader_recovery.py',
             'orchestrator/manual_context.py', 'orchestrator/preparation_interleaving.py', 'docs/COLAB_READER_RECOVERY_PRIVATE.json', 'docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md', 'tools/reviewer_connection_timing.py', 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
             'orchestrator/scientific_intake.py', 'orchestrator/scientific_search.py']
 
@@ -264,12 +264,16 @@ def install(source, review):
     previous=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show','research-colab-network-continuation-20261011.service','-p','MainPID','-p','ActiveState'],text=True).splitlines())
     require(previous['MainPID']=='0' and previous['ActiveState'] in {'inactive','failed'},'PREVIOUS_REVIEW_TERMINAL')
     colab_recovery_review()
+    previous_bundle=load('_review16_previous_bundle',Path('/opt/research-system/manual-repair-helpers/continuation-binding-20261011')/ENTRY)
+    previous_approval=previous_bundle.authority()
+    require(previous_approval['source_sha']=='f57ab420f55596b53b0781e904d817fde4b85423'
+        and previous_approval['report_sha256']=='8bb46b53c0ed72791f1bebbea4bf3433d9d020167d98e4ac902a6fa15583c0d8','PREVIOUS_ADMISSION_INSTALL')
     retained,native_approval=preserved_native()
     require(native_approval['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
         and native_approval['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_APPROVAL')
     for unit in ('research-colab-reader-recovery-20261011.service',
             'research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service',
-            retained.REVIEW_UNIT,retained.CPU_UNIT):
+            previous_bundle.UNIT,previous_bundle.NATIVE_UNIT,retained.REVIEW_UNIT,retained.CPU_UNIT):
         observed=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',unit,'-p','MainPID','-p','ActiveState'],text=True).splitlines())
         require(observed['MainPID']=='0' and observed['ActiveState'] in {'inactive','failed'},'PREVIOUS_WRITER')
     target=oldpath.with_name(UNIT);body=unit_bytes(oldraw)
