@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. Item 6 and synthesis are accepted. Colab review 3 approved preparation; exact notebook delivered locally, execution bindings pending. The operator directed final interpretation after returned smoke. Idea 2 server-CPU authoring is next; timing is parked. Author timeout patch is tested but not yet approved/installed. Opposite-family administrative capability remains uninstalled; defer it until the immediate scientific deliveries. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions remain with the system author and reviewer.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. Item 6 and synthesis are accepted. Colab review 3 approved preparation; previous notebook delivered locally; new Drive-in-place author revision and review pending. The operator directed final interpretation after returned smoke. Idea 2 server-CPU authoring is next; timing is parked. Author timeout patch has independent APPROVE but is not installed. Opposite-family administrative capability remains uninstalled; defer it until the immediate scientific deliveries. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions remain with the system author and reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
