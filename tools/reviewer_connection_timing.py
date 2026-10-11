@@ -17,7 +17,9 @@ def bind(runtime):
         argv=original(*args,**kwargs)
         # Only the existing mounted Claude Node route is selected. All other
         # discovery/native commands retain their original behavior and checks.
-        if kwargs.get('mounted') is True and kwargs.get('node')=='/tools/node':
+        node=args[1] if len(args)>1 else kwargs.get('node')
+        mounted=args[2] if len(args)>2 else kwargs.get('mounted',False)
+        if mounted is True and node=='/tools/node':
             return command(argv)
         return argv
     fixed._fixed_review_connection_timing=True

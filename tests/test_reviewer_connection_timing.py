@@ -65,3 +65,58 @@ def test_bounded_bootstrap_rejects_unbound_source(tmp_path,monkeypatch,damage):
         assert loaded.command(['/tools/node','/tools/claude/cli.js'])==['/tools/node',timing.FLAG,'/tools/claude/cli.js']
     else:
         with pytest.raises(ValueError):bootstrap.transport_for_packet(tmp_path)
+
+
+@pytest.mark.parametrize('args,kwargs',[
+    ((None,'/tools/node',True),{}),
+    ((None,'/tools/node'),{'mounted':True}),
+    ((None,),{'node':'/tools/node','mounted':True}),
+])
+def test_scientific_positional_route_gets_same_fixed_transport(args,kwargs):
+    calls=[]
+    def original(folder=None,node=None,mounted=False):
+        calls.append((folder,node,mounted));return ['/tools/node','/tools/claude/cli.js']
+    runtime=SimpleNamespace(claude_command=original);restore=timing.bind(runtime)
+    assert runtime.claude_command(*args,**kwargs)==['/tools/node',timing.FLAG,'/tools/claude/cli.js']
+    assert calls==[(None,'/tools/node',True)]
+    with pytest.raises(TypeError):runtime.claude_command(None,'/tools/node',True,mounted=True)
+    assert len(calls)==1
+    restore();assert runtime.claude_command is original
+
+
+def test_unmounted_positional_command_is_unchanged():
+    def original(folder=None,node=None,mounted=False):return [node,'/host/cli.js']
+    runtime=SimpleNamespace(claude_command=original);timing.bind(runtime)
+    assert runtime.claude_command(None,'/tools/node',False)==['/tools/node','/host/cli.js']
+
+
+@pytest.mark.parametrize('damage',[None,'scope','round','invoker','source','report','approval-scope','helper'])
+def test_successor_admin_uses_approved_installed_helper_only(tmp_path,monkeypatch,damage):
+    from tools import invoke_admin_installed_transport as b
+    from orchestrator import autonomy_review as ar
+    from pathlib import Path
+    script=tmp_path/'invoke.py';script.write_bytes(b'fixed invocation')
+    helper=tmp_path/'helper.py'
+    original=(Path(__file__).parent/'fixtures/reviewer_connection_timing_approved.py').read_bytes()
+    helper.write_bytes(original)
+    manifest={'change_id':'timing-entrypoint-colab-network-recovery-20261011','round':1,
+              'source_files':{'tools/invoke_admin_installed_transport.py':b.sha(script.read_bytes())}}
+    approved={'change_id':'colab-timing-transport-repair-20261011','source_sha':'4a05c64af90af15078e43e31abc9bd13d063160e',
+              'report_sha256':'c64df8e27dc86e96a15a4630b0aec5812ec44ddb32124a09dfda0909d7c584ca'}
+    monkeypatch.setattr(b,'__file__',str(script));monkeypatch.setattr(ar,'verify_packet',lambda packet:manifest)
+    monkeypatch.setattr(b,'trusted',lambda path:helper if Path(path).name=='reviewer_connection_timing.py' else Path(path))
+    transport=object();seen=[]
+    def load(name,path):
+        seen.append(path)
+        return SimpleNamespace(authority=lambda:approved) if path.name=='colab_intake_identity_runtime.py' else transport
+    monkeypatch.setattr(b,'load',load)
+    if damage=='scope':manifest['change_id']='other'
+    elif damage=='round':manifest['round']=2
+    elif damage=='invoker':script.write_bytes(b'changed')
+    elif damage in {'source','report','approval-scope'}:approved[{'source':'source_sha','report':'report_sha256','approval-scope':'change_id'}[damage]]='wrong'
+    elif damage=='helper':helper.write_bytes(b'candidate instead of approved')
+    if damage is None:
+        assert b.transport_for_packet(tmp_path) is transport
+        assert all(str(p).startswith('/opt/research-system/manual-repair-helpers/colab-intake-source-alignment-20261011/') for p in seen)
+    else:
+        with pytest.raises(ValueError):b.transport_for_packet(tmp_path)
