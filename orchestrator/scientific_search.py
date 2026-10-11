@@ -17,6 +17,7 @@ MAX_FILE=8*1024*1024
 MAX_REQUEST=8192
 MAX_RESPONSE=16000
 MAX_HITS=40
+ADMIN_RECOVERABLE_ERRORS={'READER_ARGUMENTS','READER_RANGE','READER_OFFSET_PAST_END','READER_RESPONSE_BOUND','SEARCH_ARGUMENT_REFUSED','SEARCH_QUERY_BOUND','SEARCH_CURSOR_BOUND'}
 MANIFEST='.scientific-search.json'
 SERVER='.scientific-search.py'
 INSTRUCTION=('Scientific reviewers have evidence_search (literal text) and evidence_glob '
@@ -94,6 +95,30 @@ TOOLS=[{'name':n,'description':d,'inputSchema':{'type':'object','properties':pro
  ('evidence_glob','Find authenticated workspace evidence by file ID or path glob; no external filesystem access.',{'pattern':{'type':'string','maxLength':256},'cursor':{'type':'integer','minimum':0}},[])]]
 
 
+def administrative_read(root,pin,args):
+    root=Path(root).resolve();raw=regular(root,MANIFEST).read_bytes()
+    if hashlib.sha256(raw).hexdigest()!=pin:raise ValueError('SEARCH_MANIFEST_CHANGED')
+    manifest=json.loads(raw)
+    if manifest.get('administrative_reader') is not True:raise ValueError('ADMINISTRATIVE_READER_ONLY')
+    if not isinstance(args,dict) or set(args)-{'path','offset','limit'}:raise ValueError('READER_ARGUMENTS')
+    name=args.get('path');offset=args.get('offset',0);limit=args.get('limit',2000)
+    if type(offset)!=int or offset<0 or type(limit)!=int or not 1<=limit<=2000:raise ValueError('READER_RANGE')
+    rows=[x for x in manifest['files'] if x['path']==name]
+    if len(rows)!=1:raise ValueError('READER_REGISTERED_FILE_REQUIRED')
+    row=rows[0];body=regular(root,name).read_bytes()
+    if len(body)!=row['bytes'] or hashlib.sha256(body).hexdigest()!=row['sha256']:raise ValueError('SEARCH_INPUT_CHANGED')
+    text=body.decode('utf-8')
+    if offset>=len(text):raise ValueError('READER_OFFSET_PAST_END')
+    end=min(offset+limit,len(text))
+    answer={'path':name,'sha256':row['sha256'],'authenticated':True,'offset':offset,'next_offset':end if end<len(text) else None,'text':text[offset:end]}
+    if len(json.dumps(answer,ensure_ascii=True).encode())>MAX_RESPONSE:raise ValueError('READER_RESPONSE_BOUND')
+    return answer
+
+READ_TOOL={'name':'evidence_read','description':'Read a bounded character range of one hash-authenticated registered administrative packet file. Follow next_offset to read the complete file.',
+ 'inputSchema':{'type':'object','properties':{'path':{'type':'string'},'offset':{'type':'integer','minimum':0},'limit':{'type':'integer','minimum':1,'maximum':2000}},'required':['path'],'additionalProperties':False},
+ 'annotations':{'readOnlyHint':True,'destructiveHint':False,'openWorldHint':False}}
+
+
 def submission_module(root, pins):
     import importlib.util
     if len(pins)!=3:raise ValueError('SUBMISSION_RUNTIME_PINS_REQUIRED')
@@ -109,9 +134,16 @@ def submission_module(root, pins):
 def serve(root,pin,submission_pins=()):
     submission=submission_module(root,submission_pins) if submission_pins else None
     tools=list(TOOLS)
+    raw_manifest=regular(Path(root),MANIFEST).read_bytes()
+    if hashlib.sha256(raw_manifest).hexdigest()!=pin:raise ValueError('SEARCH_MANIFEST_CHANGED')
+    administrative=json.loads(raw_manifest).get('administrative_reader') is True
+    if administrative:
+        if submission is None or submission.load(root,submission_pins[0])['kind']!='administrative':raise ValueError('ADMINISTRATIVE_READER_ONLY')
+        tools=[{**t,'annotations':{'readOnlyHint':True,'destructiveHint':False,'openWorldHint':False}} for t in tools]+[READ_TOOL]
     if submission:
         tools.append({'name':'submit_review','description':'Submit the independent review decision once. Exact call bindings and structured findings are required. Validation errors may be corrected in this session; an accepted submission cannot be replaced.',
                       'inputSchema':submission.schema(submission.load(root,submission_pins[0]))})
+        if administrative:tools[-1]['annotations']={'readOnlyHint':False,'destructiveHint':False,'openWorldHint':False}
     request_bound=MAX_REQUEST if submission is None else submission.MAX_BYTES+1024
     for raw in iter(lambda:sys.stdin.buffer.readline(request_bound+1),b''):
         if len(raw)>request_bound:raise ValueError('SEARCH_REQUEST_BOUND')
@@ -137,7 +169,14 @@ def serve(root,pin,submission_pins=()):
                     result={'content':[{'type':'text','text':json.dumps(answer,ensure_ascii=True)}],'isError':failed}
                 else:
                     if len(raw)>MAX_REQUEST:raise ValueError('SEARCH_REQUEST_BOUND')
-                    result={'content':[{'type':'text','text':json.dumps(query(root,pin,params['name'],params.get('arguments',{})),ensure_ascii=True)}],'isError':False}
+                    try:
+                        answer=administrative_read(root,pin,params.get('arguments',{})) if administrative and params['name']=='evidence_read' else query(root,pin,params['name'],params.get('arguments',{}));failed=False
+                    except ValueError as error:
+                        # Only bounded argument/range errors may be corrected;
+                        # hash, membership, path, transport and confinement failures remain fatal.
+                        if not administrative or str(error) not in ADMIN_RECOVERABLE_ERRORS:raise
+                        answer={'reader_validation_error':str(error)};failed=True
+                    result={'content':[{'type':'text','text':json.dumps(answer,ensure_ascii=True)}],'isError':failed}
             else:raise ValueError('SEARCH_METHOD_REFUSED')
             reply={'jsonrpc':'2.0','id':ident,'result':result}
         except (ValueError,KeyError,TypeError,OSError) as e:

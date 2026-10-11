@@ -9,7 +9,11 @@ from test_autonomy_review import native
 
 
 @pytest.fixture
-def lane(tmp_path):
+def lane(tmp_path,monkeypatch):
+    from orchestrator import administrative_family as af
+    from test_administrative_family_rotation import role
+    monkeypatch.setattr(af,"freeze",lambda path:role("openai","anthropic"))
+    monkeypatch.setattr(af,"current_operator",lambda:"openai")
     repo=tmp_path/'repo';repo.mkdir();(repo/'worker.py').write_text('synthetic=1\n')
     subprocess.run(['git','init','-q',str(repo)],check=True)
     subprocess.run(['git','-C',str(repo),'add','.'],check=True)
@@ -22,7 +26,7 @@ def lane(tmp_path):
         (evidence/'repair.txt').write_text('Synthetic concrete repair '+str(n))
         folder=tmp_path/('packet'+str(n))
         ar.prepare(repo,source,runtime,evidence,['worker.py'],folder,'Inspect synthetic repair '+str(n),
-                   change_id='synthetic-three-rounds',round_number=n,predecessor=predecessor,prompt_version=5)
+                   change_id='synthetic-three-rounds',round_number=n,predecessor=predecessor,prompt_version=5,role_config=tmp_path/"role.json")
         return ar.verify_packet(folder)
     def finish(m,verdict='REVISE'):
         row,fresh=queue.reserve(m,{'synthetic':True});assert fresh

@@ -9,7 +9,7 @@ import subprocess
 import time
 from orchestrator import autonomy_review as review, review_inspection
 from orchestrator.job_store import Store
-from orchestrator import autonomy_limits as limits
+from orchestrator import autonomy_limits as limits, administrative_family as af
 from orchestrator.manual_executor import lock
 
 
@@ -39,6 +39,7 @@ class ReviewQueue(Store):
             old=self.status(ident)
             if old['status']!='NOT_RESERVED':
                 self.db.execute('COMMIT');return old,False
+            af.require_current(manifest)
             from orchestrator.administrative_terminal import administrative_exceptions
             reconciled_scientific=administrative_exceptions(self.db,self.folder.parent/'scientific-terminal')
             daily=limits.daily_allowance(day)
@@ -99,9 +100,10 @@ class ReviewQueue(Store):
                         previous['change_id']!=manifest['change_id'] or previous['round']!=manifest['round']-1 or
                         prior['receipt_sha256']!=review.sha((prior_folder/'receipt.json').read_bytes()) or
                         prior['report_sha256']!=previous['report_sha256']):raise ValueError('REVIEW_PREDECESSOR_BINDING')
+            af.verify_qualification_authority(manifest,self.folder)
             from orchestrator import connectivity
-            preflight={**preflight,'connectivity':connectivity.require(['claude'], self.folder/'connectivity.json')}
-            binding={'manifest':manifest,'preflight':preflight,'administrative_only_reconciliations':reconciled_scientific,'accounting_unit':'one native Claude invocation',
+            preflight={**preflight,'connectivity':connectivity.require([af.family(manifest)], self.folder/'connectivity.json')}
+            binding={'manifest':manifest,'preflight':preflight,'administrative_only_reconciliations':reconciled_scientific,'accounting_unit':('one native '+af.family(manifest)+' administrative invocation' if af.role(manifest) else 'one native Claude invocation'),'administrative_role':manifest.get(af.FIELD),
                      'scope':'implementation review; excluded from scientific batch call allowance','daily_limit':daily['limit'],'max_rounds':review.MAX_ROUNDS,'round_authority_sha256':round_authority,'limit_authority_sha256':limits.AUTHORITY,'daily_limit_authority_sha256':daily['authority_sha256']}
             raw=json.dumps(binding,sort_keys=True)
             self.db.execute("INSERT INTO jobs(id,binding,phase,status) VALUES(?,?,'dispatch','RUNNING')",(ident,raw))
@@ -129,10 +131,11 @@ class ReviewQueue(Store):
 
 def _preflight(packet, work):
     from orchestrator import manual_runtime, manual_auth, manual_host_guard, manual_isolation
-    if manual_runtime.login_root().name!='autonomy-review-login':raise ValueError('SEPARATE_IMPLEMENTATION_REVIEW_LOGIN_REQUIRED')
-    manual_auth.check('claude')
+    manifest=review.verify_packet(packet);family=af.family(manifest)
+    if family=='claude' and manual_runtime.login_root().name!='autonomy-review-login':raise ValueError('SEPARATE_IMPLEMENTATION_REVIEW_LOGIN_REQUIRED')
+    manual_auth.check(family)
     if not manual_runtime.settings().get('host_guard'):raise ValueError('SERVER_REVIEW_HOST_GUARD_REQUIRED')
-    host=manual_host_guard.before_call(work);outer=manual_isolation.probe(work,'claude');manifest=review.verify_packet(packet)
+    host=manual_host_guard.before_call(work);outer=manual_isolation.probe(work,family);manifest=review.verify_packet(packet)
     if manifest.get('prompt_version') != 6:
         raise ValueError('FRESH_REVIEW_INSPECTION_VERSION_REQUIRED')
     view=review_inspection.prepare(packet,work/'inspection')
@@ -144,7 +147,8 @@ def _preflight(packet, work):
 
 def _native(packet, work, folder):
     from orchestrator import manual_isolation
-    home,_=manual_isolation.credential_home(work,'claude')
+    manifest=review.verify_packet(packet);family=af.family(manifest)
+    home,credential_binding=manual_isolation.credential_home(work,family)
     try:
         reserved=json.loads(review.regular(folder/'packet-manifest.json').read_text())
         if review.verify_packet(packet)!=reserved:raise ValueError('REVIEW_PACKET_CHANGED_BEFORE_SEND')
@@ -168,7 +172,7 @@ def _native(packet, work, folder):
             review.write_once(folder/'submission.json',raw)
         return process.returncode
     finally:
-        cleanup=manual_isolation.discard_claude_copy(home)
+        cleanup=(manual_isolation.discard_claude_copy(home) if family=='claude' else manual_isolation.preserve_refresh(home,credential_binding))
         review.write_once(folder/'credential-cleanup.json',review.canonical({'status':cleanup}))
 
 
@@ -178,7 +182,7 @@ def reconcile(queue, ident):
     if row['status']=='NOT_RESERVED':return row
     folder=queue.folder/ident
     if row['status']!='RUNNING':
-        if row['status']=='COMPLETE':review.verify_result(folder)
+        if row['status']=='COMPLETE':review.verify_result(folder,allow_qualification=True)
         return row
     exit_path=folder/'process-exit.json'
     if not exit_path.exists():return {**row,'next_action':'Inspect actual process/service handle; no launch or charge permitted'}
@@ -193,6 +197,13 @@ def reconcile(queue, ident):
     try:
         native=[json.loads(x) for x in raw.decode().splitlines() if x.strip()]
         final=[x for x in native if x.get('type')=='result']
+        if af.family(manifest)=='codex':
+            from orchestrator import administrative_openai
+            prose=administrative_openai.final_prose(administrative_openai.events(raw.decode())).encode()
+            path=folder/'final-prose.txt'
+            if path.exists():
+                if review.regular(path).read_bytes()!=prose:raise ValueError('GENUINE_REPORT_CHANGED')
+            else:review.write_once(path,prose)
         if len(final)==1 and isinstance(final[0].get('result'),str):
             report=final[0]['result'].encode();path=folder/('final-prose.txt' if manifest.get('prompt_version')==6 else 'report.md')
             if path.exists():
@@ -211,7 +222,8 @@ def reconcile(queue, ident):
             submission_raw=review.regular(folder/'submission.json').read_bytes()
             if not (folder/'final-prose.txt').is_file():raise ValueError('GENUINE_NATIVE_FINAL_TEXT_FIELD_REQUIRED')
             receipt.update(submission_sha256=review.sha(submission_raw),final_prose_sha256=review.sha(review.regular(folder/'final-prose.txt').read_bytes()))
-        result=review.extract_result(raw.decode(),manifest,exit_record['exit_code'],submission_raw)
+        result=review.extract_result(raw.decode(),manifest,exit_record['exit_code'],submission_raw,
+            json.loads(review.regular(folder/'inspection-binding.json').read_bytes()) if af.family(manifest)=='codex' else None)
         if manifest.get('prompt_version')==6:
             report=result['report'].encode();path=folder/'report.md'
             if path.exists():
@@ -222,7 +234,7 @@ def reconcile(queue, ident):
         if dest.exists():
             if json.loads(review.regular(dest).read_text())!=receipt:raise ValueError('REVIEW_RECEIPT_CHANGED')
         else:review.write_once(dest,review.canonical(receipt))
-        review.verify_result(folder)
+        review.verify_result(folder,allow_qualification=True)
     except (ValueError,KeyError,TypeError,UnicodeError) as error:
         receipt['reason']=str(error);queue.finish(ident,'FAILED',receipt);return queue.status(ident)
     queue.finish(ident,'COMPLETE',receipt);return queue.status(ident)
@@ -239,7 +251,7 @@ def run(packet, state):
         if queue.status(ident)['status']!='NOT_RESERVED':return reconcile(queue,ident)
         folder=queue.folder/ident
         if folder.exists():raise ValueError('PARTIAL_REVIEW_PREPARATION_PRESERVED')
-        with manual_auth.guard('implementation_review'):
+        with af.existing_identity(manifest), manual_auth.guard('implementation_review' if af.family(manifest)=='claude' else 'administrative_openai'):
             probes=queue.folder/'preflights';private_records.mkdir(probes,mode=0o700,exist_ok=True)
             work=probes/str(time.time_ns());private_records.mkdir(work,mode=0o700)
             try:preflight=_preflight(packet,work)

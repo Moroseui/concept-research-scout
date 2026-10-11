@@ -1,0 +1,38 @@
+{
+  "actual_operator_family": "openai",
+  "data": "synthetic only; no patient or project data",
+  "expected_findings": [],
+  "expected_reviewer_family": "openai",
+  "expected_verdict": "APPROVE",
+  "fixture_author_family": "openai",
+  "instructions": [
+    "Inspect the synthetic function against the stated cases; do not execute code.",
+    "Read the authenticated manifest, BRIEF and source using the bounded evidence tools.",
+    "Submit the exact structured result through submit_review, then provide final prose.",
+    "In rationale record the available evidence tool names and whether resolved model identity is exposed; never invent an observed model ID.",
+    "Do not invoke commands, edits, web, delegation or external tools. This is protocol qualification only and cannot approve installation or release any implementation."
+  ],
+  "purpose": "protocol-test-only-not-implementation-acceptance",
+  "schema": "administrative-native-qualification/v1",
+  "source": {
+    "double_integer.py": "def double_integer(value):\n    if type(value) is not int:\n        raise TypeError('integer required')\n    return value + value\n"
+  },
+  "test_cases": [
+    {
+      "input": 0,
+      "output": 0
+    },
+    {
+      "input": 3,
+      "output": 6
+    },
+    {
+      "input": -2,
+      "output": -4
+    },
+    {
+      "input": true,
+      "raises": "TypeError"
+    }
+  ]
+}

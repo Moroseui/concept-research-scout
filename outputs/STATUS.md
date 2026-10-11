@@ -1,12 +1,36 @@
 # Research status
 
 - Item 6 and the saved-results synthesis are accepted; all 352 rounded Sprint 14 comparison values match using the same saved fits and cohort.
-- Private evidence migration is complete: every archived file was verified before historical laptop copies were removed. Current work and local pointers remain.
-- C: has 17.4 GiB free, above the 15 GiB warning and 8 GiB stop. No research model call or compute job was started during cleanup.
-- Last identified research compute actual: $24.39800404. Last qualified stage-1 commitment: $114.397673/$150. Cleanup added no model or compute charge.
-- Next: resume the combined review, then the [13B execution plan](13B_EXECUTION_PLAN.md). Colab instructions are estimated 30-60 minutes after author admission; timing remains 2-3 hours after its scientific gates.
-- Server free space: 160.6 GiB before the move and 123.7 GiB afterward. No larger disk is needed; no additional setup command is needed.
-- Action needed: none. Latest answered Claude direction: PROCEED with overhead caution. First Colab instructions, timing result and installed opposite-family route remain pending; the swap gate is not met.
+- Colab author attempt 2 is admitted and running to correct duplicate notebook entrypoints; the first attempt and charge remain preserved.
+- Cleanup is complete: verified historical evidence is on the private server, current work remains locally, and C: has about 17.4 GiB free.
+- Last identified research compute actual: $24.39800404; qualified stage-1 commitment: $114.397673/$150. Today's completed administrative review cost $5.19864575; author usage is separate.
+- Next: corrected Colab notebook and scientific review, estimated 30-60 minutes after author admission. Timing remains 2-3 hours after its scientific gates; see the [execution plan](13B_EXECUTION_PLAN.md).
+- Colab/timing repairs passed implementation review and installed verification. Rotation qualification and disk-guard installation remain held; the swap gate is not met.
+- Action needed: none. Today 2/50 calls: one scientific author and one administrative review. Latest answered Claude direction remains PROCEED with overhead caution; the new review did not supply a direction decision.
+
+## October 11 accepted repair and active work
+
+The [combined implementation review](reports/combined-continuations-20261011.md) genuinely approved source `72c48cb69af87b760c4da9f246c1d1cab10735e1`, report `e9fee97f36be00c1af29489c9781eac0912f22614ad6338c8ed6f5138bfba9db`, with no findings. This covers the scoped Colab continuation, exact timing recovery and rotation capability held unarmed. The reviewer deliberately withheld native-fixture authority and supplied no explicit direction or disk-guard judgment. Those gates remain closed; implementation approval does not imply scientific acceptance or a qualified rotation route.
+
+The unchanged installed search and reader preflight passed at 899 files / 14,506,380 bytes, below 1,024 files / 64 MiB. Only 159 deferred sandbox-prototype evidence files were omitted, with hashes retained; the actual scientific component, notebook, tests and approvals remained. The previous premodel failure is preserved and uncharged. This successor is one counted administrative call, cost $5.19864575, with genuine native submission and terminal qualification.
+
+The interrupted release archive was empty and its partial build had no valid commit. Both originals were preserved; a separate standalone source archive was built and all 556 reviewed files matched. The first installation correctly refused a dirty source tree caused by staging dropping six committed executable bits. Restoring those exact modes made the unchanged clean-tree check pass; no content, configuration or refusal changed. The second installation completed with both service-account checks passing, no scientific/provider call and both successor units held.
+
+The reviewed zero-call Colab continuation preserved author1's completed row, original output, state/account snapshots and validator. It prepared author2 within the existing eight-call allowance, without fabricating a reviewer REVISE. The scheduled retention writer then completed successfully; a fresh quiet-window check showed over 30 minutes before its next activation. Author2 started once through the reviewed host route and is RUNNING in both ledgers. Continue bounded pulses for that same invocation; never restart or duplicate it. Timing's preserved-workspace recovery and author24 start have not been performed.
+
+Judgment highlights: use accepted Colab/timing scope without waiting for unrelated rotation qualification; preserve the empty archive and failed installation; repair committed file modes rather than disable Git's check; keep the disk guard manual until explicitly reviewed; retain unanswered direction/qualification questions. Claude was consulted and approved implementation held, not the omitted downstream grants. Today's calls are 1 scientific author (Colab correction), 0 scientific reviewer, 1 administrative review (combined repair) and 0 standalone direction checks.
+
+Public projection: 22 accepted source/code/test files passed all publication scans. The source projection is incomplete and is not a deployable release. Withheld files and rules:
+
+- `deploy/autonomy-review/review@.service.in`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED.
+- `docs/COLAB_AUTHOR_STATIC_FAILURE_PRIVATE.json`: EXCLUDED_RECORD_PATH.
+- `docs/TIMING_AUTHOR24_PREPARATION_PRIVATE.json`: EXCLUDED_RECORD_PATH.
+- `orchestrator/administrative_family.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_administrative_family_rotation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_autonomy_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_mcp_review_pipeline.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tests/test_registered_administrative_invocation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- `tools/deploy_autonomy_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 
 ## Disk interruption and recovery
 
@@ -18,11 +42,11 @@ C: has 18,717,417,472 bytes free (17.4 GiB) after cleanup and the operator's spa
 
 The disk guard candidate passed 28 focused tests and is used manually before large steps: warn below 15 GiB, stop below 8 GiB on either C: or WSL, and refuse unknown capacity. Normal independent review is still required before installation in the research workflow. Two Windows installer-cache deletions and a later bounded pip/npm download-cache deletion were rejected by automatic approval review; those files were left intact and no alternative deletion route was attempted.
 
-The combined implementation review failed before model admission because its search inventory exceeded the installed bound. Preserve that terminal, uncharged attempt; never restart its consumed request. The next packet will omit 159 deferred sandbox-prototype evidence files while retaining the whole actual component, its tests/results and approvals. Preflight both the installed search preparation and reader with unchanged limits. Batch the disk-guard review where practical. No successor review has launched yet.
+The combined implementation review failed before model admission because its search inventory exceeded the installed bound. Preserve that terminal, uncharged attempt; never restart its consumed request. The next packet will omit 159 deferred sandbox-prototype evidence files while retaining the whole actual component, its tests/results and approvals. Preflight both the installed search preparation and reader with unchanged limits. Batch the disk-guard review where practical. The bounded successor is now COMPLETE and approved within the scope described above.
 
 Judgment highlights: cleanup first as directed; preserve every original attempt; verify every archived file before local removal; retain current dependencies and exact recovery records; resume the same suspended process after fresh capacity checks. No scientific, accounting, credential or safeguard change and no Claude call was needed for this authorized cleanup. The previous private archive filenames remain unchanged despite their successful verification.
 
-October 11 read-only ledger reconciliation: 0 scientific author, 0 scientific reviewer, 0 administrative review and 0 direction calls; daily cap 50. No model call is RUNNING. Five historical UNCERTAIN labels remain preserved under their existing terminal-proof process; admission must revalidate them. Five scheduled retention timers remain; both archive verifiers completed successfully. Reconcile the live research state again before any launch.
+October 11 read-only ledger reconciliation: 0 scientific author, 0 scientific reviewer, 0 administrative review and 0 direction calls; daily cap 50. No model call is RUNNING. Five historical UNCERTAIN labels remain preserved under their existing terminal-proof process; admission must revalidate them. Five scheduled retention timers remain; both archive verifiers completed successfully. That cleanup snapshot is superseded by the active Colab author2 state above; keep reconciling before each new launch.
 
 The $0.189305 reporting difference is fully explained: a generic report omitted two already-reviewed closed-native cost adjustments. Its $114.586978 total differs from the qualified $114.397673 by exactly that amount. Cleanup made no ledger write, new spending commitment or fresh reservation release. Installed admission must still recheck billing.
 

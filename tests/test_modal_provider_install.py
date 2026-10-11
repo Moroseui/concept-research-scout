@@ -45,7 +45,11 @@ def test_install_refuses_any_used_or_changed_bound_state(prepared,damage,code):
     with pytest.raises(ValueError,match='^'+code+'$'):install.state_guard(lane,batch)
 
 
-def test_installer_scope_can_be_prepared_by_native_review(tmp_path):
+def test_installer_scope_can_be_prepared_by_native_review(tmp_path,monkeypatch):
+    from orchestrator import administrative_family as af
+    from test_administrative_family_rotation import role
+    monkeypatch.setattr(af,"freeze",lambda path:role("openai","anthropic"))
+    monkeypatch.setattr(af,"current_operator",lambda:"openai")
     import subprocess
     from orchestrator import autonomy_review as review
     from tests.test_autonomy_review import native
@@ -60,7 +64,7 @@ def test_installer_scope_can_be_prepared_by_native_review(tmp_path):
     runtime=tmp_path/'runtime.json';runtime.write_text('{"synthetic":true}\n')
     evidence=tmp_path/'evidence';evidence.mkdir(mode=0o700)
     destination=tmp_path/'packet'
-    review.prepare(repo,source,runtime,evidence,['worker.py'],destination,'Inspect the synthetic component.',change_id=install.CHANGE)
+    review.prepare(repo,source,runtime,evidence,['worker.py'],destination,'Inspect the synthetic component.',change_id=install.CHANGE,role_config=tmp_path/"role.json")
     manifest=review.verify_packet(destination)
     assert manifest['change_id']==install.CHANGE
     # Current protocol: a synthetic native tool call must match the real server record.

@@ -1,0 +1,14 @@
+**Prepare for operator rotation (no stop yet; keep the current workstreams going).** I plan to rotate the operator role periodically between you and a Claude Code agent, probably at the first clean stop after the 13B execution plan, my first Colab instructions and the timing result. Please prepare:
+
+1. **`ROLES.md`** in the repo: current operator, scientific author and reviewer routes; the rule that the operator's and author's work is always reviewed by the other model family; the rotation trigger (milestone boundary or weekly, never mid-task); and the handover procedure. Point both `AGENTS.md` and `CLAUDE.md` to it.
+2. **`HANDOVER.md`**, kept current at every stop:&#x20;
+   - the goal and operating direction;
+   - each workstream's state and next step, with the reasoning;
+   - open decisions and blockers;
+   - what's in progress and must not be duplicated;
+   - how to resume safely;
+   - credentials and logins only by name, never contents.
+   &#x20;Write it so a capable newcomer could take over from it alone.
+3. **Configurable administrative review family:** implementation reviews of operator work use the family opposite the operator. That means an OpenAI review route via the existing author client when Claude is operator. Engineering under the judgment rule, with normal review.
+
+In-system scientific author and reviewer routes stay unchanged for now.
