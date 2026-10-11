@@ -1,0 +1,17 @@
+# Preserve exact activation bytes and accepted Colab continuation
+
+Correct the activation record to hash the actual preserved original file bytes, not a compact reserialization. Keep exact state, evidence, file-byte equality, one-use recovery and all other refusals. The original intent is never rewritten. Verify the default JSON encoding in a synthetic regression, including refusal of a compact-only pin.
+
+Keep the existing Colab review3 grant bound to its independently approved installed release. New implementation approval must not reset grants, calls or charges. Apply the special 60-turn command only to its exact run-spec-review stage; ordinary final interpretation review uses its original command and limits. Both model ledgers still admit every call normally.
+
+Use a new held release and preserve the installed predecessor. Require all predecessor writers terminal and both actual service verifiers before completion. No scientific output, input, image, credential, budget amount or cap changes. Independent review must approve before installation or retry; no CPU rerun.
+
+## Terminal Colab author outcome discovered before review launch
+
+The original registered request was never started. Before launch, the final Colab author ended at its unchanged 900-second transport timeout. Both original ledgers retain UNCERTAIN, all charges remain counted, its native stream and draft files remain unaccepted, and the Colab lane remains BLOCKED. This is a process-termination classification, not scientific acceptance. The draft itself raises scientific limitations; no operator edit or silent promotion is authorized.
+
+The added exact classifier authenticates both original rows, the unchanged blocked state, the precise terminal service state, all original workspace file hashes, and the single native timeout provenance bound to the delivered prompt. Unknown or live processes and changed bytes still refuse. Composition preserves existing preparation history and, only for the already-planned item4 scientific reviewer16, permits ordinary accounting to recognize this unrelated call as terminal. No Colab retry, new author allowance, ledger rewrite, refund, submitted receipt or output acceptance is supplied. The normal limits and reservation still govern reviewer16.
+
+Use one administrative-only bootstrap under the verbatim standing mechanical-review exception to let Claude judge this bundle and exact terminal classification. It admits only the new bound request, counts it normally and preserves the old unstarted request. It does not install or connect any scientific change. Claude should also recommend the shortest safe next step for the preserved Colab draft: inspect its scientific limitations before deciding on author revision or a bounded recovery to scientific review. The prior handoff estimate has slipped; fold the direction check into this review, including the past failure mode of infrastructure proving infrastructure.
+
+Two preserved setup invocations stopped before admission and cost no model calls: first missing metadata (created without changing original records), then the bootstrap attempted to wrap reserve before the installed cap module authenticated its original method. Keep that authentication intact: perform the one-use check only in the existing administrative-terminal callback, inside the ordinary reservation transaction. The reservation method itself is never replaced. A fresh bound request and setup path preserve both failed invocations.

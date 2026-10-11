@@ -104,3 +104,25 @@ def test_completion_connection_keeps_actual_native_and_pending_scope(ready_scope
             with pytest.raises(ValueError):helper._native_review_complete(x.driver,changed,x.p,'a'*64)
     finally:restore()
     assert helper._native_review_complete is None
+
+
+def test_preserved_spaced_intent_requires_raw_hash_not_compact_reserialization(held):
+    h=held;raw=original_intent(h);path=h.driver.state/'diagnostic-native24-activation.json';path.write_bytes(raw)
+    compact=json.dumps(json.loads(raw),sort_keys=True,separators=(',',':')).encode()
+    assert raw!=compact and raw==json.dumps(json.loads(raw),sort_keys=True).encode()
+    bound=recovery(h);bound['intent_sha256']=review.sha(compact)
+    before=h.driver.current()
+    with pytest.raises(ValueError,match='EXACT_FAILED_ACTIVATION_REQUIRED'):
+        review.activate_review(h.driver,h.helper,h.scope,h.approval,recovery=bound,recovery_approval='b'*64)
+    assert path.read_bytes()==raw and h.driver.current()==before
+    assert not (h.driver.state/'diagnostic-native24-recovery-intent.json').exists()
+    bound['intent_sha256']=review.sha(raw)
+    assert review.activate_review(h.driver,h.helper,h.scope,h.approval,recovery=bound,recovery_approval='b'*64)['status']=='READY_REVIEW16'
+    assert path.read_bytes()==raw
+    assert h.driver.store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==0
+
+
+def test_activation_document_bytes_match_installed_code_pin():
+    from pathlib import Path
+    raw=(Path(__file__).resolve().parents[1]/review.ACTIVATION_DOCUMENT).read_bytes()
+    assert review.sha(raw)==review.ACTIVATION_SHA

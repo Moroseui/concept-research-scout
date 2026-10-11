@@ -143,3 +143,22 @@ def test_installed_hook_limits_local_review_to_three_and_retains_prior_failure(t
     assert stocktake_review_recovery.completion(x.store.batch,m.RUN)==[m.FAILED,m.SECOND]
     x.store.db.execute('DELETE FROM events WHERE id=?',(m.TURN_EVENT,))
     with pytest.raises(ValueError,match='GRANT_REQUIRED'):manual_recovery.role_limit(x.store,m.RUN,m.STAGE)
+
+
+@pytest.mark.parametrize('stage',['run_spec_author','result_interpretation_author','result_interpretation_review'])
+def test_ordinary_stages_do_not_inherit_special_review3_command(twice,monkeypatch,stage):
+    from orchestrator import manual_recovery,stocktake_review_recovery,manual_stage
+    x=twice;m.activate(x.driver,x.f,APPROVAL)
+    monkeypatch.setattr(pi,'_REVIEW_TERMINAL',None);monkeypatch.setattr(pi,'_EXTRA_ATTEMPT',None)
+    monkeypatch.setattr(manual_recovery,'role_limit',lambda *a:2)
+    monkeypatch.setattr(stocktake_review_recovery,'completion',lambda *a:None)
+    original=lambda work,stage:['claude','--max-turns','30']
+    monkeypatch.setattr(manual_stage,'reviewer_command',original)
+    class Driver:
+        def _model_step(self,value):
+            assert manual_stage.reviewer_command is original
+            return manual_stage.reviewer_command('ordinary-work',value['phase'])
+    module=NS(AnalysisDriver=Driver);m.install_hook(module,x.f,APPROVAL,'advance')
+    driver=module.AnalysisDriver();driver.store=x.store
+    assert driver._model_step({'phase':stage})==['claude','--max-turns','30']
+    assert manual_stage.reviewer_command is original
