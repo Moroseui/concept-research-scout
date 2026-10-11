@@ -9,10 +9,10 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'terminal-ledger-readonly-20261011'
+CHANGE = 'colab-drive-in-place-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'terminal-ledger-readonly-20261011'
-REVIEW_SCOPE = 'docs/COLAB_TERMINAL_READONLY_SCOPE.md'
+REVIEW_CHANGE = 'colab-drive-in-place-20261011'
+REVIEW_SCOPE = 'docs/COLAB_DRIVE_IN_PLACE_SCOPE.md'
 CONTINUATION_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/review-continuation-20261011')
 COLAB_RECOVERY_SOURCE = 'd4e276292744e4eff9327e46b0c19053cf3f0da9'
 COLAB_RECOVERY_REVIEW = '276620d8cbe9e76a0e676cbec0098261883b4903e7cd2b690ab433a9d2190a62'
@@ -35,7 +35,7 @@ UNIT = 'research-'+CHANGE+'.service'
 NATIVE_UNIT = 'research-'+CHANGE+'-native-review.service'
 NATIVE_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/timing-author24-history-repair-20261011')
 OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparation.service'
-REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'orchestrator/colab_author_terminal.py', 'docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json', 'tools/item4_diagnostic_review_runtime.py',
+REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, 'orchestrator/colab_drive_in_place.py', 'orchestrator/manual_stage.py', 'docs/COLAB_DRIVE_IN_PLACE_PRIVATE.json', 'docs/COLAB_DRIVE_IN_PLACE_OPERATOR.txt', 'docs/COLAB_DRIVE_IN_PLACE_TASK.md', NETWORK_DOC, 'orchestrator/colab_author_terminal.py', 'docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json', 'tools/item4_diagnostic_review_runtime.py',
             'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json',
             'docs/COLAB_TURN_RECOVERY_PRIVATE.json','docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json',
             'orchestrator/item4_smoke_response.py', 'orchestrator/item4_scoped_calls.py', 'orchestrator/colab_reader_recovery.py',
@@ -83,7 +83,7 @@ def authority(held=True):
             and installed['files']==manifest['source_files'] and installed['status']=='INSTALLED_HELD', 'INSTALL_BINDING')
     for name,pin in installed['files'].items():
         require(sha(trusted(ROOT/name).read_bytes())==pin, 'REVIEWED_SOURCE_CHANGED')
-    require(set(installed['units'])=={'/etc/systemd/system/'+UNIT,'/etc/systemd/system/'+NATIVE_UNIT}, 'UNIT_SET')
+    require(set(installed['units'])=={'/etc/systemd/system/'+UNIT}, 'UNIT_SET')
     for name,pin in installed['units'].items():require(sha(trusted(name).read_bytes())==pin,'UNIT_CHANGED')
     if held:
         require(json.loads(trusted(RECORD/'COMPLETE.json').read_bytes())==
@@ -175,10 +175,16 @@ def connect(action='advance'):
     repair=load('orchestrator.colab_reader_recovery',ROOT/'orchestrator/colab_reader_recovery.py')
     raw=trusted(ROOT/repair.TURN_DOCUMENT).read_bytes();require(sha(raw)==repair.TURN_DOCUMENT_SHA,'RECOVERY_DOCUMENT_CHANGED')
     approval=authority(held=action!='verify')
-    repair.install_hook(analysis_driver,json.loads(raw),colab_recovery_review(),action)
+    repair.install_hook(analysis_driver,json.loads(raw),colab_recovery_review(),'advance')
     terminal=load('orchestrator.colab_author_terminal',ROOT/'orchestrator/colab_author_terminal.py')
     from orchestrator import preparation_interleaving as pi
     terminal.connect_sequence(pi)
+    continuation=load('orchestrator.colab_drive_in_place',ROOT/'orchestrator/colab_drive_in_place.py')
+    continuation.install_hook(analysis_driver,terminal,pi,repair,approval['report_sha256'],action)
+    # Same client/runtime/isolation and admission; activate the approved timeout
+    # producer and watchdog together for this scientific lane only.
+    stage=load('orchestrator.manual_stage',ROOT/'orchestrator/manual_stage.py')
+    orchestrator.manual_stage=stage;analysis_driver.manual_stage=stage;manual_driver.manual_stage=stage
     return prior
 
 
@@ -200,7 +206,7 @@ def host(action, transition):
     if action=='start':
         checked=subprocess.check_output(['runuser','-u','partho','--','env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),
             'python3','-s','-B',str(ROOT/ENTRY),'ready'],text=True)
-        require(json.loads(checked)['status']=='READY_REVIEW_RECOVERY','RECOVERY_READY_REQUIRED')
+        require(json.loads(checked)['status']=='READY_DRIVE_REVISION','RECOVERY_READY_REQUIRED')
     h=old.connect('colab_preparation',transition);frozen,_=h.authority(None)
     installed=json.loads(trusted(RECORD/'installed.json').read_bytes())
     frozen['hashes']={**frozen['hashes'],**installed['units'],**{str(ROOT/n):pin for n,pin in installed['files'].items()}}
@@ -278,14 +284,8 @@ def install(source, review):
         observed=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',unit,'-p','MainPID','-p','ActiveState'],text=True).splitlines())
         require(observed['MainPID']=='0' and observed['ActiveState'] in {'inactive','failed'},'PREVIOUS_WRITER')
     target=oldpath.with_name(UNIT);body=unit_bytes(oldraw)
-    native_target=oldpath.with_name(NATIVE_UNIT)
-    native_raw=trusted(oldpath.with_name(retained.REVIEW_UNIT)).read_bytes()
-    before=('ExecStart=/usr/bin/python3 -s -B '+str(NATIVE_PREVIOUS/'tools/item4_diagnostic_review_runtime.py')+' run\n').encode()
-    after=('ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_diagnostic_review_runtime.py')+' run\n').encode()
-    require(native_raw.splitlines(keepends=True).count(before)==1,'EXACT_NATIVE_UNIT_ENTRY')
-    native_body=native_raw.replace(before,after)
-    require(native_body.replace(after,before)==native_raw,'NATIVE_ENTRY_ONLY_CHANGE')
-    units={target:body,native_target:native_body}
+    # Timing remains parked; this release installs only the Colab unit.
+    units={target:body}
     for p in [ROOT,RECORD,*units]:
         trusted(p.parent);require(not p.exists() and not p.is_symlink(),'EXISTING_INSTALL_PRESERVED')
     review_files={p.name:trusted(p).read_bytes() for p in review.iterdir() if p.is_file()}
@@ -305,10 +305,6 @@ def install(source, review):
         'RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),'python3','-s','-B',str(ROOT/ENTRY),'verify'],capture_output=True)
     helper.put(RECORD/'VERIFY.stdout',result.stdout);helper.put(RECORD/'VERIFY.stderr',result.stderr)
     require(result.returncode==0,'SERVICE_VERIFY_FAILED')
-    result=subprocess.run(['runuser','-u','partho','--','env','PYTHONPATH='+str(ORIGINAL),'PYTHONDONTWRITEBYTECODE=1',
-        'RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),'python3','-s','-B',str(ROOT/'tools/item4_diagnostic_review_runtime.py'),'verify'],capture_output=True)
-    helper.put(RECORD/'NATIVE_VERIFY.stdout',result.stdout);helper.put(RECORD/'NATIVE_VERIFY.stderr',result.stderr)
-    require(result.returncode==0,'NATIVE_SERVICE_VERIFY_FAILED')
     complete={'status':'INSTALLED_HELD','source':approval['source_sha'],'scientific_calls':0,'provider_calls':0}
     helper.put(RECORD/'COMPLETE.json',json.dumps(complete,sort_keys=True).encode());return complete
 
