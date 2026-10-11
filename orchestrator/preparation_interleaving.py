@@ -14,6 +14,7 @@ STAGES = ('run_spec_author','run_spec_review','result_interpretation_author','re
 SCHEMA = 'preparation-interleaving/v1'
 _ACTIVE = None
 _PREMODEL = None
+_REVIEW_TERMINAL = None  # Only an independently reviewed exact proof may be connected.
 PREMODEL_CALL = 'e41d3d88958bef07e8cf854cb65125ba496b5537f42d26206ae1cee2df9e0e67'
 PREMODEL_RUN = 'aggregate-d695a5269c3647c4cb81b91a'
 PREMODEL_SOURCE = '304cae4aa12d53eb99254499950eec4e71df8075'
@@ -186,7 +187,8 @@ def classify(scope, rows):
         key,lane=pair;binding=json.loads(row['binding'])
         permitted={identity(lane['run_id'],stage,n):(stage,n) for stage in STAGES for n in (1,2)}
         require(row['id'] in permitted and row['kind']=='scientific','PREPARATION_ROW_UNQUALIFIED')
-        if row['status']!='COMPLETE':premodel_global(scope,row)
+        if row['status']!='COMPLETE':
+            if _REVIEW_TERMINAL is None or not _REVIEW_TERMINAL(scope,row,None):premodel_global(scope,row)
         stage,attempt=permitted[row['id']]
         require(attempt==attempts.get((key,stage),0)+1,'PREPARATION_STAGE_ORDER')
         attempts[key,stage]=attempt
@@ -268,7 +270,9 @@ class Overlay:
                 local.row_factory=sqlite3.Row
                 for global_row in [r for r in rows if r['change_id']==run]:
                     item=local.execute('SELECT * FROM manual_calls WHERE id=?',(global_row['id'],)).fetchone()
-                    if global_row['status']=='FAILED' and global_row['id']==PREMODEL_CALL:
+                    if _REVIEW_TERMINAL is not None and _REVIEW_TERMINAL(self.scope,global_row,item):
+                        pass  # Exact original local/global rows and native terminal proof checked.
+                    elif global_row['status']=='FAILED' and global_row['id']==PREMODEL_CALL:
                         premodel_local(self.scope,global_row,item)
                     else:
                         require(item is not None and item['status']=='COMPLETE'

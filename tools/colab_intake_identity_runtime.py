@@ -9,10 +9,11 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'colab-network-continuation-20261011'
+CHANGE = 'colab-reader-recovery-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'timing-entrypoint-colab-network-recovery-20261011'
-REVIEW_SCOPE = 'docs/TIMING_ENTRYPOINT_COLAB_NETWORK_SCOPE.md'
+REVIEW_CHANGE = 'colab-reader-native-history-20261011'
+REVIEW_SCOPE = 'docs/COLAB_READER_NATIVE_HISTORY_SCOPE.md'
+READER_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-network-continuation-20261011')
 NETWORK_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-intake-source-alignment-20261011')
 NETWORK_DOC = 'docs/COLAB_NETWORK_PREMODEL_PRIVATE.json'
 NETWORK_SHA = 'f074b5f21453c90c3dc3707f3ac5a6a4d4b0ca72b1d40b8f477bbc60c35075fd'
@@ -29,7 +30,8 @@ ENTRY = 'tools/colab_intake_identity_runtime.py'
 RECOVERY = 'tools/colab_intake_identity_recovery.py'
 UNIT = 'research-'+CHANGE+'.service'
 OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparation.service'
-REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md', 'tools/reviewer_connection_timing.py', 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
+REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'orchestrator/colab_reader_recovery.py',
+            'orchestrator/manual_context.py', 'orchestrator/preparation_interleaving.py', 'docs/COLAB_READER_RECOVERY_PRIVATE.json', 'docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md', 'tools/reviewer_connection_timing.py', 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
             'orchestrator/scientific_intake.py', 'orchestrator/scientific_search.py']
 
 
@@ -127,18 +129,34 @@ def network_predecessor(raw=None):
     return b
 
 
-def connect(held=True):
-    authority(held=held);network_predecessor();branch=original();prior=branch.connect();m=recovery();b=m.binding()
-    require(sha(trusted(ORIGINAL/'orchestrator/scientific_intake.py').read_bytes())==b['original_intake_sha256'], 'ORIGINAL_INTAKE_CHANGED')
-    from orchestrator import scientific_search as search
-    require(sys.modules.get('orchestrator.scientific_search') is search
-            and Path(search.__file__).resolve()==ORIGINAL/'orchestrator/scientific_search.py'
-            and sha(trusted(search.__file__).read_bytes())==b['original_search_sha256'], 'SEARCH_GUARD_UNCHANGED')
-    patched=load('orchestrator.scientific_intake',ROOT/'orchestrator/scientific_intake.py')
+def connect(action='advance'):
+    authority(held=action!='verify')
+    previous=load('_colab_reader_previous_runtime',READER_PREVIOUS/ENTRY)
+    approved=previous.authority()
+    require(approved['source_sha']=='c4280f2723e0adcf3c7cee51a435fc775528b393' and
+        approved['report_sha256']=='f5118bf6ae3c80cee8bf719adb4059b1f12637208c5a601a6a3fa6b6fab1d0b5','PREVIOUS_INSTALLED_APPROVAL')
+    # Keep all predecessor authentication. Only its sequence component changes,
+    # as separately source-bound by this release's implementation approval.
+    original_branch=previous.original
+    def branch_with_reviewed_sequence():
+        branch=original_branch();factory=branch.load
+        def selected(name,path):
+            if name=='orchestrator.preparation_interleaving':
+                require(Path(path)==BRANCH/'orchestrator/preparation_interleaving.py','EXACT_SEQUENCE_COMPONENT')
+                return factory(name,ROOT/'orchestrator/preparation_interleaving.py')
+            return factory(name,path)
+        branch.load=selected
+        return branch
+    previous.original=branch_with_reviewed_sequence
+    prior=previous.connect()  # Original intake, runtime, transport, host and cap checks.
     import orchestrator
-    orchestrator.scientific_intake=patched
-    from orchestrator import manual_runtime
-    load('_colab_review_connection_timing',ROOT/'tools/reviewer_connection_timing.py').bind(manual_runtime)
+    from orchestrator import analysis_driver,manual_driver
+    context=load('orchestrator.manual_context',ROOT/'orchestrator/manual_context.py')
+    orchestrator.manual_context=context;analysis_driver.manual_context=context;manual_driver.manual_context=context
+    repair=load('orchestrator.colab_reader_recovery',ROOT/'orchestrator/colab_reader_recovery.py')
+    raw=trusted(ROOT/repair.DOCUMENT).read_bytes();require(sha(raw)==repair.DOCUMENT_SHA,'RECOVERY_DOCUMENT_CHANGED')
+    approval=authority(held=action!='verify')
+    repair.install_hook(analysis_driver,json.loads(raw),approval['report_sha256'],action)
     return prior
 
 
@@ -157,7 +175,10 @@ def host(action, transition):
     if action=='status':
         require(transition is None,'STATUS_NO_TRANSITION');return old.status('colab_preparation')
     require(isinstance(transition,str) and re.fullmatch('[0-9a-f]{64}',transition),'TRANSITION')
-    require(transition==network['transition'],'EXACT_NETWORK_CONTINUATION')
+    if action=='start':
+        checked=subprocess.check_output(['runuser','-u','partho','--','env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),
+            'python3','-s','-B',str(ROOT/ENTRY),'ready'],text=True)
+        require(json.loads(checked)['status']=='READY_REVIEW_RECOVERY','RECOVERY_READY_REQUIRED')
     h=old.connect('colab_preparation',transition);frozen,_=h.authority(None)
     installed=json.loads(trusted(RECORD/'installed.json').read_bytes())
     frozen['hashes']={**frozen['hashes'],**installed['units'],**{str(ROOT/n):pin for n,pin in installed['files'].items()}}
@@ -191,6 +212,8 @@ def install(source, review):
     require(sha(oldraw)==oldreceipt['units'][str(oldpath)],'PRIOR_UNIT_PIN')
     state=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',OLD_UNIT,'-p','MainPID','-p','ActiveState','-p','ExecMainStatus'],text=True).splitlines())
     require(state=={'MainPID':'0','ActiveState':'inactive','ExecMainStatus':'0'},'PRIOR_UNIT_HELD')
+    previous=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show','research-colab-network-continuation-20261011.service','-p','MainPID','-p','ActiveState'],text=True).splitlines())
+    require(previous['MainPID']=='0' and previous['ActiveState'] in {'inactive','failed'},'PREVIOUS_REVIEW_TERMINAL')
     target=oldpath.with_name(UNIT);body=unit_bytes(oldraw)
     for p in [ROOT,RECORD,target]:
         trusted(p.parent);require(not p.exists() and not p.is_symlink(),'EXISTING_INSTALL_PRESERVED')
@@ -216,7 +239,7 @@ def install(source, review):
 
 
 def main(argv=None):
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['install','verify','ready','advance','status','start','pulse'])
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['install','verify','recover','ready','advance','status','start','pulse'])
     p.add_argument('--source',type=Path);p.add_argument('--review',type=Path);p.add_argument('--transition');a=p.parse_args(argv)
     sys.path.insert(0,str(ORIGINAL))
     if a.action=='install':
@@ -224,16 +247,13 @@ def main(argv=None):
     require(a.source is None and a.review is None,'NO_SOURCE_OVERRIDE')
     if a.action in {'status','start','pulse'}:return host(a.action,a.transition)
     require(a.transition is None and os.getuid()==os.getgid()==1003,'SERVICE_ACTION')
-    authority(held=a.action!='verify');original()
-    if a.action=='verify':
-        connect(held=False)  # Exercise the real installed connection before completion.
-        recovery().ready()
-        return {'status':'VERIFIED_HELD','scientific_calls':0,'provider_calls':0}
-    m=recovery()
-    if a.action=='ready':return m.ready()
-    m.ready();prior=connect()
-    return prior.main(['advance','--scope',str(prior.RECORD/'preparation-interleaving.json'),
+    prior=connect(a.action)
+    result=prior.main(['advance','--scope',str(prior.RECORD/'preparation-interleaving.json'),
         '--review-report',str(prior.RECORD/'review/report.md'),'--lane','colab_preparation'])
+    if a.action=='verify':
+        require(result=={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0},'ACTUAL_VERIFY_REQUIRED')
+        return {'status':'VERIFIED_HELD','scientific_calls':0,'provider_calls':0}
+    return result
 
 
 if __name__=='__main__':

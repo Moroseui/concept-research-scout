@@ -103,6 +103,43 @@ def _json_reading_copy(descriptor, raw):
     return copy, pretty
 
 
+def _notebook_patch_reading_copy(descriptor, raw):
+    """Lossless reading view: split replacement strings into ordered line arrays.
+
+    The original patch remains separately hash-bound and executable consumers
+    still use it. This view is navigation/readability only, never a new patch.
+    """
+    from orchestrator.review_contract import strict_json
+    original = strict_json(raw)
+    if (not isinstance(original, dict) or original.get('schema') != 'safe-notebook-patch/v1'
+            or not isinstance(original.get('edits'), list)):
+        raise budget.ContextError('MANUAL_PATCH_READING_SCHEMA')
+    edits = []
+    for edit in original['edits']:
+        if not isinstance(edit, dict) or not isinstance(edit.get('replacement'), str):
+            raise budget.ContextError('MANUAL_PATCH_READING_REPLACEMENT')
+        edits.append({**edit, 'replacement': edit['replacement'].splitlines(keepends=True)})
+    reading = {**original, 'edits': edits}
+    restored = {**reading, 'edits': [{**e, 'replacement': ''.join(e['replacement'])} for e in edits]}
+    if restored != original or budget.sha(raw) != descriptor['sha256']:
+        raise budget.ContextError('MANUAL_PATCH_READING_ROUNDTRIP')
+    pretty = _pageable_json(json.dumps({'schema':'notebook-patch-reading/v1',
+        'original_sha256':descriptor['sha256'], 'patch':reading}, ensure_ascii=False).encode())
+    scan('context/notebook-patch-reading.json', pretty)
+    pin = budget.sha(pretty)
+    copy = {'id':descriptor['id']+'-readable-patch',
+        'path':'evidence/'+pin+'-'+budget.sha(descriptor['id'].encode())+'-readable-patch.json',
+        'sha256':pin, 'original_path':descriptor['path'], 'original_sha256':descriptor['sha256'],
+        'bytes':len(pretty), 'characters':len(pretty.decode()), 'page_lines':JSON_PAGE_LINES,
+        'delivery':'Non-executable lossless reading view of the unchanged notebook patch. '
+            'Each replacement is an ordered array of lines; concatenate without separators to recover the exact original string. '
+            'All other patch values are unchanged. Read at most 100 lines per call with offset/limit. '
+            'Cite the original patch hash; no scientific acceptance follows from this representation.'}
+    descriptor['readable_patch'] = copy
+    descriptor['delivery'] += ' Use readable_patch for bounded inspection; the compact original may contain one oversized line.'
+    return copy, pretty
+
+
 def selected_artifacts(stage, artifacts):
     """Caller-saved logical identities and numeric revisions; never download suffix order.
 
@@ -180,7 +217,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
     pieces = []
     if stage in {'run_spec_review', 'result_interpretation_review'}:
         from orchestrator.scientific_search import INSTRUCTION
-        pieces.append(INSTRUCTION)
+        pieces.append(INSTRUCTION + " Resolve logical source names with evidence_glob before Read; historical source paths are not workspace paths. Use a bound readable_patch copy when supplied, and page it with offset/limit. Preserve time to submit_review within this call; if evidence remains insufficient, submit the supported findings rather than leave an unsubmitted verdict.")
     files = []
     private_descriptors = []
     private_index = None
@@ -267,6 +304,8 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
             if ((private_intake is not None and row['type'] == 'validation_result') or
                     (row['type']=='configuration' and row['id']=='authored-execution-plan')):
                 files.append(_json_reading_copy(descriptor, raw))
+            if row['type'] == 'notebook_patch':
+                files.append(_notebook_patch_reading_copy(descriptor, raw))
             pieces.append(budget.encoded(descriptor))
             files.append((descriptor, raw))
         else:

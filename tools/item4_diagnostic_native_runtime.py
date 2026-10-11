@@ -4,12 +4,12 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
-CHANGE='timing-author24-admission-repair-20261011'
-REVIEW_CHANGE='colab-workspace-native-implementation-20261011'
+CHANGE='timing-author24-history-repair-20261011'
+REVIEW_CHANGE='colab-reader-native-history-20261011'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author24-admission-native-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author24-history-native-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
@@ -18,7 +18,7 @@ CPU_UNIT='research-'+CHANGE+'-cpu.service'
 REVIEW_UNIT='research-'+CHANGE+'-review.service'
 PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','ProtectSystem':'strict',
  'PrivateTmp':'yes','ProtectHome':'read-only','RestrictSUIDSGID':'yes','LockPersonality':'yes'}
-FILES=('docs/COLAB_NETWORK_WORKSPACE_SCOPE.md','tools/reviewer_connection_timing.py','docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md','tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
+FILES=('docs/COLAB_READER_NATIVE_HISTORY_SCOPE.md','docs/ITEM4_FOURTH_NATIVE_FAILURE_PRIVATE.json','docs/COLAB_NETWORK_WORKSPACE_SCOPE.md','tools/reviewer_connection_timing.py','docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md','tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
  'tools/install_item4_diagnostic_native.py','tools/item4_native_worker.py','tools/item4_validation_retained.py',
  'orchestrator/item4_diagnostic_native.py','orchestrator/modal_native_synthetic.py',
  'orchestrator/modal_terminal_cost.py',
@@ -265,6 +265,7 @@ def verify():
         '--diagnostic-native'],timeout=120)
     require(json.loads(raw)==d.document(d.RETAINED,d.RETAINED_SHA),'ORIGINAL_IMAGE_AND_TERMINAL_PROOFS')
     d.progress_failure()  # Original third FAIL is read-only qualified, never relabelled.
+    d.report_failure()  # Qualify all four historical failures before installation completion.
     selected=n.selected();proof=json.loads(raw)['image_proof']
     require(proof['scientific_environment']==selected['environment'] and proof['scientific_acceptance'] is False,'IMAGE_PROOF')
     return json.loads(trusted(CONFIG).read_bytes())

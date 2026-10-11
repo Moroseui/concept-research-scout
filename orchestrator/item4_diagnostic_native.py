@@ -42,7 +42,22 @@ def progress_failure():
     return frozen
 
 
+FOURTH_FAILED_ASSET='1e5bb3d0f1f807a99039e106cba34a40e9400dd01aae16c1f3e7212165d91d49'
+FOURTH='docs/ITEM4_FOURTH_NATIVE_FAILURE_PRIVATE.json'
+FOURTH_SHA='10d6b1250d0f770a353a9972d13bfbeee54dfeb252831ee87715fd04e5714ca7'
+
+def report_failure():
+    frozen=document(FOURTH,FOURTH_SHA)
+    raw=subprocess.check_output(['/usr/bin/python3','-s','-B',str(ROOT/'tools/item4_validation_retained.py'),
+        '--diagnostic-report-failure'],timeout=120)
+    require(strict_json(raw)==frozen['qualification'],'FOURTH_NATIVE_FAILURE')
+    return frozen
+
+
 def historical_asset(row):
+    if dict(row).get('id')==FOURTH_FAILED_ASSET:
+        require(dict(row)==document(FOURTH,FOURTH_SHA)['row'],'FOURTH_FAILED_ROW_CHANGED')
+        return True
     if dict(row).get('id')==THIRD_FAILED_ASSET:
         require(dict(row)==document(PROGRESS,PROGRESS_SHA)['third_failed_asset'],'THIRD_FAILED_ROW_CHANGED')
         return True
@@ -106,7 +121,10 @@ def retained_terminal(accounts,binding):
     progress_failure()
     row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(THIRD_FAILED_ASSET,)).fetchone()
     require(row is not None and historical_asset(row),'THIRD_FAILED_ROW_REQUIRED')
-    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET,SECOND_FAILED_ASSET,THIRD_FAILED_ASSET},set(proof['compute'])
+    report_failure()  # Original qualifier binds its saved terminal/provider/source evidence.
+    row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(FOURTH_FAILED_ASSET,)).fetchone()
+    require(row is not None and historical_asset(row),'FOURTH_FAILED_ROW_REQUIRED')
+    return set(proof['assets'])|set(proof['native_ready'])|{FAILED_ASSET,SECOND_FAILED_ASSET,THIRD_FAILED_ASSET,FOURTH_FAILED_ASSET},set(proof['compute'])
 
 def subcap(accounts,assets,compute,asset_amounts,snapshot,amount):
     """Count diagnostic preparations and fits, including every unreleased row.
