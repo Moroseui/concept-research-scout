@@ -9,10 +9,13 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'colab-intake-source-alignment-20261011'
+CHANGE = 'colab-network-continuation-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'colab-timing-transport-repair-20261011'
-REVIEW_SCOPE = 'docs/COLAB_INTAKE_TRANSPORT_RECOVERY_SCOPE.md'
+REVIEW_CHANGE = 'timing-entrypoint-colab-network-recovery-20261011'
+REVIEW_SCOPE = 'docs/TIMING_ENTRYPOINT_COLAB_NETWORK_SCOPE.md'
+NETWORK_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-intake-source-alignment-20261011')
+NETWORK_DOC = 'docs/COLAB_NETWORK_PREMODEL_PRIVATE.json'
+NETWORK_SHA = 'f074b5f21453c90c3dc3707f3ac5a6a4d4b0ca72b1d40b8f477bbc60c35075fd'
 PREVIOUS_ROOT = Path('/opt/research-system/manual-repair-helpers/colab-intake-identity-20261011')
 PREVIOUS_SOURCE = '9f28966e8228be06d76a99959d60a9aecf06f30b'
 PREVIOUS_REVIEW = 'ffce32d7f49dbe333d87dcf41daba11d08d20f208aee8207c12d804400238987'
@@ -26,7 +29,7 @@ ENTRY = 'tools/colab_intake_identity_runtime.py'
 RECOVERY = 'tools/colab_intake_identity_recovery.py'
 UNIT = 'research-'+CHANGE+'.service'
 OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparation.service'
-REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, 'docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md', 'tools/reviewer_connection_timing.py', 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
+REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md', 'tools/reviewer_connection_timing.py', 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
             'orchestrator/scientific_intake.py', 'orchestrator/scientific_search.py']
 
 
@@ -98,8 +101,34 @@ def recovery():
     return previous.recovery()
 
 
+def network_predecessor(raw=None):
+    """One exact zero-call predecessor; never mutate its host intent or state."""
+    raw=trusted(ROOT/NETWORK_DOC).read_bytes() if raw is None else raw
+    require(sha(raw)==NETWORK_SHA,'NETWORK_BINDING_CHANGED')
+    b=json.loads(raw)
+    previous=load('_colab_network_preserved_release',NETWORK_PREVIOUS/ENTRY)
+    approved=previous.authority()
+    require(approved['source_sha']==b['source'] and approved['report_sha256']==b['review']
+            and approved['change_id']=='colab-timing-transport-repair-20261011','NETWORK_PREVIOUS_APPROVAL')
+    props=['MainPID','ActiveState','SubState','ExecMainStatus','Result','InvocationID']
+    state=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',b['unit'],
+        *sum([['-p',name] for name in props],[])],text=True).splitlines())
+    require(state==b['terminal'] and state['MainPID']=='0' and state['ActiveState']=='inactive'
+            and state['Result']=='success' and state['ExecMainStatus']=='0','NETWORK_PREVIOUS_TERMINAL')
+    if os.getuid()==0:
+        for name,row in b['host_records'].items():
+            require(sha(trusted(name).read_bytes())==row['sha256'],'NETWORK_HOST_RECORD_CHANGED')
+        journal=subprocess.check_output(['journalctl','--no-pager','-o','cat',
+            '_SYSTEMD_INVOCATION_ID='+b['invocation']],text=True)
+        require(sha(journal.encode())==b['journal_sha256'],'NETWORK_TERMINAL_PROOF_CHANGED')
+        value=json.loads(journal)
+        require(value['charged_calls']==0 and value['operational_refusal']=='NETWORK_PREFLIGHT_FAILED_NO_CHARGE:claude'
+                and value['phase']=='run_spec_review' and value['calls_used']==2,'NETWORK_ZERO_CALL_REFUSAL')
+    return b
+
+
 def connect(held=True):
-    authority(held=held);branch=original();prior=branch.connect();m=recovery();b=m.binding()
+    authority(held=held);network_predecessor();branch=original();prior=branch.connect();m=recovery();b=m.binding()
     require(sha(trusted(ORIGINAL/'orchestrator/scientific_intake.py').read_bytes())==b['original_intake_sha256'], 'ORIGINAL_INTAKE_CHANGED')
     from orchestrator import scientific_search as search
     require(sys.modules.get('orchestrator.scientific_search') is search
@@ -123,11 +152,12 @@ def unit_bytes(raw):
 
 
 def host(action, transition):
-    require(os.getuid()==0 and sys.flags.no_user_site,'ROOT_ISOLATED');approval=authority();original()
+    require(os.getuid()==0 and sys.flags.no_user_site,'ROOT_ISOLATED');approval=authority();network=network_predecessor();original()
     old=load('_colab_intake_original_host',BRANCH/'tools/preparation_branch_repair_host.py')
     if action=='status':
         require(transition is None,'STATUS_NO_TRANSITION');return old.status('colab_preparation')
     require(isinstance(transition,str) and re.fullmatch('[0-9a-f]{64}',transition),'TRANSITION')
+    require(transition==network['transition'],'EXACT_NETWORK_CONTINUATION')
     h=old.connect('colab_preparation',transition);frozen,_=h.authority(None)
     installed=json.loads(trusted(RECORD/'installed.json').read_bytes())
     frozen['hashes']={**frozen['hashes'],**installed['units'],**{str(ROOT/n):pin for n,pin in installed['files'].items()}}
@@ -155,6 +185,7 @@ def install(source, review):
     bodies={n:trusted(source/helper.relative(n)).read_bytes() for n in manifest['source_files']}
     require(all(sha(body)==manifest['source_files'][n] for n,body in bodies.items()),'SOURCE_HASHES')
     require(bodies[ENTRY]==Path(__file__).read_bytes(),'EXECUTED_INSTALLER')
+    network_predecessor(bodies[NETWORK_DOC])
     oldpath=Path('/etc/systemd/system')/OLD_UNIT;oldraw=trusted(oldpath).read_bytes()
     oldreceipt=json.loads(trusted(BRANCH_RECORD/'installed.json').read_bytes())
     require(sha(oldraw)==oldreceipt['units'][str(oldpath)],'PRIOR_UNIT_PIN')
