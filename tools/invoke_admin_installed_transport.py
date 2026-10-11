@@ -113,7 +113,7 @@ def verify_current_host(request):
 def transport_for_packet(packet):
     from orchestrator import autonomy_review as ar
     manifest=ar.verify_packet(packet)
-    require(manifest['change_id']=='colab-timing-evidence-direction-20261011'
+    require(manifest['change_id']=='timing-entrypoint-colab-network-recovery-20261011'
             and manifest['round']==1,'ONE_REPAIR_SCOPE')
     require(sha(trusted(__file__).read_bytes())==manifest['source_files']['tools/invoke_admin_installed_transport.py'],
             'REGISTERED_INVOCATION_BYTES')
