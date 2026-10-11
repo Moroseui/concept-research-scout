@@ -3,10 +3,10 @@
 - The in-place Colab notebook is approved; the first supervised A1_repeat/fold-0 smoke segment is ready.
 - Partho has exact notebook, hash, setup/settings and return instructions in Downloads: CPU input check first, then A100; pause at the deliberate epoch-1 interruption.
 - All 893 input locations exist; runtime must verify every frozen hash and excluded-patient check. The laptop copy stays stopped and preserved.
-- No model or GPU job is running. Routine input-retention verification completed successfully. Idea 2 authoring has not started; timing remains parked.
+- No model or research service was running at the latest server check. Idea 2 needs a reviewed continuation; its patch is in development. Timing remains parked.
 - Identified item-4 billed compute is $24.487001; retained exposure before Colab is $115.516623. The new $1.36 reservation brings stage 1 to $116.876623/$150.
 - Next real result: Partho's first checkpoint within a supervised two-hour A100 window; resume is separately bound after reconciliation. Full training stays held.
-- Action needed: follow the smoke instructions. Today 37/50 calls. Claude's billing question is answered; its minimal manual-reservation route is followed with no new subsystem. [Execution plan](13B_EXECUTION_PLAN.md).
+- Action needed: follow the smoke instructions. Today 38/50 calls. Claude's latest Idea 2 consultation returned REVISE: submit the concrete implementation for review. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Accepted results and current package
 
@@ -33,6 +33,14 @@ Idea 2 is the accepted fixed 3-by-3 comparison of each saved model's ranking aga
 
 Timing remains parked after its second admission-reader failure, before another GPU reservation. Original CPU integration and native activation already passed and must not be repeated. No automatic GPU retry. Private case-selection proposal is accepted but unexecuted. Sandbox and configurable opposite-family administrative route remain deferred/uninstalled. The swap gate is not met.
 
+## Item 6 follow-up engineering status
+
+The first Claude consultation returned genuine REVISE: the completed owner cannot admit another question without an implemented, reviewed continuation. The operator agrees. The private draft preserves all nine original calls, report and acceptance, shares the existing30-call/$100item allowance, and stops after specification review. All 189 combined focused and affected tests pass. It is uninstalled and not yet ready for implementation review; no scientific author call has started.
+
+Remaining work in the same review bundle is the native initializer/admission connection, including authentic historical terminal proofs and explicit use of the current batch ceiling. There are90scientific calls already counted; the existing95-call preparation scope is restricted to other lanes. Do not silently reuse it for item6 or reset usage. Archive metadata locates118of728frozen hashes;610locations remain unverified. No payload-read or scientific-result claim is implied. Provisional next result: authored and reviewed specification in1-2hours of active work, subject to implementation approval; actual CPU result timing remains uncertain.
+
+Private evidence, frozen history, review packets, ledgers, native streams and the raw private candidate branch are excluded from GitHub. The candidate contains private scope records and has not passed publication scans. No original charge or uncertain attempt was changed.
+
 ## Spending and calls
 
 | Measure | Recorded amount |
@@ -43,17 +51,17 @@ Timing remains parked after its second admission-reader failure, before another 
 | Synthetic CPU reservation awaiting billing reconciliation | $1.118950 |
 | Item 6 cap | $100 |
 | Item 4 total / full-training projection gate | $1,275 / $1,200 |
-| Reported Claude model charges | $140.2523035 |
+| Reported Claude model charges | $142.8197665 |
 | Colab initial segment reservation, not actual spend | $1.36 |
 | Other retained item-4 exposure after subtracting identified billed compute | $91.029622 |
 
 No original charge or reservation was reset, relabelled or newly released. Fresh provider billing at 22:40 UTC and the installed recovery route reproduce the $115.516623 exposure including the already-recorded closed-cost adjustments. The table separates identified billed compute from remaining retained exposure; billing is not a final invoice. No new compute ran; the human Colab reservation awaits launch. Author dollar totals remain unavailable.
 
-Today 37/50 calls: 4 scientific authors (Colab correction, timing author 24, timed-out final Colab interpretation, completed in-place revision); 4 scientific reviewers (two failed Colab reviews and approved preparation reviews 3/4); 22 administrative implementation reviews; 7 direction calls/discussions (the five earlier checks/discussions, the failed-qualification Colab accounting consultation and its qualified mechanical retry).
+Today 38/50 calls: 4 scientific authors (Colab correction, timing author 24, timed-out final Colab interpretation, completed in-place revision); 4 scientific reviewers (two failed Colab reviews and approved preparation reviews 3/4); 22 administrative implementation reviews; 8 direction calls/discussions (the five earlier checks/discussions, the failed-qualification Colab accounting consultation and its qualified mechanical retry, plus the item-6 follow-up consultation).
 
 Administrative purposes: combined continuations; intake/disk; alignment; transport recovery; connection repair; entry-point/network continuation; preservation/admission; inspection recovery; installed combined bundle; reader/history bundle; native-review/Colab-turn continuation; import-context repair; bounded manifest-read recovery; the terminal/native-intent bundle; the native admission repair; its mechanical packet correction; a native-manifest-read qualification correction; the terminal-ledger reader repair; the author-only timeout change; the approved bounded Colab continuation implementation review; the approved producer-closure/unadmitted-preparation repair; and the current authenticated foreign-ledger reader/exact rearm.
 
-Administrative/direction model cost is $110.33569375; failed scientific reviews $10.19855925; approved scientific reviews $19.7180505. The first new accounting consultation failed native source-read qualification and cost $1.948139; its original apparent PROCEED is not qualified advice. One mechanical retry cost $2.23020575 and produced qualified ASK PARTHO. Both attempts remain counted. Administrative calls still dominate; batch adjacent required repairs/opinions and defer unrelated infrastructure. Do not run another direction call solely to restate the outcome.
+Administrative/direction model cost is $112.90315675; failed scientific reviews $10.19855925; approved scientific reviews $19.7180505. The first new accounting consultation failed native source-read qualification and cost $1.948139; its original apparent PROCEED is not qualified advice. One mechanical retry cost $2.23020575 and produced qualified ASK PARTHO. Both attempts remain counted. Administrative calls still dominate; batch adjacent required repairs/opinions and defer unrelated infrastructure. Do not run another direction call solely to restate the outcome.
 
 ## Judgment log highlights and recovery
 
@@ -73,3 +81,9 @@ Author timeout 1,800 seconds is installed in the Colab continuation only; other 
 C: last measured 17.88 GiB free; WSL about 906 GiB; server about 119 GiB. Warn below 15 GiB and stop below 8 GiB before large work. Prior evidence migration is complete and hash-verified; never replay cleanup. The root data notice remains current.
 
 Withheld from GitHub: all private evidence, review packets, ledgers, native streams, input mappings/membership, contracts with private records, per-patient outputs, weights/caches and raw private branch ancestry. Previously flagged private binding files, including COLAB_FOREIGN_READER_PRIVATE.json, remain excluded. Only scanner-approved code projections and aggregate status/reports are public. No main merge or BACKLOG edit.
+
+Judgment log,11October23:27UTC: chose a bounded follow-up under the existing item6 owner, with preserved acceptance/calls and a preparation-only stop; Claude consulted (REVISE pending concrete implementation). Corrected two synthetic-test assumptions: configured daily cap and private fixture modes; production refusals unchanged. Runtime/admission work remains in the same bundle before review.
+
+Direction log:11October23:02UTC,1round,REVISE; switched from advisory framing to a concrete implementation bundle, with no activation before independent APPROVE.
+
+Checkpoint backup:75private files, including the tested draft and original evidence, verified by hash on the private server. C:17.94GiB free; server118.896GiB before and118.894GiB after backup. No local files removed.
