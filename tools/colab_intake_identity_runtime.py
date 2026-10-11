@@ -11,7 +11,7 @@ import sys
 
 CHANGE = 'review-continuation-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'native-authority-context-repair-20261011'
+REVIEW_CHANGE = 'native-authority-reader-recovery-20261011'
 REVIEW_SCOPE = 'docs/NATIVE_REVIEW_COLAB_TURN_SCOPE.md'
 READER_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-network-continuation-20261011')
 NETWORK_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-intake-source-alignment-20261011')
