@@ -178,3 +178,44 @@ def test_reviewer4_command_requires_ordinary_admission_and_holds_after(hooked):
     with pytest.raises(ValueError):h.reader.review_command(h.driver,work,'run_spec_review',['reviewer','--max-turns','999'],{},'old')
     state['phase']='COMMIT_SPEC';x.local.execute('UPDATE manual_state SET payload=?',(json.dumps(state),))
     with pytest.raises(ValueError,match='HOLD_AFTER_SCIENTIFIC_REVIEW'):h.driver.advance()
+
+@pytest.fixture
+def transport_rearm(ledgers,monkeypatch):
+    import subprocess
+    x=ledgers;f=x.f;driver=NS(state=x.lane,store=NS(db=x.local,batch=NS(db=x.batch)),artifact=lambda *args:None)
+    terminal=NS(qualify=lambda row:None);m.activate(driver,f,'a'*64,terminal)
+    work=Path(f['config']['workspace_root'])/'run_spec_author-3';work.mkdir(parents=True,mode=0o700)
+    probe=work.parent/'.transport-checks'/'failed';probe.mkdir(parents=True,mode=0o700)
+    for path,raw in [(work/'prompt.md',b'original prompt'),(probe/'transport.log',b'ModuleNotFoundError: scout')]:
+        path.write_bytes(raw);path.chmod(0o600)
+    value=json.loads(x.local.execute('SELECT payload FROM manual_state').fetchone()[0]);value.update(phase='BLOCKED',blocked_stage='run_spec_author',reason='ValueError: PRE_ADMISSION_TRANSPORT_REFUSED:'+str(probe))
+    raw=json.dumps(value);x.local.execute('UPDATE manual_state SET payload=?',(raw,))
+    proof={'schema':'colab-author3-unadmitted-transport/v1','model_calls':0,'automatic_retry':False,
+        'rows':f['local_rows'],'unit':'previous-author.service','state_raw':raw,'state_sha256':m.sha(raw.encode()),
+        'workspace':str(work),'probe':str(probe),'files':{str(q):{'bytes':q.stat().st_size,'sha256':m.sha(q.read_bytes())} for root in (work,probe) for q in root.rglob('*') if q.is_file()}}
+    monkeypatch.setattr(m,'transport_checkpoint',lambda:proof)
+    monkeypatch.setattr(subprocess,'check_output',lambda *a,**k:'MainPID=0\nActiveState=inactive\nSubState=dead\nExecMainStatus=0\n')
+    return NS(x=x,driver=driver,terminal=terminal,proof=proof,work=work,probe=probe)
+
+def test_rearm_reuses_only_unadmitted_call_and_preserves_all_files(transport_rearm):
+    t=transport_rearm;x=t.x;originals={n:Path(n).read_bytes() for n in t.proof['files']}
+    result=m.rearm_transport(t.driver,x.f,'a'*64,t.terminal)
+    assert result['status']=='UNADMITTED_AUTHOR3_REARMED_NO_CALL' and result['model_calls']==result['new_allowance']==0
+    assert len(m.live(x.f))==6
+    assert all(Path(n).read_bytes()==raw for n,raw in originals.items())
+    assert (x.lane/m.TRANSPORT_EVENT/'original-state.json').read_text()==t.proof['state_raw']
+    with pytest.raises(ValueError):m.rearm_transport(t.driver,x.f,'a'*64,t.terminal)
+
+@pytest.mark.parametrize('damage',['file-changed','extra-file','native-exists','state-changed','call-admitted','unit-running','grant-changed'])
+def test_rearm_refuses_any_ambiguous_or_changed_preparation(transport_rearm,monkeypatch,damage):
+    import subprocess
+    t=transport_rearm;x=t.x
+    if damage=='file-changed':(t.work/'prompt.md').write_bytes(b'changed')
+    elif damage=='extra-file':(t.work/'unexpected').write_bytes(b'x')
+    elif damage=='native-exists':(t.work/'stage_provenance.jsonl').write_bytes(b'{}')
+    elif damage=='state-changed':x.local.execute("UPDATE manual_state SET payload='{}'")
+    elif damage=='call-admitted':add(x,status='UNCERTAIN')
+    elif damage=='unit-running':monkeypatch.setattr(subprocess,'check_output',lambda *a,**k:'MainPID=42\nActiveState=activating\nSubState=start\nExecMainStatus=0\n')
+    else:x.local.execute("UPDATE events SET payload='{}' WHERE id=?",(m.EVENT,))
+    with pytest.raises(ValueError):m.rearm_transport(t.driver,x.f,'a'*64,t.terminal)
+    assert not (x.lane/m.TRANSPORT_EVENT).exists()

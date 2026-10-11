@@ -83,6 +83,7 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
     previous.connect=prior_connect
     repair=NS(TURN_DOCUMENT=doc.name,TURN_DOCUMENT_SHA=m.sha(raw),install_hook=lambda *args:events.append(('hook',args)))
     monkeypatch.setattr(m,'colab_recovery_review',lambda:'original-recovery-review')
+    monkeypatch.setattr(m,'preserved_drive_approval',lambda:'original-drive-grant')
     if damage=='document':doc.write_bytes(b'changed')
     def load(name,path):
         seen.append((name,path))
@@ -107,7 +108,7 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
         assert ('branch-load','orchestrator.preparation_interleaving',root/'orchestrator/preparation_interleaving.py') in seen
         assert ('branch-load','unchanged',tmp_path/'original.py') in seen
         assert all(module.manual_context is context for module in [orchestrator,analysis_driver,manual_driver])
-        assert events[-1]==('drive-hook',('a'*64,'verify'))
+        assert events[-1]==('drive-hook',('original-drive-grant','verify'))
         assert events[-2]=='terminal-sequence'
         assert events[-3]==('hook',(analysis_driver,{'synthetic':True},'original-recovery-review','advance'))
         assert orchestrator.manual_stage is analysis_driver.manual_stage is manual_driver.manual_stage
@@ -152,6 +153,7 @@ def install_fixture(tmp_path, monkeypatch):
         REVIEW_UNIT=native_unit,CPU_UNIT='research-preserved-native-cpu.service')
     monkeypatch.setattr(m,'preserved_native',lambda:(retained,retained.authority()))
     monkeypatch.setattr(m,'colab_recovery_review',lambda:m.COLAB_RECOVERY_REVIEW)
+    monkeypatch.setattr(m,'preserved_drive_approval',lambda:'original-drive-grant')
     previous_bundle=NS(authority=lambda:{'source_sha':'9e2816b322518f5d5843bd3656b078902818a589',
         'report_sha256':'ff2aea58844c443774bb83b22fe76e846c97c8f54c8eedfa7b2e225327a9e57d'},
         UNIT='research-native-review-admission-20261011.service',NATIVE_UNIT='research-native-review-admission-20261011-native-review.service')
@@ -327,3 +329,19 @@ def test_new_install_refuses_either_previous_continuation_writer(install_fixture
     monkeypatch.setattr(m.subprocess,'check_output',output)
     with pytest.raises(ValueError):m.install(f.source,f.review)
     assert not f.root.exists() and not f.record.exists()
+
+@pytest.mark.parametrize('fault',[None,'source','report','change','refusal'])
+def test_transport_repair_keeps_existing_drive_grant(monkeypatch,fault):
+    approval={'source_sha':'e0394b8b8fd94a2d9feca3ffb88c917aed55936b',
+        'report_sha256':'6d5689352510f3dda16edf084da1901c8121deec88af11a0b204685fe5e0d34d','change_id':'colab-drive-in-place-20261011'}
+    if fault in {'source','report','change'}:approval[{'source':'source_sha','report':'report_sha256','change':'change_id'}[fault]]='wrong'
+    def authority():
+        if fault=='refusal':raise ValueError('old authority refuses')
+        return approval
+    monkeypatch.setattr(m,'load',lambda name,path:NS(authority=authority))
+    if fault:
+        with pytest.raises(ValueError):m.preserved_drive_approval()
+    else:assert m.preserved_drive_approval()==approval['report_sha256']
+
+def test_installer_requires_complete_producer_closure():
+    assert 'scout.py' in m.REQUIRED and 'orchestrator/state_view.py' in m.REQUIRED

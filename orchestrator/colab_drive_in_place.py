@@ -18,6 +18,9 @@ TASK='docs/COLAB_DRIVE_IN_PLACE_TASK.md'
 TASK_SHA='e5a83f043ac8227c9cff6a426a5c514636332917855f31a867df5b90393ba763'
 ROOT=Path(__file__).resolve().parents[1]
 BORROWED={}
+TRANSPORT_DOC='docs/COLAB_AUTHOR3_TRANSPORT_PRIVATE.json'
+TRANSPORT_SHA='0c6a345004fbd74861993db9cc817db49add7f6176488985910d73e37256252b'
+TRANSPORT_EVENT='colab-author3-transport-closure-20261011'
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
@@ -156,8 +159,58 @@ def activate(driver,f,approval,terminal):
     pr.write_bytes(target/'COMPLETE.json',canonical(binding))
     return {'status':'AUTHOR3_READY_NO_CALL','preserved_calls':6,'new_allowance':0,'model_calls':0,'provider_calls':0}
 
+def transport_checkpoint():
+    raw=pr.check(ROOT/TRANSPORT_DOC).read_bytes()
+    require(sha(raw)==TRANSPORT_SHA,'TRANSPORT_CHECKPOINT_CHANGED')
+    value=json.loads(raw)
+    require(value['schema']=='colab-author3-unadmitted-transport/v1' and value['model_calls']==0
+        and value['automatic_retry'] is False,'TRANSPORT_SCOPE')
+    return value
+
+def rearm_transport(driver,f,approval,terminal):
+    """Restore one proven unadmitted preparation; never consume/reset an attempt."""
+    import subprocess
+    proof=transport_checkpoint();store=driver.store
+    require(len(granted(f,approval))==6 and proof['rows']==f['local_rows'],'TRANSPORT_NO_CALL')
+    terminal.qualify(f['global_rows'][-1])
+    state=dict(line.split('=',1) for line in subprocess.check_output(['systemctl','show',proof['unit'],
+        '-p','MainPID','-p','ActiveState','-p','SubState','-p','ExecMainStatus'],text=True,timeout=15).splitlines())
+    require(state=={'MainPID':'0','ActiveState':'inactive','SubState':'dead','ExecMainStatus':'0'},'TRANSPORT_TERMINAL')
+    raw=store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]
+    require(raw==proof['state_raw'] and sha(raw.encode())==proof['state_sha256'],'TRANSPORT_STATE_CHANGED')
+    value=json.loads(raw);work=Path(proof['workspace']);probe=Path(proof['probe'])
+    require(value.get('phase')=='BLOCKED' and value.get('blocked_stage')=='run_spec_author'
+        and value.get('reason')=='ValueError: PRE_ADMISSION_TRANSPORT_REFUSED:'+str(probe)
+        and not value.get('pending') and work==Path(f['config']['workspace_root'])/'run_spec_author-3',
+        'TRANSPORT_EXACT_PREMODEL_REFUSAL')
+    observed={}
+    for root in (work,probe):
+        pr.check_tree(root)
+        for path in root.rglob('*'):
+            if path.is_file():
+                body=pr.check(path).read_bytes();observed[str(path)]={'bytes':len(body),'sha256':sha(body)}
+    require(observed==proof['files'],'TRANSPORT_ORIGINAL_FILES_CHANGED')
+    require(not any((work/n).exists() for n in ('.git','stage_provenance.jsonl','console.log','sent-input.json',
+        'SPEC.proposed.md','notebook.patch.json')),'TRANSPORT_NATIVE_OR_OUTPUT_EXISTS')
+    require(not store.batch.db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone(),'ACTIVE_CALL')
+    target=driver.state/TRANSPORT_EVENT;require(not target.exists() and not target.is_symlink(),'TRANSPORT_REARM_ALREADY_ATTEMPTED')
+    record={'kind':TRANSPORT_EVENT,'checkpoint_sha256':TRANSPORT_SHA,'continuation_review_sha256':approval,
+        'preserved_calls':6,'new_allowance':0,'model_calls':0,'same_next_call':f['next_calls'][0]['id']}
+    pr.mkdir(target);pr.write_bytes(target/'original-state.json',raw.encode());pr.write_bytes(target/'intent.json',canonical(record))
+    value.pop('blocked_stage');value.update(phase='run_spec_author',reason=None);value['interventions'].append(record)
+    store.db.execute('BEGIN IMMEDIATE')
+    try:
+        require(store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]==raw,'TRANSPORT_STATE_RACE')
+        originals(store.db,store.batch.db,f)
+        store.db.execute('INSERT INTO events VALUES(?,?,?)',(TRANSPORT_EVENT,RUN,canonical(record).decode()))
+        store.db.execute('UPDATE manual_state SET payload=? WHERE id=1',(json.dumps(value,sort_keys=True),));store.db.execute('COMMIT')
+    except BaseException:store.db.execute('ROLLBACK');raise
+    pr.write_bytes(target/'COMPLETE.json',canonical(record))
+    return {'status':'UNADMITTED_AUTHOR3_REARMED_NO_CALL','preserved_calls':6,'model_calls':0,'provider_calls':0,'new_allowance':0}
+
+
 def install_hook(module,terminal,pi,reader,approval,action):
-    require(action in {'verify','recover','ready','advance'},'ACTION')
+    require(action in {'verify','recover','ready','advance','rearm'},'ACTION')
     f=frozen();grant(f,approval)
     require(not BORROWED and terminal._CONTINUATION is None and pi._LOCAL_READER is None,'ALREADY_CONNECTED')
     terminal._CONTINUATION=lambda terminal_f:terminal_history(f,terminal_f)
@@ -230,6 +283,7 @@ def install_hook(module,terminal,pi,reader,approval,action):
             with lock(self.state/'one-run.lock'),lock(self.state/'driver.lock'):
                 self.guard();live(f);terminal.qualify(f['global_rows'][-1])
                 if action=='recover':return activate(self,f,approval,terminal)
+                if action=='rearm':return rearm_transport(self,f,approval,terminal)
                 if action=='ready':granted(f,approval)
                 return {'status':'VERIFIED_HELD' if action=='verify' else 'READY_DRIVE_REVISION','model_calls':0,'provider_calls':0}
     module.AnalysisDriver=DriveRevision
