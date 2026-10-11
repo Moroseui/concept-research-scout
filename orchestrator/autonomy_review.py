@@ -167,9 +167,17 @@ def prompt_for(manifest):
     if version not in (1, 2, 3, 4, 5, 6):
         raise ValueError('REVIEW_PROMPT_VERSION_UNSUPPORTED')
     template = {1: PROMPT_V1, 2: PROMPT, 3: PROMPT_V3, 4: PROMPT_V4, 5: PROMPT_V5, 6: PROMPT_V6}[version]
-    return template.format(source_sha=manifest['source_sha'],
+    result = template.format(source_sha=manifest['source_sha'],
                            runtime_sha256=manifest['runtime_sha256'],
                            packet_sha256=sha(canonical(manifest)))
+    from orchestrator import administrative_family as af
+    assignment=af.role(manifest)
+    if assignment:
+        result+='\nFrozen administrative assignment: '+json.dumps(assignment,sort_keys=True)+'\n'
+        if af.family(manifest)=='codex':
+            result+='Use only evidence MCP tools. Read authenticated files with evidence_read using offset and limit (maximum2000 characters); follow next_offset. No shell, editing, web or delegation. Requested model identity is not observed identity.\n'
+        if af.qualification(manifest):result+='This is a synthetic protocol qualification only. It cannot approve, release or install implementation work.\n'
+    return result
 
 
 def sha(raw):
@@ -233,13 +241,16 @@ def round_authority():
 
 
 def prepare(repo, source_sha, runtime_file, evidence, source_files, destination,
-            brief, *, change_id, round_number=1, predecessor=None, prompt_version=6):
+            brief, *, change_id, round_number=1, predecessor=None, prompt_version=6, role_config=None):
     """Snapshot named source from Git; retain original evidence bytes and bindings.
 
     Source selection is explicit in the manifest. Omitted files are not claimed
     as reviewed. The caller supplies an existing scoped evidence folder, not a
     model-generated summary of unavailable originals.
     """
+    from orchestrator import administrative_family as af
+    if role_config is None:raise ValueError('NEW_REQUEST_EXPLICIT_ROLE_REQUIRED')
+    frozen_role=af.freeze(role_config)
     repo, evidence, destination = map(Path, (repo, evidence, destination))
     if not re.fullmatch(r'[0-9a-f]{40}', source_sha):
         raise ValueError('FULL_SOURCE_SHA_REQUIRED')
@@ -302,6 +313,9 @@ def prepare(repo, source_sha, runtime_file, evidence, source_files, destination,
                 'predecessor': prior_binding, 'source_files': source_rows,
                 'scope': 'only the listed source files and affected connections accessible here',
                 'files': {k: sha(v) for k, v in sorted(bodies.items())}}
+    if role_config is not None:
+        from orchestrator import administrative_family as af
+        manifest[af.FIELD]=frozen_role
     if round_number > 1:
         if prior_binding.get('kind') == 'authorized_manifest_reader_recovery':
             verify_manifest_recovery_scope(manifest, prior_manifest)
@@ -329,6 +343,8 @@ def verify_packet(folder):
     folder = Path(folder)
     raw = regular(folder/'manifest.json').read_bytes()
     m = json.loads(raw)
+    from orchestrator import administrative_family as af
+    af.role(m)
     if m.get('brief_policy') == 1:
         brief = regular(folder/'BRIEF.md').read_text()
         if short_brief(brief) != brief:
@@ -385,14 +401,25 @@ def readonly_command(workspace, home, packet, *, mode='probe', inspection=None):
         if config!={'schema':'review-submission/v1','kind':'administrative','bindings':rs.administrative_bindings(manifest)}:
             raise ValueError('SUBMISSION_PACKET_BINDING')
         submission=rs.mcp_config(sha(regular(Path(workspace)/scientific_search.MANIFEST).read_bytes()),pins)
-    args = manual_isolation.command(workspace, home, 'claude', claude_argv(submission), mode=mode)
+    from orchestrator import administrative_family as af
+    family=af.family(manifest)
+    if family=='codex':
+        from orchestrator import administrative_openai
+        if submission is None:raise ValueError('OPENAI_ADMIN_SUBMISSION_REQUIRED')
+        native=administrative_openai.command(sha(regular(Path(workspace)/scientific_search.MANIFEST).read_bytes()),pins)
+    else:native=claude_argv(submission)
+    args = manual_isolation.command(workspace, home, family, native, mode=mode)
     index = args.index('--remount-ro')
     args[index:index] = ['--ro-bind', str(Path(mount).resolve()), '/workspace/review']
     return args
 
 
-def extract_result(console, manifest, exit_code, submission_raw=None):
+def extract_result(console, manifest, exit_code, submission_raw=None, inspection_binding=None):
     """Return native final-result text unedited, with observed identity/usage."""
+    from orchestrator import administrative_family as af
+    if af.family(manifest)=='codex':
+        from orchestrator import administrative_openai
+        return administrative_openai.extract(console,manifest,exit_code,submission_raw,inspection_binding)
     if exit_code != 0:
         raise ValueError('REVIEW_INCOMPLETE_NO_RETRY')
     events = [json.loads(line) for line in console.splitlines() if line.strip()]
@@ -634,10 +661,12 @@ def verify_completion_scope(manifest, original):
         raise ValueError('TURN_COMPLETION_ORIGINAL_EVIDENCE_CHANGED')
 
 
-def verify_result(folder):
+def verify_result(folder, *, allow_qualification=False):
     folder = Path(folder)
     receipt = json.loads(regular(folder/'receipt.json').read_text())
     manifest = json.loads(regular(folder/'packet-manifest.json').read_text())
+    from orchestrator import administrative_family as af
+    if af.qualification(manifest) and not allow_qualification:raise ValueError('PROTOCOL_QUALIFICATION_NOT_IMPLEMENTATION_APPROVAL')
     console = regular(folder/'native-stream.jsonl').read_bytes()
     if sha(console) != receipt['native_stream_sha256']:
         raise ValueError('NATIVE_STREAM_CHANGED')
@@ -647,9 +676,15 @@ def verify_result(folder):
         if sha(submission_raw)!=receipt.get('submission_sha256'):raise ValueError('SUBMISSION_RECORD_CHANGED')
         prose=regular(folder/'final-prose.txt').read_bytes()
         if sha(prose)!=receipt.get('final_prose_sha256'):raise ValueError('FINAL_PROSE_CHANGED')
-        terminal=[json.loads(line) for line in console.splitlines() if line.strip() and json.loads(line).get('type')=='result']
-        if len(terminal)!=1 or terminal[0].get('result','').encode()!=prose:raise ValueError('FINAL_PROSE_NATIVE_MISMATCH')
-    result = extract_result(console.decode(), manifest, receipt['exit_code'],submission_raw)
+        if af.family(manifest)=='codex':
+            from orchestrator import administrative_openai
+            native_prose=administrative_openai.final_prose(administrative_openai.events(console.decode()))
+            if native_prose.encode()!=prose:raise ValueError('FINAL_PROSE_NATIVE_MISMATCH')
+        else:
+            terminal=[json.loads(line) for line in console.splitlines() if line.strip() and json.loads(line).get('type')=='result']
+            if len(terminal)!=1 or terminal[0].get('result','').encode()!=prose:raise ValueError('FINAL_PROSE_NATIVE_MISMATCH')
+    result = extract_result(console.decode(), manifest, receipt['exit_code'],submission_raw,
+        json.loads(regular(folder/'inspection-binding.json').read_bytes()) if af.family(manifest)=='codex' else None)
     report = regular(folder/'report.md').read_bytes()
     if report != result['report'].encode() or sha(report) != receipt['report_sha256']:
         raise ValueError('GENUINE_REPORT_CHANGED')
@@ -658,6 +693,9 @@ def verify_result(folder):
             raise ValueError('REVIEW_RECEIPT_BINDING_MISMATCH')
     if receipt['verdict'] != result['verdict']:
         raise ValueError('REVIEW_VERDICT_CHANGED')
+    if af.family(manifest)=='codex':
+        for key,value in result.items():
+            if key!='report' and receipt.get(key)!=value:raise ValueError('ROLE_NATIVE_RECEIPT_CHANGED')
     return receipt
 
 

@@ -176,7 +176,10 @@ def prepare_administrative(root,manifest,inspection):
         name='review/'+str(path.relative_to(inspection))
         rows.append({'path':name,'id':name,'sha256':sha(raw),'bytes':len(raw)})
     if len(rows)>search.MAX_FILES or sum(x['bytes'] for x in rows)>search.MAX_BYTES:raise ValueError('SEARCH_INVENTORY_BOUND')
-    pr.write_bytes(root/search.MANIFEST,json.dumps({'schema':'scientific-search/v1','files':rows},sort_keys=True).encode())
+    from orchestrator import administrative_family
+    search_manifest={'schema':'scientific-search/v1','files':rows}
+    if administrative_family.family(manifest)=='codex':search_manifest['administrative_reader']=True
+    pr.write_bytes(root/search.MANIFEST,json.dumps(search_manifest,sort_keys=True).encode())
     pr.write_bytes(root/search.SERVER,Path(search.__file__).read_bytes())
     return prepare(root,'administrative',administrative_bindings(manifest))
 

@@ -1,0 +1,11 @@
+{
+  "existing_author_runtime": null,
+  "implementation_families": [
+    "openai"
+  ],
+  "operator_family": "openai",
+  "purpose": "implementation",
+  "qualification": null,
+  "reviewer_family": "anthropic",
+  "schema": "administrative-family-config/v1"
+}

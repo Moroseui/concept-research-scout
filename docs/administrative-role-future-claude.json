@@ -1,0 +1,14 @@
+{
+  "existing_author_runtime": {
+    "path": "/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json",
+    "sha256": "dbd849b9267ece5ff231ca7d45710d1bdb24e9294caa8f2e0d694e7394dd595d"
+  },
+  "implementation_families": [
+    "anthropic"
+  ],
+  "operator_family": "anthropic",
+  "purpose": "implementation",
+  "qualification": null,
+  "reviewer_family": "openai",
+  "schema": "administrative-family-config/v1"
+}
