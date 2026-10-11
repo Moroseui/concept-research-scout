@@ -1,12 +1,20 @@
 # Operator handover
 
-Updated 11 October 2026, 21:33 UTC. Codex/OpenAI remains operator. No swap or pause. Action needed from Partho: none.
+Updated 11 October 2026, 22:03 UTC. Codex/OpenAI remains operator. No swap or pause. Action needed from Partho: none.
 
 ## Goal and rules
 
 Understand infarct prediction from admission CT and make the research system practical for humans. Scientific authors own code and conclusions; the other model family reviews. The operator owns infrastructure, venues, sequencing and accounting. Attribute gains to placement, amount, size, region and fragmentation; dissect unexplained gains.
 
 Use engineering judgment and proportionate tests. Consult Claude for uncertainty, accounting, safeguards, confinement, privacy, recurrent failures and large changes; batch necessary reviews. Ask Partho only for money or a required Colab action. Never access locked/reserve patient payloads, change credentials, publish private patient material, merge main or edit BACKLOG. Preserve all attempts, charges and reservations. Review before installation.
+
+## Latest state (takes precedence over historical details below)
+
+Author 3 completed normally in 1,418 seconds; the controller-applied in-place notebook passed its isolated synthetic gate. Scientific review 4 is currently running as the eighth original Colab call. Preserve and reconcile this exact call; do not relaunch it. Author notebook hash: ec100c518196bdfae41d4510a2b19e20c906fa798ebcdee41aac4152eb6d93d6. After APPROVE, finish the metadata/runtime package and deliver exact A1_repeat fold-0 smoke instructions. No final interpretation gate.
+
+All 893 required files have existing Drive mappings: 891 frozen payload directory entries match expected sizes, and both baseline metadata hashes match. No payload hash check has yet run in Colab. No missing upload or copy is justified from current evidence. Preserve the stopped laptop copy. Runtime must verify every used hash; no 4D CTP. Actual preprocessing and training evidence comes from the smoke.
+
+Reader698cca9 is installed after genuine APPROVE/PROCEED. All one-use rearms are consumed. Daily35/50 calls (4 authors,4 scientific reviewers,22 administrative,5 direction); current review cost pending. Only this scientific review is active; no GPU or input transfer. Idea2 not started; timing parked. Private handoff names the exact service/transition. No swap point.
 
 ## Workstreams and next steps
 
