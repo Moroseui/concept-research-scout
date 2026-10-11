@@ -1,14 +1,34 @@
 # Research status
 
 - Item 6 and saved-results synthesis remain accepted; no new scientific result has arrived.
-- The private meeting brief now packages the author's exact accepted case-review proposal with production responsibilities; it is hash-verified on the server. No patients selected or images opened.
-- Claude resolved the inventory-size concern but rejected the first advisory packet over invocation authority and evidence labels. Both repair installations remain held.
-- A second bounded discussion is running through the unchanged generic review entry. Its first start refused on connectivity before any model reservation; one reconciled retry passed normal admission.
-- Last compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Reported administrative model cost is $30.67, plus the running discussion; no new compute reservation.
-- Next expected response: Claude's direction in roughly 5-15 minutes. Colab/timing result estimates remain uncertain. Meeting renderer preparation needs an author/review cycle, provisionally 2-4 hours after its lane is ready. See the [plan](13B_EXECUTION_PLAN.md).
-- Action needed: none. Today 13/50 calls: 2 authors, 8 implementation reviews and 3 direction calls/discussions (one running), 0 scientific reviewers. Cleanup complete; C: about 19.3 GiB free. No swap point.
+- The private meeting brief now packages the author's exact accepted case-review proposal and production responsibilities; it is hash-verified on the server. No patients selected or images opened.
+- Claude and the operator reached agreement after two discussion rounds: prepare one fresh implementation review. This is not permission to install or run either repair.
+- The fresh candidate is prepared with 281 focused tests passing and one consistent source/baseline for its diff, changed-file list and test results. No model call or compute job is running.
+- Last compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Reported administrative model cost today is $32.81; no new compute reservation.
+- Next: independent implementation review, provisionally 30-60 minutes including packet preparation. Colab/timing result ETAs remain uncertain until it clears. Private renderer preparation needs an author/review cycle, provisionally 2-4 hours once admitted. See the [plan](13B_EXECUTION_PLAN.md).
+- Action needed: none. Today 13/50 calls: 2 authors, 8 implementation reviews and 3 direction calls/discussions, 0 scientific reviewers. Cleanup complete; C: about 19.3 GiB free. No swap point.
 
-## Current state - October 11, 11:28 UTC
+## Current state - October 11, 11:35 UTC
+
+Second advisory discussion `ba236968e79ecf30e992daffaf202aa34bc7deaff6d6758abf78b215d9a87b67` is COMPLETE with genuine APPROVE, empty findings, report `b8a3fbb05b2c3b5ac6abedb7350914c969f2d43cc3f0b498d4176f3437f85180`. Its $2.137019 native cost brings the two discussion rounds to $3.8164845 and today's reported administrative total to $32.80530925. Observed terminal at 11:31:02 UTC, inactive/MainPID0. No model or compute launch remains unreconciled from this turn.
+
+Agreement after two moving rounds: the first resolved inventory inspection; the second resolved the advisory-invocation and evidence-label concerns. Use the unchanged generic administrative entry, keep current changes separate from ranged direction history, and prepare the narrow actual engineering review afresh. The reviewer agreed this is the shortest safe next step. This is permission to prepare only; the actual repairs still require genuine independent implementation APPROVE. Both prior REJECT records and the earlier unqualified failure remain preserved, counted and authoritative for their original requests.
+
+Fresh candidate `51befa8792eb713c4386283150c5b1695c568591`, branch astra/colab-workspace-native-implementation-20261011, binds only the proposed repair consumers to a new implementation scope. Scientific code, inputs, image, resources, safeguards, accounting amounts and caps remain unchanged. The actual delta is consistently measured from approved c4280f2723e0adcf3c7cee51a435fc775528b393. Its current diff, changed files, test command/output and SHA bindings are prepared together; 281 focused repair tests pass. This is not a repository-wide test claim. The whole-component packet remains to be assembled coherently and independently reviewed; no registration, model call or installation for this candidate yet.
+
+Colab remains partial on the unchanged preparation-workspace check. Timing's approved entry-point runtime remains installed/verified, but its consumed CPU invocation refused before reservation/provider. Preserve original units, workspaces, records and charges. Fresh implementation scope is exact workspace preservation/verification and exact historical terminal qualification for a separate native successor. No advisory verdict can satisfy its new installation consumers.
+
+The second discussion's first network refusal occurred before any reservation; original journal and network record are preserved. Unchanged connectivity passed; a single same-packet retry then counted one model call normally. A local retry command parse error occurred before execution and is also retained. No refusal was weakened, no original record erased, and no outcome inferred from an observation timeout.
+
+Workstream C: exact accepted scientific proposal is now packaged privately with production logistics and stored/hash-verified on the server. No patient/clinical/image material was accessed. The author and reviewer still own executable selection, rendering and interpretation. The private brief, provenance and archive pointers are excluded from GitHub. Workstream B retains the accepted synthesis and awaits new eligible results; provisionally allow 1-2 hours for author/reviewer interpretation after new evidence arrives. Rotation and author-sandbox installation remain held; prioritize the next scientific result.
+
+Calls by purpose: 2 scientific authors corrected Colab/timing; 8 implementation reviews covered continuations, intake/disk, alignment, transport recovery, connection repair, entry-point/network continuation, preservation/admission and inspection recovery. The 3 direction calls are the original failed zero-cost check and these two completed discussion rounds. Original ledger categories remain unchanged; author dollar totals unavailable and not invented. All 13 count against 50. Compute figures and every cap/gate are unchanged.
+
+Judgment11:31UTC: agree with Claude's narrowed remedy; preserve rejections, remove candidate-gate rebinding from advisory invocation, distinguish current diff from requested raw history, and prepare actual repair for independent judgment. Outcome: agreement in2rounds, no new subsystem, no installation waiver. Judgment11:35UTC: freeze one source/baseline and281focused passing tests for the real candidate; consult/implementation approval still required before use. Meeting logistics only reuses the exact author proposal; no scientific authorship by the operator.
+
+Publication: both advisory and fresh implementation candidates are safe working-branch projections, not installed-release merges. Private evidence, ledgers, packets, native streams, all *_PRIVATE* files, meeting brief/provenance, patient rows/images/masks/caches remain withheld. The fresh candidate specifically excludes docs/COLAB_NETWORK_WORKSPACE_PRIVATE.json. Last verified backup before this update5372f6b1997ace4203e5936d9919c9921e6b4ce2. Main/BACKLOG unchanged.
+
+## Historical state - October 11, 11:28 UTC (superseded)
 
 First advisory discussion `3bf088b45cc650853a2f11ae87228449050b2ba26433b34aef4de7d06838e8ac` is COMPLETE with genuine REJECT, source `5ac53716ec0cbd08a3b8316caeeb9a388237d070`, report `03b6afa7e7db072490e9c2c987eebd6571652bee78f41ca20fbfa44e4141acae`, cost $1.6794655. It explicitly resolved full-inventory inspection. It retained objections to the candidate invocation scope and confusing current-versus-direction-history labels. The operator accepted those process concerns and changed the next discussion accordingly; no implementation was approved or installed.
 
