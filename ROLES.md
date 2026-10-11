@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Item6 and synthesis accepted; native synthetic integration passed. One administrative review of the import-context repair is running; preceding repair approved but installation stopped before release writes. No scientific or compute job running. Opposite-family administrative route remains uninstalled. Operator owns infrastructure and handover; system author/reviewer own science.
+Current operator: **Codex, OpenAI family**. No rotation. The reviewed continuation repair is installed and both actual service checks passed. Colab scientific review 3 is running; native timing review 16 follows reconciliation. Item 6 and synthesis are accepted; no GPU job is active. Opposite-family administrative route remains uninstalled. Operator owns infrastructure and handover; system author/reviewer own science.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|

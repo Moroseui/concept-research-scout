@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Current checkpoint (October11,14:18UTC): synthetic timing integration passed. Preceding repair received APPROVE, but installation stopped before release writes on an import-context mismatch. Candidate2e942f8 passed240focused tests and is in one combined implementation/direction review. No CPU rerun; scientific acceptance precedes instructions/GPU timing.
+Current checkpoint (October 11, 14:39 UTC): source d4e2762 is independently approved and installed; both service verifiers passed. Colab scientific review 3 is running. Native reviewer 16 follows reconciliation using the existing synthetic PASS. No CPU rerun; scientific acceptance precedes instructions and GPU timing.
 
 Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
 
@@ -35,4 +35,4 @@ Modal stage-1 commitment: **$115.516623/$150**; timing diagnostic: **$5.405445/$
 
 Action needed from Partho now: none. Colab author2 and timing author24 are complete. Installed baseline corrections passed actual verification; the subsequent synthetic CPU integration PASSED with generated fixtures and unchanged package. Its $1.118950 reservation remains counted pending confirmed actual billing. Both Colab scientific reviews exhausted30turns without submitting; preserve their charges and prose without inventing verdicts. Native reviewer16 activation failed before a model call at an older author-only guard.
 
-Candidate2e942f8 is in a combined Claude implementation/safeguard/direction review. The original exact Colab review3 exception remains preserved. Actual installation checks then normal scientific admission are required. Next scientific decision provisionally45-90minutes if installation clears; GPU-result timing depends on acceptance. Analysis follows new evidence in1-2hours; meeting synthetic package2-4hours after lane admission. Unrelated sandbox/rotation work remains deferred.
+Installed source d4e2762 passed both actual service checks. The bounded Colab review 3 is running through normal admission with every original call counted. Expected verdict provisionally 10?20 minutes; first instructions depend on scientific acceptance. Timing reviewer 16 then judges the preserved native PASS before GPU diagnostic admission. Analysis follows new evidence in 1?2 hours; meeting synthetic package 2?4 hours after lane admission. Unrelated sandbox/rotation work remains deferred.
