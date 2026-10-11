@@ -1,14 +1,30 @@
 # Research status
 
-- Item 6 and the saved-results synthesis are accepted; all 352 rounded Sprint 14 values match on the same saved fits and cohort.
-- Colab author 2 and timing author 24 passed synthetic tests. Scientific release and the timing diagnostic result remain pending.
-- No model call or compute launch is active in the latest reconciliation. Three failed Claude calls are preserved; the review connection still needs repair or confirmed recovery.
-- The timing draft passes 130 focused tests and the actual saved-output checks. Cleanup is complete: C: has 19.4 GiB free; the server has 122.6 GiB.
-- Identified compute spend is $24.40; stage-1 actual plus open reservations is $114.40 of $150. Completed administrative calls cost $12.99; the failed direction call cost $0 and remains counted.
-- Next: a bounded review-transport repair, batched with the Colab and timing drafts. No reliable Colab release time yet; timing is roughly 2-3 hours after its remaining gates. See the [plan](13B_EXECUTION_PLAN.md).
-- Action needed: none. Today: 7/50 calls (2 authors, 4 administrative reviews, 1 direction check). Latest answered direction: PROCEED; the newest check gave no answer.
+- Item 6 and the saved-results synthesis are accepted; 352 rounded Sprint 14 values match on the same saved fits and cohort.
+- Claude approved the combined repair and recommended PROCEED. The Colab connection is installed and verified; its notebook still needs scientific review.
+- Colab stopped at a network preflight before any model call. Timing installation stopped at an entry-point check; no native or GPU run launched.
+- The timing correction passes 196 tests. Next is one combined review with the bounded Colab continuation; both original outcomes stay preserved.
+- Identified compute spend remains $24.40; stage-1 actual plus open reservations is $114.40/$150. Completed administrative calls total $17.00; no new compute reservation was added.
+- Colab handoff: allow about an hour if recovery and scientific review pass. Timing result: roughly 2-3 hours after its remaining gates. Network failures make both estimates conditional. See the [plan](13B_EXECUTION_PLAN.md).
+- Action needed: none. Today 8/50 calls: 2 authors, 5 administrative reviews, 1 direction check, 0 scientific reviewers. Latest direction: PROCEED, one bundled round.
 
-## Current state and next actions ? October11
+## Current state - after the combined approval
+
+Read the [repair and installation report](reports/colab-timing-connection-repair-20261011.md). Request `e75d9b507c71f3aad4afc4431c33dbbf3c5a24c28ad659f77f0cf0f2f8d256c6` is COMPLETE with genuine APPROVE, report `c64df8e27dc86e96a15a4630b0aec5812ec44ddb32124a09dfda0909d7c584ca`, source `4a05c64af90af15078e43e31abc9bd13d063160e`. The original 194 tests and complete packet passed the unchanged reader/search bounds. The review cost $4.013238; total completed administrative spend is $16.999765. The three original failures remain counted. No request is reclassified or replayed.
+
+Colab installation and actual connection verification passed. The preserved author-2 output remains at the same scientific review stage. The consumed host invocation then returned `NETWORK_PREFLIGHT_FAILED_NO_CHARGE:claude`; both local author calls remain COMPLETE, no reviewer was admitted, and the phase is unchanged. A fresh call to the original network checker passed without modifying it. Do not delete the prior start intent or restart that invocation. Prepare one explicitly bounded continuation with original terminal, identity, host-proof and budget checks, then obtain independent approval before use.
+
+Timing preflight passed, but the actual installation postcheck refused `EXECUTED_SOURCE`. The added helper became FILES[0], revealing an unintended positional dependency in the execution-path check. The installed files/units/state directory and failure receipts are preserved; no COMPLETE marker exists, and they must not be launched or overwritten. The successor draft `4e8fd559ea1fb5c7b6e86ea35c0732beaf71f26a` checks the literal runtime name and uses new installation/operation paths, while retaining every byte/member check. Its 196 tests include valid helper-first ordering and refusal of the wrong executable. It is not yet reviewed or installed; the Colab continuation is not yet authored.
+
+Calls by purpose: 2 scientific authors (Colab and timing corrections); 0 scientific reviewers; 5 administrative reviews (combined continuations, intake/disk guard, failed alignment, failed recovery, approved combined connection repair); 1 standalone direction check (failed, $0). The latest answered direction is the approved combined review at 09:27 UTC: one round, PROCEED; agreed, no added subsystem. The scientific client uses a positional command path that the approved keyword-only transport option did not change; do not claim otherwise.
+
+Judgment log: use one bounded transport repair through original admission; qualify the genuine result before installing; preserve the zero-call network refusal and partial timing installation; fix the exact execution-path dependency without weakening it; batch its next review with the Colab continuation. Claude approved the first bundle and PROCEED direction; the successor still needs independent review. Staging-only file modes and branch naming were corrected to meet existing installer checks after exact Git content verification; source bytes and guards were unchanged.
+
+Reconciliation at 09:53 UTC confirmed no RUNNING model and unchanged asset/compute table hashes. Five retention timers remain enabled; the benchmark retention service was active and was not duplicated. An SSH observation timeout was resolved by another read-only observation, not a replay.
+
+Publication: the approved, verified Colab connection projection is merged into remote-server. The timing partial-install source and unreviewed successor are separate working-branch backups. All private scopes, snapshots, receipts, ledgers, packets, native streams and per-patient material remain excluded. No main merge, credential change, patient access or new compute occurred. Cleanup remains complete; C: about 19.4 GiB free, server about 122.4 GiB. No setup action or larger disk is needed.
+
+## Earlier October 11 state before the combined approval
 
 The [intake repair](reports/colab-intake-repair-20261011.md) is independently approved and installed at source9f28966e8228be06d76a99959d60a9aecf06f30b. Its one-use preservation is COMPLETE and must never be replayed. The following scientific advance refused before preparation or model admission because an unused copied search module differed from the actual unchanged installed module. That failed invocation made no reviewer call, new workspace or charge.
 
