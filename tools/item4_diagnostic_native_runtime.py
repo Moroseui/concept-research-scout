@@ -5,7 +5,7 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
 CHANGE='timing-author24-admission-repair-20261011'
-REVIEW_CHANGE='colab-workspace-native-inspection-recovery-20261011'
+REVIEW_CHANGE='colab-workspace-native-implementation-20261011'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
