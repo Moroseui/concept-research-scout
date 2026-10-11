@@ -1,14 +1,31 @@
 # Research status
 
 - Item 6 and saved-results synthesis are accepted; 352 rounded Sprint 14 values match on the same saved fits/cohort, not independent retraining.
-- The timing release is installed and verified. Its CPU start stopped before reservation or provider launch because one historical terminal proof was outside native admission scope.
-- Colab remains held: its unchanged installation check found 242 preparation files left by the earlier zero-charge network refusal. The notebook and both author calls are preserved.
-- A linked mechanical recovery review is running: the prior review failed its mandatory manifest-read qualification. Both engineering fixes remain held; 281 tests pass.
-- Last reconciled compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Reported administrative model costs total $24.87, plus the running review when billed; no new compute reservation.
-- Next: reviewed Colab instructions in roughly 1-2 hours if recovery and scientific review pass; timing result roughly 2-3 hours after its remaining gates. The [plan](13B_EXECUTION_PLAN.md) stays current.
-- Action needed: none. Today 11/50 calls: 2 authors, 8 administrative reviews (one running), 1 direction check, 0 scientific reviewers. Latest qualified direction: PROCEED; the failed review also favored PROCEED without qualifying. The current review judges direction again.
+- Cleanup is complete: C: has about 19.4 GiB free. Historical private evidence was hash-verified on the server before local removal.
+- The last repair review has finished with a genuine REJECT. No replacement review or compute job has been started.
+- Colab and timing continuations are held: Claude found conflicting historical/current evidence, an oversized inventory and unresolved authorization concerns. Neither rejected repair is installed.
+- Last reconciled compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Reported administrative model costs today total $28.99; no new compute reservation.
+- Next: resolve the review-packet findings and discuss authority through the existing Claude route before any installation. Earlier 1-2 hour Colab and 2-3 hour timing estimates are withdrawn; a reliable estimate needs that resolution. See the [plan](13B_EXECUTION_PLAN.md).
+- Action needed: none. Today 11/50 calls: 2 authors, 8 administrative reviews, 1 failed direction check, 0 scientific reviewers. No named model call remains running; no swap point.
 
-## Current state - October 11, 10:58 UTC
+## Current state - October 11, 11:05 UTC
+
+Request `b4a70b23f98f9580abd3ff7e667dc4c24f0f3a628697acb47e1470b762d61463` is COMPLETE with a qualified **REJECT**, uncertain=false, source `2bf4f8f00dc027cc8d09317a98dc426cb3670645`, report `13a29b4465cc1ebd1831696e672563995220b5529cc76e7dc3f05e3ac74a1173`. Its native cost is $4.11864375, included in today's reported administrative total $28.98882475. Service inactive, MainPID 0. This is a genuine decision, not a mechanical failure; no automatic retry or installation is allowed on its strength.
+
+Findings: PROV-1 disputes the claimed successor authorization; INSPECT-1 requires an inspectable complete inventory; EVID-1 identifies old source/test/diff snapshots mixed into the current evidence. The operator accepts the evidence-organization defect and full-inventory concern. The operator's position on authority is that the standing rule permits an independently judged new review while retaining the failed original, not inheriting its verdict. That disagreement is unresolved and needs the existing bounded Claude discussion; it is not grounds to override the rejection. No discussion round has yet followed this verdict.
+
+Both repairs remain held. The approved c428 timing release remains installed and verified, but its consumed CPU start refused before reservation/provider creation. The Colab c428 installation remains partial, without COMPLETE, on its unchanged preparation-workspace check. Preserve every prior attempt, file, row, reservation and charge. Do not restart consumed units or requests. The original 75e0 review remains failed and unqualified, and its $4.167414 stays counted.
+
+Call purposes: 2 authors corrected Colab and timing; 8 administrative reviews covered combined continuations, intake/disk guard, alignment, transport recovery, connection repair, entry-point/network continuation, preservation/admission, and inspection recovery. The standalone direction call failed at zero reported cost; no scientific reviewer call today. Author native dollar totals are unavailable and are not invented. The latest separately answered direction was PROCEED at 10:17 UTC; the new REJECT now holds the proposed work, and supplies no new PROCEED recommendation.
+
+Judgment 11:05 UTC: accept and preserve genuine REJECT; hold both installations, no mechanical relabeling or extra call; acknowledge mixed-era evidence and withdraw slipped estimates. Claude was consulted and disagreed on authority. Next discussion must use one coherent current evidence set, keep historical records separately labeled, and retain all inspection/refusal requirements. At this reconciliation boundary, no new task is started. Scientific outputs, safeguards, caps and credentials are unchanged.
+
+Cleanup remains complete: server free space was 160.6 GiB before the evidence move and 123.7 GiB after; no larger disk is needed. Disk guard warns below 15 GiB and stops below 8 GiB or unknown capacity. Historical removal processes are complete; do not rerun them. No new setup command is required.
+
+Publication: installed releases remain separate from held draft projections. All evidence folders, ledger copies, review packets, native streams, private authority records, patient rows/images/masks/caches and all *_PRIVATE* files are withheld. Specific exclusions remain listed below. Last verified backup before this update: `944b8bfebbae8570b23044485b677aa1f87dd95d`. No main merge or BACKLOG change.
+
+## Historical state - October 11, 10:58 UTC (superseded)
+
 
 The whole-component review `c9c86f72cebdb90c15468f4137118d454ce8421089495b35af3494fa0fddc016` completed with genuine APPROVE, no findings, source `c4280f2723e0adcf3c7cee51a435fc775528b393`, report `f5118bf6ae3c80cee8bf719adb4059b1f12637208c5a601a6a3fa6b6fab1d0b5`. Cost $3.703002; direction PROCEED, one round. The reviewer inspected the source and recorded evidence; it did not independently run tests or observe the server. Both actual runtime postchecks subsequently passed for timing and its COMPLETE receipt exists.
 

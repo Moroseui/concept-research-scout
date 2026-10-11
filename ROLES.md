@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Item6 and saved-results synthesis are accepted. Colab author2 and timing author24 passed synthetic tests but are not scientifically released. The c428timing release is approved/installed/verified, but its CPU start refused before reservation/provider launch. Colab's partial installation is held on an existing preparation workspace. The combined preservation/admission review failed required manifest-read qualification; its submitted approval is unqualified. One linked mechanical recovery is running with explicit bounded reads and the unchanged guard;281testsPASS. The opposite-family route remains uninstalled and the swap gate is not met. The operator owns engineering, venues and reporting; scientific authorship and conclusions remain with the system author/reviewer.
+Current operator: **Codex / OpenAI**. Rotation is not active. Item 6 and saved-results synthesis are accepted. Colab author2 and timing author24 remain unreleased. The latest repair review is COMPLETE/REJECT with evidence and authority findings; both continuations stay held. No named model call remains running. No installation may use the rejected or earlier unqualified verdict. The opposite-family route remains uninstalled and the swap gate is not met. The operator owns engineering and reporting; scientific authorship and conclusions remain with the system author/reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
