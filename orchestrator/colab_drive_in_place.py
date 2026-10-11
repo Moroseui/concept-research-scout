@@ -21,6 +21,9 @@ BORROWED={}
 TRANSPORT_DOC='docs/COLAB_AUTHOR3_TRANSPORT_PRIVATE.json'
 TRANSPORT_SHA='0c6a345004fbd74861993db9cc817db49add7f6176488985910d73e37256252b'
 TRANSPORT_EVENT='colab-author3-transport-closure-20261011'
+READER_DOC='docs/COLAB_FOREIGN_READER_PRIVATE.json'
+READER_SHA='1eb044deb42267f7d62f3ebe2b7b13a49ff4f2a50fab1f9281dc41f0f0ba65d7'
+READER_EVENT='colab-author3-foreign-reader-20261011'
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
@@ -74,6 +77,60 @@ def ledger_read(path):
             yield db
         finally:db.close()
         require(checkpointed(path)==raw,'LEDGER_CHANGED_DURING_READ')
+
+
+@contextmanager
+def journal_aware_read(path):
+    """Read a verified foreign ledger through SQLite, never ignore its journal.
+
+    Only sequence_ledger_read selects this reader for an authenticated foreign
+    lane. The ordinary unborrowed snapshot refusal stays unchanged.
+    """
+    path=pr.check(Path(path));identity=(path.stat().st_dev,path.stat().st_ino)
+    def sidecars():
+        for suffix in ('-wal','-shm','-journal'):
+            other=path.with_name(path.name+suffix)
+            if other.exists() or other.is_symlink():pr.check(other)
+        require((path.stat().st_dev,path.stat().st_ino)==identity,'FOREIGN_LEDGER_REPLACED')
+    def content_pins():
+        sidecars()
+        return {suffix:sha(pr.check(Path(str(path)+suffix)).read_bytes())
+            for suffix in ('','-wal','-journal') if Path(str(path)+suffix).exists()}
+    before=content_pins()
+    db=sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)
+    db.row_factory=sqlite3.Row
+    try:
+        db.execute('PRAGMA query_only=ON')
+        require(db.execute('PRAGMA query_only').fetchone()[0]==1,'FOREIGN_READ_ONLY')
+        db.execute('BEGIN')
+        require(db.execute('PRAGMA quick_check').fetchone()[0]=='ok','FOREIGN_INTEGRITY')
+        yield db
+        db.rollback()
+        require(content_pins()==before,'FOREIGN_LEDGER_CHANGED_DURING_READ')
+        sidecars()
+    finally:
+        db.rollback();db.close()
+
+
+def sequence_ledger_read(path,f,pi):
+    path=Path(path)
+    if path in {Path(f['lane'])/'jobs.sqlite',Path(f['config']['batch_ledger'])/'jobs.sqlite'}:
+        return ledger_read(path)
+    overlay=pi._ACTIVE
+    require(overlay is not None,'FOREIGN_VERIFIED_SEQUENCE_REQUIRED')
+    overlay.verify();scope=overlay.scope
+    require(scope['source_sha']==f['config']['source'] and scope['ledger']==f['config']['batch_ledger']
+        and scope['lanes']['colab_preparation']['state']==f['lane'],'FOREIGN_SEQUENCE_BINDING')
+    allowed={overlay.path(scope['lanes']['aggregate_analysis']['state'])/'jobs.sqlite',
+        overlay.path(scope['item4_scope']['configuration']['path']).parent/'jobs.sqlite'}
+    require(path in allowed,'FOREIGN_LEDGER_SCOPE')
+    # A quiescent WAL-mode database may need writable sidecar setup for a live
+    # connection. Retain the original verified snapshot when no journal exists.
+    if not any(Path(str(path)+suffix).exists() or Path(str(path)+suffix).is_symlink()
+            for suffix in ('-wal','-shm','-journal')):
+        return ledger_read(path)
+    return journal_aware_read(path)
+
 
 def originals(local,batch,f):
     for db,table,rows in [(local,'manual_calls',f['local_rows']),(batch,'autonomy_calls',f['global_rows'])]:
@@ -209,12 +266,60 @@ def rearm_transport(driver,f,approval,terminal):
     return {'status':'UNADMITTED_AUTHOR3_REARMED_NO_CALL','preserved_calls':6,'model_calls':0,'provider_calls':0,'new_allowance':0}
 
 
+
+def reader_checkpoint():
+    raw=pr.check(ROOT/READER_DOC).read_bytes()
+    require(sha(raw)==READER_SHA,'READER_CHECKPOINT_CHANGED')
+    proof=json.loads(raw)
+    require(proof['schema']=='colab-author3-foreign-reader-recovery/v1' and proof['model_calls']==0
+        and proof['new_allowance']==0,'READER_SCOPE')
+    return proof
+
+
+def rearm_reader(driver,f,approval,terminal):
+    import subprocess
+    proof=reader_checkpoint();store=driver.store
+    require(len(granted(f,approval))==6 and proof['rows']==f['local_rows'],'READER_NO_CALL')
+    terminal.qualify(f['global_rows'][-1])
+    state=dict(line.split('=',1) for line in subprocess.check_output(['systemctl','show',proof['unit'],
+        '-p','MainPID','-p','ActiveState','-p','SubState','-p','ExecMainStatus'],text=True,timeout=15).splitlines())
+    require(state=={'MainPID':'0','ActiveState':'inactive','SubState':'dead','ExecMainStatus':'0'},'READER_TERMINAL')
+    raw=store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]
+    require(raw==proof['state_raw'] and sha(raw.encode())==proof['state_sha256'],'READER_STATE_CHANGED')
+    value=json.loads(raw);work=Path(proof['workspace'])
+    require(value.get('phase')=='BLOCKED' and value.get('blocked_stage')=='run_spec_author'
+        and value.get('reason')=='ValueError: COLAB_DRIVE_IN_PLACE_UNBORROWED_JOURNAL_PRESENT'
+        and not value.get('pending') and work==Path(f['config']['workspace_root'])/'run_spec_author-3','READER_EXACT_PREMODEL_REFUSAL')
+    pr.check_tree(work);observed={}
+    for path in work.rglob('*'):
+        if path.is_file():
+            body=pr.check(path).read_bytes();observed[str(path)]={'bytes':len(body),'sha256':sha(body)}
+    require(observed==proof['files'],'READER_ORIGINAL_FILES_CHANGED')
+    require(not any((work/n).exists() for n in ('.git','stage_provenance.jsonl','console.log','sent-input.json',
+        'SPEC.proposed.md','notebook.patch.json')),'READER_NATIVE_OR_OUTPUT_EXISTS')
+    require(not store.batch.db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone(),'ACTIVE_CALL')
+    target=driver.state/READER_EVENT;require(not target.exists() and not target.is_symlink(),'READER_REARM_ALREADY_ATTEMPTED')
+    record={'kind':READER_EVENT,'checkpoint_sha256':READER_SHA,'continuation_review_sha256':approval,
+        'preserved_calls':6,'new_allowance':0,'model_calls':0,'same_next_call':f['next_calls'][0]['id']}
+    pr.mkdir(target);pr.write_bytes(target/'original-state.json',raw.encode());pr.write_bytes(target/'intent.json',canonical(record))
+    value.pop('blocked_stage');value.update(phase='run_spec_author',reason=None);value['interventions'].append(record)
+    store.db.execute('BEGIN IMMEDIATE')
+    try:
+        require(store.db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]==raw,'READER_STATE_RACE')
+        originals(store.db,store.batch.db,f)
+        store.db.execute('INSERT INTO events VALUES(?,?,?)',(READER_EVENT,RUN,canonical(record).decode()))
+        store.db.execute('UPDATE manual_state SET payload=? WHERE id=1',(json.dumps(value,sort_keys=True),));store.db.execute('COMMIT')
+    except BaseException:store.db.execute('ROLLBACK');raise
+    pr.write_bytes(target/'COMPLETE.json',canonical(record))
+    return {'status':'UNADMITTED_AUTHOR3_READER_REARMED_NO_CALL','preserved_calls':6,'model_calls':0,'provider_calls':0,'new_allowance':0}
+
+
 def install_hook(module,terminal,pi,reader,approval,action):
-    require(action in {'verify','recover','ready','advance','rearm'},'ACTION')
+    require(action in {'verify','recover','ready','advance','rearm','rearm-reader'},'ACTION')
     f=frozen();grant(f,approval)
     require(not BORROWED and terminal._CONTINUATION is None and pi._LOCAL_READER is None,'ALREADY_CONNECTED')
     terminal._CONTINUATION=lambda terminal_f:terminal_history(f,terminal_f)
-    pi._LOCAL_READER=ledger_read;reader._LEDGER_READER=ledger_read
+    pi._LOCAL_READER=lambda path:sequence_ledger_read(path,f,pi);reader._LEDGER_READER=ledger_read
     prior_extra=pi._EXTRA_ATTEMPT
     def extra(scope,run,stage,ident):
         selected=next((r for r in f['next_calls'] if (run,stage,ident)==(RUN,r['stage'],r['id'])),None)
@@ -284,6 +389,7 @@ def install_hook(module,terminal,pi,reader,approval,action):
                 self.guard();live(f);terminal.qualify(f['global_rows'][-1])
                 if action=='recover':return activate(self,f,approval,terminal)
                 if action=='rearm':return rearm_transport(self,f,approval,terminal)
+                if action=='rearm-reader':return rearm_reader(self,f,approval,terminal)
                 if action=='ready':granted(f,approval)
                 return {'status':'VERIFIED_HELD' if action=='verify' else 'READY_DRIVE_REVISION','model_calls':0,'provider_calls':0}
     module.AnalysisDriver=DriveRevision
