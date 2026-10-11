@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 11 October 2026, 13:21 UTC. Current operator: Codex / OpenAI. Action needed from Partho: none. Goal active; no pause or rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md).
+Updated 11 October 2026, 13:26 UTC. Current operator: Codex / OpenAI. Action needed from Partho: none. Goal active; no pause or rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md).
 
 ## Goal and operating direction
 
@@ -12,7 +12,7 @@ Use engineering judgment and proportionate tests; batch reviews. Consult Claude 
 
 The synthetic CPU attempt is terminal VERIFIED / PASS, exit 0, asset READY. It used generated fixtures, blocked network, unchanged package and no patient computation. Original invocation `04009bc9e18b4a21b1f91a7ac6cf6f77`; asset `819d1a7b110514b8105ba428fb75234bf28aad73942be3b7872cecf3c8f65043`; receipt SHA256 `19bfc71e9d3f8800abd276914af150a018e263e3fb0287cb72e6ce9980d1a1a3`. Its $1.118950 reservation stays counted pending confirmed actual billing. Never replay this completed attempt. Colab scientific review2 is terminal FAILED, call `276cec02f1affeed00a13f36635c72c8708a878b8d1f3efc573bc3570e95f430`, at the 30-turn limit without submit_review or a verdict; cost $5.72188325. Its readable patch worked; one raw notebook read exceeded the bound, then paging succeeded. Last prose inspected actual helpers/harness and was still checking patch bindings when the call ended. Preserve all evidence, no automatic retry.
 
-Timing reviewer16 activation also terminated, at the original fixture-audit author-only guard before model admission. Intent remains present; live state exactly equals its preserved original. No reviewer16 row exists. At13:20UTC there were no active research services or model calls. All starts and activation intents are consumed. Do not rerun CPU, Colab review2 or activation.
+Timing reviewer16 activation also terminated, at the original fixture-audit author-only guard before model admission. Intent remains present; live state exactly equals its preserved original. No reviewer16 row exists. A fresh read-only check at 13:26 UTC found no active research services or model calls. All starts and activation intents are consumed. Do not rerun CPU, Colab review2 or activation.
 
 Colab's installed recovery preserved all three prior calls and restored only review 2, with zero new allowance. The consumed start used transition `3350f9ca2b08493767868233375dc7ccd1bf1d167c0cc4cba14999e91a8ad8de`; never reuse it. The first failed review and its $4.476676 charge remain intact.
 
@@ -56,7 +56,7 @@ Private native-review-colab-turn-recovery-20261011/PROPOSED_SCOPE.md describes t
 
 Caps: item 6 $100; item 4 stage 1 $150 including timing diagnostic $25; total $1,275; full-training projection gate $1,200. Coverage arms held. Partho has 1,001 Colab units; no purchase authorized. Reconcile actual costs only for provider-confirmed closed attempts, retaining original reservation and actual amount. Never release open/uncertain reservations.
 
-Last confirmed compute actual $24.39800404. The new $1.118950 reservation brings estimated stage-1 exposure to $115.516623 and diagnostic to $5.405445, based on the previous qualified totals. Actual billing remains pending; release nothing for the open job. Five old uncertain ledger labels retain exact reviewed terminal proofs and are never globally relabeled.
+Last confirmed compute actual $24.39800404. The new $1.118950 reservation brings estimated stage-1 exposure to $115.516623 and diagnostic to $5.405445, based on the previous qualified totals. Actual billing remains pending; retain the reservation for this closed attempt until provider billing is confirmed. Five old uncertain ledger labels retain exact reviewed terminal proofs and are never globally relabeled.
 
 Today 17/50 calls: 2 scientific authors, 2 scientific reviewers (both failed without submission), 10 administrative implementation reviews, 3 direction calls/discussions. Current implementation review cost $6.9980025. Completed administrative total $44.4173375; failed scientific reviews $10.19855925; combined reported Claude cost $54.61589675. Both review costs are counted; author USD totals unavailable. The temporary October 10 daily cap has expired; no past usage reset.
 
@@ -68,6 +68,6 @@ Cleanup complete: 1,917,698 files / 75,608,503,402 bytes removed after server ha
 
 Access by name only: existing server SSH, research service account, OpenAI author login, Claude reviewer login, Modal, Google Drive isles-pilot, GitHub backup. Unlock existing access privately if needed; never create credentials or publish contents, paths, keys or connection endpoints.
 
-Previous verified backup `5352a7e5200718616dac9e28f8181c228a3a364a`. Safe source projection `a29e265276211e850a377b758ddad5abba4d084e` has now been merged locally after both installs passed; scan/push this update and verify the receipt. Private bindings, evidence, ledgers, packets, native streams and all patient material remain excluded, as listed in STATUS.
+Previous verified backup `5352a7e5200718616dac9e28f8181c228a3a364a`. Safe source projection `a29e265276211e850a377b758ddad5abba4d084e` is merged after both installs passed; scan/push this update and verify the receipt. Private bindings, evidence, ledgers, packets, native streams and all patient material remain excluded, as listed in STATUS.
 
 No swap: the first Colab instructions, timing result and installed opposite-family route are missing; both first scientific decisions remain pending, but no job is active. Declare Swap point reached only when all six operator conditions are verified, then finish the current step, update/push handover and wait. No earlier pause is requested.
