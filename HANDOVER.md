@@ -1,66 +1,77 @@
 # Operator handover
 
-Current operator: Codex / OpenAI. Updated11October2026,11:35UTC. Action needed from Partho:none. Goal active; no pause or rotation. Read ROLES.md, CURRENT.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. This supersedes earlier snapshots.
+Updated 11 October 2026, 11:35 UTC. **Current operator: Codex / OpenAI. Action needed from Partho: none.** The goal is active; no pause or rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md). This replaces older snapshots.
 
-## Goal and direction
+## Goal and operating direction
 
-Advance understanding of infarct prediction from admission CT and make the system practical for humans. Item6 is accepted; continue13B, analysis/ideas, private meeting support and usability in parallel. Ideas need biological/mathematical/computational rationale and attribution of gains to placement, amount, size, region and fragmentation. Scientific code and conclusions belong to the system author and opposite-family reviewer. Operator owns engineering, venues and sequencing.
+Understand infarct prediction from admission CT and make the system practical for humans. Run 13B, analysis and ideas, private meeting support, and usability work in parallel. Ideas need a biological, mathematical or computational rationale and a way to separate gains in placement, amount, size, region and fragmentation. The system author writes scientific code and conclusions; the opposite model family reviews them. The operator owns engineering, venues and sequencing.
 
-Use judgment, proportionate tests/reviews, batch repairs and direction questions. Consult Claude for safeguards/accounting/privacy/confinement, repeated or large fixes and uncertainty. Only ask Partho for money or a Colab action. Never locked25/reserve24 access, credential creation/change, public patient-derived material, main merges or BACKLOG edits. Explicitly authorized scanned aggregates remain allowed. Independent implementation approval precedes installation; no bypass of a refusal without equivalent protection and authorized review. Keep every original attempt/charge/reservation.
+Use judgment and proportionate tests and reviews. Consult Claude for uncertainty, safeguards, accounting, confinement, privacy, repeated failures and large changes. Batch repairs and direction questions. Ask Partho only about money or an action on Colab. Never access the locked 25 or reserve 24 patients, create or change credentials, publish private patient-derived material, merge to main or edit BACKLOG. Explicitly authorized scanned aggregate reports remain allowed. Independent implementation approval precedes installation. Preserve every original attempt, charge and reservation.
 
-## Workstreams and next result
+## Workstreams
 
-| Workstream | Current state and next step | Estimate |
+| Workstream | State and next step | Estimate |
 |---|---|---|
-| Analysis/ideas | Item6 and saved-results synthesis accepted;352rounded Sprint14 values match the same saved fits/cohort, not independent retraining. Await new evidence, then author/reviewer debate and interpretation. Do not repeat accepted synthesis. | About1-2hours after eligible new evidence, provisional. |
-| Colab | Author2 notebookbe4c49bcadd07c3cc9626dd6035c11974268df6331208eeaf4aad4e57d4ae371 complete/syntheticPASS. Partialinstallationheld on242preparedfiles. Newrepair needs independent approval, actualverify, scientificreview, privatecontract/hashpackaging and exactA100instructions. | No reliable scientificresultETA until repairreviewclears. |
-| Timing | Author24notebook62309cf99b88deffc89ccd5ecf648240201b63eb91751e350d3757352e6e7462 complete. Approvedruntimeinstalled/verified; CPUadmissionrefused before reservation/provider. Newnativeproofscope needsreview, distinctsuccessor/nativefixture, existingreviewer16, thencappeddiagnostic. | No reliable resultETA until repairreviewclears. |
-| Meeting | Exactacceptedscientificproposal recovered/hashverified and privatelypackaged with productionroles. No casesselected/imagesopened. Authorwritesfixedselector/renderer withsyntheticfixtures; reviewbeforeprivateassets/cases. | Syntheticpackage2-4hoursafterlaneadmission,provisional; actualpanelsdependonassets. |
-| Usability/rotation | Cleanup/diskguardcomplete. Reviewevidenceorganizationimproved through2discussionrounds. Author sandbox/oppositefamilyroute held/uninstalled. No unrelatedsubsystemneedednow. | Nextimplementationdecision30-60minutesincludingpacketprep; notascientificresult. |
+| Analysis and ideas | Item 6 and saved-results synthesis are accepted. The 352 rounded Sprint 14 values match the same saved fits and cohort; this is not independent retraining. Interpret and debate new evidence when it arrives. Do not repeat accepted synthesis. | About 1-2 hours after suitable new evidence, provisional. |
+| Colab | Author 2 is complete with synthetic PASS. The installation is partial and held on 242 prepared files. Review the repair, verify the installation, obtain scientific review, then package the private contract and notebook with exact A100 instructions. | No reliable result ETA until the repair review clears. |
+| Timing | Author 24 is complete. The approved entry-point runtime is installed and verified, but its CPU admission refused before reservation or provider launch. Review the native admission repair, install a distinct successor, run the synthetic fixture, use existing reviewer 16, then run the capped diagnostic. | No reliable result ETA until the repair review clears. |
+| Meeting | The author's exact accepted case-review proposal is now packaged with production responsibilities and hash-verified on the server. No patients selected or images opened. The author must implement and test the selector and renderer; review precedes real cases. | Synthetic package about 2-4 hours after lane admission. Actual panels depend on private asset availability. |
+| Usability and rotation | Cleanup and disk guard are complete. Review evidence organization improved through two discussion rounds. Author sandbox and opposite-family administrative route remain uninstalled. | Next implementation decision provisionally 30-60 minutes including packet preparation. This is not a scientific result. |
 
-## Authoritative latest review state
+## Latest review outcome and agreement
 
-Originalimplementationb4a70b23f98f9580abd3ff7e667dc4c24f0f3a628697acb47e1470b762d61463 remains genuineREJECT; prior75e0remainsFAILED/unqualified, notapproval. Firstdiscussion3bf088b45cc650853a2f11ae87228449050b2ba26433b34aef4de7d06838e8ac remainsREJECT,report03b6afa7e7db072490e9c2c987eebd6571652bee78f41ca20fbfa44e4141acae;itresolvedinventorybutretainedauthority/evidencelabelconcerns.
+The original implementation review `b4a70b23` remains a genuine REJECT. The earlier `75e0f176` remains failed and unqualified, not an approval. The first advisory discussion `3bf088b4` also remains REJECT, but resolved the inventory-inspection concern.
 
-Second discussionba236968e79ecf30e992daffaf202aa34bc7deaff6d6758abf78b215d9a87b67 COMPLETE/APPROVE,reportb8a3fbb05b2c3b5ac6abedb7350914c969f2d43cc3f0b498d4176f3437f85180,source5ac53716ec0cbd08a3b8316caeeb9a388237d070,emptyfindings. Terminalobserved11:31:02UTC inactive/MainPID0,cost2.137019. ItapprovesPREPARINGonefreshimplementationreviewonly. Noinstallation/science/computeauthority. Agreementafter2movingrounds: useoriginalgenericadministrativeentrywithoutcandidate-gaterebind; currentdiffandrawdirectionhistoryseparatelylabeled; coherentactualrepairreview. Operatoragrees. No furtherdiscussionneededunlessnewdisagreement.
+The second discussion, `ba236968e79ecf30e992daffaf202aa34bc7deaff6d6758abf78b215d9a87b67`, is COMPLETE with genuine APPROVE and empty findings. Its report hash is `b8a3fbb05b2c3b5ac6abedb7350914c969f2d43cc3f0b498d4176f3437f85180`. It was observed inactive with MainPID 0 at 11:31:02 UTC. **It approves preparing one fresh implementation review only. It grants no installation, scientific execution or compute authority.**
 
-Itsfirsthostinvocation63ea399dd11d494a98994532046d8189 refusedconnectivitybeforeanymodelreservation. Exactjournal/networkrecordandzero-row/folderchecks preserved; unchangedcheckerpassed; onesamepacketretry admittedonce,invocationb45c50fe97b24e64894f674c55d3b46a nowterminal. Noblindrestart. Aparseerrorinlocalretrycommandfailedbeforeexecutionandisalsopreserved. Neverrepeatconsumedstarts/registrations.
+Agreement after two moving discussion rounds: use the unchanged generic administrative entry rather than rebinding a candidate gate for an advisory call; distinguish current changes from the explicitly ranged history requested for direction checks; prepare a coherent review of the actual repairs. The operator agrees. Preserve both rejections and all charges. No further discussion is needed unless a new disagreement arises.
+
+The second discussion's first service invocation failed connectivity before any model reservation. Its journal, network record, zero-row and missing-output-folder checks are preserved. The unchanged connectivity checker then passed. One same-packet retry admitted exactly one call, now terminal. A retry command initially failed to parse before execution; that failure is also retained. Never infer termination from a polling timeout or blindly replay a start.
 
 ## Current implementation preparation
 
-Freshsource51befa8792eb713c4386283150c5b1695c568591,branchastra/colab-workspace-native-implementation-20261011,physicalcheckouttiming-author24-native-implementation-20261011/checkout. Currentevidencerootcolab-workspace-native-implementation-20261011.281focusedrepairtestsPASS; currentdiff/stat/filelist/testcommand/outputandSHAsallboundtosource51befaandapprovedbaselinec4280f2723e0adcf3c7cee51a435fc775528b393. Notrepository-widetestcoverage. WholecomponentpacketNOTyetassembled,registered,calledorstaged. No candidateinstallation.
+Candidate: `51befa8792eb713c4386283150c5b1695c568591`, branch `astra/colab-workspace-native-implementation-20261011`. Its physical checkout is `timing-author24-native-implementation-20261011/checkout` in the existing private evidence workspace. Current preparation is in `colab-workspace-native-implementation-20261011`; start with its `HANDOFF_CURRENT_PRIVATE.md`.
 
-Scope1:exactColabpreparedworkspacepreservationwithhashes/locks/unchangedstate,originalready/postcheckandCOMPLETEonlyafterPASS. Scope2:exacthistoricalterminalauthor22proofexplicitlynativeadmissionforaseparatesuccessor;ordinarybilling/reservation/caprefusalsunchanged. Scientificpackage/image/resources/inputs/protectionsunchanged. Freshconsumersrequirecolab-workspace-native-implementation-20261011;advisoryverdictcannotmeetthatgate.
+All 281 focused repair tests pass. The diff, diff statistics, changed-file list, test command, output and hashes use the same candidate and approved baseline `c4280f2723e0adcf3c7cee51a435fc775528b393`. This is not a repository-wide test claim. The whole-component packet has **not** yet been assembled, registered or reviewed. No candidate installation or staging has occurred.
 
-Approvedc428timinginstallhasCOMPLETEandbothactualpostchecks. ItsCPUunitwasconsumedandfailedBATCH_UNCERTAIN_OR_RUNNING_CALL beforereservation/provider;preserveallfiles,donotrestart. Colabc428installispartialwithoutCOMPLETEbecauseworkspace242files/2,993,236bytesexists. Priorno-workspaceclaimwaswrongandcorrected. Bothauthorrowsunchanged,norevieweradmitted. Preserveold9f/4a/c428records. No2bf/51befainstallationauthorizedyet.
+The two repairs are narrowly scoped:
+
+1. Preserve the exact Colab preparation workspace under existing locks, verify every file and unchanged state, run the original ready check and installed postcheck, and write COMPLETE only after actual PASS.
+2. Qualify the exact historical author-22 terminal proof for native admission in a separate successor. Keep the original administrative-only classification, ledger status and charge; retain ordinary billing, reservation and over-cap refusals.
+
+Scientific code, package, image, resources, inputs and protections are unchanged. The fresh repair consumers require `colab-workspace-native-implementation-20261011`; the advisory report cannot satisfy that identity.
+
+The approved c428 timing installation has COMPLETE and both actual postchecks. Its consumed CPU invocation failed `BATCH_UNCERTAIN_OR_RUNNING_CALL` before a reservation or provider object. Preserve its files and do not restart that unit. Colab c428 remains partial without COMPLETE because the preparation workspace contains 242 files / 2,993,236 bytes. Earlier claims that no workspace existed were wrong and have been corrected. Both author rows are unchanged; no Colab scientific reviewer was admitted. Original 9f, 4a and c428 records remain intact.
 
 ## Safe resumption
 
-1. Readprivatecurrenthandoffandoperatorrecords;confirmnootheractiveoperator. Reconcilecurrentunits/callsbeforelaunch,neverroot-openliveSQLite. No namedmodelcall/providerjobiscurrentlyrunningfromthisturn; fivehistoricalUNCERTAINlabelsremainwiththeirexactexistingterminalproofs.
-2. AssembleONEcoherentwholecomponentreviewpacketfor51befa:fullrelevantpipelinepackage/notebooks,connectedrepaircode/tests,current281results/exactbaseline,andoriginalauthorities. Labelhistoricalmaterialclearly; do not copy unrelatedoldpackettreesinto currentevidence. Keepfullhashinventoryinspectable,withunchangedreader/search/finalguards. Do not infer approvalfrompreflightPASS.
-3. Useexistinggenericadministrativeinvocationandapprovedtransport,normalregistration/admission/50dailycap. Do notrebindthecandidateadvisorygate. FreshindependentimplementationAPPROVE required; onlythenstageexactsource/install/postcheckthetwoexistingnarrowrepairs. Preserveoriginals,neverreplayoldinstaller/nativeunit.
-4. AfteractualColabverify:normal scientificreviewofpreservedauthor2,thenprivatecontract/hashandfirstexactinstructions. Timing:nativefixture,existingreviewer16,thencappeddiagnostic. No newauthorsunlessscientificreviewrequestsrevision.
-5. Meetingprivatebriefisplanningonly; author/reviewerownscientificselection/renderer. Inputavailabilityandgeometryneedprivatechecksbeforecases. No patientmaterialinGitHub/modelcontext.
-6. KeepSTATUSsevenlineopening,CURRENT,HANDOVER,ROLES/plan current;privacy/secret/infrastructurescan,thenatomicpublicbackupandsafeworkingbranches.Verifyhashes;neverrawprivateancestry/main.
+1. Read the private handoff and operator decisions; confirm no other active operator. Reconcile units and calls before any launch. Query live SQLite only as the service account, never root. No model or provider job from this turn remains running. Five historical UNCERTAIN labels remain subject to their exact existing terminal proofs.
+2. Assemble one coherent review packet for source 51befa: full relevant pipeline package and notebooks, connected repair code and tests, current results and original authorities. Label history clearly. Do not copy unrelated old packets into current evidence. Make the complete hash inventory inspectable without changing reader, search or qualification guards.
+3. Use the existing generic administrative invocation, approved transport, normal registration and daily admission. Obtain a genuine independent implementation APPROVE before staging, installing or postchecking either repair. Never use the advisory approval as an implementation approval.
+4. After actual Colab verification, review the preserved author-2 notebook scientifically, then package its private contract/hash and send exact instructions. For timing, run the native fixture before reviewer 16 and the GPU diagnostic. No new author is needed unless scientific review requests a revision.
+5. Progress meeting preparation independently. The scientific author and reviewer own selection and rendering. Check private asset availability and geometry before cases; no patient material belongs in public backup or coding-agent context.
+6. Keep STATUS, CURRENT, HANDOVER, ROLES and the execution plan current. Scan privacy, secrets and infrastructure before each public push. Push safe working projections and remote-server, verify hashes, and never publish raw private ancestry.
 
 ## Money, calls and judgments
 
-Caps:item6$100;item4stage1$150,diagnostic$25insideit,total$1275,projectiongate$1200.Fulltrainingrequiresscientificsmokeacceptance;coveragearmsheld.Colab1001unitsavailable,nopurchaseauthorized.Releaseexcessonlyafterbillingconfirmsclosedactuals,neveropen/uncertainattempts.
+Caps remain: item 6 $100; item 4 stage 1 $150, including the $25 diagnostic; total $1,275; full-training projection gate $1,200. Full training needs scientific smoke acceptance. Coverage-dependent arms remain held. Partho has 1,001 Colab units available; no purchase is authorized. Release excess reservations only after billing confirms an attempt is closed.
 
-Computeactual24.39800404,stage1actual+open114.397673,diagnostic4.286495;unchanged.No newreservation.13/50calls:2authors(Colab/timing),8implementationreviews,3directioncalls/discussions,0scientificreviewers. Reportedcompletedadministrativecost32.80530925;authordollartotalsunavailable.Oct10temporary100expired;pastusagepreserved.
+Last qualified compute actual: $24.39800404. Stage-1 actual plus open reservations: $114.397673. Diagnostic: $4.286495. No new compute reservation this turn.
 
-Judgment11:31UTC:2-roundagreementonboundedfreshpreparation;no implementationwaiver. Changes:acceptinventory/evidencefindings,useunchangedgenericroute,separatelabeledhistory,preservegenuineREJECTs.11:35UTC:bindonecurrentbaseline/sourceand281tests;independentreviewnext. Meetinglogisticsonlypreservesexactauthorproposal,nooperator-scientificcode. Latestdirection:agreedshortestsafenextstep,narrowpreparation;noextrasubsystem. No moneyquestionpending.
+Today: **13/50 calls**?2 scientific authors, 8 implementation reviews, 3 direction calls/discussions, 0 scientific reviewers. Reported administrative model cost: **$32.80530925**. Native author dollar totals are unavailable; do not invent them. October 10's temporary 100-call cap has expired, and all past usage remains counted.
 
-## Private meeting/access and cleanup
+Judgment at 11:31 UTC: agree with Claude after two rounds; prepare the narrow fresh review with no implementation waiver. What changed: accept inventory/evidence findings, reuse the generic route, separate history, preserve rejections. Judgment at 11:35 UTC: freeze one source/baseline and the 281-test evidence. Meeting packaging preserves the author's proposal without operator scientific authorship. No money decision is pending.
 
-AcceptedinterpretationSHAcb028b56d0de61998594e29a240659a96142ed3819c81bd9cbdaf174a29a25c7. PrivateplanningpackageSHAe9b0c2c2ed2b75be183c482ff33d53eac0d8b3481c00cdeb4c3f40e04cb67f53,serverhashverified. Noidentifiersselected,predictionschangedorassetsclaimedavailable. Privatehandoffcontainslocation.
+## Meeting, access and cleanup
 
-Cleanupcomplete:1,917,698historicalfiles/75,608,503,402bytesremovedonlyafterserverhashverificationandlocalrecheck;18,317,762,560disposablebytesremoved;Codexlogsretained. Migration/removalterminal;neverrerun. Cabout19.3GiB;server160.6beforetransfer/123.7after,latestabout122GiB. Diskguardwarn15GiBstop8/unknownonC/WSL. No larger disk/setupactionneeded.
+Accepted interpretation hash: `cb028b56d0de61998594e29a240659a96142ed3819c81bd9cbdaf174a29a25c7`. Private meeting package hash: `e9b0c2c2ed2b75be183c482ff33d53eac0d8b3481c00cdeb4c3f40e04cb67f53`. The private handoff gives its server location. It is planning only; no asset availability or completed renderer is claimed.
 
-Accessnamesonly:existingserverSSH,researchserviceaccount,OpenAIauthorlogin,Claudereviewerlogin,Modal,GoogleDriveisles-pilot,GitHubbackup. No credentialcontents/paths/keynames/endpointsinpublicrecords;nevercreate/rotatecredentials.
+Cleanup is complete. Historical local removal followed server hash verification and local rechecks. Codex logs were retained. Migration and removal processes are terminal; never rerun them. C: has about 19.3 GiB free. Server free space was 160.6 GiB before transfer and 123.7 GiB after; latest observation was about 122 GiB. The disk guard warns below 15 GiB and stops below 8 GiB or unknown capacity on C: or WSL. No larger disk or setup command is needed.
+
+Access by name only: existing server SSH, research service account, OpenAI author login, Claude reviewer login, Modal, Google Drive isles-pilot, and GitHub backup. Never put credential contents, credential paths, key names or endpoints in public records.
 
 ## Backup and swap
 
-Installedreleasesseparatefromhelddraftprojections. Safeworkingbranchesincludeadvisory12e43974andfreshimplementation1bab22c4. Lastverifiedpublicpushbeforethisupdate5372f6b1997ace4203e5936d9919c9921e6b4ce2;checklatestreceipt. Allprivateevidence/ledgers/packets/streams/meetingfiles/*_PRIVATE*/patientmaterialswithheld;freshprivateworkspacerecordspecificallyexcluded. Mainunchanged.
+Installed releases remain separate from held draft projections. Safe branches include advisory `12e43974` and fresh implementation `1bab22c4`. Check the latest private push receipt; the last verified push before this update was `5372f6b1997ace4203e5936d9919c9921e6b4ce2`. Private evidence, ledgers, packets, streams, meeting files, all *_PRIVATE* files and patient material remain excluded. The fresh candidate specifically excludes `docs/COLAB_NETWORK_WORKSPACE_PRIVATE.json`. Main is unchanged.
 
-Swaponlywhenexecutionplan,firstColabinstructions,timingresult,currentROLES/HANDOVER,installedoppositefamilyrouteandnolive/unreconciledworkallhold. Instructions,timingresultandrouteinstallationstillmissing. NoSwap point reached;donotrotateorpausethegoal.
+The swap gate is not met: first Colab instructions, timing result and installed opposite-family route are still missing. Do not rotate or pause the goal. Declare Swap point reached only when all six operator conditions hold, including current handover and no live or unreconciled work.
