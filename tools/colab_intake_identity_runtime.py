@@ -9,10 +9,10 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'colab-reader-recovery-20261011'
+CHANGE = 'review-continuation-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'colab-reader-native-history-20261011'
-REVIEW_SCOPE = 'docs/COLAB_READER_NATIVE_HISTORY_SCOPE.md'
+REVIEW_CHANGE = 'native-authority-reader-recovery-20261011'
+REVIEW_SCOPE = 'docs/NATIVE_REVIEW_COLAB_TURN_SCOPE.md'
 READER_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-network-continuation-20261011')
 NETWORK_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-intake-source-alignment-20261011')
 NETWORK_DOC = 'docs/COLAB_NETWORK_PREMODEL_PRIVATE.json'
@@ -29,8 +29,13 @@ RUNTIME = Path('/etc/research-system-manual-sprint10/releases/research-manual-sp
 ENTRY = 'tools/colab_intake_identity_runtime.py'
 RECOVERY = 'tools/colab_intake_identity_recovery.py'
 UNIT = 'research-'+CHANGE+'.service'
+NATIVE_UNIT = 'research-'+CHANGE+'-native-review.service'
+NATIVE_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/timing-author24-history-repair-20261011')
 OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparation.service'
-REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'orchestrator/colab_reader_recovery.py',
+REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, NETWORK_DOC, 'tools/item4_diagnostic_review_runtime.py',
+            'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json',
+            'docs/COLAB_TURN_RECOVERY_PRIVATE.json','docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json',
+            'orchestrator/item4_smoke_response.py', 'orchestrator/colab_reader_recovery.py',
             'orchestrator/manual_context.py', 'orchestrator/preparation_interleaving.py', 'docs/COLAB_READER_RECOVERY_PRIVATE.json', 'docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md', 'tools/reviewer_connection_timing.py', 'docs/COLAB_INTAKE_PREMODEL_PRIVATE.json',
             'orchestrator/scientific_intake.py', 'orchestrator/scientific_search.py']
 
@@ -75,7 +80,7 @@ def authority(held=True):
             and installed['files']==manifest['source_files'] and installed['status']=='INSTALLED_HELD', 'INSTALL_BINDING')
     for name,pin in installed['files'].items():
         require(sha(trusted(ROOT/name).read_bytes())==pin, 'REVIEWED_SOURCE_CHANGED')
-    require(set(installed['units'])=={'/etc/systemd/system/'+UNIT}, 'UNIT_SET')
+    require(set(installed['units'])=={'/etc/systemd/system/'+UNIT,'/etc/systemd/system/'+NATIVE_UNIT}, 'UNIT_SET')
     for name,pin in installed['units'].items():require(sha(trusted(name).read_bytes())==pin,'UNIT_CHANGED')
     if held:
         require(json.loads(trusted(RECORD/'COMPLETE.json').read_bytes())==
@@ -154,7 +159,7 @@ def connect(action='advance'):
     context=load('orchestrator.manual_context',ROOT/'orchestrator/manual_context.py')
     orchestrator.manual_context=context;analysis_driver.manual_context=context;manual_driver.manual_context=context
     repair=load('orchestrator.colab_reader_recovery',ROOT/'orchestrator/colab_reader_recovery.py')
-    raw=trusted(ROOT/repair.DOCUMENT).read_bytes();require(sha(raw)==repair.DOCUMENT_SHA,'RECOVERY_DOCUMENT_CHANGED')
+    raw=trusted(ROOT/repair.TURN_DOCUMENT).read_bytes();require(sha(raw)==repair.TURN_DOCUMENT_SHA,'RECOVERY_DOCUMENT_CHANGED')
     approval=authority(held=action!='verify')
     repair.install_hook(analysis_driver,json.loads(raw),approval['report_sha256'],action)
     return prior
@@ -194,6 +199,33 @@ def host(action, transition):
     finally:sys.argv=previous
 
 
+def preserved_native():
+    """Authenticate preserved native config in its own established import context."""
+    retained=load('_review_retained_native_install',NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py')
+    # Source authority is import-independent; configuration authority needs the
+    # original runtime's bootstrap, isolated from this installer's modules.
+    source,record=retained.reviewed_source()
+    require(source['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
+        and source['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_SOURCE')
+    child="""import os,sys,json,hashlib,importlib.util
+from pathlib import Path
+assert os.getuid()==os.getgid()==1003 and sys.flags.no_user_site
+path,pin=sys.argv[1:];path=Path(path)
+assert hashlib.sha256(path.read_bytes()).hexdigest()==pin
+spec=importlib.util.spec_from_file_location('_preserved_native_authority',path)
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+m.bootstrap();print(json.dumps(m.authority()))
+"""
+    require(os.getuid() in {0,1003} and sys.flags.no_user_site,'NATIVE_PROOF_IDENTITY')
+    command=['env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),'/usr/bin/python3','-s','-B','-c',child,
+        str(NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py'),record['files']['tools/item4_diagnostic_native_runtime.py']]
+    if os.getuid()==0:command=['runuser','-u','partho','--',*command]
+    else:require(os.getgid()==1003,'NATIVE_PROOF_GROUP')
+    approved=json.loads(subprocess.check_output(command,text=True,timeout=120))
+    require(approved==source,'NATIVE_PREVIOUS_APPROVAL_CHANGED')
+    return retained,approved
+
+
 def install(source, review):
     require(os.getuid()==0 and sys.flags.no_user_site,'ROOT_ISOLATED')
     source,review=map(trusted,(source,review));approval,manifest=reviewed(review);branch=original()
@@ -214,26 +246,44 @@ def install(source, review):
     require(state=={'MainPID':'0','ActiveState':'inactive','ExecMainStatus':'0'},'PRIOR_UNIT_HELD')
     previous=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show','research-colab-network-continuation-20261011.service','-p','MainPID','-p','ActiveState'],text=True).splitlines())
     require(previous['MainPID']=='0' and previous['ActiveState'] in {'inactive','failed'},'PREVIOUS_REVIEW_TERMINAL')
+    retained,native_approval=preserved_native()
+    require(native_approval['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
+        and native_approval['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_APPROVAL')
+    for unit in ('research-colab-reader-recovery-20261011.service',retained.REVIEW_UNIT,retained.CPU_UNIT):
+        observed=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',unit,'-p','MainPID','-p','ActiveState'],text=True).splitlines())
+        require(observed['MainPID']=='0' and observed['ActiveState'] in {'inactive','failed'},'PREVIOUS_WRITER')
     target=oldpath.with_name(UNIT);body=unit_bytes(oldraw)
-    for p in [ROOT,RECORD,target]:
+    native_target=oldpath.with_name(NATIVE_UNIT)
+    native_raw=trusted(oldpath.with_name(retained.REVIEW_UNIT)).read_bytes()
+    before=('ExecStart=/usr/bin/python3 -s -B '+str(NATIVE_PREVIOUS/'tools/item4_diagnostic_review_runtime.py')+' run\n').encode()
+    after=('ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_diagnostic_review_runtime.py')+' run\n').encode()
+    require(native_raw.splitlines(keepends=True).count(before)==1,'EXACT_NATIVE_UNIT_ENTRY')
+    native_body=native_raw.replace(before,after)
+    require(native_body.replace(after,before)==native_raw,'NATIVE_ENTRY_ONLY_CHANGE')
+    units={target:body,native_target:native_body}
+    for p in [ROOT,RECORD,*units]:
         trusted(p.parent);require(not p.exists() and not p.is_symlink(),'EXISTING_INSTALL_PRESERVED')
     review_files={p.name:trusted(p).read_bytes() for p in review.iterdir() if p.is_file()}
     require(len(review_files)==len(list(review.iterdir())),'FLAT_REVIEW')
     check=json.loads(subprocess.check_output(['runuser','-u','partho','--','python3','-s','-B','-c',helper.OWNER_CHECK],text=True))
-    require(check['status']=='NO_RUNNING_CALL','LIVE_CALL');prior.verify_units({target:body})
+    require(check['status']=='NO_RUNNING_CALL','LIVE_CALL');prior.verify_units(units)
     helper.mkdir(RECORD);helper.put(RECORD/'INSTALL_INTENT.json',json.dumps({'source':approval['source_sha'],'review_sha256':approval['report_sha256']},sort_keys=True).encode())
     helper.mkdir(ROOT)
     for n,content in bodies.items():helper.put(ROOT/helper.relative(n),content)
     for n,content in review_files.items():helper.put(RECORD/'review'/n,content)
-    helper.put(target,body)
+    for path,raw in units.items():helper.put(path,raw)
     installed={'root':str(ROOT),'source':approval['source_sha'],'review_sha256':approval['report_sha256'],
-               'files':manifest['source_files'],'units':{str(target):sha(body)},'status':'INSTALLED_HELD'}
+               'files':manifest['source_files'],'units':{str(path):sha(raw) for path,raw in units.items()},'status':'INSTALLED_HELD'}
     helper.put(RECORD/'installed.json',json.dumps(installed,sort_keys=True).encode())
     subprocess.run(['systemctl','daemon-reload'],check=True)
     result=subprocess.run(['runuser','-u','partho','--','env','PYTHONPATH='+str(ORIGINAL),'PYTHONDONTWRITEBYTECODE=1',
         'RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),'python3','-s','-B',str(ROOT/ENTRY),'verify'],capture_output=True)
     helper.put(RECORD/'VERIFY.stdout',result.stdout);helper.put(RECORD/'VERIFY.stderr',result.stderr)
     require(result.returncode==0,'SERVICE_VERIFY_FAILED')
+    result=subprocess.run(['runuser','-u','partho','--','env','PYTHONPATH='+str(ORIGINAL),'PYTHONDONTWRITEBYTECODE=1',
+        'RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),'python3','-s','-B',str(ROOT/'tools/item4_diagnostic_review_runtime.py'),'verify'],capture_output=True)
+    helper.put(RECORD/'NATIVE_VERIFY.stdout',result.stdout);helper.put(RECORD/'NATIVE_VERIFY.stderr',result.stderr)
+    require(result.returncode==0,'NATIVE_SERVICE_VERIFY_FAILED')
     complete={'status':'INSTALLED_HELD','source':approval['source_sha'],'scientific_calls':0,'provider_calls':0}
     helper.put(RECORD/'COMPLETE.json',json.dumps(complete,sort_keys=True).encode());return complete
 
