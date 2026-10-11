@@ -1,12 +1,12 @@
 # Research status
 
 - Item 6 and synthesis are accepted; 352 rounded Sprint 14 values match the same saved fits/cohort, not independent retraining.
-- Review 3 approved the Colab notebook. The exact file is in Partho's Downloads; private execution bindings are still being packaged.
+- Review 3 approved the Colab notebook. The exact file is in Partho's Downloads; private inputs are being copied and execution bindings are still being packaged.
 - Partho reports 6.77 units/hour: 1,001 units buy 147.9 A100 hours, versus the provisional 130-140 hours for all 40 fits.
-- No scientific or GPU job is running. Timing is parked after a repeated admission-reader failure; idea 2 authoring has not started yet.
+- One private frozen-input file copy is running; no model or GPU job is running. Timing is parked after a repeated admission-reader failure; idea 2 authoring has not started yet.
 - Compute actual is $24.40; stage-1 exposure is $115.52/$150. Reported Claude charges are $107.60; author dollars are unavailable.
-- Next: runnable A1_repeat fold-0 smoke package, then saved-output 3-by-3 analysis. Server access is intermittent, so no reliable completion estimate yet.
-- Action needed: none yet. Today 29/50 calls. C: 19.3 GiB free. No swap point. See the [execution plan](13B_EXECUTION_PLAN.md).
+- Next: runnable A1_repeat fold-0 smoke package, then saved-output 3-by-3 analysis. Input copy estimate: 40-60 more minutes at the observed rate; runnable handoff still depends on verified contracts.
+- Action needed: none yet. Today 29/50 calls. C: about 18.6 GiB free during transfer. No swap point. See the [execution plan](13B_EXECUTION_PLAN.md).
 
 ## Current state
 
@@ -16,7 +16,7 @@ Idea 2 is now explicitly requested: the accepted synthesis's fixed 3-by-3 compar
 
 The author-only timeout change at `7d9ed0c` has genuine independent APPROVE, with no findings. It sets both scientific author stages to 1,800 seconds plus the existing 60-second watchdog margin; reviewer/default bounds stay unchanged. Tests: 101 passed, with four fixture setup errors also present on the unchanged baseline; 28 focused tests passed. Installation remains pending, so the old timeout is still effective in existing scientific lanes. The review completed normally and cost $1.8815745. Two earlier network preflights failed before admission, with no calls or charges; their records are retained.
 
-The authenticated original membership table was recovered with its exact frozen hash. Its 49 reserved identifiers are disjoint from all 99 frozen development identifiers. This completes the exclusion metadata binding without opening patient payloads. Baseline metadata, private input delivery and execution/accounting contracts remain to package. No archive restore or new transfer job was launched.
+The authenticated original membership table was recovered with its exact frozen hash. Its 49 reserved identifiers are disjoint from all 99 frozen development identifiers. This completes the exclusion metadata binding without opening patient payloads. Both original baseline metadata files now also match their frozen hashes. A single private copy of the 893 frozen files is running, checking received bytes and destination read-back against every hash. The destination remains unavailable for execution until all checks pass and cloud sync is confirmed. No archive restore was launched. Execution/accounting contracts remain to package.
 
 The prior direction call is confirmed terminal FAILED, with no accepted submission and $1.4199795 counted. It returned a request timeout, not advice or approval. The necessary direction question was folded into the timeout review, but its report gave an implementation verdict without a separate direction recommendation. Do not claim new direction advice or repeat a standalone call solely for that omission. The previously installed timing-reader repair remains preserved; its subsequent scientific admission failed at a second reader before any reservation. No automatic timing retry, host pulse or GPU launch.
 
@@ -62,3 +62,5 @@ Last verified remote-server before this update: `d8a0e93f07a916789a86e5830146c5c
 2026-10-11 19:41 UTC | Packaging judgment | Recover the exact original membership table and package its 49 reserved identifiers for exclusion checks; verify zero overlap with the frozen 99. No scientific choice, patient payload access or new model call.
 
 Withheld from the new public timeout projection: `orchestrator/manual_stage.py` because the infrastructure/credential-path scanner flagged it. A proposed raw patch also failed the publication type rule and is not published. The public working branch contains only the safe tests and proposal; the complete source is retained in the private verified backup.
+
+2026-10-11 19:50 UTC | Packaging judgment | Copy only the exact frozen inventory from the existing server data into the existing private Drive; no new credentials or source changes. Verify every destination hash and exact membership, stop before the 8 GiB disk floor, preserve partial state and never automatically retry. No model or provider compute charge.
