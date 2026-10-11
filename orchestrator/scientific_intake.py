@@ -209,8 +209,11 @@ def load_views(root, registry_ref, *, stage, idea_ids):
         checks = scan(view, cases, kind='per_patient', reason='Bound selected view')
         scan(evidence, cases, kind='plan')
         scan(canonical(row), cases, kind='plan')
+        # Distinct registrations can contain identical bytes but different
+        # provenance. Keep their validated IDs in the delivery names so each
+        # search path has exactly one authenticated identity.
         for content, suffix in [(view, 'view.txt'), (evidence, 'omissions.json')]:
-            descriptor = {'id': row['id'] + '-' + suffix, 'path': 'evidence/' + sha(content) + '-' + suffix,
+            descriptor = {'id': row['id'] + '-' + suffix, 'path': 'evidence/' + sha(content) + '-' + row['id'] + '-' + suffix,
                           'sha256': sha(content), 'bytes': len(content), 'characters': len(content.decode()),
                           'delivery': 'Private development analysis view; inspect its omissions and provenance.'}
             files.append((descriptor, content))
