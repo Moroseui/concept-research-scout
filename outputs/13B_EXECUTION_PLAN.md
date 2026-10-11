@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Current checkpoint (October 11, 16:42 UTC): Colab preparation is approved, but its final author timed out and left an unaccepted draft with limitations. Colab is held. The combined repair is approved and installed; timing activation passed, but reviewer16 stopped before admission at an obsolete author-only allocator. The narrow repair passes 367 tests; full copied-ledger admission passed and independent review is running. No GPU job is running.
+Current checkpoint (October 11, 17:14 UTC): Colab preparation is approved, but its final author timed out and left an unaccepted draft with limitations. Colab is held. The combined repair is approved and installed; timing activation passed, but reviewer16 stopped before admission at an obsolete author-only allocator. The narrow repair passes 367 tests; full copied-ledger admission passed and independent review is running. No GPU job is running.
 
 Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
 
