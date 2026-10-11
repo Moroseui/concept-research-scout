@@ -3,7 +3,7 @@ from pathlib import Path
 import hashlib,importlib.util,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools import item4_diagnostic_native_runtime as native
-ROOT=Path('/opt/research-system/manual-repair-helpers/continuation-binding-20261011')
+ROOT=Path('/opt/research-system/manual-repair-helpers/native-review-admission-20261011')
 ACTIVATION_DOCUMENT='docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json'
 ACTIVATION_SHA='ac8b4b87792a5a5bcc7f74371253bdd238f8286621f6c3508c8fda26864039a3'
 PREFIX='diagnostic-native24-'
@@ -39,12 +39,24 @@ def connect(*,held=True):
         return factory(name,path)
     prior.load=selected;route=prior.route();original=route.module;used=[]
     def component(name,path):
+        if name=='orchestrator.item4_scoped_calls':
+            require(Path(path)==route.ROOT/'orchestrator/item4_scoped_calls.py' and name not in used,'SCOPED_SOURCE')
+            used.append(name)
+            # Run predecessor loader/cap authentication before replacing its
+            # still-unconnected author-only allocator. The replacement captures
+            # exactly the same ordinary local/global reservation methods.
+            predecessor=original(name,path)
+            require(predecessor._validate is None,'SCOPED_ALREADY_CONNECTED')
+            import orchestrator
+            scoped=load(name,ROOT/'orchestrator/item4_scoped_calls.py')
+            orchestrator.item4_scoped_calls=scoped
+            return scoped
         if name=='orchestrator.item4_smoke_response':
-            require(Path(path)==route.ROOT/'orchestrator/item4_smoke_response.py' and not used,'READY_SOURCE')
+            require(Path(path)==route.ROOT/'orchestrator/item4_smoke_response.py' and name not in used,'READY_SOURCE')
             used.append(name);return original(name,ROOT/'orchestrator/item4_smoke_response.py')
         return original(name,path)
     route.module=component;connection=route.connect()
-    require(used==['orchestrator.item4_smoke_response'] and connection[4].delivery_recovery(connection[5])
+    require(sorted(used)==['orchestrator.item4_scoped_calls','orchestrator.item4_smoke_response'] and connection[4].delivery_recovery(connection[5])
         and connection[4].profile(connection[5])['author']==24
         and connection[4].profile(connection[5])['reviewer']==16,'AUTHOR24_CONNECTION')
     native.overlay(native.ROOT)
@@ -157,9 +169,35 @@ def verify_delivery(driver,value):
             'NATIVE_DELIVERY_BYTES')
 
 def bind_admission(driver,c,original,helper,p,approval):
-    # Preserve installed author24 local/global admission and terminal qualifiers.
-    from orchestrator import manual_stage as stage
+    # Reuse author24's exact preserved-failure proofs for its reserved reviewer;
+    # this is neither a new author allowance nor a global uncertainty exception.
+    from orchestrator import manual_stage as stage,manual_recovery as recovery
+    from orchestrator import stocktake_review_recovery as prior_recovery
     saved=stage.reviewer_command
+    saved_permit,saved_admission=recovery.permit,prior_recovery.admission
+    def permit(store,run):
+        result=saved_permit(store,run)
+        if run!=helper.RUN:return result
+        require(store is driver.store and result is not None,'REVIEW_LOCAL_OWNER')
+        value=driver.current()
+        require(value.get('phase')=='run_spec_review' and not value.get('pending'),'REVIEW_LOCAL_STAGE')
+        c.originals(driver,*original);helper.ready(driver,value,p,approval)
+        retained=result.get('preserved_failures',[result['failed_id']])
+        return {**result,'preserved_failures':list(dict.fromkeys([*retained,result['failed_id'],original[3].CALL,helper.SENDER_FAILED_CALL]))}
+    def admission(batch,run,stage_name,ident,source,receipt):
+        if run!=helper.RUN:return saved_admission(batch,run,stage_name,ident,source,receipt)
+        require(batch is driver.store.batch and source==driver.config['source']
+            and (stage_name,ident)==('run_spec_review',helper.call(p,'review')),'REVIEW_GLOBAL_OWNER')
+        return permit(driver.store,run)['preserved_failures']
+    # Load first; a missing/invalid component must leave existing hooks intact.
+    terminal=load('_native_review_admission_terminal',ROOT/'orchestrator/colab_author_terminal.py')
+    recovery.permit,prior_recovery.admission=permit,admission
+    try:
+        # The already-reviewed exact Colab terminal qualifier remains mandatory.
+        terminal.connect_timing_admission()
+    except BaseException:
+        recovery.permit,prior_recovery.admission=saved_permit,saved_admission
+        raise
     def command(work,stage_name):
         argv=saved(work,stage_name);pending=driver.current().get('pending') or {}
         expected=Path(driver.config.get('workspace_root',driver.state.parent/(driver.state.name+'-scientific-workspaces')))/'run_spec_review-16'
@@ -171,7 +209,10 @@ def bind_admission(driver,c,original,helper,p,approval):
         require(argv.count('--max-turns')==1 and argv[argv.index('--max-turns')+1]=='30','REVIEW_COMMAND_SHAPE')
         argv[argv.index('--max-turns')+1]='60';return argv
     stage.reviewer_command=command
-    return lambda:setattr(stage,'reviewer_command',saved)
+    def restore():
+        stage.reviewer_command=saved
+        recovery.permit,prior_recovery.admission=saved_permit,saved_admission
+    return restore
 
 
 def activate_review(driver,helper,p,approval,*,recovery=None,recovery_approval=None):

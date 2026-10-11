@@ -6,7 +6,7 @@ import pytest
 from tools import item4_diagnostic_review_runtime as m
 from orchestrator import preparation_interleaving as pi,manual_runtime,item4_smoke_response as helper
 
-@pytest.mark.parametrize('fault',[None,'native-approval','prior-bytes','prior-approval','sequence-path','helper-path','missing-helper','original-refusal','binding','scope'])
+@pytest.mark.parametrize('fault',[None,'native-approval','prior-bytes','prior-approval','sequence-path','helper-path','missing-helper','original-refusal','binding','scope','scoped-path','missing-scoped','connected-scoped','cap-refusal'])
 def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,fault):
     root=tmp_path/'new';root.mkdir();priorfile=tmp_path/'prior.py';priorfile.write_text('original source')
     doc=root/'frozen.json';doc.write_text('{"frozen":true}')
@@ -27,11 +27,22 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
     connection=(object(),object(),object(),object(),helper,{'scope':'original'},'original-approval')
     original_loader=lambda name,path:(events.append(('original-load',name,path)) or pi)
     prior=NS(REPAIRED=tmp_path/'old-sequence',authority=lambda:{'source_sha':'bad' if fault=='prior-approval' else '72c48cb69af87b760c4da9f246c1d1cab10735e1','report_sha256':'pinned'},load=original_loader)
-    route=NS(ROOT=tmp_path/'old-helper',module=lambda name,path:(events.append(('original-module',name,path)) or helper))
+    import orchestrator
+    monkeypatch.setattr(orchestrator,'item4_scoped_calls',orchestrator.item4_scoped_calls)
+    predecessor=NS(_validate=object() if fault=='connected-scoped' else None)
+    replacement=NS(_validate=None)
+    def original_module(name,path):
+        events.append(('original-module',name,path))
+        if name=='orchestrator.item4_scoped_calls':
+            if fault=='cap-refusal':raise ValueError('original cap guard refused')
+            return predecessor
+        return helper
+    route=NS(ROOT=tmp_path/'old-helper',module=original_module)
     def connected():
         if fault=='original-refusal':raise ValueError('original guard refused')
         prior.load('orchestrator.preparation_interleaving',(tmp_path if fault=='sequence-path' else prior.REPAIRED)/'orchestrator/preparation_interleaving.py')
         if fault!='missing-helper':route.module('orchestrator.item4_smoke_response',(tmp_path if fault=='helper-path' else route.ROOT)/'orchestrator/item4_smoke_response.py')
+        if fault!='missing-scoped':route.module('orchestrator.item4_scoped_calls',(tmp_path if fault=='scoped-path' else route.ROOT)/'orchestrator/item4_scoped_calls.py')
         route.module('unrelated',tmp_path/'unchanged.py')
         return connection
     route.connect=connected;prior.route=lambda:route
@@ -40,6 +51,9 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
     def load(name,path):
         if name=='_native_review_passed_runtime':return native
         if name=='_native_review_prior_author24':return prior
+        if name=='orchestrator.item4_scoped_calls':
+            events.append(('candidate-scoped',path));assert path==root/'orchestrator/item4_scoped_calls.py'
+            return replacement
         if name=='orchestrator.colab_reader_recovery':return repair
         if name=='orchestrator.colab_author_terminal':return NS(connect_sequence=lambda pi:events.append('terminal-sequence'),connect_timing_admission=lambda:events.append('terminal-admission'))
         raise AssertionError(name)
@@ -55,6 +69,8 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
         assert ('original-load','orchestrator.preparation_interleaving',root/'orchestrator/preparation_interleaving.py') in events
         assert ('original-module','orchestrator.item4_smoke_response',root/'orchestrator/item4_smoke_response.py') in events
         assert ('original-module','unrelated',tmp_path/'unchanged.py') in events
+        assert orchestrator.item4_scoped_calls is replacement
+        assert events.index(('original-module','orchestrator.item4_scoped_calls',route.ROOT/'orchestrator/item4_scoped_calls.py')) < events.index(('candidate-scoped',root/'orchestrator/item4_scoped_calls.py'))
         assert pi._REVIEW_TERMINAL({}, {}, None) and not pi._EXTRA_ATTEMPT({},'x','y','z')
         assert ('transport',manual_runtime) in events
         assert events.index('terminal-sequence')<events.index('terminal-admission')<events.index(('transport',manual_runtime))

@@ -145,7 +145,10 @@ def install_fixture(tmp_path, monkeypatch):
         REVIEW_UNIT=native_unit,CPU_UNIT='research-preserved-native-cpu.service')
     monkeypatch.setattr(m,'preserved_native',lambda:(retained,retained.authority()))
     monkeypatch.setattr(m,'colab_recovery_review',lambda:m.COLAB_RECOVERY_REVIEW)
-    monkeypatch.setattr(m,'load',lambda name,path:helper if 'existing_installer' in name else prior)
+    previous_bundle=NS(authority=lambda:{'source_sha':'f57ab420f55596b53b0781e904d817fde4b85423',
+        'report_sha256':'8bb46b53c0ed72791f1bebbea4bf3433d9d020167d98e4ac902a6fa15583c0d8'},
+        UNIT='research-continuation-binding-20261011.service',NATIVE_UNIT='research-continuation-binding-20261011-native-review.service')
+    monkeypatch.setattr(m,'load',lambda name,path:previous_bundle if name=='_review16_previous_bundle' else helper if 'existing_installer' in name else prior)
     controls={'source':'a'*40,'branch':'astra/manual-fixture','dirty':'','unit':'MainPID=0\nActiveState=inactive\nExecMainStatus=0\n','running':False,'verify_exit':0,'native_verify_exit':0}
     def output(args,**kwargs):
         if args[:2]==['git','rev-parse']:return controls['source']+'\n'
@@ -245,7 +248,7 @@ def test_transport_recovery_requires_explicit_scope_and_exact_approval(tmp_path,
     manifest={'source_files':dict.fromkeys(m.REQUIRED,'b'*64)}
     approval={'verdict':'APPROVE','findings':[],'change_id':m.REVIEW_CHANGE,
               'runtime_sha256':m.sha(runtime.read_bytes())}
-    if damage=='old-change':approval['change_id']=m.CHANGE
+    if damage=='old-change':approval['change_id']='colab-finalization-terminal-native-20261011'
     if damage=='missing-scope':manifest['source_files'].pop(m.REVIEW_SCOPE)
     (tmp_path/'packet-manifest.json').write_text(json.dumps(manifest))
     monkeypatch.setattr(m,'RUNTIME',runtime);monkeypatch.setattr(m,'trusted',Path)
@@ -308,7 +311,7 @@ def test_continuation_keeps_exact_predecessor_grant_approval(monkeypatch,fault):
     else:assert m.colab_recovery_review()==m.COLAB_RECOVERY_REVIEW
 
 
-@pytest.mark.parametrize('unit',['research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service'])
+@pytest.mark.parametrize('unit',['research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service','research-continuation-binding-20261011.service','research-continuation-binding-20261011-native-review.service'])
 def test_new_install_refuses_either_previous_continuation_writer(install_fixture,monkeypatch,unit):
     f=install_fixture;original=m.subprocess.check_output
     def output(args,**kwargs):
