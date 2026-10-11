@@ -1,0 +1,9 @@
+# Bounded scientific review continuation
+
+Implementation candidate only. Claude must independently APPROVE this whole component and the one-use process exception before installation or recovery. The two failed Colab reviews reached no tool-submitted verdict; preserve their streams and both charges. Admit exactly review3 at at most60 turns, with original eight-call run, daily, batch and dollar limits unchanged. No changed scientific bytes or author call.
+
+Reuse the already-passed synthetic native CPU receipt. Replace only the fixture-audit author-only readiness block with an exact author24/reviewer16 native evidence qualification; keep all original grant, scientific review binding, protected state, candidate and accounting checks. Preserve and hash-bind the failed activation intent; a separate one-use recovery intent records the reviewed recovery. No compute rerun, new reservation or scientific acceptance is implied.
+
+Both histories stay counted. Both review routes load the reviewed shared sequence classifier while retaining original authority connections. Defaults still refuse a third attempt and fixture-audit review without the exact proof. Install only new review runtimes/units; preserve old installed source, units, passed native state and every earlier attempt. Verify actual connected readiness before COMPLETE. The existing host checks, service identity, filesystem/network confinement, patient lock, credentials and monetary caps remain.
+
+Review all relevant source/tests/scientific package/notebook, current test results, original approvals and diff; report all findings in one pass. Also provide accounting/safeguard second opinion and direction check: is this the shortest safe path to timing judgment and first Colab instructions, or is overhead growing? PROCEED, SIMPLIFY (precise cuts), or ASK PARTHO only for money. The past failure mode is building infrastructure to prove infrastructure with little science. Defer unrelated components.

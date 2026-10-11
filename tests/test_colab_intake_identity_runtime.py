@@ -81,7 +81,7 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
         route.load('unchanged',tmp_path/'original.py')
         return prior
     previous.connect=prior_connect
-    repair=NS(DOCUMENT=doc.name,DOCUMENT_SHA=m.sha(raw),install_hook=lambda *args:events.append(('hook',args)))
+    repair=NS(TURN_DOCUMENT=doc.name,TURN_DOCUMENT_SHA=m.sha(raw),install_hook=lambda *args:events.append(('hook',args)))
     if damage=='document':doc.write_bytes(b'changed')
     def load(name,path):
         seen.append((name,path))
@@ -135,8 +135,13 @@ def install_fixture(tmp_path, monkeypatch):
         p=RealPath(name);assert not p.is_absolute() and '..' not in p.parts;return p
     helper=NS(relative=relative,OWNER_CHECK='readonly owner check',mkdir=lambda p:p.mkdir(),put=put)
     prior=NS(standalone_git=lambda p:events.append('standalone-verified'),verify_units=lambda u:events.append('units-verified'))
-    monkeypatch.setattr(m,'load',lambda name,path:helper if 'existing_installer' in name else prior)
-    controls={'source':'a'*40,'branch':'astra/manual-fixture','dirty':'','unit':'MainPID=0\nActiveState=inactive\nExecMainStatus=0\n','running':False,'verify_exit':0}
+    native_unit='research-preserved-native-review.service'
+    (unit_dir/native_unit).write_bytes(('User=partho\nProtectSystem=strict\nExecStart=/usr/bin/python3 -s -B '+str(m.NATIVE_PREVIOUS/'tools/item4_diagnostic_review_runtime.py')+' run\n').encode())
+    retained=NS(authority=lambda:{'source_sha':'1f2243448ca452abcad92ca355bead042cc731d2',
+        'report_sha256':'c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93'},
+        REVIEW_UNIT=native_unit,CPU_UNIT='research-preserved-native-cpu.service')
+    monkeypatch.setattr(m,'load',lambda name,path:retained if name=='_review_retained_native_install' else helper if 'existing_installer' in name else prior)
+    controls={'source':'a'*40,'branch':'astra/manual-fixture','dirty':'','unit':'MainPID=0\nActiveState=inactive\nExecMainStatus=0\n','running':False,'verify_exit':0,'native_verify_exit':0}
     def output(args,**kwargs):
         if args[:2]==['git','rev-parse']:return controls['source']+'\n'
         if args[:2]==['git','branch']:return controls['branch']+'\n'
@@ -146,7 +151,7 @@ def install_fixture(tmp_path, monkeypatch):
         raise AssertionError(args)
     def run(args,**kwargs):
         events.append(args)
-        if args[0]=='runuser':return NS(returncode=controls['verify_exit'],stdout=b'VERIFIED_HELD',stderr=b'')
+        if args[0]=='runuser':return NS(returncode=controls['native_verify_exit'] if 'item4_diagnostic_review_runtime.py' in args[-2] else controls['verify_exit'],stdout=b'VERIFIED_HELD',stderr=b'')
         assert args==['systemctl','daemon-reload'];return NS(returncode=0)
     monkeypatch.setattr(m,'subprocess',NS(check_output=output,run=run))
     return NS(source=source,review=review,root=root,record=record,unit=old_unit,units=unit_dir,
@@ -159,6 +164,8 @@ def test_install_is_held_exact_source_and_verification_before_complete(install_f
     assert f.unit.read_bytes()==before
     installed=json.loads((f.record/'installed.json').read_bytes())
     assert installed['files']==f.manifest['source_files']
+    assert set(installed['units'])=={str(f.units/m.UNIT),str(f.units/m.NATIVE_UNIT)}
+    assert (f.record/'NATIVE_VERIFY.stdout').exists()
     for name,pin in installed['files'].items():assert m.sha((f.root/name).read_bytes())==pin
     assert 'original-verified' in f.events and 'standalone-verified' in f.events and 'units-verified' in f.events
     assert all(not isinstance(e,list) or e[:2] not in [['systemctl','start'],['systemctl','enable']] for e in f.events)
@@ -241,3 +248,11 @@ def test_transport_recovery_requires_explicit_scope_and_exact_approval(tmp_path,
     if damage is None:assert m.reviewed(tmp_path)==(approval,manifest)
     else:
         with pytest.raises(ValueError):m.reviewed(tmp_path)
+
+
+def test_native_postcheck_failure_keeps_originals_and_never_marks_complete(install_fixture):
+    f=install_fixture;before=f.unit.read_bytes();f.controls['native_verify_exit']=1
+    with pytest.raises(ValueError,match='NATIVE_SERVICE_VERIFY_FAILED'):m.install(f.source,f.review)
+    assert f.unit.read_bytes()==before and (f.record/'VERIFY.stdout').exists()
+    assert (f.record/'NATIVE_VERIFY.stdout').exists() and not (f.record/'COMPLETE.json').exists()
+    with pytest.raises(ValueError,match='EXISTING_INSTALL_PRESERVED'):m.install(f.source,f.review)

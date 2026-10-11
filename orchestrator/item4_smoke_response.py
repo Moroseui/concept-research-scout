@@ -534,12 +534,18 @@ def protected_keys(p):
     return keys
 
 
+_native_review_complete = None
+_native_review_ready = None  # Installed only by independently reviewed native-evidence runtime.
+
 def ready(driver,value,p,approval):
     granted(driver.store,p,approval)
     q=profile(p)
     require(value.get(q['field'])==proof(p,approval) and not value.get('pending'),'STATE_SCOPE')
     stage=value.get('phase');rounds=value.get('rounds')
-    if fixture_audit(p):require(stage=='run_spec_author','AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
+    if fixture_audit(p) and stage!='run_spec_author':
+        require(stage=='run_spec_review' and _native_review_ready is not None,
+            'AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
+        require(_native_review_ready(driver,value,p,approval) is True,'ACTUAL_NATIVE_EVIDENCE_REQUIRED')
     if native_harness(p) and not fixture_correction(p):
         # This installation admits authoring only. Native execution and delivery
         # need their own reviewed connection before the reserved reviewer slot.
@@ -670,7 +676,9 @@ def connect_roles(accounting,recovery,p,approval):
 
 
 def finish_review(driver,value,p,approval):
-    require(not fixture_audit(p),'AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
+    if fixture_audit(p):
+        require(_native_review_complete is not None and _native_review_complete(driver,value,p,approval) is True,
+            'AUDIT_AUTHOR_ONLY_NATIVE_AND_REVIEW_HELD')
     from orchestrator.experiment_approval import verified_review_delivery
     from orchestrator.review_contract import scientific
     from orchestrator.manual_driver import write_once

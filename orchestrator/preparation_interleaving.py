@@ -14,6 +14,7 @@ STAGES = ('run_spec_author','run_spec_review','result_interpretation_author','re
 SCHEMA = 'preparation-interleaving/v1'
 _ACTIVE = None
 _PREMODEL = None
+_EXTRA_ATTEMPT = None  # Default closed; exact independently approved review only.
 _REVIEW_TERMINAL = None  # Only an independently reviewed exact proof may be connected.
 PREMODEL_CALL = 'e41d3d88958bef07e8cf854cb65125ba496b5537f42d26206ae1cee2df9e0e67'
 PREMODEL_RUN = 'aggregate-d695a5269c3647c4cb81b91a'
@@ -168,6 +169,13 @@ def install_driver_hook(module,proof):
     return original
 
 
+def permitted_attempts(scope,run,stage):
+    values=(1,2)
+    if _EXTRA_ATTEMPT is not None and _EXTRA_ATTEMPT(scope,run,stage,identity(run,stage,3)):
+        values=(*values,3)
+    return values
+
+
 def classify(scope, rows):
     """Pure, strict history classification. Never used as the accounting count."""
     validate_scope(scope)
@@ -185,7 +193,7 @@ def classify(scope, rows):
                 'UNRELATED_NEW_ROW')
             retained.append(row);continue
         key,lane=pair;binding=json.loads(row['binding'])
-        permitted={identity(lane['run_id'],stage,n):(stage,n) for stage in STAGES for n in (1,2)}
+        permitted={identity(lane['run_id'],stage,n):(stage,n) for stage in STAGES for n in permitted_attempts(scope,lane['run_id'],stage)}
         require(row['id'] in permitted and row['kind']=='scientific','PREPARATION_ROW_UNQUALIFIED')
         if row['status']!='COMPLETE':
             if _REVIEW_TERMINAL is None or not _REVIEW_TERMINAL(scope,row,None):premodel_global(scope,row)
@@ -301,7 +309,7 @@ class Overlay:
     def allowance(self,batch,run,stage,ident,source,receipt):
         key,lane=self.owner(batch,run)
         require(source==self.scope['source_sha'] and stage in STAGES,'CALL_SOURCE_STAGE')
-        permitted={identity(run,stage,n) for n in (1,2)};require(ident in permitted,'CALL_ID')
+        permitted={identity(run,stage,n) for n in permitted_attempts(self.scope,run,stage)};require(ident in permitted,'CALL_ID')
         rows=self.rows(batch);retained,selected,counts=classify(self.scope,rows)
         self.sequence_view(batch,rows)
         require(ident not in {r['id'] for r in rows} and counts[key]<8,'CALL_DUPLICATE_OR_CAP')
@@ -321,7 +329,7 @@ class Overlay:
         # never retries or marks scientifically accepted any historical failure.
         self.owner(batch,run)
         require(source==self.scope['source_sha'] and stage in STAGES and ident in
-                {identity(run,stage,n) for n in (1,2)},'TERMINAL_CALL_SCOPE')
+                {identity(run,stage,n) for n in permitted_attempts(self.scope,run,stage)},'TERMINAL_CALL_SCOPE')
         result=[]
         from orchestrator import administrative_terminal,private_records,completed_run
         already_closed=completed_run.closed_ids(batch,run,root=self.filesystem_root)
