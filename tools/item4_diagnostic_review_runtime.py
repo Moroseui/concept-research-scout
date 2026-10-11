@@ -15,6 +15,9 @@ def connect():
     prior,connected=native.verified_prior(scientific=True)
     native.overlay(ROOT)
     native.authority()
+    from orchestrator import manual_runtime
+    from tools import reviewer_connection_timing
+    reviewer_connection_timing.bind(manual_runtime)
     # Keep the already approved author24 scope and review16 allowance intact.
     # The new implementation approval binds the native evidence, not a new cap.
     return prior,connected

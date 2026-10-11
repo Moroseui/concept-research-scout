@@ -5,7 +5,7 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
 CHANGE='timing-author24-native-20261011'
-REVIEW_CHANGE='timing-author24-native-20261011'
+REVIEW_CHANGE='colab-timing-transport-repair-20261011'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
@@ -18,7 +18,7 @@ CPU_UNIT='research-'+CHANGE+'-cpu.service'
 REVIEW_UNIT='research-'+CHANGE+'-review.service'
 PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','ProtectSystem':'strict',
  'PrivateTmp':'yes','ProtectHome':'read-only','RestrictSUIDSGID':'yes','LockPersonality':'yes'}
-FILES=('tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
+FILES=('tools/reviewer_connection_timing.py','docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md','tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
  'tools/install_item4_diagnostic_native.py','tools/item4_native_worker.py','tools/item4_validation_retained.py',
  'orchestrator/item4_diagnostic_native.py','orchestrator/modal_native_synthetic.py',
  'orchestrator/modal_terminal_cost.py',
