@@ -1,6 +1,7 @@
 # 13B execution plan
 
-Current checkpoint (October 11, 12:52 UTC): exact Colab reading/review recovery and timing history correction are in one running implementation review, with 202 focused tests. Both scientific outputs are unchanged; no compute retry or Colab release yet. Next decision provisionally 15-30 minutes; scientific timing uncertain until this clears. See STATUS for the current request and costs.
+Current checkpoint (October 11, 13:10 UTC): both repairs are independently approved and installed, with actual verification. The synthetic timing CPU provider job is running with $1.118950 reserved; Colab scientific review 2 is running in parallel. No scientific release or GPU retry yet. See STATUS for current handles and money.
+
 
 Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
 
