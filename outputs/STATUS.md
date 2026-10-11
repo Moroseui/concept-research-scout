@@ -1,14 +1,30 @@
 # Research status
 
-- Item 6 and the saved-results synthesis are accepted; 352 rounded Sprint 14 values match on the same saved fits and cohort.
-- Claude approved the combined repair and recommended PROCEED. The Colab connection is installed and verified; its notebook still needs scientific review.
-- Colab stopped at a network preflight before any model call. Timing installation stopped at an entry-point check; no native or GPU run launched.
-- The timing correction passes 196 tests. Next is one combined review with the bounded Colab continuation; both original outcomes stay preserved.
-- Identified compute spend remains $24.40; stage-1 actual plus open reservations is $114.40/$150. Completed administrative calls total $17.00; no new compute reservation was added.
-- Colab handoff: allow about an hour if recovery and scientific review pass. Timing result: roughly 2-3 hours after its remaining gates. Network failures make both estimates conditional. See the [plan](13B_EXECUTION_PLAN.md).
-- Action needed: none. Today 8/50 calls: 2 authors, 5 administrative reviews, 1 direction check, 0 scientific reviewers. Latest direction: PROCEED, one bundled round.
+- Item 6 and saved-results synthesis are accepted; 352 rounded Sprint 14 values match on the same saved fits/cohort, not independent retraining.
+- The timing release is installed and verified. Its CPU start stopped before reservation or provider launch because one historical terminal proof was outside native admission scope.
+- Colab remains held: its unchanged installation check found 242 preparation files left by the earlier zero-charge network refusal. The notebook and both author calls are preserved.
+- One bundled Claude review is running for workspace preservation and the native admission connection; 281 tests pass, including cap refusals.
+- Last reconciled compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Completed administrative calls cost $20.70, plus the running review when billed; no new compute reservation.
+- Next: reviewed Colab instructions in roughly 1-2 hours if recovery and scientific review pass; timing result roughly 2-3 hours after its remaining gates. The [plan](13B_EXECUTION_PLAN.md) stays current.
+- Action needed: none. Today 10/50 calls: 2 authors, 7 administrative reviews (one running), 1 direction check, 0 scientific reviewers. Latest answered direction: PROCEED; a new check is folded into this review.
 
-## Current state - after the combined approval
+## Current state - October 11, 10:42 UTC
+
+The whole-component review `c9c86f72cebdb90c15468f4137118d454ce8421089495b35af3494fa0fddc016` completed with genuine APPROVE, no findings, source `c4280f2723e0adcf3c7cee51a435fc775528b393`, report `f5118bf6ae3c80cee8bf719adb4059b1f12637208c5a601a6a3fa6b6fab1d0b5`. Cost $3.703002; direction PROCEED, one round. The reviewer inspected the source and recorded evidence; it did not independently run tests or observe the server. Both actual runtime postchecks subsequently passed for timing and its COMPLETE receipt exists.
+
+Timing's one new CPU-service start was refused by BATCH_UNCERTAIN_OR_RUNNING_CALL before reservation/provider creation. Read-only reconciliation identifies the one missing historical author-22 proof. The existing qualifier confirms its exact terminal pre-SDK failure; its original classification is administrative-only. The new review explicitly requests native-only use of that proof during normal admission. No status, charge, amount, cap or generic refusal is changed. All files from the consumed attempt remain; never restart it. A distinct successor is drafted, with unchanged scientific package, image and resources.
+
+Colab's partial installation is preserved without COMPLETE. The original ready verifier refuses because the earlier network attempt prepared a workspace before checking connectivity. **Correction:** the previous handover's claim that no workspace existed was wrong. The live inventory is 242 files / 2,993,236 bytes, with two unchanged author calls and no scientific reviewer row. The new bounded repair would hash-check and rename the entire exact workspace into private preservation, verify unchanged rows, call the original ready verifier, rerun the actual installed verify command, and finish the unchanged installation only after PASS. It deletes nothing and removes no check.
+
+Current request `75e0f176f00c2bdd7091cbae7911ec242af8cbfd006338e9004d80cabc0c563d`, source `9ca3e71348c7f8ac13b149752ed5e39948fc7fd3`, is RUNNING on the server. It is one combined administrative review and direction check. Whole-component packet: 595 source files; installed reader/search PASS, 766 visible files / 15,605,312 bytes. Tests: 281 PASS. No installation or retry of these new changes until genuine APPROVE. The request, registration, invocation and both consumed operational attempts must not be duplicated after any disconnect.
+
+Call purposes today: authors corrected Colab and timing; administrative reviews covered combined continuations, intake/disk guard, failed alignment, failed recovery, connection repair, the approved entry-point/network continuation, and this running preservation/admission bundle. The one standalone direction check failed at zero reported cost. No scientific reviewer yet today. All original categories, attempts and charges remain counted. Completed administrative total $20.702767; author dollar cost is unavailable from its native usage and is not invented.
+
+Judgment log highlights: 10:17 UTC - Claude APPROVE/PROCEED, retain narrow repairs and existing routes; agreed. After actual postchecks - preserve Colab partial install and investigate workspace rather than relax ready. After timing refusal - preserve zero-reservation attempt, revalidate exact historical proof, request explicitly native-only scope from Claude. Batch both fixes and the recurring-overhead direction check; no unrelated infrastructure. Privacy, credentials, caps, confinement, full-training and coverage holds remain unchanged.
+
+Backup includes the installed timing release and separate draft branches. Withheld by policy: docs/COLAB_NETWORK_PREMODEL_PRIVATE.json, docs/COLAB_NETWORK_WORKSPACE_PRIVATE.json, docs/ITEM4_CORRECTED_NATIVE_REVIEW_PRIVATE.json, docs/ITEM4_DIAGNOSTIC_NATIVE_ACCEPTED_PRIVATE.json, docs/ITEM4_DIAGNOSTIC_NATIVE_RETAINED_PRIVATE.json, docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json, docs/ITEM4_DIAGNOSTIC_REVIEW_PRIOR_UNIT_PRIVATE.txt, docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json and docs/ITEM4_RESPONSE_HOST_PRIVATE.json. All evidence folders, ledgers, packets, native streams and patient material also remain private. No main merge. Last verified push before this update: ce2b728382da946c16bd8ef903b56294d058caee.
+
+## Historical state before the entry-point/network continuation
 
 Read the [repair and installation report](reports/colab-timing-connection-repair-20261011.md). Request `e75d9b507c71f3aad4afc4431c33dbbf3c5a24c28ad659f77f0cf0f2f8d256c6` is COMPLETE with genuine APPROVE, report `c64df8e27dc86e96a15a4630b0aec5812ec44ddb32124a09dfda0909d7c584ca`, source `4a05c64af90af15078e43e31abc9bd13d063160e`. The original 194 tests and complete packet passed the unchanged reader/search bounds. The review cost $4.013238; total completed administrative spend is $16.999765. The three original failures remain counted. No request is reclassified or replayed.
 

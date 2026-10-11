@@ -1,17 +1,15 @@
 # Current research state - 11 October 2026
 
-Action needed from you: none. Codex/OpenAI remains operator; swap gate not met.
+Action needed from you: none. Codex/OpenAI remains operator. Goal active; no swap/pause.
 
-Item 6 and saved-results synthesis are accepted. Colab author 2 and timing author 24 remain complete with synthetic PASS; neither is scientifically released.
+Item 6 and saved-results synthesis accepted. Colab author2 and timing author24 remain complete with synthetic PASS; no new scientific acceptance.
 
-Combined implementation request e75d9b507c71f3aad4afc4431c33dbbf3c5a24c28ad659f77f0cf0f2f8d256c6 is COMPLETE / APPROVE. Source 4a05c64af90af15078e43e31abc9bd13d063160e; report c64df8e27dc86e96a15a4630b0aec5812ec44ddb32124a09dfda0909d7c584ca. Direction PROCEED. Cost $4.013238. Preserve all three prior failed calls.
+Source c4280f2723e0adcf3c7cee51a435fc775528b393 received genuine implementation APPROVE / direction PROCEED, report f5118bf6ae3c80cee8bf719adb4059b1f12637208c5a601a6a3fa6b6fab1d0b5. Timing is installed with both actual postchecks and COMPLETE. Its CPU start then stopped at budget admission before reservation/provider launch. Preserve it; do not restart. One exact historical author22 terminal proof needs explicitly reviewed native scope.
 
-Colab connection is installed and verified. Its following invocation terminated at NETWORK_PREFLIGHT_FAILED_NO_CHARGE:claude before a scientific reviewer was admitted. The unchanged network check later passed. The original host invocation is consumed: do not replay it or erase its intent. Next: one bounded reviewed continuation for the same preserved notebook.
+Colab c428 installation is partial: unchanged ready refused an existing preparation workspace. Earlier no-workspace claim was wrong; live inventory242 files/2,993,236bytes was created before the prior network check. Original two author calls/outputs and zero-charge refusal unchanged. Preserve every file; no COMPLETE yet.
 
-Timing installer preflight passed, but actual postcheck failed EXECUTED_SOURCE because the file-list's first entry changed. Partial installation preserved; no COMPLETE marker, CPU/GPU run or new compute reservation. Do not launch or overwrite it. Successor draft 4e8fd559ea1fb5c7b6e86ea35c0732beaf71f26a checks the runtime's literal name and uses separate successor paths; 196 tests pass. Not reviewed/installed. Batch with the Colab continuation; no new review packet is prepared yet.
+Source9ca3e71348c7f8ac13b149752ed5e39948fc7fd3 batches exact Colab workspace preservation/partial-install completion and a distinct native admission successor.281testsPASS. Independent request75e0f176f00c2bdd7091cbae7911ec242af8cbfd006338e9004d80cabc0c563d is RUNNING; never duplicate it. Private continuation: colab-network-workspace-preservation-20261011/review. No install/retry until APPROVE.
 
-Today 8/50 calls: 2 authors, 5 administrative reviews, 1 direction, 0 scientific reviewers. Administrative spend $16.999765. Compute accounting unchanged: identified actual $24.39800404; qualified stage-1 commitment $114.397673/$150; diagnostic $4.286495/$25. All caps/gates unchanged.
+Today10/50:2authors,7administrative(one running),1direction,0scientificreviewers. Completed administrative$20.702767; no new compute reservation. Last qualified compute actual$24.39800404,stage1commitment$114.397673/$150,diagnostic$4.286495/$25. All gates/caps unchanged.
 
-Cleanup complete; never rerun transfers/verifiers/removals. C: about 19.4 GiB free, server about 122.4 GiB. No setup command needed.
-
-Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md), [repair report](outputs/reports/colab-timing-connection-repair-20261011.md), and [execution plan](outputs/13B_EXECUTION_PLAN.md). Last verified backup before this update: 60957a4c9e5bc4f44131da2f2839aecbed1649ff. Never merge main or edit BACKLOG.
+Read HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Cleanup remains complete; C:about19.4GiB free. No setup action. Last verified backup before this update:ce2b728382da946c16bd8ef903b56294d058caee. Never main or BACKLOG edits.
