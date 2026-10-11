@@ -59,41 +59,50 @@ def test_fixed_host_reuses_prior_start_state_checks_pulses_and_bounds(tmp_path,m
     assert m.sys.argv==['before']
 
 
-def test_only_reviewed_intake_is_loaded_search_and_old_runtime_retained(tmp_path,monkeypatch):
-    original=tmp_path/'original';root=tmp_path/'root'
-    for p in [original/'orchestrator',root/'orchestrator']:p.mkdir(parents=True)
-    (original/'orchestrator/scientific_intake.py').write_bytes(b'old intake')
-    for p in [original,root]:(p/'orchestrator/scientific_search.py').write_bytes(b'same strict search')
-    b={'original_intake_sha256':m.sha(b'old intake'),'original_search_sha256':m.sha(b'same strict search')}
-    monkeypatch.setattr(m,'ORIGINAL',original);monkeypatch.setattr(m,'ROOT',root);monkeypatch.setattr(m,'trusted',Path)
-    monkeypatch.setattr(m,'authority',lambda **kwargs:None);prior=object()
-    monkeypatch.setattr(m,'network_predecessor',lambda *a:{'transition':'a'*64})
-    monkeypatch.setattr(m,'original',lambda:NS(connect=lambda:prior))
-    monkeypatch.setattr(m,'recovery',lambda:NS(binding=lambda:b))
-    seen=[];bound=[];patched=NS()
-    transport=NS(bind=lambda runtime:bound.append(runtime))
-    monkeypatch.setattr(m,'load',lambda name,path:(seen.append((name,path)) or (transport if path.name=='reviewer_connection_timing.py' else patched)))
+@pytest.mark.parametrize('damage',[None,'prior-source','prior-review','document','sequence-path','predecessor-refusal'])
+def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp_path,monkeypatch,damage):
     import orchestrator
-    from orchestrator import scientific_intake
-    import sys
-    search=NS(__file__=str(original/'orchestrator/scientific_search.py'))
-    monkeypatch.setattr(orchestrator,'scientific_search',search,raising=False)
-    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',search)
-    monkeypatch.setattr(orchestrator,'scientific_intake',scientific_intake)
-    assert m.connect() is prior
-    assert seen==[('orchestrator.scientific_intake',root/'orchestrator/scientific_intake.py'),('_colab_review_connection_timing',root/'tools/reviewer_connection_timing.py')]
-    assert len(bound)==1
-    # The unused rotation copy may differ; the actual loaded module must not.
-    (root/'orchestrator/scientific_search.py').write_bytes(b'unused held rotation reader')
-    assert m.connect() is prior
-    search.__file__=str(root/'orchestrator/scientific_search.py')
-    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
-    search.__file__=str(original/'orchestrator/scientific_search.py')
-    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',NS(__file__=search.__file__))
-    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
-    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',search)
-    (original/'orchestrator/scientific_search.py').write_bytes(b'weakened')
-    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
+    from orchestrator import analysis_driver,manual_driver
+    root=tmp_path/'root';root.mkdir();doc=root/'synthetic.json';raw=b'{"synthetic":true}';doc.write_bytes(raw)
+    monkeypatch.setattr(m,'ROOT',root);monkeypatch.setattr(m,'trusted',Path)
+    seen=[];events=[];context=NS();approval={'report_sha256':'a'*64}
+    monkeypatch.setattr(m,'authority',lambda held=True:(events.append(('authority',held)) or approval))
+    approved={'source_sha':'c4280f2723e0adcf3c7cee51a435fc775528b393','report_sha256':'f5118bf6ae3c80cee8bf719adb4059b1f12637208c5a601a6a3fa6b6fab1d0b5'}
+    if damage=='prior-source':approved['source_sha']='wrong'
+    if damage=='prior-review':approved['report_sha256']='wrong'
+    branch=NS(load=lambda name,path:(seen.append(('branch-load',name,path)) or context))
+    prior=NS()
+    previous=NS(authority=lambda:approved,original=lambda:branch)
+    def prior_connect():
+        events.append('prior-connect')
+        if damage=='predecessor-refusal':raise ValueError('original search guard')
+        route=previous.original()
+        assert route.load('orchestrator.preparation_interleaving',(m.BRANCH if damage!='sequence-path' else tmp_path)/'orchestrator/preparation_interleaving.py') is context
+        route.load('unchanged',tmp_path/'original.py')
+        return prior
+    previous.connect=prior_connect
+    repair=NS(DOCUMENT=doc.name,DOCUMENT_SHA=m.sha(raw),install_hook=lambda *args:events.append(('hook',args)))
+    if damage=='document':doc.write_bytes(b'changed')
+    def load(name,path):
+        seen.append((name,path))
+        if name=='_colab_reader_previous_runtime':return previous
+        if name=='orchestrator.manual_context':return context
+        if name=='orchestrator.colab_reader_recovery':return repair
+        raise AssertionError(name)
+    monkeypatch.setattr(m,'load',load)
+    # Restore the shared module attributes after the composition test.
+    for module in [orchestrator,analysis_driver,manual_driver]:monkeypatch.setattr(module,'manual_context',module.manual_context)
+    if damage:
+        with pytest.raises(ValueError):m.connect('verify')
+        assert not any(isinstance(e,tuple) and e[0]=='hook' for e in events)
+    else:
+        assert m.connect('verify') is prior
+        assert seen[0]==('_colab_reader_previous_runtime',m.READER_PREVIOUS/m.ENTRY)
+        assert ('branch-load','orchestrator.preparation_interleaving',root/'orchestrator/preparation_interleaving.py') in seen
+        assert ('branch-load','unchanged',tmp_path/'original.py') in seen
+        assert all(module.manual_context is context for module in [orchestrator,analysis_driver,manual_driver])
+        assert events[-1]==('hook',(analysis_driver,{'synthetic':True},'a'*64,'verify'))
+        assert events.count(('authority',False))==2 and 'prior-connect' in events
 
 
 @pytest.fixture
@@ -199,17 +208,18 @@ def test_preserved_recovery_keeps_original_approval_and_refuses_live_writer(monk
         with pytest.raises(ValueError,match='PREVIOUS_'):m.recovery()
 
 
-def test_verify_exercises_real_connection_before_held_install_complete(monkeypatch):
+@pytest.mark.parametrize('result',[{'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0},{'status':'wrong'},{'status':'VERIFIED_HELD','model_calls':1,'provider_calls':0}])
+def test_verify_exercises_real_connection_before_held_install_complete(monkeypatch,result):
     events=[]
     monkeypatch.setattr(m,'os',NS(getuid=lambda:1003,getgid=lambda:1003))
     monkeypatch.setattr(m,'sys',NS(path=[]))
-    monkeypatch.setattr(m,'authority',lambda held=True:events.append(('authority',held)))
-    monkeypatch.setattr(m,'original',lambda:events.append('original'))
-    monkeypatch.setattr(m,'connect',lambda held=True:events.append(('connect',held)))
-    monkeypatch.setattr(m,'recovery',lambda:NS(ready=lambda:events.append('preserved-ready')))
-    assert m.main(['verify'])['status']=='VERIFIED_HELD'
-    assert ('connect',False) in events and 'preserved-ready' in events
-    assert events.index(('connect',False))<events.index('preserved-ready')
+    prior=NS(RECORD=Path('/synthetic'),main=lambda argv:(events.append(argv) or result))
+    monkeypatch.setattr(m,'connect',lambda action:(events.append(action) or prior))
+    if result=={'status':'VERIFIED_HELD','model_calls':0,'provider_calls':0}:
+        assert m.main(['verify'])=={'status':'VERIFIED_HELD','scientific_calls':0,'provider_calls':0}
+    else:
+        with pytest.raises(ValueError,match='ACTUAL_VERIFY_REQUIRED'):m.main(['verify'])
+    assert events==['verify',['advance','--scope','/synthetic/preparation-interleaving.json','--review-report','/synthetic/review/report.md','--lane','colab_preparation']]
 
 
 def test_successor_cannot_replay_completed_preservation():

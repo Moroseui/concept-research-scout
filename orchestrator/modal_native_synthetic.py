@@ -9,13 +9,13 @@ from orchestrator.review_contract import strict_json
 from tools import item4_native_worker as worker
 
 PURPOSE='M4_ITEM4_DIAGNOSTIC_NATIVE'
-OPERATION='item4-author24-admission-native-v1'
+OPERATION='item4-author24-history-native-v1'
 SCHEMA='item4-native-synthetic-operation/v1'
 from orchestrator.experiment_context import ITEM4_RUN as RUN
 RESOURCES={'gpu':None,'cpu':2,'memory_mib':8192,'timeout_seconds':900}
 SELECTION=Path(__file__).resolve().parents[1]/'docs/ITEM4_DIAGNOSTIC_NATIVE_SELECTION_PRIVATE.json'
 SELECTION_SHA='ef56de446341fc175fdb6ab45bab8d8476df625bafe7177884f530ec3051be9c'
-BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/timing-author24-admission-repair-20261011/code-bundle.json')
+BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/timing-author24-history-repair-20261011/code-bundle.json')
 
 
 def selected(value=None):

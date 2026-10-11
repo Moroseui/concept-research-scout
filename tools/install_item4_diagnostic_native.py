@@ -39,7 +39,7 @@ def install(source,review,bundle,*,preflight=False):
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approval=verify_result(review);manifest=json.loads(trusted(review/'packet-manifest.json').read_bytes())
-    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='colab-workspace-native-implementation-20261011'
+    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='colab-reader-native-history-20261011'
         and approval['source_sha']==manifest['source_sha'] and approval['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()),'GENUINE_APPROVAL')
     path=source/'tools/item4_diagnostic_native_runtime.py'
     require(sha(trusted(path).read_bytes())==manifest['source_files']['tools/item4_diagnostic_native_runtime.py'],'RUNTIME_SOURCE')
@@ -57,6 +57,10 @@ def install(source,review,bundle,*,preflight=False):
         str(source/'tools/item4_validation_retained.py'),'--diagnostic-progress-failure'],timeout=120)
     require(json.loads(third)==json.loads(bodies['docs/ITEM4_PROGRESS_NATIVE_FAILURE_PRIVATE.json'])['qualification'],
         'THIRD_FAILURE_CHANGED')
+    fourth=subprocess.check_output(['runuser','-u','partho','--','env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),
+        'python3','-s','-B',str(source/'tools/item4_validation_retained.py'),'--diagnostic-report-failure'],timeout=120)
+    require(json.loads(fourth)==json.loads(bodies['docs/ITEM4_FOURTH_NATIVE_FAILURE_PRIVATE.json'])['qualification'],
+        'FOURTH_FAILURE_CHANGED')
     import orchestrator,tools
     orchestrator.__path__=[str(source/'orchestrator'),str(h.BASE/'orchestrator'),*orchestrator.__path__]
     tools.__path__=[str(source/'tools'),str(h.BASE/'tools'),*tools.__path__]
@@ -69,7 +73,9 @@ def install(source,review,bundle,*,preflight=False):
     require(sha(code)==selected['code_bundle_sha256'] and len(code)==selected['code_bundle_bytes'],'BUNDLE_CHANGED')
     with tempfile.TemporaryDirectory(prefix='diagnostic-native-source-check-') as folder:
         worker.unpack(base64.b64encode(gzip.compress(code,mtime=0)).decode(),selected,Path(folder));worker.check_package(Path(folder),selected)
-    for unit in ('research-timing-author24-entrypoint-repair-20261011-cpu.service',
+    for unit in ('research-timing-author24-admission-repair-20261011-cpu.service',
+            'research-timing-author24-admission-repair-20261011-review.service',
+            'research-timing-author24-entrypoint-repair-20261011-cpu.service',
             'research-timing-author24-entrypoint-repair-20261011-review.service',
             'research-timing-author24-native-20261011-cpu.service',
             'research-timing-author24-native-20261011-review.service',
