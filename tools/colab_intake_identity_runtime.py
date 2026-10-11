@@ -9,10 +9,10 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'native-review-admission-20261011'
+CHANGE = 'terminal-ledger-readonly-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'native-review-admission-20261011'
-REVIEW_SCOPE = 'docs/NATIVE_REVIEW16_ADMISSION_SCOPE.md'
+REVIEW_CHANGE = 'terminal-ledger-readonly-20261011'
+REVIEW_SCOPE = 'docs/COLAB_TERMINAL_READONLY_SCOPE.md'
 CONTINUATION_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/review-continuation-20261011')
 COLAB_RECOVERY_SOURCE = 'd4e276292744e4eff9327e46b0c19053cf3f0da9'
 COLAB_RECOVERY_REVIEW = '276620d8cbe9e76a0e676cbec0098261883b4903e7cd2b690ab433a9d2190a62'
@@ -264,15 +264,16 @@ def install(source, review):
     previous=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show','research-colab-network-continuation-20261011.service','-p','MainPID','-p','ActiveState'],text=True).splitlines())
     require(previous['MainPID']=='0' and previous['ActiveState'] in {'inactive','failed'},'PREVIOUS_REVIEW_TERMINAL')
     colab_recovery_review()
-    previous_bundle=load('_review16_previous_bundle',Path('/opt/research-system/manual-repair-helpers/continuation-binding-20261011')/ENTRY)
+    previous_bundle=load('_review16_previous_bundle',Path('/opt/research-system/manual-repair-helpers/native-review-admission-20261011')/ENTRY)
     previous_approval=previous_bundle.authority()
-    require(previous_approval['source_sha']=='f57ab420f55596b53b0781e904d817fde4b85423'
-        and previous_approval['report_sha256']=='8bb46b53c0ed72791f1bebbea4bf3433d9d020167d98e4ac902a6fa15583c0d8','PREVIOUS_ADMISSION_INSTALL')
+    require(previous_approval['source_sha']=='9e2816b322518f5d5843bd3656b078902818a589'
+        and previous_approval['report_sha256']=='ff2aea58844c443774bb83b22fe76e846c97c8f54c8eedfa7b2e225327a9e57d','PREVIOUS_ADMISSION_INSTALL')
     retained,native_approval=preserved_native()
     require(native_approval['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
         and native_approval['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_APPROVAL')
     for unit in ('research-colab-reader-recovery-20261011.service',
             'research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service',
+            'research-continuation-binding-20261011.service','research-continuation-binding-20261011-native-review.service',
             previous_bundle.UNIT,previous_bundle.NATIVE_UNIT,retained.REVIEW_UNIT,retained.CPU_UNIT):
         observed=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show',unit,'-p','MainPID','-p','ActiveState'],text=True).splitlines())
         require(observed['MainPID']=='0' and observed['ActiveState'] in {'inactive','failed'},'PREVIOUS_WRITER')

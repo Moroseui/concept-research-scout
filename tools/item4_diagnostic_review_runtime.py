@@ -3,7 +3,7 @@ from pathlib import Path
 import hashlib,importlib.util,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools import item4_diagnostic_native_runtime as native
-ROOT=Path('/opt/research-system/manual-repair-helpers/native-review-admission-20261011')
+ROOT=Path('/opt/research-system/manual-repair-helpers/terminal-ledger-readonly-20261011')
 ACTIVATION_DOCUMENT='docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json'
 ACTIVATION_SHA='ac8b4b87792a5a5bcc7f74371253bdd238f8286621f6c3508c8fda26864039a3'
 PREFIX='diagnostic-native24-'

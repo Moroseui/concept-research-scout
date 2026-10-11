@@ -3,13 +3,16 @@
 This classifies process termination, never scientific success or author submission.
 It admits no Colab successor. Timing reviewer16 still uses ordinary reservation.
 """
-import hashlib,json,sqlite3,subprocess
+import hashlib,json,sqlite3,subprocess,tempfile
 from pathlib import Path
 from orchestrator import private_records as pr
 CALL='cef242f7d88feb96074dc39ca35ae339c7e73b51bc9f5ea9f5594c864b93eab2'
 RUN='colab-1ad5fafc220b3d65f576ce08'
 DOC='docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json'
 DOC_SHA='04ac4c16038d4df43e30128d8906997085db40050edf1357e8ee04968c2cb3b5'
+# Exact fully checkpointed terminal ledger; any later ledger change refuses.
+DB_SHA='50bc5efd703670b66169d368b8447e275ffd9702d5cdbd90bf091bde1bedf023'
+DB_BYTES=122880
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def require(ok,why):
@@ -24,12 +27,34 @@ def unit_state(unit):
     raw=subprocess.check_output(['systemctl','show',unit,*sum([['-p',k] for k in keys],[])],text=True,timeout=15)
     return dict(line.split('=',1) for line in raw.splitlines())
 
-def local_state(f):
+def checkpointed_bytes(f):
     path=pr.check(Path(f['lane'])/'jobs.sqlite')
-    with sqlite3.connect(path.as_uri()+'?mode=ro',uri=True) as db:
-        db.row_factory=sqlite3.Row
-        row=db.execute('SELECT * FROM manual_calls WHERE id=?',(CALL,)).fetchone()
-        return None if row is None else dict(row),db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]
+    # Never ignore WAL/journal content, including empty or dangling sidecars.
+    for suffix in ('-wal','-shm','-journal'):
+        sidecar=path.with_name(path.name+suffix)
+        require(not sidecar.exists() and not sidecar.is_symlink(),'DATABASE_SIDECAR_PRESENT')
+    require(path.stat().st_size==DB_BYTES,'DATABASE_SIZE_CHANGED')
+    raw=path.read_bytes()
+    require(len(raw)==DB_BYTES and sha(raw)==DB_SHA,'DATABASE_BYTES_CHANGED')
+    return raw
+
+def local_state(f):
+    raw=checkpointed_bytes(f)
+    # immutable applies ONLY to our private, read-only snapshot, never the live DB.
+    # No writable mount or live SQLite sidecar is needed or created.
+    with tempfile.TemporaryDirectory(prefix='colab-terminal-read-') as folder:
+        snapshot=Path(folder)/'terminal.sqlite'
+        with pr.open_file(snapshot,'xb') as stream:stream.write(raw)
+        snapshot.chmod(0o400)
+        db=sqlite3.connect(snapshot.as_uri()+'?mode=ro&immutable=1',uri=True)
+        try:
+            db.row_factory=sqlite3.Row
+            row=db.execute('SELECT * FROM manual_calls WHERE id=?',(CALL,)).fetchone()
+            state=db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0]
+            result=None if row is None else dict(row),state
+        finally:db.close()
+        require(checkpointed_bytes(f)==raw,'DATABASE_CHANGED_DURING_READ')
+        return result
 
 def qualify(row,f=None,*,read_file=None,observe=None,read_local=None):
     f=frozen() if f is None else f
