@@ -82,12 +82,14 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
         return prior
     previous.connect=prior_connect
     repair=NS(TURN_DOCUMENT=doc.name,TURN_DOCUMENT_SHA=m.sha(raw),install_hook=lambda *args:events.append(('hook',args)))
+    monkeypatch.setattr(m,'colab_recovery_review',lambda:'original-recovery-review')
     if damage=='document':doc.write_bytes(b'changed')
     def load(name,path):
         seen.append((name,path))
         if name=='_colab_reader_previous_runtime':return previous
         if name=='orchestrator.manual_context':return context
         if name=='orchestrator.colab_reader_recovery':return repair
+        if name=='orchestrator.colab_author_terminal':return NS(connect_sequence=lambda pi:events.append('terminal-sequence'))
         raise AssertionError(name)
     monkeypatch.setattr(m,'load',load)
     # Restore the shared module attributes after the composition test.
@@ -101,7 +103,8 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
         assert ('branch-load','orchestrator.preparation_interleaving',root/'orchestrator/preparation_interleaving.py') in seen
         assert ('branch-load','unchanged',tmp_path/'original.py') in seen
         assert all(module.manual_context is context for module in [orchestrator,analysis_driver,manual_driver])
-        assert events[-1]==('hook',(analysis_driver,{'synthetic':True},'a'*64,'verify'))
+        assert events[-1]=='terminal-sequence'
+        assert events[-2]==('hook',(analysis_driver,{'synthetic':True},'original-recovery-review','verify'))
         assert events.count(('authority',False))==2 and 'prior-connect' in events
 
 
@@ -141,6 +144,7 @@ def install_fixture(tmp_path, monkeypatch):
         'report_sha256':'c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93'},
         REVIEW_UNIT=native_unit,CPU_UNIT='research-preserved-native-cpu.service')
     monkeypatch.setattr(m,'preserved_native',lambda:(retained,retained.authority()))
+    monkeypatch.setattr(m,'colab_recovery_review',lambda:m.COLAB_RECOVERY_REVIEW)
     monkeypatch.setattr(m,'load',lambda name,path:helper if 'existing_installer' in name else prior)
     controls={'source':'a'*40,'branch':'astra/manual-fixture','dirty':'','unit':'MainPID=0\nActiveState=inactive\nExecMainStatus=0\n','running':False,'verify_exit':0,'native_verify_exit':0}
     def output(args,**kwargs):
@@ -284,3 +288,32 @@ def test_native_config_check_uses_preserved_bootstrap_in_isolated_service_contex
         with pytest.raises(ValueError):m.preserved_native()
     else:assert m.preserved_native()==(prior,approved)
     if fault in {'source','uid'} or fault=='gid' and uid!=0:assert not seen
+
+
+@pytest.mark.parametrize('fault',[None,'source','report','change','original-refusal'])
+def test_continuation_keeps_exact_predecessor_grant_approval(monkeypatch,fault):
+    approval={'source_sha':m.COLAB_RECOVERY_SOURCE,'report_sha256':m.COLAB_RECOVERY_REVIEW,
+              'change_id':'native-authority-reader-recovery-20261011'}
+    if fault in {'source','report','change'}:
+        approval[{'source':'source_sha','report':'report_sha256','change':'change_id'}[fault]]='changed'
+    def original():
+        if fault=='original-refusal':raise ValueError('original installed authority refused')
+        return approval
+    def load(name,path):
+        assert path==m.CONTINUATION_PREVIOUS/m.ENTRY
+        return NS(authority=original)
+    monkeypatch.setattr(m,'load',load)
+    if fault:
+        with pytest.raises(ValueError):m.colab_recovery_review()
+    else:assert m.colab_recovery_review()==m.COLAB_RECOVERY_REVIEW
+
+
+@pytest.mark.parametrize('unit',['research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service'])
+def test_new_install_refuses_either_previous_continuation_writer(install_fixture,monkeypatch,unit):
+    f=install_fixture;original=m.subprocess.check_output
+    def output(args,**kwargs):
+        if args[:3]==['systemctl','show',unit]:return 'MainPID=7\nActiveState=activating\n'
+        return original(args,**kwargs)
+    monkeypatch.setattr(m.subprocess,'check_output',output)
+    with pytest.raises(ValueError):m.install(f.source,f.review)
+    assert not f.root.exists() and not f.record.exists()

@@ -3,9 +3,9 @@ from pathlib import Path
 import hashlib,importlib.util,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from tools import item4_diagnostic_native_runtime as native
-ROOT=Path('/opt/research-system/manual-repair-helpers/review-continuation-20261011')
+ROOT=Path('/opt/research-system/manual-repair-helpers/continuation-binding-20261011')
 ACTIVATION_DOCUMENT='docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json'
-ACTIVATION_SHA='3eebf4e4245dc2a1376b895821cd94667cf6379d9e3c7ef155876295db22fe92'
+ACTIVATION_SHA='ac8b4b87792a5a5bcc7f74371253bdd238f8286621f6c3508c8fda26864039a3'
 PREFIX='diagnostic-native24-'
 sha,require,trusted=native.sha,native.require,native.trusted
 
@@ -54,7 +54,10 @@ def connect(*,held=True):
     require(sha(raw)==repair.TURN_DOCUMENT_SHA,'FAILED_REVIEW_BINDING');frozen=json.loads(raw)
     require(pi._REVIEW_TERMINAL is None and pi._EXTRA_ATTEMPT is None,'SEQUENCE_ALREADY_CONNECTED')
     pi._REVIEW_TERMINAL=lambda scope,row,item:repair.retained_review(scope,row,item,frozen)
-    pi._EXTRA_ATTEMPT=lambda scope,run,stage,ident:repair.extra_attempt(scope,run,stage,ident,frozen,approval['report_sha256'])
+    recovery_review=bundle.colab_recovery_review()
+    pi._EXTRA_ATTEMPT=lambda scope,run,stage,ident:repair.extra_attempt(scope,run,stage,ident,frozen,recovery_review)
+    terminal=load('orchestrator.colab_author_terminal',ROOT/'orchestrator/colab_author_terminal.py')
+    terminal.connect_sequence(pi);terminal.connect_timing_admission()
     from tools import reviewer_connection_timing
     reviewer_connection_timing.bind(manual_runtime)
     return route,connection

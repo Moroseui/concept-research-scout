@@ -19,6 +19,7 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
         'report_sha256':'c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93'},
         overlay=lambda path:events.append(('overlay',path)))
     bundle.preserved_native=lambda:(native,native.authority())
+    bundle.colab_recovery_review=lambda:'original-recovery-review'
     monkeypatch.setattr(m,'native',m.native)
     if fault=='prior-bytes':priorfile.write_text('changed')
     callback=object()
@@ -34,12 +35,13 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
         route.module('unrelated',tmp_path/'unchanged.py')
         return connection
     route.connect=connected;prior.route=lambda:route
-    repair=NS(TURN_DOCUMENT=doc.name,TURN_DOCUMENT_SHA=m.sha(doc.read_bytes()),retained_review=lambda *a:True,extra_attempt=lambda *a:False)
+    repair=NS(TURN_DOCUMENT=doc.name,TURN_DOCUMENT_SHA=m.sha(doc.read_bytes()),retained_review=lambda *a:True,extra_attempt=lambda *a:(events.append(('extra-attempt-approval',a[-1])) or False))
     if fault=='binding':doc.write_text('changed')
     def load(name,path):
         if name=='_native_review_passed_runtime':return native
         if name=='_native_review_prior_author24':return prior
         if name=='orchestrator.colab_reader_recovery':return repair
+        if name=='orchestrator.colab_author_terminal':return NS(connect_sequence=lambda pi:events.append('terminal-sequence'),connect_timing_admission=lambda:events.append('terminal-admission'))
         raise AssertionError(name)
     monkeypatch.setattr(m,'load',load)
     monkeypatch.setattr(pi,'_REVIEW_TERMINAL',None);monkeypatch.setattr(pi,'_EXTRA_ATTEMPT',None)
@@ -54,7 +56,9 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
         assert ('original-module','orchestrator.item4_smoke_response',root/'orchestrator/item4_smoke_response.py') in events
         assert ('original-module','unrelated',tmp_path/'unchanged.py') in events
         assert pi._REVIEW_TERMINAL({}, {}, None) and not pi._EXTRA_ATTEMPT({},'x','y','z')
-        assert events[-1]==('transport',manual_runtime)
+        assert ('transport',manual_runtime) in events
+        assert events.index('terminal-sequence')<events.index('terminal-admission')<events.index(('transport',manual_runtime))
+        assert events[-1]==('extra-attempt-approval','original-recovery-review')
 
 
 def test_completion_default_stays_closed(monkeypatch):

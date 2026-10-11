@@ -160,7 +160,7 @@ def install_hook(module,f,approval,action):
     class ReviewedColabRecovery(original):
         def model_round_number(self,value):return next_round(self,value,f,approval,super().model_round_number)
         def _model_step(self,value):
-            if not turn_recovery(f):return super()._model_step(value)
+            if not turn_recovery(f) or value.get('phase')!=STAGE:return super()._model_step(value)
             from orchestrator import manual_stage
             saved=manual_stage.reviewer_command
             manual_stage.reviewer_command=lambda work,stage:review_command(self,work,stage,saved(work,stage),f,approval)
