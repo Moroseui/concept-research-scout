@@ -4,12 +4,12 @@ No GPU entrypoint, automatic retry, author call, or full-plan approval.
 """
 from pathlib import Path
 import hashlib,importlib.util,json,os,sqlite3,subprocess,sys,time
-CHANGE='timing-author24-entrypoint-repair-20261011'
-REVIEW_CHANGE='timing-entrypoint-colab-network-recovery-20261011'
+CHANGE='timing-author24-admission-repair-20261011'
+REVIEW_CHANGE='colab-workspace-native-implementation-20261011'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author24-entrypoint-native-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author24-admission-native-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 LANE=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 LEDGER=Path('/var/lib/research-system-autonomy/reviews')
@@ -18,7 +18,7 @@ CPU_UNIT='research-'+CHANGE+'-cpu.service'
 REVIEW_UNIT='research-'+CHANGE+'-review.service'
 PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','ProtectSystem':'strict',
  'PrivateTmp':'yes','ProtectHome':'read-only','RestrictSUIDSGID':'yes','LockPersonality':'yes'}
-FILES=('tools/reviewer_connection_timing.py','docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md','tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
+FILES=('docs/COLAB_NETWORK_WORKSPACE_SCOPE.md','tools/reviewer_connection_timing.py','docs/COLAB_TIMING_TRANSPORT_REPAIR_SCOPE.md','tools/item4_diagnostic_native_runtime.py','tools/item4_diagnostic_review_runtime.py',
  'tools/install_item4_diagnostic_native.py','tools/item4_native_worker.py','tools/item4_validation_retained.py',
  'orchestrator/item4_diagnostic_native.py','orchestrator/modal_native_synthetic.py',
  'orchestrator/modal_terminal_cost.py',
@@ -205,6 +205,39 @@ def accepted(accounts,*,review=False):
         require(row is not None and sha(json.dumps(dict(row),sort_keys=True,separators=(',',':'),allow_nan=False).encode())==pin,'GLOBAL_CALL_CHANGED')
     return value
 
+def sender_closed_call(batch):
+    """New reviewed native-only use of exact historical terminal evidence.
+
+    The original ADMIN_ONLY classification and charged UNCERTAIN row are never
+    changed. This release independently authorizes using its terminal proof
+    during this native operation's ordinary reservation, not blanket closure.
+    """
+    from orchestrator.autonomy_review import verify_result
+    from orchestrator import private_records as pr
+    packet='a27b9e0bdf19ec037711ff079725ee83afe02e4d2b95fd751ac1ab9a7e81e04d'
+    source=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006/item4-sender-recovery-20261010/packet/source')
+    result=verify_result(LEDGER/packet)
+    require(result['verdict']=='APPROVE' and not result.get('findings')
+            and result['source_sha']=='41b93574a0ad0fb546745095ff0078debd6f133d'
+            and result['report_sha256']=='a54ef800461b974db328d18fba65e4d6d819044a3a003d9699a59603b0710139'
+            and result['change_id']=='item4-sender-recovery-20261010','SENDER_PROOF_APPROVAL')
+    manifest=json.loads(pr.check(LEDGER/packet/'packet-manifest.json').read_bytes())
+    for name,pin in manifest['source_files'].items():
+        require(sha(trusted(source/name).read_bytes())==pin,'SENDER_PROOF_SOURCE')
+    path=trusted(source/'tools/review_sender_recovery_once.py')
+    spec=importlib.util.spec_from_file_location('_native_original_sender_proof',path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    binding=json.loads(trusted(source/module.DOC).read_bytes())
+    ident='af4547778fe7e1f35698089607ab524d08346618131512c232670b7ccbf02ab8'
+    require(binding['call_id']==ident,'SENDER_PROOF_ID')
+    row=batch.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(ident,)).fetchone()
+    require(row is not None,'SENDER_PROOF_ROW')
+    proof=module.qualify(dict(row),binding,lambda p:pr.check(p).read_bytes())
+    require(proof=={'id':ident,'classification':'EXACT_TERMINAL_PRE_SDK_AUTHOR22_ADMIN_ONLY',
+        'proof_sha256':'fa1883b02291bd74d273b1c1b0c00052d48dd7b6f01c52f2f73731426384294a'},'SENDER_TERMINAL_PROOF')
+    return ident
+
+
 def connect_closed(accounts):
     from orchestrator import spending_continuation,item4_diagnostic_native as d
     from orchestrator.modal_executor import canonical
@@ -220,7 +253,7 @@ def connect_closed(accounts):
             require(row is not None and sha(canonical(dict(row)))==pin,'CLOSED_CALL_CHANGED')
         # retained_terminal replays the native original qualification in the same
         # reservation transaction; these pins cannot make an unknown row closed.
-        return original|set(proof['closed_calls'])
+        return original|set(proof['closed_calls'])|{sender_closed_call(batch)}
     spending_continuation.closed_ids=qualified
     return lambda:setattr(spending_continuation,'closed_ids',prior)
 

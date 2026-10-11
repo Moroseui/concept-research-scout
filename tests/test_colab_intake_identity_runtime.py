@@ -39,6 +39,7 @@ def test_fixed_host_reuses_prior_start_state_checks_pulses_and_bounds(tmp_path,m
     monkeypatch.setattr(m,'os',NS(getuid=lambda:0));monkeypatch.setattr(m,'sys',NS(flags=NS(no_user_site=1),argv=['before']))
     monkeypatch.setattr(m,'trusted',Path);monkeypatch.setattr(m,'authority',lambda:{'report_sha256':'a'*64})
     monkeypatch.setattr(m,'original',lambda:None)
+    monkeypatch.setattr(m,'network_predecessor',lambda *a:{'transition':'a'*64})
     installed={'units':{'/etc/systemd/system/'+m.UNIT:'u'},'files':{'one.py':'f'}}
     (record/'installed.json').write_text(json.dumps(installed))
     original_checks=object();events=[]
@@ -66,6 +67,7 @@ def test_only_reviewed_intake_is_loaded_search_and_old_runtime_retained(tmp_path
     b={'original_intake_sha256':m.sha(b'old intake'),'original_search_sha256':m.sha(b'same strict search')}
     monkeypatch.setattr(m,'ORIGINAL',original);monkeypatch.setattr(m,'ROOT',root);monkeypatch.setattr(m,'trusted',Path)
     monkeypatch.setattr(m,'authority',lambda **kwargs:None);prior=object()
+    monkeypatch.setattr(m,'network_predecessor',lambda *a:{'transition':'a'*64})
     monkeypatch.setattr(m,'original',lambda:NS(connect=lambda:prior))
     monkeypatch.setattr(m,'recovery',lambda:NS(binding=lambda:b))
     seen=[];bound=[];patched=NS()
@@ -115,6 +117,7 @@ def install_fixture(tmp_path, monkeypatch):
     monkeypatch.setattr(m,'os',NS(getuid=lambda:0));monkeypatch.setattr(m,'sys',NS(flags=NS(no_user_site=1)))
     approval={'source_sha':'a'*40,'report_sha256':'b'*64};monkeypatch.setattr(m,'reviewed',lambda folder:(approval,manifest))
     events=[];monkeypatch.setattr(m,'original',lambda:events.append('original-verified'))
+    monkeypatch.setattr(m,'network_predecessor',lambda raw:events.append('network-predecessor-verified'))
     (branch_record/'installed.json').write_text(json.dumps({'units':{str(old_unit):m.sha(old_unit.read_bytes())}}))
     def put(path,raw):
         path.parent.mkdir(parents=True,exist_ok=True)
