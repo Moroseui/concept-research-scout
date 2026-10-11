@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 11 October 2026, 21:24 UTC. Codex/OpenAI remains operator. No swap or pause. Action needed from Partho: none.
+Updated 11 October 2026, 21:33 UTC. Codex/OpenAI remains operator. No swap or pause. Action needed from Partho: none.
 
 ## Goal and rules
 
@@ -32,7 +32,7 @@ One administrative implementation review is running; no scientific compute or GP
 
 ## Money and calls
 
-Today 33/50 calls: 3 scientific authors, 3 scientific reviewers, 22 administrative reviews, 5 direction calls; the latest implementation review cost is pending. The detailed purposes are in STATUS. Latest completed review cost $5.5002345; reported Claude total $124.32448875. Author dollar totals remain unavailable. Compute actual $24.39800404; stage-1 actual plus reservations $115.516623/$150; timing diagnostic exposure $5.405445/$25. The $1.118950 synthetic CPU reservation remains until provider billing confirms actual cost. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 unchanged. No money decision is pending.
+Today 34/50 calls: 4 scientific authors, 3 scientific reviewers, 22 administrative reviews, 5 direction calls; the latest implementation review cost is pending. The detailed purposes are in STATUS. Latest completed review cost $5.18206125; reported Claude total $129.50655. Author dollar totals remain unavailable. Compute actual $24.39800404; stage-1 actual plus reservations $115.516623/$150; timing diagnostic exposure $5.405445/$25. The $1.118950 synthetic CPU reservation remains until provider billing confirms actual cost. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 unchanged. No money decision is pending.
 
 Recent judgments: preserve and stop the laptop copy; route the in-place input revision through the scientific author/reviewer; defer server gap uploads until actual missing files are identified; consult Claude on the blocked continuation without a new allowance. Batch direction questions into necessary reviews; keep timing parked after the repeated admission failure; package approved Colab smoke without waiting for final interpretation; recover membership metadata by exact hash without opening patient payloads. No scientific safeguards or accounting limits were relaxed.
 
@@ -49,3 +49,5 @@ Declare Swap point reached only after all six operator conditions are satisfied;
 Latest 20:58 UTC: Colab continuation e0394b8 genuinely approved and installed. First author preparation stopped before admission on two missing unchanged producer modules. All six original calls/files preserved, author3 still unadmitted. Narrow transport/rearm candidate e687371 passed 260 tests and real confined no-model transport; one combined implementation review started, reconcile it before any installation or successor. Never repeat the original activation, stopped laptop copy, or historical timing launch. Use rearm only after repair APPROVE and held installation. No scientific or compute job running at last check.
 
 Current 21:24 UTC: source e687371 is installed and verified after genuine APPROVE e8ac71e2. Its rearm is consumed; do not repeat it. The next author preparation passed transport then stopped before admission on the completed analysis lane journal. All six original calls and charges remain; author3 still unadmitted. Candidate698cca9 is staged only and under one combined Claude implementation/direction review (call33).189 focused tests and full real read-only allowance/terminal replay pass. After genuine APPROVE only: install, verify, use the new rearm-reader action once, get a fresh transition, then normal author3/reviewer4. No science/model/GPU job is active besides this administrative review. Original laptop copy stays stopped. Exact private handles are in the restart handoff.
+
+Latest active state21:33UTC: reader698cca9 genuinely APPROVE/PROCEED and installed/verified. Exact reader recovery is consumed; do not repeat it. Author3 is now actually ADMITTED and RUNNING in the Colab lane (seven local calls, original eight-call limit). Reconcile and maintain this exact service/transition using the private handoff; no duplicate launch. After author completion/synthetic gate, obtain reviewer4 and package accepted in-place-input notebook; do not wait for final interpretation. No GPU/input transfer active. Daily34/50, latestClaudePROCEED.
