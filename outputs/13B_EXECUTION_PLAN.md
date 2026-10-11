@@ -1,6 +1,7 @@
 # 13B execution plan
 
-Current checkpoint (October 11, 13:13 UTC): both repairs are independently approved and installed, with actual verification. Synthetic timing CPU integration passed; $1.118950 remains reserved pending billing. Colab scientific review 2 is running; timing reviewer 16 follows when model admission is free. No scientific release or GPU retry yet. See STATUS for current handles and money.
+Current checkpoint (October 11, 13:21 UTC): synthetic timing CPU integration passed. Colab review2 exhausted its30turns without a verdict; native reviewer activation hit an older author-only guard before a call. Both terminal outcomes are preserved, no jobs active. Batch narrow corrections with Claude; no native rerun or automatic Colab retry. GPU timing and first instructions remain held; see STATUS.
+
 
 
 Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
