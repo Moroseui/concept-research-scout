@@ -134,7 +134,7 @@ def test_profile_preserves_original_transport_and_binds_fixed_sender(tmp_path,mo
     commands=[('codex',base),('claude',[])]
     rendered=h.sender_profile(ms.transport_profile,'a'*64,commands,pins,stage='run_spec_author')
     profile=tomllib.loads(rendered)
-    assert profile['rotation']['enabled'] is False and profile['limits']['stage_timeout']==900
+    assert profile['rotation']['enabled'] is False and profile['limits']['stage_timeout']==1800
     cmd=profile['codex']['command']
     assert cmd[:5]==[sys.executable,'-s','-B',str(h.ROOT/'tools/item4_author_submission_component.py'),'send']
     assert cmd[5:8]==['a'*64,'codex','--']

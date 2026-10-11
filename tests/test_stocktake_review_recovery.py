@@ -21,8 +21,8 @@ def test_exact_operator_and_checkpoint_pins():
     assert p['interpretation_artifacts'][0]['sha256']=='ee54e2091d164164331b27918da611621276528d68129e7d21dc6e79c80ed366'
 
 
-@pytest.mark.parametrize('stage,seconds',[('result_interpretation_review',1200),('run_spec_review',900),('result_interpretation_author',900),('run_spec_author',900),(None,900)])
-def test_timeout_extension_is_only_result_review(stage,seconds):
+@pytest.mark.parametrize('stage,seconds',[('result_interpretation_review',1200),('run_spec_review',900),('result_interpretation_author',1800),('run_spec_author',1800),(None,900)])
+def test_scientific_timeout_preserves_review_bounds(stage,seconds):
     import tomllib
     value=tomllib.loads(manual_stage.transport_profile('a'*64,[('claude',[])],stage=stage))
     assert value['limits']['stage_timeout']==seconds
