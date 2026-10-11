@@ -1,12 +1,26 @@
 # Research status
 
-Item 6 is complete (352/352 Sprint 14 comparison values match); the saved-results synthesis is complete and independently approved at both scientific stages.
-The [accepted synthesis](reports/aggregate-synthesis-20261010.md) attributes a +0.0404 fixed-amount Dice gain to placement; fusion versus processed nnU-Net and steady-state hardware speed remain uncertain.
-At 23:13 UTC, Colab notebook author1 is running as call 61 after the reviewed contract correction; no GPU job is running.
-Timing author24 still needs its narrow recovery; no timing result or reviewed Colab instructions exist, and opposite-family administrative rotation is not installed.
-Compute spent: $24.39800404; stage-1 actual plus open reservations $114.397673/$150; diagnostic commitment $4.286495/$25. Latest scientific review cost $4.23612225 and administrative review $4.301282; model charges are separate.
-Next: a reviewed Colab handoff, estimated 30-60 minutes after author admission, subject to review; timing remains conditional on its scientific gates. See the [execution plan](13B_EXECUTION_PLAN.md).
-No action is needed from Partho. Review 60 approved only the Colab repair and did not answer direction questions; the latest direction remains review 55's PROCEED with overhead caution. The swap gate is not met.
+- Item 6 and the saved-results synthesis are accepted; all 352 rounded Sprint 14 comparison values match using the same saved fits and cohort.
+- Both private archives passed every-file verification. The main laptop removal is safely suspended; no research call or compute job is running.
+- C: fell to about 6.2 GiB, below the 8 GiB stop. Cleanup completion and the combined review are held for host disk space.
+- Last identified research compute actual: $24.39800404. Last qualified stage-1 commitment: $114.397673/$150. Cleanup added no model or compute charge.
+- Next: finish removal, about 10-15 minutes after sufficient space is restored; then resume the [13B execution plan](13B_EXECUTION_PLAN.md). Colab instructions and the timing result remain pending.
+- Server free space: 172.4 GB before the move, about 132.8 GB after uploads. No larger server disk is needed.
+- Action needed: free at least 5 GB on C: while keeping WSL running. Latest answered Claude direction: PROCEED with overhead caution. The swap gate is not met.
+
+## Disk interruption and recovery
+
+A full laptop disk interrupted the session. After the operator freed space and restarted the computer, access was verified through existing credentials. The private evidence store measured 80.8 GB. Disposable Linux package and synthetic-test caches totaling 18,317,762,560 bytes were removed. Both evidence archives are verified on the server. The smaller migration removed 146,237 historical laptop files (3,067,594,692 bytes); the main migration has removed 1,222,528 files (47,629,520,133 bytes) and is suspended intact for host capacity. Every original remains preserved remotely. Two Windows installer caches remain untouched after automatic approval review refused their deletion. A later bounded Windows pip/npm download-cache removal was also rejected with "blocked by policy" before execution; no alternative deletion route was attempted.
+
+The private server had 172,434,522,112 bytes free before the move. Both transfers and per-file server verification passed: 1,876,758 main files and 146,237 historical files. After uploads the server had about 132.8 GB free; no disk expansion is needed. Each local evidence file may be removed only after remote hash verification and a local consistency check. Current working Git dependencies are retained explicitly. The disk guard candidate passed 28 focused tests and is used as a manual preflight: warn below 15 GiB, stop below 8 GiB on either host or WSL. Installation/integration remains subject to normal independent review. Free Linux filesystem blocks do not automatically shrink the Windows virtual disk; standard filesystem trimming completed successfully but did not shrink the Windows virtual disk. Offline compaction must wait until the live removal process has finished or been safely reconciled. Do not restart WSL while that process is suspended.
+
+The combined implementation review failed before model admission because its search inventory exceeded the installed bound. It is terminal and uncharged; preserve it and never restart that consumed request. A successor packet will omit deferred prototype evidence while preserving the complete actual component and all existing bounds. No successor has launched. Fresh service inventory found no active research service and five scheduled retention timers.
+
+Judgment highlights: cleanup precedes reviews as directed; original partial hashes and every failed attempt are preserved; streamed verification avoids a second large laptop copy; existing host trust remains strict and unchanged. These are mechanical cleanup actions, with no scientific or accounting changes and no Claude call. The archives are verified. Only small recovery/status updates and their scanned backup continue during the host-capacity hold; larger work and reviews remain stopped. Resume the existing removal process only after fresh capacity checks pass with sufficient headroom; never launch a replacement while its state is intact.
+
+October 11 read-only ledger reconciliation: 0 scientific author, 0 scientific reviewer, 0 administrative review and 0 direction calls; the daily cap is 50. No model call is RUNNING. Five historical UNCERTAIN labels remain preserved under their existing terminal-proof process; admission must revalidate those proofs. The last service inventory had only the archive verifier active and five scheduled retention timers. Both archive verifiers have now completed successfully.
+
+The $0.189305 reporting difference is fully accounted for: one generic report omitted the two already-reviewed closed-native cost adjustments. Its $114.586978 total differs from the qualified $114.397673 by exactly that amount. No ledger write, new spending or fresh release was made to correct the explanation; current admission must still recheck billing.
 
 ## Accepted scientific result
 
@@ -18,7 +32,7 @@ The accepted interpretation is hash-bound to `cb028b56d0de61998594e29a240659a961
 
 The [Colab contract repair](reports/colab-contract-repair-20261010.md) received genuine independent review 60 APPROVE at source `f2cda160b3da852604c290891e617c1dc925887b`, report `fc0e18fd6137540e60f5835d467dee8dd3643b987083a8a3824fbcf310de35df`; 75 focused tests passed. Its exact zero-call configuration/state correction completed successfully, preserving the original refusal and counters. The existing installed runtime now honors the already required structured-review contract; the strict notebook output-scope guard is unchanged. No new runtime or host component was installed. The forward initializer fix is preserved as reviewed source.
 
-At 23:13 UTC, Colab author1 is confirmed running as call 61. Do not duplicate it. Daily counted calls/reservations are 61: 13 scientific author, 7 scientific reviewer, 33 administrative review and 8 direction checks. The earlier analysis slot 54 remains counted FAILED globally with its original local blocked record preserved; it never launched an author client. Its later synthesis completed normally. Scientific review 57 cost $4.50478; scientific review 59 cost $4.23612225; administrative review 60 cost $4.301282. OpenAI author usage is recorded without a native dollar total; no dollar estimate is invented.
+Colab author1/call61 is COMPLETE in both ledgers; its controller is BLOCKED because the notebook contains duplicate required entrypoints. Preserve the output, refusal and charge; do not rerun the consumed attempt. A narrow reviewed continuation is pending. October 10 counted calls/reservations are 61: 13 scientific author, 7 scientific reviewer, 33 administrative review and 8 direction checks. The earlier analysis slot 54 remains counted FAILED globally with its original local blocked record preserved; it never launched an author client. Its later synthesis completed normally. Scientific review 57 cost $4.50478; scientific review 59 cost $4.23612225; administrative review 60 cost $4.301282. OpenAI author usage is recorded without a native dollar total; no dollar estimate is invented.
 
 Review 60 did not answer the bundled timing, rotation or sandbox advisory questions; no new PROCEED or design agreement is claimed. The latest answered direction remains review 55: PROCEED with SIMPLIFY caution about scaffolding versus science. The accepted synthesis is now a real scientific result. Prioritize the reviewed Colab handoff and narrow timing recovery; use only necessary engineering for the explicitly requested rotation capability, preserving independent review and equivalent safeguards. The notebook estimate has slipped by more than half and was disclosed in the combined packet. No advisory omission is treated as approval.
 
@@ -26,7 +40,7 @@ Judgment log highlights: batch the immediate Colab contract repair with the dire
 
 ## Daily calls and purposes
 
-The 61 counted calls/reservations retain their existing ledger categories; none are reset or relabelled.
+The October 10 UTC total is 61 counted calls/reservations in their existing ledger categories; none are reset or relabelled. The daily limit is back to 50 on October 11 UTC. No model call has been made for this cleanup.
 
 | Type | Count | Recorded purposes |
 |---|---:|---|
@@ -353,6 +367,8 @@ Before each push, every new reachable blob and commit message is scanned for pri
 
 - outputs/reports/item4-progress-scope-repair-20261010.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH; full approval report withheld, private original preserved. Verdict and scope are summarized above.
 
-Draft publication exclusions: docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_RESPONSE_HOST_PRIVATE.json (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_SNAPSHOT_PRIOR_UNIT_PRIVATE.txt (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), tools/install_item4_smoke_response.py (INFRASTRUCTURE_OR_CREDENTIAL_PATH). These private originals remain preserved locally.
+Draft publication exclusions: docs/ITEM4_AUTHOR21_NATIVE_REFERENCE_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_AUTHOR_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_PRIVATE.py (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_REPORT_SNAPSHOT_REPRO_RESULT_PRIVATE.json (EXCLUDED_RECORD_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_RESPONSE_HOST_PRIVATE.json (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), docs/ITEM4_SNAPSHOT_PRIOR_UNIT_PRIVATE.txt (EXCLUDED_RECORD_PATH; INFRASTRUCTURE_OR_CREDENTIAL_PATH; PRIVATE_RECORD_PATH), tools/install_item4_smoke_response.py (INFRASTRUCTURE_OR_CREDENTIAL_PATH). These private originals remain preserved in the private evidence store.
 
 Additional withheld records: docs/ITEM4_CLOSED_NATIVE_LATER_COST_PRIVATE.json; full author-handoff and corrected-host approval reports that failed publication scans; and the full sender-repair approval report. Their originals remain private, and aggregate verdict/scope summaries are preserved under outputs/reports and in repository history. No main-branch merge occurred.
+
+Cleanup candidate withheld from public code backup: `tools/local_disk_guard.py` failed the infrastructure-path scan. Its companion `tests/test_local_disk_guard.py` is also withheld because the required implementation is absent. Both exact originals remain in the verified private archive and retained working checkout; 28 focused tests passed, and independent review before installation is still pending. No scanner rule was relaxed.
