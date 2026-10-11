@@ -11,7 +11,7 @@ import sys
 
 CHANGE = 'review-continuation-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'native-review-colab-turn-recovery-20261011'
+REVIEW_CHANGE = 'native-authority-context-repair-20261011'
 REVIEW_SCOPE = 'docs/NATIVE_REVIEW_COLAB_TURN_SCOPE.md'
 READER_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-network-continuation-20261011')
 NETWORK_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/colab-intake-source-alignment-20261011')
@@ -199,6 +199,33 @@ def host(action, transition):
     finally:sys.argv=previous
 
 
+def preserved_native():
+    """Authenticate preserved native config in its own established import context."""
+    retained=load('_review_retained_native_install',NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py')
+    # Source authority is import-independent; configuration authority needs the
+    # original runtime's bootstrap, isolated from this installer's modules.
+    source,record=retained.reviewed_source()
+    require(source['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
+        and source['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_SOURCE')
+    child="""import os,sys,json,hashlib,importlib.util
+from pathlib import Path
+assert os.getuid()==os.getgid()==1003 and sys.flags.no_user_site
+path,pin=sys.argv[1:];path=Path(path)
+assert hashlib.sha256(path.read_bytes()).hexdigest()==pin
+spec=importlib.util.spec_from_file_location('_preserved_native_authority',path)
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+m.bootstrap();print(json.dumps(m.authority()))
+"""
+    require(os.getuid() in {0,1003} and sys.flags.no_user_site,'NATIVE_PROOF_IDENTITY')
+    command=['env','RESEARCH_MANUAL_RUNTIME_CONFIG='+str(RUNTIME),'/usr/bin/python3','-s','-B','-c',child,
+        str(NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py'),record['files']['tools/item4_diagnostic_native_runtime.py']]
+    if os.getuid()==0:command=['runuser','-u','partho','--',*command]
+    else:require(os.getgid()==1003,'NATIVE_PROOF_GROUP')
+    approved=json.loads(subprocess.check_output(command,text=True,timeout=120))
+    require(approved==source,'NATIVE_PREVIOUS_APPROVAL_CHANGED')
+    return retained,approved
+
+
 def install(source, review):
     require(os.getuid()==0 and sys.flags.no_user_site,'ROOT_ISOLATED')
     source,review=map(trusted,(source,review));approval,manifest=reviewed(review);branch=original()
@@ -219,8 +246,7 @@ def install(source, review):
     require(state=={'MainPID':'0','ActiveState':'inactive','ExecMainStatus':'0'},'PRIOR_UNIT_HELD')
     previous=dict(x.split('=',1) for x in subprocess.check_output(['systemctl','show','research-colab-network-continuation-20261011.service','-p','MainPID','-p','ActiveState'],text=True).splitlines())
     require(previous['MainPID']=='0' and previous['ActiveState'] in {'inactive','failed'},'PREVIOUS_REVIEW_TERMINAL')
-    retained=load('_review_retained_native_install',NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py')
-    native_approval=retained.authority()
+    retained,native_approval=preserved_native()
     require(native_approval['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
         and native_approval['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_APPROVAL')
     for unit in ('research-colab-reader-recovery-20261011.service',retained.REVIEW_UNIT,retained.CPU_UNIT):

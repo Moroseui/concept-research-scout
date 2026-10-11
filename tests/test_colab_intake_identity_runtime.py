@@ -140,7 +140,8 @@ def install_fixture(tmp_path, monkeypatch):
     retained=NS(authority=lambda:{'source_sha':'1f2243448ca452abcad92ca355bead042cc731d2',
         'report_sha256':'c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93'},
         REVIEW_UNIT=native_unit,CPU_UNIT='research-preserved-native-cpu.service')
-    monkeypatch.setattr(m,'load',lambda name,path:retained if name=='_review_retained_native_install' else helper if 'existing_installer' in name else prior)
+    monkeypatch.setattr(m,'preserved_native',lambda:(retained,retained.authority()))
+    monkeypatch.setattr(m,'load',lambda name,path:helper if 'existing_installer' in name else prior)
     controls={'source':'a'*40,'branch':'astra/manual-fixture','dirty':'','unit':'MainPID=0\nActiveState=inactive\nExecMainStatus=0\n','running':False,'verify_exit':0,'native_verify_exit':0}
     def output(args,**kwargs):
         if args[:2]==['git','rev-parse']:return controls['source']+'\n'
@@ -256,3 +257,30 @@ def test_native_postcheck_failure_keeps_originals_and_never_marks_complete(insta
     assert f.unit.read_bytes()==before and (f.record/'VERIFY.stdout').exists()
     assert (f.record/'NATIVE_VERIFY.stdout').exists() and not (f.record/'COMPLETE.json').exists()
     with pytest.raises(ValueError,match='EXISTING_INSTALL_PRESERVED'):m.install(f.source,f.review)
+
+
+@pytest.mark.parametrize('uid',[0,1003])
+@pytest.mark.parametrize('fault',[None,'source','result','process','uid','gid'])
+def test_native_config_check_uses_preserved_bootstrap_in_isolated_service_context(tmp_path,monkeypatch,uid,fault):
+    approved={'source_sha':'1f2243448ca452abcad92ca355bead042cc731d2','report_sha256':'c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93'}
+    if fault=='source':approved['source_sha']='changed'
+    prior=NS(reviewed_source=lambda:(approved,{'files':{'tools/item4_diagnostic_native_runtime.py':'a'*64}}))
+    monkeypatch.setattr(m,'load',lambda name,path:prior)
+    monkeypatch.setattr(m,'os',NS(getuid=lambda:1004 if fault=='uid' else uid,getgid=lambda:1004 if fault=='gid' else 1003))
+    monkeypatch.setattr(m,'sys',NS(flags=NS(no_user_site=1)))
+    seen=[]
+    def output(argv,**kwargs):
+        seen.append(argv)
+        assert kwargs=={'text':True,'timeout':120}
+        assert ('runuser' in argv)==(uid==0)
+        assert 'RESEARCH_MANUAL_RUNTIME_CONFIG='+str(m.RUNTIME) in argv
+        assert argv[-2:]==[str(m.NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py'),'a'*64]
+        assert 'm.bootstrap();print(json.dumps(m.authority()))' in argv[argv.index('-c')+1]
+        assert '-s' in argv and '-B' in argv
+        if fault=='process':raise ValueError('original native check refused')
+        return json.dumps({**approved,'source_sha':'wrong'} if fault=='result' else approved)
+    monkeypatch.setattr(m,'subprocess',NS(check_output=output))
+    if fault and not (fault=='gid' and uid==0):
+        with pytest.raises(ValueError):m.preserved_native()
+    else:assert m.preserved_native()==(prior,approved)
+    if fault in {'source','uid'} or fault=='gid' and uid!=0:assert not seen

@@ -18,6 +18,7 @@ def test_native_composition_preserves_original_connection(tmp_path,monkeypatch,f
         authority=lambda:{'source_sha':'bad' if fault=='native-approval' else '1f2243448ca452abcad92ca355bead042cc731d2',
         'report_sha256':'c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93'},
         overlay=lambda path:events.append(('overlay',path)))
+    bundle.preserved_native=lambda:(native,native.authority())
     monkeypatch.setattr(m,'native',m.native)
     if fault=='prior-bytes':priorfile.write_text('changed')
     callback=object()

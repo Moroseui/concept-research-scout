@@ -21,8 +21,7 @@ def authority(*,held=True):
 def connect(*,held=True):
     global native
     bundle,approval=authority(held=held)
-    native=load('_native_review_passed_runtime',bundle.NATIVE_PREVIOUS/'tools/item4_diagnostic_native_runtime.py')
-    old_approval=native.authority()
+    native,old_approval=bundle.preserved_native()
     require(old_approval['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
         and old_approval['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','PASSED_NATIVE_RELEASE')
     require(sha(trusted(native.PRIOR).read_bytes())==native.PRIOR_SHA,'PRIOR_RUNTIME_CHANGED')
