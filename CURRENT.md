@@ -1,15 +1,11 @@
-# Current research state - 11 October 2026, 11:35 UTC
+# Current research state - 11 October 2026
 
-Action needed from you: none. Codex/OpenAI operator; goal active, no swap/pause.
+Action needed from you: none. Codex/OpenAI remains operator; goal active, no swap.
 
-Item6 and saved-results synthesis accepted. Colab author2 and timing author24 complete but held. Colab installpartial; approved timingentrypointinstalled/verified, CPUstartrefused before reservation/provider. No new scientific result or compute reservation.
+Both Colab preservation and native-admission repairs have genuine implementation APPROVE for source `99ae8703237991823ee34e3a2c62c677be24734e`, 281 focused passing tests, and actual installed verification. Colab's exact preparation workspace and all original records are preserved; scientific reviewer 1 is running for author 2, call `9de9a78c3891d4b666cf0901ad204030f725855dcb0083e3c1eb2982a8650a03`. The timing successor has COMPLETE and both postchecks. Its one synthetic CPU start refused before reservation/provider creation on an omitted historical native proof. Preserve the terminal failure; diagnose and independently review a bounded correction, then native evidence and existing reviewer 16 precede the GPU diagnostic.
 
-Second advisoryba236968e79ecf30e992daffaf202aa34bc7deaff6d6758abf78b215d9a87b67 COMPLETE/APPROVE, reportb8a3fbb05b2c3b5ac6abedb7350914c969f2d43cc3f0b498d4176f3437f85180. Agreement after2movingrounds: coherent fresh engineering review, no advisory installationauthority. Originalb4a70b23 and3bf088b4REJECTs plus75e0unqualifiedfailure retained/counted. No modelcall/computejobrunning from this work.
+Item 6 and saved-results synthesis remain accepted. The meeting proposal is packaged privately; no cases selected. Author sandbox and opposite-family administrative route remain uninstalled. No full training or coverage-arm release.
 
-Fresh implementationcandidate51befa8792eb713c4386283150c5b1695c568591 on astra/colab-workspace-native-implementation-20261011.281focusedtestsPASS, onebaselinec428 fordiff/files/testbindings. Packet not yet assembled/registered; independentimplementationAPPROVE required before eitherrepairinstallation. Scientific choices/guards/capsunchanged. Privatecontinuation:colab-workspace-native-implementation-20261011/HANDOFF_CURRENT_PRIVATE.md.
+Today 15/50 model calls; reported administrative cost $37.419335. Last qualified compute actual $24.39800404 and stage-1 commitment $114.397673/$150 unchanged by the refused CPU attempt; reconcile current billing. Diagnostic cap $25, full-projection gate $1,200 and total $1,275 unchanged. Cleanup complete, C: about 19.3 GiB and server about 121.8 GiB free. No setup command needed.
 
-Private meetinglogisticsbrief hashverifiedonserver, exactauthorscientificproposalunchanged; no patientsselected/imagesopened. Executableselector/renderer stillauthor/reviewwork. Analysisawaitsnewresults. Nextreviewdecision provisional30-60minutesincludingpacket; Colab/timingETAuncertain; meetingauthor/reviewcycle2-4hoursafteradmission.
-
-Today13/50:2authors,8implementationreviews,3directioncalls,0scientificreviewers. Reportedadministrativecost32.80530925; authordollarsunavailable. Computeactual24.39800404,stage1actual+open114.397673/150,diagnostic4.286495/25. No capchange/newreservation.
-
-Read HANDOVER,ROLES,STATUS,executionplan. Cleanupcomplete,Cabout19.3GiB; serverbefore/aftermove160.6/123.7GiB; no setupornewdiskneeded. Lastverifiedbackupbeforeupdate5372f6b1997ace4203e5936d9919c9921e6b4ce2. Nevermain/BACKLOGchanges.
+Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact live handles and receipts are in the current private handoff, colab-workspace-native-implementation-20261011/HANDOFF_CURRENT_PRIVATE.md. Never replay consumed installation/start intents or infer terminal state from an SSH timeout. Latest verified backup before this update: `09d3a45fbff10baf4d793d0b3fa7b9cd8806dcb8`. Never merge main or edit BACKLOG.

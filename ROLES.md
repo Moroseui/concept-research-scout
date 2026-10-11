@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex / OpenAI**. Rotation is not active. Item 6 and saved-results synthesis are accepted. Colab author2 and timing author24 remain unreleased. The latest repair review is COMPLETE/REJECT with evidence and authority findings; both continuations stay held. Two advisory rounds reached agreement on fresh implementation preparation. The new candidate passed281focused tests; independent implementation approval remains required. No model call is running, but rotation prerequisites remain incomplete. No installation may use the rejected or earlier unqualified verdict. The opposite-family route remains uninstalled and the swap gate is not met. The operator owns engineering and reporting; scientific authorship and conclusions remain with the system author/reviewer.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. Item 6 and saved-results synthesis are accepted. Colab and native-admission repairs are approved, installed and verified; scientific review and the bounded native CPU test are the next active steps. The opposite-family administrative capability remains uninstalled. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions belong to the system author and reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
