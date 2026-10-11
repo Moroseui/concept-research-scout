@@ -60,3 +60,12 @@ def test_actual_reviewer_command_has_bounded_search_and_only_report_write(work,s
 
 def test_unsupported_role_gets_no_budget_extension(work):
     with pytest.raises(ValueError,match='SCIENTIFIC_REVIEW_STAGE_REQUIRED'):manual_stage.reviewer_command(work,'result_interpretation_author')
+
+
+def test_one_path_with_different_registered_ids_still_refuses(work):
+    path=work/'input-measurement.json';receipt=json.loads(path.read_bytes())
+    receipt['workspace_files'].append({**receipt['workspace_files'][0], 'id':'different-provenance'})
+    path.write_text(json.dumps(receipt))
+    with pytest.raises(ValueError,match='^SEARCH_DUPLICATE_BINDING$'):
+        search.prepare(work)
+    assert not (work/search.MANIFEST).exists()
