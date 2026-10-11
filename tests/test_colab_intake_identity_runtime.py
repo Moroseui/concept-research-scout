@@ -90,10 +90,14 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
         if name=='orchestrator.manual_context':return context
         if name=='orchestrator.colab_reader_recovery':return repair
         if name=='orchestrator.colab_author_terminal':return NS(connect_sequence=lambda pi:events.append('terminal-sequence'))
+        if name=='orchestrator.colab_drive_in_place':return NS(install_hook=lambda *args:events.append(('drive-hook',args[-2:])))
+        if name=='orchestrator.manual_stage':return NS(timeout_patch=True)
         raise AssertionError(name)
     monkeypatch.setattr(m,'load',load)
     # Restore the shared module attributes after the composition test.
-    for module in [orchestrator,analysis_driver,manual_driver]:monkeypatch.setattr(module,'manual_context',module.manual_context)
+    for module in [orchestrator,analysis_driver,manual_driver]:
+        monkeypatch.setattr(module,'manual_context',module.manual_context)
+        monkeypatch.setattr(module,'manual_stage',module.manual_stage)
     if damage:
         with pytest.raises(ValueError):m.connect('verify')
         assert not any(isinstance(e,tuple) and e[0]=='hook' for e in events)
@@ -103,8 +107,11 @@ def test_reviewed_recovery_composes_existing_checks_and_exact_new_components(tmp
         assert ('branch-load','orchestrator.preparation_interleaving',root/'orchestrator/preparation_interleaving.py') in seen
         assert ('branch-load','unchanged',tmp_path/'original.py') in seen
         assert all(module.manual_context is context for module in [orchestrator,analysis_driver,manual_driver])
-        assert events[-1]=='terminal-sequence'
-        assert events[-2]==('hook',(analysis_driver,{'synthetic':True},'original-recovery-review','verify'))
+        assert events[-1]==('drive-hook',('a'*64,'verify'))
+        assert events[-2]=='terminal-sequence'
+        assert events[-3]==('hook',(analysis_driver,{'synthetic':True},'original-recovery-review','advance'))
+        assert orchestrator.manual_stage is analysis_driver.manual_stage is manual_driver.manual_stage
+        assert orchestrator.manual_stage.timeout_patch
         assert events.count(('authority',False))==2 and 'prior-connect' in events
 
 
@@ -172,8 +179,8 @@ def test_install_is_held_exact_source_and_verification_before_complete(install_f
     assert f.unit.read_bytes()==before
     installed=json.loads((f.record/'installed.json').read_bytes())
     assert installed['files']==f.manifest['source_files']
-    assert set(installed['units'])=={str(f.units/m.UNIT),str(f.units/m.NATIVE_UNIT)}
-    assert (f.record/'NATIVE_VERIFY.stdout').exists()
+    assert set(installed['units'])=={str(f.units/m.UNIT)}
+    assert not (f.units/m.NATIVE_UNIT).exists() and not (f.record/'NATIVE_VERIFY.stdout').exists()
     for name,pin in installed['files'].items():assert m.sha((f.root/name).read_bytes())==pin
     assert 'original-verified' in f.events and 'standalone-verified' in f.events and 'units-verified' in f.events
     assert all(not isinstance(e,list) or e[:2] not in [['systemctl','start'],['systemctl','enable']] for e in f.events)
@@ -258,11 +265,11 @@ def test_transport_recovery_requires_explicit_scope_and_exact_approval(tmp_path,
         with pytest.raises(ValueError):m.reviewed(tmp_path)
 
 
-def test_native_postcheck_failure_keeps_originals_and_never_marks_complete(install_fixture):
-    f=install_fixture;before=f.unit.read_bytes();f.controls['native_verify_exit']=1
-    with pytest.raises(ValueError,match='NATIVE_SERVICE_VERIFY_FAILED'):m.install(f.source,f.review)
+def test_colab_postcheck_failure_keeps_originals_and_never_marks_complete(install_fixture):
+    f=install_fixture;before=f.unit.read_bytes();f.controls['verify_exit']=1
+    with pytest.raises(ValueError,match='SERVICE_VERIFY_FAILED'):m.install(f.source,f.review)
     assert f.unit.read_bytes()==before and (f.record/'VERIFY.stdout').exists()
-    assert (f.record/'NATIVE_VERIFY.stdout').exists() and not (f.record/'COMPLETE.json').exists()
+    assert not (f.record/'NATIVE_VERIFY.stdout').exists() and not (f.record/'COMPLETE.json').exists()
     with pytest.raises(ValueError,match='EXISTING_INSTALL_PRESERVED'):m.install(f.source,f.review)
 
 

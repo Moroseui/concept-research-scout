@@ -1,0 +1,8 @@
+**Change to the Colab input approach:**
+
+1. **Pause the 893-file copy through the laptop** at a clean point. Keep what’s been verified and don’t delete anything. Copying tens of GB through Drive for Desktop on a laptop with about 19 GB free will hit the disk guard, and most files already exist on my Drive.
+2. **Read inputs in place:** the Colab notebook should read inputs directly from the existing Drive folders (the `isles-pilot` source extract and existing preprocessed data) and verify every file it uses against the frozen manifest hashes before training, failing closed on any mismatch. That check proves the inputs are correct without making a copy.
+3. **Fill gaps from the server:** upload only files that are genuinely missing from Drive, and only those the released arm needs. For the A1_repeat smoke, that should exclude the 4D CTP unless the notebook truly uses it. Use the server’s existing Drive access, not the laptop.
+4. Then mark the package ready and tell me to run.
+
+**Units:** I’m willing to buy more Colab units if needed, so don’t let the 1,001-unit balance limit the plan.

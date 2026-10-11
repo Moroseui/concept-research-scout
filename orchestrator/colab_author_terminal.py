@@ -13,6 +13,7 @@ DOC_SHA='04ac4c16038d4df43e30128d8906997085db40050edf1357e8ee04968c2cb3b5'
 # Exact fully checkpointed terminal ledger; any later ledger change refuses.
 DB_SHA='50bc5efd703670b66169d368b8447e275ffd9702d5cdbd90bf091bde1bedf023'
 DB_BYTES=122880
+_CONTINUATION=None
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def require(ok,why):
@@ -39,6 +40,7 @@ def checkpointed_bytes(f):
     return raw
 
 def local_state(f):
+    if _CONTINUATION is not None:return _CONTINUATION(f)
     raw=checkpointed_bytes(f)
     # immutable applies ONLY to our private, read-only snapshot, never the live DB.
     # No writable mount or live SQLite sidecar is needed or created.

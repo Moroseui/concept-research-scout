@@ -169,10 +169,19 @@ def install_driver_hook(module,proof):
     return original
 
 
+_LOCAL_READER=None
+
+def ledger_read(path):
+    if _LOCAL_READER is not None:return _LOCAL_READER(Path(path))
+    import sqlite3
+    return sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True)
+
+
 def permitted_attempts(scope,run,stage):
     values=(1,2)
-    if _EXTRA_ATTEMPT is not None and _EXTRA_ATTEMPT(scope,run,stage,identity(run,stage,3)):
-        values=(*values,3)
+    for n in (3,4):
+        if _EXTRA_ATTEMPT is not None and _EXTRA_ATTEMPT(scope,run,stage,identity(run,stage,n)):
+            values=(*values,n)
     return values
 
 
@@ -274,7 +283,7 @@ class Overlay:
         import sqlite3
         for run in {r['change_id'] for r in rows if lane_for(self.scope,r['change_id'])}:
             key,lane=self.owner(batch,run,active=False)
-            with sqlite3.connect((self.path(lane['state'])/'jobs.sqlite').resolve().as_uri()+'?mode=ro',uri=True) as local:
+            with ledger_read(self.path(lane['state'])/'jobs.sqlite') as local:
                 local.row_factory=sqlite3.Row
                 for global_row in [r for r in rows if r['change_id']==run]:
                     item=local.execute('SELECT * FROM manual_calls WHERE id=?',(global_row['id'],)).fetchone()
@@ -288,7 +297,7 @@ class Overlay:
                             and identity(run,item['stage'],item['attempt'])==global_row['id']
                             and all(json.loads(item['receipt']).get(k)==v for k,v in json.loads(global_row['binding']).get('input',{}).items()),'LOCAL_GLOBAL_HISTORY')
         config=json.loads(self.path(self.scope['item4_scope']['configuration']['path']).read_bytes())
-        with sqlite3.connect((self.path(self.scope['item4_scope']['configuration']['path']).parent/'jobs.sqlite').resolve().as_uri()+'?mode=ro',uri=True) as local:
+        with ledger_read(self.path(self.scope['item4_scope']['configuration']['path']).parent/'jobs.sqlite') as local:
             local.row_factory=sqlite3.Row
             for row in retained:
                 if row['id'] in self.scope['frozen_rows']:continue
@@ -315,12 +324,10 @@ class Overlay:
         require(ident not in {r['id'] for r in rows} and counts[key]<8,'CALL_DUPLICATE_OR_CAP')
         state=self.path(lane['state'])
         import sqlite3
-        local=sqlite3.connect((state/'jobs.sqlite').resolve().as_uri()+'?mode=ro',uri=True)
-        try:
+        with ledger_read(state/'jobs.sqlite') as local:
             n=local.execute('SELECT count(*) FROM manual_calls WHERE stage=?',(stage,)).fetchone()[0]+1
             total=local.execute('SELECT count(*) FROM manual_calls').fetchone()[0]
             require(identity(run,stage,n)==ident and total==counts[key] and total<8,'LOCAL_GLOBAL_COUNTS')
-        finally:local.close()
         return {'limit':95,'scoped_run_id':run,'authority_sha256':AUTHORITY,'review_sha256':self.approval,
             'scope_sha256':sha(canonical(self.scope)),'actual_scientific_calls':len(rows),'preparation_counts':counts}
 

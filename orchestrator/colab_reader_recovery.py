@@ -14,6 +14,14 @@ REASON='REVIEW_SUBMISSION_FAILED_NO_RETRY: ACCEPTED_SUBMISSION_REQUIRED'
 DOCUMENT='docs/COLAB_READER_RECOVERY_PRIVATE.json'
 DOCUMENT_SHA='c18756f5861cf0ad0eb34cfe9f3c7beb36dfcc9f8c20af20977018fc321cce85'
 
+_LEDGER_READER=None
+
+def ledger_read(path):
+    if _LEDGER_READER is not None:return _LEDGER_READER(Path(path))
+    import sqlite3
+    return sqlite3.connect(Path(path).as_uri()+'?mode=ro',uri=True)
+
+
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':')).encode()
 def require(ok,why):
@@ -133,8 +141,8 @@ def retained_review(scope,row,item,f):
     # Read both original ledgers. No filtered accounting view or status rewrite.
     import sqlite3
     from types import SimpleNamespace
-    with sqlite3.connect((lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as local, \
-         sqlite3.connect((Path(scope['ledger'])/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as batch:
+    with ledger_read(lane/'jobs.sqlite') as local, \
+         ledger_read(Path(scope['ledger'])/'jobs.sqlite') as batch:
         local.row_factory=batch.row_factory=sqlite3.Row
         originals(SimpleNamespace(db=local,path=lane/'jobs.sqlite',batch=SimpleNamespace(db=batch)),f)
     return True
@@ -188,7 +196,7 @@ def install_hook(module,f,approval,action):
         import sqlite3
         from types import SimpleNamespace
         lane=Path(f['lane'])
-        with sqlite3.connect((lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
+        with ledger_read(lane/'jobs.sqlite') as db:
             db.row_factory=sqlite3.Row
             granted(SimpleNamespace(db=db,path=lane/'jobs.sqlite',batch=batch),f,approval)
         return list(dict.fromkeys([*(allowed or []),*[r['id'] for r in f['local_rows'] if r['stage']==STAGE]]))
@@ -204,8 +212,8 @@ def extra_attempt(scope,run,stage,ident,f,approval):
     import sqlite3
     from types import SimpleNamespace
     lane=Path(f['lane'])
-    with sqlite3.connect((lane/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as local, \
-         sqlite3.connect((Path(scope['ledger'])/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as batch:
+    with ledger_read(lane/'jobs.sqlite') as local, \
+         ledger_read(Path(scope['ledger'])/'jobs.sqlite') as batch:
         local.row_factory=batch.row_factory=sqlite3.Row
         if local.execute('SELECT 1 FROM events WHERE id=?',(event(f),)).fetchone() is None:return False
         granted(SimpleNamespace(db=local,path=lane/'jobs.sqlite',batch=SimpleNamespace(db=batch)),f,approval)
