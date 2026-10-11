@@ -21,7 +21,7 @@ def test_review_must_genuinely_approve_exact_scope_and_runtime(tmp_path,monkeypa
     from orchestrator import autonomy_review
     runtime=tmp_path/'runtime.json';runtime.write_bytes(b'unchanged-config')
     manifest={'source_files':dict.fromkeys(m.REQUIRED,'b'*64)}
-    approval={'verdict':'APPROVE','findings':[],'change_id':m.CHANGE,'runtime_sha256':m.sha(runtime.read_bytes())}
+    approval={'verdict':'APPROVE','findings':[],'change_id':m.REVIEW_CHANGE,'runtime_sha256':m.sha(runtime.read_bytes())}
     if damage=='verdict':approval['verdict']='REVISE'
     elif damage=='findings':approval['findings']=[{'id':'unresolved'}]
     elif damage=='scope':approval['change_id']='other'
@@ -65,17 +65,32 @@ def test_only_reviewed_intake_is_loaded_search_and_old_runtime_retained(tmp_path
     for p in [original,root]:(p/'orchestrator/scientific_search.py').write_bytes(b'same strict search')
     b={'original_intake_sha256':m.sha(b'old intake'),'original_search_sha256':m.sha(b'same strict search')}
     monkeypatch.setattr(m,'ORIGINAL',original);monkeypatch.setattr(m,'ROOT',root);monkeypatch.setattr(m,'trusted',Path)
-    monkeypatch.setattr(m,'authority',lambda:None);prior=object()
+    monkeypatch.setattr(m,'authority',lambda **kwargs:None);prior=object()
     monkeypatch.setattr(m,'original',lambda:NS(connect=lambda:prior))
     monkeypatch.setattr(m,'recovery',lambda:NS(binding=lambda:b))
-    seen=[];patched=NS()
-    monkeypatch.setattr(m,'load',lambda name,path:(seen.append((name,path)) or patched))
+    seen=[];bound=[];patched=NS()
+    transport=NS(bind=lambda runtime:bound.append(runtime))
+    monkeypatch.setattr(m,'load',lambda name,path:(seen.append((name,path)) or (transport if path.name=='reviewer_connection_timing.py' else patched)))
     import orchestrator
     from orchestrator import scientific_intake
+    import sys
+    search=NS(__file__=str(original/'orchestrator/scientific_search.py'))
+    monkeypatch.setattr(orchestrator,'scientific_search',search,raising=False)
+    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',search)
     monkeypatch.setattr(orchestrator,'scientific_intake',scientific_intake)
     assert m.connect() is prior
-    assert seen==[('orchestrator.scientific_intake',root/'orchestrator/scientific_intake.py')]
-    (root/'orchestrator/scientific_search.py').write_bytes(b'weakened')
+    assert seen==[('orchestrator.scientific_intake',root/'orchestrator/scientific_intake.py'),('_colab_review_connection_timing',root/'tools/reviewer_connection_timing.py')]
+    assert len(bound)==1
+    # The unused rotation copy may differ; the actual loaded module must not.
+    (root/'orchestrator/scientific_search.py').write_bytes(b'unused held rotation reader')
+    assert m.connect() is prior
+    search.__file__=str(root/'orchestrator/scientific_search.py')
+    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
+    search.__file__=str(original/'orchestrator/scientific_search.py')
+    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',NS(__file__=search.__file__))
+    with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
+    monkeypatch.setitem(sys.modules,'orchestrator.scientific_search',search)
+    (original/'orchestrator/scientific_search.py').write_bytes(b'weakened')
     with pytest.raises(ValueError,match='SEARCH_GUARD_UNCHANGED'):m.connect()
 
 
@@ -161,3 +176,55 @@ def test_postinstall_failure_remains_partial_and_refuses_retry(install_fixture):
     assert (f.record/'INSTALL_INTENT.json').exists() and (f.record/'VERIFY.stdout').exists()
     assert not (f.record/'COMPLETE.json').exists()
     with pytest.raises(ValueError,match='EXISTING_INSTALL_PRESERVED'):m.install(f.source,f.review)
+
+
+@pytest.mark.parametrize('damage',[None,'source','report','change','active','pid'])
+def test_preserved_recovery_keeps_original_approval_and_refuses_live_writer(monkeypatch,damage):
+    approved={'source_sha':m.PREVIOUS_SOURCE,'report_sha256':m.PREVIOUS_REVIEW,
+              'change_id':'colab-intake-identity-20261011'}
+    if damage in {'source','report','change'}:
+        approved[{'source':'source_sha','report':'report_sha256','change':'change_id'}[damage]]='wrong'
+    recovery=object();seen=[]
+    previous=NS(authority=lambda:approved,recovery=lambda:recovery)
+    monkeypatch.setattr(m,'load',lambda name,path:(seen.append(path) or previous))
+    unit='MainPID='+('123' if damage=='pid' else '0')+'\nActiveState='+('active' if damage=='active' else 'failed')+'\n'
+    monkeypatch.setattr(m,'subprocess',NS(check_output=lambda *a,**k:unit))
+    if damage is None:
+        assert m.recovery() is recovery
+        assert seen==[m.PREVIOUS_ROOT/m.ENTRY]
+    else:
+        with pytest.raises(ValueError,match='PREVIOUS_'):m.recovery()
+
+
+def test_verify_exercises_real_connection_before_held_install_complete(monkeypatch):
+    events=[]
+    monkeypatch.setattr(m,'os',NS(getuid=lambda:1003,getgid=lambda:1003))
+    monkeypatch.setattr(m,'sys',NS(path=[]))
+    monkeypatch.setattr(m,'authority',lambda held=True:events.append(('authority',held)))
+    monkeypatch.setattr(m,'original',lambda:events.append('original'))
+    monkeypatch.setattr(m,'connect',lambda held=True:events.append(('connect',held)))
+    monkeypatch.setattr(m,'recovery',lambda:NS(ready=lambda:events.append('preserved-ready')))
+    assert m.main(['verify'])['status']=='VERIFIED_HELD'
+    assert ('connect',False) in events and 'preserved-ready' in events
+    assert events.index(('connect',False))<events.index('preserved-ready')
+
+
+def test_successor_cannot_replay_completed_preservation():
+    with pytest.raises(SystemExit):m.main(['resume'])
+
+
+@pytest.mark.parametrize('damage',[None,'old-change','missing-scope'])
+def test_transport_recovery_requires_explicit_scope_and_exact_approval(tmp_path,monkeypatch,damage):
+    from orchestrator import autonomy_review
+    runtime=tmp_path/'runtime.json';runtime.write_bytes(b'unchanged')
+    manifest={'source_files':dict.fromkeys(m.REQUIRED,'b'*64)}
+    approval={'verdict':'APPROVE','findings':[],'change_id':m.REVIEW_CHANGE,
+              'runtime_sha256':m.sha(runtime.read_bytes())}
+    if damage=='old-change':approval['change_id']=m.CHANGE
+    if damage=='missing-scope':manifest['source_files'].pop(m.REVIEW_SCOPE)
+    (tmp_path/'packet-manifest.json').write_text(json.dumps(manifest))
+    monkeypatch.setattr(m,'RUNTIME',runtime);monkeypatch.setattr(m,'trusted',Path)
+    monkeypatch.setattr(autonomy_review,'verify_result',lambda folder:approval)
+    if damage is None:assert m.reviewed(tmp_path)==(approval,manifest)
+    else:
+        with pytest.raises(ValueError):m.reviewed(tmp_path)
