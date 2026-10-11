@@ -219,3 +219,76 @@ def test_rearm_refuses_any_ambiguous_or_changed_preparation(transport_rearm,monk
     else:x.local.execute("UPDATE events SET payload='{}' WHERE id=?",(m.EVENT,))
     with pytest.raises(ValueError):m.rearm_transport(t.driver,x.f,'a'*64,t.terminal)
     assert not (x.lane/m.TRANSPORT_EVENT).exists()
+
+
+def test_foreign_reader_reads_committed_wal_refuses_write_and_preserves_history(ledgers):
+    x=ledgers;p=x.lane/'jobs.sqlite';x.local.execute('PRAGMA journal_mode=WAL')
+    x.local.execute("UPDATE manual_state SET payload='committed-in-wal'")
+    before={str(q):q.read_bytes() for q in (p,Path(str(p)+'-wal'))}
+    with m.journal_aware_read(p) as reader:
+        assert reader.execute('SELECT payload FROM manual_state').fetchone()[0]=='committed-in-wal'
+        with pytest.raises(sqlite3.OperationalError):reader.execute('DELETE FROM manual_calls')
+        assert reader.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==6
+    assert all(Path(q).read_bytes()==raw for q,raw in before.items())
+    assert Path(str(p)+'-wal').exists()
+
+
+def test_foreign_reader_refuses_concurrent_commit(ledgers):
+    x=ledgers;p=x.lane/'jobs.sqlite';x.local.execute('PRAGMA journal_mode=WAL')
+    with pytest.raises(ValueError,match='FOREIGN_LEDGER_CHANGED_DURING_READ'):
+        with m.journal_aware_read(p) as reader:
+            assert reader.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==6
+            x.local.execute("UPDATE manual_state SET payload='concurrent-change'")
+
+
+def test_foreign_reader_refuses_sidecar_symlink(ledgers):
+    x=ledgers;p=x.lane/'jobs.sqlite';Path(str(p)+'-wal').symlink_to(x.lane/'absent')
+    with pytest.raises((ValueError,OSError)):
+        with m.journal_aware_read(p):pass
+
+
+def test_sequence_reader_only_authenticated_foreign_paths(ledgers):
+    x=ledgers;f=x.f;seen=[]
+    scope={'source_sha':f['config']['source'],'ledger':f['config']['batch_ledger'],
+        'lanes':{'colab_preparation':{'state':f['lane']},'aggregate_analysis':{'state':str(x.batch_path)}},
+        'item4_scope':{'configuration':{'path':str(x.batch_path/'lane.json')}}}
+    pi=NS(_ACTIVE=NS(scope=scope,verify=lambda:seen.append('verified'),path=Path))
+    with m.sequence_ledger_read(x.batch_path/'jobs.sqlite',f,pi) as reader:assert reader.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==6
+    # Global is kept on its original reader and must not become a foreign path.
+    assert seen==[]
+    foreign=x.lane.parent/'foreign';foreign.mkdir(mode=0o700);db=sqlite3.connect(foreign/'jobs.sqlite');db.execute('PRAGMA journal_mode=WAL');db.execute('CREATE TABLE example(x)');db.close();(foreign/'jobs.sqlite').chmod(0o600)
+    scope['lanes']['aggregate_analysis']['state']=str(foreign)
+    with m.sequence_ledger_read(foreign/'jobs.sqlite',f,pi) as reader:assert reader.execute('SELECT count(*) FROM example').fetchone()[0]==0
+    assert seen==['verified']
+    assert not Path(str(foreign/'jobs.sqlite')+'-wal').exists()
+    with pytest.raises(ValueError,match='FOREIGN_LEDGER_SCOPE'):m.sequence_ledger_read(foreign/'other.sqlite',f,pi)
+    scope['source_sha']='wrong'
+    with pytest.raises(ValueError,match='FOREIGN_SEQUENCE_BINDING'):m.sequence_ledger_read(foreign/'jobs.sqlite',f,pi)
+    with pytest.raises(ValueError,match='FOREIGN_VERIFIED_SEQUENCE_REQUIRED'):m.sequence_ledger_read(foreign/'jobs.sqlite',f,NS(_ACTIVE=None))
+
+@pytest.fixture
+def reader_rearm(transport_rearm,monkeypatch):
+    t=transport_rearm;x=t.x;value=json.loads(t.proof['state_raw']);value['reason']='ValueError: COLAB_DRIVE_IN_PLACE_UNBORROWED_JOURNAL_PRESENT';raw=json.dumps(value)
+    x.local.execute('UPDATE manual_state SET payload=?',(raw,));proof={**t.proof,'schema':'colab-author3-foreign-reader-recovery/v1','new_allowance':0,'state_raw':raw,'state_sha256':m.sha(raw.encode()),'files':{n:r for n,r in t.proof['files'].items() if Path(n).is_relative_to(t.work)}}
+    monkeypatch.setattr(m,'reader_checkpoint',lambda:proof);t.proof=proof;return t
+
+
+def test_reader_rearm_is_once_and_never_changes_attempts_or_files(reader_rearm):
+    t=reader_rearm;originals={n:Path(n).read_bytes() for n in t.proof['files']}
+    result=m.rearm_reader(t.driver,t.x.f,'a'*64,t.terminal)
+    assert result['model_calls']==result['new_allowance']==0 and len(m.live(t.x.f))==6
+    assert all(Path(n).read_bytes()==v for n,v in originals.items())
+    with pytest.raises(ValueError):m.rearm_reader(t.driver,t.x.f,'a'*64,t.terminal)
+
+@pytest.mark.parametrize('damage',['file','state','admitted','unit','grant','native'])
+def test_reader_rearm_fails_closed(reader_rearm,monkeypatch,damage):
+    import subprocess
+    t=reader_rearm;x=t.x
+    if damage=='file':(t.work/'prompt.md').write_bytes(b'changed')
+    elif damage=='state':x.local.execute("UPDATE manual_state SET payload='{}'")
+    elif damage=='admitted':add(x,status='RUNNING')
+    elif damage=='unit':monkeypatch.setattr(subprocess,'check_output',lambda *a,**k:'MainPID=1\nActiveState=activating\nSubState=start\nExecMainStatus=0\n')
+    elif damage=='grant':x.local.execute("UPDATE events SET payload='{}' WHERE id=?",(m.EVENT,))
+    else:(t.work/'console.log').write_bytes(b'native output')
+    with pytest.raises(ValueError):m.rearm_reader(t.driver,x.f,'a'*64,t.terminal)
+    assert not (x.lane/m.READER_EVENT).exists()

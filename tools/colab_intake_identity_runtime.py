@@ -9,10 +9,10 @@ import re
 import subprocess
 import sys
 
-CHANGE = 'colab-drive-transport-repair-20261011'
+CHANGE = 'colab-foreign-reader-repair-20261011'
 # One bounded administrative recovery review; original failed request is retained.
-REVIEW_CHANGE = 'colab-drive-transport-repair-20261011'
-REVIEW_SCOPE = 'docs/COLAB_TRANSPORT_CLOSURE_SCOPE.md'
+REVIEW_CHANGE = 'colab-foreign-reader-repair-20261011'
+REVIEW_SCOPE = 'docs/COLAB_FOREIGN_READER_SCOPE.md'
 CONTINUATION_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/review-continuation-20261011')
 COLAB_RECOVERY_SOURCE = 'd4e276292744e4eff9327e46b0c19053cf3f0da9'
 COLAB_RECOVERY_REVIEW = '276620d8cbe9e76a0e676cbec0098261883b4903e7cd2b690ab433a9d2190a62'
@@ -35,7 +35,7 @@ UNIT = 'research-'+CHANGE+'.service'
 NATIVE_UNIT = 'research-'+CHANGE+'-native-review.service'
 NATIVE_PREVIOUS = Path('/opt/research-system/manual-repair-helpers/timing-author24-history-repair-20261011')
 OLD_UNIT = 'research-preparation-branch-admission-repair-20261010-colab_preparation.service'
-REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, 'scout.py', 'orchestrator/state_view.py', 'docs/COLAB_AUTHOR3_TRANSPORT_PRIVATE.json', 'orchestrator/colab_drive_in_place.py', 'orchestrator/manual_stage.py', 'docs/COLAB_DRIVE_IN_PLACE_PRIVATE.json', 'docs/COLAB_DRIVE_IN_PLACE_OPERATOR.txt', 'docs/COLAB_DRIVE_IN_PLACE_TASK.md', NETWORK_DOC, 'orchestrator/colab_author_terminal.py', 'docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json', 'tools/item4_diagnostic_review_runtime.py',
+REQUIRED = [ENTRY, RECOVERY, REVIEW_SCOPE, 'docs/COLAB_FOREIGN_READER_PRIVATE.json', 'scout.py', 'orchestrator/state_view.py', 'docs/COLAB_AUTHOR3_TRANSPORT_PRIVATE.json', 'orchestrator/colab_drive_in_place.py', 'orchestrator/manual_stage.py', 'docs/COLAB_DRIVE_IN_PLACE_PRIVATE.json', 'docs/COLAB_DRIVE_IN_PLACE_OPERATOR.txt', 'docs/COLAB_DRIVE_IN_PLACE_TASK.md', NETWORK_DOC, 'orchestrator/colab_author_terminal.py', 'docs/COLAB_FINAL_AUTHOR_TERMINAL_PRIVATE.json', 'tools/item4_diagnostic_review_runtime.py',
             'tools/item4_response_host_operation.py','docs/ITEM4_RESPONSE_HOST_PRIVATE.json',
             'docs/COLAB_TURN_RECOVERY_PRIVATE.json','docs/NATIVE_REVIEW_ACTIVATION_PRIVATE.json',
             'orchestrator/item4_smoke_response.py', 'orchestrator/item4_scoped_calls.py', 'orchestrator/colab_reader_recovery.py',
@@ -286,7 +286,7 @@ def install(source, review):
     retained,native_approval=preserved_native()
     require(native_approval['source_sha']=='1f2243448ca452abcad92ca355bead042cc731d2'
         and native_approval['report_sha256']=='c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93','NATIVE_PREVIOUS_APPROVAL')
-    for unit in ('research-colab-drive-in-place-20261011.service','research-colab-reader-recovery-20261011.service',
+    for unit in ('research-colab-drive-transport-repair-20261011.service','research-colab-drive-in-place-20261011.service','research-colab-reader-recovery-20261011.service',
             'research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service',
             'research-continuation-binding-20261011.service','research-continuation-binding-20261011-native-review.service',
             previous_bundle.UNIT,previous_bundle.NATIVE_UNIT,retained.REVIEW_UNIT,retained.CPU_UNIT):
@@ -319,7 +319,7 @@ def install(source, review):
 
 
 def main(argv=None):
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['install','verify','recover','rearm','ready','advance','status','start','pulse'])
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['install','verify','recover','rearm','rearm-reader','ready','advance','status','start','pulse'])
     p.add_argument('--source',type=Path);p.add_argument('--review',type=Path);p.add_argument('--transition');a=p.parse_args(argv)
     sys.path.insert(0,str(ORIGINAL))
     if a.action=='install':
