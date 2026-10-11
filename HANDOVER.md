@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated11October2026,22:15UTC. Codex/OpenAI remains operator. No pause or swap point. Action needed from Partho: the delivered CPU-only Colab input check.
+Updated 11 October 2026, 22:25 UTC. Codex/OpenAI remains operator. No pause or swap point. Action needed from Partho: the delivered CPU-only Colab input check.
 
 ## Goal and operating direction
 
@@ -18,7 +18,7 @@ All893 A1_repeat inputs have explicit existing Drive mappings.891 payload direct
 
 The old laptop copy is stopped:294verified files/1437667675bytes plus a partial file preserved. Never restart or delete it. The previous review3 notebook remains preserved and superseded.
 
-Training is not yet READY. The only live operation is one bounded Claude direction/accounting consultation concerning the genuine Colab reservation and runtime contract. Existing budget admission is Modal-specific; no fictitious Modal reservation or invented paid-CU valuation is allowed. A candidate one-use manual reserve was proposed to Claude but is not installed or reserved. Reconcile that exact consultation before further admission; follow a minimal equivalent-protection recommendation, with normal review if a patch is required. Do not build an accounting subsystem speculatively.
+Training is not yet READY. The direction/accounting consultation is COMPLETE. Its qualified recommendation is ASK PARTHO for the paid-unit USD valuation; that billing fact is pending. Nothing is running. Existing budget admission is Modal-specific; no fictitious Modal reservation or invented paid-CU valuation is allowed. A candidate one-use manual reserve was proposed to Claude but is not installed or reserved. After the billing fact arrives, derive an honest bounded manual reservation within existing headroom; preserve every original amount, pin exact artifacts and hold other item-4 compute while it is open. No new subsystem is needed. Do not build an accounting subsystem speculatively.
 
 Once legitimately admitted, Partho runs A1_repeat/fold0 on A100, seed101,workers2,5epochs,250train/50validation iterations. Deliberately stop after epoch1; reconcile, bind resume through5; then pause. FULL and coverage arms remain held. The smoke records real environment/preprocessing/epoch/checkpoint/CU evidence. The timed-out final interpretation is preserved and does not block smoke; assess it afterwards using returned results. Reviewed software pins remain exact; source/metadata/plan/contract hashes must match. Full training needs scientific smoke acceptance and the1200USDprojectiongate.
 
@@ -34,11 +34,11 @@ Private meeting case-selection proposal is accepted but unexecuted; no case asse
 
 Item4stage1cap150USD; total1275; FULLprojectiongate1200. Stage1actual plus reservations115.516623. Identified computeactual24.39800404. Timingexposure5.405445/25. SyntheticCPUreservation1.118950awaits billing; do not release any open/uncertain amount. New Colab reserve has not been made. Existing1001units at reported6.77/hour buy147.86A100hours. The full40fit plan remains; willingness to buy more is not authority for automatic purchases. Valuation of existing paid units has not been recorded; do not invent it.
 
-Today36/50calls:4scientific authors,4scientific reviewers,22administrative reviews,6direction calls (latest running). Completed Claude cost136.07395875, current direction cost pending; author dollar total unavailable. Full purpose breakdown is in STATUS. Latest completed qualified direction is PROCEED on reader698cca9; new consultation outcome remains pending.
+Today37/50calls:4scientific authors,4scientific reviewers,22administrative reviews,7direction calls (the latest qualified check is complete). Completed Claude cost140.2523035, all direction costs counted; author dollar total unavailable. Full purpose breakdown is in STATUS. Latest completed qualified direction is PROCEED on reader698cca9; latest qualified outcome is ASK PARTHO for paid-unit valuation.
 
 ## Safe resume and nonduplication
 
-Read CURRENT, STATUS, this file, ROLES and execution plan. Private restart entry: `colab-finalization-native-intent-20261011/HANDOFF_CURRENT_PRIVATE.md`; latest work is in `operator-priorities-20261011/drive-in-place`. It names exact service/call IDs and observation scripts. Active direction folder: `human-accounting-direction`; observe its existing unit and receipt, never repeat START. Colab author3/review4 are COMPLETE, lane held at COMMIT_SPEC; no heartbeat or relaunch. Installed source698cca9 is approved/verified. Both transport and reader one-use rearms are consumed. Earlier sourcee0394b8 grants only the now-used author3/reviewer4pair; do not repeat activation. Original6Colabrows and every charge remain unchanged. Author timeout1800 is installed in this Colab continuation only; reviewer bounds unchanged.
+Read CURRENT, STATUS, this file, ROLES and execution plan. Private restart entry: `colab-finalization-native-intent-20261011/HANDOFF_CURRENT_PRIVATE.md`; latest work is in `operator-priorities-20261011/drive-in-place`. It names exact service/call IDs and observation scripts. Completed direction folders: `human-accounting-direction` (mechanical qualification failure) and `human-accounting-direction-retry1` (qualified recommendation). Never repeat START. Colab author3/review4 are COMPLETE, lane held at COMMIT_SPEC; no heartbeat or relaunch. Installed source698cca9 is approved/verified. Both transport and reader one-use rearms are consumed. Earlier sourcee0394b8 grants only the now-used author3/reviewer4pair; do not repeat activation. Original6Colabrows and every charge remain unchanged. Author timeout1800 is installed in this Colab continuation only; reviewer bounds unchanged.
 
 Credential/logins: existing server SSH agent and existing service-account Drive/model routes only, by their registered names. Never print/copy credential contents or alter tokens/scopes/ownership/permissions. No new setup command is currently needed. Root never opens live SQLite; use existing service-account readers.
 

@@ -6,12 +6,12 @@ Scientific author3 completed normally; the isolated synthetic gate passed, and s
 
 All893 required inputs have existing Drive mappings.891 payload directory entries match frozen sizes and both baseline metadata hashes match. Colab must verify every payload hash and the development/exclusion checks. No4DCTP. Never resume or delete the stopped294-file laptop copy or its partial file. No genuine missing upload has been established.
 
-GPU smoke is not yet ready: the genuine training reservation/runtime contract remains to bind. One Claude direction/accounting consultation is RUNNING to choose the smallest honest route for prepaid Colab units and existing dollar caps. Do not invent a Modal reservation, CU/USD conversion or new allowance. Exact active handles are in the private handoff. No scientific call or GPU/input transfer is active.
+GPU smoke is not yet ready: the genuine training reservation/runtime contract remains to bind. The qualified Claude direction/accounting consultation says ASK PARTHO for the paid-unit USD valuation. The question is pending; no reservation or GPU launch. Do not invent a Modal reservation, CU/USD conversion or new allowance. Exact active handles are in the private handoff. No scientific call or GPU/input transfer is active.
 
 The first GPU fit remains A1_repeat/fold0, five smoke epochs, seed101, workers2; interrupt after epoch1, reconcile and bind resume through5, then pause. FULL and coverage arms remain held. Final interpretation follows returned smoke, not a handoff gate. All40 fits remain planned;1001units buy147.86A100hours at6.77/hour but are not a plan ceiling. No automatic unit purchase.
 
 Installed reader698cca9 has genuine APPROVE/PROCEED; every one-use rearm is consumed. Author1800seconds is installed in this Colab lane, reviewers unchanged. All8 original Colab preparation slots are counted. Idea2 authoring has not started; preserve original item6 accounting. Timing remains parked after the repeated admission-reader failure; never repeat completed CPU integration or activation.
 
-Today36/50 calls:4authors,4scientific reviewers,22administrative reviews,6direction calls. Completed Claude cost136.07395875; active direction and author dollars unavailable. Computeactual24.39800404; stage1exposure115.516623/150. C:17.82GiBfree. No new compute reservation has been made.
+Today37/50 calls:4authors,4scientific reviewers,22administrative reviews,7direction calls. Completed Claude cost140.2523035; active direction and author dollars unavailable. Computeactual24.39800404; stage1exposure115.516623/150. C:17.82GiBfree. No new compute reservation has been made.
 
 Read HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Reconcile the existing direction call before a successor. Preserve every attempt, charge and reservation. No main merge or BACKLOG edit.
