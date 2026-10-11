@@ -2,13 +2,13 @@
 
 - Item 6 and synthesis remain accepted; 352 rounded Sprint 14 values match the same saved fits/cohort, not independent retraining.
 - Colab preparation is approved; its final author timed out and left an unaccepted draft. Colab is held.
-- The combined repair has APPROVE and is installed. Timing activation passed; reviewer-start checks are running, with no model or GPU job admitted yet.
+- The combined repair has APPROVE and is installed. Timing activation passed; the scientific review service is preparing the call, with no model or GPU job admitted yet.
 - Timing reviewer 16 is starting through the existing host checks; the existing synthetic CPU result will be reused.
 - Confirmed compute actual: $24.40; stage 1 exposure: $115.52/$150. Reported Claude charges: $87.02; author dollars unavailable.
 - Next: timing scientific verdict, roughly 15-25 minutes after reviewer admission. Colab instructions have no reliable ETA until its draft limitations are judged. See the [plan](13B_EXECUTION_PLAN.md).
 - Action needed: none. Today 23/50 calls. C:19.3 GiB free. No swap point.
 
-## Current state - October 11, 15:58 UTC
+## Current state - October 11, 16:02 UTC
 
 Colab preparation review 3 APPROVED the specification and notebook preparation, and that specification is recorded. The final interpretation author then hit its unchanged 900-second timeout. Its original local and global rows remain UNCERTAIN and counted; its draft files are preserved but not accepted. The author process is positively terminal, with an empty service control group. The draft raises scientific limitations that still need independent judgment. Colab remains BLOCKED; do not restart the author or treat its prose as accepted. No GPU job is running.
 
