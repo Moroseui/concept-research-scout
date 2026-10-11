@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 11 October 2026, 13:10 UTC. Current operator: Codex / OpenAI. Action needed from Partho: none. Goal active; no pause or rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md).
+Updated 11 October 2026, 13:13 UTC. Current operator: Codex / OpenAI. Action needed from Partho: none. Goal active; no pause or rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md).
 
 ## Goal and operating direction
 
@@ -10,7 +10,7 @@ Use engineering judgment and proportionate tests; batch reviews. Consult Claude 
 
 ## In progress: do not duplicate
 
-Two operations are running and must not be duplicated. The synthetic CPU provider job is RUNNING, invocation `04009bc9e18b4a21b1f91a7ac6cf6f77`; normal admission reserved $1.118950 under asset `819d1a7b110514b8105ba428fb75234bf28aad73942be3b7872cecf3c8f65043`. Its actual billing is pending. Colab scientific review 2 is RUNNING, call `276cec02f1affeed00a13f36635c72c8708a878b8d1f3efc573bc3570e95f430`, invocation `0a5d0dd327a64601ba6ca352cddb3ecc`. Both starts are consumed. Observe the exact services until authoritatively terminal; an SSH timeout is not termination.
+The synthetic CPU attempt is terminal VERIFIED / PASS, exit 0, asset READY. It used generated fixtures, blocked network, unchanged package and no patient computation. Original invocation `04009bc9e18b4a21b1f91a7ac6cf6f77`; asset `819d1a7b110514b8105ba428fb75234bf28aad73942be3b7872cecf3c8f65043`; receipt SHA256 `19bfc71e9d3f8800abd276914af150a018e263e3fb0287cb72e6ce9980d1a1a3`. Its $1.118950 reservation stays counted pending confirmed actual billing. Never replay this completed attempt. Colab scientific review 2 is RUNNING, call `276cec02f1affeed00a13f36635c72c8708a878b8d1f3efc573bc3570e95f430`, invocation `0a5d0dd327a64601ba6ca352cddb3ecc`. Both starts are consumed. Observe the running Colab review until authoritatively terminal; an SSH timeout is not termination. Timing reviewer 16 waits for this call to finish before normal admission.
 
 Colab's installed recovery preserved all three prior calls and restored only review 2, with zero new allowance. The start used transition `3350f9ca2b08493767868233375dc7ccd1bf1d167c0cc4cba14999e91a8ad8de`; never reuse it. The first failed review and its $4.476676 charge remain intact.
 
@@ -24,7 +24,7 @@ The existing scheduled input-retention services may run normally; do not duplica
 |---|---|---|
 | Analysis and ideas | Item 6 and saved-results synthesis accepted. 352 rounded Sprint 14 values match the same saved fits/cohort, not independent retraining. Interpret/debate new eligible results; do not repeat accepted synthesis. | 1-2 hours after new evidence. |
 | Colab | Author 2 complete and synthetic tests passed. Reviewed recovery restored review 2; observe the running review. Genuine scientific acceptance precedes packaging private contract/hash and exact notebook/settings. Scientific REVISE goes to the author. | Review decision provisionally 15-30 minutes after launch; instructions depend on acceptance. |
-| Timing | Author 24 complete; both runtime installation checks passed. Observe this synthetic CPU attempt. Successful evidence goes to existing reviewer 16 before the $25-capped GPU diagnostic. | Native outcome provisionally 15-30 minutes after admission; diagnostic depends on review. |
+| Timing | Author 24 complete; both runtime installation checks passed. The synthetic CPU integration passed. After Colab review finishes, send the evidence to existing reviewer 16 before the $25-capped GPU diagnostic. | Scientific decision provisionally 15-30 minutes after reviewer 16 is admitted; diagnostic depends on acceptance. |
 | Meeting | Exact accepted selection proposal privately packaged; no patients selected or images opened. Author/reviewer must implement and judge the selector/renderer, then verify private assets and geometry. | Synthetic package 2-4 hours after lane admission; panels depend on assets. |
 | Usability and rotation | Cleanup complete. Author sandbox and opposite-family administrative route remain uninstalled. Defer unrelated infrastructure until the next result, as agreed with Claude. | No swap until all six operator conditions hold. |
 
@@ -42,7 +42,7 @@ The Colab reading copy is non-executable and reconstructs the original notebook 
 
 1. Read this handover, the current private handoff and operator decisions. Confirm no other operator is active. Reconcile the exact CPU service and accounting, using the research service account for live ledger reads, never root.
 2. Check disk space before a large step: warn below 15 GiB, stop below 8 GiB or unknown capacity on C: or WSL. Never replay cleanup.
-3. Observe the existing CPU attempt. If admitted/running, do not restart it. Colab is already started; observe its recorded call. Preserve every outcome; never fabricate a review submission or infer a verdict from prose.
+3. The CPU attempt is complete; do not restart it. Colab is already started; observe its recorded call. Once no model call is active, use the installed reviewer runtime to activate and start reviewer 16 with exact passed native evidence through normal admission. Preserve every outcome; never fabricate a review submission or infer a verdict from prose.
 4. Follow scientific gates: native evidence then existing reviewer 16 before GPU; genuine Colab acceptance before first operator instructions; smoke acceptance before full training. Failures require diagnosis, proportionate repair and independent review. Consult Claude under the judgment rule; Partho only for money/Colab action.
 5. Update STATUS, CURRENT, HANDOVER and execution plan in place. Merge only scanned installed projections into remote-server; scan privacy/secrets/infrastructure/new reachable history and metadata before every push. Push safe astra projections, verify remote hashes, never main or raw private ancestry.
 
@@ -64,4 +64,4 @@ Access by name only: existing server SSH, research service account, OpenAI autho
 
 Previous verified backup `89adf16c0128a284e0b9b2f2e4196fcf64a1239d`. Safe source projection `a29e265276211e850a377b758ddad5abba4d084e` has now been merged locally after both installs passed; scan/push this update and verify the receipt. Private bindings, evidence, ledgers, packets, native streams and all patient material remain excluded, as listed in STATUS.
 
-No swap: the first Colab instructions, timing result and installed opposite-family route are missing; CPU execution and Colab review are active. Declare Swap point reached only when all six operator conditions are verified, then finish the current step, update/push handover and wait. No earlier pause is requested.
+No swap: the first Colab instructions, timing result and installed opposite-family route are missing; Colab review is active. Declare Swap point reached only when all six operator conditions are verified, then finish the current step, update/push handover and wait. No earlier pause is requested.

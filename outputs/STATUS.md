@@ -1,20 +1,20 @@
 # Research status
 
 - Item 6 and saved-results synthesis remain accepted; 352 rounded Sprint 14 values match the same saved fits and cohort.
-- Both repairs passed independent review and actual server installation checks. The synthetic CPU provider job is running after normal admission.
+- Both repairs passed independent review and actual server installation checks. The synthetic CPU integration passed on the pinned image with generated fixtures and unchanged package bytes.
 - Colab scientific review 2 is running in parallel; all original calls, charges and failed review evidence remain preserved.
 - The private meeting proposal is packaged. No cases selected or images opened; the scientific author and reviewer own the selector and renderer.
 - Compute actual: $24.40. Stage-1 actual plus open reservations: approximately $115.52/$150 including the new $1.118950 CPU reservation; its actual billing is pending. Completed administrative model cost: $44.42; failed scientific review: $4.48.
-- Next: synthetic CPU outcome and Colab scientific review, provisionally 15-30 minutes after admission. Timing diagnostic still needs scientific review. Analysis: 1-2 hours after new evidence; meeting synthetic package: 2-4 hours after lane admission. See the [plan](13B_EXECUTION_PLAN.md).
+- Next: Colab scientific review outcome, provisionally 10-20 minutes; then admit timing reviewer 16 with the passed synthetic evidence. Timing diagnostic still needs scientific review. Analysis: 1-2 hours after new evidence; meeting synthetic package: 2-4 hours after lane admission. See the [plan](13B_EXECUTION_PLAN.md).
 - Action needed: none. C: 19.3 GiB free; server about 121.6 GiB. Today 17/50 model calls, including the running Colab review. No swap point.
 
-## Current state - October 11, 13:10 UTC
+## Current state - October 11, 13:13 UTC
 
 Source `1f2243448ca452abcad92ca355bead042cc731d2` is approved and both installations are complete. Review `e76badd346b3e1717d1e636c0c9c0abba03fafd0fe83a8a1f9ce2ef05d1296c6` is COMPLETE, genuine APPROVE, no findings, uncertain=false. Report SHA256 `c27eaa20e857449d1d054621848fd63084dc811a092f98128e63c9a99797ba93`; cost $6.9980025. Claude's direction: proceed, with caution that recovery scaffolding is growing. We agree and defer unrelated infrastructure until the next result. The reviewer inspected source and evidence but did not execute tests or authenticate the live host. Actual installation checks then passed.
 
 All 603 reviewed source files were checked when staged. Colab's actual runtime verification passed, followed by exact state recovery: review 2, three prior calls preserved, zero new allowance, no model call. The original failed review and $4.476676 charge remain. Its distinct start is consumed: invocation `0a5d0dd327a64601ba6ca352cddb3ecc`, call `276cec02f1affeed00a13f36635c72c8708a878b8d1f3efc573bc3570e95f430`, RUNNING at 13:09 UTC. Review 2 uses the original eight-call lane and unchanged reader and 30-turn bounds; genuine scientific acceptance is still required before first instructions.
 
-Timing installation has COMPLETE and both native and reviewer runtime checks passed. A single CPU start is active, invocation `04009bc9e18b4a21b1f91a7ac6cf6f77`; do not duplicate it. At 13:09 UTC normal admission had reserved $1.118950 and the provider job was RUNNING. Asset `819d1a7b110514b8105ba428fb75234bf28aad73942be3b7872cecf3c8f65043` remains RESERVED while the job is open. No GPU run or automatic retry has started. Existing reviewer 16 must judge successful synthetic evidence before the capped GPU timing diagnostic.
+Timing installation has COMPLETE and both native and reviewer runtime checks passed. The single CPU attempt ended successfully, exit 0, with VERIFIED / synthetic PASS and asset `819d1a7b110514b8105ba428fb75234bf28aad73942be3b7872cecf3c8f65043` READY. It used generated fixtures, no patient computation, blocked network and the unchanged package. The original invocation was `04009bc9e18b4a21b1f91a7ac6cf6f77`; never replay it. Its $1.118950 reservation remains counted pending confirmed billing. Receipt SHA256 `19bfc71e9d3f8800abd276914af150a018e263e3fb0287cb72e6ce9980d1a1a3`. This is synthetic integration evidence; GPU timing and scientific acceptance remain outstanding. No GPU run or automatic retry has started. Existing reviewer 16 must judge successful synthetic evidence before the capped GPU timing diagnostic.
 
 The original notebook patch stays unchanged; the added non-executable reading copy reconstructs every value exactly. The fourth historical native failure is recognized only by its complete pinned row and original verifier. All original amounts, statuses and charges remain counted. Unknown/live/mutated history, over-cap launches, changed scientific bytes and missing authority still refuse.
 
@@ -46,4 +46,4 @@ Safe implementation projection `a29e265276211e850a377b758ddad5abba4d084e` has no
 
 Withheld: evidence, ledgers, review packets, native streams, private authority/provenance, patient identifiers/rows/images/masks/caches, all *_PRIVATE* files and raw private Git ancestry. New excluded bindings are `docs/COLAB_READER_RECOVERY_PRIVATE.json` and `docs/ITEM4_FOURTH_NATIVE_FAILURE_PRIVATE.json`. Exact operation records remain private.
 
-No swap: first Colab instructions, timing result and installed opposite-family route are missing, and both CPU execution and Colab review are active. See [HANDOVER](../HANDOVER.md), [ROLES](../ROLES.md) and [CURRENT](../CURRENT.md).
+No swap: first Colab instructions, timing result and installed opposite-family route are missing, and Colab review is active. See [HANDOVER](../HANDOVER.md), [ROLES](../ROLES.md) and [CURRENT](../CURRENT.md).
