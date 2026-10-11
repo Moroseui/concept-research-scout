@@ -1,11 +1,13 @@
-# Current research state ? 11 October 2026
+# Current research state - 11 October 2026
 
-Action needed from you: none yet. Codex/OpenAI remains operator; no swap.
+Action needed from you: none. Codex/OpenAI remains operator; no swap point.
 
-Review 3 approved Colab preparation. The exact notebook is delivered to Downloads, with private execution contract/input bindings still being packaged. A1_repeat fold 0 smoke comes first, then pause. The timed-out final interpretation is preserved for assessment after returned smoke; it is not a handoff prerequisite.
+First priority is the independently approved Colab A1_repeat fold-0 smoke package. The exact notebook is in Downloads; private contracts, baseline metadata and input delivery remain. The original membership table has been recovered with its frozen hash and proves the 99 development patients exclude all 49 reserved identifiers. No patient payloads were opened. Final interpretation follows returned smoke and is not a handoff gate.
 
-At Partho's reported 6.77 CU/hour, 1,001 units cover 147.9 A100 hours. The plan estimates 130?140 hours before overhead and gives an explicit fallback arm order. Full training and coverage-dependent arms remain held.
+At Partho's reported 6.77 units/hour, 1,001 units provide 147.86 A100 hours. The provisional 40-fit plan needs 130-140 hours plus overhead; the execution plan lists priorities if measured costs exceed the allocation.
 
-Idea 2's saved-output 3?3 ranking/amount analysis is requested for the server CPU through author/reviewer; not started. The author timeout patch is tested (101 pass, four unchanged baseline fixture errors), with required independent review prepared, not launched or installed. Registration had a connection timeout; reconcile before retry. Timing is parked; its latest failure occurred before scientific reservation. The direction call is terminal with a request timeout and no verdict. No scientific/GPU job is running.
+The author-only timeout change has genuine independent APPROVE at source7d9ed0c, but installation is pending. No model or compute job is running. Idea2 server CPU authoring is not started; preserve original item6 accounting. Timing remains parked after a repeated admission-reader failure; never repeat its completed CPU integration or activation.
 
-Today 28/50 calls; reported Claude cost $105.7140575. Compute actual $24.39800404; stage-1 exposure $115.516623/$150. C: about 19.1 GiB free. No new setup or money decision is needed. Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Private evidence and uncertain operation handles remain private. Never duplicate a pending intent, merge main, or edit BACKLOG.
+Today29/50 calls:3 authors,3 scientific reviewers,19 administrative reviews,4 direction calls. Reported Claude cost107.595632; author dollar total unavailable. Compute actual24.39800404; stage1 exposure115.516623/150. Caps unchanged. C:19.3GiB free; no setup action needed.
+
+Read HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Exact private handles are in the current private handoff. Preserve all attempts and charges; reconcile uncertain operations before any retry. No main merge or BACKLOG edit.
