@@ -1,14 +1,32 @@
 # Research status
 
-- Item 6 and saved-results synthesis are accepted; 352 rounded Sprint 14 values match on the same saved fits/cohort, not independent retraining.
-- Cleanup is complete: C: has about 19.4 GiB free. Historical private evidence was hash-verified on the server before local removal.
-- The last repair review has finished with a genuine REJECT. No replacement review or compute job has been started.
-- Colab and timing continuations are held: Claude found conflicting historical/current evidence, an oversized inventory and unresolved authorization concerns. Neither rejected repair is installed.
-- Last reconciled compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Reported administrative model costs today total $28.99; no new compute reservation.
-- Next: resolve the review-packet findings and discuss authority through the existing Claude route before any installation. Earlier 1-2 hour Colab and 2-3 hour timing estimates are withdrawn; a reliable estimate needs that resolution. See the [plan](13B_EXECUTION_PLAN.md).
-- Action needed: none. Today 11/50 calls: 2 authors, 8 administrative reviews, 1 failed direction check, 0 scientific reviewers. No named model call remains running; no swap point.
+- Item 6 and saved-results synthesis remain accepted; no new scientific result has arrived.
+- The private meeting brief now packages the author's exact accepted case-review proposal with production responsibilities; it is hash-verified on the server. No patients selected or images opened.
+- Claude resolved the inventory-size concern but rejected the first advisory packet over invocation authority and evidence labels. Both repair installations remain held.
+- A second bounded discussion is running through the unchanged generic review entry. Its first start refused on connectivity before any model reservation; one reconciled retry passed normal admission.
+- Last compute actual is $24.40; stage-1 actual plus open reservations is $114.40/$150. Reported administrative model cost is $30.67, plus the running discussion; no new compute reservation.
+- Next expected response: Claude's direction in roughly 5-15 minutes. Colab/timing result estimates remain uncertain. Meeting renderer preparation needs an author/review cycle, provisionally 2-4 hours after its lane is ready. See the [plan](13B_EXECUTION_PLAN.md).
+- Action needed: none. Today 13/50 calls: 2 authors, 8 implementation reviews and 3 direction calls/discussions (one running), 0 scientific reviewers. Cleanup complete; C: about 19.3 GiB free. No swap point.
 
-## Current state - October 11, 11:05 UTC
+## Current state - October 11, 11:28 UTC
+
+First advisory discussion `3bf088b45cc650853a2f11ae87228449050b2ba26433b34aef4de7d06838e8ac` is COMPLETE with genuine REJECT, source `5ac53716ec0cbd08a3b8316caeeb9a388237d070`, report `03b6afa7e7db072490e9c2c987eebd6571652bee78f41ca20fbfa44e4141acae`, cost $1.6794655. It explicitly resolved full-inventory inspection. It retained objections to the candidate invocation scope and confusing current-versus-direction-history labels. The operator accepted those process concerns and changed the next discussion accordingly; no implementation was approved or installed.
+
+Second discussion `ba236968e79ecf30e992daffaf202aa34bc7deaff6d6758abf78b215d9a87b67` is RUNNING, observed 11:28:16 UTC, invocation `b45c50fe97b24e64894f674c55d3b46a`. The application source is unchanged. It reuses the original generic operator entry and approved installed transport, with original registration, confinement, caps, host proof and terminal qualification. It does not execute or rebind the rejected candidate gate. Current diff is empty and explicitly bound; separately labeled raw history retains its original range since the last answered direction check. The entire advisory inventory is 3,557 bytes; unchanged reader/search preflight passes 22 files / 88,403 bytes. No implementation/test-pass claim is made by this discussion.
+
+Its first host invocation `63ea399dd11d494a98994532046d8189` failed NETWORK_PREFLIGHT_FAILED_NO_CHARGE before reservation: zero matching ledger row and no invocation output folder. The original journal and network record are preserved. A fresh call to the unchanged checker passed. One same-packet service retry was then made after exact terminal/zero-reservation checks; normal admission now counts exactly one model call. An initial operator retry command had a parse error before execution; it too is retained. No original charge, check, source or refusal was erased, and no blind restart occurred.
+
+Both repair paths still require independent implementation approval. The original qualified rejection b4a70b23 and unqualified failed75e0 are retained. This discussion is not an installation verdict and must not be consumed as one. The disagreement narrowed in round1 (inspection resolved); round2 is pending. If no further movement, park the bundle; do not repeat the argument or relabel REJECT as mechanical. No money decision is pending.
+
+Workstream C: recovered the exact accepted interpretation by SHA256 cb028b56d0de61998594e29a240659a96142ed3819c81bd9cbdaf174a29a25c7, then preserved its meeting proposal verbatim in a private logistical brief. That brief is stored and hash-verified on the server, package SHA256 e9b0c2c2ed2b75be183c482ff33d53eac0d8b3481c00cdeb4c3f40e04cb67f53. It assigns author/reviewer ownership of selection and rendering, private server packaging, input/provenance checks and local delivery. No selector or renderer has yet been authored or scientifically released; no patient material was accessed. The brief and all private provenance are withheld from GitHub.
+
+Today's purposes: authors corrected Colab and timing; eight implementation reviews covered combined continuations, intake/disk, alignment, transport recovery, connection repair, entry-point/network continuation, preservation/admission and inspection recovery. Three direction calls/discussions are the original zero-cost failed check, the completed first advisory discussion, and the running second discussion. Native ledger kinds remain unchanged. Completed reported administrative cost $30.66829025; author dollar totals unavailable. No new compute reservation. Analysis remains accepted pending fresh results; allow roughly 1-2 hours for author/reviewer interpretation after suitable new evidence arrives.
+
+Judgments: accept evidence organization and inventory findings; separate advisory from implementation authority; preserve both genuine rejections; reuse the existing generic invocation without candidate gate edits; label raw history by its actual base/head; retain and reconcile a zero-charge network refusal before a single same-packet retry; recover/package the accepted meeting proposal without altering science or touching patient material. Claude consultation ongoing, round2; latest separate PROCEED remains 10:17 UTC and does not override either rejection. Rotation/sandbox installation remains deferred; no swap.
+
+Publication: safe advisory draft on astra/public-colab-timing-direction-draft-20261011; no merge into installed releases. Private evidence, review packets, ledgers, native streams, all *_PRIVATE* files, the meeting brief/provenance and patient materials remain excluded. Last verified backup before this update:5372f6b1997ace4203e5936d9919c9921e6b4ce2. Main and BACKLOG unchanged.
+
+## Historical state - October 11, 11:05 UTC (superseded)
 
 Request `b4a70b23f98f9580abd3ff7e667dc4c24f0f3a628697acb47e1470b762d61463` is COMPLETE with a qualified **REJECT**, uncertain=false, source `2bf4f8f00dc027cc8d09317a98dc426cb3670645`, report `13a29b4465cc1ebd1831696e672563995220b5529cc76e7dc3f05e3ac74a1173`. Its native cost is $4.11864375, included in today's reported administrative total $28.98882475. Service inactive, MainPID 0. This is a genuine decision, not a mechanical failure; no automatic retry or installation is allowed on its strength.
 

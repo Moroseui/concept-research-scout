@@ -1,15 +1,13 @@
-# Current research state - 11 October 2026, 11:05 UTC
+# Current research state - 11 October 2026, 11:28 UTC
 
-Action needed from you: none. Codex/OpenAI remains operator. Goal active; no swap or pause.
+Action needed from you: none. Codex/OpenAI remains operator; goal active, no swap/pause.
 
-Cleanup complete. C: about 19.4 GiB free; server before/after evidence transfer 160.6/123.7 GiB. All historical local removals followed server hash verification. No setup command or larger server disk needed.
+Item6/saved-results synthesis accepted. Colab author2 and timing author24 remain held, not scientifically released. Original repair review b4a70b23 is genuinely REJECTED; no installation. First advisory3bf088b4 also REJECTED but resolved inventory inspection, leaving invocation/evidence-label concerns.
 
-Item 6 and saved-results synthesis are accepted. Colab author2 and timing author24 are complete with synthetic PASS but are not scientifically released. The approved c428 timing runtime is installed/verified; its consumed CPU start refused before reservation/provider launch. Colab installation remains partial on the preparation-workspace check.
+Second bounded discussion ba236968e79ecf30e992daffaf202aa34bc7deaff6d6758abf78b215d9a87b67 is RUNNING, invocationb45c50fe97b24e64894f674c55d3b46a, observed11:28:16UTC. It reuses the original generic administrative entry; no application-source change or candidate-gate rebind. Current empty diff and raw direction history are separately labeled. A prior network refusal was terminal before any call/reservation; original records preserved, unchanged checker passed, one same-packet retry admitted. Never duplicate the running request.
 
-Review b4a70b23f98f9580abd3ff7e667dc4c24f0f3a628697acb47e1470b762d61463 is COMPLETE with genuine REJECT, uncertain=false; report13a29b4465cc1ebd1831696e672563995220b5529cc76e7dc3f05e3ac74a1173, source2bf4f8f00dc027cc8d09317a98dc426cb3670645. No current model call remains running. Findings concern successor authority, incomplete inventory inspection and conflicting old/current evidence. Do not install, restart, or call this mechanical. Preserve the earlier failed75e0 and every charge.
+Private meeting logistics brief now stores the exact accepted author proposal and production responsibilities on the server, hash-verified; no patients selected/images opened. Author-written selector/renderer and review remain outstanding.
 
-Next: address the coherent-current-evidence and inspection findings, then discuss the authority disagreement through the existing bounded Claude route. No post-verdict discussion round has occurred. Both repair paths stay held. Prior Colab/timing estimates are withdrawn pending resolution; no trustworthy result ETA yet.
+Today13/50:2authors,8implementation reviews,3direction discussions/checks(one running),0scientific reviewers. Completed administrative model cost30.66829025 plus pending. Compute actual24.39800404,stage1actual+open114.397673/150,diagnostic4.286495/25; no new compute reservation. Caps/gates unchanged.
 
-Today11/50:2authors,8administrative reviews,1failed direction,0scientific reviewers. Reported administrative model cost$28.98882475. Last qualified compute actual$24.39800404, stage1actual+open$114.397673/$150, diagnostic$4.286495/$25. No new compute reservation; all caps/gates unchanged.
-
-Read HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Private continuation:colab-workspace-native-inspection-recovery-20261011/review/HANDOFF_CURRENT_PRIVATE.md. Latest verified backup before this update:944b8bfebbae8570b23044485b677aa1f87dd95d. Never main or BACKLOG edits.
+Next: observe same discussion, follow moving-disagreement rule; no installation from advisory verdict. Colab/timing ETA uncertain. Scientific interpretation after new evidence about1-2hours; private synthetic renderer roughly2-4hours once author lane ready. Read HANDOVER,ROLES,STATUS,execution plan. Private continuation:colab-timing-direction-discussion2-20261011/review. Cleanup complete,Cabout19.3GiB,no setup action. Latest verified backup before update5372f6b1997ace4203e5936d9919c9921e6b4ce2.
