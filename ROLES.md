@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Colab preparation is approved; its final author timed out and its draft remains unaccepted. The combined repair has genuine APPROVE and is installed; both actual service checks passed. Timing activation passed, but the scientific service stopped before model admission. An uninstalled allocator repair passes 367 tests; copied-ledger admission passed and independent review is running. Item 6 and synthesis are accepted; no GPU job is running. Opposite-family administrative route remains uninstalled. Operator owns infrastructure and handover; system author/reviewer own science.
+Current operator: **Codex, OpenAI family**. No rotation. Item6 and synthesis are accepted. Colab preparation is approved; its final author timed out and its draft remains unaccepted. The native-review admission repair is independently approved and installed, with both actual checks passed. Guarded reviewer16 start is in progress; no GPU job is running. Opposite-family administrative route remains uninstalled. Operator owns infrastructure and handover; system author/reviewer own science.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
