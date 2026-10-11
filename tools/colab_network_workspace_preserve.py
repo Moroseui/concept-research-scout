@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-CHANGE='colab-network-workspace-preservation-20261011'
+CHANGE='colab-workspace-native-inspection-recovery-20261011'
 DOC='docs/COLAB_NETWORK_WORKSPACE_PRIVATE.json'
 DOC_SHA='86c54e3f3dc70a943bc632c92a1e3f8214a38831d09af7a683a5a9867dbb1b39'
 ROOT=Path('/opt/research-system/manual-repair-helpers/colab-network-continuation-20261011')

@@ -99,7 +99,7 @@ def test_successor_admin_uses_approved_installed_helper_only(tmp_path,monkeypatc
     helper=tmp_path/'helper.py'
     original=(Path(__file__).parent/'fixtures/reviewer_connection_timing_approved.py').read_bytes()
     helper.write_bytes(original)
-    manifest={'change_id':'colab-network-workspace-preservation-20261011','round':1,
+    manifest={'change_id':'colab-workspace-native-inspection-recovery-20261011','round':1,
               'source_files':{'tools/invoke_admin_installed_transport.py':b.sha(script.read_bytes())}}
     approved={'change_id':'colab-timing-transport-repair-20261011','source_sha':'4a05c64af90af15078e43e31abc9bd13d063160e',
               'report_sha256':'c64df8e27dc86e96a15a4630b0aec5812ec44ddb32124a09dfda0909d7c584ca'}

@@ -39,7 +39,7 @@ def install(source,review,bundle,*,preflight=False):
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approval=verify_result(review);manifest=json.loads(trusted(review/'packet-manifest.json').read_bytes())
-    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='colab-network-workspace-preservation-20261011'
+    require(approval['verdict']=='APPROVE' and approval['change_id']==manifest['change_id']=='colab-workspace-native-inspection-recovery-20261011'
         and approval['source_sha']==manifest['source_sha'] and approval['runtime_sha256']==sha(trusted(RUNTIME).read_bytes()),'GENUINE_APPROVAL')
     path=source/'tools/item4_diagnostic_native_runtime.py'
     require(sha(trusted(path).read_bytes())==manifest['source_files']['tools/item4_diagnostic_native_runtime.py'],'RUNTIME_SOURCE')
