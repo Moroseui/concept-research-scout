@@ -145,9 +145,9 @@ def install_fixture(tmp_path, monkeypatch):
         REVIEW_UNIT=native_unit,CPU_UNIT='research-preserved-native-cpu.service')
     monkeypatch.setattr(m,'preserved_native',lambda:(retained,retained.authority()))
     monkeypatch.setattr(m,'colab_recovery_review',lambda:m.COLAB_RECOVERY_REVIEW)
-    previous_bundle=NS(authority=lambda:{'source_sha':'f57ab420f55596b53b0781e904d817fde4b85423',
-        'report_sha256':'8bb46b53c0ed72791f1bebbea4bf3433d9d020167d98e4ac902a6fa15583c0d8'},
-        UNIT='research-continuation-binding-20261011.service',NATIVE_UNIT='research-continuation-binding-20261011-native-review.service')
+    previous_bundle=NS(authority=lambda:{'source_sha':'9e2816b322518f5d5843bd3656b078902818a589',
+        'report_sha256':'ff2aea58844c443774bb83b22fe76e846c97c8f54c8eedfa7b2e225327a9e57d'},
+        UNIT='research-native-review-admission-20261011.service',NATIVE_UNIT='research-native-review-admission-20261011-native-review.service')
     monkeypatch.setattr(m,'load',lambda name,path:previous_bundle if name=='_review16_previous_bundle' else helper if 'existing_installer' in name else prior)
     controls={'source':'a'*40,'branch':'astra/manual-fixture','dirty':'','unit':'MainPID=0\nActiveState=inactive\nExecMainStatus=0\n','running':False,'verify_exit':0,'native_verify_exit':0}
     def output(args,**kwargs):
@@ -311,7 +311,7 @@ def test_continuation_keeps_exact_predecessor_grant_approval(monkeypatch,fault):
     else:assert m.colab_recovery_review()==m.COLAB_RECOVERY_REVIEW
 
 
-@pytest.mark.parametrize('unit',['research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service','research-continuation-binding-20261011.service','research-continuation-binding-20261011-native-review.service'])
+@pytest.mark.parametrize('unit',['research-review-continuation-20261011.service','research-review-continuation-20261011-native-review.service','research-continuation-binding-20261011.service','research-continuation-binding-20261011-native-review.service','research-native-review-admission-20261011.service','research-native-review-admission-20261011-native-review.service'])
 def test_new_install_refuses_either_previous_continuation_writer(install_fixture,monkeypatch,unit):
     f=install_fixture;original=m.subprocess.check_output
     def output(args,**kwargs):
