@@ -1,8 +1,6 @@
 # 13B execution plan
 
-Current checkpoint (October11,14:00UTC): synthetic timing CPU integration passed. Colab review2 ended without a verdict; native reviewer activation hit an older author-only guard. One combined implementation/process review is running for the bounded corrections. No native rerun or automatic Colab retry. First instructions and GPU timing await genuine scientific acceptance; see STATUS.
-
-
+Current checkpoint (October11,14:18UTC): synthetic timing integration passed. Preceding repair received APPROVE, but installation stopped before release writes on an import-context mismatch. Candidate2e942f8 passed240focused tests and is in one combined implementation/direction review. No CPU rerun; scientific acceptance precedes instructions/GPU timing.
 
 Updated 11 October 2026. Owner: system author for scientific code and interpretation; independent reviewer for acceptance; Codex for packaging and infrastructure. This is the operational plan, not a scientific release or permission to bypass admission. [Status](STATUS.md).
 
@@ -37,4 +35,4 @@ Modal stage-1 commitment: **$115.516623/$150**; timing diagnostic: **$5.405445/$
 
 Action needed from Partho now: none. Colab author2 and timing author24 are complete. Installed baseline corrections passed actual verification; the subsequent synthetic CPU integration PASSED with generated fixtures and unchanged package. Its $1.118950 reservation remains counted pending confirmed actual billing. Both Colab scientific reviews exhausted30turns without submitting; preserve their charges and prose without inventing verdicts. Native reviewer16 activation failed before a model call at an older author-only guard.
 
-Candidate8395798 is in one combined Claude implementation/process/direction review. It reuses the native PASS and proposes exact Colab review3 at60turns inside the original8-call lane; no new allowance/cap or scientific change. Genuine implementation APPROVE precedes install/recovery; genuine scientific acceptance precedes Colab private contract/hash packaging and GPU timing. Expected next review decision15-30minutes; scientific ETAs remain uncertain. Analysis follows new scientific evidence in1-2hours. The private meeting brief is ready; author/reviewer selector/renderer work remains,2-4hours after lane admission. Author sandbox and opposite-family rotation route are deferred until the next result under the latest Claude direction.
+Candidate2e942f8 is in a combined Claude implementation/safeguard/direction review. The original exact Colab review3 exception remains preserved. Actual installation checks then normal scientific admission are required. Next scientific decision provisionally45-90minutes if installation clears; GPU-result timing depends on acceptance. Analysis follows new evidence in1-2hours; meeting synthetic package2-4hours after lane admission. Unrelated sandbox/rotation work remains deferred.
