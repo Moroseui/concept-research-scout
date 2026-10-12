@@ -6,7 +6,7 @@ The goal is understanding infarct prediction and getting new 13B arm results. Sc
 
 ## Workstreams and reasoning
 
-**Pnormct author 1 is running**, confirmed in local and global accounting at 11:01 UTC. It is preparing one preconfigured notebook for folds 0?4, 250 epochs each, with automatic resume/skip and a real trainer fixture. Expect the draft within the 30-minute author limit; synthetic tests, actual trainer integration and scientific review still precede delivery.
+**Pnormct author 1 is running**, confirmed in local and global accounting at 11:01 UTC. It is preparing one preconfigured notebook for folds 0-4, 250 epochs each, with automatic resume/skip and a real trainer fixture. Expect the draft within the 30-minute author limit; synthetic tests, actual trainer integration and scientific review still precede delivery.
 
 Latest arm order: multiwin and pnormct first, then pnorm_v2, then L after actual A100 memory evidence. Repeats are parked; zscore/histeq held. Sprint 12 A1 is the provisional comparator; small differences need a later Colab repeat.
 
@@ -36,3 +36,5 @@ Read CURRENT, STATUS, execution plan and ROLES, then canonical private HANDOFF_C
 Next saved-output analysis is the author's fixed-amount smoothing comparison. Private meeting preparation uses the accepted six-slot case rule; no cases selected or images opened, and asset/geometry checks remain mandatory. Both intakes are ready but not admitted; do not invent results or bypass serialization. Timing remains without a result.
 
 At each stop update STATUS in place, CURRENT, this handover and the private handoff; scan privacy/secrets/infrastructure, push remote-server plus safe astra history, and verify remote hashes. Never push raw private branches, evidence, ledgers, packets, streams, private bindings or patient payloads. Existing server SSH identity and Drive service identity only, by name and never contents. No setup action is currently needed.
+
+At 11:07 UTC the existing 728 saved-output files were checked by metadata only: all were regular, readable and size-matching. No patient payload was opened or rehashed. The next analysis can plan around these existing server inputs, subject to the scientific author's selection and fresh before/after hash checks. Meeting asset mapping confirms that the inspected inventories do not establish a follow-up MRI or clinical source; project-wide absence is not inferred.

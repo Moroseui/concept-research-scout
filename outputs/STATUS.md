@@ -1,6 +1,6 @@
 # Research status
 
-- Idea 2 is accepted, with limited reviewer inspection of two large tables disclosed.
+- Idea 2 is accepted; the next analysis can reuse existing server files, subject to fresh hash checks.
 - Repeats are parked; new arms come first: multiwin/pnormct, then pnorm_v2, then L.
 - Pnormct author 1 is running, preparing one five-fold notebook and a real trainer fixture.
 - Multiwin remains parked at its 20-call limit after a mechanical review failure.
@@ -34,6 +34,8 @@ Idea 2's single saved-output CPU execution completed in about six minutes. Befor
 
 Item 6 diagnostics and synthesis are accepted. The Sprint 14 comparison's 352 rounded matches use shared saved fits/cohort, not independent retraining. The next analysis intake preserves the author's proposed fixed-amount smoothing comparison. Meeting preparation uses the accepted fixed six-slot selection rule; real panels await asset provenance and geometry checks. No cases have been selected or private images opened for that plan. Model calls are currently serialized by the installed guard.
 
+At 11:07 UTC the existing 728 saved-output files were checked by metadata only: all were regular, readable and size-matching. No patient payload was opened or rehashed. The next analysis can plan around these existing server inputs, subject to the scientific author's selection and fresh before/after hash checks. Meeting asset mapping confirms that the inspected inventories do not establish a follow-up MRI or clinical source; project-wide absence is not inferred.
+
 ## Spending and daily calls
 
 Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus retained reservations $91.029622. Timing commitment is $5.405445/$25 within stage 1; $1.118950 synthetic CPU awaits billing. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 remain unchanged. Colab is unmetered. Release excess reservations only after provider billing confirms a closed attempt's actual cost.
@@ -59,7 +61,7 @@ Known completed Claude charges: $286.96561325. Latest policy review cost $4.3644
 
 ## Backup and exclusions
 
-Last verified public backup before this update: 726c4311670ef26c79d38d0f278e61125c645a9f. Current changes require privacy, secret and infrastructure scans before pushing. Latest measured C: free space is 16.56 GiB; latest private checkpoint verified 544 files by hash, with server free space112.4910 GiB before and112.4753 GiB after. No local files were removed. Disk guard warns below 15 GiB and stops below 8 GiB. No larger disk requested.
+Last verified public backup before this update: 6ccb8996db2fc0a0bbfbce75570c3aa32f3387d7. Current changes require privacy, secret and infrastructure scans before pushing. Latest measured C: free space is 16.56 GiB; latest private checkpoint verified 544 files by hash, with server free space112.4910 GiB before and112.4753 GiB after. No local files were removed. Disk guard warns below 15 GiB and stops below 8 GiB. No larger disk requested.
 
 Withhold evidence folders, review packets, ledgers, native streams, private operator records, raw private branch ancestry, patient rows/identifiers, membership maps, images, masks, weights/caches, credentials and infrastructure identifiers. Private bindings withheld include COLAB_MULTIWIN_RECOVERY_PRIVATE.json, COLAB_RUNTIME_FAILURES_PRIVATE.json and COLAB_PATCH_READING_FAILURE_PRIVATE.json. Returned executed notebooks/records and verbatim private approval bindings also stay private. Safe source/test projections are scanned separately. Never merge main or edit BACKLOG.
 
