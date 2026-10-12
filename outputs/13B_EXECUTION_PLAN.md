@@ -51,4 +51,8 @@ Idea2's single saved-output CPU execution completed and validated. Its interpret
 
 Operator report12October: folds0/1 started in two default-runtime A100 sessions, unedited review7 files; Drive mounted and250-epoch estimates printed. Input-check completion, epochs and results are not yet reported. Do not launch duplicate fits.
 
-Current next step: the multiwin author intake draft is ready privately with the new order and Colab-baseline rule. Prepare its normal scientific author/reviewer lane, then deliver exact approved files; provisional2-4activehours. Colab folds0/1 remain externally active by operator report. Timing, coverage-dependent arms, sandbox and rotation remain deferred; no swap point.
+Current next step: reconcile the live multiwin author9, then scientific reviewer8 if its output and synthetic checks pass. Deliver exact approved bytes; provisional1-3activehours. Colab baseline folds0/1 remain externally active by operator report. Timing, coverage-dependent arms, sandbox and rotation remain deferred; no swap point.
+
+Multiwin update: infrastructure db6b741 passed182tests, independent APPROVE, installation and native checks; author9 is running. Exact private lock/reference metadata is ready. Author9 consumes one of the existing two batch slots; reviewer8 has the remaining slot, with unchanged caps. No automatic retry beyond admission. Author implements the same-platform baseline comparison; the end repeat remains last.
+
+Next result: multiwin author draft/synthetic outcome within about30minutes, then scientific review; deliverable notebook provisionally1-3activehours. Analysis and meeting intakes are prepared in parallel, each awaiting normal admission for one author/reviewer cycle; real case panels also need verified MRI/clinical/prediction assets and geometry.
