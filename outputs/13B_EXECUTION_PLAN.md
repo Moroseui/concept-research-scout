@@ -8,18 +8,22 @@ Each fit is 250 epochs. The scientific author writes the notebooks; the scientif
 
 | Arm | Folds | Venue / owner | Delivery order and hold |
 |---|---|---|---|
-| A1_repeat | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | First; all-fold notebook plus five preconfigured fold files |
-| A1_repeat2 | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Second; repeat control |
-| A1_multiwin | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Third, as soon as code is reviewed |
-| A1_pnormct | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Fourth, as soon as code is reviewed |
-| A1_pnorm_v2 | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Fifth, as soon as code is reviewed |
-| A1_L | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Sixth; author must retain memory feasibility checks, no silent model reduction |
-| A1_zscore | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Held: CTP coverage-source contract remains unverified |
-| A1_histeq | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Held: CTP coverage-source contract remains unverified |
+| A1_repeat | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | First; review7 released. Operator reports folds0/1 active;2/3next, then4. |
+| A1_multiwin | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Second; first intervention arm, deliver as soon as reviewed |
+| A1_pnormct | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Third, as soon as reviewed |
+| A1_pnorm_v2 | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Fourth, as soon as reviewed |
+| A1_L | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Fifth; retain memory feasibility checks, no silent model reduction |
+| A1_zscore | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Held: coverage-source contract unverified; do not let it delay the released intervention arms |
+| A1_histeq | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Held: coverage-source contract unverified |
+| A1_repeat2 | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Last; firm up training-noise estimate before final conclusions |
 
 Start with **two A100 sessions**, A1_repeat folds 0 and 1, then use freed sessions for folds 2, 3 and 4. This is a conservative scheduling recommendation, not a claim about an account's quota. Colab limits vary; use the sessions the account permits. Deliver each subsequent arm immediately after its review, without waiting for all arms. Never run an all-fold notebook and a separate file for the same fold simultaneously.
 
 In parallel: server CPU runs synthetic checks and the reviewed saved-output analyses. The Modal GPU CPU-starvation diagnostic remains parked at its diagnosed reader failure; resolving it does not block Colab. Its approved $25 bound and hard stops remain. No new Modal CPU job is needed. Private meeting-case planning remains separate.
+
+## Comparison and interpretation
+
+Operator decision12October: compare every Colab arm against the Colab A1_repeat baseline on the same platform; retain Sprint12 as an additional historical comparison. Run intervention arms before A1_repeat2. Use the final repeat to strengthen the training-noise estimate before final conclusions. The scientific author implements this in subsequent notebook/report revisions and the reviewer judges it. The running approved A1_repeat files remain byte-for-byte unchanged.
 
 ## Notebook contract for the scientific author
 
@@ -43,4 +47,8 @@ Other venue limits remain unchanged: item4 Modal stage1 $150, timing diagnostic 
 
 Author7's real reference-hash correction passed scientific review6. Author8 used the independently approved exact-deletion interface to remove the remaining inert fragment; synthetic tests pass. Scientific review7 approved the exact six notebook files with no findings. Every delivered variant passed the existing isolated synthetic suite; exact bytes are available in Downloads and under outputs/notebooks/A1_repeat. No additional final interpretation blocks a human Colab run.
 
-Idea2's single saved-output CPU execution completed and validated. Its interpretation adapter was approved and installed, but activation stopped before any call on an obsolete reader expectation. The115-test reader repair is under independent implementation review now. After approval, resume scientific interpretation/review; provisionally1-2activehours. No CPU rerun or new provider commitment. Timing/sandbox/rotation remain deferred; the swap gate is not met.
+Idea2's single saved-output CPU execution completed and validated. Its interpretation adapter was approved and installed, but activation stopped before any call on an obsolete reader expectation. Reader repair and the subsequent138-test stage-routing repair are approved/installed, with native checks passed. Scientific interpretation author2/review2 and ordinary finalization are COMPLETE, APPROVE with documented limitation: the reviewer could not directly inspect the two largest numerical tables. See [accepted report and scope](idea2_fixed3x3/README.md). No CPU rerun or new provider commitment. Timing/sandbox/rotation remain deferred; the swap gate is not met.
+
+Operator report12October: folds0/1 started in two default-runtime A100 sessions, unedited review7 files; Drive mounted and250-epoch estimates printed. Input-check completion, epochs and results are not yet reported. Do not launch duplicate fits.
+
+Current next step: the multiwin author intake draft is ready privately with the new order and Colab-baseline rule. Prepare its normal scientific author/reviewer lane, then deliver exact approved files; provisional2-4activehours. Colab folds0/1 remain externally active by operator report. Timing, coverage-dependent arms, sandbox and rotation remain deferred; no swap point.
