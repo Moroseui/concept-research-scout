@@ -68,7 +68,7 @@ Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus re
 
 ## Backup and exclusions
 
-Last verified public backup before this update: e5aa81d0e6309017ac6bf7a1d576bda177d5875c. Current changes require privacy, secret and infrastructure scans before pushing. Latest measured C: free space is 16.56 GiB; latest private checkpoint verified 544 files by hash, with server free space112.4910 GiB before and112.4753 GiB after. No local files were removed. Disk guard warns below 15 GiB and stops below 8 GiB. No larger disk requested.
+Last verified public backup before this update: e5aa81d0e6309017ac6bf7a1d576bda177d5875c. Current changes require privacy, secret and infrastructure scans before pushing. The preceding active checkpoint verified71files by hash; C:15.90GiB and server111.8551GiB before/111.8509GiB after. A newer author checkpoint follows this update. No local files were removed. Disk guard warns below 15 GiB and stops below 8 GiB. No larger disk requested.
 
 Withhold evidence folders, review packets, ledgers, native streams, private operator records, raw private branch ancestry, patient rows/identifiers, membership maps, images, masks, weights/caches, credentials and infrastructure identifiers. Private bindings withheld include COLAB_MULTIWIN_RECOVERY_PRIVATE.json, COLAB_RUNTIME_FAILURES_PRIVATE.json and COLAB_PATCH_READING_FAILURE_PRIVATE.json. Returned executed notebooks/records and verbatim private approval bindings also stay private. Safe source/test projections are scanned separately. Never merge main or edit BACKLOG.
 
