@@ -45,7 +45,7 @@ def test_real_role_limit_author_and_reviewer_chain(lane):
     assert connect(x)==1
     assert manual_recovery.role_limit(x.store,q.RUN,'run_spec_review')==4
     assert x.checks
-    assert 'Daily50, run20' in revisions.instructions(x.store,q.RUN)
+    assert 'Approved UTC-day policy, run20' in revisions.instructions(x.store,q.RUN)
 
 @pytest.mark.parametrize('field,value',[('run_id','wrong'),('backend','wrong'),('item_number',2),
     ('review_contract','wrong'),('revision_policy',{})])
@@ -112,10 +112,11 @@ def test_native_unit_retains_all_confinement_except_reviewed_entry(monkeypatch):
     assert changed==raw.replace(b'ExecStart='+old+b'\n',b'ExecStart='+new+b'\n')
     assert b'Restart=no' in changed and b'ProtectSystem=strict' in changed
 
-def test_actual_checkpoint_and_native_probe_cover_both_role_admissions():
-    f=p.document(Path(__file__).resolve().parents[1])
-    assert f['calls']==[] and json.loads(f['state_row']['payload'])['rounds']=={}
-    from tools import colab_pnormct_policy_runtime as runtime
-    import inspect
-    text=inspect.getsource(runtime.probe)
-    assert "'run_spec_author')==1" in text and "'run_spec_review')==4" in text
+def test_old_pnormct_recovery_checkpoint_cannot_apply_to_new_arm():
+    root=Path(__file__).resolve().parents[1]
+    raw=(root/p.DOCUMENT).read_bytes()
+    assert q.sha(raw)==p.DOCUMENT_SHA
+    original=json.loads(raw)
+    assert original['run_id']!=q.RUN and original['calls']==[]
+    with pytest.raises(ValueError,match='POLICY_CHECKPOINT_SCOPE'):
+        p.document(root)

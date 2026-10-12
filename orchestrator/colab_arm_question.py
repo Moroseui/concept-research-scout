@@ -1,4 +1,4 @@
-"""One distinct pnormct question under unchanged shared limits.
+"""One distinct pnorm_v2 question under unchanged shared limits.
 
 Uses the normal analysis initializer and scientific stages. The exhausted Colab
 run is evidence, never a source of reset calls or a copied allowance.
@@ -8,10 +8,10 @@ import hashlib
 import json
 import sqlite3
 
-RUN = "colab-arm-22cf228b71bc3d1441ef2031"
-DOCUMENT = "docs/COLAB_PNORMCT_QUESTION_PRIVATE.json"
-DOCUMENT_SHA = "723cf10fbb2e5810aa8c6c17ddb40b0cf9ad56eef630625c2f88a61bd0be2341"
-CHANGE = "colab-pnormct-question-20261012"
+RUN = "colab-arm-b9d64a3c09b799bc10b0eba7"
+DOCUMENT = "docs/COLAB_PNORM_V2_QUESTION_PRIVATE.json"
+DOCUMENT_SHA = "7953abe7d410433215de767d5607c71704e494749d2200f26155625eba46272b"
+CHANGE = "colab-pnorm-v2-question-20261012"
 STAGES = frozenset(("run_spec_author", "run_spec_review"))
 
 
@@ -34,7 +34,7 @@ def document():
     raw = pr.check(root / DOCUMENT).read_bytes()
     require(sha(raw) == DOCUMENT_SHA, "SCOPE_CHANGED")
     scope = json.loads(raw)
-    require(scope["run_id"] == RUN and scope["arm"] == "A1_pnormct"
+    require(scope["run_id"] == RUN and scope["arm"] == "A1_pnorm_v2"
             and scope["call_limit"] == 20 and scope["batch_limit"] == 128
             and scope["allocation_limit"] == 16 and scope["allocation_baseline"] == 104
             and scope["admitted_stages"] == sorted(STAGES)
@@ -96,7 +96,9 @@ def preserved(accounts, scope):
                 old["local_calls"], "OLD_LOCAL_CALL_CHANGED")
         require(dict(db.execute("SELECT * FROM manual_state WHERE id=1").fetchone()) ==
                 old["state_row"], "OLD_STATE_CHANGED")
-    require(len(old["local_calls"]) == 20 and old["local_calls"][-1]["status"] == "FAILED"
+    require(len(old["local_calls"]) == 24 and old["local_calls"][-1]["status"] == "COMPLETE"
+            and json.loads(old["state_row"]["payload"])["phase"] == "BLOCKED"
+            and json.loads(old["state_row"]["payload"])["reason"] == "OUTPUT_VALIDATION_REFUSED: ANALYSIS_REVISION_ROUND"
             and not any(r["status"] == "RUNNING" for r in old["local_calls"]),
             "OLD_RUN_NOT_TERMINAL")
 
@@ -211,7 +213,7 @@ def instructions(stage, plan):
     scope = validate_scope(plan)
     require(stage in STAGES, "PREPARATION_STAGE_ONLY")
     from orchestrator.analysis_driver import bound_file
-    tasks = [row for row in plan["artifacts"] if row["id"] == "pnormct-arm-author-task"
+    tasks = [row for row in plan["artifacts"] if row["id"] == "pnorm-v2-arm-author-task"
              and row["type"] == "question"]
     require(len(tasks) == 1, "TASK_REQUIRED")
     task = bound_file(Path(plan["context"]), {k: tasks[0][k] for k in ("path", "sha256")})
