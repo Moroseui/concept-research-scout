@@ -1,10 +1,10 @@
 # 13B execution plan
 
-Updated 12 October 2026,21:24UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 12 October 2026,21:42UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
-| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Author12 and five synthetic groupsPASS; reviewed recovery installed, scientificreview11RUNNING, then real trainer integration |
+| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Author12 and five synthetic groupsPASS; Synthetic-only package APPROVE/delivered; Partho runs freshA100check; fulltrainingheld until returned evidence is scientifically accepted |
 | First, session2 | A1_pnormct,0-4 | **Partho on Colab**, default runtime,A100 | Delivered unchanged after real trainer PASS; Partho reports RUNNING |
 | Next | A1_pnorm_v2,0-4 | **Partho on Colab**, default runtime,A100 | Author, scientific review and real integration |
 | Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Same checks, plus actual A100 memory-fit evidence |
@@ -28,3 +28,5 @@ Next: a bounded, independently reviewed recovery for the existing final reviewer
 Smoothing CPU is valid/terminal; interpretation namespace repair06eb remains deferred/unreviewed. Meeting,timing,sandbox/rotation deferred. No Swap.
 
 Today58calls:14author,10scientificreviewer,32administrative,2direction; installed100on12OctoberUTC then50. Scientific114/128,remaining8Colab/2analysis/4meeting. Completed Claude351.09885125,author dollars unavailable. Item4exposure115.516623/150=billed24.487001+retained91.029622,total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.
+
+Current action: run13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb in a fresh default A100 session, Run all, no settings. Keep the other pnormct session running. This approved package runs authored unit fixtures then one real synthetic training iteration/checkpoint roundtrip, not a full fold. About10-25minutes, roughly1.13-2.82CU informational only. Final cell copies evidence privately, excluding caches; return printed status and folder. SHA25644902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b.
