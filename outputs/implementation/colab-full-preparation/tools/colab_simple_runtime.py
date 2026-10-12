@@ -16,8 +16,8 @@ from orchestrator import colab_simple_full as f
 from orchestrator.manual_host_guard import trusted
 
 ENTRY='tools/colab_simple_runtime.py'
-BRANCH='astra/colab-simple-full-20261012'
-CHANGE='colab-simple-local-terminal-20261012'  # Preserve the genuine first-round REVISE.
+BRANCH='astra/manual-colab-admission-20261012'
+CHANGE='colab-simple-admission-20261012'
 
 
 def metadata():
@@ -124,17 +124,8 @@ def connect_qualifier():
         if row['id']=='af4547778fe7e1f35698089607ab524d08346618131512c232670b7ccbf02ab8':
             return sender.sender_qualification(row)
         if row['id']!=proof.CALL:return terminal.verify(row)
-        import sqlite3
-        key=str(Path(frozen['config']['batch_ledger'])/'jobs.sqlite')
-        local_key=str(Path(frozen['lane'])/'jobs.sqlite')
-        f.require(key==str(accounts.folder/'jobs.sqlite') and not history.BORROWED,'EXACT_TERMINAL_LEDGER')
-        with sqlite3.connect(Path(local_key).as_uri()+'?mode=ro',uri=True) as db:
-            db.row_factory=sqlite3.Row;db.execute('PRAGMA query_only=ON');db.execute('BEGIN')
-            history.BORROWED[key]=accounts.db;history.BORROWED[local_key]=db
-            try:
-                return proof.qualify(row,binding,read_local=lambda value:history.terminal_history(frozen,value))
-            finally:
-                history.BORROWED.clear();db.rollback()
+        from orchestrator.colab_premodel_terminal import historical_read
+        return proof.qualify(row,binding,read_local=lambda value:historical_read(accounts.db,value,frozen))
     f._TERMINAL_QUALIFIER=qualify
 
 

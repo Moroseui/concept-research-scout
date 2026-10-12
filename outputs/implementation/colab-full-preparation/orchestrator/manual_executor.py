@@ -106,6 +106,7 @@ class ManualExecutor(Store):
         from orchestrator import connectivity
         receipt={**receipt,'connectivity':connectivity.require(['claude' if stage.endswith('review') else 'codex'], self.path.parent/'connectivity.json')}
         ident=digest((run_id+':'+stage+':'+str(n)).encode())
+        accounting.validate_manual_event({'run_id':ident,'attempt':'1','source':source,'branch':branch})
         if self.batch is not None:
             receipt={**receipt,'batch_accounting':self.batch.reserve_scientific(ident,run_id,stage,source,receipt)}
         self.db.execute('INSERT INTO manual_calls VALUES(?,?,?,?,?)',(ident,stage,n,'RUNNING',json.dumps(receipt)))

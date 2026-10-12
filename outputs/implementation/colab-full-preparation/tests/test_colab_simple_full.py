@@ -331,7 +331,7 @@ def test_variant_refuses_executed_outputs():
 def test_real_documents_and_templates_compile():
     from tools import colab_simple_runtime as rt
     scope=f.document()
-    assert scope['call_limit']==20 and scope['batch_limit']==104 and len(scope['prior']['local_calls'])==8
+    assert scope['call_limit']==20 and scope['batch_limit']==104 and len(scope['prior']['local_calls'])==9
     raw=rt.unit_bytes(scope)
     assert b'ProtectSystem=strict' in raw and b'Restart=no' in raw
 
@@ -352,7 +352,7 @@ def test_prepare_copies_history_once_without_activation_or_new_allowance(lane,mo
     x.previous.execute("INSERT INTO manual_account VALUES(1,9,'{\"original_usage\":8}')")
     prior['manual_account']=[dict(r)for r in x.previous.execute('SELECT * FROM manual_account')];prior['manual_recoveries']=[]
     monkeypatch.setattr(manual_driver,'git',lambda root,*args:{('status','--porcelain'):'',('rev-parse','HEAD'):'1'*40,
-                        ('branch','--show-current'):'astra/colab-simple-full-20261012'}[args])
+                        ('branch','--show-current'):'astra/manual-colab-admission-20261012'}[args])
     monkeypatch.setattr(analysis_driver,'release_identities',lambda root:({},{}))
     result=f.prepare(root,filesystem_root=x.store.batch.filesystem_root)
     assert result=={'status':'PREPARED_NOT_ACTIVATED','calls_preserved':8,'model_calls':0,'new_allowance':0}
@@ -437,3 +437,60 @@ def test_actual_local_admission_still_refuses_unproven_uncertainty(lane,monkeypa
     with pytest.raises(ValueError):
         ManualExecutor.reserve_call(x.store,f.RUN,'run_spec_author','1'*40,'astra/synthetic',{}, {})
     assert not x.global_db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
+
+@pytest.mark.parametrize('has_failed_reservation',[False,True])
+def test_full_real_admission_includes_global_reservation_and_local_cas(lane,monkeypatch,has_failed_reservation):
+    """Regression: connectivity-only tests missed the branch binding failure."""
+    from orchestrator.manual_executor import ManualExecutor
+    from orchestrator.autonomy_accounting import BatchAccounts
+    from orchestrator.autonomy_review_runner import ReviewQueue
+    from orchestrator import autonomy_limits
+    from tools.colab_simple_runtime import BRANCH
+    x=lane
+    if has_failed_reservation:
+        doc=json.loads((Path(__file__).resolve().parents[1]/'docs/COLAB_ADMISSION_FAILURE_PRIVATE.json').read_text())
+        from orchestrator.colab_premodel_terminal import receipt as terminal_receipt
+        failed=terminal_receipt(doc)
+        lr=failed['original_local_row'];gr={**failed['original_global_row'],'status':'FAILED','receipt':json.dumps(failed,sort_keys=True)}
+        for db in (x.store.db,x.previous):
+            db.execute('INSERT INTO manual_calls VALUES(?,?,?,?,?)',tuple(lr[k]for k in ['id','stage','attempt','status','receipt']))
+        x.global_db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',tuple(gr[k]for k in ['id','kind','change_id','round','day','status','binding','receipt']))
+        x.scope['prior']['local_calls']=sorted([*x.scope['prior']['local_calls'],lr],key=lambda row:row['id'])
+        x.scope['prior']['global_calls']=sorted([*x.scope['prior']['global_calls'],gr],key=lambda row:row['id'])
+        x.scope['offsets']['run_spec_author']=4
+        state=json.loads(x.scope['prior']['parent_state_row']['payload']);state['rounds']['run_spec_author']=4
+        x.scope['prior']['parent_state_row']['payload']=json.dumps(state,sort_keys=True)
+        x.previous.execute('UPDATE manual_state SET payload=?',(x.scope['prior']['parent_state_row']['payload'],))
+        x.store.db.execute('UPDATE manual_state SET payload=?',(json.dumps({'phase':'run_spec_author','rounds':x.scope['offsets']}),))
+    old_uncertain(lane,monkeypatch)
+    frozen=json.loads((Path(__file__).resolve().parents[1]/'docs/COLAB_ADMISSION_FAILURE_PRIVATE.json').read_text())['original']
+    policy=frozen['config']['policy']
+    x.store.db.execute('CREATE TABLE manual_account(id INTEGER PRIMARY KEY,version INTEGER,payload TEXT)')
+    account=frozen['manual_account'][0]
+    x.store.db.execute('INSERT INTO manual_account VALUES(?,?,?)',(account['id'],account['version'],account['payload']))
+    monkeypatch.setattr('orchestrator.connectivity.require',lambda *a:{'status':'PASS_SYNTHETIC'})
+    monkeypatch.setattr(autonomy_limits,'global_limit',lambda *a:20)
+    x.store.batch.status=lambda ident:ReviewQueue.status(x.store.batch,ident)
+    x.store.batch.reserve_scientific=lambda *args:BatchAccounts.reserve_scientific(x.store.batch,*args)
+    before=json.loads(account['payload'])
+    ident,number,receipt=ManualExecutor.reserve_call(x.store,f.RUN,'run_spec_author','1'*40,BRANCH,policy,
+                                                  {'workspace':'/lane-scientific-workspaces/run_spec_author-'+str(5 if has_failed_reservation else 4)})
+    assert number==(5 if has_failed_reservation else 4) and receipt['accounting']['status']=='ADMITTED'
+    assert receipt['batch_accounting']['accounting_units']==1
+    after=json.loads(x.store.db.execute('SELECT payload FROM manual_account').fetchone()[0])
+    assert after['sequence']==before['sequence']+1
+    assert x.global_db.execute('SELECT status FROM autonomy_calls WHERE id=?',(ident,)).fetchone()[0]=='RUNNING'
+    assert x.store.db.execute('SELECT status FROM manual_calls WHERE id=?',(ident,)).fetchone()[0]=='RUNNING'
+    assert len(after['events'])==len(before['events'])+1
+
+
+def test_invalid_branch_refuses_before_global_reservation_or_local_row(lane,monkeypatch):
+    from orchestrator.manual_executor import ManualExecutor
+    x=lane;old_uncertain(lane,monkeypatch)
+    monkeypatch.setattr('orchestrator.connectivity.require',lambda *a:{'status':'PASS_SYNTHETIC'})
+    def should_not_reserve(*a):raise AssertionError('invalid branch reached global reservation')
+    x.store.batch.reserve_scientific=should_not_reserve
+    before=[dict(r)for r in x.store.db.execute('SELECT *FROM manual_calls')]
+    with pytest.raises(ValueError,match='MANUAL_ACCOUNTING_BINDING'):
+        ManualExecutor.reserve_call(x.store,f.RUN,'run_spec_author','1'*40,'astra/colab-simple-full-20261012',{}, {})
+    assert before==[dict(r)for r in x.store.db.execute('SELECT *FROM manual_calls')]

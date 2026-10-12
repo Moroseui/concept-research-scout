@@ -10,9 +10,9 @@ import sqlite3
 
 RUN = "colab-1ad5fafc220b3d65f576ce08"
 DOCUMENT = "docs/COLAB_SIMPLE_FULL_PRIVATE.json"
-DOCUMENT_SHA = "63dbc64b3695bbf6540fa453249a86a3632a093b3ad00531be33aa25968e0653"
+DOCUMENT_SHA = "b1b94d1080b773aa47a1c393e8941826ed9c9205f24dbd3db06b7b9d32185943"
 FIELD = "colab_simple_full"
-EVENT = RUN + ":colab-simple-local-terminal-preparation"
+EVENT = RUN + ":colab-simple-admission-preparation"
 STAGES = frozenset(("run_spec_author", "run_spec_review"))
 _TERMINAL_QUALIFIER = None  # Set only by the reviewed installed native entry point.
 
@@ -61,7 +61,7 @@ def _approval(config, scope, root):
     manifest = json.loads((folder / "packet-manifest.json").read_bytes())
     require(result["verdict"] == "APPROVE" and result["source_sha"] == config["source"]
             and manifest["source_sha"] == config["source"]
-            and result.get("change_id")=="colab-simple-local-terminal-20261012", "INDEPENDENT_APPROVAL_REQUIRED")
+            and result.get("change_id")=="colab-simple-admission-20261012", "INDEPENDENT_APPROVAL_REQUIRED")
     report = json.loads((folder / "report.md").read_bytes())
     require(report.get("findings") == [], "UNRESOLVED_IMPLEMENTATION_FINDINGS")
     require({DOCUMENT,'orchestrator/colab_simple_full.py','tools/colab_simple_runtime.py'}
@@ -134,7 +134,7 @@ def _grant(config, scope, approval):
             "configuration_sha256":sha(encoded(config)),
             "scope_sha256": DOCUMENT_SHA, "implementation_review_sha256": approval,
             "operator_sha256": scope["operator_sha256"],
-            "prior_calls": 8, "shared_call_limit": 20,
+            "prior_calls": len(scope["prior"]["local_calls"]), "shared_call_limit": 20,
             "batch_limit": 104,
             "stages": sorted(STAGES), "execution_authorized": False}
 
@@ -151,7 +151,7 @@ def activate(store, run):
         require(owner == scope["prior"]["owner"] and owner["status"] == "ACTIVE", "CANONICAL_OWNER_NOT_ACTIVE")
         require(not db.execute("SELECT 1 FROM events WHERE id=?", (EVENT,)).fetchone(), "ALREADY_ACTIVATED")
         calls = [dict(r) for r in db.execute("SELECT * FROM autonomy_calls WHERE change_id=? ORDER BY id", (RUN,))]
-        require(calls == scope["prior"]["global_calls"] and len(calls) == 8, "PRIOR_CALL_SET_CHANGED")
+        require(calls == scope["prior"]["global_calls"] and len(calls) == len(scope["prior"]["local_calls"]), "PRIOR_CALL_SET_CHANGED")
         require(not db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone(), "LIVE_MODEL_CALL")
         require([dict(r) for r in store.db.execute("SELECT * FROM manual_calls ORDER BY id")] == scope["prior"]["local_calls"],
                 "NEW_LANE_ALREADY_USED")
@@ -164,7 +164,7 @@ def activate(store, run):
     except BaseException:
         db.execute("ROLLBACK")
         raise
-    return {"status": "COLAB_SIMPLE_AUTHOR_READY", "calls_already_counted": 8,
+    return {"status": "COLAB_SIMPLE_AUTHOR_READY", "calls_already_counted": len(scope["prior"]["local_calls"]),
             "shared_call_limit": 20, "execution_authorized": False}
 
 
@@ -294,7 +294,7 @@ def prepare(root, *, filesystem_root=Path('/')):
         trusted(root)
     require(not git(root,'status','--porcelain'),'CLEAN_REVIEWED_SOURCE')
     source=git(root,'rev-parse','HEAD');branch=git(root,'branch','--show-current')
-    require(branch=='astra/colab-simple-full-20261012','EXACT_BRANCH')
+    require(branch=='astra/manual-colab-admission-20261012','EXACT_BRANCH')
     parent=_path(host,scope['prior']['parent_lane']);state=_path(host,scope['new_lane'])
     require(not state.exists() and not state.is_symlink(),'EXISTING_LANE_RECONCILE')
     old=scope['prior']['config'];batch=BatchAccounts(_path(host,old['batch_ledger']),filesystem_root=host)
@@ -338,8 +338,8 @@ def prepare(root, *, filesystem_root=Path('/')):
                 require(not batch.db.execute('SELECT 1 FROM events WHERE id=?',(EVENT,)).fetchone(),'PREPARATION_MUST_NOT_ACTIVATE')
             finally:store.db.close()
             pr.write_bytes(state/'PREPARED.json',encoded({'status':'PREPARED_NOT_ACTIVATED','source':source,
-                'scope_sha256':DOCUMENT_SHA,'calls_preserved':8,'model_calls':0,'new_allowance':0}))
-            return {'status':'PREPARED_NOT_ACTIVATED','calls_preserved':8,'model_calls':0,'new_allowance':0}
+                'scope_sha256':DOCUMENT_SHA,'calls_preserved':len(scope['prior']['local_calls']),'model_calls':0,'new_allowance':0}))
+            return {'status':'PREPARED_NOT_ACTIVATED','calls_preserved':len(scope['prior']['local_calls']),'model_calls':0,'new_allowance':0}
     finally:batch.db.close()
 
 def local_terminal_ids(store, run):

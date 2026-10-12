@@ -1,31 +1,62 @@
 # Operator handover
 
-Updated 12 October 2026. Codex/OpenAI remains operator. Action needed from Partho: none. No pause or swap point.
+Current operator: **Codex / OpenAI**. Updated 12 October 2026. Rotation has not occurred; the goal remains active. Action needed from Partho: none. Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). The retained private handoff, HANDOFF_CURRENT_PRIVATE.md, contains exact server handles, immutable operation records and review locations. This public file deliberately excludes private evidence and access details.
 
-## Goal and direction
+## Goal and operating direction
 
-Understand infarct prediction from admission CT and progress BACKLOG items6 and4. Explain gains through placement, amount, size, region and fragmentation. Scientific author and other-family reviewer own scientific code and conclusions; operator owns engineering and coordination. Use judgment; consult Claude for safeguards/accounting/confinement/privacy, recurring problems or uncertain scope. Ask Partho only about money or a needed Colab action. Never locked25/reserve24 payloads, credentials changes, patient-derived publication, main merges or BACKLOG edits. Tests and independent implementation review precede installation. Daily model-call cap50; wait for reset if reached. Preserve attempts/charges and never duplicate uncertain work.
+Progress approved ISLES24 items 6 and 4 through authoring, independent review, execution and interpretation. Understanding comes first: measure placement versus amount and effects by infarct size, region and fragmentation. Scientific code and conclusions belong to the system author and reviewer; the operator builds infrastructure and coordinates execution. Operator and author work require review by the other model family.
 
-## Current workstreams and reasoning
+Latest Colab direction supersedes old smoke, runtime-pin and metering instructions. Partho runs fully configured A100 notebooks using default Python3.13/preinstalled CUDA/PyTorch, full250epochs, automatic resume and private distinct Drive folders. Each used frozen input is hash-verified; development99 and excluded49 membership checks fail closed. No Colab accounting, balance prompts, separate smoke, supervised segments or per-run scientific review. Review notebook code before delivery. Deliver A1_repeat first, then each coverage-independent arm without batching delivery. Initial scheduling: two sessions for folds0/1, then2/3/4, subject to actual account availability.
 
-Read [STATUS](outputs/STATUS.md) for current results, calls and money and [execution plan](outputs/13B_EXECUTION_PLAN.md) for all40fits. A1_repeat preconfigured defaultColab/full250/autoresume notebooks are first; deliver after scientific code review. No balances, metering, separate smoke or runtime3.12gate. Old smoke notebook is superseded.
+Use existing credentials only. Never access excluded25/24 payloads, create/change credentials, publish private patient material, merge main or edit BACKLOG. Approved aggregate public backups remain permitted after scans. Ask Partho only about money or a required Colab action. Consult Claude for protected engineering/process uncertainty; preserve every attempt and charge. Do not weaken a refusal.
 
-Colab candidate0770e23 has90passingtests and fixes a diagnosed branch-prefix mismatch without weakening the check. It also reconciles the one preserved premodel global reservation truthfully viaFAILED completion and preserves all9localattempts under the same owner. Reviewece97db5 is RUNNING; its single start is consumed. The earlier registration and preintent refusals are preserved without a model charge. Await genuineAPPROVE before reconciliation/install/retry. Earliercd346dc and7a0941d releases were independentlyAPPROVED/installed; all consumed operations remain preserved.
+## Workstreams
 
-Idea2 code is scientificallyAPPROVED,20tests passed, all728originalserverfiles hashverified and99/excluded49 checks pass.614are needed by the approved program. No transfer/newDrivehelper required. Next narrow reviewed CPUadapter using existing confinement/beforeafterhashes; no patientanalysis yet. Originaldiagnostics/synthesis accepted. Timingparked; privatecaseproposalaccepted/unexecuted; oppositefamilyroute/sandboxdeferred. Swapgate unmet.
+| Workstream | State | Next step and reason |
+|---|---|---|
+| Item6 diagnostics / synthesis | Independently accepted; aggregate comparison with Sprint14 complete | Keep accepted results distinct from independent retraining: the352rounded matches concern shared saved fits/cohort. |
+| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Finish only the narrow CPU integration, review/install, execute and interpret through author/reviewer. Draft adapter has45engineering tests, no patient execution. No data transfer or dependency install needed. |
+| A1_repeat Colab | Author5 complete but unaccepted: main(arm, folds) violates required main(input_root, output_root, contract) | Dependency review0069af3 is APPROVE / PROCEED; installation, native zero-call probe and recovery are complete. Reconcile the requested counted author6 correction, synthetic checks and scientific review of all notebook variants. Deliver files and hashes immediately after approval. |
+| Other coverage-independent arms | Planned, not delivered | Author/review each after A1_repeat; retain eight arms by five folds in the plan. |
+| Coverage-dependent arms | Held | Scientific coverage-source contract remains unverified. |
+| CPU-starvation timing | Parked after repeated admission-reader failure; no timing result | Narrow recovery later; do not block Colab on it. |
+| Private professor case review | Selection proposal accepted, unexecuted | Follow its fixed selection rule privately; do not improvise cases or publish images. |
+| Sandbox / rotation | Deferred; opposite-family administrative capability uninstalled | No swap until all six operator conditions are met. |
 
-## In progress and safe resume
+## Current Colab repair and non-duplication
 
-No author/compute process is live, but the latest Colab reservation is globallyRUNNING and locallyBLOCKED_BEFORE_MODEL. Do not confuse ledgerstatus with a live model; it still blocks successors until reviewed reconciliation. Never replay starts/install/probes or refund/relabel calls. Reviewece97db5 has started once. Observe that invocation; do not start either registered request again.
+Admission release0770e23 is installed and independently approved. Its exact old premodel failure is now FAILED globally, with the original local refusal and all counts/charges preserved.
 
-Private restart entry: colab-finalization-native-intent-20261011/HANDOFF_CURRENT_PRIVATE.md. Current repair evidence: operator-priorities-20261011/colab-simple-full-20261012/admission-repair-review. Installedprevioussource7a0941d, candidate0770e23. Exactunit/ledger handles there. Reconcile through directread-onlySQLite as existingserviceowner, neverroot or lockingstatus during livecalls. Rootcheckoutdocumentation is stale after a blockedmirror; this scannedpubliccheckout and privatehandoff are authoritative. Do not reroute that blockedmirror.
+Author5 callb7253152 is COMPLETE in both ledgers. Its controller is BLOCKED on the exact main-interface refusal. Ten local calls remain counted. Do not repeat author5, edit its scientific draft, reset counters or mark it accepted.
 
-Credential/login names only: existingserverSSHagent, registeredserviceDrive/modelroutes. No setupaction required. Nevercontents, token/scope/permissionchanges or brokerbypass. No locked25/reserve24payloads.
+Same-lane static recovery sourced1178a66 was APPROVED / PROCEED (report5bc9c60) and installed. Its zero-call native probe failed when unused secret-pattern definitions in a checker dependency were scanned as input. Recovery and author6 did not run. Preserve that failed probe and its consumed intent.
 
-## Spending, calls, judgment and backups
+Candidatea943951 removes only that unused dependency code; required opaque-check definitions are copied exactly from the existing engine. The full host privacy scan is unchanged. All14actual feedback files pass it,101tests pass, and the preserved draft still triggers its main error. Administrative review0069af3 returned APPROVE / PROCEED. The corrected release is installed; its zero-call native probe passed and recovery is complete. Author6 calledb179ca4 is RUNNING, with eleven local calls preserved and counted. Observe that exact unit/call; never submit another while its outcome is uncertain. The old lane/config/owner/grant remain unchanged.
 
-UTC12sixcounted calls:twoauthorreservations(onepremodel),onescience reviewer,threeadmin (one running);nostandalonedirection. KnownClaude161.3660685USD,authorUSDunknown. Stage1nonColab115.516623/150,billed24.487001,retained91.029622;timing5.405445/25;item6cap100;item4total1275/projection1200unchanged. Colabhistorical1.36preserved,actualunknown;futuremeteringremovedbyoperator.
+Author6 is running; no compute job is active. The stopped laptop Drive copy (294verified files and a partial file) and completed evidence migration/removal must not be replayed. All old installed/source/review records remain preserved.
 
-Judgments: batch admissionfix/reconciliation/fullCASregression in oneadministrative review; fold required directioncheck; use alreadyverified serverinputs and deferDriveengineering. No genericnewsubsystem. Claude latestAPPROVE/PROCEED forpreviouslocalterminalrepair; nextdirectionpending.
+## Money, calls and judgments
 
-Lastverifiedpublicpushd689d43; newstatusawaitsscans/push. Current private checkpoint verified391files by hash; server117.665GiB before/117.658GiB after. C17.93GiB,WSL905GiB,serverabout118GiB;warn15/stop8. Atstop updateSTATUSinplace,CURRENT,HANDOVER,ROLES,privatehandoff;hashbackupprivateevidence;scanprivacy/secrets/infrastructurethenpushremote-server/safeworkingbranch andverifyremotehash. Neverrawprivateancestry/mainmerge/BACKLOGedit. Stoppedlaptopcopy and oldcleanup remain untouched.
+Non-Colab item4stage1 exposure: $115.516623/$150, comprising identified billed $24.487001 and retained $91.029622. Timing $5.405445/$25 within stage1; synthetic CPU reservation $1.118950 awaits billing. Item6cap $100; other-venue item4total $1,275 and projection gate $1,200 unchanged. Only provider-confirmed closed actuals release excess. Colab is no longer metered; retain historical records and unknown actual cost truthfully.
+
+UTC12October:10/50 counted,4authorreservations (one premodel failure),1scientific review,5completed administrative reviews,0standalone direction. Known Claude $174.6015665 after the dependency review; author dollar totals unavailable. Original usage is never reset or relabeled.
+
+Latest answered direction: Claude APPROVE / PROCEED for the same-lane static correction. The dependency fix also received explicit PROCEED. Judgment: reuse current lane and validators, keep all refusals, fix only necessary packaging, use existing server inputs, and defer unrelated infrastructure. Administrative overhead is high; avoid speculative components and prioritize notebook delivery. Each exact judgment and consultation is logged privately; STATUS records highlights.
+
+## Safe resumption
+
+1. Confirm Codex still owns the operator role and reconcile the exact live review, native services and ledgers through the existing service account. An uncertain outcome requires observation, never a duplicate launch.
+2. Read the canonical verbatim, hash-pinned operator decisions and the private handoff. Do not rely on older root-checkout status files that predate these updates.
+3. Check free space before large steps: warn below15GiB, stop below8GiB on C: or WSL. Last C:18.03GiB; server116.88GiB after verified source transfer. No disk purchase is needed.
+4. Finish the existing review and reviewed native procedure. Keep original failed probe/review/source files. Scientific author corrects code; synthetic tests and scientific review remain mandatory.
+5. Deliver reviewed A1_repeat files with hashes, built-in paths, session order and result return instructions. No editable settings or old smoke/segment instructions.
+6. Continue Idea2 CPU execution while author/reviewer work runs. No new provider job or Drive transfer is needed. Interpret actual returned evidence through the scientific lane.
+7. At each stop, update STATUS/CURRENT/HANDOVER/ROLES, back up private evidence with hashes, scan privacy/secrets/infrastructure, push remote-server and safe working branches, verify hashes, and leave main unchanged.
+
+## Access names only
+
+Existing server SSH access; research service account; OpenAI author-client login; Claude reviewer login; Modal account; server Google Drive access; GitHub backup login. Never put credential contents, credential paths, key names or endpoints in public records. If locked, Partho unlocks the existing key privately.
+
+## Swap gate
+
+Wait only after all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES/HANDOVER current; opposite-family administrative route installed; no running or unreconciled model/compute work. Then report ?Swap point reached? immediately after ?Action needed from you,? finish the step, update/push handover and wait. This gate is not met.

@@ -41,4 +41,6 @@ Other venue limits remain unchanged: item4 Modal stage1 $150, timing diagnostic 
 
 ## Next results
 
-No action from Partho until the first new reviewed A1_repeat files arrive; leave the old notebook stopped. Delivery estimate is uncertain while the admission repair is reviewed. After it passes, allow roughly1?2active hours for the author and scientific review. Idea2 specification is scientifically APPROVED with 20 passing synthetic tests; its narrow server CPU execution integration is next. Timing result, author sandbox and opposite-family operator review capability remain outstanding; no swap point.
+No action from Partho until the new reviewed A1_repeat files arrive. Leave the superseded notebook stopped. Author6 is running on the preserved draft after independently approved recovery and a passing zero-call native check. Its corrected notebook/synthetic outcome is expected within30minutes; scientific review follows before delivery.
+
+Idea2 code is scientifically approved with20passing synthetic tests. All728frozen server input hashes and development/exclusion membership checks pass; existing CPU dependencies match. A narrow execution adapter passes45engineeringtests and still needs implementation review/installation. Timing, author sandbox and opposite-family review capability remain outstanding; no swap point.

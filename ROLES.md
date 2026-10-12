@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. Item6/synthesis accepted; Idea2 code scientifically approved and original server inputs hashverified, execution integration pending. Colab full-training notebooks remain in preparation; a premodel admission failure has a preserved unresolved reservation and a registered repair review. No author or compute job is live. Timing parked; opposite-family route and sandbox uninstalled. Scientific code/conclusions stay with author/reviewer; operator owns infrastructure.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. Item6 and the synthesis are accepted. Idea2 code is approved; its CPU execution adapter is uninstalled. Colab author5 completed with a static interface refusal; the necessary dependency repair is independently approved and native-qualified. The counted author6 correction is running; no compute job is running. The opposite-family administrative route remains uninstalled. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions remain with the system author and reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
