@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated12October2026,14:41UTC. Codex/OpenAI remains operator; goal active. Scientific author uses the existing OpenAI lane and scientific/implementation reviewer uses Claude. The future opposite-family administrative route for a Claude operator is not installed. Read ROLES.md.
+Updated12October2026,14:42UTC. Codex/OpenAI remains operator; work waits on the daily cap reset or returned Colab evidence. Scientific author uses the existing OpenAI lane and scientific/implementation reviewer uses Claude. The future opposite-family administrative route for a Claude operator is not installed. Read ROLES.md.
 
 Goal: understand infarct prediction, deliver new13Barm results quickly, support private professor case review, and improve usability without platform-building detours. Scientific code/conclusions belong to author/reviewer; operator owns infrastructure and execution. Never access excluded25/24payloads, change credentials, publish patient-derived data, merge main or edit BACKLOG. Ask Partho only money or necessary Colab action. Preserve every attempt/charge and uncertain handle.
 
@@ -41,3 +41,5 @@ Today50/50:12scientific authors,9scientific reviewers,27administrative reviews,2
 Latest Claude direction13:56UTC:PROCEED, with caution to reduce future installation/review layering; agreed. Namespace fix is necessary, not a new subsystem. Keep its safeguard second opinion in the next required review. No speculative platform work.
 
 At each stop update STATUS in place, CURRENT, HANDOVER and private handoff; privacy/secret/infrastructure scan before public remote-server and safe working-branch pushes. Never publish evidence/ledgers/packets/streams/private bindings/patient files or raw private history. Credentials/logins by name only:existing server SSH agent, OpenAI/Claude client logins, existing research Drive service. No credential change. Disk warn15GiB/stop8GiB. Canonical public docs/private handoff are authoritative; the previously rejected root mirror must not be retried by a different route.
+
+At14:42UTC the cap was freshly verified at50, all research services inactive and no model call running. Required offline repair preparation is finished. The repeated cap block now leaves no next scientific action without the reset or returned Colab evidence. Record the goal as temporarily blocked, not complete or operator-paused; preserve the full objective and resume by reconciling before launching the prepared review.

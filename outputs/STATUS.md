@@ -3,7 +3,7 @@
 - The smoothing CPU analysis completed successfully on99development patients; scientific interpretation is still pending.
 - No model or compute job is running. Pnormct's full notebook still awaits the previously sent real-trainer Colab check.
 - Interpretation preparation hit a naming collision with older results; both are preserved and the repair passes136tests.
-- The repair packet is prepared and reader-checked; independent review waits for the UTC reset because today's50calls are used.
+- Work is temporarily blocked: the repair packet is ready, but today's50calls are used; Colab evidence is also pending.
 - This CPU run cost$0incremental; billed item4 compute is$24.487001 and known Claude charges total$321.400746.
 - Next result: reviewed smoothing interpretation, provisionally45-90minutes after00:00UTC13October, subject to repair approval.
 - Colab check takes10-25minutes after Run all; return PASS/FAIL and the private evidence location. [Execution plan](13B_EXECUTION_PLAN.md).
@@ -57,8 +57,10 @@ Administrative work uses most calls. Continue batching execution and interpretat
 
 ## Backup and exclusions
 
-Last verified public backup before this packet-preparation stop:845836928c4e98808422f2897f9c771cad48d292; safe working draft c6eea85e. Installed code and tested draft are unchanged; this stop updates review readiness and handover. Every push requires privacy, secret and infrastructure scans. No local evidence is deleted during this stop. At14:27UTC all scientific units were inactive, no model call was running, and the periodic retention watcher ended normally with NOT_DUE.
+Last verified public backup before this cap-wait stop:7b07dcbf7fdac240b5ef63441820878037d943f7; safe working draft4ab9c6f7. Installed code and tested draft are unchanged; this stop updates review readiness and handover. Every push requires privacy, secret and infrastructure scans. No local evidence is deleted during this stop. At14:27UTC all scientific units were inactive, no model call was running, and the periodic retention watcher ended normally with NOT_DUE.
 
 Withhold evidence folders, ledgers, review packets, native streams, private operator bindings, raw private branches, patient rows/identifiers, images/masks/weights/caches, credentials and infrastructure identifiers. New flagged files excluded from the installed projection:orchestrator/cpu_isolation.py;tests/test_cpu_diagnostics_profile.py;docs/IDEA2_CPU_ACCEPTED_LANE_PRIVATE.json;docs/IDEA2_CPU_RUNTIME_PRIVATE.json;docs/IDEA2_INTERPRETATION_PRIVATE.json. The first two trigger the infrastructure/credential-path scan; the others are private records. Public source is an archival projection; private bindings are required for deployment/tests.
 
 The new result files and unaccepted interpretation material stay private. The repair's private scope and failed-lane snapshots are also withheld. Safe working source/test projections use the existing public draft branch; never merge main or edit BACKLOG. Disk guard warns below15GiB and stops below8GiB.
+
+14:42UTC reconciliation:50calls, zero running model calls, no active research services, and the prepared review has no server request or ledger row. Offline preparation is complete. The goal waits for the daily reset or returned Colab evidence; it is neither completed nor paused by the operator. No further infrastructure is being added merely to fill the wait.
