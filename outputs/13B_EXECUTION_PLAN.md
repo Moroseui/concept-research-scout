@@ -4,8 +4,8 @@ New experiments first. Old repeat and multiwin notebooks are held after a real t
 
 | Order | Arm and folds | Venue and owner | Release condition |
 |---|---|---|---|
-| First, session 1 | A1_multiwin, 0-4 | **Partho on Colab**, default runtime, A100 | Author's synthetic correction, real trainer iteration and scientific approval |
-| First, session 2 | A1_pnormct, 0-4 | **Partho on Colab**, default runtime, A100 | Independent arm-level author/reviewer lane and real trainer iteration |
+| First, session 1 | A1_multiwin, 0-4 | **Partho on Colab**, default runtime, A100 | Parked after mechanical review failure at run20; corrections, real integration and scientific approval still required |
+| First, session 2 | A1_pnormct, 0-4 | **Partho on Colab**, default runtime, A100 | Distinct arm-level intake prepared; normal author/reviewer admission and real trainer iteration next |
 | Next | A1_pnorm_v2, 0-4 | **Partho on Colab**, default runtime, A100 | Same checks; release as soon as ready |
 | Then | A1_L, 0-4 | **Partho on Colab**, default runtime, A100 | Same checks plus actual A100 memory-fit evidence |
 | Parked | A1_repeat and A1_repeat2, 0-4 each | Partho on Colab later | New arms must have results first |
@@ -23,4 +23,4 @@ Compare each arm provisionally against Sprint 12 A1. State plainly that small di
 
 In parallel: the next saved-output analysis and private meeting preparation have author intakes ready. The installed model-call guard currently serializes calls; do not bypass it. Item 6 and Idea 2 are accepted, with Idea 2's reviewer inspection limitation documented. Timing is deferred. Approved batch 128, daily 50 and run 20 remain in force; other questions need normal scoped admission. Item 4 non-Colab stage 1 is $150, total $1,275, projection gate $1,200, and timing $25 inside stage 1.
 
-Next deliverable: corrected, reviewed and genuinely integration-tested multiwin, provisionally 2-4 active hours conditional on corrections. Current administrative review addresses only the pre-model reader failure and direction check. Pnormct follows through its own scientific lane; neither waits for repeats.
+Next active arm is pnormct: distinct intake prepared, with normal admission and author draft targeted in 1-2 active hours. Multiwin is parked at its unchanged 20-call cap after review 9 exhausted its reading turns without a verdict. Claude's agreed SIMPLIFY direction rules out more recovery layers on that run. No reliable notebook delivery estimate until authored tests, actual trainer integration and scientific review succeed. No model or compute job is currently running for this work.

@@ -1,13 +1,17 @@
 # Current research state - 12 October 2026
 
-Action needed from you: none. Codex/OpenAI remains operator; the goal is active and the Swap gate is not met.
+Action needed from you: none. Codex/OpenAI remains operator; goal active, no Swap point.
 
-One notebook per new arm, folds 0-4 sequentially at 250 epochs: multiwin and pnormct first for two Colab sessions, then pnorm_v2, then L with actual A100 memory evidence. Both repeats parked; zscore/histeq held. Sprint 12 A1 is the provisional baseline; small differences need a later Colab repeat.
+Latest format/order: one notebook per arm, folds 0-4 sequentially at 250 epochs. New arms first: multiwin and pnormct, then pnorm_v2, then L with actual A100 memory evidence. Repeats parked, zscore/histeq held. Sprint 12 A1 is the provisional baseline; small differences require a later Colab repeat.
 
-Multiwin author 10 is COMPLETE. Its synthetic integrity fixture FAILED; the author must correct it through the scientific lane. No actual trainer iteration or corrected notebook delivery yet. All old notebooks are held; preprocessing and original failures remain.
+Multiwin is parked. Author 10 completed but its synthetic integrity fixture failed. Review 9 failed mechanically after 30 reading turns without accepted submission or scientific verdict. This run has used 20/20 calls. No scientific rejection/acceptance is inferred; all outputs, charges and preprocessing remain. No actual trainer iteration or corrected notebook delivery yet.
 
-Scientific review 9 failed before admission on the patch-reader bound, with no call/reservation/charge. Do not repeat its consumed intent. Candidate reader repair fa687145 passed 143 focused tests and lossless actual-patch reconstruction within unchanged bounds. Administrative review dd297b56 APPROVED, report 57b897b0; source fa687145 is installed and its native zero-call full-input/transport probe PASSED. Exact state recovery preserved all 19 calls. Scientific review 9 is now RUNNING; observe the same call, never duplicate it.
+The reader repair fa687145 passed 143 tests, independent Claude APPROVE dd297b56/report57b897b0, installation and a native zero-call full-input/transport probe. Exact recovery preserved all 19 earlier calls; review 9 then ran once and is terminal FAILED. Never repeat consumed intents or reset usage.
 
-The current lane is 20/20 including running review 9. Scientific batch usage 106/128; daily 38/50. Claude direction SIMPLIFY agreed: if scientific REVISE, park multiwin and admit a genuine distinct pnormct question, without resetting limits. No limits reset or new GPU reservation. Item 4 non-Colab exposure $115.516623/$150 = billed $24.487001 + retained $91.029622; Colab unmetered.
+Claude direction SIMPLIFY is agreed: cut further recovery layers on this run, park multiwin and admit a genuinely distinct pnormct/all-fold question under unchanged caps. Pnormct intake is prepared; no new call/admission yet. Next checkpoint is normal admission and author draft, roughly 1-2 active hours. No reliable notebook-delivery estimate yet.
 
-Idea 2 is accepted with disclosed large-table inspection limits. Next analysis and meeting intakes are prepared. Timing, sandbox and opposite-family administrative route remain deferred. See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Last verified public backup before this update: bd202449bf27d56a49d6e9c0f9ad7789de5c636e.
+Daily 38/50: nine authors, seven scientific reviews, twenty administrative implementation reviews, two direction attempts. Scientific batch 106/128; all current model calls terminal. Known Claude charges $277.09935850, including latest administrative $4.43091975 and failed scientific $5.43188975; author dollars unavailable. Item 4 non-Colab billed $24.487001 + retained $91.029622 = $115.516623/$150. No new GPU reservation; Colab unmetered.
+
+Idea 2 is accepted with disclosed large-table inspection limitations. Next analysis and private meeting intakes are prepared. Timing, GPU integration draft, sandbox and opposite-family administrative route remain deferred/uninstalled as applicable. Read HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md.
+
+Last verified public backup before this terminal update: d6d13f2a030cb389550c1c7c169be36f6f1028f2. Private checkpoint verified all 922 files by hash. C:17.03 GiB free; server112.9635 GiB. No setup command or disk purchase needed.
