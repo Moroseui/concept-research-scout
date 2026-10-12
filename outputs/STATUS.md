@@ -1,12 +1,12 @@
 # Research status
 
-- Idea 2 is accepted; existing server inputs are available for the next reviewed analysis.
-- New arms remain first: multiwin/pnormct, then pnorm_v2, then L; repeats are parked.
-- Pnormct now has a corrected notebook that passed its pure synthetic tests; scientific review is running.
-- Multiwin remains parked at its 20-call limit; no corrected notebook is ready yet.
-- Real trainer integration still needs a compatible Python3.13/A100 environment; no GPU job is running.
-- Billed item 4 compute is $24.487001; known Claude charges are $290.76127125. Author dollars are unavailable.
-- Action needed: none. Scientific verdict expected around12:10-12:20UTC; delivery awaits real integration. [Execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct's arm notebook has scientific approval and passed its pure synthetic tests.
+- Its real trainer iteration is still unverified; the five-fold training notebook remains held.
+- Action needed: run the private synthetic pnormct check in a fresh default Colab A100, Run all, no edits.
+- The reviewed check should take10-25minutes and save full evidence privately after execution stops.
+- Multiwin remains parked at20calls; repeats are parked, and no server model/compute job is running.
+- Billed item4 compute is$24.487001; known Claude charges are$299.89056825. Author dollars unavailable.
+- Next result: returned real trainer PASS/FAIL; analysis/meeting intake admission is next independent work. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Current direction and evidence
 
@@ -26,11 +26,13 @@ Distinct pnormct admission release 45c6b7de passed 200 tests and independent Cla
 
 The initial author start stopped before reservation at ANALYSIS_REVISION_POLICY_SCOPE. Candidate 885c737b validates the exact question and supplies the legacy revision/zero-offset interface, with unchanged limits and exact premodel recovery. It passed 191 tests and independent Claude APPROVE 6715841e/reportcd575d73. Installation, native author/reviewer role-admission checks, full author input and transport all passed. Recovery preserved the original failure and created no allowance.
 
-Pnormct author 2 completed and its corrected notebook passed all five controller synthetic test groups, including five execution-module tests with none skipped. These are pure-function tests, not real training. Notebook hash30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6; exact module33153177657c1f2a3383bcd50fffb393a571514c3363f7ef2c24f131d48251f2.
+Pnormct's arm-level notebook has scientific APPROVE with no findings (review35b8c895), and all five controller synthetic test groups passed. Real trainer integration remains required before delivery. The code review does not establish GPU execution, checkpoint reload or scientific efficacy.
 
-Scientific review 1 is RUNNING, confirmed at 11:55 UTC. Expect the verdict around 12:10-12:20 UTC. The required actual nnU-Net trainer iteration remains outstanding. Its authored fixture requires Python3.13/A100 and saves a checkpoint; it does not test production loaders or checkpoint reload. Existing Python3.12 pinned image cannot run that unchanged. No GPU reservation or launch; delivery remains held.
+A separate synthetic-only Colab check is ready in the operator's private Downloads: 13B_A1_pnormct_real_trainer_check_PRIVATE.ipynb, SHA2568513ad04b3891d9871336844086d9a7b28a106d95303dc1fa70408d02ffc01f3. Partho should use one fresh default Python3.13/A100 runtime and Run all without edits. It runs the exact reviewed scientific module and plans, then mounts existing Drive only after execution stops to preserve all evidence privately. Expected10-25minutes. Return the printed PASS/FAIL and private evidence-folder path; keep the runtime open until saving succeeds. This is not a per-fold file or the five-fold training notebook.
 
-Author 1's format-refused draft, original call and charge remain preserved. Repair b84baccd passed233tests and independent APPROVE fc419017/report48b558ca, then installation, native no-call qualification and exact recovery. Author2 corrected the draft through normal accounting; no operator scientific edits or new allowance.
+Packaging release3137acf5 passed22engineeringtests and genuine Claude APPROVE4afcdd3f/report9d9dcfb6. The reviewer agrees this is the shortest safe route. Agreed change: use the intended Colab environment for this synthetic check; defer another Modal image/runtime build. The existing Python3.12 image and unbound multiwin adapter cannot qualify this Python3.13 fixture unchanged. No provider job or reservation was created.
+
+All model calls are terminal as of12:17UTC. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
 
 Timing, the GPU adapter, sandbox and opposite-family administrative capability remain deferred/uninstalled. No Swap point.
 
@@ -46,14 +48,14 @@ At 11:07 UTC the existing 728 saved-output files were checked by metadata only: 
 
 Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus retained reservations $91.029622. Timing commitment is $5.405445/$25 within stage 1; $1.118950 synthetic CPU awaits billing. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 remain unchanged. Colab is unmetered. Release excess reservations only after provider billing confirms a closed attempt's actual cost.
 
-12 October UTC: 44/50 calls: 11 scientific authors, 8 scientific reviewers, 23 administrative implementation reviews and 2 standalone direction attempts. Scientific batch109/128; pnormct3/20. Five of the additional16Colab slots are used, leaving11. Known completed Claude charges$290.76127125; live scientific review charge and author dollars unavailable. Non-Colab item4 exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. No cap change or new GPU reservation.
+12 October UTC:45/50 calls:11scientific authors,8scientific reviewers,24administrative implementation reviews,2standalone direction attempts. Scientific batch109/128; pnormct3/20;11of16additional Colab slots remain. Known completed Claude charges$299.89056825 (scientific pnormct review$6.338102; packaging review$2.791195); author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No cap change or new GPU reservation.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author | 11 | Idea 2 code/interpretation, baseline/multiwin preparation, pnormct draft and format correction |
-| Scientific reviewer | 8 | Idea 2, baseline, multiwin and live pnormct review; failed attempts preserved |
-| Administrative implementation review | 23 | Repairs, including distinct pnormct admission, policy interface and format feedback |
-| Standalone direction check | 2 | Disqualified direction attempt and qualified SIMPLIFY retry |
+| Scientific author | 11 | Idea2 code/interpretation, baseline/multiwin, pnormct draft and correction |
+| Scientific reviewer | 8 | Idea2, baseline, multiwin and approved pnormct notebook code |
+| Administrative implementation review | 24 | Repairs and private integration packaging; direction bundled where possible |
+| Standalone direction check | 2 | Preserved disqualified attempt and qualified SIMPLIFY retry |
 
 
 ## Judgment log highlights
@@ -81,3 +83,5 @@ The installed policy repair adds three clean source/test projections. COLAB_PNOR
 New installed public projection: three clean format-helper/runtime/test files. COLAB_PNORMCT_FORMAT_FAILURE_PRIVATE.json is excluded by the private-record scan, along with the packet, native streams and preserved drafts. Latest private checkpoint verified40files: server112.1675GiB before/112.1645GiB after; later source transfer left112.0103GiB. No local deletion.
 
 12 October11:55UTC:author2 COMPLETE/controller pure synthetic PASS; normal scientific review1 started once. No delivery or real-trainer claim. The existing integration adapter remains an unbound multiwin draft and must not be installed or executed. See private INTEGRATION_HANDOFF_PRIVATE.md for exact authored requirements.
+
+12 October12:17UTC judgment: one bundled packaging/direction review, genuineAPPROVE. Claude agrees the exact synthetic fixture on Partho's assigned Colab runtime is the shortest safe route; agreed, defer another Modal image/runtime build.22packagingtestsPASS. The notebook is private-only (contains baseline plans), excluded from public backup along with module/plan evidence, packets, streams and receipts. Public projection contains only clean packaging source/tests.
