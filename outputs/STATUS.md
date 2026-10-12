@@ -1,12 +1,12 @@
 # Research status
 
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
-- Multiwin's failed author slot is reconciled and still counted; no model launched.
-- A zero-call check found an older lifecycle limit; its narrow correction passed257tests.
-- The whole-component review is running; no new scientific call has launched.
-- Item4 billed:$24.487001; retained:$91.029622. CompletedClaude:$342.27686025; author historical dollars unavailable.
-- Next checkpoint:qualified review in20-40minutes, conditional; notebook delivery time remains uncertain.
-- No action needed. C:14.28GiB warns below15 but clears8GiBstop. [Execution plan](13B_EXECUTION_PLAN.md).
+- Multiwin's author is now running; its live client and native log confirm the launch.
+- The admission repairs passed independent review, 257 tests and native qualification.
+- Scientific review and the real trainer check remain before multiwin delivery.
+- Item 4 billed: $24.487001; retained: $91.029622. Completed Claude charges: $346.64103875; author dollars unavailable.
+- Next result: the author's correction, about 15?30 minutes after launch; delivery timing remains conditional.
+- No action needed. C: has 14.28 GiB free, above the 8 GiB stop. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Results and current boundary
 
@@ -24,8 +24,8 @@ Pnormct scientific APPROVE35b8c895 remains exact. Returned executed probe matche
 
 Delivered13B_A1_pnormct.ipynb SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6 unchanged; Partho reports RUNNING. Five folds sequential250epochs,resume/skip,private Drive outputs. Do not duplicate or alter the active run.
 
-The local accounting repair a4490b9c passed188tests and independent APPROVEb2eaaa97/report52092c3b. Installed and reconciled: the failed author11 slot is FAILED globally, still counted; its local record and all21original records remain. No model launched. The next zero-call probe found an earlier lifecycle check still enforcing20 instead of the independently approved24. That probe failed before any new reservation.
-The narrow lifecycle candidate63da504c retains all original owner/configuration/approval/history/activation checks, adds exact store and recovery binding, and reads the existing authenticated24ceiling.257testsPASS, including cap refusals. Whole-component reviewa4163c1a is RUNNING; native stream confirms reviewer launch at20:24UTC. No new allowance or scientific-code change. No replay of either consumed failed intent. Require genuine APPROVE, then new zero-call native qualification,author12,scientificreview and real multiwin trainer iteration before delivery.
+The lifecycle repair is approved and installed: source63da504c, reviewa4163c1a, reportb099bf79,257testsPASS. Native zero-call qualification passed using the actual driver and105129-byte author context; state and call history stayed unchanged. After the existing maintenance jobs finished, author12 launched once through normal admission. Its client process and growing native transport log confirm actual execution, rather than only a reservation.
+Current author call46e13bf45c6f880f11dbb31fefd3894d58fcc754112f4e323597c462e0653a9e is RUNNING. The same owner has22/24 counted calls; reviewer10 and reviewer11 are the remaining scoped slots, as normal process permits. Do not duplicate the live author. The earlier failedauthor11 staysFAILED/countretained; no history or charges reset. LatestClaude directionPROCEED with no more unrelated infrastructure; agreed.
 
 Original item6 diagnostics and synthesis are accepted. Sprint14's352rounded matches use shared saved fits/cohort, not independent retraining. Idea2's fixed3x3 interpretation is accepted; its reviewer could not directly inspect the two largest tables, a limitation preserved in its report. The new smoothing reviewer directly confirmed its narrower motivating cell. [Accepted Idea2 scope](idea2_fixed3x3/README.md).
 
@@ -35,18 +35,18 @@ Meeting preparation retains the accepted six-slot selection rule. No cases/image
 
 Item4 non-Colab stage1 exposure is$115.516623/$150: billed$24.487001 plus retained$91.029622. Timing$5.405445/$25 is inside stage1; synthetic CPU$1.118950awaits billing. Item4 total$1275/projection gate$1200 and item6cap$100 unchanged. Colab unmetered. The new server CPU run has no incremental provider cost or reservation.
 
-Known completed Claude charges:$342.27686025; scientific author dollars unavailable. Original continuation review3.57100775 and linked closure review3.53700525 remain counted. Latest author slot failed before client launch; no new paid compute launch.
+Known completed Claude charges:$346.64103875; scientific author dollars unavailable. Original continuation review3.57100775 and linked closure review3.53700525 remain counted. Latest author slot failed before client launch; no new paid compute launch.
 
-12OctoberUTC:56calls against installed100today, reverting50on13October. Scientific batch112/128;10Colab,2analysis,4meeting remain. Same-owner continuation permits only author11/reviewer10 and optional normal revise author12/reviewer11,atmost4new,run24. Original20charges/histories preserved. No reset or relabeling.
+12OctoberUTC:57calls against installed100today, reverting50on13October. Scientific batch113/128;9Colab,2analysis,4meeting remain. Same-owner continuation permits only author11/reviewer10 and optional normal revise author12/reviewer11,atmost4new,run24. Original20charges/histories preserved. No reset or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author |13|Idea2 code/interpretation,baseline/multiwin,pnormct draft/correction,smoothing specification; multiwin correction reserved but premodel-refused|
+| Scientific author |14|Idea2 code/interpretation,baseline/multiwin,pnormct draft/correction,smoothing specification; multiwin correction: one premodel failure retained and author12 now running|
 | Scientific reviewer |9|Idea2,baseline,multiwin,pnormct code,smoothing code|
 | Administrative implementation review |32|Repairs/admission,integration packaging,analysis connection,dated cap,multiwin continuation and corrective packet closure|
 | Standalone direction check |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
-Administrative work still uses most calls. LatestqualifiedClaude direction:SIMPLIFY,agreed; defer genericinfrastructure and drive actualscience. The currentreview folds direction into the necessary lifecyclefix. The failedpremodelslot remainscounted; no additionalCPU/GPUlaunch. Localrepairreview cost3.121393; sourcepermission setup failure and its read-only correction preserved, no extra modelcall.
+Administrative work still uses most calls. Latest qualified Claude direction: PROCEED with the narrow repair, then actual science; agreed. The author is now running. The currentreview folds direction into the necessary lifecyclefix. The failedpremodelslot remainscounted; no additionalCPU/GPUlaunch. Localrepairreview cost3.121393; sourcepermission setup failure and its read-only correction preserved, no extra modelcall.
 
 ## Judgment log highlights
 
@@ -83,3 +83,5 @@ Installed projection additionally withholds these flagged/private authority file
 -20:23UTC: installed approved accounting connector and reconciled exactpremodelslot; no count reset. Native0callprobe revealed independent old20lifecyclecheck. Narrow equivalent24guard tested257PASS, independentClaude reviewpending. No newsciencecall or spendingcommitment.
 
 Public backup omissions: private source-binding records, raw evidence/review packets/ledgers/native streams remain private. No additional source files were flagged by the scanner; private binding documents remain withheld explicitly. Safe draft projection is not installation or scientific approval.
+
+-20:37 UTC: independent lifecycle APPROVE, install and native0callPASS; author12 confirmed live. No extra allowance or scientific code authored by operator. Latest review cost4.3641785.

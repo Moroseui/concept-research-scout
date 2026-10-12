@@ -4,7 +4,7 @@ Updated 12 October 2026,20:23UTC. New experiments first; repeats are parked. Sci
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
-| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Accounting repair installed/reconciled; lifecycle correction257testsPASS awaitingreview,then author/scientific review/integration |
+| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Repairs approved/installed/qualified; author12running,then scientificreview/integration |
 | First, session2 | A1_pnormct,0-4 | **Partho on Colab**, default runtime,A100 | Delivered unchanged after real trainer PASS; Partho reports RUNNING |
 | Next | A1_pnorm_v2,0-4 | **Partho on Colab**, default runtime,A100 | Author, scientific review and real integration |
 | Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Same checks, plus actual A100 memory-fit evidence |
@@ -21,9 +21,9 @@ At Sprint12's measured36seconds/epoch,5folds x250epochs imply12.5training hours 
 
 Compare each arm provisionally with Sprint12A1. Small differences are not interpretable without a later Colab repeat. Attribute changes to placement versus amount, size, region and fragmentation; no efficacy claim from code or integration tests.
 
-**Server work:**The local accounting repair a4490b9c passed188tests and independent APPROVEb2eaaa97/report52092c3b. Installed and reconciled: the failed author11 slot is FAILED globally, still counted; its local record and all21original records remain. No model launched. The next zero-call probe found an earlier lifecycle check still enforcing20 instead of the independently approved24. That probe failed before any new reservation.
-The narrow lifecycle candidate63da504c retains all original owner/configuration/approval/history/activation checks, adds exact store and recovery binding, and reads the existing authenticated24ceiling.257testsPASS, including cap refusals. Whole-component reviewa4163c1a is RUNNING; native stream confirms reviewer launch at20:24UTC. No new allowance or scientific-code change. No replay of either consumed failed intent. Require genuine APPROVE, then new zero-call native qualification,author12,scientificreview and real multiwin trainer iteration before delivery. LatestClaudeSIMPLIFYagreed; defer unrelatedengineering. Nextreviewcheckpoint20-40minutes conditional; notebook ETA remainsuncertain.
+**Server work:**The lifecycle repair is approved and installed: source63da504c, reviewa4163c1a, reportb099bf79,257testsPASS. Native zero-call qualification passed using the actual driver and105129-byte author context; state and call history stayed unchanged. After the existing maintenance jobs finished, author12 launched once through normal admission. Its client process and growing native transport log confirm actual execution, rather than only a reservation.
+Current author call46e13bf45c6f880f11dbb31fefd3894d58fcc754112f4e323597c462e0653a9e is RUNNING. The same owner has22/24 counted calls; reviewer10 and reviewer11 are the remaining scoped slots, as normal process permits. Do not duplicate the live author. The earlier failedauthor11 staysFAILED/countretained; no history or charges reset. LatestClaude directionPROCEED with no more unrelated infrastructure; agreed. Nextauthorresult15-30minutes afterlaunch; scientificreview and actualtraineriteration follow.
 
 Smoothing CPU is valid/terminal; interpretation namespace repair06eb remains deferred/unreviewed. Meeting,timing,sandbox/rotation deferred. No Swap.
 
-Today56calls:13author,9scientificreviewer,32administrative,2direction; installed100on12OctoberUTC then50. Scientific112/128,remaining10Colab/2analysis/4meeting. Completed Claude342.27686025,author dollars unavailable. Item4exposure115.516623/150=billed24.487001+retained91.029622,total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.
+Today57calls:14author,9scientificreviewer,32administrative,2direction; installed100on12OctoberUTC then50. Scientific113/128,remaining9Colab/2analysis/4meeting. Completed Claude346.64103875,author dollars unavailable. Item4exposure115.516623/150=billed24.487001+retained91.029622,total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.
