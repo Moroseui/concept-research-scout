@@ -95,29 +95,41 @@ class BatchAccounts(ReviewQueue):
         self.db.execute('BEGIN IMMEDIATE')
         try:
             if (self.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
+            from orchestrator.preparation_followup import guard_admission
+            followup_scope=guard_admission(self,run,stage,source,receipt)
             active=self.db.execute('SELECT status,binding FROM autonomy_runs WHERE id=?',(run,)).fetchone()
             if not active or active[0]!='ACTIVE':raise ValueError('BATCH_ACTIVE_RUN_REQUIRED')
             if (json.loads(active['binding']).get('purpose') in {'M4_ITEM4_DIRECT_INPUTS','M4_ITEM4_ENVIRONMENT_INVENTORY'}
                     or json.loads(active['binding']).get('no_scientific_allowance') is True):
                 raise ValueError('ADMINISTRATIVE_INPUT_OWNER_CANNOT_ADMIT_SCIENCE')
             if self.status(ident)['status']!='NOT_RESERVED':raise ValueError('PARTIAL_OR_DUPLICATE_GLOBAL_RESERVATION_NO_RETRY')
-            from orchestrator.stocktake_recovery import global_exception
-            from orchestrator.stocktake_review_recovery import admission
-            allowed=admission(self,run,stage,ident,source,receipt)
-            if allowed is None:allowed=[global_exception(self,run)]
-            from orchestrator.experiment_timeout_continuation import global_exception as timeout_exception
-            allowed=[*allowed,timeout_exception(self,run,source=source,stage=stage)]
-            pending=self.db.execute("SELECT id FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')").fetchall()
-            from orchestrator.completed_run import closed_ids
-            closed=closed_ids(self,run,root=self.filesystem_root)
-            from orchestrator.preparation_interleaving import terminal_ids
-            allowed=[*allowed,*terminal_ids(self,run,stage,ident,source,receipt)]
+            if followup_scope is not None:
+                from orchestrator.preparation_followup import terminal_ids as followup_terminals
+                allowed=followup_terminals(self,followup_scope)
+                closed=set()
+                pending=self.db.execute("SELECT id FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')").fetchall()
+            else:
+                from orchestrator.stocktake_recovery import global_exception
+                from orchestrator.stocktake_review_recovery import admission
+                allowed=admission(self,run,stage,ident,source,receipt)
+                if allowed is None:allowed=[global_exception(self,run)]
+                from orchestrator.experiment_timeout_continuation import global_exception as timeout_exception
+                allowed=[*allowed,timeout_exception(self,run,source=source,stage=stage)]
+                pending=self.db.execute("SELECT id FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')").fetchall()
+                from orchestrator.completed_run import closed_ids
+                closed=closed_ids(self,run,root=self.filesystem_root)
+                from orchestrator.preparation_interleaving import terminal_ids
+                allowed=[*allowed,*terminal_ids(self,run,stage,ident,source,receipt)]
             if any(row['id'] not in allowed and row['id'] not in closed for row in pending):raise ValueError('BATCH_UNCERTAIN_OR_RUNNING_CALL')
             day=datetime.now(timezone.utc).date().isoformat()
             cap=limits.global_limit(self,run)
             daily=limits.daily_allowance(day)
             if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=daily['limit']:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
-            batch_allowance=limits.scientific_batch_allowance(self,run,stage,ident,source,receipt)
+            if followup_scope is not None:
+                from orchestrator.preparation_followup import batch_allowance as followup_batch
+                batch_allowance=followup_batch(self,followup_scope)
+            else:
+                batch_allowance=limits.scientific_batch_allowance(self,run,stage,ident,source,receipt)
             if self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific'").fetchone()[0]>=batch_allowance['limit']:raise ValueError('AUTONOMY_BATCH_CALL_LIMIT')
             count=self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific' AND change_id=?",(run,)).fetchone()[0]
             if count>=cap:raise ValueError('AUTONOMY_RUN_CALL_LIMIT')
@@ -142,6 +154,8 @@ class BatchAccounts(ReviewQueue):
         self.finish(ident,status,receipt)
 
     def complete_run(self,run,receipt):
+        from orchestrator.preparation_followup import refuse_legacy_completion
+        refuse_legacy_completion(self,run)
         from orchestrator.stocktake_recovery import global_exception
         from orchestrator.stocktake_review_recovery import completion
         allowed=completion(self,run)
