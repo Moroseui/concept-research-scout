@@ -86,9 +86,8 @@ def test_three_revisions_not_three_total_authors(setup):
     with pytest.raises(ValueError,match='AUTHOR_REVISION_NEW_REVIEW_REQUIRED'):reserve(store,c)
 
 
-@pytest.mark.parametrize('verdict,category',[('APPROVE','metric/statistic'),('REJECT','metric/statistic'),
-    ('REVISE','privacy/secret'),('REVISE','test-set/leakage'),('REVISE','budget')])
-def test_non_actionable_or_protected_review_cannot_unlock_author(setup,verdict,category):
+@pytest.mark.parametrize('verdict,category',[('APPROVE','metric/statistic'),('REJECT','metric/statistic')])
+def test_non_actionable_review_cannot_unlock_author(setup,verdict,category):
     store,batch,c=setup;failed_authors(store,c);review(store,c,verdict=verdict,category=category)
     before=store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]
     with pytest.raises(ValueError,match='AUTHOR_GENUINE_ACTIONABLE_REVISE_REQUIRED'):reserve(store,c)
@@ -142,7 +141,10 @@ def test_other_admission_refusals_survive_revision(setup,kind):
     from datetime import datetime,timezone
     store,batch,c=setup;failed_authors(store,c);review(store,c)
     if kind=='day':
-        seed(batch,45,kind='implementation_review',day=datetime.now(timezone.utc).date().isoformat())
+        from orchestrator import autonomy_limits
+        day=datetime.now(timezone.utc).date().isoformat()
+        used=batch.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]
+        seed(batch,autonomy_limits.daily_allowance(day)['limit']-used,kind='implementation_review',day=day)
         expected='AUTONOMY_DAILY_CALL_LIMIT'
     elif kind=='batch':
         seed(batch,55);expected='AUTONOMY_BATCH_CALL_LIMIT'
@@ -161,3 +163,12 @@ def test_bare_item_number_cannot_enable_revision_policy(setup):
     pr.atomic(Path(store.path).parent/'lane.json',c)
     with pytest.raises(ValueError,match='ANALYSIS_REVISION_POLICY_SCOPE'):reserve(store,c)
     assert Accounts(store).read()[1]['count']==0
+
+
+@pytest.mark.parametrize('category',['privacy/secret','test-set/leakage','budget'])
+def test_all_scientific_revise_categories_use_normal_counted_author_lane(setup,category):
+    store,batch,c=setup
+    failed_authors(store,c);review(store,c,verdict='REVISE',category=category)
+    before=store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]
+    reserve(store,c)
+    assert store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==before+1
