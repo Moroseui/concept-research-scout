@@ -1,13 +1,11 @@
 # Current research state - 12 October 2026
 
-Action needed from you: none. Codex/OpenAI remains operator; goal active, no swap. Follow the default-runtime, full250epoch, unmetered Colab execution plan.
+Action needed from you: none. Codex/OpenAI remains operator; goal active. No swap or pause.
 
-Author6 completed with synthetic PASS; scientific review5 remains genuine REVISE for final input-reference binding and an unused misleading fragment. Metadata and five private fold locks are ready. Author7 has not been admitted; twelve local calls remain preserved.
+Colab is PARKED after normal administrative discussion round2 f601ab6f retained the privacy-hold authority objection. Both mechanical fixes were judged correct; candidate3a901826 remains uninstalled. Author7 has never been admitted; twelve local Colab calls preserved. Final notebooks are not ready. No duplicate review or author launch.
 
-Qualified release72ddcd0e installed, but author7 stopped before reservation at a second accounting gate. Candidate92df28f9 connects only the exact reviewed continuation and binds the current operator disposition separately;155tests pass. Round1 returned REVISE; normal round2 request453360dc is RUNNING. Observe the same request, never duplicate. No installation or author7 before qualified APPROVE and native accounting preflight. Final notebooks still need scientific review.
+Next: finish Idea2's minimal native CPU adapter, independent implementation review, execute the accepted saved-output analysis and obtain author/reviewer interpretation. Existing728frozen inputs and CPU dependencies verified;19latest targeted tests pass. No provider compute commitment or data transfer needed. Preserve the preparation-only grant, original owner, all11scientific calls and original item6results.
 
-Idea2 scientific code is approved; existing728frozen files and CPU environment verified. The CPU integration draft remains unreviewed/uninstalled; no new analysis has executed. Timing parked, coverage-dependent arms held, sandbox and rotation deferred.
+Latest Claude direction: preserve the Colab hold. Current operator disagrees that fresh human approval is required but followed the standing park-and-switch rule after no substantive movement. No nonmoney approval request. No model call or new compute job is running.
 
-UTC12October15/50:4authorreservations,2scientificreviews,9administrative reviews(one disqualified, one live),0standalone direction. Known Claude $191.39855325 before round2; author dollar totals unavailable. Non-Colab stage1 exposure $115.516623/$150, identified billed $24.487001. Colab unmetered.
-
-Claude's latest direction flags overhead and requires explicit disposition; round2 judges the recorded current-operator decision under the existing human delegation. No new human approval claimed. Read HANDOVER.md, ROLES.md and outputs/STATUS.md; exact live handles remain in private HANDOFF_CURRENT_PRIVATE.md.
+UTC12October17/50:4authorreservations,2scientificreviews,11administrative reviews(one disqualified),0standalone direction. Known Claude$201.846241; author dollar totals unavailable. Non-Colab stage1 exposure$115.516623/$150, identified billed$24.487001. Colab unmetered. See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md; exact handles in private HANDOFF_CURRENT_PRIVATE.md.

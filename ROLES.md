@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. Item6 and the synthesis are accepted. Idea2 code is approved; its CPU execution adapter is uninstalled. Colab author6 completed with synthetic PASS; scientific review5 requested binding and cleanup corrections. Claude is reviewing normal round2 of the exact author-accounting correction; author7 has not been admitted and no compute job is running. The opposite-family administrative route remains uninstalled. The operator owns infrastructure, venues, sequencing, accounting, status and handover; scientific code and conclusions remain with the system author and reviewer.
+Current operator: **Codex, OpenAI family**. No rotation. Item6/synthesis accepted; Idea2 code approved and CPU integration uninstalled. Colab parked after a focused authority disagreement; author7 has not been admitted. No model call or new compute job is running. Opposite-family administrative capability remains uninstalled; current Claude route remains the reviewer. The operator owns infrastructure and sequencing; scientific code/conclusions remain with system author/reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|

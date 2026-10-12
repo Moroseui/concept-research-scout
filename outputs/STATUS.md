@@ -1,77 +1,59 @@
 # Research status
 
-- Item 6 and the saved-results synthesis are accepted; Idea2 code is approved, but its new results are not computed yet.
-- A1_repeat full-training notebooks passed synthetic tests; scientific review requested two corrections before delivery.
-- Real input metadata and five private fold locks are now prepared; the author must bind them and remove an unused historical fragment.
-- Claude round2 is reviewing the author-admission correction; no author retry or training is running.
-- Identified item 4 billed compute is $24.487001; known Claude charges are $191.39855325, before the live round2 review; author dollar totals are unavailable.
-- Next expected result: reviewed A1_repeat files after another author/review cycle, approximately 30-60 active minutes if it passes.
-- Action needed: none. Colab is unmetered by the system. See the [execution plan](13B_EXECUTION_PLAN.md).
+- Item 6 and the saved-results synthesis are accepted; Idea 2 code is approved, but its new analysis has not run.
+- A1_repeat passed synthetic tests; its scientific reviewer requested final input binding and removal of an unused misleading fragment.
+- Colab is parked: administrative reviewers disagree on authority to return that privacy-category finding to the author.
+- No model call or new compute job is running. Work now focuses on Idea 2's CPU execution adapter.
+- Identified item 4 billed compute is $24.487001; known Claude charges are $201.846241; author dollar totals are unavailable.
+- Next expected result: Idea 2's 3?3 table after adapter review and execution, provisionally 1-2 active hours if checks pass; Colab delivery has no reliable estimate.
+- Action needed: none. Colab is unmetered. The [execution plan](13B_EXECUTION_PLAN.md) remains current; no swap point.
 
-## Direction and scientific results
+## Direction and results
 
-The operator's latest Colab decision is recorded verbatim and hash-pinned. Target default Python 3.13 with preinstalled CUDA/PyTorch and A100. The author chooses compatible additions and records actual versions. Deliver fully configured 250-epoch notebooks with automatic checkpoint resume, private distinct result folders, held-out metrics and frozen input hashes plus development-99/excluded-49 membership checks. No Colab reservations, accounting, balance prompts, supervised segments, deliberate interruption tests or separate smoke runs. First real epochs supply smoke evidence; one scientific code review precedes delivery.
+The latest Colab direction remains fully configured full250epoch A100 notebooks for default Python3.13/preinstalled CUDA/PyTorch, automatic resume, private separate results and held-out scoring. Verify frozen input hashes and development99/excluded49 membership. No Colab metering, reservations, balance prompts, segments, deliberate interruption tests or separate smoke. Scientific review of exact runnable code precedes delivery. The old notebook is superseded and must remain stopped.
 
-A1_repeat comes first, then each coverage-independent arm as reviewed. Start with two permitted A100 sessions for folds 0 and 1, then use freed sessions for folds 2, 3 and 4. Never run the same arm/fold in an all-fold and a per-fold notebook simultaneously. The archived notebook remains superseded. Its last attempt stopped before installation/training by operator report and was disconnected. Actual historical cost is unknown; the old $1.36 estimate and records remain preserved.
+A1_repeat is first, then each coverage-independent arm. Once released, start with two sessions for folds0/1 and use freed sessions for2/3/4, subject to account availability. Do not run duplicate arm/fold fits. Metadata and five private fold locks are prepared; no payload copy is needed. Tiny reference local readback passed; remote synchronization is unproven and the notebook must fail closed if unavailable or mismatched.
 
-Idea2 author5 and review4 completed with genuine APPROVE and no findings; 20 scientific synthetic tests passed. All 728 frozen server files pass their hashes and development/exclusion checks. The program needs 614 of these files; no input transfer is needed. Existing server CPU dependencies match the approved requirements. A narrow execution adapter draft passes 45 engineering tests but is unreviewed and uninstalled. No new patient analysis has executed.
+Idea2 author5/review4 received scientific APPROVE;20scientific synthetic tests passed. All728frozen server files pass hashes and development/exclusion checks;614are needed by the program. Existing CPU dependencies match. The uninstalled execution draft previously passed45broader engineering tests; the latest targeted suite passes19tests, including real accepted configuration/history/approval and a read-only check that cannot initialize a missing ledger. Native entry point, implementation review, execution and author/reviewer interpretation remain. No new patient analysis has executed.
 
-Original item 6 diagnostics and synthesis remain accepted. The Sprint 14 comparison's 352 rounded matches concern the same saved fits/cohort; they do not establish independent retraining. The timing diagnostic is parked, coverage-dependent arms are held, and the private meeting-case proposal remains unexecuted. The author sandbox and opposite-family administrative route are deferred/uninstalled. No swap point.
+The original item6diagnostics and synthesis remain accepted. Sprint14 comparison's352rounded matches concern shared saved fits/cohort, not independent retraining. Timing is parked; coverage-dependent arms remain held; the private meeting-case proposal is unexecuted. Sandbox and opposite-family administrative capability remain deferred/uninstalled. No swap point.
 
-## Colab preparation and current repair
+## Colab hold and latest review discussion
 
-The admission repair at source 0770e23 received independent APPROVE and was installed. The old premodel failure was truthfully marked FAILED globally through the normal completion path, with its local refusal, reservation, count and history retained.
+Author6 completed and controller synthetic checks passed. Scientific review5 genuinely requested two corrections: bind the real input-reference hash and remove an inert historical membership fragment. The active99/49guard was judged correct. Twelve local calls and all findings remain preserved; author7 has never been admitted.
 
-Author5 then completed in both ledgers, but the controller refused its main(arm, folds) interface. Required main(input_root, output_root, contract) remains unchanged. The draft is preserved and has not reached scientific review. No operator edits to scientific code.
+Release72ddcd0e received qualified approval, but author admission stopped before reservation at the accounting check. Release92df28f9 separately bound the current operator disposition and received qualified APPROVE/PROCEED in review453360dc. It was installed held. A missing unchanged reviewed delegation document was supplied byte-for-byte after hash verification; original setup failure remains preserved. Its native zero-call preflight then refused because the frozen state is an author-stage hold while the helper expected a review-stage hold. No scientific call, reservation or persistent state change resulted.
 
-The same-lane correction at d1178a66 received APPROVE / PROCEED and was installed. Its zero-call native probe stopped when the privacy scanner rejected unused pattern definitions in a checker support module. No author6 call occurred; the exact blocked state and ten calls remain unchanged. The scanner was kept intact.
+Candidate3a901826 tightens the binding to the exact observed author stage and includes the unchanged delegation document in installation.74focused tests pass, including the real saved state and installed-file layout. Review307a4ea8 judged both fixes correct but reopened the privacy-hold authority objection. A focused normal round2 discussion f601ab6f confirmed the prior approval was genuine yet retained the objection. The code remains uninstalled. No third discussion or author retry is planned while parked.
 
-Installed release a943951 limits the supplementary dependency to the exact original code the checker needs. All14 actual feedback files pass the unchanged full privacy scan,101tests pass, and review0069af3 returned APPROVE / PROCEED. Installation, native zero-call probe and recovery are complete.
-
-Author6 completed; the actual controller synthetic suite passed. Scientific review5 returned genuine REVISE: final code needs its real metadata reference hash, and an unused historical membership fragment should be removed. The active99/49membership safeguard was judged correct. All twelve local calls and both findings remain preserved. No notebook is runnable or delivered yet.
-
-The reference metadata is now prepared, using unchanged accepted descriptors and five distinct empty owner-only fold locks created through the existing registered Drive broker. Only a2070-byte metadata reference was written through existing Drive Desktop and readback-verified; remote sync remains unproven and the notebook must refuse missing/mismatched content. No patient input copy, new credential, scope or permission change.
-
-Release72ddcd0e received qualified APPROVE and was installed. Its author7 start stopped before reservation: the independent author-accounting gate did not recognize the bound continuation. No author7 call occurred. The candidate92df28f9 now binds an explicit Codex operator disposition, separate from implementation approval, and tests the actual accounting path in a rollback preflight.155focused tests pass. Round1 returned genuine REVISE about that authority binding; normal round2 is RUNNING. The original human delegation is pinned, and no new human approval is claimed. No installation or author7 before genuine APPROVE and native qualification.
-
-The first administrative attempt submitted APPROVE / PROCEED but is disqualified: its oversized manifest Read failed and was not followed by a successful bounded read. It remains FAILED and charged. One linked mechanical retry uses an explicit bounded-read brief; required native reads have now succeeded. No qualification check was changed. Installer binding alone points to the linked review in candidate72ddcd0e;145tests still pass.
+Current operator position: the pinned standing delegation and separate immutable operator disposition permit this exact author-only correction, with active patient safeguards unchanged and fresh scientific approval before delivery. Claude position: that disposition and downstream review do not replace a separate decision on the privacy-category finding. No substantive agreement emerged, so the operator followed the standing park-and-switch rule. No new human approval is claimed or requested; no guard is bypassed.
 
 ## Spending and daily calls
 
-Non-Colab item 4 stage-1 exposure is $115.516623 against $150: identified billed $24.487001 and retained exposure $91.029622. Timing is $5.405445 against its $25 sublimit; a $1.118950 synthetic CPU reservation awaits billing. Item 6 stays at $100; other-venue item 4 total $1,275 and projection gate $1,200 are unchanged. Closed provider attempts release excess only after actual billing is confirmed.
+Non-Colab item4stage1 exposure is $115.516623/$150: identified billed$24.487001 and retained exposure$91.029622. Timing$5.405445/$25inside stage1; a$1.118950synthetic CPU reservation awaits billing. Item6cap$100; other-venue item4total$1,275 and projection gate$1,200 unchanged. Release excess only for closed attempts with provider-confirmed actuals. Historical Colab$1.36estimate and unknown actual remain recorded; no prospective Colab accounting.
 
-UTC 12 October: 15 of 50 counted calls/reservations:
+UTC12October:17/50counted calls/reservations:
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author | 4 | Idea2 code revision; one Colab premodel failure; simplified Colab draft; completed interface correction |
-| Scientific reviewer | 2 | Idea2 code acceptance; A1_repeat full-training code review |
-| Administrative review | 9 | Colab preparation, local terminal qualification, admission repair, static correction, checker dependency repair, exact review5 continuation and its bounded reader retry; accounting connection and its normal revise round |
+| Scientific author | 4 | Idea2 revision; one Colab premodel failure; simplified full-training draft; interface correction |
+| Scientific reviewer | 2 | Idea2 code acceptance; full-training notebook review |
+| Administrative review | 11 | Colab preparation/local-terminal/admission repairs; static correction; checker dependency; bound continuation and mechanical reader retry; accounting/disposition review and revision; stage/layout review and focused authority discussion |
 | Standalone direction check | 0 | Direction questions folded into implementation reviews |
 
-Administrative repairs currently use 9 of 15 calls. Batch necessary corrections and direction questions; defer unrelated infrastructure and deliver the first notebook after scientific approval. Known Claude charges are $191.39855325 including the disqualified $5.29100725 attempt, its qualified $2.699986 retry and round1 $2.96882925 REVISE; live round2 is not included yet. Author dollar totals are unavailable. Preserve every original attempt and charge.
+Known Claude charges$201.846241 include every failed/disqualified attempt and both genuine REVISE discussions. Latest reviews cost$2.58598275(APPROVE),$5.0587755(REVISE),$2.8029295(REVISE). Author dollar totals unavailable. Administrative reviews use11of17calls; freeze further Colab administrative cycles while parked, batch only the necessary Idea2 integration review and defer unrelated infrastructure.
 
-## Judgment highlights
+## Judgment log highlights
 
-- Latest Claude direction: round1 flagged growing overhead and asked for explicit operator disposition. The current operator recorded a bounded disposition under the existing human delegation; round2 is judging it. This is not a new human approval.
-- Two round2 setup failures occurred before model admission. A hash-verified protected predecessor copy and its intended group-read mode fixed setup; the zero-model prefix preflight passed. Both failures remain preserved.
-
-- Preserve review5 as genuine REVISE; request Claude authorization for only its exact held continuation, not a generic privacy-category bypass.
-- Bind real metadata before final scientific review. Reuse the installed registered Drive broker for empty private locks; no input transfer or new Drive subsystem.
-
-- Use the operator's simplified Colab direction; retain old history without future Colab metering.
-- Repair branch admission without relaxing its check; reconcile the exact premodel terminal failure while retaining usage.
-- Reuse the existing lane for the static correction and give the author in-call feedback from existing validators. Claude: APPROVE / PROCEED, one round.
-- Preserve the failed native probe. Remove an unused checker dependency, while retaining the complete host privacy scanner; Claude: APPROVE / PROCEED; corrected native probe passed.
-- Use existing verified server inputs and CPU environment for Idea2. Defer new Drive tooling, transfers and unrelated subsystems.
-- The stopped laptop copy, 294 verified files plus a partial file, remains preserved; no cleanup or copy replay.
+- Preserve genuine scientific REVISE and all original charges; never deliver an unapproved notebook.
+- Complete an omitted already-reviewed document using exact approved bytes; no code or safeguard change.
+- Reproduce the native failure against the real frozen state and installed-file layout; tighten the state check rather than broaden it. Claude judged the two mechanical fixes sound.
+- Discuss conflicting authority verdicts once with exact opposing evidence; latest Claude direction recommends preserving the hold. Park Colab after no substantive movement and switch to Idea2, as directed.
+- Reuse verified server inputs and existing CPU environment for Idea2. No new data transfer, dependency installation or provider commitment.
+- Keep the stopped laptop copy and294verified files plus partial file. Do not replay completed cleanup or consumed starts.
 
 ## Backup and exclusions
 
-Previous verified public push: 0aa62ca154d911166ae00c98ec6933b54fcc2437. Current updates require scans and push. C: last checked at 18.00 GiB free; WSL about 904.6 GiB. Server free space was 117.03 GiB before the latest verified source transfer and 116.88 GiB afterward. Warn below 15 GiB and stop below 8 GiB before large work. The private checkpoint needs refreshing with the latest review/probe outcomes.
+Previous verified public push:e877be01438d32b47ff9249eadcd6cd2b6d518dc; current updates require scans/push. Latest private checkpoint verified162files. C:about18GiBfree; WSLabout904.6GiB. Server115.9119GiBbefore checkpoint and115.9103GiBafter. Warn below15GiB and stop below8GiB before large work. No disk purchase needed.
 
-Withheld: private evidence, packets, ledgers, native streams, private bindings, input mappings/membership, patient rows, weights/caches and raw private branch ancestry. Flagged files excluded from public projections include ITEM6_IDEA2_FOLLOWUP_PRIVATE.json and docs/COLAB_SIMPLE_FULL_PRIVATE.json. Only scanned code/test projections and aggregate status are public. No main merge, BACKLOG edit or credential change.
-
-Installed engineering projection source a943951: 24 scanned files. Additional flagged files withheld: docs/COLAB_ADMISSION_FAILURE_PRIVATE.json, docs/COLAB_AUTHOR5_STATIC_PRIVATE.json, docs/COLAB_HISTORICAL_EIGHT_PRIVATE.json, docs/COLAB_SIMPLE_FULL_PRIVATE.json.
-
-Additional private files withheld: COLAB_REVIEW5_BOUND_PRIVATE.json and COLAB_ACCEPTED_INPUT_REFERENCE_PRIVATE.json. The author-accounting repair remains uninstalled; no unreviewed implementation is presented as a release. Further withheld private records: COLAB_BOUND_ADMISSION_PRIVATE.json, IDEA2_CPU_ACCEPTED_LANE_PRIVATE.json and COLAB_REVIEW5_OPERATOR_DISPOSITION.json.
+Withhold private evidence, packets, ledgers, native streams, operator-decision records, input mappings/membership, patient rows, images, masks, weights/caches and raw private branch ancestry. Flagged bindings include ITEM6_IDEA2_FOLLOWUP_PRIVATE.json, COLAB_SIMPLE_FULL_PRIVATE.json, COLAB_ADMISSION_FAILURE_PRIVATE.json, COLAB_AUTHOR5_STATIC_PRIVATE.json, COLAB_HISTORICAL_EIGHT_PRIVATE.json, COLAB_REVIEW5_BOUND_PRIVATE.json, COLAB_BOUND_ADMISSION_PRIVATE.json, COLAB_ACCEPTED_INPUT_REFERENCE_PRIVATE.json, IDEA2_CPU_ACCEPTED_LANE_PRIVATE.json and COLAB_REVIEW5_OPERATOR_DISPOSITION.json. Public installed code/test projection remains a943951; newer private-bound release material is withheld and identified by source hash above. No main merge, BACKLOG edit, new credential or patient-data publication.

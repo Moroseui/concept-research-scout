@@ -15,38 +15,36 @@ Use existing credentials only. Never access excluded25/24 payloads, create/chang
 | Workstream | State | Next step and reason |
 |---|---|---|
 | Item6 diagnostics / synthesis | Independently accepted; aggregate comparison with Sprint14 complete | Keep accepted results distinct from independent retraining: the352rounded matches concern shared saved fits/cohort. |
-| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Finish only the narrow CPU integration, review/install, execute and interpret through author/reviewer. Draft adapter has45engineering tests, no patient execution. No data transfer or dependency install needed. |
-| A1_repeat Colab | Author6 synthetic PASS; review5 genuine REVISE; metadata now prepared | Reconcile current accounting review round2 request453360dc, install only after APPROVE, author7 fixes both findings, exact runnable files undergo scientific review before delivery. |
+| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Finish only the narrow CPU integration, review/install, execute and interpret through author/reviewer. Earlier adapter suite45tests; latest19targeted tests cover actual accepted state and read-only intake. No patient execution. No data transfer or dependency install needed. |
+| A1_repeat Colab | Author6 synthetic PASS; review5 genuine REVISE; metadata now prepared | PARKED after authority disagreement; no author7 or installation. Resume only with a reviewed resolution; meanwhile advance Idea2. |
 | Other coverage-independent arms | Planned, not delivered | Author/review each after A1_repeat; retain eight arms by five folds in the plan. |
 | Coverage-dependent arms | Held | Scientific coverage-source contract remains unverified. |
 | CPU-starvation timing | Parked after repeated admission-reader failure; no timing result | Narrow recovery later; do not block Colab on it. |
 | Private professor case review | Selection proposal accepted, unexecuted | Follow its fixed selection rule privately; do not improvise cases or publish images. |
 | Sandbox / rotation | Deferred; opposite-family administrative capability uninstalled | No swap until all six operator conditions are met. |
 
-## Current Colab repair and non-duplication
+## Current Colab hold and non-duplication
 
-Installed a943951 is independently approved and native-qualified. Author6 calledb179ca4 is COMPLETE; scientific review5 call1f23142c is COMPLETE / REVISE. Both findings must be answered: final input binding, and removal of unused historical membership code. Twelve local calls are preserved. No compute job is running.
+Colab is PARKED. Author6 and review5 are complete; scientific review5's two findings remain open. Metadata and five locks are prepared. Author7 has never been admitted;12local calls preserved. No notebooks are released. No model call or new compute job is running.
 
-Release72ddcd0e received qualified APPROVE and was installed. Its author7 start stopped before reservation: the independent author-accounting gate did not recognize the bound continuation. No author7 call occurred. The candidate92df28f9 now binds an explicit Codex operator disposition, separate from implementation approval, and tests the actual accounting path in a rollback preflight.155focused tests pass. Round1 returned genuine REVISE about that authority binding; normal round2 is RUNNING. The original human delegation is pinned, and no new human approval is claimed. No installation or author7 before genuine APPROVE and native qualification. Exact request453360dc is RUNNING. Reconcile it before any launch; never duplicate. Author7 has not been admitted. Metadata and five private fold locks remain ready.
+Installed92df28f9 received qualified APPROVE/PROCEED, but its native probe refused an exact-stage mismatch before model/state mutation. Candidate3a901826 tightens the stage and corrects deployment file membership;74tests pass. Review307a4ea8 and normal discussion round2f601ab6f judged these changes correct but retained a privacy-category authority objection. The candidate remains uninstalled. Do not repeat consumed probes, recovery, author starts or discussions. Both opposing positions and costs are in STATUS. Do not claim new human approval. The standing rule says park after no substantive agreement; work Idea2 instead.
 
-The request-only Drive broker was briefly restored through its existing configuration, used for one seven-file metadata-only upload, verified and stopped. No uncertain upload remains. The tiny reference is locally readback-verified through existing Drive Desktop; remote sync unproven. Preserve the five object identities and do not create replacements. No input payload copy, new credential, scope or permission change. The stopped294-file copy and completed evidence cleanup remain stopped.
+Private fold locks and real reference are already prepared. Preserve them; no duplicate upload or bulk copy. The reference is locally verified through existing Drive Desktop, with remote synchronization unproven. The eventual notebook must fail closed. Existing broker was stopped after verified metadata upload. The stopped294-file laptop copy and completed cleanup remain stopped.
 
 ## Money, calls and judgments
 
-Non-Colab item4stage1 exposure: $115.516623/$150, comprising identified billed $24.487001 and retained $91.029622. Timing $5.405445/$25 within stage1; synthetic CPU reservation $1.118950 awaits billing. Item6cap $100; other-venue item4total $1,275 and projection gate $1,200 unchanged. Only provider-confirmed closed actuals release excess. Colab is no longer metered; retain historical records and unknown actual cost truthfully.
+Non-Colab item4stage1 exposure$115.516623/$150; identified billed$24.487001, retained$91.029622. Timing$5.405445/$25inside stage1; synthetic CPU$1.118950awaits billing. Item6cap$100; other-venue item4total$1,275/projection$1,200unchanged. Only confirmed closed actuals release excess. Colab unmetered, historical records retained.
 
-UTC12October:15/50 counted,4authorreservations (one premodel failure),2scientific reviews,9administrative reviews(one disqualified, one live),0standalone direction. Known Claude $191.39855325 before live round2; author dollar totals unavailable. Original usage is never reset or relabeled.
-
-Latest direction: round1 flags growing overhead and asks for explicit operator disposition. Round2 judges the current operator's recorded bounded decision under the existing delegation; no new human approval is claimed. Earlier direction was APPROVE / PROCEED for the same-lane static correction. The dependency fix also received explicit PROCEED. Judgment: reuse current lane and validators, keep all refusals, fix only necessary packaging, use existing server inputs, and defer unrelated infrastructure. Administrative overhead is high; avoid speculative components and prioritize notebook delivery. Each exact judgment and consultation is logged privately; STATUS records highlights.
+UTC12October17/50:4authorreservations,2scientificreviews,11administrative reviews(one disqualified),0standalone direction. Known Claude$201.846241; author dollar totals unavailable. No resets/relabeling. Latest Claude direction recommends holding Colab. Codex disagrees on delegated authority but has parked it after the focused discussion produced no substantive agreement. Batch only the necessary Idea2 execution integration review; no more Colab administrative cycle now.
 
 ## Safe resumption
 
-1. Confirm Codex still owns the operator role and reconcile the exact live review, native services and ledgers through the existing service account. An uncertain outcome requires observation, never a duplicate launch.
+1. Confirm Codex still owns the operator role and reconcile native services and ledgers through the existing service account. No call was live at this stop. An uncertain outcome requires observation, never a duplicate launch.
 2. Read the canonical verbatim, hash-pinned operator decisions and the private handoff. Do not rely on older root-checkout status files that predate these updates.
-3. Check free space before large steps: warn below15GiB, stop below8GiB on C: or WSL. Last C:18.03GiB; server116.88GiB after verified source transfer. No disk purchase is needed.
-4. Finish the existing review and reviewed native procedure. Keep original failed probe/review/source files. Scientific author corrects code; synthetic tests and scientific review remain mandatory.
-5. Deliver reviewed A1_repeat files with hashes, built-in paths, session order and result return instructions. No editable settings or old smoke/segment instructions.
-6. Continue Idea2 CPU execution while author/reviewer work runs. No new provider job or Drive transfer is needed. Interpret actual returned evidence through the scientific lane.
+3. Check free space before large steps: warn below15GiB, stop below8GiB on C: or WSL. Last C:about18GiB; server115.91GiB after verified checkpoint. No disk purchase is needed.
+4. Keep Colab parked. Preserve the two authority positions and every failed probe/review/source. Do not repeat the completed discussion or launch author7 without a new reviewed resolution.
+5. Finish only Idea2's native CPU integration, with synthetic tests and independent implementation approval before execution. Authenticate the exact current accepted lane; preserve its original preparation grant and all calls.
+6. Execute the approved saved-output analysis on existing server CPU and send its actual evidence through scientific interpretation/review. No new provider job or Drive transfer is needed. Colab delivery resumes only after its hold is resolved and exact final notebooks obtain scientific approval.
 7. At each stop, update STATUS/CURRENT/HANDOVER/ROLES, back up private evidence with hashes, scan privacy/secrets/infrastructure, push remote-server and safe working branches, verify hashes, and leave main unchanged.
 
 ## Access names only
