@@ -267,7 +267,7 @@ def test_prepare_copies_history_once_without_activation_or_new_allowance(lane,mo
     x.previous.execute("INSERT INTO manual_account VALUES(1,9,'{\"original_usage\":9}')")
     prior['manual_account']=[dict(r)for r in x.previous.execute('SELECT * FROM manual_account')];prior['manual_recoveries']=[]
     monkeypatch.setattr(manual_driver,'git',lambda root,*args:{('status','--porcelain'):'',('rev-parse','HEAD'):'1'*40,
-                        ('branch','--show-current'):'astra/manual-item6-smoothing-followup-20261012'}[args])
+                        ('branch','--show-current'):'astra/manual-item6-smoothing-terminal-20261012'}[args])
     monkeypatch.setattr(analysis_driver,'release_identities',lambda root:({},{}))
     result=f.prepare(root,filesystem_root=x.store.batch.filesystem_root)
     assert result=={'status':'PREPARED_NOT_ACTIVATED','calls_preserved':13,'model_calls':0,'new_allowance':0}
@@ -371,3 +371,40 @@ def test_daily_fifty_call_refusal_remains(lane,monkeypatch):
         BatchAccounts.reserve_scientific(x.store.batch,'new-call',f.RUN,'run_spec_author','1'*40,
             {'workspace':'/lane-scientific-workspaces/run_spec_author-6'})
     assert not x.global_db.execute("SELECT 1 FROM autonomy_calls WHERE id='new-call'").fetchone()
+
+
+def test_native_terminal_route_uses_current_verifier_and_propagates_refusal(monkeypatch):
+    from tools import item6_idea2_runtime as native
+    from orchestrator import colab_premodel_terminal as historical, administrative_terminal
+    frozen={'historical':'exact'};binding={'proof':'exact'};db=object();seen=[]
+    def forbidden(*args):
+        raise AssertionError('obsolete history-count route must never run')
+    history=SimpleNamespace(frozen=lambda:frozen,terminal_history=forbidden)
+    proof=SimpleNamespace(CALL='legacy',frozen=lambda:binding,
+        qualify=lambda row,b,read_local:read_local(b))
+    sender=SimpleNamespace(authority=lambda:None,sender_qualification=lambda row:('sender',row))
+    route=SimpleNamespace(authority=lambda:{
+        'source_sha':'e0394b8b8fd94a2d9feca3ffb88c917aed55936b',
+        'report_sha256':'6d5689352510f3dda16edf084da1901c8121deec88af11a0b204685fe5e0d34d'})
+    mapping={'colab_intake_identity_runtime.py':route,'colab_drive_in_place.py':history,
+             'colab_author_terminal.py':proof,'item4_smoke_response_runtime.py':sender}
+    monkeypatch.setattr(native,'load',lambda name,path:mapping[path.name])
+    monkeypatch.setattr(f,'_TERMINAL_QUALIFIER',None)
+    def exact(connection,value,original):
+        assert connection is db and value is binding and original is frozen
+        seen.append(True);return {'id':'legacy','proof_sha256':'a'*64}
+    monkeypatch.setattr(historical,'historical_read',exact)
+    monkeypatch.setattr(administrative_terminal,'verify',lambda row:('other',row))
+    native.connect_qualifier()
+    accounts=SimpleNamespace(db=db)
+    assert f._TERMINAL_QUALIFIER(accounts,{'id':'legacy'})=={'id':'legacy','proof_sha256':'a'*64}
+    assert seen==[True]
+    assert f._TERMINAL_QUALIFIER(accounts,{'id':'other'})==('other',{'id':'other'})
+    sender_row={'id':'af4547778fe7e1f35698089607ab524d08346618131512c232670b7ccbf02ab8'}
+    assert f._TERMINAL_QUALIFIER(accounts,sender_row)==('sender',sender_row)
+    def refuse(*args):raise ValueError('HISTORICAL_PROOF_REFUSED')
+    monkeypatch.setattr(historical,'historical_read',refuse)
+    with pytest.raises(ValueError,match='HISTORICAL_PROOF_REFUSED'):
+        f._TERMINAL_QUALIFIER(accounts,{'id':'legacy'})
+    with pytest.raises(ValueError,match='QUALIFIER_ALREADY_CONNECTED'):
+        native.connect_qualifier()

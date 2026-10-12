@@ -1,12 +1,12 @@
 # Research status
 
-- Pnormct code is scientifically approved; its real trainer iteration still needs evidence.
-- Action needed: run the previously sent private synthetic Colab A100 check; no additional task.
-- Its five-fold training file remains held until that check passes; multiwin remains parked.
-- Claude is reviewing the bounded next analysis admission; no scientific call or compute job is live.
-- The patch preserves accepted results and all13 prior calls, using only4 approved analysis slots.
-- Billed item4 compute is$24.487001; known Claude charges are$299.89056825 plus this live review. Author dollars unavailable.
-- Next result: Colab PASS/FAIL in10-25minutes after Run all; analysis admission verdict expected15-25minutes after12:46UTC. [Execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct code is scientifically approved; its full training file awaits a real trainer PASS.
+- Action needed: run the previously sent private synthetic Colab A100 check and return PASS/FAIL plus its evidence location.
+- The scientific author is now working on the accepted saved-output smoothing comparison.
+- The admission repair is approved, installed and native-qualified; all earlier calls/charges remain.
+- Multiwin stays parked; no new provider compute job or reservation was started.
+- Billed item4 compute is$24.487001; known Claude charges$309.98807875. Author dollars unavailable.
+- Next result: analysis draft by13:42UTC, then scientific review; Colab check10-25minutes after Run all. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Current direction and evidence
 
@@ -32,7 +32,7 @@ A separate synthetic-only Colab check is ready in the operator's private Downloa
 
 Packaging release3137acf5 passed22engineeringtests and genuine Claude APPROVE4afcdd3f/report9d9dcfb6. The reviewer agrees this is the shortest safe route. Agreed change: use the intended Colab environment for this synthetic check; defer another Modal image/runtime build. The existing Python3.12 image and unbound multiwin adapter cannot qualify this Python3.13 fixture unchanged. No provider job or reservation was created.
 
-Analysis admission review7c93e0b8 is RUNNING, confirmed12:48UTC. No new scientific call or provider job has started. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
+The scientific author is RUNNING on the accepted fixed-amount smoothing question, callc7bccc44, canonical author attempt6. It started once after genuine Claude approval, installation, exact activation and native role/input/transport qualification. All13 earlier calls remain counted; the new call is14. Draft expected by13:42UTC under the1800-second author timeout; independent scientific review follows. No data execution or new scientific conclusion is claimed. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
 
 Timing, the GPU adapter, sandbox and opposite-family administrative capability remain deferred/uninstalled. No Swap point.
 
@@ -48,13 +48,13 @@ At 11:07 UTC the existing 728 saved-output files were checked by metadata only: 
 
 Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus retained reservations $91.029622. Timing commitment is $5.405445/$25 within stage 1; $1.118950 synthetic CPU awaits billing. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 remain unchanged. Colab is unmetered. Release excess reservations only after provider billing confirms a closed attempt's actual cost.
 
-12 October UTC:46/50 calls:11scientific authors,8scientific reviewers,25administrative implementation reviews (including the live analysis admission review),2standalone direction attempts. Scientific batch109/128; pnormct3/20;11of16additional Colab slots remain. Known completed Claude charges$299.89056825 (scientific pnormct review$6.338102; packaging review$2.791195); author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No cap change or new GPU reservation.
+12 October UTC:48/50 calls:12 scientific authors,8 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch110/128. One of4analysis slots used;3analysis,4meeting and11Colab slots remain. Canonical item6 has14counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$309.98807875; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author | 11 | Idea2 code/interpretation, baseline/multiwin, pnormct draft and correction |
+| Scientific author | 12 | Idea2 code/interpretation, baseline/multiwin, pnormct draft/correction and live smoothing specification |
 | Scientific reviewer | 8 | Idea2, baseline, multiwin and approved pnormct notebook code |
-| Administrative implementation review | 25 | Repairs, private integration packaging and the live analysis admission; direction bundled |
+| Administrative implementation review | 26 | Repairs, private integration packaging, analysis admission and its terminal-route correction; direction bundled |
 | Standalone direction check | 2 | Preserved disqualified attempt and qualified SIMPLIFY retry |
 
 
@@ -88,6 +88,12 @@ New installed public projection: three clean format-helper/runtime/test files. C
 
 ## Current analysis admission
 
-The next saved-output smoothing question has candidate649ebc7b and a combined Claude implementation/accounting/direction review7c93e0b8 running. The patch reuses the existing follow-up component, preserves both accepted reports and all13 canonical item6 calls, and admits at most4 additional analysis calls inside batch128/day50. No execution or cap change is granted.53focused tests passed. The broader suite had520passes,41skips,4failures and174setup errors; all five distinct failure causes reproduce on unchanged parent3137acf5 and remain disclosed. No installation until genuine APPROVE; actual native role/input/transport qualification precedes the author. Review estimate15-25minutes from12:46UTC, then one author/reviewer cycle for a reviewed specification. The source-owned daily/run guard and all original charges stay intact.
+The scientific author is RUNNING on the accepted fixed-amount smoothing question, callc7bccc44, canonical author attempt6. It started once after genuine Claude approval, installation, exact activation and native role/input/transport qualification. All13 earlier calls remain counted; the new call is14. Draft expected by13:42UTC under the1800-second author timeout; independent scientific review follows. No data execution or new scientific conclusion is claimed.
 
-New private exclusions: ITEM6_SMOOTHING_FOLLOWUP_PRIVATE.json, the private author intake, captures, ledgers, review packet/stream, tests evidence and raw source history. Public working-branch projections contain clean code/tests only. No patient payload was read for admission preparation.
+Analysis admission649ebc7b received genuine Claude APPROVE7c93e0b8/reportcf427255 and PROCEED, but its obsolete historical terminal route refused activation before any owner/grant/call mutation. The original installation, prepared lane and refusal remain preserved. Narrow correctionc3404e36 reuses the existing strict historical verifier, passed75tests and genuine Claude APPROVE7e9dbb60/reportabf0c222, again PROCEED. Its actual activation and native checks passed; no guard was relaxed. The preceding broader suite failures reproduce on the unchanged parent and remain disclosed. No new subsystem was built.
+
+12 October UTC:48/50 calls:12 scientific authors,8 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch110/128. One of4analysis slots used;3analysis,4meeting and11Colab slots remain. Canonical item6 has14counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$309.98807875; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
+
+Latest Claude direction13:08UTC:PROCEED; keep the existing strict verifier and no new subsystem. The actual corrected activation/native qualification now pass, addressing the static review's live-state limitation. External installed code was verified by its pinned authority; the reviewer did not independently inspect every external byte.
+
+Private exclusions remain ITEM6_SMOOTHING_FOLLOWUP_PRIVATE.json, author intake, captures, ledgers, packets, streams, test evidence and raw history. Installed clean source/test projections are included after scanning.

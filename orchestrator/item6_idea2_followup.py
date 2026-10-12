@@ -10,7 +10,7 @@ import sqlite3
 
 RUN = "diagnostics-b203ee1ce27e909d9d78d44a"
 DOCUMENT = "docs/ITEM6_SMOOTHING_FOLLOWUP_PRIVATE.json"
-DOCUMENT_SHA = "0e570ea3dd611be0d7cc9fb711c71e290faad653c73c99621b96dd83a47d23cc"
+DOCUMENT_SHA = "9547a419f92e11790f78fded950b96b2c8c4ab32993373d606158f618770ece1"
 FIELD = "item6_idea2_followup"
 EVENT = RUN + ":smoothing-specification-followup"
 STAGES = frozenset(("run_spec_author", "run_spec_review"))
@@ -63,7 +63,7 @@ def _approval(config, scope, root):
     manifest = json.loads((folder / "packet-manifest.json").read_bytes())
     require(result["verdict"] == "APPROVE" and result["source_sha"] == config["source"]
             and manifest["source_sha"] == config["source"]
-            and result.get("change_id")=="item6-smoothing-followup-20261012", "INDEPENDENT_APPROVAL_REQUIRED")
+            and result.get("change_id")=="item6-smoothing-terminal-route-20261012", "INDEPENDENT_APPROVAL_REQUIRED")
     report = json.loads((folder / "report.md").read_bytes())
     require(report.get("findings") == [], "UNRESOLVED_IMPLEMENTATION_FINDINGS")
     require({DOCUMENT,'orchestrator/item6_idea2_followup.py','tools/item6_idea2_runtime.py'}
@@ -311,7 +311,7 @@ def prepare(root, *, filesystem_root=Path('/')):
         trusted(root)
     require(not git(root,'status','--porcelain'),'CLEAN_REVIEWED_SOURCE')
     source=git(root,'rev-parse','HEAD');branch=git(root,'branch','--show-current')
-    require(branch=='astra/manual-item6-smoothing-followup-20261012','EXACT_BRANCH')
+    require(branch=='astra/manual-item6-smoothing-terminal-20261012','EXACT_BRANCH')
     parent=_path(host,scope['prior']['parent_lane']);state=_path(host,scope['new_lane'])
     require(not state.exists() and not state.is_symlink(),'EXISTING_LANE_RECONCILE')
     old=scope['prior']['config'];batch=BatchAccounts(_path(host,old['batch_ledger']),filesystem_root=host)
