@@ -11,9 +11,9 @@ from orchestrator import idea2_results_intake as results
 RUN = results.contract.RUN
 FIELD = "idea2_interpretation"
 DOCUMENT = "docs/IDEA2_INTERPRETATION_PRIVATE.json"
-DOCUMENT_SHA = "31eb55e920a09ebc149b5dcc2caba371d84fbd8045ef55c46532203a306612e4"
-CHANGE = "item6-smoothing-execution-20261012"
-BRANCH = "astra/manual-item6-smoothing-execution-20261012"
+DOCUMENT_SHA = "a99cad1f186ebae26527e966355e5ab0e8829008b91d9b6eb63b2b51bc515fd4"
+CHANGE = "item6-smoothing-intake-20261012"
+BRANCH = "astra/manual-item6-smoothing-intake-20261012"
 EVENT = RUN + ":smoothing-interpretation-grant"
 ACCEPTED = RUN + ":smoothing-results-accepted"
 STAGES = frozenset(("result_interpretation_author", "result_interpretation_review"))
@@ -71,8 +71,23 @@ def _approval(config,scope,host):
         require(sha(pr.check(root/name).read_bytes())==pin,"REVIEWED_SOURCE_CHANGED")
     return approval["report_sha256"]
 
+def failed_preparation(scope,host):
+    previous=scope["failed_prepare"]
+    folder=_path(host,previous["lane"])
+    pr.check_tree(folder)
+    files={str(p.relative_to(folder)):p for p in folder.rglob("*")if p.is_file()}
+    require(set(files)==set(previous["files"]),"PARTIAL_PREPARATION_MEMBERSHIP")
+    for name,path in files.items():
+        raw=pr.check(path).read_bytes();pin=previous["files"][name]
+        require(len(raw)==pin["bytes"] and sha(raw)==pin["sha256"],"PARTIAL_PREPARATION_CHANGED")
+    require(previous["grant_absent_at_capture"] is True
+        and len(previous["calls"])==15
+        and json.loads(previous["state_row"]["payload"])["phase"]=="COMMIT_SPEC",
+        "PARTIAL_PREPARATION_SCOPE")
+
 def _originals(db,scope,host):
     prior=scope["prior"]
+    failed_preparation(scope,host)
     cpu_lane.read_accepted_lane(_path(host,prior["parent_lane"]),Path(__file__).resolve().parents[1])
     owner=db.execute("SELECT * FROM autonomy_runs WHERE id=?",(RUN,)).fetchone()
     expected=prior["global"]["owner"][0]
@@ -215,11 +230,15 @@ def batch_allowance(accounts,scope):
 
 def native_results(scope,host):
     from orchestrator.autonomy_review import verify_result
-    approval=verify_result(_path(host,scope["review_directory"]))
-    require(approval["verdict"]=="APPROVE" and approval["change_id"]==CHANGE,"CPU_APPROVAL")
+    approval=verify_result(_path(host,scope["cpu_review_directory"]))
+    require(approval["verdict"]=="APPROVE" and approval["change_id"]==scope["cpu_change_id"]
+        and approval["source_sha"]==scope["cpu_source"]
+        and approval["report_sha256"]==scope["cpu_review_sha256"],"CPU_APPROVAL")
     work=_path(host,scope["result_work"])
-    # The same reviewed release owns CPU execution and interpretation. Before
-    # execution no receipt exists and this fails closed; never invent a hash.
+    # This repair consumes the already completed, separately approved CPU run.
+    # Exact observed bytes are now pinned; no recomputation or invented receipt.
+    for name,pin in scope["result_files"].items():
+        require(sha(pr.check(work/name).read_bytes())==pin,"NATIVE_RESULT_CHANGED")
     return results.verify(work,approval["source_sha"],approval["report_sha256"])
 
 def verified_by_store(store,value,config,scope,host):
@@ -263,15 +282,15 @@ def collect(driver,value,scope,host):
     for name,raw in native["files"].items():
         pr.write_bytes(folder/name,raw)
         artifact(driver,value,"validation_result"if name=="validation.json"else"result_tables",
-            "diagnostics-result-"+name,"idea2/"+name,raw)
+            "diagnostics-result-"+name,"smoothing/"+name,raw)
     pr.write_bytes(driver.state/"validation.json",encoded(native["validation"]))
     receipt=encoded(native["receipt"]);value["idea2_result_receipt_sha256"]=sha(receipt)
     for kind,name,raw in [
-        ("execution_receipt","idea2-execution-receipt.json",receipt),
-        ("execution_manifest","idea2-execution-manifest.json",encoded({
+        ("execution_receipt","smoothing-execution-receipt.json",receipt),
+        ("execution_manifest","smoothing-execution-manifest.json",encoded({
             "run_id":RUN,"cpu_source":native["receipt"]["cpu_source"],"program_sha256":results.contract.PROGRAM,
             "cpu_only":True,"training":False,"input_files_verified":728})),
-        ("package_manifest","idea2-package-manifest.json",encoded({
+        ("package_manifest","smoothing-package-manifest.json",encoded({
             "program_sha256":results.contract.PROGRAM,"scientific_review_sha256":results.contract.REVIEW,
             "implementation_review_sha256":native["receipt"]["implementation_review_sha256"],"package_files_verified":4}))]:
         artifact(driver,value,kind,"diagnostics-"+kind,name,raw)

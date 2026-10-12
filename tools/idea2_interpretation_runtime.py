@@ -95,7 +95,8 @@ def authority():
 
 def held_prior():
     scope,n=metadata();unit=Path(n['template_unit']).name
-    for selected in (unit,unit.removesuffix('.service')+'.timer'):
+    failed=scope['failed_prepare']['unit']
+    for selected in (unit,unit.removesuffix('.service')+'.timer',failed,failed.removesuffix('.service')+'.timer'):
         fields=dict(line.split('=',1)for line in subprocess.check_output(
             ['systemctl','show',selected,'-p','MainPID','-p','ActiveState','-p','LoadState'],
             text=True).splitlines())
@@ -114,9 +115,9 @@ def cpu_authority():
     # qualified review. No install/start/run function is invoked.
     cpu=load('_idea2_completed_cpu_authority',root/'tools/idea2_cpu_runtime.py')
     result,scope=cpu.authority()
-    own=authority()
-    f.require(result['source_sha']==own['source_sha']
-              and result['report_sha256']==own['report_sha256'],'CPU_APPROVAL')
+    authority();scope,_=metadata()
+    f.require(result['source_sha']==scope['cpu_source']
+              and result['report_sha256']==scope['cpu_review_sha256'],'CPU_APPROVAL')
     fields=dict(line.split('=',1)for line in subprocess.check_output(
         ['systemctl','show',cpu.UNIT,'-p','MainPID','-p','ActiveState','-p','ExecMainStatus'],
         text=True).splitlines())
