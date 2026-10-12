@@ -3,7 +3,7 @@
 - The smoothing CPU analysis completed successfully on99development patients; scientific interpretation is still pending.
 - No model or compute job is running. Pnormct's full notebook still awaits the previously sent real-trainer Colab check.
 - Interpretation preparation hit a naming collision with older results; both are preserved and the repair passes136tests.
-- The repair needs independent review after the UTC reset: today's50model calls are used.
+- The repair packet is prepared and reader-checked; independent review waits for the UTC reset because today's50calls are used.
 - This CPU run cost$0incremental; billed item4 compute is$24.487001 and known Claude charges total$321.400746.
 - Next result: reviewed smoothing interpretation, provisionally45-90minutes after00:00UTC13October, subject to repair approval.
 - Colab check takes10-25minutes after Run all; return PASS/FAIL and the private evidence location. [Execution plan](13B_EXECUTION_PLAN.md).
@@ -16,7 +16,7 @@ Combined infrastructure7fb2babe passed133focused tests and genuine independent A
 
 Interpretation preparation then correctly refused IMMUTABLE_ARTIFACT_CONFLICT: it attempted to reuse an earlier Idea2 result filename in the copied context. No interpretation grant or model call was created. The original CPU result, accepted parents,15calls and partial preparation remain preserved. Do not rerun the CPU job or the failed preparation.
 
-Draft repair06eb2957 gives the new result its own namespace, preserves the old bytes, and directly pins the completed CPU's original independent approval and actual outputs. A distinct interpretation lane is proposed.136testsPASS, including the real artifact collector's collision/refusal and successful separate namespace. All132partial-preparation files and7result/receipt pins match the server. The two added SQLite sidecars came from read-only observation; original130files, state and15calls are unchanged. The closed ledger was then inspected with an immutable reader after proving an empty WAL. No check was relaxed. Repair is unreviewed and uninstalled; review waits for the daily reset.
+Draft repair06eb2957 gives the new result its own namespace, preserves the old bytes, and directly pins the completed CPU's original independent approval and actual outputs. A distinct interpretation lane is proposed.136testsPASS, including the real artifact collector's collision/refusal and successful separate namespace. All132partial-preparation files and7result/receipt pins match the server. The two added SQLite sidecars came from read-only observation; original130files, state and15calls are unchanged. The closed ledger was then inspected with an immutable reader after proving an empty WAL. No check was relaxed. Repair is unreviewed and uninstalled; review waits for the daily reset. Its immutable packet is now ready locally, with925source files,54evidence files and a verified975-file reader view. All source bytes are exact; eight historical session/runtime records remain hash references under the existing reader policy. No request, installation or call was started.
 
 ## Colab and other workstreams
 
@@ -52,11 +52,12 @@ Administrative work uses most calls. Continue batching execution and interpretat
 -13:08UTC:PROCEED; narrow reuse of existing strict terminal verifier, no new subsystem.
 -13:56UTC:APPROVE and PROCEED in one combined implementation/accounting/direction review; agree with caution to reduce future installation layering.
 -14:12UTC:namespace repair preserves the successful CPU job and failed preparation. Claude safeguard second opinion belongs in the required next review; no installation while daily cap prevents that review.
+-14:41UTC:prepare one complete repair packet offline while the daily cap holds; preserve native/session records through the existing reader references, add missing static dependencies, and make no additional review call. Claude consultation remains part of the next required review.
 -No spending cap, allowance, credential, scientific definition, patient membership or refusal was weakened.
 
 ## Backup and exclusions
 
-Last verified public backup before this stop:283d902ac52638aaee4f5b6248b55e479de085e8. Installed clean source/test projection9d7a37df follows; the terminal status and private backup are being refreshed. Every push requires privacy, secret and infrastructure scans. No local evidence is deleted during this stop. At14:27UTC all scientific units were inactive, no model call was running, and the periodic retention watcher ended normally with NOT_DUE.
+Last verified public backup before this packet-preparation stop:845836928c4e98808422f2897f9c771cad48d292; safe working draft c6eea85e. Installed code and tested draft are unchanged; this stop updates review readiness and handover. Every push requires privacy, secret and infrastructure scans. No local evidence is deleted during this stop. At14:27UTC all scientific units were inactive, no model call was running, and the periodic retention watcher ended normally with NOT_DUE.
 
 Withhold evidence folders, ledgers, review packets, native streams, private operator bindings, raw private branches, patient rows/identifiers, images/masks/weights/caches, credentials and infrastructure identifiers. New flagged files excluded from the installed projection:orchestrator/cpu_isolation.py;tests/test_cpu_diagnostics_profile.py;docs/IDEA2_CPU_ACCEPTED_LANE_PRIVATE.json;docs/IDEA2_CPU_RUNTIME_PRIVATE.json;docs/IDEA2_INTERPRETATION_PRIVATE.json. The first two trigger the infrastructure/credential-path scan; the others are private records. Public source is an archival projection; private bindings are required for deployment/tests.
 
