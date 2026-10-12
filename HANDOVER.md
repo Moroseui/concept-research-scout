@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated12October2026,18:59UTC. Codex/OpenAI remains operator. Pnormct externally running; multiwin candidate tested,held at disk7.78GiBbelow8GiB. Free-space reply pending. Scientific author OpenAI and reviewer Claude unchanged. No Swap point.
+Updated12October2026,19:14UTC. Codex/OpenAI remains operator. Pnormct externally running; multiwin review88d21b1b is RUNNING. Disk stop cleared: C:15.2GiB. No Swap point. Scientific author OpenAI/reviewer Claude unchanged.
 
 Goal: understand infarct prediction, deliver new13Barm results quickly, support private professor case review, and improve usability without platform-building detours. Scientific code/conclusions belong to author/reviewer; operator owns infrastructure and execution. Never access excluded25/24payloads, change credentials, publish patient-derived data, merge main or edit BACKLOG. Ask Partho only money or necessary Colab action. Preserve every attempt/charge and uncertain handle.
 
@@ -53,3 +53,9 @@ At each stop update STATUS in place, CURRENT, HANDOVER and private handoff; priv
 At18:59UTC no server model call or research service is running. Pnormct remains externally running by last operator report. C:7.78GiB below8GiBstop; user asked tofree2GB. Removed only completed WSLpytest scratch and regenerablego/nodebuildcaches; fstrim freed logical blocks but not Windows VHD allocation. No evidence/apphistory deletion,no WSLshutdown. Stop large localsteps and newreviewlaunch until diskclears. Preserve currentdraft/evidence via small serverbackup and scanned status push. No Swap point.
 
 Disk recheck12October19:02UTC: C:7.11GiB,still below8GiB. Candidate source unchanged/clean,153tests preserved,zero running servercalls/services,51dailycalls. Free-space reply pending; no review launched.
+
+## Current override ? disk cleared, review running
+
+Candidatebb65a300 remains uninstalled. Independent request88d21b1bff0cf3d4f8214635d70f23faaf8db62632742e476451b99db4301d8c started once19:13UTC and is RUNNING as dailycall52. The earlier scheduled-maintenance refusals happened before remote start intent or admission; preserve them, do not rerun the started request. Exact packet has948contentfiles and946readerfiles,18.83MB, below existing bounds. Read the private multiwin review OBSERVE script for reconciliation. Require genuine APPROVE before source transfer/install, then native zero-call probe, activation and normal scientific author11. Installed datedcap helper is used; call51 bootstrap is consumed and must not be reused.
+
+Daily52:12authors,9scientificreviews,29administrative,2standalone direction. Completed Claude332.04745425,currentreviewpending. Scientific111/128 unchanged. Source remains153focusedtestsPASS. Author corrects actual variance fixture; unchanged pnormct module is reference only, not transferable approval. Pnormct is still running externally. Multiwin estimate1-2hours conditional on review/integration; smoothing/meeting deferred. Latest prior publicbackupd68af649,working1dcc9a91.

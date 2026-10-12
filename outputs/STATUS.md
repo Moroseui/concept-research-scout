@@ -1,12 +1,12 @@
 # Research status
 
-- Pnormct's real A100 trainer check passed; its reviewed full notebook is running by operator report.
-- Multiwin's bounded continuation draft passes153tests; scientific correction,review and real trainer integration remain.
-- The daily cap is installed at100for12OctoberUTC and returns50on13October; all51calls stay counted.
-- Work is held by the disk guard:C:has7.78GiB free,below8GiB. Please free at least2GB.
-- Item4compute billed:$24.487001; retained reservations:$91.029622. Known completed Claude charges:$332.04745425.
-- Next deliverable:multiwin,provisionally1-2hours after disk clearance if reviews/integration pass. Pnormct estimate14hours/95CU.
-- No server model or compute job is running; no pnormct duplicate. [Execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct's real A100 trainer check passed; its reviewed all-fold notebook is running by operator report.
+- Multiwin's continuation passes 153 focused tests; its independent implementation review is now running.
+- C: has 15.2 GiB free after the operator's cleanup. The disk stop is cleared.
+- Multiwin still needs the author's scientific correction, scientific review and real trainer integration.
+- Item 4 compute billed: $24.487001; retained reservations: $91.029622. Completed Claude charges: $332.04745425; current review cost pending.
+- Next deliverable: multiwin, provisionally 1?2 hours if reviews and integration pass. Pnormct's built-in estimate is 14 hours.
+- One server review is active; do not duplicate it or pnormct. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Results and current boundary
 
@@ -36,16 +36,16 @@ Item4 non-Colab stage1 exposure is$115.516623/$150: billed$24.487001 plus retain
 
 Known completed Claude charges:$332.04745425; scientific author dollars unavailable. Latest cap implementation review cost$10.64670825; author dollars remain unavailable. Every original attempt/charge remains counted; release reservations only after provider-confirmed closed billing.
 
-12October UTC:51calls against the operator-authorized100today, reverting50on13October. Dated cap codefe3b52ce is independently approved and installed,with service-account verification of100today/50tomorrow. One bounded administrative call51 was admitted normally after exact operator binding. Scientific batch111/128;11Colab,2analysis,4meeting remain. No resets or relabeling.
+12October UTC:52calls against the operator-authorized100today, reverting50on13October. Dated cap codefe3b52ce is independently approved and installed,with service-account verification of100today/50tomorrow. One bounded administrative call51 was admitted normally after exact operator binding. Scientific batch111/128;11Colab,2analysis,4meeting remain. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |12|Idea2 code/interpretation,baseline/multiwin,pnormct draft/correction,smoothing specification|
 | Scientific reviewer |9|Idea2,baseline,multiwin,pnormct code,smoothing code|
-| Administrative implementation review |28|Repairs/admission,integration packaging,analysis connection;current cap/cache review includes multiwin direction|
+| Administrative implementation review |29|Repairs/admission,integration packaging,analysis connection;current cap/cache review includes multiwin direction|
 | Standalone direction check |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
-Administrative work still uses most calls. Batch necessary repairs and direction into the same review; defer generic infrastructure. Installed sourcefe3b52ce passed93tests; review099b76cd is COMPLETE/APPROVE. No multiwin process opinion or cache-copy inspection was given; these stay held. Concrete continuationbb65a300 passes153tests,including actual normal admission and run/batch/day cap refusals; it is unreviewed/uninstalled. No request started. Original8141launch stopped before model admission on dated-policy mismatch:no call or charge,original preserved. One mechanical retry corrected the actual policy interface; no repeated launch.
+Administrative work still uses most calls. Batch necessary repairs and direction into the same review; defer generic infrastructure. Installed sourcefe3b52ce passed93tests; review099b76cd is COMPLETE/APPROVE. No multiwin process opinion or cache-copy inspection was given; these stay held. Concrete continuationbb65a300 passes153tests,including actual normal admission and run/batch/day cap refusals; it is unreviewed/uninstalled. Review request88d21b1b is running; no continuation is installed. Original8141launch stopped before model admission on dated-policy mismatch:no call or charge,original preserved. One mechanical retry corrected the actual policy interface; no repeated launch.
 
 ## Judgment log highlights
 
@@ -56,20 +56,19 @@ Administrative work still uses most calls. Batch necessary repairs and direction
 -14:12UTC:namespace repair preserves the successful CPU job and failed preparation. Claude safeguard second opinion belongs in the required next review; no installation while daily cap prevents that review.
 -14:41UTC:prepare one complete repair packet offline while the daily cap holds; preserve native/session records through the existing reader references, add missing static dependencies, and make no additional review call. Claude consultation remains part of the next required review.
 -18:33UTC:delivered unchanged approved pnormct after operator-confirmed trainer PASS; no rerun. Batch cap/cache/multiwin direction in one review; preserve zero-call mechanical launch and test correction through actual dated queue.
--No dollar cap, credential, scientific definition or patient membership changed. The operator-authorized temporary model-call increase is under review.
+-No dollar cap, credential, scientific definition or patient membership changed. The operator-authorized temporary model-call increase is independently approved and installed.
 
 ## Backup and exclusions
 
-Last verified public backup before this resumed work:beac8345b8949dc763fed8353104149cf0ab8208;safe working draft93808fc7. Installed code and tested draft are unchanged; this stop updates review readiness and handover. Every push requires privacy, secret and infrastructure scans. No local evidence is deleted during this stop. At14:27UTC all scientific units were inactive, no model call was running, and the periodic retention watcher ended normally with NOT_DUE.
+Last verified public backup before this resumed work:d68af6493971bba3b01dc437e8dabef18986407d;safe working draft1dcc9a91. Installed code and tested draft are unchanged; this stop updates review readiness and handover. Every push requires privacy, secret and infrastructure scans. No local evidence is deleted during this stop. At14:27UTC all scientific units were inactive, no model call was running, and the periodic retention watcher ended normally with NOT_DUE.
 
 Withhold evidence folders, ledgers, review packets, native streams, private operator bindings, raw private branches, patient rows/identifiers, images/masks/weights/caches, credentials and infrastructure identifiers. New flagged files excluded from the installed projection:orchestrator/cpu_isolation.py;tests/test_cpu_diagnostics_profile.py;docs/IDEA2_CPU_ACCEPTED_LANE_PRIVATE.json;docs/IDEA2_CPU_RUNTIME_PRIVATE.json;docs/IDEA2_INTERPRETATION_PRIVATE.json. The first two trigger the infrastructure/credential-path scan; the others are private records. Public source is an archival projection; private bindings are required for deployment/tests.
 
 The new result files and unaccepted interpretation material stay private. The repair's private scope and failed-lane snapshots are also withheld. Safe working source/test projections use the existing public draft branch; never merge main or edit BACKLOG. Disk guard warns below15GiB and stops below8GiB.
 
-18:59UTC:zero running server model calls or research services; pnormct externally running by last operator report. LatestCfree7.78GiB triggers8GiBstop. Removed only completed WSL test scratch/build caches; trim did not reclaim Windows allocation. No evidence deletion. Operator free-space reply pending.
-
 Current draft projection additionally withholds docs/COLAB_TONIGHT_ADMIN_ADMISSION_PRIVATE.py (private record) and docs/COLAB_TONIGHT_OPERATOR_20261012.txt (private approval binding). Executed notebooks,review packets,ledgers and native streams remain private. New evidence backup verified1941files; server free110.525to110.489GiB. No local evidence deletion.
 
 Continuation projection excludes docs/MULTIWIN_TONIGHT_CONTINUATION_PRIVATE.json,docs/MULTIWIN_AUTHOR10_TEST_FAILURE_PRIVATE.txt and docs/PNORMCT_REVIEWED_REFERENCE_PRIVATE.py; private bindings/reference code and evidence stay private. Last cap review approves installation only; no PROCEED/SIMPLIFY direction was returned. Pending direction is folded into the next required review.
 
-Disk recheck12October19:02UTC: C:7.11GiB,still below8GiB. Candidate source unchanged/clean,153tests preserved,zero running servercalls/services,51dailycalls. Free-space reply pending; no review launched.
+
+19:14UTC judgment: the operator cleared the disk stop. Preserve three scheduled-maintenance refusals and one active-retention refusal, all before start intent/admission; after the quiet window, start request88d21b1b once through the installed daily policy. Claude process/cache/direction opinion is pending in that one necessary review. No guard changed.
