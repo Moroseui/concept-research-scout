@@ -1,14 +1,17 @@
 # Current research state - 12 October 2026
 
-Action needed from you: none. Codex/OpenAI remains operator; no Swap point.
+Action needed from you: none. Codex/OpenAI remains operator. No Swap point.
 
-The lifecycle repair is approved and installed: source63da504c, reviewa4163c1a, reportb099bf79,257testsPASS. Native zero-call qualification passed using the actual driver and105129-byte author context; state and call history stayed unchanged. After the existing maintenance jobs finished, author12 launched once through normal admission. Its client process and growing native transport log confirm actual execution, rather than only a reservation.
-Current author call46e13bf45c6f880f11dbb31fefd3894d58fcc754112f4e323597c462e0653a9e is RUNNING. The same owner has22/24 counted calls; reviewer10 and reviewer11 are the remaining scoped slots, as normal process permits. Do not duplicate the live author. The earlier failedauthor11 staysFAILED/countretained; no history or charges reset. LatestClaude directionPROCEED with no more unrelated infrastructure; agreed.
+Multiwin author12 completed and the lane accepted its notebook and specification. All five synthetic test groups passed, including the formerly failing module fixture. The five-fold notebook hash is2df445002441298d3c17dcc6b43c6a1d5959a275a0b03dc4da184a1b3532aa65; its scientific code remains unchanged by the operator.
+Scientific review10 then exhausted its30tool-turn limit without submitting a verdict. Both ledgers record FAILED and its4.4578125charge remains counted. No scientific REVISE or APPROVE is inferred. No modelclient is now live. The exact native terminal proof, all23rows, account/configuration and successful author outputs are preserved. Do not replay review10.
+Next: a bounded, independently reviewed recovery for the existing final reviewer11slot, using60tool turns while preserving timeout,tools,permissions,isolation and all call/dollar caps. This repeated mechanical cause requires Claude's second opinion and implementation review together. No new user decision or call allowance is needed. The notebook remains held until scientific approval and its real trainer iteration.
 
-Pnormct remains running in Partho's Colab session by his report, from unchanged scientifically approved13B_A1_pnormct.ipynb, SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not alter or duplicate it.
+The infrastructure lifecycle repair63da504c remains independently approved and installed,257testsPASS and actual native qualificationPASS. It successfully admitted and collected author12; the new failure is the separate scientific reviewer30turn budget, not admission.
 
-Next result: multiwin author correction, provisionally15-30minutes after launch; scientific review and real trainer iteration still precede delivery. Smoothing interpretation,meeting,timing,sandbox and rotation remain deferred under the current arm-delivery priority. Item6, synthesis and Idea2 stay accepted; smoothing CPU is valid/terminal and must not be rerun.
+Pnormct remains running by Partho's report from unchanged13B_A1_pnormct.ipynb SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Never alter or duplicate it. Await private results/error.
 
-Daily57counted slots:14scientificauthor,9scientificreviewer,32administrative,2direction. Scientific113/128;9Colab,2analysis,4meeting remain. Daily100today returns50on13OctoberUTC. Known completedClaude346.64103875USD; author dollars unavailable. Item4non-Colab billed24.487001+retained91.029622=115.516623/150. Timing5.405445/25inside stage1; total1275/projection1200,item6cap100 unchanged. Colab unmetered. C:14.28GiB warns below15 but clears8GiBstop.
+Daily58calls:14scientific author,10scientific reviewer,32administrative review,2direction. Scientific114/128;8Colab,2analysis,4meeting remain. Same-owner23/24. Daily100today returns50on13OctoberUTC. Known completedClaude351.09885125USD; author dollars unavailable. Item4non-Colab billed24.487001+retained91.029622=115.516623/150;Colabunmetered. No newcompute charge.
 
-Read HANDOVER,ROLES,STATUS and execution plan. Reconcile the live author before any successor; use exact private receipts. No excludedpatientpayloads,newcredentials,patient-derived publication,mainmerge or BACKLOGedit.
+Next checkpoint:tested review recovery and independent approval, provisionally30-60minutes; scientific verdict and trainer evidence follow, so delivery ETA remains uncertain. LatestClaudePROCEED predates the30turn failure; renewed direction will be folded into the necessary review. Smoothing,meeting,timing,sandbox/rotation deferred by the arm-delivery priority. Item6,Idea2 and synthesis accepted; smoothingCPU valid/terminal,never rerun.
+
+Read HANDOVER,ROLES,STATUS and plan. Preserve all originals; no excludedpatientpayloads,newcredentials,patient-derived publication,mainmerge or BACKLOGedit.
