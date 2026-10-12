@@ -207,6 +207,8 @@ class ExperimentDriver(Driver):
 
     def guard(self):
         super().guard()
+        from orchestrator.item6_idea2_followup import validate
+        validate(self.store,self.config['run_id'])
         plan = read(self.state/"preparation-plan.json")
         context.selection(self)
         for key in BASE_FIELDS | SCOPED_FIELDS[self.config["item_number"]]:
@@ -228,6 +230,13 @@ class ExperimentDriver(Driver):
                 raise ValueError('EXPERIMENT_GLOBAL_OWNER_CHANGED')
 
     def task(self, stage, value):
+        from orchestrator import item6_idea2_followup as followup
+        scope = followup.validate(self.store,self.config['run_id'])
+        if scope is not None:
+            followup.require(stage in followup.STAGES, 'PREPARATION_STAGE_ONLY')
+            task = (self.root/scope['author_task_path']).read_bytes()
+            followup.require(followup.sha(task)==scope['author_task_sha256'],'AUTHOR_TASK_CHANGED')
+            return task.decode() + '\nThis release admits specification author/review only. Preserve the scientific-program/v2 interface and diagnostics-program-contract/v1. Server execution remains held for its separately reviewed adapter and verified inputs. Previous accepted outputs are historical evidence, not a result of this new analysis. All previous calls count toward the same canonical item6 usage and $100 cap; this question has only four additional analysis calls within batch128/day50.'
         item = self.config["item_number"]
         return ("Approved BACKLOG item "+str(item)+". Use the frozen execution plan and original "
             "registered evidence. You are the scientific author or independent reviewer for this stage. "
