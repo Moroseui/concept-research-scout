@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated12October2026,14:28UTC. Codex/OpenAI remains operator; goal active. Scientific author uses the existing OpenAI lane and scientific/implementation reviewer uses Claude. The future opposite-family administrative route for a Claude operator is not installed. Read ROLES.md.
+Updated12October2026,14:41UTC. Codex/OpenAI remains operator; goal active. Scientific author uses the existing OpenAI lane and scientific/implementation reviewer uses Claude. The future opposite-family administrative route for a Claude operator is not installed. Read ROLES.md.
 
 Goal: understand infarct prediction, deliver new13Barm results quickly, support private professor case review, and improve usability without platform-building detours. Scientific code/conclusions belong to author/reviewer; operator owns infrastructure and execution. Never access excluded25/24payloads, change credentials, publish patient-derived data, merge main or edit BACKLOG. Ask Partho only money or necessary Colab action. Preserve every attempt/charge and uncertain handle.
 
@@ -20,7 +20,7 @@ Read this file, CURRENT, STATUS, ROLES and the latest CURRENT OVERRIDE at the ta
 
 Reconcile CPU, interpretation units and global ledger before any new action. At14:27UTC both installed units were inactive/exit0, no global model call was running, and the interpretation grant was absent. Read-only CPU_RESULT_VERIFIED_PRIVATE.json authenticates the completed result through the installed intake. Exact evidence and commands are under execution-interpretation/review. Root must never open live SQLite; use the existing service identity.
 
-Verify current UTC day and today's call count.12October uses50/50; wait until13October UTC rather than ask for a higher limit or reset/relabel usage. No model request for the namespace repair has been registered or started. Only the local draft exists. All original transfer/install/CPUqualify/CPUexecute/failed-prepare intents are consumed; activation/probe/interpretation-author were NOT started. The old partial preparation and original CPU must remain intact.
+Verify current UTC day and today's call count.12October uses50/50; wait until13October UTC rather than ask for a higher limit or reset/relabel usage. No model request for the namespace repair has been registered or started. The immutable local review packet e1708152 is prepared:925source files,54evidence files; reader view975files/19.58MB, with all source bytes exact. It adds19static dependencies missing from the previous packet. Eight historical runtime/session records remain hash references under the installed reader policy; no policy change. Actual result/failure receipts, original approval,136test results and rawdiff are supplied. No server request has been registered. All original transfer/install/CPUqualify/CPUexecute/failed-prepare intents are consumed; activation/probe/interpretation-author were NOT started. The old partial preparation and original CPU must remain intact.
 
 The existing CPU/interpretation bundle7fb2babe remains installed. The new repair source is06eb2957; do not confuse its review with the prior APPROVE. Its CPU binding intentionally points to the already completed7fb2babe/8350923e result, not its own new source. Review should verify both approvals and the frozen result pins.
 
