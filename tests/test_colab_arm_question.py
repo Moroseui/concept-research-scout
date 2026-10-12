@@ -19,10 +19,10 @@ def scenario(tmp_path, monkeypatch):
     db.row_factory = sqlite3.Row
     db.executescript("CREATE TABLE manual_calls(id TEXT PRIMARY KEY,stage TEXT,attempt INTEGER,status TEXT);"
                     "CREATE TABLE manual_state(id INTEGER PRIMARY KEY,payload TEXT);")
-    for i in range(20):
+    for i in range(24):
         db.execute("INSERT INTO manual_calls VALUES(?,?,?,?)",
-                   ("old-" + str(i), "run_spec_review", i + 1, "FAILED" if i == 19 else "COMPLETE"))
-    db.execute("INSERT INTO manual_state VALUES(1,?)", (json.dumps({"phase": "BLOCKED"}),))
+                   ("old-" + str(i), "run_spec_review", i + 1, "COMPLETE"))
+    db.execute("INSERT INTO manual_state VALUES(1,?)", (json.dumps({"phase": "BLOCKED", "reason": "OUTPUT_VALIDATION_REFUSED: ANALYSIS_REVISION_ROUND"}),))
     cfg = {"run_id": "old"}
     (old / "lane.json").write_text(json.dumps(cfg))
     (old / "preparation-plan.json").write_text('{"frozen":true}')
@@ -30,11 +30,11 @@ def scenario(tmp_path, monkeypatch):
     accounts.db.execute("INSERT INTO autonomy_runs VALUES(?,?,?)", tuple(old_owner.values()))
     accounts.db.execute("INSERT INTO autonomy_runs VALUES('history','{}','COMPLETE')")
     for i in range(106):
-        owner = "history" if i < 86 else "old"
-        ident = "history-" + str(i) if i < 86 else "old-" + str(i - 86)
+        owner = "history" if i < 82 else "old"
+        ident = "history-" + str(i) if i < 82 else "old-" + str(i - 82)
         accounts.db.execute("INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)",
                             (ident, "scientific", owner, i + 1, "2026-10-11", "COMPLETE", "{}", "{}"))
-    scope = {"run_id": q.RUN, "arm": "A1_pnormct", "call_limit": 20, "batch_limit": 128,
+    scope = {"run_id": q.RUN, "arm": "A1_pnorm_v2", "call_limit": 20, "batch_limit": 128,
              "allocation_limit": 16, "allocation_baseline": 104,
              "batch_answer_sha256": "a" * 64, "batch_question_sha256": "b" * 64,
              "new_lane": "/new/lane",
@@ -52,7 +52,7 @@ def scenario(tmp_path, monkeypatch):
 
 def binding():
     return {"state": "/new/lane", "source": "a" * 40,
-            "colab_preparation": {"arm_question": {"arm": "A1_pnormct", "scope_sha256": q.DOCUMENT_SHA}}}
+            "colab_preparation": {"arm_question": {"arm": "A1_pnorm_v2", "scope_sha256": q.DOCUMENT_SHA}}}
 
 
 def test_preflight_preserves_original_owner_state_and_all_calls(scenario):
@@ -116,7 +116,7 @@ def test_actual_reservation_counts_once_and_duplicate_refuses(scenario, monkeypa
     x = scenario
     install_owner(x)
     result = reserve(x, monkeypatch, "fresh")
-    assert result["run_limit"] == 20 and result["batch_limit"] == 128 and result["daily_limit"] == 50
+    assert result["run_limit"] == 20 and result["batch_limit"] == 128 and result["daily_limit"] == __import__("orchestrator.autonomy_limits",fromlist=["daily_allowance"]).daily_allowance(__import__("datetime").datetime.now(__import__("datetime").timezone.utc).date().isoformat())["limit"]
     with pytest.raises(ValueError, match="DUPLICATE"):
         reserve(x, monkeypatch, "fresh")
     assert x.accounts.db.execute("SELECT count(*) FROM autonomy_calls WHERE id='fresh'").fetchone()[0] == 1
@@ -139,7 +139,7 @@ def test_actual_admission_still_refuses_every_cap(scenario, monkeypatch, cap):
                                   ("new-" + str(i), "scientific", "history", i + 1, "2026-10-11", "COMPLETE", "{}", "{}"))
         error = "AUTONOMY_BATCH_CALL_LIMIT"
     elif cap == "daily":
-        for i in range(50):
+        for i in range(__import__("orchestrator.autonomy_limits",fromlist=["daily_allowance"]).daily_allowance(today)["limit"]):
             x.accounts.db.execute("INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)",
                                   ("admin-" + str(i), "implementation_review", "admin", i + 1, today, "COMPLETE", "{}", "{}"))
         error = "AUTONOMY_DAILY_CALL_LIMIT"
@@ -205,18 +205,18 @@ def test_completed_question_cannot_receive_another_allowance(scenario):
 def test_bound_real_scope_preserves_caps_and_specific_distinct_arm():
     # Read actual immutable authority after undoing per-test fixture patches.
     scope = q.document()
-    assert scope["arm"] == "A1_pnormct" and scope["run_id"] == q.RUN
+    assert scope["arm"] == "A1_pnorm_v2" and scope["run_id"] == q.RUN
     assert (scope["call_limit"], scope["batch_limit"], scope["allocation_limit"]) == (20, 128, 16)
-    assert len(scope["prior"]["global_calls"]) == 106
-    assert len(scope["prior"]["local_calls"]) == 20
-    assert scope["prior"]["local_calls"][-1]["status"] == "FAILED"
+    assert len(scope["prior"]["global_calls"]) == 117
+    assert len(scope["prior"]["local_calls"]) == 24
+    assert scope["prior"]["local_calls"][-1]["status"] == "COMPLETE"
     assert scope["execution_authorized"] is False
 
 
 def test_native_unit_changes_only_question_specific_paths(monkeypatch):
-    from tools import colab_pnormct_runtime as runtime
+    from tools import colab_pnorm_v2_runtime as runtime
     root = Path(__file__).resolve().parents[1]
-    native = json.loads((root / "docs/COLAB_PNORMCT_NATIVE_PRIVATE.json").read_bytes())
+    native = json.loads((root / "docs/COLAB_PNORM_V2_NATIVE_PRIVATE.json").read_bytes())
     scope = {"new_lane": native["work"] + "/lane"}
     monkeypatch.setattr(runtime, "metadata", lambda: (scope, native))
     result = runtime.unit_bytes(scope).decode()
