@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Item6/synthesis accepted; Idea2 code and CPU adapter independently approved; the adapter is installed and its single execution is complete. Colab is unparked by explicit operator decision; author7 is running after implementation approval and native checks. Opposite-family administrative capability remains uninstalled; current Claude route remains the reviewer. The operator owns infrastructure and sequencing; scientific code/conclusions remain with system author/reviewer.
+Current operator: **Codex, OpenAI family**. No rotation. Item6/synthesis accepted; Idea2 code and CPU adapter independently approved; the adapter is installed and its single execution is complete. Colab is unparked by explicit operator decision; author8 completed both corrections and synthetic tests; scientific review7 APPROVE and exact notebooks delivered. Opposite-family administrative capability remains uninstalled; current Claude route remains the reviewer. The operator owns infrastructure and sequencing; scientific code/conclusions remain with system author/reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
@@ -27,6 +27,6 @@ Rotate at a completed milestone boundary or a weekly boundary, **never mid-task*
 
 Declare **Swap point reached** immediately after **Action needed from you** only when all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES and HANDOVER current; opposite-family administrative review capability installed; and no model call or compute job running or awaiting reconciliation. Then finish the current step, update and push the handover, and wait. Do not start a successor task after the gate. The operator has not requested an earlier stop.
 
-Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. The single saved-output CPU execution completed and validated; no retry. Colab author7 is live; no new compute job is running. Scientific interpretation is still required.
+Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. The single saved-output CPU execution completed and validated; no retry. Colab notebooks are delivered; Idea2 reader-repair review is live; no new compute job is running. Scientific interpretation is still required.
 
 Scientific reviewer-requested code corrections return to the scientific author through the normal revise loop, regardless of finding category. Administrative review applies to infrastructure changes; correction does not grant new data access, credentials, spending or execution.

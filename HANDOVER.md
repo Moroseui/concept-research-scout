@@ -1,6 +1,6 @@
 # Operator handover
 
-Current operator: **Codex / OpenAI**. Updated 12 October 2026. Rotation has not occurred; the goal remains active. Action needed from Partho: none. Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). The retained private handoff, HANDOFF_CURRENT_PRIVATE.md, contains exact server handles, immutable operation records and review locations. This public file deliberately excludes private evidence and access details.
+Current operator: **Codex / OpenAI**. Updated 12 October 2026. Rotation has not occurred; the goal remains active. Action needed from Partho: run the reviewed A1_repeat fold notebooks. Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). The retained private handoff, HANDOFF_CURRENT_PRIVATE.md, contains exact server handles, immutable operation records and review locations. This public file deliberately excludes private evidence and access details.
 
 ## Goal and operating direction
 
@@ -15,39 +15,38 @@ Use existing credentials only. Never access excluded25/24 payloads, create/chang
 | Workstream | State | Next step and reason |
 |---|---|---|
 | Item6 diagnostics / synthesis | Independently accepted; aggregate comparison with Sprint14 complete | Keep accepted results distinct from independent retraining: the352rounded matches concern shared saved fits/cohort. |
-| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Adapter5311301 passed77tests, independent APPROVE71bf1a50 and native isolation controls; the single server CPU execution completed with six validated aggregates and matched before/after hashes. Connect actual evidence to scientific interpretation/review; interpretation connection58e0ae05 passes189tests; packet79ca2bcf registered, not started or installed. No data transfer or dependency install needed. |
-| A1_repeat Colab | Author6 synthetic PASS; review5 genuine REVISE; metadata now prepared | UNPARKED by explicit operator decision; source d8b7f36e installed after implementation APPROVE and native checks. Author7 running; synthetic tests and scientific re-review next. |
+| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Adapter5311301 passed77tests, independent APPROVE71bf1a50 and native isolation controls; the single server CPU execution completed with six validated aggregates and matched before/after hashes. Interpretation58e0ae05 approved and installed; activation failed before any call. Reader repair82f62802 passes115tests; reviewc2109f66 running; observe the same request. No data transfer or dependency install needed. |
+| A1_repeat Colab | Author6 synthetic PASS; review5 genuine REVISE; metadata now prepared | Reference correction passed scientific review6. Exact-deletion interface7c507ac7 approved/installed; author8 completed, scientific review7 APPROVE, exact notebooks delivered. |
 | Other coverage-independent arms | Planned, not delivered | Author/review each after A1_repeat; retain eight arms by five folds in the plan. |
 | Coverage-dependent arms | Held | Scientific coverage-source contract remains unverified. |
 | CPU-starvation timing | Parked after repeated admission-reader failure; no timing result | Narrow recovery later; do not block Colab on it. |
 | Private professor case review | Selection proposal accepted, unexecuted | Follow its fixed selection rule privately; do not improvise cases or publish images. |
 | Sandbox / rotation | Deferred; opposite-family administrative capability uninstalled | No swap until all six operator conditions are met. |
 
-## Current Colab continuation and non-duplication
+## Current work and non-duplication
 
-Author7 call07c972f3 is RUNNING with both original scientific review5 findings. Source d8b7f36e is installed after76tests, implementation APPROVE e7df0644 and native zero-call admission/transport PASS. Its recovery and author-start intents are consumed. Observe the SAME job; never duplicate it. Prior12localcalls remain preserved. After completion, run the ordinary controller synthetic checks and scientific re-review before delivering exact notebook files.
+Author7 completed the real reference-hash correction. Scientific review6 confirmed it; its only remaining finding is deletion of the unused historical fragment. The old interface forbade deleting an omitted span, so author7 could not finish that correction.
 
-The new operator message explicitly authorizes both corrections and says every scientific finding category follows the normal author revise loop. It is verbatim/hash-pinned in the canonical private record and directly bound to this release. Earlier authority-disagreement records remain history; Colab is no longer parked. Claude's latest implementation direction is PROCEED.
+Infrastructure7c507ac7 adds an exact empty-deletion request for that one pinned span, and normal all-category scientific REVISE routing. It passed218tests plus9subtests, qualified independent APPROVE5fa0031f, installation and native admission/transport checks. One-use recovery and author8 start are consumed. Author8 and scientific review7 are complete, APPROVE with no findings. All six exact variants passed isolated synthetic tests and were delivered in Downloads; never replay these calls. Fourteen prior local calls remain intact. Exact delivery is complete and hash-verified. The operator has not edited scientific code.
 
-Idea2 CPU is complete. Interpretation adapter58e0ae05 and the standing scientific-correction policy passed189tests. Implementation packet79ca2bcf is registered but not started; use its prepared original invocation after current model work is terminal. No installation or interpretation call before genuine approval. Do not repeat CPU execution. No GPU job is running.
+Idea2 CPU is complete with six validated outputs; do not rerun. Interpretation adapter58e0ae05 passed189tests and qualified APPROVE79ca2bcf, installed/prepared, then activation failed before any grant/model call because the historical reader expected an obsolete lane shape. Preserve that failure. Narrow repair82f62802 reuses the existing approved immutable-row reader and passes115focused tests. Packetc2109f66 is RUNNING after maintenance. Observe the original request; install/prepare/activate/native probe only after qualified APPROVE. This is existing-server interpretation, not new training.
 
-Private fold locks and real reference are already prepared. Preserve them; no duplicate upload or bulk copy. The reference is locally verified through existing Drive Desktop, with remote synchronization unproven. The eventual notebook must fail closed. Existing broker was stopped after verified metadata upload. The stopped294-file laptop copy and completed cleanup remain stopped.
+Private fold locks and reference are prepared; do not recreate or bulk-copy. Remote Drive synchronization is unproven and the notebook must fail closed. The stopped294-file laptop copy remains stopped.
 
 ## Money, calls and judgments
 
-Non-Colab item4stage1 exposure$115.516623/$150; identified billed$24.487001, retained$91.029622. Timing$5.405445/$25inside stage1; synthetic CPU$1.118950awaits billing. Item6cap$100; other-venue item4total$1,275/projection$1,200unchanged. Only confirmed closed actuals release excess. Colab unmetered, historical records retained.
+Non-Colab item4stage1 exposure$115.516623/$150: identified billed$24.487001 plus retained$91.029622. Timing$5.405445/$25inside stage1; synthetic CPU$1.118950awaits billing. Item6cap$100; other-venue item4total$1,275/projection$1,200unchanged. Release excess only on confirmed closed actuals. Colab unmetered, historical records retained.
 
-UTC12October20/50:5authorreservations,2scientificreviews,13administrative reviews(one disqualified),0standalone direction. Known Claude$211.210907; author dollar totals unavailable. No resets/relabeling. Latest Claude direction is PROCEED; implementation repair approved and installed, author7 running. Idea2 CPU adapter review passed; interpretation adapter review is registered and not started. No authority question remains.
+UTC12October26/50 including the reader-repair review:6authors,4scientificreviews,16administrative(one disqualified),0standalone direction. KnownClaude$231.115018; author dollar totals unavailable. No resets or relabeling. Latest Claude implementation reviews approved the narrow repairs; no authority question remains. Administrative work is limited to delivery and interpreting the completed CPU result.
 
 ## Safe resumption
 
-1. Confirm Codex still owns the operator role and reconcile native services and ledgers through the existing service account. The Idea2 CPU execution is terminal and validated; preserve its result and do not retry it. An uncertain outcome requires observation, never a duplicate launch.
-2. Read the canonical verbatim, hash-pinned operator decisions and the private handoff. Do not rely on older root-checkout status files that predate these updates.
-3. Check free space before large steps: warn below15GiB, stop below8GiB on C: or WSL. Last C:about18GiB; server115.91GiB after verified checkpoint. No disk purchase is needed.
-4. Keep Colab moving through author7 and scientific re-review. Preserve the two authority positions and every failed probe/review/source. Do not repeat the completed discussion or launch author7 without a new reviewed resolution.
-5. Idea2 native adapter5311301 is installed after77tests, independent APPROVE71bf1a50 and native positive/negative controls. Its one execution completed and validated; no retry. Authenticate the exact current accepted lane; preserve its original preparation grant and all calls.
-6. Execute the approved saved-output analysis on existing server CPU and send its actual evidence through scientific interpretation/review. No new provider job or Drive transfer is needed. Colab delivery resumes only after its hold is resolved and exact final notebooks obtain scientific approval.
-7. At each stop, update STATUS/CURRENT/HANDOVER/ROLES, back up private evidence with hashes, scan privacy/secrets/infrastructure, push remote-server and safe working branches, verify hashes, and leave main unchanged.
+1. Confirm Codex still owns the role; read the newest private handoff and canonical operator decisions.
+2. Reconcile native services and ledgers as the existing service account. Observe the same Idea2 reader-repair request. Never duplicate an uncertain start or the completed Idea2 CPU job.
+3. Check free space before large steps: warn below15GiB and stop below8GiB on C: or WSL. Last C:about18GiB; server114.78GiB. No disk purchase needed.
+4. The exact approved per-fold notebooks are delivered; first two A100 sessions are folds0/1, then2/3/4 as sessions free. Ingest private returned results; do not modify approved source during packaging.
+5. Review the prepared Idea2 reader repair at a model-call boundary; preserve the failed predecessor. After independent approval, install the new version and use its interpretation-only route.
+6. At each stop, update status/handover, hash-back up private evidence, scan privacy/secrets/infrastructure, push remote-server and safe branches, verify remote hashes, and keep main unchanged.
 
 ## Access names only
 

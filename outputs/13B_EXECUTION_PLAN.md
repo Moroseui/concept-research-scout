@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 12 October 2026. The operator's latest Colab decision supersedes the earlier smoke, runtime-pin and metering plan. The old notebook is **superseded: do not run it**. Its A100 attempt stopped at the Python 3.12 check before installation or training; Partho disconnected it. No replacement notebook is released yet. [Status](STATUS.md).
+Updated 12 October 2026. The operator's latest Colab decision supersedes the earlier smoke, runtime-pin and metering plan. The old notebook is **superseded: do not run it**. Its A100 attempt stopped at the Python 3.12 check before installation or training; Partho disconnected it. A1_repeat replacement notebooks are now released after scientific review7; see [files and hashes](notebooks/A1_repeat/README.md). [Status](STATUS.md).
 
 ## Arms, folds and venues
 
@@ -41,10 +41,6 @@ Other venue limits remain unchanged: item4 Modal stage1 $150, timing diagnostic 
 
 ## Next results
 
-A1_repeat is unparked by explicit operator direction. Author7 is running with both review5 findings after installed repair d8b7f36e passed76tests, independent APPROVE and native checks. Final notebook delivery follows synthetic tests and scientific re-review; expected30-60minutes subject to findings.
+Author7's real reference-hash correction passed scientific review6. Author8 used the independently approved exact-deletion interface to remove the remaining inert fragment; synthetic tests pass. Scientific review7 approved the exact six notebook files with no findings. Every delivered variant passed the existing isolated synthetic suite; exact bytes are available in Downloads and under outputs/notebooks/A1_repeat. No additional final interpretation blocks a human Colab run.
 
-Next active result is Idea2's 3-by-3 saved-output analysis on existing server CPU. Adapter5311301 passed77tests, independent APPROVE and native isolation controls; its single execution is complete. Obtain scientific interpretation/review after the narrow admission connection is reviewed; provisionally1-2activehours. No new provider commitment. Timing/sandbox/rotation remain deferred, and the swap gate is not met.
-
-Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. The single saved-output CPU execution completed and validated; no retry. Colab author7 is running; no compute job is live. Scientific interpretation is still required.
-
-Current delivery step: Colab is unparked. Author7 is running to bind the real input-reference hash and delete the inert historical fragment. The narrow installed infrastructure repair has independent APPROVE and native checks; exact final notebook files still require synthetic tests and scientific re-review. Idea2 completed CPU evidence is being connected to interpretation in parallel.
+Idea2's single saved-output CPU execution completed and validated. Its interpretation adapter was approved and installed, but activation stopped before any call on an obsolete reader expectation. The115-test reader repair is under independent implementation review now. After approval, resume scientific interpretation/review; provisionally1-2activehours. No CPU rerun or new provider commitment. Timing/sandbox/rotation remain deferred; the swap gate is not met.
