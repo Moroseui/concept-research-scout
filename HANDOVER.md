@@ -1,6 +1,6 @@
 # Operator handover
 
-Current operator: Codex/OpenAI. Goal active, no rotation. Updated 12 October 2026 at 12:17 UTC. Scientific author uses the existing OpenAI lane; scientific and operator implementation review use Claude. Future opposite-family administrative route for a Claude operator is not installed.
+Current operator: Codex/OpenAI. Goal active, no rotation. Updated 12 October 2026 at 12:49 UTC. Scientific author uses the existing OpenAI lane; scientific and operator implementation review use Claude. Future opposite-family administrative route for a Claude operator is not installed.
 
 Goal: understand infarct prediction and get new 13B arm results. Scientific authors own code/conclusions; operator owns infrastructure. Never access excluded25/24 payloads, change credentials, publish patient-derived material, merge main or edit BACKLOG. Ask Partho only about money or a necessary Colab action.
 
@@ -12,9 +12,9 @@ A separate synthetic-only Colab check is ready in the operator's private Downloa
 
 Packaging release3137acf5 passed22engineeringtests and genuine Claude APPROVE4afcdd3f/report9d9dcfb6. The reviewer agrees this is the shortest safe route. Agreed change: use the intended Colab environment for this synthetic check; defer another Modal image/runtime build. The existing Python3.12 image and unbound multiwin adapter cannot qualify this Python3.13 fixture unchanged. No provider job or reservation was created.
 
-All model calls are terminal as of12:17UTC. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
+Analysis admission review7c93e0b8 is RUNNING, confirmed12:48UTC. No new scientific call or provider job has started. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
 
-12 October UTC:45/50 calls:11scientific authors,8scientific reviewers,24administrative implementation reviews,2standalone direction attempts. Scientific batch109/128; pnormct3/20;11of16additional Colab slots remain. Known completed Claude charges$299.89056825 (scientific pnormct review$6.338102; packaging review$2.791195); author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No cap change or new GPU reservation.
+12 October UTC:46/50 calls:11scientific authors,8scientific reviewers,25administrative implementation reviews (including the live analysis admission review),2standalone direction attempts. Scientific batch109/128; pnormct3/20;11of16additional Colab slots remain. Known completed Claude charges$299.89056825 (scientific pnormct review$6.338102; packaging review$2.791195); author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No cap change or new GPU reservation.
 
 New-arm order remains multiwin and pnormct, then pnorm_v2, then L after actual A100 memory evidence. Repeats are parked; zscore/histeq held. Sprint12 A1 remains provisional comparator; small differences are not interpretable without a later Colab repeat.
 Multiwin remains parked at20/20 after the synthetic fixture failure and mechanical review failure; all attempts/charges and preprocessing preserved.
@@ -23,7 +23,7 @@ Timing has no result. Author sandbox and future opposite-family administrative r
 
 ## In progress; do not duplicate
 
-No model call or provider job is live. Scientific review35b8c895 is COMPLETE/APPROVE; packaging review4afcdd3f is COMPLETE/APPROVE. Both author calls and all mutations are reconciled. Partho has been sent the private synthetic check and instructions; do not resend or start another test unless its outcome is known. Package file hash8513ad04... is fixed in READY_PRIVATE.json and the reviewed manifest. All registration/start intents are consumed. Full arm notebook remains held pending returned evidence.
+One administrative analysis admission review is live; no scientific call or provider job is live. Scientific review35b8c895 is COMPLETE/APPROVE; packaging review4afcdd3f is COMPLETE/APPROVE. Both author calls and all mutations are reconciled. Partho has been sent the private synthetic check and instructions; do not resend or start another test unless its outcome is known. Package file hash8513ad04... is fixed in READY_PRIVATE.json and the reviewed manifest. All registration/start intents are consumed. Full arm notebook remains held pending returned evidence.
 
 No GPU job or new compute reservation exists. The GPU adapter is an unreviewed, unbound draft; do not execute it. Multiwin remains parked at20/20.
 
@@ -36,3 +36,7 @@ The scientific author makes all scientific corrections. Host checks remain manda
 Next saved-output analysis needs normal admission and one author/reviewer cycle for an executable specification; no reliable execution estimate yet. Meeting selector/renderer similarly needs author/reviewer admission and asset/geometry provenance. Do not bypass serialization. Do not restart old data copies or cleanup.
 
 At every stop update STATUS in place, CURRENT, this handover and private handoff; scan privacy/secrets/infrastructure and push remote-server plus safe working history, verify hashes. Never push raw private branches, evidence, ledgers, packets, streams, private bindings or patient payloads. Existing SSH identity and Drive service identity only, names rather than contents. No setup action is needed.
+
+The next saved-output smoothing question has candidate649ebc7b and a combined Claude implementation/accounting/direction review7c93e0b8 running. The patch reuses the existing follow-up component, preserves both accepted reports and all13 canonical item6 calls, and admits at most4 additional analysis calls inside batch128/day50. No execution or cap change is granted.53focused tests passed. The broader suite had520passes,41skips,4failures and174setup errors; all five distinct failure causes reproduce on unchanged parent3137acf5 and remain disclosed. No installation until genuine APPROVE; actual native role/input/transport qualification precedes the author. Review estimate15-25minutes from12:46UTC, then one author/reviewer cycle for a reviewed specification. The source-owned daily/run guard and all original charges stay intact.
+
+Exact next operation: reconcile existing administrative review7c93e0b88ff7122dcba69b0d49c8b1be46e1c24fb09c65a1b8d50008bfd436d5 using analysis-next-question-20261012/implementation-review/OBSERVE.server.py. Registration/invocation/start intents are consumed. Transfer/install/prepare/activate/probe scripts are prepared only, not run. If approved, install exact649ebc7b and native-qualify once before author admission. Never replay an uncertain operation. The latest cleanup watcher is inactive/status0; its periodic NOT_DUE run needs no restart.
