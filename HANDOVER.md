@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated12October2026,20:23UTC. **Codex/OpenAI remains operator; no rotation.** Scientific author is the existing OpenAI client, scientific reviewer is Claude. Operator implementation is independently reviewed by Claude. See [ROLES](ROLES.md). No Swap point: timing/opposite-family route remain unfinished and pnormct is live and the next multiwin review is pending.
+Updated12October2026,20:23UTC. **Codex/OpenAI remains operator; no rotation.** Scientific author is the existing OpenAI client, scientific reviewer is Claude. Operator implementation is independently reviewed by Claude. See [ROLES](ROLES.md). No Swap point: timing/opposite-family route remain unfinished and pnormct is live and the multiwin implementation review is running.
 
 ## Goal and direction
 
@@ -13,13 +13,13 @@ Never access locked25/reserve24payloads,create/change credentials,publish patien
 ## Live work and immediate next step
 
 1. **Pnormct external Colab:** Partho reports RUNNING. Delivered exact13B_A1_pnormct.ipynb SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6, scientificAPPROVE35b8c895. Operator-confirmed actual A100trainer/compile/iteration PASS; later evidence-copy size failure preserved. Do not repeat thatcheck, alter the notebook or duplicate the run. Await returnedcompletion/error/privateoutputs.
-2. **Multiwin administrative lifecycle review:** packet a4163c1a3a3eaf917ba6d80fb8627c7ab311b0b4e0f3fedcd9851022e7e6e6df, source63da504cf54872be1fb022f36f3206067d42839b, branchastra/multiwin-shared-guard-20261012.257testsPASS;992-file22.43MBreader includes wholecomponent/notebook/tests and priorapprovals. Registered and invocationprepared. Maintenance refusals occurred before remote startintent. Reconcile exact request before starting; no blind replay.
+2. **Multiwin administrative lifecycle review:** packet a4163c1a3a3eaf917ba6d80fb8627c7ab311b0b4e0f3fedcd9851022e7e6e6df, source63da504cf54872be1fb022f36f3206067d42839b, branchastra/multiwin-shared-guard-20261012.257testsPASS;992-file22.43MBreader includes wholecomponent/notebook/tests and priorapprovals. RUNNING at20:24UTC; native stream confirms reviewer launch. Three maintenance prestart refusals are preserved. Start requested once in the quiet interval; observe only, never replay.
 3. No scientific modelclient is live. Failedauthor11 is now formallyFAILED globally and stillcounted, localBLOCKED_BEFORE_MODEL preserved. Failedzero-callprobe has no reservation or charge. Originalfailedunits/intents/history remain.
 
 ## Multiwin: reasoning and route
 
 The local accounting repair a4490b9c passed188tests and independent APPROVEb2eaaa97/report52092c3b. Installed and reconciled: the failed author11 slot is FAILED globally, still counted; its local record and all21original records remain. No model launched. The next zero-call probe found an earlier lifecycle check still enforcing20 instead of the independently approved24. That probe failed before any new reservation.
-The narrow lifecycle candidate63da504c retains all original owner/configuration/approval/history/activation checks, adds exact store and recovery binding, and reads the existing authenticated24ceiling.257testsPASS, including cap refusals. Whole-component reviewa4163c1a is registered/prepared; start waits for normal maintenance guards. No new allowance or scientific-code change. No replay of either consumed failed intent. Require genuine APPROVE, then new zero-call native qualification,author12,scientificreview and real multiwin trainer iteration before delivery.
+The narrow lifecycle candidate63da504c retains all original owner/configuration/approval/history/activation checks, adds exact store and recovery binding, and reads the existing authenticated24ceiling.257testsPASS, including cap refusals. Whole-component reviewa4163c1a is RUNNING; native stream confirms reviewer launch at20:24UTC. No new allowance or scientific-code change. No replay of either consumed failed intent. Require genuine APPROVE, then new zero-call native qualification,author12,scientificreview and real multiwin trainer iteration before delivery.
 
 The prior continuation83ef32d5 and local repaira4490b9c remain immutable, independently approved and installed. New63da candidate is UNREVIEWED/UNINSTALLED. It supplies only a lifecycle validator and entrypoint using the existing actualdriver/admission/unitprotections. No candidateclassification exception in its administrative review; previous six historical uncertain records use their existing qualified classifiers. Unknown live/uncertain outcomes still refuse.
 
@@ -40,7 +40,7 @@ LatestClaudeSIMPLIFY agreed: adminstack is excessive; all unrelatedengineering/t
 
 ## Spending and calls
 
-At19:33UTC counted daily54:13scientific author reservations (including this premodel failure),9scientific reviewers,31administrative reviews,2standalone direction. Batch112/128;10Colab,2analysis,4meeting remain. Daily100on12OctoberUTC reverts50on13October; installed cap sourcefe3b52ce/report8547040a; historical10October exception and all usage preserved. Wait reset when capped.
+At20:24UTC counted daily56:13scientific author reservations (including the premodel failure),9scientific reviewers,32administrative reviews,2standalone direction. Batch112/128;10Colab,2analysis,4meeting remain. Daily100on12OctoberUTC reverts50on13October; installed cap sourcefe3b52ce/report8547040a; historical10October exception and all usage preserved. Wait reset when capped.
 
 Known completed Claude342.27686025USD; author dollars unavailable. No author client launched for the latest reserved slot; it remains counted. Historical author dollars are unavailable. Item4 stage1 exposure115.516623/150=billed24.487001+retained91.029622. Timing5.405445/25inside stage1; syntheticCPU1.118950awaits provider billing. Item4total1275/projection1200 and item6cap100unchanged. Colab costs outside system metering by operator decision. Release excess reservations only after confirmed closed provider billing; never release uncertain/open obligations.
 
