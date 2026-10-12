@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Pnormct is running in Partho's Colab session; multiwin author11 was refused before client launch and its failed reservation is reconciled and remains counted. The reviewed lifecycle correction is installed and multiwin author12 completed, while scientific review requires a mechanical turn-limit recovery. Timing and opposite-family administrative route remain unfinished. The operator owns infrastructure, venues, accounting and handover; scientific code/conclusions belong to the scientific author and independent reviewer.
+Current operator: **Codex, OpenAI family**. No rotation. Pnormct runs externally; multiwin awaits the delivered real-trainer check result. Smoothing interpretation is held before model admission on a diagnosed serialization mismatch; the tested correction awaits review. Timing and the opposite-family administrative route remain unfinished. The operator owns infrastructure and handover; scientific code and conclusions belong to the scientific author and independent reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
@@ -27,5 +27,3 @@ Rotate at a completed milestone boundary or a weekly boundary, **never mid-task*
 
 Declare **Swap point reached** immediately after **Action needed from you** only when all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES and HANDOVER current; opposite-family administrative review capability installed; and no model call or compute job running or awaiting reconciliation. Then finish the current step, update and push the handover, and wait. Do not start a successor task after the gate. The operator has not requested an earlier stop.
 
-
-Current state:repeats parked,pnormct running externally,no servercallrunning; nextreview held by diskstop. Timing and opposite-family administrative capability deferred. No Swap point.

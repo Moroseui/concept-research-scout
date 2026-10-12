@@ -1,3 +1,4 @@
+import hashlib
 import base64,copy,json,sqlite3
 from pathlib import Path
 from types import SimpleNamespace
@@ -53,7 +54,10 @@ def lane(tmp_path,monkeypatch):
     original=set(scope["allocation_original_call_ids"])
     rows=[dict(r)for r in global_db.execute("SELECT * FROM autonomy_calls")]
     initial=[r for r in rows if r["id"] in original or r["id"].startswith("synthetic-baseline-")]
-    scope["allocation_initial_calls"]=[{"id":r["id"],"sha256":f.sha(f.encoded(r))}for r in initial]
+    # Frozen allocation manifests use compact JSON. Keep this fixture independent
+    # of the continuation's state/grant encoder, which intentionally uses spaces.
+    scope["allocation_initial_calls"]=[{"id":r["id"],"sha256":
+        hashlib.sha256(json.dumps(r,sort_keys=True,separators=(",",":")).encode()).hexdigest()}for r in initial]
     batch=SimpleNamespace(db=global_db,filesystem_root=tmp_path,folder=tmp_path/"global",
         status=lambda ident:{"status":"NOT_RESERVED"})
     store=SimpleNamespace(db=local,path=new/"jobs.sqlite",batch=batch)
@@ -411,3 +415,18 @@ def test_native_reader_reuses_completed_cpu_without_new_execution(monkeypatch):
     monkeypatch.setattr(rt,"load",lambda *a:cpu)
     monkeypatch.setattr(rt.subprocess,"check_output",lambda *a,**k:"MainPID=0\nActiveState=inactive\nExecMainStatus=0\n")
     assert rt.cpu_authority()["source_sha"]==scope["cpu_source"]
+
+
+@pytest.mark.parametrize("column", ["id", "kind", "change_id", "round", "day", "status", "binding", "receipt", "missing"])
+def test_frozen_allocation_refuses_every_changed_field_and_missing_row(lane, column):
+    x=lane
+    f.activate(x.store, f.RUN)
+    before=f.batch_allowance(x.store.batch, x.scope)
+    assert before["analysis_allocation_used"] == 2
+    if column == "missing":
+        x.db.execute("DELETE FROM autonomy_calls WHERE id='synthetic-baseline-0'")
+    else:
+        x.db.execute("UPDATE autonomy_calls SET "+column+"=? WHERE id='synthetic-baseline-0'",
+                     (999 if column == "round" else "changed",))
+    with pytest.raises(ValueError, match="ALLOCATION_HISTORY_CHANGED"):
+        f.batch_allowance(x.store.batch, x.scope)

@@ -217,7 +217,10 @@ def batch_allowance(accounts,scope):
     require(len(frozen)==109 and len({r["id"]for r in frozen})==109,"INITIAL_CALL_SET")
     for row in frozen:
         actual=accounts.db.execute("SELECT * FROM autonomy_calls WHERE id=?",(row["id"],)).fetchone()
-        require(actual is not None and sha(encoded(dict(actual)))==row["sha256"],"ALLOCATION_HISTORY_CHANGED")
+        # Match the original frozen allocation manifest's compact JSON exactly.
+        # Other scope, grant and state pins retain their existing encoding.
+        require(actual is not None and sha(json.dumps(dict(actual),sort_keys=True,
+            allow_nan=False,separators=(",",":")).encode())==row["sha256"],"ALLOCATION_HISTORY_CHANGED")
     original=set(scope["allocation_original_call_ids"])
     rows=accounts.db.execute("SELECT id FROM autonomy_calls WHERE kind='scientific' AND change_id=?",(RUN,)).fetchall()
     used=sum(row["id"]not in original for row in rows)
