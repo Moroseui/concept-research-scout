@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated12October2026,20:23UTC. **Codex/OpenAI remains operator; no rotation.** Scientific author is the existing OpenAI client, scientific reviewer is Claude. Operator implementation is independently reviewed by Claude. See [ROLES](ROLES.md). No Swap point: timing/opposite-family route remain unfinished and pnormct is live and multiwin scientific review requires mechanical recovery.
+Updated12October2026,21:24UTC. **Codex/OpenAI remains operator; no rotation.** Scientific author is the existing OpenAI client, scientific reviewer is Claude. Operator implementation is independently reviewed by Claude. See [ROLES](ROLES.md). No Swap point: timing/opposite-family route remain unfinished and pnormct is live and multiwin scientific review requires mechanical recovery.
 
 ## Goal and direction
 
@@ -14,9 +14,10 @@ Never access locked25/reserve24payloads,create/change credentials,publish patien
 
 Pnormct remains RUNNING externally by Partho's report. Exact notebook13B_A1_pnormct.ipynb SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Never duplicate, alter or rerun its accepted trainer check. No server modelclient is live now.
 
-Multiwin author12 completed and the lane accepted its notebook and specification. All five synthetic test groups passed, including the formerly failing module fixture. The five-fold notebook hash is2df445002441298d3c17dcc6b43c6a1d5959a275a0b03dc4da184a1b3532aa65; its scientific code remains unchanged by the operator.
-Scientific review10 then exhausted its30tool-turn limit without submitting a verdict. Both ledgers record FAILED and its4.4578125charge remains counted. No scientific REVISE or APPROVE is inferred. No modelclient is now live. The exact native terminal proof, all23rows, account/configuration and successful author outputs are preserved. Do not replay review10.
-Next: a bounded, independently reviewed recovery for the existing final reviewer11slot, using60tool turns while preserving timeout,tools,permissions,isolation and all call/dollar caps. This repeated mechanical cause requires Claude's second opinion and implementation review together. No new user decision or call allowance is needed. The notebook remains held until scientific approval and its real trainer iteration.
+Multiwin author12 completed; all five notebook synthetic groups passed. Its unchanged five-fold notebook SHA256 is 2df445002441298d3c17dcc6b43c6a1d5959a275a0b03dc4da184a1b3532aa65. Review10 exhausted30tool turns without any submitted verdict; its $4.4578125 and every original attempt remain counted.
+Bounded recovery1925a0c9 passed281tests, actual read-only state verification and independent Claude APPROVE0cd9ba62/report43dcb610. It is installed; recovery preserved23calls/accounting and the native zero-model reviewer qualification passed. Only reviewer11 gets60tool turns, with unchanged timeout, tools, isolation and ordinary admission.
+Scientific review11 is RUNNING: call01a477307a7309b31baa04983b107a560835e052c803b29d661c20c28b28041e, admitted as24/24. Reconcile its terminal result before any further launch; never replay review10 or restart review11 while uncertain. This is not scientific approval.
+Next: scientific verdict, then a real A100 trainer iteration before full delivery. Cache-excluding trainer packaging draft passes51related tests but remains unreviewed/undelivered. Its scientific approval pin deliberately prevents building before a genuine APPROVE. Pnormct remains running externally; never duplicate it.
 
 ## Why review recovery is needed
 
