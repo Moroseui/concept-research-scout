@@ -1,6 +1,6 @@
 # Current research state - 12 October 2026
 
-Action needed from you: none. The disk stop is cleared; C: was15.02GiB at the latest check. Codex/OpenAI remains operator. No Swap point.
+Action needed from you: none. The disk stop is cleared; C: was14.89GiB at the latest check. Codex/OpenAI remains operator. No Swap point.
 
 Multiwin author11 DID NOT LAUNCH. Its call54/globalreservation8063ddd1 was counted, then local accounting refused LIMITER_STATE_INCONSISTENT before invoking the client. The service is terminal/failed, local row BLOCKED_BEFORE_MODEL, global row stillRUNNING pending formal reconciliation. Do not restart it or count it as a live author. Every original20local/global and111scientific row,config,owner and local account remains unchanged. The new reservation stays counted.
 

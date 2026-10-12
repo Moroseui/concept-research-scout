@@ -6,7 +6,7 @@
 - A narrow accounting connector repair and independent review are needed before the next author call.
 - Item4compute billed:$24.487001; retained:$91.029622. Completed Claude charges:$339.15546725; historical author dollars unavailable.
 - Next checkpoint:tested repair/review in roughly30-60minutes; notebook delivery ETA is uncertain until admission works.
-- Disk stop cleared:C:15.02GiB at last check. No action needed. [Execution plan](13B_EXECUTION_PLAN.md).
+- Disk stop cleared:C:14.89GiB,below15GiBwarning but above8GiBstop. No action needed. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Results and current boundary
 
