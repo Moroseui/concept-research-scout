@@ -2,13 +2,13 @@
 
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin's synthetic A100 check is delivered; its result has not yet been reported.
-- The saved smoothing CPU result is valid; its scientific interpretation author is now running on the server.
-- The reviewed serialization repair is installed, with originals preserved and203tests passing.
-- Item4 billed $24.487001; retained $91.029622. Known Claude charges $376.31357875; author costs unavailable.
-- Next results: reviewed interpretation30-45minutes; multiwin trainer result10-25minutes after Partho starts it.
-- Action: run/return the multiwin check. C:12.24GiB clears the8GiB stop but warns below15GiB. [Execution plan](13B_EXECUTION_PLAN.md).
+- Accepted smoothing analysis: removing smoothing did not demonstrate useful small-component rescue and increased fragmentation.
+- Smoothing CPU, author and reviewer are complete; no server model call is running.
+- Item4 billed $24.487001; retained $91.029622. Known Claude charges $380.62437450; author costs unavailable.
+- Next result: multiwin trainer evidence, about10-25minutes after Partho starts its check; full release needs scientific acceptance.
+- Action: run/return the multiwin check. C:11.97GiB clears the8GiB stop but warns below15GiB. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 12 October 2026, 22:26 UTC. Codex/OpenAI remains operator.
+Updated 12 October 2026, 22:41 UTC. Codex/OpenAI remains operator.
 
 ## Colab
 
@@ -18,13 +18,13 @@ Multiwin author12 completed and all five synthetic groups passed. Scientific rev
 
 ## Saved-results analysis
 
-Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. No new scientific efficacy conclusion is accepted.
+Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
 Namespace repair03a42f24 remains installed and unchanged. Its original pre-client admission refusal is preserved. Read-only diagnosis proved all109 frozen ledger rows unchanged; the checker used spaced JSON where the frozen manifest used compact JSON.
 
 Serialization recoveryd035b2a6 passed203tests and actual read-only verification of109rows,15prior calls and32pre-client workspace files. Independent Claude review23e5c998 returned APPROVE, reportf13b8abf, with PROCEED direction. It is installed. Recovery preserved the original workspace, state, calls, configuration and grant; no new allowance. The native check passed the corrected allocation boundary and author transport without model calls.
 
-Scientific interpretation author3 is now RUNNING on the server, callf15fde5324c08415bc6f02a079bf5baa15a3acc8948d3f1dc070ca73dc24942f. Actual client output and sent-input receipt confirm launch; source runtime remains the original03a installation with the independently reviewed bounded recovery. Local16calls; global116scientific. Do not replay any start or rerun the completed CPU analysis. Observe this same handle to completion, collect the actual author output and send it through ordinary scientific review. One analysis reviewer slot remains. Reviewed interpretation ETA30-45minutes is conditional, not a scientific acceptance claim.
+Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific. No server model call remains running. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
 
 ## Other workstreams
 
@@ -32,18 +32,18 @@ Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are
 
 Next arms are pnorm_v2 then L, with real A100 memory-fit evidence for L. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
 
-Meeting preparation retains the accepted six-slot case-selection rule. No cases/images selected. Inspected inventories establish CT/perfusion/reference labels and saved model outputs, but not follow-up MRI or clinical provenance; this is not proof of project-wide absence. An old metadata helper refused before credential access because its ephemeral runtime file was absent; the existing Drive service is inactive. No credential was created, copied, read or changed and no new patient payload was accessed. Resume only through the existing approved Drive route.
+Meeting preparation retains the accepted six-slot rule; no cases/images selected. Existing Drive access was queried for root-folder metadata through its already-approved service lifecycle, then restored inactive. Zero roots named isles-pilot were visible through this narrow route; this does not establish project-wide absence of MRI or clinical data. No credential changes or patient payload access. Source provenance remains unresolved; do not broaden access.
 
-Timing diagnostic, author sandbox and opposite-family administrative review capability remain unfinished. No Swap point; pnormct is also running externally.
+Timing reconciliation confirms author24's real CPU integration PASS; do not repeat it. Later review16 failed before reservation because a separate confined read-only ledger access could not open its database. No reviewer16 call or GPU timing run occurred. A bounded reviewed repair of the actual admission path is needed; preserve all evidence and caps. Author sandbox and opposite-family administrative review capability remain unfinished. No Swap point; pnormct is also running externally.
 
 ## Spending and model calls
 
-12OctoberUTC:64/100 calls, returning to50on13October without resetting history. Scientific batch116/128:7Colab,1analysis,4meeting remain. Known completed Claude charges $376.31357875; author dollar costs unavailable.
+12OctoberUTC:65/100 calls, returning to50on13October without resetting history. Scientific batch117/128:7Colab,0analysis,4meeting remain. Known completed Claude charges $380.62437450; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author |15|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and live interpretation; includes the preserved pre-client failure|
-| Scientific reviewer |11|Idea2, baseline, multiwin, pnormct and smoothing scientific review|
+| Scientific author |15|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and accepted interpretation; includes the preserved pre-client failure|
+| Scientific reviewer |12|Idea2, baseline, multiwin, pnormct and smoothing scientific review|
 | Administrative review |36|Admission/accounting repairs, packaging, dated policy, execution and interpretation integration|
 | Standalone direction |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
@@ -61,9 +61,9 @@ Administrative work still uses most calls. The serialization repair, safe recove
 
 ## Backup and exclusions
 
-Previous verified remote-server backup fc895143bb526a04f1cf831a962241070a836621; safe working draft f6f2c2a5. This stop's hash is recorded after scan/push. main remains unchanged. Historical evidence migration is complete; never replay deletion. No local evidence deleted during this continuation. Disk guard warns below15GiB and stops below8GiB on C: and WSL.
+Previous verified remote-server backup 6cee1df5c670c76449e4a7ddb8df507df6b4351c; safe working draft 72b7a3d0. This stop's hash is recorded after scan/push. main remains unchanged. Historical evidence migration is complete; never replay deletion. No local evidence deleted during this continuation. Disk guard warns below15GiB and stops below8GiB on C: and WSL.
 
-Never publish private evidence, ledgers, review packets, native streams, private operator bindings, raw private branches, per-patient rows/identifiers, images, masks, weights or caches. The new smoothing result and unaccepted interpretation stay private. Public code is an archival projection, not a standalone deployable release.
+Never publish private evidence, ledgers, review packets, native streams, private operator bindings, raw private branches, per-patient rows/identifiers, images, masks, weights or caches. Raw smoothing outputs, full private interpretation and review evidence remain private; only the accepted aggregate summary is published. Public code is an archival projection, not a standalone deployable release.
 
 Installed projection additionally withholds these flagged/private authority files: docs/COLAB_ACCEPTED_INPUT_REFERENCE_PRIVATE.json, docs/COLAB_ARM_LEVEL_OPERATOR_20261012.txt, docs/COLAB_ARM_ORDER_OPERATOR_20261012.txt, docs/COLAB_AUTHOR5_STATIC_PRIVATE.json, docs/COLAB_BOUND_ADMISSION_PRIVATE.json, docs/COLAB_MULTIWIN_INPUT_REFERENCE_PRIVATE.json, docs/COLAB_MULTIWIN_PRIVATE.json, docs/COLAB_MULTIWIN_RECOVERY_PRIVATE.json, docs/COLAB_REVIEW5_BOUND_PRIVATE.json, docs/COLAB_REVIEW5_OPERATOR_DECISION_20261012.txt, docs/COLAB_REVIEW5_OPERATOR_DISPOSITION.json, docs/COLAB_REVIEW6_DELETE_PRIVATE.json, docs/COLAB_RUNTIME_FAILURES_PRIVATE.json, docs/COLAB_TONIGHT_OPERATOR_20261012.txt, docs/DAILY_LIMIT_OPERATOR_DECISION_20261007.txt, docs/LIMIT_OPERATOR_DECISION.txt, docs/MULTIWIN_AUTHOR10_TEST_FAILURE_PRIVATE.txt, docs/MULTIWIN_TONIGHT_CONTINUATION_PRIVATE.json, docs/OPERATOR_DIRECTION_20261010.txt, docs/OVERNIGHT_AUTONOMY_OPERATOR_DECISION_20261008.txt, docs/PNORMCT_REVIEWED_REFERENCE_PRIVATE.py, docs/SCIENTIFIC_BATCH128_OPERATOR_APPROVAL.txt, docs/SCIENTIFIC_BATCH128_OPERATOR_QUESTION.txt, docs/SCIENTIFIC_REVISE_OPERATOR_DECISION_20261012.txt. Exact private copies remain available to the system; public projection is an archive, not self-contained deployment.
 
@@ -74,3 +74,6 @@ Meeting production plan: [private case-review process](MEETING_CASE_REVIEW_PLAN.
 -22:25UTC: Claude APPROVE/PROCEED; installed bounded serialization recovery, preserved32input files and15calls, native allocation/transportPASS, actualauthor3admitted normally. No CPU rerun or allowance change. Review charge$4.66417 counted; agree to simplify future narrow-patch deployment overhead.
 
 Serialization recovery publication excludes docs/IDEA2_SERIALIZATION_PRIVATE.json and every private packet, frozen record and native stream. The approved code and tests are an archival projection; private deployment bindings remain private.
+
+-22:38UTC: smoothing scientific APPROVE qualified and normal acceptance completed; reviewer charge $4.31079575 counted. No CPU retry or new allowance.
+-22:33UTC: read-only Drive visibility and timing reconciliation completed without model calls; originals retained. Latest Claude direction remains PROCEED with simpler narrow-patch deployment.

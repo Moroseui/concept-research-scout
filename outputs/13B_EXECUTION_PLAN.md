@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 12 October 2026, 22:26 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 12 October 2026, 22:41 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -23,31 +23,34 @@ Compare each arm provisionally with Sprint12A1. Small differences are not interp
 
 **Server work:**
 
-Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. No new scientific efficacy conclusion is accepted.
+Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
 Namespace repair03a42f24 remains installed and unchanged. Its original pre-client admission refusal is preserved. Read-only diagnosis proved all109 frozen ledger rows unchanged; the checker used spaced JSON where the frozen manifest used compact JSON.
 
 Serialization recoveryd035b2a6 passed203tests and actual read-only verification of109rows,15prior calls and32pre-client workspace files. Independent Claude review23e5c998 returned APPROVE, reportf13b8abf, with PROCEED direction. It is installed. Recovery preserved the original workspace, state, calls, configuration and grant; no new allowance. The native check passed the corrected allocation boundary and author transport without model calls.
 
-Scientific interpretation author3 is now RUNNING on the server, callf15fde5324c08415bc6f02a079bf5baa15a3acc8948d3f1dc070ca73dc24942f. Actual client output and sent-input receipt confirm launch; source runtime remains the original03a installation with the independently reviewed bounded recovery. Local16calls; global116scientific. Do not replay any start or rerun the completed CPU analysis. Observe this same handle to completion, collect the actual author output and send it through ordinary scientific review. One analysis reviewer slot remains. Reviewed interpretation ETA30-45minutes is conditional, not a scientific acceptance claim.
+Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific. No server model call remains running. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
 Next arms are pnorm_v2 then L, with real A100 memory-fit evidence for L. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
 
-Meeting preparation retains the accepted six-slot case-selection rule. No cases/images selected. Inspected inventories establish CT/perfusion/reference labels and saved model outputs, but not follow-up MRI or clinical provenance; this is not proof of project-wide absence. An old metadata helper refused before credential access because its ephemeral runtime file was absent; the existing Drive service is inactive. No credential was created, copied, read or changed and no new patient payload was accessed. Resume only through the existing approved Drive route.
+Meeting preparation retains the accepted six-slot rule; no cases/images selected. Existing Drive access was queried for root-folder metadata through its already-approved service lifecycle, then restored inactive. Zero roots named isles-pilot were visible through this narrow route; this does not establish project-wide absence of MRI or clinical data. No credential changes or patient payload access. Source provenance remains unresolved; do not broaden access.
 
-Timing diagnostic, author sandbox and opposite-family administrative review capability remain unfinished. No Swap point; pnormct is also running externally.
+Timing reconciliation confirms author24's real CPU integration PASS; do not repeat it. Later review16 failed before reservation because a separate confined read-only ledger access could not open its database. No reviewer16 call or GPU timing run occurred. A bounded reviewed repair of the actual admission path is needed; preserve all evidence and caps. Author sandbox and opposite-family administrative review capability remain unfinished. No Swap point; pnormct is also running externally.
 
-12OctoberUTC:64/100 calls, returning to50on13October without resetting history. Scientific batch116/128:7Colab,1analysis,4meeting remain. Known completed Claude charges $376.31357875; author dollar costs unavailable.
+12OctoberUTC:65/100 calls, returning to50on13October without resetting history. Scientific batch117/128:7Colab,0analysis,4meeting remain. Known completed Claude charges $380.62437450; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author |15|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and live interpretation; includes the preserved pre-client failure|
-| Scientific reviewer |11|Idea2, baseline, multiwin, pnormct and smoothing scientific review|
+| Scientific author |15|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and accepted interpretation; includes the preserved pre-client failure|
+| Scientific reviewer |12|Idea2, baseline, multiwin, pnormct and smoothing scientific review|
 | Administrative review |36|Admission/accounting repairs, packaging, dated policy, execution and interpretation integration|
 | Standalone direction |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
 Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.029622 retained reservations. Timing $5.405445/$25 is inside stage1; synthetic CPU $1.118950 awaits billing. Item4 total $1,275/projection gate $1,200 and item6 $100 cap unchanged. Colab is unmetered by operator decision. This continuation launched no new provider compute. Only confirmed closed provider billing can release excess reservations; uncertain/open obligations stay counted.
 
 Current action: run13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb in a fresh default A100 session, Run all, no settings. Keep the other pnormct session running. This approved package runs authored unit fixtures then one real synthetic training iteration/checkpoint roundtrip, not a full fold. About10-25minutes, roughly1.13-2.82CU informational only. Final cell copies evidence privately, excluding caches; return printed status and folder. SHA25644902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b.
+
+-22:38UTC: smoothing scientific APPROVE qualified and normal acceptance completed; reviewer charge $4.31079575 counted. No CPU retry or new allowance.
+-22:33UTC: read-only Drive visibility and timing reconciliation completed without model calls; originals retained. Latest Claude direction remains PROCEED with simpler narrow-patch deployment.
