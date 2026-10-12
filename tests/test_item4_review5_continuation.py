@@ -66,7 +66,7 @@ def test_second_pair_charged_and_both_historical_approvals_preserved(second):
     assert Accounts(store).read()[1]['count']==17
     for verdict,category,expected in [('REVISE','metric/statistic',('BLOCKED','UNRESOLVED_AFTER_THREE_REVISIONS')),
         ('REJECT','metric/statistic',('BLOCKED','REVIEW_REJECTED')),
-        ('REVISE','budget',('BLOCKED','REVIEW_REQUIRES_OPERATOR_DECISION'))]:
+        ('REVISE','budget',('BLOCKED','UNRESOLVED_AFTER_THREE_REVISIONS'))]:
         assert x.terminal_transition(ar.review_transition,d,{'verdict':verdict,'findings':[{'category':category}]},'run_spec_review',6,f,'d'*64)==expected
     assert [dict(r) for r in store.db.execute('SELECT * FROM manual_calls ORDER BY rowid LIMIT 15')]==local
     assert [dict(r) for r in batch.db.execute('SELECT * FROM autonomy_calls ORDER BY rowid LIMIT 15')]==glob

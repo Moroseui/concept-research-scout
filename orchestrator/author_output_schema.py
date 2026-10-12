@@ -70,6 +70,14 @@ def patch(value, binding):
         spans.setdefault(row['unit'],[]).append((row['start'],row['end']))
 
 
+
+def authorized_omission_deletion(edit, original_sha256, view_sha256):
+    return (original_sha256 == '73f656d542c033df30fdfca8a36d1bd2899fc1563d9d4effdf9ea634de164ef7'
+        and view_sha256 == '04aeab89022993885cccf5438bb8fe3bf4604be3cdcab751e5f5cdaa1b2e2ce8'
+        and edit == {'unit':'cells/4/source','start':2090,'end':2120,
+            'before_sha256':'8ffa5399e3c59a3fee6bb8a4cca50b89b57fdcd62163dcbf20a5c289ffa0674c',
+            'replacement':''})
+
 def visible_module(patch_value, view, manifest, *, fixture_reference=None):
     """Reconstruct only complete visible writefile cells; never omitted bytes.
 
@@ -100,7 +108,12 @@ def visible_module(patch_value, view, manifest, *, fixture_reference=None):
                 raise ValueError('AUTHOR_MODULE_SPAN_PARTITION')
             cursor=end
             if not span['keep']:
-                complete=False
+                deleted=[index for index,edit in enumerate(edits.get(unit,[]))
+                    if authorized_omission_deletion(edit,patch_value['original_sha256'],patch_value['view_sha256'])
+                    and (edit['start'],edit['end'],edit['before_sha256'])==(start,end,span['sha256'])]
+                if len(deleted)>1:raise ValueError('AUTHOR_MODULE_PATCH_OVERLAP')
+                if deleted:applied.add(deleted[0])
+                else:complete=False
                 continue
             marker=('\n## '+unit+' bytes '+str(start)+':'+str(end)+'\n').encode()
             if view.count(marker)!=1:raise ValueError('AUTHOR_MODULE_SPAN_MARKER')

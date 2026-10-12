@@ -98,17 +98,6 @@ def instructions(store,run,*,notebook_revision=False):
 
 def execution_instructions(config):
     """Scope-specific wording for the already verified execution selection."""
-    if config.get("idea2_interpretation"):
-        from orchestrator.idea2_interpretation import document, DOCUMENT_SHA
-        scope=document()
-        if config["idea2_interpretation"]!={"schema":"idea2-interpretation/v1","scope_sha256":DOCUMENT_SHA}:
-            raise ValueError("IDEA2_INTERPRETATION_REVISION_SCOPE")
-        return ("This reviewed interpretation-only continuation preserves the same30-call run and "
-            "all prior usage, UTC-day50 across roles and batch128 and the existing four-call smoothing allocation, including its two completed specification calls. "
-            "At most3author revision/re-review cycles; REJECT or unresolved "
-            "third revision stop this stage. All finding categories return to the scientific author; "
-            "correction grants no data access or spending. Only independent APPROVE closes findings. "
-            "Explain existing results; no code change, patient computation or successor execution. ")
     item=config['item_number']
     from orchestrator.autonomy_limits import selected_run_limit
     cap=selected_run_limit(config,config['run_id'])

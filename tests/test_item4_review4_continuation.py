@@ -115,7 +115,7 @@ def test_ordinary_admission_limits_survive_exception(continuation,kind):
 
 def test_unrelated_scope_and_terminal_rejections_keep_default_policy(continuation):
     store,batch,c,d,f,*_=continuation
-    for verdict,category,expected in [('REJECT','metric/statistic','REVIEW_REJECTED'),('REVISE','budget','REVIEW_REQUIRES_OPERATOR_DECISION')]:
+    for verdict,category,expected in [('REJECT','metric/statistic','REVIEW_REJECTED'),('REVISE','budget','UNRESOLVED_AFTER_THREE_REVISIONS')]:
         decision={'verdict':verdict,'findings':[{'category':category}]}
         assert x.terminal_transition(ar.review_transition,None,decision,'run_spec_review',4,f,'e'*64)[1]==expected
     with pytest.raises(ValueError):x.terminal_transition(ar.review_transition,None,{'verdict':'REVISE','findings':[]},'run_spec_review',5,f,'e'*64)

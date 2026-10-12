@@ -25,6 +25,14 @@ REQUIRED_TESTS = ('test_fold_completeness', 'test_verdict_rule',
                   'test_coverage_handling', 'test_existing_unit_checks')
 
 
+
+def authorized_omission_deletion(edit, original_sha256, view_sha256):
+    return (original_sha256 == '73f656d542c033df30fdfca8a36d1bd2899fc1563d9d4effdf9ea634de164ef7'
+        and view_sha256 == '04aeab89022993885cccf5438bb8fe3bf4604be3cdcab751e5f5cdaa1b2e2ce8'
+        and edit == {'unit':'cells/4/source','start':2090,'end':2120,
+            'before_sha256':'8ffa5399e3c59a3fee6bb8a4cca50b89b57fdcd62163dcbf20a5c289ffa0674c',
+            'replacement':''})
+
 def strict_json(raw):
     def pairs(items):
         result = {}
@@ -133,8 +141,15 @@ def apply(original, selection, patch_raw, cases, *, original_sha256=ORIGINAL, vi
         raw, _ = units[unit]
         if not 0 <= start < end <= len(raw):
             raise ValueError('NOTEBOOK_PATCH_RANGE')
-        if not any(s['keep'] and s['start'] <= start and end <= s['end'] for s in selection[unit]):
-            raise ValueError('NOTEBOOK_PATCH_CROSSES_OMISSION')
+        visible=any(s['keep'] and s['start'] <= start and end <= s['end'] for s in selection[unit])
+        deletion=authorized_omission_deletion(edit,original_sha256,view_sha256)
+        if not visible and not deletion:raise ValueError('NOTEBOOK_PATCH_CROSSES_OMISSION')
+        if deletion:
+            authority=Path(__file__).resolve().parents[1]/'docs/COLAB_REVIEW5_OPERATOR_DECISION_20261012.txt'
+            if authority.is_symlink() or intake.sha(authority.read_bytes())!='89312b1d6df5ff20de61701754dd5179308b974b6ee3d8fac1c0151071bfd33e':
+                raise ValueError('NOTEBOOK_OMISSION_DELETE_OPERATOR_BINDING')
+            if not any(not s['keep'] and s['start']==start and s['end']==end for s in selection[unit]):
+                raise ValueError('NOTEBOOK_OMISSION_DELETE_EXACT_HIDDEN_SPAN')
         if intake.sha(raw[start:end]) != edit['before_sha256']:
             raise ValueError('NOTEBOOK_PATCH_BEFORE_CHANGED')
         raw[:start].decode(); raw[start:end].decode(); raw[end:].decode()
@@ -164,8 +179,17 @@ def apply(original, selection, patch_raw, cases, *, original_sha256=ORIGINAL, vi
         if omission['unit'] != 'cells/4/source' or (omission['start'], omission['end']) != (2090, 2120):
             raise ValueError('NOTEBOOK_MEMBERSHIP_OMISSION_BINDING')
         raw = units[omission['unit']][0]
-        loader, membership = _external_assignment(raw[omission['start']:omission['end']])
-        changes.setdefault(omission['unit'], []).append((omission['start'], omission['end'], loader))
+        deleted=any(authorized_omission_deletion(edit,original_sha256,view_sha256) for edit in patch['edits'])
+        if deleted:
+            requested=next(edit for edit in patch['edits'] if authorized_omission_deletion(edit,original_sha256,view_sha256))
+            if omission['sha256']!=requested['before_sha256']:
+                raise ValueError('NOTEBOOK_OMISSION_DELETE_MANIFEST')
+            membership={'status':'author-requested deletion of obsolete omitted fragment',
+                        'omitted_sha256':omission['sha256'],'payload_exposed':False,
+                        'available_for_synthetic_tests':False}
+        else:
+            loader, membership = _external_assignment(raw[omission['start']:omission['end']])
+            changes.setdefault(omission['unit'], []).append((omission['start'], omission['end'], loader))
     before = strict_json(original)
     updated = copy.deepcopy(before)
     for unit, edits in changes.items():

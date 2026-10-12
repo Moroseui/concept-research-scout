@@ -82,12 +82,12 @@ def test_uncertain_call_still_cannot_be_retried(experiment,monkeypatch):
 
 
 @pytest.mark.parametrize('stage',['run_spec_review','result_interpretation_review'])
-def test_three_rounds_and_reserved_decisions_use_unchanged_transition(experiment,stage):
+def test_three_rounds_all_categories_and_reject_remain_bounded(experiment,stage):
     d,_=experiment;store,_=store_for(d);assert rev.enabled(store,d.config['run_id'])
     review={'verdict':'REVISE','findings':[{'category':'metric/statistic'}]}
     for n in (1,2,3):assert rev.review_transition(review,stage,n)[0]==stage.replace('_review','_author')
     assert rev.review_transition(review,stage,4)[1]=='UNRESOLVED_AFTER_THREE_REVISIONS'
     for category in rev.RESERVED:
         review['findings']=[{'category':category}]
-        assert rev.review_transition(review,stage,1)[1]=='REVIEW_REQUIRES_OPERATOR_DECISION'
+        assert rev.review_transition(review,stage,1)[1]=='REVISION_REQUIRED'
     assert rev.review_transition({'verdict':'REJECT','findings':[]},stage,1)[1]=='REVIEW_REJECTED'
