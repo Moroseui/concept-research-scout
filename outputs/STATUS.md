@@ -2,11 +2,11 @@
 
 - Idea 2 is accepted; existing server inputs are available for the next reviewed analysis.
 - New arms remain first: multiwin/pnormct, then pnorm_v2, then L; repeats are parked.
-- Pnormct author 2 is running, correcting the preserved draft with in-call format feedback.
+- Pnormct now has a corrected notebook that passed its pure synthetic tests; scientific review is running.
 - Multiwin remains parked at its 20-call limit; no corrected notebook is ready yet.
-- The repair passed 233 tests, Claude approval and native qualification; no GPU job is running.
+- Real trainer integration still needs a compatible Python3.13/A100 environment; no GPU job is running.
 - Billed item 4 compute is $24.487001; known Claude charges are $290.76127125. Author dollars are unavailable.
-- Action needed: none. Author outcome expected by about 12:21 UTC; delivery awaits integration/review. [Execution plan](13B_EXECUTION_PLAN.md).
+- Action needed: none. Scientific verdict expected around12:10-12:20UTC; delivery awaits real integration. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Current direction and evidence
 
@@ -26,9 +26,11 @@ Distinct pnormct admission release 45c6b7de passed 200 tests and independent Cla
 
 The initial author start stopped before reservation at ANALYSIS_REVISION_POLICY_SCOPE. Candidate 885c737b validates the exact question and supplies the legacy revision/zero-offset interface, with unchanged limits and exact premodel recovery. It passed 191 tests and independent Claude APPROVE 6715841e/reportcd575d73. Installation, native author/reviewer role-admission checks, full author input and transport all passed. Recovery preserved the original failure and created no allowance.
 
-Pnormct author 2 is RUNNING, confirmed in both ledgers at 11:51 UTC. It is correcting author 1's preserved patch and using the existing in-call format checker. The draft remains aimed at one notebook for folds 0-4, 250 epochs, automatic resume/skip and a real trainer fixture. Expect its outcome by about 12:21 UTC under the 30-minute author limit. Synthetic tests, actual trainer construction/iteration and scientific approval still precede delivery.
+Pnormct author 2 completed and its corrected notebook passed all five controller synthetic test groups, including five execution-module tests with none skipped. These are pure-function tests, not real training. Notebook hash30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6; exact module33153177657c1f2a3383bcd50fffb393a571514c3363f7ef2c24f131d48251f2.
 
-Author 1 completed normally but was refused before tests because patch replacements were arrays instead of strings. No scientific verdict was inferred. Repair b84baccd passed 233 tests and genuine Claude APPROVE fc419017/report48b558ca, with no findings. It is installed. Native author2 input/transport qualification passed without a model call, and exact recovery preserved the first attempt, charge, original outputs and refusal, without a new allowance. Author 2 started once through normal admission.
+Scientific review 1 is RUNNING, confirmed at 11:55 UTC. Expect the verdict around 12:10-12:20 UTC. The required actual nnU-Net trainer iteration remains outstanding. Its authored fixture requires Python3.13/A100 and saves a checkpoint; it does not test production loaders or checkpoint reload. Existing Python3.12 pinned image cannot run that unchanged. No GPU reservation or launch; delivery remains held.
+
+Author 1's format-refused draft, original call and charge remain preserved. Repair b84baccd passed233tests and independent APPROVE fc419017/report48b558ca, then installation, native no-call qualification and exact recovery. Author2 corrected the draft through normal accounting; no operator scientific edits or new allowance.
 
 Timing, the GPU adapter, sandbox and opposite-family administrative capability remain deferred/uninstalled. No Swap point.
 
@@ -44,12 +46,12 @@ At 11:07 UTC the existing 728 saved-output files were checked by metadata only: 
 
 Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus retained reservations $91.029622. Timing commitment is $5.405445/$25 within stage 1; $1.118950 synthetic CPU awaits billing. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 remain unchanged. Colab is unmetered. Release excess reservations only after provider billing confirms a closed attempt's actual cost.
 
-12 October UTC: 43/50 calls: 11 scientific authors, 7 scientific reviewers, 23 administrative implementation reviews and 2 standalone direction attempts. Scientific batch 108/128; pnormct 2/20. Four of the additional 16 Colab slots are used, leaving 12. Known completed Claude charges $290.76127125, including $3.795658 for the format repair; author dollars unavailable. Item 4 non-Colab exposure $115.516623/$150 = billed $24.487001 plus retained $91.029622. No new GPU reservation or cap change.
+12 October UTC: 44/50 calls: 11 scientific authors, 8 scientific reviewers, 23 administrative implementation reviews and 2 standalone direction attempts. Scientific batch109/128; pnormct3/20. Five of the additional16Colab slots are used, leaving11. Known completed Claude charges$290.76127125; live scientific review charge and author dollars unavailable. Non-Colab item4 exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. No cap change or new GPU reservation.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 11 | Idea 2 code/interpretation, baseline/multiwin preparation, pnormct draft and format correction |
-| Scientific reviewer | 7 | Idea 2, baseline and multiwin; failed attempts preserved |
+| Scientific reviewer | 8 | Idea 2, baseline, multiwin and live pnormct review; failed attempts preserved |
 | Administrative implementation review | 23 | Repairs, including distinct pnormct admission, policy interface and format feedback |
 | Standalone direction check | 2 | Disqualified direction attempt and qualified SIMPLIFY retry |
 
@@ -77,3 +79,5 @@ The installed policy repair adds three clean source/test projections. COLAB_PNOR
 12 October 11:51 UTC judgment: format repair independently approved and installed; zero-call native qualification and exact recovery passed. Author2 launched normally; originals and all limits preserved. Latest explicit Claude direction remains PROCEED with a caution to simplify (10:57 UTC): only immediate repairs and the real fixture; defer generic infrastructure. The 11:47 UTC format review approved the accounting/safeguard repair but did not return the requested separate direction recommendation. Do not represent it as a new PROCEED. Include that question in the next necessary review rather than add a standalone call now.
 
 New installed public projection: three clean format-helper/runtime/test files. COLAB_PNORMCT_FORMAT_FAILURE_PRIVATE.json is excluded by the private-record scan, along with the packet, native streams and preserved drafts. Latest private checkpoint verified40files: server112.1675GiB before/112.1645GiB after; later source transfer left112.0103GiB. No local deletion.
+
+12 October11:55UTC:author2 COMPLETE/controller pure synthetic PASS; normal scientific review1 started once. No delivery or real-trainer claim. The existing integration adapter remains an unbound multiwin draft and must not be installed or executed. See private INTEGRATION_HANDOFF_PRIVATE.md for exact authored requirements.

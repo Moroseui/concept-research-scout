@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current 12 October checkpoint: multiwin parked at run20 after a mechanical reviewer failure; pnormct author 2 running after approved, installed and native-qualified format repair. No role rotation or Swap point. See CURRENT.md for terminal handles and the unchanged routes.
+Current 12 October checkpoint: multiwin parked at run20 after a mechanical reviewer failure; pnormct author2 complete with pure synthetic PASS; scientific review1 running. No role rotation or Swap point. See CURRENT.md for terminal handles and the unchanged routes.
 
 Current operator: **Codex / OpenAI**. Goal active, no rotation. Scientific author uses the existing OpenAI client; scientific reviewer and operator implementation reviewer use the existing Claude route. The future opposite-family administrative route for a Claude operator remains uninstalled. Read HANDOVER and CURRENT before any mutation.
 
@@ -30,4 +30,4 @@ Rotate at a completed milestone boundary or a weekly boundary, **never mid-task*
 Declare **Swap point reached** immediately after **Action needed from you** only when all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES and HANDOVER current; opposite-family administrative review capability installed; and no model call or compute job running or awaiting reconciliation. Then finish the current step, update and push the handover, and wait. Do not start a successor task after the gate. The operator has not requested an earlier stop.
 
 
-Current state: repeats parked; multiwin parked at run20 after a mechanical reviewer failure. Reader repair fa687145 is installed and native-qualified. Pnormct author 1 is terminal. Repair b84baccd passed 233 tests, independent approval and native qualification; author2 is running. Each arm still requires real trainer integration and scientific approval before delivery. Timing and opposite-family administrative capability remain deferred; no Swap point.
+Current state: repeats parked; multiwin parked at run20 after a mechanical reviewer failure. Reader repair fa687145 is installed and native-qualified. Pnormct author 1 is terminal. Repair b84baccd passed 233 tests, independent approval and native qualification; author2 is complete and scientific review1 is running. Each arm still requires real trainer integration and scientific approval before delivery. Timing and opposite-family administrative capability remain deferred; no Swap point.
