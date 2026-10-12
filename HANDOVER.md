@@ -1,6 +1,6 @@
 # Operator handover
 
-Current operator: **Codex / OpenAI**. Updated12October2026. Goal active; no rotation or pause. Action needed from Partho: decide the proposed next24-call scientific batch; current review continues. Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md), [execution plan](outputs/13B_EXECUTION_PLAN.md) and the current private HANDOFF_CURRENT_PRIVATE.md before a mutation.
+Current operator: **Codex / OpenAI**. Updated12October2026. Goal active; no rotation or pause. Action needed from Partho: decide the proposed next24-call scientific batch; multiwin is delivered. Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md), [execution plan](outputs/13B_EXECUTION_PLAN.md) and the current private HANDOFF_CURRENT_PRIVATE.md before a mutation.
 
 ## Goal and rules
 Advance approved ISLES24 items6and4, understand where gains come from, prepare private meeting cases and improve usability. Scientific code and conclusions belong to the system author/reviewer. Operator infrastructure and scientific author work require opposite-family review. Current scientific author is the existing OpenAI route; reviewer is existing Claude. Future Claude operator administrative review via OpenAI remains uninstalled.
@@ -9,9 +9,11 @@ Keep development99/excluded49 checks, frozen hashes, private outputs and every a
 
 ## Current work and exact next action
 
-**Multiwin author9 COMPLETE; scientific review8 RUNNING.** Author9 source72fb029f, delivery manifest0a3e975c. Original isolated synthetic tests and all six exact emitted notebook variants PASS. Reconcile the SAME native review unit/call from the private observer; its dispatch intent is consumed. Never replay activation,probe,author9,review8 or any prior accepted call.
+**Multiwin delivered after scientific APPROVE.** Author9 source72fb029f; delivery manifest0a3e975c. Review8 ac264ac3 COMPLETE/APPROVE, report ed7c48307dfdac0364acfd234d76fb6d6ae367189fb86cdc03d8b12321118539, no findings. Original isolated synthetic suite and all six exact variants PASS. Native unit inactive/exit0, no pending call; do not replay either consumed start.
 
-If genuine scientific APPROVE: capture the exact review/report hash, verify reviewed bytes against the existing six-variant manifest and preserved synthetic receipts, package and deliver immediately. Do not regenerate or edit scientific code after review. If REVISE/REJECT, preserve findings and all charges; no further scientific slot is currently authorized.
+Six exact files, RUN_FIRST.md, SHA256SUMS.txt and zip are in Downloads/13B_A1_multiwin_review8 and safe code copies under outputs/notebooks/A1_multiwin. Instructions sent12October08:13UTC: A100/default runtime, Run all,250epochs,automatic resume, private results; two sessions in fold order after baseline fits are underway. Expected3-4training hours/fold plus overhead, unmeasured. No post-review scientific edits or regeneration. Human still reports baseline folds0/1 active; multiwin launch has NOT been reported.
+
+Next scientific model calls await the proposed24-call batch money decision and normal admission. Do not restart completed author/reviewer or erase counts. The review is code approval, not automated-provider execution authority; the standing human-Colab direction authorizes the delivered operator-run notebooks.
 
 Installed source db6b741 passed182tests and independent implementation APPROVE, reportd83b05af, followed by native zero-call admission and transport checks. Claude's qualified direction SIMPLIFY was accepted: retain run20,batch104,day50. All104 scientific slots are now used/reserved. The proposed next24-call batch is a pending money decision, not an installed grant; see outputs/proposals/next-scientific-batch-20261012.md. No other workstream can borrow this call's allowance.
 
@@ -30,13 +32,13 @@ Five new empty owner-only private Drive lock objects and the multiwin input refe
 ## Spending and calls
 Non-Colab item4stage1 exposure115.516623/150 =identified billed24.487001 +retained91.029622. Timing5.405445/25inside stage1; synthetic CPU1.118950awaits billing. Item6cap100; other-venue item4total1275/projection1200 unchanged. Release excess only for confirmed closed attempts with actual billing; retain originals. Colab unmetered.
 
-UTC12October34/50:8scientificauthors,6scientificreviewers (one running),18implementationreviews,2standalone direction attempts. Ledger still records administrative calls normally; reporting categories do not relabel rows. Known cumulative Claude252.195916; author dollars unavailable. Latest implementation review3.49185625; direction attempts3.0162565(disqualified native source-read qualification) and3.3393905(qualified SIMPLIFY). One mechanical retry was used, originals preserved. Administrative majority: defer unrelated repairs and fold further direction questions into necessary reviews.
+UTC12October34/50:8scientificauthors,6scientificreviewers,18implementationreviews,2standalone direction attempts. Ledger still records administrative calls normally; reporting categories do not relabel rows. Known cumulative Claude262.65862325; latest multiwin scientific review10.46270725; author dollars unavailable. Latest implementation review3.49185625; direction attempts3.0162565(disqualified native source-read qualification) and3.3393905(qualified SIMPLIFY). One mechanical retry was used, originals preserved. Administrative majority: defer unrelated repairs and fold further direction questions into necessary reviews.
 
 ## Safe resumption and backup
 1. Confirm operator ownership and read latest private handoff/canonical decisions.
-2. Observe the SAME live reviewer8 unit/call. Check actual terminal state, ledger and outputs before any next action; no restart on timeout.
+2. Reconcile any human-returned Colab work. Multiwin author9/reviewer8 and six variant tests are terminal and must not be repeated. Check for other active native handles before any new call.
 3. Check C:andWSL free space before large work: warn below15GiB, stop below8GiB. Last C:17.90GiB, server113.6196GiB after source transfer; no disk purchase.
-4. Reconcile reviewer8 and package only a qualified approval; further model calls require the proposed batch decision and normal admission. Keep scientific code authored by the system; preserve failed attempts.
+4. Multiwin is delivered; ingest private returned results when available. Further model calls require the proposed batch decision and normal admission. Keep scientific code authored by the system; preserve failed attempts.
 5. Update STATUS,CURRENT,HANDOVER at stops. Hash-back up private records, scan privacy/secrets/infrastructure, push remote-server and safe working-branch projections, verify hashes and leave main unchanged. Withhold raw private branch ancestry and private evidence/bindings.
 
 Access names only: existing server SSH login, research service account, OpenAI author-client login, Claude reviewer login, Modal account, existing server Drive broker and GitHub backup login. No credential contents/paths,key names or endpoints in public files.

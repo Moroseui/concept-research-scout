@@ -13,6 +13,6 @@ Unused allocations remain unused. Administrative reviews are outside this scient
 
 Retain the existing per-run 20-call cap. Use ordinary recorded per-question admission for genuinely new arm/analysis questions, with explicit linkage to prior accepted sources and all prior calls; never relabel or erase history. A lane that cannot progress under its existing guard still requires the normal reviewed process treatment, not an invented allowance.
 
-Recent qualified Claude scientific reviews cost about $4.33-$5.48 each in the recorded model usage. Author dollar costs are unavailable, so this is a bounded call-count authorization, not a claimed all-in dollar quote or dollar cap. Every attempt and known charge remains recorded. No calls beyond the proposed 128 boundary without further authority.
+Earlier qualified Claude scientific reviews cost about $4.33-$5.48 each; the latest multiwin review cost $10.46270725. These are recorded model-usage costs, not a guaranteed per-call ceiling. Author dollar costs are unavailable, so this is a bounded call-count authorization, not a claimed all-in dollar quote or dollar cap. Every attempt and known charge remains recorded. No calls beyond the proposed 128 boundary without further authority.
 
 Reason: one consolidated batch lets the three research streams proceed and avoids a money question for each arm. Scientific code/conclusions remain with the author/reviewer, with normal independent review and unchanged patient, privacy and execution safeguards.

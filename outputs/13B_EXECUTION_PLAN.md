@@ -9,7 +9,7 @@ Each fit is 250 epochs. The scientific author writes the notebooks; the scientif
 | Arm | Folds | Venue / owner | Delivery order and hold |
 |---|---|---|---|
 | A1_repeat | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | First; review7 released. Operator reports folds0/1 active;2/3next, then4. |
-| A1_multiwin | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Second; first intervention arm, deliver as soon as reviewed |
+| A1_multiwin | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Second; review8 APPROVED and exact notebooks delivered; see outputs/notebooks/A1_multiwin |
 | A1_pnormct | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Third, as soon as reviewed |
 | A1_pnorm_v2 | 0, 1, 2, 3, 4 | **Partho on Colab**, default runtime, A100 | Fourth, as soon as reviewed |
 | A1_L | 0, 1, 2, 3, 4 | **Partho on Colab**, A100 | Fifth; retain memory feasibility checks, no silent model reduction |
@@ -51,8 +51,8 @@ Idea2's single saved-output CPU execution completed and validated. Its interpret
 
 Operator report12October: folds0/1 started in two default-runtime A100 sessions, unedited review7 files; Drive mounted and250-epoch estimates printed. Input-check completion, epochs and results are not yet reported. Do not launch duplicate fits.
 
-Current next step: reconcile multiwin scientific reviewer8. Author9 completed; all six exact variants passed the isolated synthetic suite. Verdict expected within about20minutes; deliver immediately if approved, with no post-review scientific edits. Proposed training estimate is3-4hours/fold (20.31-27.08CU) plus setup/scoring, unmeasured.
+Multiwin review8 APPROVED with no findings. All six exact notebooks passed isolated synthetic tests; delivered in Downloads/13B_A1_multiwin_review8 with [instructions and hashes](notebooks/A1_multiwin/README.md). No post-review scientific edits. Select A100/default runtime, Run all. Use two available sessions; complete baseline scheduling first, then multiwin folds0/1,2/3,4. A freed slot can start multiwin after baseline fold4 is underway. Never overlap identical arm/fold fits or the all-fold and individual notebooks.
 
-The installed104-call scientific batch is fully used/reserved by this review. A proposed24-call continuation for Colab,analysis and meeting work awaits the operator money decision. No caps have changed. Same-platform comparison and final repeat order remain bound to the author's proposal.
+Next result: returned baseline folds (about2.7training hours plus overhead) and multiwin folds (author's unmeasured3-4hours/fold,20.31-27.08CU plus overhead). Baseline0/1 are externally active; multiwin has not yet been reported started. Primary comparison is same-platform Colab A1_repeat; Sprint12 additional and repeat2 last.
 
-Analysis and meeting intakes are prepared in parallel; each needs one author/reviewer cycle after admission. Actual private case panels additionally need asset/provenance and geometry verification. Timing,sandbox and rotation remain deferred; no swap point.
+The installed104-call scientific batch is exhausted, including completed review8. A proposed24-call continuation for Colab,analysis and meeting work awaits the operator money decision; no cap change is installed. The next pnormct notebook and analysis/meeting scientific packages each need an author/reviewer cycle after admission, provisionally1-3activehours per cycle. Real private case panels also require asset/provenance and geometry verification. Timing,sandbox and rotation remain deferred; no swap point.
