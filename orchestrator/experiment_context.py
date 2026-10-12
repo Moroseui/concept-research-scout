@@ -215,6 +215,20 @@ def prepare(driver, value, stage, work):
             "for the exact read-only frozen-partitions.json on the package. This is the original membership "
             "input, not the emitted splits_final.json; split_sha256 separately binds your reviewed output. "
             "You own split implementation and checks; infrastructure does not choose or generate folds. ")
+    if hasattr(driver, 'store'):
+        from orchestrator.item6_idea2_followup import validate as followup_scope
+        scope = followup_scope(driver.store,driver.config['run_id'])
+        if scope is not None:
+            contract = contract.replace("All five diagnostics share one CPU run with no training.",
+                "The five original diagnostics are completed historical evidence. Author only the operator-requested fixed3x3 follow-up, with no training.")
+            if driver.config.get("idea2_interpretation"):
+                contract += (" This continuation interprets the completed fixed-amount smoothing CPU result under its "
+                    "separate hash-bound interpretation grant. The five original diagnostics and their "
+                    "acceptance are preserved historical evidence; no new execution is authorized. ")
+            else:
+                contract += (" The original plan retains its hard input, patient, CPU and spending constraints; "
+                    "this follow-up's question and preparation-only authorization are separately hash-bound in the task. "
+                    "Do not repeat or claim new results for the completed five diagnostics. ")
     task = driver.task(stage, value) + "\n" + contract
     # Actual drivers bind this policy before calling prepare; pure context
     # fixtures without a ledger do not claim an admitted revision allowance.

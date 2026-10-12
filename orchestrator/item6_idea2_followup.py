@@ -102,6 +102,8 @@ def _originals(db, scope, root):
 
 
 def _configuration(store, run):
+    from orchestrator import idea2_interpretation as interpretation
+    if interpretation.selected(store):return interpretation._configuration(store,run)
     path = Path(store.path).parent / "lane.json"
     if not path.exists():
         return None
@@ -177,6 +179,8 @@ def activate(store, run):
 
 
 def validate(store, run):
+    from orchestrator import idea2_interpretation as interpretation
+    if interpretation.selected(store):return interpretation.validate(store,run)
     selected = _configuration(store, run)
     if selected is None:
         return None
@@ -200,6 +204,9 @@ def guard_admission(accounts, run, stage, source, receipt):
     """Called inside normal global admission; all normal caps still run afterward."""
     if run != RUN:
         return
+    from orchestrator import idea2_interpretation as interpretation
+    if accounts.db.execute("SELECT 1 FROM events WHERE id=?",(interpretation.EVENT,)).fetchone():
+        return interpretation.guard_admission(accounts,run,stage,source,receipt)
     row = accounts.db.execute("SELECT payload FROM events WHERE id=?", (EVENT,)).fetchone()
     if row is None:
         return
@@ -231,6 +238,9 @@ def refuse_legacy_completion(accounts, run):
 
 
 def preparation_hold(driver, value, collect_folder, identity_refusal):
+    from orchestrator import idea2_interpretation as interpretation
+    if interpretation.FIELD in driver.config:
+        return interpretation.preparation_hold(driver,value,collect_folder,identity_refusal)
     if not hasattr(driver, "store"):
         require(FIELD not in driver.config, "PREPARATION_STORE_REQUIRED")
         return None  # Pure legacy context fixtures do not select a follow-up.
@@ -253,6 +263,9 @@ def terminal_ids(accounts, scope):
     Every pending row must be one of the exact frozen rows and pass its original
     native terminal verifier. A missing qualifier or any live/new row refuses.
     """
+    if scope.get('schema')=='idea2-interpretation-scope/v1':
+        from orchestrator.idea2_interpretation import terminal_ids as interpret_terminals
+        return interpret_terminals(accounts,scope)
     require(callable(_TERMINAL_QUALIFIER), 'INSTALLED_TERMINAL_QUALIFIER_REQUIRED')
     rows = [dict(r) for r in accounts.db.execute(
         "SELECT * FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN') ORDER BY id")]
@@ -270,6 +283,9 @@ def terminal_ids(accounts, scope):
 
 def batch_allowance(accounts, scope):
     """Only the four analysis slots; no Colab or meeting allocation is borrowed."""
+    if scope.get('schema')=='idea2-interpretation-scope/v1':
+        from orchestrator.idea2_interpretation import batch_allowance as interpretation_batch
+        return interpretation_batch(accounts,scope)
     require(scope['batch_limit']==128 and scope['allocation_limit']==4, 'BATCH_CEILING_CHANGED')
     # The complete pre-grant history is frozen, including all 104 original calls
     # and five Colab calls. No prior row is deleted, relabelled or refunded.

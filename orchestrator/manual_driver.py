@@ -222,7 +222,9 @@ class Driver:
         if (self.state/'HALT').exists():raise ValueError('OPERATOR_HALT: HALT file is present; no work started. Preserve state and request operator disposition before resuming.')
         c=self.config
         if self.store.batch is not None and (self.store.batch.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
-        if c.get('timeout_continuation'):
+        from orchestrator.preparation_followup import validate as validate_followup
+        followup = validate_followup(self.store,c['run_id'])
+        if c.get('timeout_continuation') and followup is None:
             from orchestrator.experiment_timeout_continuation import validate_driver
             validate_driver(self)
         if c.get('artifact_continuation'):
@@ -294,6 +296,10 @@ class Driver:
     def model_round_number(self,value):
         """Attempt workspace number; accepted-round counters remain scientific state."""
         stage=value['phase']
+        from orchestrator import preparation_followup as followup
+        if followup.validate(self.store,self.config['run_id']) is not None:
+            followup.require(stage in followup.stages(self.store,self.config['run_id']), 'PREPARATION_STAGE_ONLY')
+            return self.store.db.execute('SELECT count(*) FROM manual_calls WHERE stage=?',(stage,)).fetchone()[0]+1
         if self.config.get('execution_recovery'):
             return self.store.db.execute('SELECT count(*) FROM manual_calls WHERE stage=?',(stage,)).fetchone()[0]+1
         return value['rounds'].get(stage,0)+1
@@ -455,7 +461,8 @@ class Driver:
                 if review['verdict']!='APPROVE' or blockers:
                     self.criticism(stage,n,raw)
                     from orchestrator.analysis_revisions import enabled,review_transition
-                    next_phase,reason=review_transition(review,stage,n) if enabled(self.store,self.config['run_id']) else ('BLOCKED','STRUCTURED_REVIEW_FINDING_OR_REJECTION')
+                    from orchestrator.preparation_followup import offset
+                    next_phase,reason=review_transition(review,stage,n,offset=offset(self.store,self.config['run_id'],stage)) if enabled(self.store,self.config['run_id']) else ('BLOCKED','STRUCTURED_REVIEW_FINDING_OR_REJECTION')
                     value.update(phase=next_phase,reason=reason,
                                  review=str(work/'review.json'),blocker_categories=blockers)
                     value.pop('pending',None);self.save(value);return self.status()
@@ -512,6 +519,9 @@ class Driver:
 
     def _advance(self,collect_folder=None,identity_refusal=None):
         self.guard();value=self.current();phase=value['phase']
+        from orchestrator.preparation_followup import preparation_hold
+        held = preparation_hold(self,value,collect_folder,identity_refusal)
+        if held is not None:return held
         if 'execution_scope' in self.config and phase not in {*STAGES,'MODEL_RUNNING','BLOCKED'}:
             from orchestrator.experiment_package import advance
             return advance(self,value,collect_folder,identity_refusal)

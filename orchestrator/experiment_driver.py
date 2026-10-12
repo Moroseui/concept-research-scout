@@ -221,7 +221,10 @@ class ExperimentDriver(Driver):
             (self.config["run_id"],)).fetchone()
         if owner is None or json.loads(owner['binding'])!=self.config['owner_binding']:
             raise ValueError('EXPERIMENT_GLOBAL_OWNER_CHANGED')
-        if owner['status']!='ACTIVE':
+        if owner['status']!='ACTIVE' and self.config.get("idea2_interpretation"):
+            from orchestrator.idea2_interpretation import validate
+            validate(self.store,self.config["run_id"])
+        elif owner['status']!='ACTIVE':
             event=self.store.batch.db.execute('SELECT payload FROM events WHERE id=?',(self.config['run_id']+':accepted',)).fetchone()
             report=self.state/'REPORT.md'
             if (owner['status']!='COMPLETE' or self.current()['phase'] not in {'REPORT','COMPLETE'}
@@ -230,6 +233,9 @@ class ExperimentDriver(Driver):
                 raise ValueError('EXPERIMENT_GLOBAL_OWNER_CHANGED')
 
     def task(self, stage, value):
+        if self.config.get("idea2_interpretation"):
+            from orchestrator.idea2_interpretation import task
+            return task(self,stage,value)
         from orchestrator import item6_idea2_followup as followup
         scope = followup.validate(self.store,self.config['run_id'])
         if scope is not None:

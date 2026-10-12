@@ -13,3 +13,10 @@ def batch_allowance(accounts,scope): return module(scope['run_id']).batch_allowa
 def refuse_legacy_completion(accounts,run): return module(run).refuse_legacy_completion(accounts,run)
 def preparation_hold(driver,value,collect_folder,identity_refusal):
     return module(driver.config['run_id']).preparation_hold(driver,value,collect_folder,identity_refusal)
+
+def stages(store,run):
+    from orchestrator import idea2_interpretation as interpretation
+    if interpretation.selected(store):
+        interpretation.validate(store,run)
+        return interpretation.STAGES
+    return STAGES

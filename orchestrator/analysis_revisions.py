@@ -5,8 +5,17 @@ import hashlib
 
 from orchestrator.autonomy_limits import AUTHORITY, DOCUMENT, REVISE_ROUNDS
 POLICY={'authority_sha256':AUTHORITY,'max_revision_rounds':REVISE_ROUNDS}
-# Categories reserved for changes to protected data, privacy, or spending controls.
+# Historical categories retained for callers; a scientific finding category is
+# not permission to access data, change credentials or authorize spending.
 RESERVED={'privacy/secret','test-set/leakage','budget'}
+CORRECTION_DOCUMENT='docs/SCIENTIFIC_REVISE_OPERATOR_DECISION_20261012.txt'
+CORRECTION_SHA='89312b1d6df5ff20de61701754dd5179308b974b6ee3d8fac1c0151071bfd33e'
+
+def correction_authority():
+    path=Path(__file__).resolve().parents[1]/CORRECTION_DOCUMENT
+    if path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest()!=CORRECTION_SHA:
+        raise ValueError('SCIENTIFIC_CORRECTION_AUTHORITY_CHANGED')
+
 
 
 def enabled(store,run):
@@ -24,6 +33,9 @@ def enabled(store,run):
         # bare item number/backend is not enough to extend legacy role limits.
         selection(SimpleNamespace(config=config, state=path.parent,
                                   context=Path(config['context'])))
+    elif config.get('colab_simple_full'):
+        from orchestrator.colab_simple_full import validate
+        if validate(store,run) is None:raise ValueError('COLAB_REVISE_SCOPE_REQUIRED')
     elif config.get('backend')!='analysis' or config.get('item_number') not in (2,5):
         raise ValueError('ANALYSIS_REVISION_POLICY_SCOPE')
     authority=Path(config['root'])/DOCUMENT
@@ -35,14 +47,18 @@ def enabled(store,run):
     return True
 
 
-def review_transition(review,stage,round_no):
+def review_transition(review,stage,round_no,*,offset=0):
+    if type(offset) is not int or offset < 0 or type(round_no) is not int:
+        raise ValueError('ANALYSIS_REVISION_ROUND')
+    round_no -= offset
     if stage not in ('run_spec_review','result_interpretation_review') or type(round_no)!=int or not 1<=round_no<=REVISE_ROUNDS+1:
         raise ValueError('ANALYSIS_REVISION_ROUND')
     if review['verdict']=='REJECT':return 'BLOCKED','REVIEW_REJECTED'
     if review['verdict']!='REVISE' or not review['findings']:
         return 'BLOCKED','REVISE_REQUIRES_ACTIONABLE_FINDINGS'
-    if any(row['category'] in RESERVED for row in review['findings']):
-        return 'BLOCKED','REVIEW_REQUIRES_OPERATOR_DECISION'
+    # Returning findings to an isolated author is a correction step, not execution.
+    # Existing data, privacy, budget and execution admissions still apply later.
+    correction_authority()
     if round_no>=REVISE_ROUNDS+1:return 'BLOCKED','UNRESOLVED_AFTER_THREE_REVISIONS'
     return stage.replace('_review','_author'),'REVISION_REQUIRED'
 
@@ -62,9 +78,9 @@ def instructions(store,run,*,notebook_revision=False):
         'explain the correction or the retained limitation. Do not edit a reviewer report or '
         'claim closure yourself: only an independent APPROVE closes this run/stage findings. '
         'REVISE returns to the author; REJECT or an unresolved fourth review stops. '
-        'Findings needing privacy, patient-data, cap or beyond-item2 scope decisions stop for '
-        'the operator. Categories privacy/secret, test-set/leakage and budget are held conservatively; '
-        'use metric/statistic for correctable aggregate analysis or cost arithmetic. '
+        'All finding categories return to the scientific author for correction under the pinned '
+        '12 October decision. A correction grants no patient access, credential change, spending '
+        'or execution permission; all independent admission checks still apply. '
         'This reviews an analysis-only proposal, not execution authority. Address future '
         'experiment defects with concrete proposed corrections and explicit execution holds; '
         'do not claim the executable was fixed, tested or approved. Preserve genuine criticism. '
@@ -82,6 +98,17 @@ def instructions(store,run,*,notebook_revision=False):
 
 def execution_instructions(config):
     """Scope-specific wording for the already verified execution selection."""
+    if config.get("idea2_interpretation"):
+        from orchestrator.idea2_interpretation import document, DOCUMENT_SHA
+        scope=document()
+        if config["idea2_interpretation"]!={"schema":"idea2-interpretation/v1","scope_sha256":DOCUMENT_SHA}:
+            raise ValueError("IDEA2_INTERPRETATION_REVISION_SCOPE")
+        return ("This reviewed interpretation-only continuation preserves the same30-call run and "
+            "all prior usage, UTC-day50 across roles and batch128 and the existing four-call smoothing allocation, including its two completed specification calls. "
+            "At most3author revision/re-review cycles; REJECT or unresolved "
+            "third revision stop this stage. All finding categories return to the scientific author; "
+            "correction grants no data access or spending. Only independent APPROVE closes findings. "
+            "Explain existing results; no code change, patient computation or successor execution. ")
     item=config['item_number']
     from orchestrator.autonomy_limits import selected_run_limit
     cap=selected_run_limit(config,config['run_id'])
@@ -90,8 +117,9 @@ def execution_instructions(config):
         'All preserved calls remain counted; this is not a retry of an uncertain or failed call. '
         'REVISE returns to the author to address each finding explicitly. Preserve original '
         'findings and cite the correction; only an independent approving review closes them. '
-        'REJECT, unresolved findings after the third revision, or findings requiring changes to '
-        'privacy, patient access, spending caps or approved backlog scope stop for the operator. '
+        'REJECT or unresolved findings after the third revision stop this stage. Every category '
+        'of scientific REVISE returns to the author for correction. This grants no patient access, '
+        'credential change, spending or execution permission; admission safeguards remain. '
         "Before execution, revise the actual code/notebook copy and inspect the controller's "
         'synthetic-test evidence. Synthetic tests do not establish real execution or efficacy. '
         'Interpretation revisions explain the existing results; they do not authorize another '

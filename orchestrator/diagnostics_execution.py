@@ -123,6 +123,9 @@ def advance(driver,value):
 
 
 def verified(driver,value):
+    if driver.config.get("idea2_interpretation"):
+        from orchestrator.idea2_interpretation import verified as completed_idea2
+        return completed_idea2(driver,value)
     from orchestrator.modal_executor import ModalExecutor
     selected=prepare(driver,value);require(selected is not None,'DIAGNOSTICS_PROVISIONING_REQUIRED')
     require(value.get('diagnostics_selection_sha256')==selected['sha256'],'DIAGNOSTICS_COLLECTION_SELECTION')

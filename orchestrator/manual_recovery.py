@@ -47,6 +47,17 @@ def permit(store,run):
 
 
 def role_limit(store,run,stage):
+    from orchestrator import preparation_followup as followup
+    scope = followup.validate(store,run)
+    if scope is not None:
+        followup.require(stage in followup.stages(store,run), 'PREPARATION_STAGE_ONLY')
+        if stage.endswith('_review'):
+            from orchestrator.autonomy_limits import REVISE_ROUNDS
+            return scope['offsets'][stage] + REVISE_ROUNDS + 1
+        from orchestrator.author_revision_accounting import inspect
+        result = inspect(store,run,stage)
+        followup.require(result is not None, 'AUTHOR_REVISION_POLICY_REQUIRED')
+        return result['limit']
     from orchestrator.analysis_revisions import enabled
     if enabled(store,run):
         from orchestrator.author_revision_accounting import inspect
