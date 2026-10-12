@@ -1,10 +1,10 @@
 # 13B execution plan
 
-Updated 12 October 2026,19:14UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 12 October 2026,19:27UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
-| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Bounded continuation153testsPASS; independent implementation review88d21b1b running; then correction,scientific review,integration |
+| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Repair approved/installed,153testsPASS; native qualificationPASS; author11RUNNING,then scientific review/integration |
 | First, session2 | A1_pnormct,0-4 | **Partho on Colab**, default runtime,A100 | Delivered unchanged after real trainer PASS; Partho reports RUNNING |
 | Next | A1_pnorm_v2,0-4 | **Partho on Colab**, default runtime,A100 | Author, scientific review and real integration |
 | Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Same checks, plus actual A100 memory-fit evidence |
@@ -21,6 +21,8 @@ At Sprint12's measured36seconds/epoch,5folds x250epochs imply12.5training hours 
 
 Compare each arm provisionally with Sprint12A1. Small differences are not interpretable without a later Colab repeat. Attribute changes to placement versus amount, size, region and fragmentation; no efficacy claim from code or integration tests.
 
-**Server work:**priority is multiwin delivery,provisionally1-2hours from review start if correction/review/integration pass. Cap099b76cd is APPROVED/installed; process/cache questions were not answered. Candidatebb65a300passes153tests and needs one independentimplementationreview before use. No continuation installed yet. Smoothing CPU execution is valid and terminal; its interpretation repair06eb remains deferred and unreviewed. Meeting,timing and generic sandbox/rotation work are deferred.
+**Server work:**multiwin author11 is RUNNING. Source83ef32d5 APPROVED32e39f9e/report6fd11123,installed; real zero-call context/transport qualification PASS. Original20calls preserved; effective24 permits four bounded correction/review calls. Next author result within30minutes; delivery1-2hours conditional on reviews/integration. Original omitted-file installer refusal and charge preserved; complete61-file closure checked before corrected review. Latest Claude directionPROCEED.
 
-Today52calls; operator authorizes100for12OctoberUTC then50. Cap implementation is installed and verified; one implementation review running. Scientific111/128,remaining11Colab/2analysis/4meeting. Item4non-Colab exposure115.516623/150=billed24.487001+retained91.029622;total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.
+Smoothing CPU is valid/terminal; interpretation namespace repair06eb remains deferred/unreviewed. Meeting,timing,sandbox/rotation deferred. No Swap.
+
+Today54calls:13author,9scientificreviewer,30administrative,2direction; installed100on12OctoberUTC then50. Scientific112/128,remaining10Colab/2analysis/4meeting. Completed Claude339.15546725,author dollars unavailable. Item4exposure115.516623/150=billed24.487001+retained91.029622,total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.

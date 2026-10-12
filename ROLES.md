@@ -1,8 +1,6 @@
 # Roles and operator rotation
 
-Current12Octobercheckpoint:pnormct delivered and running by operator report; dated cap approved/installed; multiwin continuation153testsPASS,unreviewed and held by diskstop. No role rotation or Swap point. See CURRENT.md.
-
-Current operator: **Codex / OpenAI**. Goal active, no rotation. Scientific author uses the existing OpenAI client; scientific reviewer and operator implementation reviewer use the existing Claude route. The future opposite-family administrative route for a Claude operator remains uninstalled. Read HANDOVER and CURRENT before any mutation.
+Current operator: **Codex, OpenAI family**. No rotation. Pnormct is running in Partho's Colab session; multiwin author11 is running through the existing scientific lane. Timing and opposite-family administrative route remain unfinished. The operator owns infrastructure, venues, accounting and handover; scientific code/conclusions belong to the scientific author and independent reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
