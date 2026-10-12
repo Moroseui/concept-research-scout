@@ -41,8 +41,10 @@ Other venue limits remain unchanged: item4 Modal stage1 $150, timing diagnostic 
 
 ## Next results
 
-A1_repeat is parked after administrative disagreement about returning a privacy-category finding to the author. Author6 passed synthetic checks; review5's input binding and unused-fragment corrections remain open. Metadata is ready; author7 has not been admitted. Candidate3a901826's mechanical fixes passed74tests and were judged correct, but normal discussion round2 retained the authority objection. Follow the standing park-and-switch rule; no further Colab review or delivery estimate now. No action from Partho; keep the superseded notebook stopped.
+A1_repeat is unparked by explicit operator direction. Author7 is running with both review5 findings after installed repair d8b7f36e passed76tests, independent APPROVE and native checks. Final notebook delivery follows synthetic tests and scientific re-review; expected30-60minutes subject to findings.
 
 Next active result is Idea2's 3-by-3 saved-output analysis on existing server CPU. Adapter5311301 passed77tests, independent APPROVE and native isolation controls; its single execution is complete. Obtain scientific interpretation/review after the narrow admission connection is reviewed; provisionally1-2activehours. No new provider commitment. Timing/sandbox/rotation remain deferred, and the swap gate is not met.
 
-Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. The single saved-output CPU execution completed and validated; no retry. No model call or compute job is live; Colab remains parked. Scientific interpretation is still required.
+Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. The single saved-output CPU execution completed and validated; no retry. Colab author7 is running; no compute job is live. Scientific interpretation is still required.
+
+Current delivery step: Colab is unparked. Author7 is running to bind the real input-reference hash and delete the inert historical fragment. The narrow installed infrastructure repair has independent APPROVE and native checks; exact final notebook files still require synthetic tests and scientific re-review. Idea2 completed CPU evidence is being connected to interpretation in parallel.

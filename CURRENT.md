@@ -2,12 +2,10 @@
 
 Action needed from you: none. Codex/OpenAI remains operator; goal active. No swap or pause.
 
-Idea2's approved saved-output program completed on existing server CPU in about six minutes. Adapter5311301 passed77tests, qualified independent APPROVE71bf1a50 and both native isolation controls. Six aggregate outputs validated; before/after hashes match across728inputs and four package files. No model call or compute job is running. Never replay its consumed execution.
+Colab is UNPARKED by the explicit operator decision. Both original review5 findings go to scientific author7. Source d8b7f36e passed76tests, qualified implementation APPROVE e7df0644 and native admission/transport checks; installed. The one-use recovery preserved all12prior calls. Author7 call07c972f3 is RUNNING; observe the same native unit and never restart it. Next: reconcile completion, synthetic tests, scientific re-review, then exact notebook delivery.
 
-Next: connect the validated aggregate evidence to the existing scientific author/reviewer interpretation stages. Intake draft96e0c6b1 passes14tests plus an offline captured-result check with documented path mapping; not reviewed or installed. Preserve the original preparation-only lane, all11calls, original item6acceptance and canonical owner. The narrow interpretation grant/accounting connection and native controller still need implementation and one bundled independent review. Scientific conclusions are not yet accepted.
+Idea2 CPU execution is COMPLETE with six validated aggregates and matched before/after hashes; never rerun it. Interpretation connection58e0ae05 passed189tests; independent implementation packet79ca2bcf is registered and not started. It preserves the original preparation lane,11calls, acceptance and owner; no new compute. The general scientific revise-loop correction is included in that infrastructure review.
 
-Colab remains PARKED after normal administrative discussion round2f601ab6f retained the privacy-hold authority objection. Candidate3a901826 remains uninstalled; author7 never admitted; all12localcalls preserved. No duplicate review or author launch. Final notebooks are not ready. Timing/sandbox/rotation remain deferred.
+UTC12October20/50:5authorreservations(one running),2scientificreviews,13administrative(one disqualified),0standalone direction. KnownClaude$211.210907; author dollar totals unavailable. Non-Colab stage1 exposure$115.516623/$150; identified billed$24.487001. Colab unmetered. Latest Claude direction PROCEED.
 
-UTC12October18/50:4authorreservations,2scientificreviews,12administrative reviews(one disqualified),0standalone direction. KnownClaude$207.254286; author dollar totals unavailable. CPU incremental provider commitment$0. Non-Colab stage1 exposure$115.516623/$150, identified billed$24.487001. Colab unmetered.
-
-See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md; exact handles and native result capture are in private HANDOFF_CURRENT_PRIVATE.md.
+See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Exact immutable operation handles are in the private handoff. Timing/sandbox/rotation deferred.
