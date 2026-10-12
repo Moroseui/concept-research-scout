@@ -16,7 +16,7 @@ Use existing credentials only. Never access excluded25/24 payloads, create/chang
 |---|---|---|
 | Item6 diagnostics / synthesis | Independently accepted; aggregate comparison with Sprint14 complete | Keep accepted results distinct from independent retraining: the352rounded matches concern shared saved fits/cohort. |
 | Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Finish only the narrow CPU integration, review/install, execute and interpret through author/reviewer. Draft adapter has45engineering tests, no patient execution. No data transfer or dependency install needed. |
-| A1_repeat Colab | Author5 complete but unaccepted: main(arm, folds) violates required main(input_root, output_root, contract) | Dependency review0069af3 is APPROVE / PROCEED; installation, native zero-call probe and recovery are complete. Reconcile the requested counted author6 correction, synthetic checks and scientific review of all notebook variants. Deliver files and hashes immediately after approval. |
+| A1_repeat Colab | Author6 synthetic PASS; review5 genuine REVISE; metadata now prepared | Reconcile review9b250bc2, install only after APPROVE, author7 fixes both findings, exact runnable files undergo scientific review before delivery. |
 | Other coverage-independent arms | Planned, not delivered | Author/review each after A1_repeat; retain eight arms by five folds in the plan. |
 | Coverage-dependent arms | Held | Scientific coverage-source contract remains unverified. |
 | CPU-starvation timing | Parked after repeated admission-reader failure; no timing result | Narrow recovery later; do not block Colab on it. |
@@ -25,21 +25,17 @@ Use existing credentials only. Never access excluded25/24 payloads, create/chang
 
 ## Current Colab repair and non-duplication
 
-Admission release0770e23 is installed and independently approved. Its exact old premodel failure is now FAILED globally, with the original local refusal and all counts/charges preserved.
+Installed a943951 is independently approved and native-qualified. Author6 calledb179ca4 is COMPLETE; scientific review5 call1f23142c is COMPLETE / REVISE. Both findings must be answered: final input binding, and removal of unused historical membership code. Twelve local calls are preserved. No compute job is running.
 
-Author5 callb7253152 is COMPLETE in both ledgers. Its controller is BLOCKED on the exact main-interface refusal. Ten local calls remain counted. Do not repeat author5, edit its scientific draft, reset counters or mark it accepted.
+Real accepted metadata and five private empty fold locks are prepared. Candidatee3e9fe66 passed145tests; implementation review9b250bc2 is RUNNING. Observe that exact request; do not restart it, install the candidate or launch author7 until genuine APPROVE. Then use its exact reviewed one-use native procedure, retain the real REVISE, let the author change scientific code and submit every final variant for scientific review. Deliver only exact approved runnable files.
 
-Same-lane static recovery sourced1178a66 was APPROVED / PROCEED (report5bc9c60) and installed. Its zero-call native probe failed when unused secret-pattern definitions in a checker dependency were scanned as input. Recovery and author6 did not run. Preserve that failed probe and its consumed intent.
-
-Candidatea943951 removes only that unused dependency code; required opaque-check definitions are copied exactly from the existing engine. The full host privacy scan is unchanged. All14actual feedback files pass it,101tests pass, and the preserved draft still triggers its main error. Administrative review0069af3 returned APPROVE / PROCEED. The corrected release is installed; its zero-call native probe passed and recovery is complete. Author6 calledb179ca4 is RUNNING, with eleven local calls preserved and counted. Observe that exact unit/call; never submit another while its outcome is uncertain. The old lane/config/owner/grant remain unchanged.
-
-Author6 is running; no compute job is active. The stopped laptop Drive copy (294verified files and a partial file) and completed evidence migration/removal must not be replayed. All old installed/source/review records remain preserved.
+The request-only Drive broker was briefly restored through its existing configuration, used for one seven-file metadata-only upload, verified and stopped. No uncertain upload remains. The tiny reference is locally readback-verified through existing Drive Desktop; remote sync unproven. Preserve the five object identities and do not create replacements. No input payload copy, new credential, scope or permission change. The stopped294-file copy and completed evidence cleanup remain stopped.
 
 ## Money, calls and judgments
 
 Non-Colab item4stage1 exposure: $115.516623/$150, comprising identified billed $24.487001 and retained $91.029622. Timing $5.405445/$25 within stage1; synthetic CPU reservation $1.118950 awaits billing. Item6cap $100; other-venue item4total $1,275 and projection gate $1,200 unchanged. Only provider-confirmed closed actuals release excess. Colab is no longer metered; retain historical records and unknown actual cost truthfully.
 
-UTC12October:10/50 counted,4authorreservations (one premodel failure),1scientific review,5completed administrative reviews,0standalone direction. Known Claude $174.6015665 after the dependency review; author dollar totals unavailable. Original usage is never reset or relabeled.
+UTC12October:12/50 counted,4authorreservations (one premodel failure),2scientific reviews,6administrative reviews(one live),0standalone direction. Known Claude $180.43873075 before the live review; author dollar totals unavailable. Original usage is never reset or relabeled.
 
 Latest answered direction: Claude APPROVE / PROCEED for the same-lane static correction. The dependency fix also received explicit PROCEED. Judgment: reuse current lane and validators, keep all refusals, fix only necessary packaging, use existing server inputs, and defer unrelated infrastructure. Administrative overhead is high; avoid speculative components and prioritize notebook delivery. Each exact judgment and consultation is logged privately; STATUS records highlights.
 

@@ -1,11 +1,11 @@
 # Research status
 
-- Item 6 and the saved-results synthesis are accepted; Idea2's new analysis code is approved, but its results are not computed yet.
-- The new full-training A1_repeat notebook is still being prepared; do not run the superseded Python 3.12 notebook.
-- The repair is approved and its native check passed; author6 is now running on the preserved draft.
-- The author must correct the preserved draft?s main-function interface; synthetic tests and scientific review still precede delivery.
-- Identified item 4 billed compute is $24.487001; known Claude charges are $174.601567; author dollar totals are unavailable.
-- Next expected result: reviewed A1_repeat files, roughly 45?90 active minutes after successful author admission; this remains uncertain.
+- Item 6 and the saved-results synthesis are accepted; Idea2 code is approved, but its new results are not computed yet.
+- A1_repeat full-training notebooks passed synthetic tests; scientific review requested two corrections before delivery.
+- Real input metadata and five private fold locks are now prepared; the author must bind them and remove an unused historical fragment.
+- Claude is reviewing the narrow continuation; no training or other model call is running.
+- Identified item 4 billed compute is $24.487001; known Claude charges are $180.438731, plus the live review; author dollar totals are unavailable.
+- Next expected result: reviewed A1_repeat files after another author/review cycle, approximately 30-60 active minutes if it passes.
 - Action needed: none. Colab is unmetered by the system. See the [execution plan](13B_EXECUTION_PLAN.md).
 
 ## Direction and scientific results
@@ -26,24 +26,33 @@ Author5 then completed in both ledgers, but the controller refused its main(arm,
 
 The same-lane correction at d1178a66 received APPROVE / PROCEED and was installed. Its zero-call native probe stopped when the privacy scanner rejected unused pattern definitions in a checker support module. No author6 call occurred; the exact blocked state and ten calls remain unchanged. The scanner was kept intact.
 
-Installed release a943951 limits that supplementary dependency to the exact original code the checker needs. All 14 actual feedback files pass the unchanged full privacy scan, 101 affected tests pass, and the original draft still receives the same interface error. Review 0069af3 returned APPROVE / PROCEED. Installation and the fresh zero-call native probe are complete. The exact recovery preserved all ten calls, and author6 is RUNNING as calledb179ca4; eleven local calls remain counted. Observe this exact call, never duplicate it. The old failed probe and its consumed intent remain preserved. No lane, owner, configuration, global allowance or scientific source is replaced.
+Installed release a943951 limits the supplementary dependency to the exact original code the checker needs. All14 actual feedback files pass the unchanged full privacy scan,101tests pass, and review0069af3 returned APPROVE / PROCEED. Installation, native zero-call probe and recovery are complete.
+
+Author6 completed; the actual controller synthetic suite passed. Scientific review5 returned genuine REVISE: final code needs its real metadata reference hash, and an unused historical membership fragment should be removed. The active99/49membership safeguard was judged correct. All twelve local calls and both findings remain preserved. No notebook is runnable or delivered yet.
+
+The reference metadata is now prepared, using unchanged accepted descriptors and five distinct empty owner-only fold locks created through the existing registered Drive broker. Only a2070-byte metadata reference was written through existing Drive Desktop and readback-verified; remote sync remains unproven and the notebook must refuse missing/mismatched content. No patient input copy, new credential, scope or permission change.
+
+Candidatee3e9fe66 supplies that context and permits only this exact held revision to return to the scientific author.145tests pass. Claude administrative review9b250bc2 is RUNNING; no installation or successor call before genuine APPROVE. This preserves the genuine REVISE and all admission, privacy, account and round controls. Final runnable bytes require scientific review; no post-review source regeneration.
 
 ## Spending and daily calls
 
 Non-Colab item 4 stage-1 exposure is $115.516623 against $150: identified billed $24.487001 and retained exposure $91.029622. Timing is $5.405445 against its $25 sublimit; a $1.118950 synthetic CPU reservation awaits billing. Item 6 stays at $100; other-venue item 4 total $1,275 and projection gate $1,200 are unchanged. Closed provider attempts release excess only after actual billing is confirmed.
 
-UTC 12 October: 10 of 50 counted calls/reservations:
+UTC 12 October: 12 of 50 counted calls/reservations:
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author | 4 | Idea2 code revision; one Colab premodel failure; simplified Colab draft; current static correction |
-| Scientific reviewer | 1 | Idea2 code acceptance |
-| Administrative review | 5 | Colab preparation, local terminal qualification, admission repair, static correction, checker dependency repair |
+| Scientific author | 4 | Idea2 code revision; one Colab premodel failure; simplified Colab draft; completed interface correction |
+| Scientific reviewer | 2 | Idea2 code acceptance; A1_repeat full-training code review |
+| Administrative review | 6 | Colab preparation, local terminal qualification, admission repair, static correction, checker dependency repair, current exact review5 continuation |
 | Standalone direction check | 0 | Direction questions folded into implementation reviews |
 
-Administrative repairs currently use half the calls. Batch necessary corrections and direction questions; defer unrelated infrastructure and deliver the first notebook after scientific approval. Known Claude charges are $174.6015665 after five completed administrative reviews. Author dollar totals are unavailable. Preserve every original attempt and charge.
+Administrative repairs currently use half the calls. Batch necessary corrections and direction questions; defer unrelated infrastructure and deliver the first notebook after scientific approval. Known Claude charges are $180.43873075 after scientific review5; the sixth administrative review is live and not included yet. Author dollar totals are unavailable. Preserve every original attempt and charge.
 
 ## Judgment highlights
+
+- Preserve review5 as genuine REVISE; request Claude authorization for only its exact held continuation, not a generic privacy-category bypass.
+- Bind real metadata before final scientific review. Reuse the installed registered Drive broker for empty private locks; no input transfer or new Drive subsystem.
 
 - Use the operator's simplified Colab direction; retain old history without future Colab metering.
 - Repair branch admission without relaxing its check; reconcile the exact premodel terminal failure while retaining usage.
@@ -54,8 +63,10 @@ Administrative repairs currently use half the calls. Batch necessary corrections
 
 ## Backup and exclusions
 
-Previous verified public push: 168c830effc096e90a0776c680b0cf6ea5a22e7e. Current updates require scans and push. C: last checked at 18.03 GiB free; WSL about 905 GiB. Server free space was 117.03 GiB before the latest verified source transfer and 116.88 GiB afterward. Warn below 15 GiB and stop below 8 GiB before large work. The private checkpoint needs refreshing with the latest review/probe outcomes.
+Previous verified public push: eebd1b86ddb5c8d71a9bc7eafc0c82b7d27709ce. Current updates require scans and push. C: last checked at 18.03 GiB free; WSL about 905 GiB. Server free space was 117.03 GiB before the latest verified source transfer and 116.88 GiB afterward. Warn below 15 GiB and stop below 8 GiB before large work. The private checkpoint needs refreshing with the latest review/probe outcomes.
 
 Withheld: private evidence, packets, ledgers, native streams, private bindings, input mappings/membership, patient rows, weights/caches and raw private branch ancestry. Flagged files excluded from public projections include ITEM6_IDEA2_FOLLOWUP_PRIVATE.json and docs/COLAB_SIMPLE_FULL_PRIVATE.json. Only scanned code/test projections and aggregate status are public. No main merge, BACKLOG edit or credential change.
 
 Installed engineering projection source a943951: 24 scanned files. Additional flagged files withheld: docs/COLAB_ADMISSION_FAILURE_PRIVATE.json, docs/COLAB_AUTHOR5_STATIC_PRIVATE.json, docs/COLAB_HISTORICAL_EIGHT_PRIVATE.json, docs/COLAB_SIMPLE_FULL_PRIVATE.json.
+
+Additional private files withheld: COLAB_REVIEW5_BOUND_PRIVATE.json and COLAB_ACCEPTED_INPUT_REFERENCE_PRIVATE.json. Current continuation is uninstalled; no unreviewed implementation is presented as a release.

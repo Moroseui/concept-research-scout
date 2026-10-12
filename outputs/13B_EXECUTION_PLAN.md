@@ -44,3 +44,5 @@ Other venue limits remain unchanged: item4 Modal stage1 $150, timing diagnostic 
 No action from Partho until the new reviewed A1_repeat files arrive. Leave the superseded notebook stopped. Author6 is running on the preserved draft after independently approved recovery and a passing zero-call native check. Its corrected notebook/synthetic outcome is expected within30minutes; scientific review follows before delivery.
 
 Idea2 code is scientifically approved with20passing synthetic tests. All728frozen server input hashes and development/exclusion membership checks pass; existing CPU dependencies match. A narrow execution adapter passes45engineeringtests and still needs implementation review/installation. Timing, author sandbox and opposite-family review capability remain outstanding; no swap point.
+
+Current delivery gate: author6 passed synthetic tests; review5 requests final metadata binding and removal of an inert historical fragment. Metadata is prepared. Claude reviews the narrow continuation before the author revises and scientific review judges the exact runnable bytes. No post-review regeneration or old runtime gate.
