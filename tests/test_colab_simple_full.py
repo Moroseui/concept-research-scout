@@ -367,12 +367,12 @@ def test_prepare_copies_history_once_without_activation_or_new_allowance(lane,mo
     with pytest.raises(ValueError,match='EXISTING_LANE_RECONCILE'):f.prepare(root,filesystem_root=x.store.batch.filesystem_root)
 
 
-def test_fiftieth_daily_call_still_refuses(lane,monkeypatch):
+def test_current_utc_day_cap_still_refuses(lane,monkeypatch):
     from orchestrator.autonomy_accounting import BatchAccounts
     from orchestrator import autonomy_limits as limits
     from datetime import datetime,timezone
     x=lane;f.activate(x.store,f.RUN)
-    for i in range(50):
+    for i in range(limits.daily_allowance(datetime.now(timezone.utc).date().isoformat())['limit']):
         x.global_db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',
           ('daily'+str(i),'implementation_review','another',i+1,datetime.now(timezone.utc).date().isoformat(),'COMPLETE','{}','{}'))
     monkeypatch.setattr(limits,'global_limit',lambda *a:20)

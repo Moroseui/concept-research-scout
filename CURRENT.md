@@ -1,17 +1,16 @@
-# Current research state -12October2026
+# Current research state - 12 October 2026
 
-Action needed from you: no additional setup. The previously sent private pnormct Colab check still awaits PASS/FAIL and its evidence location.
+Action needed from you: none. C:14.28GiB is above8GiBstop but below15GiBwarning. Codex/OpenAI remains operator; no Swap point.
 
-Smoothing CPU execution succeeded once, with728input and4package hashes unchanged,99development patients and zero excluded overlap. Scientific interpretation is pending. The combined implementation release7fb2babe passed133tests, independent APPROVEd76422cb and native controls; no incremental compute cost.
+The local accounting repair a4490b9c passed188tests and independent APPROVEb2eaaa97/report52092c3b. Installed and reconciled: the failed author11 slot is FAILED globally, still counted; its local record and all21original records remain. No model launched. The next zero-call probe found an earlier lifecycle check still enforcing20 instead of the independently approved24. That probe failed before any new reservation.
+The narrow lifecycle candidate63da504c retains all original owner/configuration/approval/history/activation checks, adds exact store and recovery binding, and reads the existing authenticated24ceiling.257testsPASS, including cap refusals. Whole-component reviewa4163c1a is registered/prepared; start waits for normal maintenance guards. No new allowance or scientific-code change. No replay of either consumed failed intent. Require genuine APPROVE, then new zero-call native qualification,author12,scientificreview and real multiwin trainer iteration before delivery.
 
-Interpretation preparation hit an immutable filename collision with earlier Idea2 outputs. Nothing was overwritten; no interpretation grant/call was created. The CPU job is terminal and must not be rerun. Repair06eb2957 passes136tests, preserves the partial lane and directly pins the actual completed output. It is UNREVIEWED/UNINSTALLED and awaits the daily reset. Its immutable review packet is now prepared and reader-checked locally; no request or call was started.
+Pnormct is RUNNING by Partho's report from unchanged scientifically approved13B_A1_pnormct.ipynb, SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. Five folds sequential250epochs,resume/skip,private Drive outputs;14hour estimate provisional.
 
-Today50/50model calls:12authors,9scientific reviewers,27administrative reviews,2direction checks. Scientific111/128;2analysis,11Colab,4meeting slots remain. No new calls before00:00UTC13October. Next target: reviewed interpretation45-90minutes after reset, subject to repair approval.
+Daily55counted slots:13scientific author,9scientific reviewer,31administrative review,2direction. Scientific112/128;10Colab,2analysis,4meeting remain. Installed100on12OctoberUTC returns50on13October. Known completedClaude342.27686025; author historical dollars unavailable. Item4billed24.487001+retained91.029622=115.516623/150. Colabunmetered; no newcomputecharge.
 
-Pnormct code is approved but full training delivery waits for the real trainer check. Multiwin stays parked at20calls. New-arm order remains multiwin/pnormct, then pnorm_v2, then L after A100 memory evidence. One arm-level notebook, folds0-4sequential250epochs, resume/skip; repeats parked; zscore/histeq held. Sprint12A1 is provisional comparator, with small differences uninterpretable without a Colab repeat.
+LatestClaude directionSIMPLIFY agreed: defer genericinfrastructure and drive actualscience after this requiredrepair. Notebookdelivery ETA uncertain; next checkpoint is qualifiedreview provisionally20-40minutes, subject to findings. All originalcharges preserved.
 
-Billed item4compute24.487001; retained91.029622; stage1exposure115.516623/150. Known Claude charges321.400746, author dollars unavailable. Colab unmetered. All caps, history and safeguards unchanged.
+Item6, synthesis and Idea2 accepted. SmoothingCPU completed once/valid,304.77seconds,hashesunchanged; interpretationnamespace repair06eb remains deferred/unreviewed. Timing,meeting,sandbox/rotation deferred by current deliverypriority. Nextnewarmspnorm_v2thenL aftermemoryproof; repeatsparked,coveragearmsheld.
 
-Nothing is running or uncertain in the new work. Latest Claude direction13:56:PROCEED, caution to simplify future installation layering; agreed. No Swap point: timing and opposite-family route remain unfinished. Read HANDOVER and [STATUS](outputs/STATUS.md); private handoff tail contains exact resume paths and hashes. Goal is temporarily blocked by the daily cap; resume after UTC reset or new Colab evidence. The full objective remains unchanged.
-
-14:42UTC reconciliation:50calls, zero running model calls, no active research services, and the prepared review has no server request or ledger row. Offline preparation is complete. The goal waits for the daily reset or returned Colab evidence; it is neither completed nor paused by the operator. No further infrastructure is being added merely to fill the wait.
+Read HANDOVER,ROLES,STATUS and execution plan. Exact private operation receipts are authoritative; reconcile service,ledger and nativeclient before launch. No excludedpatients,newcredentials,patient-derived publication,mainmerge or BACKLOGedit.
