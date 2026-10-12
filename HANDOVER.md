@@ -15,7 +15,7 @@ Use existing credentials only. Never access excluded25/24 payloads, create/chang
 | Workstream | State | Next step and reason |
 |---|---|---|
 | Item6 diagnostics / synthesis | Independently accepted; aggregate comparison with Sprint14 complete | Keep accepted results distinct from independent retraining: the352rounded matches concern shared saved fits/cohort. |
-| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Finish only the narrow CPU integration, review/install, execute and interpret through author/reviewer. Earlier adapter suite45tests; latest19targeted tests cover actual accepted state and read-only intake. No patient execution. No data transfer or dependency install needed. |
+| Idea2 saved-output analysis | Author5/review4 APPROVE,20scientific tests pass;728frozen server files and99/excluded49 checks verified; existing CPU environment matches | Adapter5311301 passed77tests, independent APPROVE71bf1a50 and native isolation controls; one server CPU execution is now running. Observe that job, validate outputs, then obtain scientific interpretation/review. No data transfer or dependency install needed. |
 | A1_repeat Colab | Author6 synthetic PASS; review5 genuine REVISE; metadata now prepared | PARKED after authority disagreement; no author7 or installation. Resume only with a reviewed resolution; meanwhile advance Idea2. |
 | Other coverage-independent arms | Planned, not delivered | Author/review each after A1_repeat; retain eight arms by five folds in the plan. |
 | Coverage-dependent arms | Held | Scientific coverage-source contract remains unverified. |
@@ -25,7 +25,7 @@ Use existing credentials only. Never access excluded25/24 payloads, create/chang
 
 ## Current Colab hold and non-duplication
 
-Colab is PARKED. Author6 and review5 are complete; scientific review5's two findings remain open. Metadata and five locks are prepared. Author7 has never been admitted;12local calls preserved. No notebooks are released. No model call or new compute job is running.
+Colab is PARKED. Author6 and review5 are complete; scientific review5's two findings remain open. Metadata and five locks are prepared. Author7 has never been admitted;12local calls preserved. No notebooks are released. No model call is running; one Idea2 CPU job is running and must not be duplicated.
 
 Installed92df28f9 received qualified APPROVE/PROCEED, but its native probe refused an exact-stage mismatch before model/state mutation. Candidate3a901826 tightens the stage and corrects deployment file membership;74tests pass. Review307a4ea8 and normal discussion round2f601ab6f judged these changes correct but retained a privacy-category authority objection. The candidate remains uninstalled. Do not repeat consumed probes, recovery, author starts or discussions. Both opposing positions and costs are in STATUS. Do not claim new human approval. The standing rule says park after no substantive agreement; work Idea2 instead.
 
@@ -35,15 +35,15 @@ Private fold locks and real reference are already prepared. Preserve them; no du
 
 Non-Colab item4stage1 exposure$115.516623/$150; identified billed$24.487001, retained$91.029622. Timing$5.405445/$25inside stage1; synthetic CPU$1.118950awaits billing. Item6cap$100; other-venue item4total$1,275/projection$1,200unchanged. Only confirmed closed actuals release excess. Colab unmetered, historical records retained.
 
-UTC12October17/50:4authorreservations,2scientificreviews,11administrative reviews(one disqualified),0standalone direction. Known Claude$201.846241; author dollar totals unavailable. No resets/relabeling. Latest Claude direction recommends holding Colab. Codex disagrees on delegated authority but has parked it after the focused discussion produced no substantive agreement. Batch only the necessary Idea2 execution integration review; no more Colab administrative cycle now.
+UTC12October18/50:4authorreservations,2scientificreviews,12administrative reviews(one disqualified),0standalone direction. Known Claude$207.254286; author dollar totals unavailable. No resets/relabeling. Latest Claude direction recommends holding Colab. Codex disagrees on delegated authority but has parked it after the focused discussion produced no substantive agreement. Idea2 integration review passed; actual result interpretation comes next. No more Colab administrative cycle now.
 
 ## Safe resumption
 
-1. Confirm Codex still owns the operator role and reconcile native services and ledgers through the existing service account. No call was live at this stop. An uncertain outcome requires observation, never a duplicate launch.
+1. Confirm Codex still owns the operator role and reconcile native services and ledgers through the existing service account. No model call is live; reconcile the one Idea2 CPU execution before any retry. An uncertain outcome requires observation, never a duplicate launch.
 2. Read the canonical verbatim, hash-pinned operator decisions and the private handoff. Do not rely on older root-checkout status files that predate these updates.
 3. Check free space before large steps: warn below15GiB, stop below8GiB on C: or WSL. Last C:about18GiB; server115.91GiB after verified checkpoint. No disk purchase is needed.
 4. Keep Colab parked. Preserve the two authority positions and every failed probe/review/source. Do not repeat the completed discussion or launch author7 without a new reviewed resolution.
-5. Finish only Idea2's native CPU integration, with synthetic tests and independent implementation approval before execution. Authenticate the exact current accepted lane; preserve its original preparation grant and all calls.
+5. Idea2 native adapter5311301 is installed after77tests, independent APPROVE71bf1a50 and native positive/negative controls. Reconcile its one active execution. Authenticate the exact current accepted lane; preserve its original preparation grant and all calls.
 6. Execute the approved saved-output analysis on existing server CPU and send its actual evidence through scientific interpretation/review. No new provider job or Drive transfer is needed. Colab delivery resumes only after its hold is resolved and exact final notebooks obtain scientific approval.
 7. At each stop, update STATUS/CURRENT/HANDOVER/ROLES, back up private evidence with hashes, scan privacy/secrets/infrastructure, push remote-server and safe working branches, verify hashes, and leave main unchanged.
 
