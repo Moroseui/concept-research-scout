@@ -1,12 +1,12 @@
 # Operator handover
 
-Current operator: Codex/OpenAI. Updated12October2026 at13:13UTC. Goal active; no rotation. Scientific author uses the existing OpenAI lane; scientific and operator implementation review use Claude. Future opposite-family administrative route for a Claude operator is not installed.
+Current operator: Codex/OpenAI. Updated12October2026 at13:33UTC. Goal active; no rotation. Scientific author uses the existing OpenAI lane; scientific and operator implementation review use Claude. Future opposite-family administrative route for a Claude operator is not installed.
 
 Goal: understand infarct prediction and deliver new13B arm results. Scientific author owns scientific code and conclusions; operator owns infrastructure, venues, accounting and reporting. Never access excluded25/24 payloads, change credentials, publish patient-derived data, merge main or edit BACKLOG. Ask Partho only money or a necessary Colab action. Preserve every attempt, charge and uncertain handle.
 
 ## Workstreams and reasoning
 
-The scientific author is RUNNING on the accepted fixed-amount smoothing question, callc7bccc44, canonical author attempt6. It started once after genuine Claude approval, installation, exact activation and native role/input/transport qualification. All13 earlier calls remain counted; the new call is14. Draft expected by13:42UTC under the1800-second author timeout; independent scientific review follows. No data execution or new scientific conclusion is claimed.
+The smoothing author completed once with 16 controller synthetic tests passing in 11.3 seconds, without patient data. Normal scientific review920c0653 is RUNNING, started at13:28UTC. All13 previous calls and the new author are preserved; the review is canonical call15. Expected review result in10-20minutes from start. No patient-data execution or new scientific conclusion is claimed.
 
 Analysis admission649ebc7b received genuine Claude APPROVE7c93e0b8/reportcf427255 and PROCEED, but its obsolete historical terminal route refused activation before any owner/grant/call mutation. The original installation, prepared lane and refusal remain preserved. Narrow correctionc3404e36 reuses the existing strict historical verifier, passed75tests and genuine Claude APPROVE7e9dbb60/reportabf0c222, again PROCEED. Its actual activation and native checks passed; no guard was relaxed. The preceding broader suite failures reproduce on the unchanged parent and remain disclosed. No new subsystem was built.
 
@@ -16,22 +16,26 @@ New-arm order remains multiwin and pnormct, then pnorm_v2, then L after actual A
 
 ## Spending and limits
 
-12 October UTC:48/50 calls:12 scientific authors,8 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch110/128. One of4analysis slots used;3analysis,4meeting and11Colab slots remain. Canonical item6 has14counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$309.98807875; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
+12 October UTC:49/50 calls:12 scientific authors,9 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch111/128. Two of4analysis slots used;2analysis,4meeting and11Colab slots remain. Canonical item6 has15counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$309.98807875 exclude the live review; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
 
 Item4 total1275/projection gate1200 and item6 cap100 unchanged. Item4 timing5.405445/25 inside stage1;1.118950 synthetic CPU awaits provider billing. Never release an open/uncertain reservation. Daily50 resets atUTC midnight; wait rather than request an increase. The approved extra24 calls allocate16Colab/4analysis/4meeting. No new item/dollar commitment.
 
 ## In progress; never duplicate
 
-Scientific callc7bccc44e04c803a8de45a42a37a5baf4f3f07baf98850fed25e8595b3b68b99 is RUNNING in the canonical diagnostics owner, stage run_spec_author, durable attempt6. This is the FIRST author for the smoothing question. Native PID774313 was confirmed13:12UTC. Model calls remain serialized. No provider compute job is running.
-Both administrative reviews7c93e0b8 and7e9dbb60 are terminal APPROVE. First activation failed before mutation and is preserved; corrected activation succeeded. All transfer/install/prepare/activate/probe/author-start intents are consumed. Never replay them.
+Scientific call920c06536c71fe4a72960698870b48b09bde0b6ae79e2c8daf378396776e5d4f is RUNNING in the canonical diagnostics owner, stage run_spec_review, durable review attempt5. This is the FIRST scientific review for the smoothing question. Native PID781383 was confirmed13:30UTC. Authorc7bccc44 is terminal COMPLETE. Model calls remain serialized. No provider compute job is running.
+Both administrative reviews7c93e0b8 and7e9dbb60 are terminal APPROVE. First activation failed before mutation and is preserved; corrected activation succeeded. All transfer/install/prepare/activate/probe/author-start/scientific-review-start intents are consumed. Never replay them.
 Pnormct run is held atCOMMIT_SPEC with3counted calls; its full training file awaits returned real trainer evidence. The synthetic-only user check was sent once; do not start or resend another test while its outcome is unreported. Multiwin's exhausted run remains parked.
 
 ## Resume safely
 
 Read this file, CURRENT, STATUS, ROLES, execution plan and the latest CURRENT OVERRIDE at the tail of the canonical private HANDOFF_CURRENT_PRIVATE.md. Latest private folder is analysis-next-question-20261012/terminal-route-repair/review. OBSERVE_NATIVE_READONLY.server.py observes the same native unit, local/global ledgers and qualification. Root must never open live SQLite; the observer drops to the existing service identity.
-Reconcile the live author before any next call. Preserve its draft on timeout; a diagnosed mechanical timeout permits one normal retry, never an uncertain duplicate. If COMPLETE, inspect controller state, exact output hashes and synthetic results before scientific review. Scientific REVISE goes to the author. Do not modify scientific code yourself.
+Reconcile the live scientific reviewer before any next call. Preserve every stream/draft/charge on a mechanical failure; never duplicate an uncertain call. A genuine APPROVE must have a qualified submission and controller seal before execution admission. Author source decbe727 and program0ad05ea0 are preserved under author6-preserved-tree; the initial flat local capture hit a basename collision, and the full tree was then preserved from the same read-only capture without rerunning anything. Scientific REVISE goes to the author. Do not modify scientific code yourself.
 The installed source is c3404e3607ab09e921c25d586c99623e6ab85838; qualified reviewabf0c222759cacea44481a848ce91a283f7ef16b4edd0afa888cc5b3fec9485c.75focused tests and native author/reviewer transport passed; author input136012bytes. Both accepted parents/report hashes and all13 prior calls remain pinned. The new grant permits preparation only and hard-holdsCOMMIT_SPEC; execution needs normal reviewed admission after scientific approval. Do not use the old prepared649lane.
 For Colab evidence, verify PACKAGE_RESULT, authored gate/evidence, exact scientific module/plans hashes and every preserved file before claiming PASS or delivering the full arm. Actual fixture proves trainer construction/one update/checkpoint save, not production loader or checkpoint reload. Keep failure evidence; author/reviewer owns corrections. The attempted metadata-only Drive query did not complete because its temporary credential handle was absent outside the controlled service. Nothing was created/changed/downloaded; this does not establish absence of results. Use the existing service route when evidence returns.
+
+## Next implementation boundary
+
+The existing CPU authority and old closed job were verified read-only at13:22UTC. The new author retained its input interface and exact environment. After scientific APPROVE, bind the new program/spec/review/controller seal and accepted-lane snapshot to a distinct durable CPU job. Preserve the old job and all accepted results. Batch execution binding and interpretation connection into one necessary implementation review, with exact source, full relevant dependencies, tests and unchanged refusals. Do not invent future result hashes; interpretation must authenticate the actual terminal job, before/after hashes, validation and outputs. This is planning only, not authority to execute. One daily call remains; if used, wait for UTC reset. No additional analysis allowance is created.
 
 ## Other work and stop routine
 
