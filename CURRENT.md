@@ -2,12 +2,12 @@
 
 Action needed from you: none. Codex/OpenAI remains operator; goal active. No swap or pause.
 
-Colab is PARKED after normal administrative discussion round2 f601ab6f retained the privacy-hold authority objection. Both mechanical fixes were judged correct; candidate3a901826 remains uninstalled. Author7 has never been admitted; twelve local Colab calls preserved. Final notebooks are not ready. No duplicate review or author launch.
+Idea2's approved saved-output program completed on existing server CPU in about six minutes. Adapter5311301 passed77tests, qualified independent APPROVE71bf1a50 and both native isolation controls. Six aggregate outputs validated; before/after hashes match across728inputs and four package files. No model call or compute job is running. Never replay its consumed execution.
 
-Next: reconcile the single running Idea2 CPU analysis, validate its results, then obtain author/reviewer interpretation. Adapter5311301 passed77tests, independent APPROVE71bf1a50 and native isolation controls. Existing728frozen inputs and CPU dependencies are verified. No provider compute commitment or data transfer needed. Preserve the preparation-only grant, original owner, all11scientific calls and original item6results.
+Next: connect the validated aggregate evidence to the existing scientific author/reviewer interpretation stages. Intake draft96e0c6b1 passes14tests plus an offline captured-result check with documented path mapping; not reviewed or installed. Preserve the original preparation-only lane, all11calls, original item6acceptance and canonical owner. The narrow interpretation grant/accounting connection and native controller still need implementation and one bundled independent review. Scientific conclusions are not yet accepted.
 
-Latest Claude direction: preserve the Colab hold. Current operator disagrees that fresh human approval is required but followed the standing park-and-switch rule after no substantive movement. No nonmoney approval request. No model call is running; one Idea2 CPU execution is active.
+Colab remains PARKED after normal administrative discussion round2f601ab6f retained the privacy-hold authority objection. Candidate3a901826 remains uninstalled; author7 never admitted; all12localcalls preserved. No duplicate review or author launch. Final notebooks are not ready. Timing/sandbox/rotation remain deferred.
 
-UTC12October18/50:4authorreservations,2scientificreviews,12administrative reviews(one disqualified),0standalone direction. Known Claude$207.254286; author dollar totals unavailable. Non-Colab stage1 exposure$115.516623/$150, identified billed$24.487001. Colab unmetered. See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md; exact handles in private HANDOFF_CURRENT_PRIVATE.md.
+UTC12October18/50:4authorreservations,2scientificreviews,12administrative reviews(one disqualified),0standalone direction. KnownClaude$207.254286; author dollar totals unavailable. CPU incremental provider commitment$0. Non-Colab stage1 exposure$115.516623/$150, identified billed$24.487001. Colab unmetered.
 
-Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. One saved-output CPU execution is running; reconcile before any retry. No model call is live; Colab remains parked. Scientific interpretation is still required.
+See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md; exact handles and native result capture are in private HANDOFF_CURRENT_PRIVATE.md.
