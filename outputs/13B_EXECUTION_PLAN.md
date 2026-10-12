@@ -1,26 +1,26 @@
 # 13B execution plan
 
-Latest operator direction12October2026 supersedes prior delivery/order/comparison instructions. Old repeat and multiwin files are HELD for a real nnUNet trainer initialization failure. Saved preprocessing and failed attempts stay preserved.
+New experiments first. Old repeat and multiwin notebooks are held after a real trainer-initialization failure; saved preprocessing remains. No corrected file is ready yet.
 
-| Order | Arm ? folds | Venue and owner | State |
+| Order | Arm and folds | Venue and owner | Release condition |
 |---|---|---|---|
-| First, parallel session1 | A1_multiwin ?0?4 | **Partho on Colab**, A100/default runtime | Author correction and real integration check pending; one preconfigured sequential notebook |
-| First, parallel session2 | A1_pnormct ?0?4 | **Partho on Colab**, A100/default runtime | Author/reviewer lane next; release independently as soon as ready |
-| Next | A1_pnorm_v2 ?0?4 | **Partho on Colab**, A100/default runtime | After first pair |
-| Then | A1_L ?0?4 | **Partho on Colab**, A100/default runtime | Verify actual A100 memory fit before delivery |
-| Parked | A1_repeat and A1_repeat2 ?0?4 | Partho on Colab later | New arms must have results first; saved preprocessing retained |
-| Held | A1_zscore and A1_histeq ?0?4 | No run | Coverage-source provenance unresolved |
+| First, session 1 | A1_multiwin, 0-4 | **Partho on Colab**, default runtime, A100 | Author's synthetic correction, real trainer iteration and scientific approval |
+| First, session 2 | A1_pnormct, 0-4 | **Partho on Colab**, default runtime, A100 | Independent arm-level author/reviewer lane and real trainer iteration |
+| Next | A1_pnorm_v2, 0-4 | **Partho on Colab**, default runtime, A100 | Same checks; release as soon as ready |
+| Then | A1_L, 0-4 | **Partho on Colab**, default runtime, A100 | Same checks plus actual A100 memory-fit evidence |
+| Parked | A1_repeat and A1_repeat2, 0-4 each | Partho on Colab later | New arms must have results first |
+| Held | A1_zscore and A1_histeq, 0-4 each | No run | Coverage-source provenance unresolved |
 
-ONE notebook per arm. Preprocess once, then train/score folds0?4 sequentially at250epochs. Rerun the same notebook to verify/skip completed folds and resume the current fold from its checkpoint. No per-fold files, settings to change, metering/segments/separate smoke. Mount Drive, verify frozen hashes and99development/49exclusion membership, preserve private outputs/leases/checkpoint protections. Print subprocess errors on failure.
+Each arm gets ONE preconfigured file: preprocess once, train/score folds 0-4 sequentially at 250 epochs, verify/skip completed folds and resume the current checkpoint. No settings to change or per-fold files. Mount Drive, verify frozen hashes and development/exclusion membership, keep results private in distinct built-in arm/fold paths, and print subprocess errors. Re-run the same file after disconnection.
 
-Before each arm is delivered: scientific author fixes the full trainer integration; real nnU-Net trainer construction and >=1real training iteration for that arm; independent scientific review. Existing AST/pure-function checks are insufficient. Operator executes the author's isolated synthetic integration fixture using an appropriate already-approved venue; no patient data. Actual A100 memory evidence is additionally required for L. No delivery without those checks.
+The author writes scientific code and the real synthetic integration fixture; the operator supplies execution infrastructure. Actual nnU-Net trainer construction and at least one training iteration per arm are required before delivery. Static/mocked checks are insufficient. A100 memory-fit evidence is additionally required for L. Server CPU handles suitable synthetic tests and saved-output analysis; a reviewed Modal GPU route may run the actual trainer fixture inside existing caps. No new GPU reservation has been made for it.
 
-Provisional baseline is Sprint12A1. Small differences are not interpretable without a later Colab repeat. Explain placement versus amount, size, region and fragmentation; repeats remain deferred rather than fabricated.
+When both first arms are released, run two Colab sessions in parallel, each processing its five folds sequentially. Exact reviewed filenames, hashes and private result destinations will accompany each release; open, choose A100, Run all. No human action now.
 
-Two parallel sessions for multiwin/pnormct when released. Each processes five folds sequentially. Multiwin's prior unmeasured estimate was3?4training hours/fold,15?20hours/arm,101.55?135.40CU at6.77CU/hour plus overhead. Pnormct provisional standard-size reference13.5training hours/arm,~91.4CU plus overhead. Replace estimates with measured epochs; do not treat these as session guarantees. Automatic resume handles a session ending before the arm finishes. L's prior35?45hour estimate remains unvalidated. Partho manages Colab purchases.
+At Sprint 12's measured 36 seconds/epoch, five folds of 250 epochs imply 12.5 training hours before preprocessing, validation and checkpoint overhead, or 84.63 CU at 6.77 CU/hour. This is a reference, not a measurement for the new arms. Multiwin's prior provisional estimate is 15-20 hours/arm (101.55-135.40 CU); L's 35-45-hour estimate remains unvalidated. Replace these with observed steady-state timing. Automatic resume is essential if an arm outlasts a Colab session. The original 1,001 units equal about 147.86 A100 hours at that burn rate, but unit balance does not limit this plan; Partho manages purchases.
 
-Results remain in each arm's built-in private Drive results folder; the system reads records and ingests them when available. Current server Drive identity could not see the root; limited metadata returned through the laptop mount established failures. No bulk payload copying. Exact replacement filename/hash/instructions supplied with each release.
+Compare each arm provisionally against Sprint 12 A1. State plainly that small differences are not interpretable without a later Colab repeat. Attribute changes to placement versus amount, size, region and fragmentation. The system ingests private Drive metrics, timing and run summaries as they arrive. No bulk laptop copy is resumed.
 
-Parallel: next saved-output analysis and private meeting preparation, through normal scientific author/reviewer. Additional24scientificcalls approved(batch128), admission installation pending; daily50/run20 unchanged. GPU budgets unchanged: item4stage1$150,total$1275,projection$1200; timing$25inside stage1. Current nonColabexposure$115.516623. Timing remains deferred; no extra GPU commitment made.
+In parallel: the next saved-output analysis and private meeting preparation have author intakes ready. The installed model-call guard currently serializes calls; do not bypass it. Item 6 and Idea 2 are accepted, with Idea 2's reviewer inspection limitation documented. Timing is deferred. Approved batch 128, daily 50 and run 20 remain in force; other questions need normal scoped admission. Item 4 non-Colab stage 1 is $150, total $1,275, projection gate $1,200, and timing $25 inside stage 1.
 
-Next result: reviewed admission repair, then corrected multiwin with real integration evidence and scientific verdict; estimate2?4activehours conditional on the integration. Analysis/meeting synthetic packages each need one author/reviewer cycle after admission; real meeting panels additionally depend on asset availability/provenance/geometry.
+Next deliverable: corrected, reviewed and genuinely integration-tested multiwin, provisionally 2-4 active hours conditional on corrections. Current administrative review addresses only the pre-model reader failure and direction check. Pnormct follows through its own scientific lane; neither waits for repeats.

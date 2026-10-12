@@ -3,18 +3,18 @@ from pathlib import Path
 import argparse, importlib.util, json, os, subprocess, sys
 
 BASE=Path('/opt/research-system/manual-repair-helpers/colab-simple-admission-20261012')
-ROOT=Path('/opt/research-system/manual-repair-helpers/colab-multiwin-runtime-recovery-20261012')
-RECORD=Path('/var/lib/research-system-manual-sprint10-deployment/colab-multiwin-runtime-recovery-20261012')
+ROOT=Path('/opt/research-system/manual-repair-helpers/colab-patch-reading-recovery-20261012')
+RECORD=Path('/var/lib/research-system-manual-sprint10-deployment/colab-patch-reading-recovery-20261012')
 LANE=Path('/var/lib/research-system-manual-sprint10-deployment/colab-simple-admission-20261012-work/lane')
-UNIT='research-colab-multiwin-runtime-recovery-20261012.service'
-PREVIOUS_UNIT='research-colab-multiwin-20261012.service'
+UNIT='research-colab-patch-reading-recovery-20261012.service'
+PREVIOUS_UNIT='research-colab-multiwin-runtime-recovery-20261012.service'
 OLD_UNIT='research-colab-simple-admission-20261012.service'
-CHANGE='colab-multiwin-runtime-recovery-20261012'
+CHANGE='colab-patch-reading-recovery-20261012'
 ENTRY='tools/colab_arm_preparation_runtime.py'
 ADDED=('orchestrator/colab_static_feedback.py', 'tools/colab_static_feedback_runtime.py', 'docs/COLAB_AUTHOR5_STATIC_PRIVATE.json', 'docs/COLAB_STATIC_FEEDBACK_SCOPE.md', 'tests/test_colab_static_feedback.py', 'orchestrator/colab_bound_revision.py', 'tools/colab_bound_revision_runtime.py', 'docs/COLAB_REVIEW5_BOUND_PRIVATE.json', 'docs/COLAB_BOUND_ADMISSION_PRIVATE.json', 'docs/COLAB_REVIEW5_OPERATOR_DISPOSITION.json', 'docs/COLAB_REVIEW5_OPERATOR_DECISION_20261012.txt', 'docs/OVERNIGHT_AUTONOMY_OPERATOR_DECISION_20261008.txt', 'docs/COLAB_ACCEPTED_INPUT_REFERENCE_PRIVATE.json', 'docs/COLAB_BOUND_REVISION_SCOPE.md', 'tests/test_colab_bound_revision.py', 'orchestrator/notebook_revision.py', 'orchestrator/author_output_schema.py', 'orchestrator/analysis_revisions.py', 'docs/SCIENTIFIC_REVISE_OPERATOR_DECISION_20261012.txt', 'docs/COLAB_REVIEW6_DELETE_PRIVATE.json', 'tests/test_colab_omission_delete.py', 'tests/test_author_revision_accounting.py', 'tests/test_experiment_revisions.py', 'tests/test_scoped_revisions_limits.py', 'tests/test_item4_review4_continuation.py', 'tests/test_item4_review5_continuation.py', 'tests/test_item4_review6_continuation.py', 'orchestrator/colab_arm_preparation.py', 'orchestrator/colab_notebook_delivery.py', 'tools/colab_arm_preparation_runtime.py', 'docs/COLAB_MULTIWIN_PRIVATE.json', 'docs/COLAB_MULTIWIN_AUTHOR_TASK.md', 'docs/COLAB_ARM_ORDER_OPERATOR_20261012.txt', 'docs/COLAB_MULTIWIN_INPUT_REFERENCE_PRIVATE.json', 'tests/test_colab_arm_delivery.py', 'tests/test_colab_arm_preparation.py')
 ADDED=(*ADDED,'docs/COLAB_MULTIWIN_RECOVERY_PRIVATE.json','docs/COLAB_ARM_LEVEL_OPERATOR_20261012.txt','docs/SCIENTIFIC_BATCH128_OPERATOR_APPROVAL.txt','docs/SCIENTIFIC_BATCH128_OPERATOR_QUESTION.txt','docs/COLAB_MULTIWIN_RECOVERY_AUTHOR_TASK.md','docs/COLAB_NNUNET281_UPSTREAM_TRAINER.py','docs/COLAB_RUNTIME_FAILURES_PRIVATE.json')
-ADDED=(*ADDED,'tests/test_colab_simple_full.py')
-BRANCH='astra/manual-colab-runtime-recovery-20261012'
+ADDED=(*ADDED,'tests/test_colab_simple_full.py','orchestrator/manual_context.py','orchestrator/colab_patch_reader.py','docs/COLAB_PATCH_READING_FAILURE_PRIVATE.json','tests/test_dense_patch_reading.py','tests/test_colab_patch_reader.py')
+BRANCH='astra/colab-patch-reading-repair-20261012'
 
 def load(name,path):
     from orchestrator.manual_host_guard import trusted
@@ -28,7 +28,7 @@ def dependencies(root=ROOT):
     result=parent.authority()
     require(result['source_sha']=='0770e23ac2bf257edc819b2e3f6e2a2693e12095' and
             result['report_sha256']=='93871cd5a9ccae13b9d68f5cd01457cff20b80aad3c55d457cbaa30777c7210d','BASE_APPROVAL')
-    helper=load('_colab_static_feedback',Path(root)/'orchestrator/colab_arm_preparation.py')
+    helper=load('_colab_static_feedback',Path(root)/'orchestrator/colab_patch_reader.py')
     return parent,helper
 
 def require(ok,why):
@@ -117,36 +117,44 @@ def install(source,review):
 def connect():
     approval,parent,helper=authority()
     require(os.getuid()==os.getgid()==1003 and sys.flags.no_user_site,'SERVICE_OWNER')
-    require(os.environ.get('RESEARCH_MANUAL_RUNTIME_CONFIG')==parent.metadata()[1]['runtime'],'RUNTIME')
-    os.environ.update(GIT_CONFIG_COUNT='1',GIT_CONFIG_KEY_0='safe.directory',GIT_CONFIG_VALUE_0=str(BASE))
-    parent.connect_qualifier()
-    from orchestrator.analysis_driver import AnalysisDriver
-    return approval,parent,helper,helper.install_hook(AnalysisDriver,ROOT,approval['report_sha256'])(LANE)
+    prior=load('_colab_reader_prior_runtime',Path('/opt/research-system/manual-repair-helpers/colab-multiwin-runtime-recovery-20261012')/ENTRY)
+    previous,_,_,driver=prior.connect()
+    require(previous['source_sha']=='396a72b144cc83d88ec95afc4c4a818709be77f0'
+            and previous['report_sha256']=='a0e8807290832a4aa84ba7c49bf48fc90b172dc97cfd46d707f0d7f5b41093ae','PREVIOUS_APPROVAL')
+    from orchestrator import manual_context
+    reader=load('_colab_lossless_patch_reader',ROOT/'orchestrator/manual_context.py')
+    require(reader.JSON_PAGE_LINES==manual_context.JSON_PAGE_LINES==100
+            and reader.JSON_PAGE_BYTES==manual_context.JSON_PAGE_BYTES==16000,'UNCHANGED_READER_BOUNDS')
+    manual_context._notebook_patch_reading_copy=reader._notebook_patch_reading_copy
+    helper.check(driver,helper.document(ROOT))
+    return approval,parent,helper,driver
 
 def probe(driver,parent,helper,approval):
-    from orchestrator import manual_stage,private_records as pr
+    from orchestrator import manual_stage,private_records as pr,manual_recovery
     from orchestrator.manual_executor import atomic
-    helper.check_originals(driver,helper.frozen(ROOT),initial=True)
-    admission=helper.probe_admission(driver,ROOT,approval['report_sha256'])
+    frozen=helper.document(ROOT);helper.check(driver,frozen,initial=True)
     driver.guard();before=parent.snapshot(driver)
-    folder=LANE/'multiwin-runtime-qualification'
+    folder=LANE/'patch-reading-qualification'
     require(not folder.exists() and not folder.is_symlink(),'PROBE_ALREADY_ATTEMPTED')
-    pr.mkdir(folder);work=folder/'author'
-    value=helper.restored(driver.current(),approval['report_sha256'])
-    # Only input preparation is qualified. No grant is forged for this probe.
-    cls=type(driver);base=cls.__bases__[0]
-    files=helper.feedback_files(driver,helper.frozen(ROOT),ROOT)
-    driver._static_feedback=files
-    try:body,measurement=base.prepare_input(driver,value,'run_spec_author',work)
-    finally:driver.__dict__.pop('_static_feedback',None)
-    for name,raw in files.items():
-        target=work/name;pr.mkdir(target.parent,parents=True,exist_ok=True);pr.write_bytes(target,raw);target.chmod(0o400)
+    pr.mkdir(folder);work=folder/'reviewer'
+    value=helper.restored(driver.current(),frozen)
+    db=driver.store.db;require(not db.in_transaction,'CLEAN_PROBE')
+    db.execute('BEGIN IMMEDIATE')
+    try:
+        db.execute('UPDATE manual_state SET payload=? WHERE id=1',(json.dumps(value,sort_keys=True),))
+        number=driver.model_round_number(value)
+        require(number==9 and manual_recovery.role_limit(driver.store,helper.RUN,'run_spec_review')>=number,'NATIVE_REVIEW_ADMISSION')
+        body,measurement=driver.prepare_input(value,'run_spec_review',work)
+    finally:db.rollback()
     pr.write_text(work/'prompt.md',body);atomic(work/'input-measurement.json',measurement)
-    manual_stage.data_access_guard(work,'run_spec_author')
+    manual_stage.data_access_guard(work,'run_spec_review')
     require(manual_stage.preflight()==driver.config['clients'],'CLIENTS_CHANGED')
-    checks=[manual_stage.transport_check(work,stage,sha(body.encode()))for stage in ('run_spec_author','run_spec_review')]
-    require(all(x['model_client_launched'] is False for x in checks) and parent.snapshot(driver)==before,'PROBE_MUTATION')
-    result={'status':'PASS','source':approval['source_sha'],'transition':before,'review_sha256':approval['report_sha256'],'model_calls':0,'transport':checks,'author_admission':admission}
+    check=manual_stage.transport_check(work,'run_spec_review',sha(body.encode()))
+    require(check['model_client_launched'] is False and parent.snapshot(driver)==before,'PROBE_MUTATION')
+    helper.check(driver,frozen,initial=True)
+    result={'status':'PASS','source':approval['source_sha'],'transition':before,
+            'review_sha256':approval['report_sha256'],'model_calls':0,'review_attempt':9,
+            'transport':check,'input_sha256':sha(body.encode()),'new_allowance':0}
     atomic(folder/'COMPLETE.json',result);return result
 
 def service(action):
@@ -157,9 +165,9 @@ def service(action):
         if action=='recover':
             held(parent)
             with lock(LANE/'driver.lock'):
-                q=json.loads((LANE/'multiwin-runtime-qualification/COMPLETE.json').read_bytes())
+                q=json.loads((LANE/'patch-reading-qualification/COMPLETE.json').read_bytes())
                 require(q['status']=='PASS' and q['source']==approval['source_sha'] and q['transition']==parent.snapshot(driver),'NATIVE_PROBE_REQUIRED')
-                return helper.resume(driver,helper.frozen(ROOT),approval['report_sha256'])
+                return helper.recover(driver,helper.document(ROOT),approval['report_sha256'])
         require(action=='run' and bool(os.environ.get('INVOCATION_ID')),'NATIVE_INVOCATION')
         operation=json.loads((RECORD/'OPERATION.json').read_bytes())
         require(operation['source']==approval['source_sha'] and operation['review_sha256']==approval['report_sha256']
@@ -167,8 +175,10 @@ def service(action):
         if operation['mode']=='probe':
             with lock(LANE/'driver.lock'):return probe(driver,parent,helper,approval)
         require(operation['mode']=='advance','MODE')
-        q=json.loads((LANE/'multiwin-runtime-qualification/COMPLETE.json').read_bytes())
+        q=json.loads((LANE/'patch-reading-qualification/COMPLETE.json').read_bytes())
         require(q['status']=='PASS' and q['source']==approval['source_sha'],'NATIVE_PROBE_REQUIRED')
+        value=driver.current()
+        require(value['phase']=='run_spec_review' or (value['phase']=='MODEL_RUNNING' and value['pending']['id']==helper.REVIEW_ID),'SAME_REVIEW_ONLY')
         return driver.advance()
     finally:
         driver.store.db.close();driver.store.batch.db.close()
@@ -184,7 +194,7 @@ def start(mode,transition):
         command=['runuser','-u','partho','--','env','RESEARCH_MANUAL_RUNTIME_CONFIG='+runtime,
                  'PYTHONPATH='+str(BASE),'python3','-s','-B',str(ROOT/ENTRY),'status']
         status=json.loads(subprocess.check_output(command,text=True))
-        allowed={'COMMIT_SPEC'} if mode=='probe' else {'run_spec_author','run_spec_review','MODEL_RUNNING'}
+        allowed={'BLOCKED'} if mode=='probe' else {'run_spec_review','MODEL_RUNNING'}
         require(status['transition']==transition and status['phase'] in allowed,'STATE_CHANGED_OR_HELD')
         require(json.loads(subprocess.check_output(['runuser','-u','partho','--','python3','-s','-B','-c',OWNER_CHECK],text=True))['status']=='NO_RUNNING_CALL','LIVE_MODEL')
         intent=RECORD/'operations'/(mode+'-'+transition+'.json')

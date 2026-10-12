@@ -123,8 +123,42 @@ def _notebook_patch_reading_copy(descriptor, raw):
     restored = {**reading, 'edits': [{**e, 'replacement': ''.join(e['replacement'])} for e in edits]}
     if restored != original or budget.sha(raw) != descriptor['sha256']:
         raise budget.ContextError('MANUAL_PATCH_READING_ROUNDTRIP')
-    pretty = _pageable_json(json.dumps({'schema':'notebook-patch-reading/v1',
-        'original_sha256':descriptor['sha256'], 'patch':reading}, ensure_ascii=False).encode())
+    encoding = 'lines'
+    try:
+        pretty = _pageable_json(json.dumps({'schema':'notebook-patch-reading/v1',
+            'original_sha256':descriptor['sha256'], 'patch':reading}, ensure_ascii=False).encode())
+    except budget.ContextError as error:
+        if str(error) != 'MANUAL_JSON_PAGE_TOO_LARGE':
+            raise
+        # Dense authored code can exceed a page even after splitting newlines.
+        # Preserve the original and the same page bound. Only replacement
+        # strings receive a separately labeled, reversible navigation encoding.
+        def chunks(text):
+            result, current, size = [], '', 0
+            for char in text:
+                count = len(char.encode('utf-8'))
+                if size + count > 128:
+                    result.append(current)
+                    current, size = '', 0
+                current += char
+                size += count
+            if current:
+                result.append(current)
+            return result
+        reading = {**original, 'edits': [
+            {**edit, 'replacement': chunks(edit['replacement'])}
+            for edit in original['edits']]}
+        restored = {**reading, 'edits': [
+            {**edit, 'replacement': ''.join(edit['replacement'])}
+            for edit in reading['edits']]}
+        if restored != original:
+            raise budget.ContextError('MANUAL_PATCH_READING_ROUNDTRIP')
+        encoding = 'UTF-8-bounded string chunks'
+        pretty = _pageable_json(json.dumps({
+            'schema':'notebook-patch-reading/v2',
+            'encoding':'replacement-string-chunks-max128utf8',
+            'original_sha256':descriptor['sha256'], 'patch':reading},
+            ensure_ascii=False).encode())
     scan('context/notebook-patch-reading.json', pretty)
     pin = budget.sha(pretty)
     copy = {'id':descriptor['id']+'-readable-patch',
@@ -132,7 +166,7 @@ def _notebook_patch_reading_copy(descriptor, raw):
         'sha256':pin, 'original_path':descriptor['path'], 'original_sha256':descriptor['sha256'],
         'bytes':len(pretty), 'characters':len(pretty.decode()), 'page_lines':JSON_PAGE_LINES,
         'delivery':'Non-executable lossless reading view of the unchanged notebook patch. '
-            'Each replacement is an ordered array of lines; concatenate without separators to recover the exact original string. '
+            f'Each replacement is an ordered array of {encoding}; concatenate without separators to recover the exact original string. '
             'All other patch values are unchanged. Read at most 100 lines per call with offset/limit. '
             'Cite the original patch hash; no scientific acceptance follows from this representation.'}
     descriptor['readable_patch'] = copy

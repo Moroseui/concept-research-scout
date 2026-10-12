@@ -1,51 +1,29 @@
 # Operator handover
 
-Action needed from Partho: none. Updated 12 October 2026. Goal active; Codex/OpenAI operator, no rotation. Old repeat and multiwin files are HELD.
+Current owner: Codex/OpenAI. No rotation; goal active. Updated 12 October 2026. This opening supersedes older detailed history below.
 
-## Goal, direction and roles
+Read CURRENT.md, outputs/STATUS.md, outputs/13B_EXECUTION_PLAN.md and ROLES.md. Scientific author and reviewer routes remain unchanged; operator infrastructure is independently reviewed by Claude. Never duplicate uncertain work, reset usage, touch excluded patient payloads, change credentials, merge main or edit BACKLOG. Ask Partho only for money or a necessary Colab action.
 
-Advance approved ISLES24 items 4 and 6 toward understanding, with analysis and private meeting preparation alongside execution. Scientific code and conclusions belong to the existing OpenAI scientific author and Claude scientific reviewer. Operator infrastructure receives independent Claude review. Read [ROLES](ROLES.md), [STATUS](outputs/STATUS.md), [execution plan](outputs/13B_EXECUTION_PLAN.md), CURRENT and the private current handoff before mutating state.
+Current goal is new-arm results and understanding. Both repeats are parked. One preconfigured notebook per arm, preprocess once and sequential folds 0-4, 250 epochs each, auto-resume/skip, frozen input checks and private outputs. Multiwin/pnormct first as two human sessions, then pnorm_v2, then L after actual A100 memory evidence. Sprint 12 A1 is the provisional baseline; small differences need a later repeat.
 
-Latest arm-level decision supersedes older per-fold, repeat-first and same-platform-first instructions. Park both repeats; preserve preprocessing. Deliver one notebook per new arm, all five folds sequentially, 250 epochs each, automatic checkpoint resume and verified completed-fold skipping. Multiwin and pnormct first for two parallel Colab sessions, then pnorm_v2 and L. L requires actual A100 memory evidence. Zscore/histeq remain held. Use Sprint12 A1 provisionally and explain that small differences are inconclusive without a later Colab repeat.
+## Workstreams and next steps
 
-Every arm needs the author-owned continue_training correction, visible subprocess errors and a real integration check constructing the actual trainer and running at least one actual training iteration before delivery. Scientific approval is also required. AST/mock/compile checks alone are insufficient. Deliver each arm immediately once qualified.
+- Multiwin author 10 completed and is preserved. Its synthetic integrity fixture failed at the unchanged nonconstant guard; the scientific author owns the fix. Actual trainer construction/training iteration has not run. No corrected notebook ready.
+- Review 9 failed BEFORE admission on dense-patch reader formatting. No model call/reservation or charge. Candidate fa687145 passes 143 tests and actual patch roundtrip under unchanged 100-line/16,000-byte bounds. Claude administrative review dd297b56 APPROVED without findings, report 57b897b0. Source fa687145 is installed; native zero-call full-input/transport probe PASSED. Exact recovery preserved all 19 calls.
+- Scientific review 9 is RUNNING as the final slot of this run's 20-call limit. All prior calls and charges remain. Claude direction SIMPLIFY agreed: if scientific REVISE, park multiwin and admit a genuinely distinct pnormct question through the normal lane. Do not reset or relabel usage.
+- Pnormct needs its own legitimate author/reviewer admission and real trainer iteration. Do not duplicate model calls; the installed global guard serializes them.
+- Item 6 and Idea 2 are accepted. Idea 2's two largest tables were not directly inspected by the reviewer; retain that limitation. Next saved-output analysis intake preserves the author's fixed-amount smoothing proposal.
+- Meeting intake uses the accepted six-slot rule. No cases selected or images opened; real panels require mandatory asset and geometry evidence.
+- Timing has no result. GPU adapter draft, sandbox and opposite-family administrative route are parked/uninstalled. No Swap point.
 
-## Existing work: do not duplicate
+## Resume safely and pending handles
 
-Original Colab baseline fold0/fold1 and a later fold0 retry all have terminal FAILED records, before training, at actual nnU-Net2.8.1 trainer initialization (KeyError continue_training). Original inputs/membership passed and preprocessing is retained. Private records are preserved. The later retry was not launched by this operator. All old files remain held; do not rerun them or rewrite their historical bytes.
+Canonical private handoff holds exact paths: HANDOFF_CURRENT_PRIVATE.md under the existing private evidence store. Current work folder is scientific-batch128-colab-recovery-20261012. reader-review/OBSERVE_NATIVE_READONLY.server.py observes the live scientific review 9. reader-review/NATIVE_LATEST.stdout is only a snapshot. Administrative request dd297b56 is complete; do not rerun it. reader-checkout is candidate source fa687145. implementation-review/author10-preserved and REVIEW9_PREMODEL_PRIVATE.json retain original scientific output/failure evidence. All earlier author/review/transfer/start intents are consumed.
 
-Latest infrastructure source396a72b144cc83d88ec95afc4c4a818709be77f0 passed199tests. Qualified implementation review84df2e51607fd00b609b01c9e5313253ecdb50ceac2d7556bfab514e7bdb141d COMPLETE/APPROVE, reporta0e8807290832a4aa84ba7c49bf48fc90b172dc97cfd46d707f0d7f5b41093ae, no findings. It includes the Claude accounting/process second opinion and one review9 exception. Installed successfully. Native zero-call admission and transport qualification PASS; persistent state/calls unchanged. Probe output has cosmetic stale9/8 labels, disclosed by reviewer; actual enforced rounds are10/9.
+Check native unit and local/global call status through the service account before mutations. Root must not open live SQLite. Do not relaunch jobs with uncertain outcomes. Old native multiwin unit is terminal, author 10 COMPLETE, review 9 is running in the new reader unit. Transfer, install, probe, recovery and review-start intents are all consumed. Reconcile tests from their logs before rerunning. Draft GPU adapter has no approval, installation, reservation or compute launch.
 
-One-use question activation COMPLETE, all18local/104global scientific rows preserved. Author10 start is CONSUMED. Observe the SAME existing native unit and durable call records via the current private operation directory; never replay transfer, install, probe, activation or author start. Reviewer9 follows only after author completion and normal admission. No scientific code was changed by operator.
+Daily usage 38/50: nine scientific authors, seven scientific reviews including current, twenty implementation reviews, two direction attempts. Scientific total 106/128, current lane 20/20. Keep every charge and historical uncertain record with its qualification proof. Item 4 billed $24.487001 plus retained $91.029622 = $115.516623/$150. Known completed Claude $271.66746875 including the completed reader review; author dollars unavailable. Colab unmetered.
 
-The exact scoped continuation uses the current run's last two calls, keeping run20. Additional genuinely new arm/analysis/meeting questions need ordinary linked admission, not a counter reset. Multiwin author starts from preserved author9 scientific bytes with the new direction, returned failure and exact upstream trainer source.
+Latest Claude direction: SIMPLIFY, agreed in one bundled round; finish review 9 and cut further multiwin recovery layers if it requests revision. Judgment: preserve bounds/scientific guard, fix only lossless navigation and exact premodel state, defer GPU adapter until scientific tests pass. Do not create unrelated infrastructure.
 
-Prior multiwin author9/review8 and baseline author8/review7 are complete and retained. Their code approvals did not supply real training evidence. Operational holds supersede earlier READY instructions. Never repeat these completed model calls.
-
-## Workstreams and next result
-
-- Execution: multiwin scientific author10 started. Next is the author's corrected single-arm notebook and genuine integration fixture, actual integration execution, then scientific review9 and delivery. Expected2?4activehours, conditional on checks. Pnormct follows promptly for the second parallel session; further arms follow the explicit order.
-- Analysis: Idea2 CPU execution, interpretation and finalization COMPLETE. Accepted report under outputs/idea2_fixed3x3. Reviewer directly inspected smaller aggregates but could not directly inspect the two largest tables; preserve that limitation. Next intake preserves the author's fixed-amount zero-smoothing sensitivity idea; needs ordinary scoped author/reviewer admission. Do not rerun Idea2.
-- Meeting: accepted six-slot case-selection proposal and synthetic renderer intake ready. No real case selection or image access yet. Frozen Colab metadata does not include MRI/clinical records; this is not proof of project-wide absence. Reviewed synthetic selector/renderer comes next; real private panels additionally require asset provenance and geometry checks.
-- Timing/sandbox/rotation: deferred, no timing result or installed opposite-family administrative capability. No Swap point.
-
-## Authority, spending and limits
-
-The operator approved24additional scientific calls: cumulative batch104to128, up to16Colab/corrections,4analysis,4meeting. Exact question and answer are verbatim/hash-pinned privately and bound by the reviewed repair. Daily50,run20 and GPU dollar caps unchanged. Batch128 installed for this scoped continuation; no blanket permission to borrow another question's scope.
-
-UTC12October36/50 calls:9scientific authors,6scientific reviewers,19implementation reviews,2direction attempts. Author10 is admitted and running. All failures/disqualified attempts remain counted. Latest implementation review cost$4.57792575; cumulative knownClaude$267.236549. Author dollars unavailable. Administrative reviews dominate; defer unrelated infrastructure and fold direction/accounting advice into necessary component reviews.
-
-Item4non-Colab billed$24.487001 plus retained$91.029622=$115.516623/$150stage1. Timing$5.405445/$25inside stage1. Item6cap100; item4total1275/projectiongate1200 unchanged. Colab unmetered. Release excess reservations only for closed attempts with provider-confirmed actuals; preserve both figures.
-
-## Safe resumption
-
-1. Read latest operator decisions and confirm no second operator is acting.
-2. Read private current handoff and observe the existing author10 unit/call. Reconcile terminal output or continue observing; do not restart uncertain work.
-3. Keep old notebooks held. Follow normal scientific author/reviewer ownership; actual trainer iteration and scientific approval precede delivery.
-4. Check disk space before large work: warn below15GiB,stop below8GiB on C:orWSL. Most recent C:17.70GiB; server113.45before/113.30after approved-source transfer. No disk purchase.
-5. Keep private evidence/ledgers/streams on the existing private server layout, hash-verify backups. Preserve original laptop verified input files; bulk copy stays stopped.
-6. Update STATUS,CURRENT,HANDOVER. Scan privacy, secrets and infrastructure before pushing remote-server and safe working-history projections. Verify remote hashes and unchanged main.
-
-Never access locked25/reserve24 payloads, create/change credentials, publish private patient material, merge main or edit BACKLOG. Ask Partho only for money or necessary Colab actions; consult Claude for other uncertainty under standing delegation. Access names only: existing server SSH login, research service account, author-client login, Claude reviewer login, Modal account, server Drive broker and GitHub backup login. No credential contents or paths in public records.
-
-Latest judgment: Claude APPROVE, one round, accounting and process opinion folded into the needed repair review. Install only exact approved source; keep scientific repair with author; require real integration before delivery. Rotation remains gated by the requested milestones and an idle, reconciled system.
+Before each stop update these files, private handoff and STATUS in place; scan privacy/secrets/infrastructure, push remote-server and safe working history, verify remote hashes. Last verified public commit before this update bd202449bf27d56a49d6e9c0f9ad7789de5c636e. Never publish evidence, ledgers, streams, private bindings or patient identifiers/payloads. C: about17.23 GiB, server last113.21 GiB; guard warn15/stop8. Existing server SSH identity and existing Drive service identity only, credentials by name and never contents. No setup command is currently needed.

@@ -1,17 +1,13 @@
-# Current state ? 12 October 2026
+# Current research state - 12 October 2026
 
-Action needed from you: none. Codex/OpenAI remains operator; goal active, no rotation. Old repeat and multiwin notebooks are HELD. Repeats are parked until new arms have results.
+Action needed from you: none. Codex/OpenAI remains operator; the goal is active and the Swap gate is not met.
 
-Latest direction: one preconfigured notebook per arm, preprocess once, folds 0?4 sequentially at 250 epochs; resume current fold and verify/skip completed folds. Multiwin and pnormct first for two parallel human Colab sessions, then pnorm_v2, then L with actual A100 memory evidence. Zscore/histeq held. Sprint 12 A1 is the provisional comparator; small differences are inconclusive without a later Colab repeat.
+One notebook per new arm, folds 0-4 sequentially at 250 epochs: multiwin and pnormct first for two Colab sessions, then pnorm_v2, then L with actual A100 memory evidence. Both repeats parked; zscore/histeq held. Sprint 12 A1 is the provisional baseline; small differences need a later Colab repeat.
 
-Three returned baseline attempts are terminal FAILED before training: original folds 0/1 and a later fold-0 retry. Original input hashes/membership passed and preprocessing is preserved. Actual nnU-Net 2.8.1 trainer construction raised KeyError continue_training. No operator retry. Scientific author must fix every arm and provide a real trainer construction plus at least one actual training iteration before delivery; static/mocked tests do not qualify. Print subprocess errors on failure.
+Multiwin author 10 is COMPLETE. Its synthetic integrity fixture FAILED; the author must correct it through the scientific lane. No actual trainer iteration or corrected notebook delivery yet. All old notebooks are held; preprocessing and original failures remain.
 
-Infrastructure source 396a72b passed 199 tests and qualified Claude implementation APPROVE 84df2e51, report a0e88072. The review also approved the bounded review-9 process exception and judged the batch authority/accounting. Installed; native zero-call round/role and transport probes PASS; question activation preserved all 18 local and 104 global scientific rows. Author10 start consumed. Observe its existing native unit before any further launch. No duplicate calls.
+Scientific review 9 failed before admission on the patch-reader bound, with no call/reservation/charge. Do not repeat its consumed intent. Candidate reader repair fa687145 passed 143 focused tests and lossless actual-patch reconstruction within unchanged bounds. Administrative review dd297b56 APPROVED, report 57b897b0; source fa687145 is installed and its native zero-call full-input/transport probe PASSED. Exact state recovery preserved all 19 calls. Scientific review 9 is now RUNNING; observe the same call, never duplicate it.
 
-The operator-approved batch ceiling 128 is installed for this scoped continuation; daily50/run20 and provider caps unchanged. This continuation admits only author10/reviewer9, the last two calls within this run's 20-call cap. Other arm, analysis and meeting questions need ordinary scoped admission; no history reset.
+The current lane is 20/20 including running review 9. Scientific batch usage 106/128; daily 38/50. Claude direction SIMPLIFY agreed: if scientific REVISE, park multiwin and admit a genuine distinct pnormct question, without resetting limits. No limits reset or new GPU reservation. Item 4 non-Colab exposure $115.516623/$150 = billed $24.487001 + retained $91.029622; Colab unmetered.
 
-Idea2 is accepted with a disclosed large-table reviewer-inspection limitation. Next analysis and meeting intakes are ready. Timing, author sandbox and opposite-family administrative capability remain deferred; no Swap point.
-
-UTC calls36/50 =9authors,6scientific reviews,19implementation reviews,2direction attempts; author10 is running. Known cumulative Claude $267.236549; author dollars unavailable. Item4 non-Colab billed $24.487001 + retained $91.029622 = $115.516623/$150. Colab unmetered.
-
-Next result: corrected, scientifically reviewed and genuinely integration-tested multiwin notebook, provisionally 2?4 active hours. Read HANDOVER and private current handoff for exact live handles. Update and scan/push at each stop.
+Idea 2 is accepted with disclosed large-table inspection limits. Next analysis and meeting intakes are prepared. Timing, sandbox and opposite-family administrative route remain deferred. See HANDOVER.md, ROLES.md, outputs/STATUS.md and outputs/13B_EXECUTION_PLAN.md. Last verified public backup before this update: bd202449bf27d56a49d6e9c0f9ad7789de5c636e.
