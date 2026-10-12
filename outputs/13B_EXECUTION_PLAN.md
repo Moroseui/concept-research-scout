@@ -1,10 +1,10 @@
 # 13B execution plan
 
-Updated 12 October 2026,19:27UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 12 October 2026,19:33UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
-| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Repair approved/installed,153testsPASS; native qualificationPASS; author11RUNNING,then scientific review/integration |
+| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Repair approved/installed,153testsPASS; native qualificationPASS; author11premodel-refused; accounting connector repair/review,then author/scientific review/integration |
 | First, session2 | A1_pnormct,0-4 | **Partho on Colab**, default runtime,A100 | Delivered unchanged after real trainer PASS; Partho reports RUNNING |
 | Next | A1_pnorm_v2,0-4 | **Partho on Colab**, default runtime,A100 | Author, scientific review and real integration |
 | Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Same checks, plus actual A100 memory-fit evidence |
@@ -21,7 +21,7 @@ At Sprint12's measured36seconds/epoch,5folds x250epochs imply12.5training hours 
 
 Compare each arm provisionally with Sprint12A1. Small differences are not interpretable without a later Colab repeat. Attribute changes to placement versus amount, size, region and fragmentation; no efficacy claim from code or integration tests.
 
-**Server work:**multiwin author11 is RUNNING. Source83ef32d5 APPROVED32e39f9e/report6fd11123,installed; real zero-call context/transport qualification PASS. Original20calls preserved; effective24 permits four bounded correction/review calls. Next author result within30minutes; delivery1-2hours conditional on reviews/integration. Original omitted-file installer refusal and charge preserved; complete61-file closure checked before corrected review. Latest Claude directionPROCEED.
+**Server work:**multiwin author11 did not launch. Globalcall21 reserved; local dispatch refused the missing24allowance forwarding. Service terminal/localBLOCKED_BEFORE_MODEL;globalRUNNING row pending formal reconciliation. Original20calls/account unchanged; failed slot remains counted. Next narrowly fix connection and test real local+global admission,obtain Claude implementation/direction review,then reconcile and use next unusedauthor12 inside existing24cap. No duplicate,no cap expansion. Expected30-60minutes to repair/review checkpoint; notebook ETA uncertain until admission succeeds. Scientific review and real trainer iteration still required. Latest PROCEED predates this new failure.
 
 Smoothing CPU is valid/terminal; interpretation namespace repair06eb remains deferred/unreviewed. Meeting,timing,sandbox/rotation deferred. No Swap.
 

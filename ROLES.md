@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Pnormct is running in Partho's Colab session; multiwin author11 is running through the existing scientific lane. Timing and opposite-family administrative route remain unfinished. The operator owns infrastructure, venues, accounting and handover; scientific code/conclusions belong to the scientific author and independent reviewer.
+Current operator: **Codex, OpenAI family**. No rotation. Pnormct is running in Partho's Colab session; multiwin author11 was refused before client launch and its counted reservation awaits reviewed reconciliation. Timing and opposite-family administrative route remain unfinished. The operator owns infrastructure, venues, accounting and handover; scientific code/conclusions belong to the scientific author and independent reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
