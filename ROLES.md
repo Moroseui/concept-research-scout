@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Pnormct runs externally; multiwin awaits the delivered real-trainer check result. Smoothing interpretation is held before model admission on a diagnosed serialization mismatch; the tested correction awaits review. Timing and the opposite-family administrative route remain unfinished. The operator owns infrastructure and handover; scientific code and conclusions belong to the scientific author and independent reviewer.
+Current operator: **Codex, OpenAI family**. No rotation. Pnormct runs externally; multiwin awaits the delivered real-trainer check result. Smoothing interpretation author3 runs on the server after the approved serialization repair. Timing and the opposite-family administrative route remain unfinished. The operator owns infrastructure and handover; scientific code and conclusions belong to the scientific author and independent reviewer.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
