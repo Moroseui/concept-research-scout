@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 12 October 2026, 22:41 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 12 October 2026, 23:27 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -29,7 +29,7 @@ Namespace repair03a42f24 remains installed and unchanged. Its original pre-clien
 
 Serialization recoveryd035b2a6 passed203tests and actual read-only verification of109rows,15prior calls and32pre-client workspace files. Independent Claude review23e5c998 returned APPROVE, reportf13b8abf, with PROCEED direction. It is installed. Recovery preserved the original workspace, state, calls, configuration and grant; no new allowance. The native check passed the corrected allocation boundary and author transport without model calls.
 
-Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific. No server model call remains running. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
+Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. The later pnorm_v2 author call is now running. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
@@ -39,13 +39,13 @@ Meeting preparation retains the accepted six-slot rule; no cases/images selected
 
 Timing reconciliation confirms author24's real CPU integration PASS; do not repeat it. Later review16 failed before reservation because a separate confined read-only ledger access could not open its database. No reviewer16 call or GPU timing run occurred. A bounded reviewed repair of the actual admission path is needed; preserve all evidence and caps. Author sandbox and opposite-family administrative review capability remain unfinished. No Swap point; pnormct is also running externally.
 
-12OctoberUTC:65/100 calls, returning to50on13October without resetting history. Scientific batch117/128:7Colab,0analysis,4meeting remain. Known completed Claude charges $380.62437450; author dollar costs unavailable.
+12OctoberUTC:68/100 calls, returning to50on13October without resetting history. Scientific batch118/128:6Colab,0analysis,4meeting remain. Known completed Claude charges $388.55740700; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author |15|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and accepted interpretation; includes the preserved pre-client failure|
+| Scientific author |16|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and accepted interpretation, current pnorm_v2 preparation; includes the preserved pre-client failure|
 | Scientific reviewer |12|Idea2, baseline, multiwin, pnormct and smoothing scientific review|
-| Administrative review |36|Admission/accounting repairs, packaging, dated policy, execution and interpretation integration|
+| Administrative review |38|Admission/accounting repairs, packaging, dated policy, execution and interpretation integration, pnorm_v2 admission/import repair|
 | Standalone direction |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
 Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.029622 retained reservations. Timing $5.405445/$25 is inside stage1; synthetic CPU $1.118950 awaits billing. Item4 total $1,275/projection gate $1,200 and item6 $100 cap unchanged. Colab is unmetered by operator decision. This continuation launched no new provider compute. Only confirmed closed provider billing can release excess reservations; uncertain/open obligations stay counted.
@@ -54,3 +54,6 @@ Current action: run13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb in 
 
 -22:38UTC: smoothing scientific APPROVE qualified and normal acceptance completed; reviewer charge $4.31079575 counted. No CPU retry or new allowance.
 -22:33UTC: read-only Drive visibility and timing reconciliation completed without model calls; originals retained. Latest Claude direction remains PROCEED with simpler narrow-patch deployment.
+
+-23:19UTC: Claude APPROVE/PROCEED, one round, for the minimal pnorm_v2 import repair;146testsPASS, original failure preserved. No new component or allowance.
+-23:26UTC: native qualificationPASS with zero calls, then actual pnorm_v2 author1 admitted normally. Keep the current server call running and reconcile it before any successor.
