@@ -1,3 +1,11 @@
+# HOLD ? superseded by operator direction on 12 October 2026
+
+Do not start these files. The baseline real runs exposed a trainer initialization error before training, and this interface is shared with multiwin. Preserve all attempts and saved preprocessing.
+
+Both repeats are parked. Replacement deliverables will be one notebook per new arm, with folds0-4 sequentially, automatic resume, visible subprocess errors, a real trainer/training-iteration integration check and scientific review before release. Multiwin and pnormct first, then pnorm_v2,L; zscore/histeq held. Sprint12A1 is the provisional baseline, with small differences inconclusive without a Colab repeat.
+
+The historical reviewed notebook bytes and hashes below remain unchanged for audit. The previous READY instruction is superseded.
+
 # A1_multiwin: ready to run
 
 Scientific review 8 APPROVE, with no findings; all six exact notebook variants passed the installed isolated synthetic suite. These checks used synthetic fixtures only, not patient data or a real Colab GPU.

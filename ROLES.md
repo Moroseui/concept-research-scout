@@ -1,8 +1,6 @@
 # Roles and operator rotation
 
-Current update: multiwin author9 COMPLETE; all six exact variants pass isolated synthetic checks. Scientific reviewer8 APPROVED with no findings; exact notebooks delivered. The batch is fully used/reserved at104; next24-call proposal awaits the operator money decision. Current Claude route unchanged, no rotation or swap.
-
-Current operator: **Codex, OpenAI family**. No rotation. Item6/synthesis accepted; Idea2 code and CPU adapter independently approved; the adapter is installed and its single execution is complete. Colab is unparked by explicit operator decision; author8 completed both corrections and synthetic tests; scientific review7 APPROVE and exact notebooks delivered. Opposite-family administrative capability remains uninstalled; current Claude route remains the reviewer. The operator owns infrastructure and sequencing; scientific code/conclusions remain with system author/reviewer.
+Current operator: **Codex / OpenAI**. Goal active, no rotation. Scientific author uses the existing OpenAI client; scientific reviewer and operator implementation reviewer use the existing Claude route. The future opposite-family administrative route for a Claude operator remains uninstalled. Read HANDOVER and CURRENT before any mutation.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
@@ -29,10 +27,5 @@ Rotate at a completed milestone boundary or a weekly boundary, **never mid-task*
 
 Declare **Swap point reached** immediately after **Action needed from you** only when all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES and HANDOVER current; opposite-family administrative review capability installed; and no model call or compute job running or awaiting reconciliation. Then finish the current step, update and push the handover, and wait. Do not start a successor task after the gate. The operator has not requested an earlier stop.
 
-Current CPU milestone (12 October): Idea2 adapter5311301 independently approved in review71bf1a50,77tests and native read-only/writable controls pass. The single saved-output CPU execution completed and validated; no retry. Colab notebooks are delivered; Idea2 interpretation is accepted; multiwin scientific review8 COMPLETE/APPROVE and notebooks delivered. Human Colab folds 0 and 1 are active by operator report. The accepted interpretation retains the large-table inspection limitation.
 
-Scientific reviewer-requested code corrections return to the scientific author through the normal revise loop, regardless of finding category. Administrative review applies to infrastructure changes; correction does not grant new data access, credentials, spending or execution.
-
-Operator update12October: A1_repeat folds0/1 active on two unedited review7 A100 sessions; Drive mounted and estimate printed, but no completed epoch/output report yet. Next arms: multiwin, pnormct, pnorm_v2, L, then A1_repeat2. Compare Colab arms to Colab A1_repeat; repeat strengthens noise estimate before final conclusions. Decision is verbatim/hash-pinned privately9029bd20. Do not edit running notebook bytes.
-
-Current next step: await returned Colab results and the proposed new scientific-call batch decision. Multiwin code is approved and delivered; do not rerun its completed calls. Timing and opposite-family administrative capability remain deferred; no swap point.
+Current state: repeats parked; old multiwin held. Reviewed infrastructure396a72b installed and native zero-call qualification passed; multiwin author10 start consumed. One arm-level notebook and genuine training iteration plus scientific review precede delivery. Timing and opposite-family administrative capability remain deferred, so no Swap point.
