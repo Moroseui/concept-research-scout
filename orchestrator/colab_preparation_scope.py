@@ -24,6 +24,10 @@ def authority(root=None):
 
 
 def run_id(plan):
+    from orchestrator import colab_arm_question as question
+    if question.selected(plan):
+        question.validate_scope(plan)
+        return question.RUN
     return 'colab-'+digest((AUTHORITY+':'+plan['private_intake']['sha256']).encode())[:24]
 
 
@@ -57,7 +61,12 @@ def validate_notebook_config(root,cfg):
 def validate(plan,backlog):
     authority()
     scope=plan.get('colab_preparation')
-    if (not isinstance(scope,dict) or set(scope)!={'schema','operator','item_number'}
+    from orchestrator import colab_arm_question as question
+    fields={'schema','operator','item_number'}
+    if question.selected(plan):
+        question.validate_scope(plan)
+        fields.add('arm_question')
+    if (not isinstance(scope,dict) or set(scope)!=fields
             or scope['schema']!=SCHEMA or type(scope['item_number']) is not int
             or scope['item_number']!=4 or type(plan.get('item_number')) is not int
             or plan['item_number']!=4 or plan.get('idea_ids')!=IDEAS
@@ -89,6 +98,9 @@ def validate(plan,backlog):
 
 
 def instructions(stage,plan):
+    from orchestrator import colab_arm_question as question
+    if question.selected(plan):
+        return question.instructions(stage,plan)
     text=('Prepare the exact 13B notebook for Partho on Colab under the October10 direction. '
         'This is a NEW private notebook copy under approved item4, not a restart of completed item2 '
         'or a modification of pending timing author24. Scientific author owns all scientific code. '
@@ -159,5 +171,8 @@ def prepare_notebook_artifacts(driver,value,pending,cases):
     value['notebook_revision_result']={'folder':str(folder),'notebook_sha256':digest(notebook),
         'diff_sha256':digest(diff),'tests_sha256':digest(intake.canonical(tests)),
         'synthetic_status':tests['status']}
+    from orchestrator import colab_arm_question as question
+    if question.selected(driver.config):
+        question.execution_reading_artifact(driver,value,pending,notebook,tests,folder)
     if digest(Path(cfg['original']['path']).read_bytes())!=nr.ORIGINAL:
         raise ValueError('COLAB_NOTEBOOK_ORIGINAL_CHANGED_AFTER_PATCH')

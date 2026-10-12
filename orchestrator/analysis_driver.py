@@ -205,6 +205,11 @@ def initialize(root, state, engine_review, plan_path):
         raise ValueError('ONE_ACTIVE_RESEARCH_RUN')
     common = Path(git(root, 'rev-parse', '--git-common-dir'))
     common = common if common.is_absolute() else root/common
+    from orchestrator import colab_arm_question as question
+    if question.selected(plan):
+        common = state.parent/'question-owners'
+        if not common.exists(): private_records.mkdir(common)
+        else: private_records.check(common)
     owner = common.resolve()/('analysis-owner-' + run_id + '.json')
     if owner.exists():
         raise ValueError('EXISTING_ANALYSIS_OWNER_NO_NEW_ALLOWANCE')
@@ -244,6 +249,9 @@ def initialize(root, state, engine_review, plan_path):
     if plan.get('colab_preparation'):
         config['notebook_revision'] = plan['notebook_revision']
         config['review_contract'] = 'bound-review/v1'
+        if question.selected(plan):
+            from orchestrator.analysis_revisions import POLICY
+            config.update(author_timeout_seconds=1800, revision_policy=POLICY)
     if item.number in (2,5):
         from orchestrator.analysis_revisions import POLICY
         config.update(review_contract='bound-review/v1',accepted_stocktake=plan['accepted_stocktake'],revision_policy=POLICY)
@@ -252,7 +260,7 @@ def initialize(root, state, engine_review, plan_path):
     store.db.execute('INSERT INTO manual_state VALUES(1,?)', (json.dumps({'phase': STAGES[0], 'rounds': {},
         'artifacts': plan['artifacts'], 'interventions': []}),))
     store.db.close()
-    return {'status': 'READY', 'run_id': run_id, 'next': STAGES[0], 'calls_used': 0, 'call_limit': 16 if item.number in (2,5) else 8}
+    return {'status': 'READY', 'run_id': run_id, 'next': STAGES[0], 'calls_used': 0, 'call_limit': 20 if question.selected(plan) else 16 if item.number in (2,5) else 8}
 
 
 class AnalysisDriver(Driver):
@@ -320,6 +328,13 @@ class AnalysisDriver(Driver):
 
 
     def task(self, stage, value):
+        from orchestrator import colab_simple_full as full
+        if full.validate(self.store,self.config['run_id']) is not None:
+            full.require(stage in full.STAGES, 'PREPARATION_STAGE_ONLY')
+            return ((self.root/'docs/COLAB_SIMPLE_OPERATOR_20261012.txt').read_text()+'\n'+
+                    (self.root/'docs/COLAB_SIMPLE_AUTHOR_TASK.md').read_text()+
+                    '\nRequired specification binding lines:\nrun_id: '+self.config['run_id']+
+                    '\nanalysis_registry_sha256: '+self.config['private_intake']['sha256']+'\n')
         scoped = preparation_scope(self.config)
         if scoped: return scoped.instructions(stage, read(self.state/'preparation-plan.json'))
         if self.config['item_number']==5:
@@ -435,6 +450,9 @@ class AnalysisDriver(Driver):
             cases = cohort((self.context/registry['cohort']).read_bytes())
             if self.config.get('colab_preparation'):
                 preparation_scope(self.config).prepare_notebook_artifacts(self,value,pending,cases)
+                if self.config.get('colab_simple_full'):
+                    from orchestrator.colab_notebook_delivery import prepare_variants
+                    prepare_variants(self,value,pending,cases)
             else:
                 prepare_artifacts(self,value,pending,cases)
         n = pending['round']; value['rounds']['run_spec_author'] = n
@@ -462,6 +480,9 @@ class AnalysisDriver(Driver):
         if collect_folder is not None or identity_refusal is not None:
             raise ValueError('ANALYSIS_HAS_NO_EXECUTION_OR_COLLECTION')
         self.guard(); value = self.current(); phase = value['phase']
+        from orchestrator.colab_simple_full import preparation_hold
+        held=preparation_hold(self,value,collect_folder,identity_refusal)
+        if held is not None:return held
         if phase in STAGES:
             return self.model_step(value)
         if phase == 'MODEL_RUNNING':

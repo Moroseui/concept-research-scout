@@ -52,6 +52,17 @@ def selected_run_limit(config, run):
     authority()
     if config.get('run_id') != run:
         raise ValueError('LIMIT_RUN_BINDING')
+    if 'colab_simple_full' in config:
+        from orchestrator import colab_simple_full as full
+        scope=full.document()
+        if run!=full.RUN or config['colab_simple_full']!={'schema':'colab-simple-full-preparation/v1','scope_sha256':full.DOCUMENT_SHA}:
+            raise ValueError('COLAB_FULL_LIMIT_SCOPE')
+        return scope['call_limit']
+    from orchestrator import colab_arm_question as question
+    if question.selected(config):
+        if run != question.RUN:
+            raise ValueError('COLAB_ARM_LIMIT_RUN_CHANGED')
+        return question.validate_scope(config)['call_limit']
     item = config.get('item_number')
     if type(item) is int and item == 6:
         from orchestrator.diagnostics_policy import validate_config
@@ -88,6 +99,14 @@ def global_limit(batch, run):
     path = bound(batch.filesystem_root, state) / 'lane.json'
     if not path.exists():
         return 8
+    from orchestrator import colab_simple_full as full
+    event=batch.db.execute('SELECT payload FROM events WHERE id=?',(full.EVENT,)).fetchone() if run==full.RUN else None
+    if event is not None:
+        scope=full.document()
+        config=json.loads((full._path(batch.filesystem_root,scope['new_lane'])/'lane.json').read_bytes())
+        if json.loads(event[0])!=full._grant(config,scope,full._approval(config,scope,batch.filesystem_root)):
+            raise ValueError('COLAB_FULL_GLOBAL_APPROVAL_CHANGED')
+        return scope['call_limit']
     return selected_run_limit(json.loads(path.read_bytes()), run)
 
 

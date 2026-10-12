@@ -94,6 +94,10 @@ def preflight(batch, run, binding):
     # verify_plan authenticates all inputs, authority and aggregate-only scope.
     from orchestrator.analysis_driver import verify_plan
     verify_plan(plan)
+    from orchestrator import colab_arm_question as question
+    if question.selected(plan):
+        question.preflight(batch, run, binding)
+        return
     active = batch.db.execute("SELECT * FROM autonomy_runs WHERE status!='COMPLETE'").fetchall()
     if len(active) > 2: raise ValueError('ONE_ACTIVE_RESEARCH_RUN')
     for row in active:
