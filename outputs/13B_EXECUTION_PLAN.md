@@ -4,7 +4,7 @@ Updated 12 October 2026,20:23UTC. New experiments first; repeats are parked. Sci
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
-| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Repairs approved/installed/qualified; author12running,then scientificreview/integration |
+| First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Author12 and five synthetic groupsPASS; review10 exhausted30turns; boundedreview11 recovery,then integration |
 | First, session2 | A1_pnormct,0-4 | **Partho on Colab**, default runtime,A100 | Delivered unchanged after real trainer PASS; Partho reports RUNNING |
 | Next | A1_pnorm_v2,0-4 | **Partho on Colab**, default runtime,A100 | Author, scientific review and real integration |
 | Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Same checks, plus actual A100 memory-fit evidence |
@@ -21,9 +21,10 @@ At Sprint12's measured36seconds/epoch,5folds x250epochs imply12.5training hours 
 
 Compare each arm provisionally with Sprint12A1. Small differences are not interpretable without a later Colab repeat. Attribute changes to placement versus amount, size, region and fragmentation; no efficacy claim from code or integration tests.
 
-**Server work:**The lifecycle repair is approved and installed: source63da504c, reviewa4163c1a, reportb099bf79,257testsPASS. Native zero-call qualification passed using the actual driver and105129-byte author context; state and call history stayed unchanged. After the existing maintenance jobs finished, author12 launched once through normal admission. Its client process and growing native transport log confirm actual execution, rather than only a reservation.
-Current author call46e13bf45c6f880f11dbb31fefd3894d58fcc754112f4e323597c462e0653a9e is RUNNING. The same owner has22/24 counted calls; reviewer10 and reviewer11 are the remaining scoped slots, as normal process permits. Do not duplicate the live author. The earlier failedauthor11 staysFAILED/countretained; no history or charges reset. LatestClaude directionPROCEED with no more unrelated infrastructure; agreed. Nextauthorresult15-30minutes afterlaunch; scientificreview and actualtraineriteration follow.
+**Server work:**Multiwin author12 completed and the lane accepted its notebook and specification. All five synthetic test groups passed, including the formerly failing module fixture. The five-fold notebook hash is2df445002441298d3c17dcc6b43c6a1d5959a275a0b03dc4da184a1b3532aa65; its scientific code remains unchanged by the operator.
+Scientific review10 then exhausted its30tool-turn limit without submitting a verdict. Both ledgers record FAILED and its4.4578125charge remains counted. No scientific REVISE or APPROVE is inferred. No modelclient is now live. The exact native terminal proof, all23rows, account/configuration and successful author outputs are preserved. Do not replay review10.
+Next: a bounded, independently reviewed recovery for the existing final reviewer11slot, using60tool turns while preserving timeout,tools,permissions,isolation and all call/dollar caps. This repeated mechanical cause requires Claude's second opinion and implementation review together. No new user decision or call allowance is needed. The notebook remains held until scientific approval and its real trainer iteration. Nexttestedreviewrecoverycheckpoint30-60minutes conditional.
 
 Smoothing CPU is valid/terminal; interpretation namespace repair06eb remains deferred/unreviewed. Meeting,timing,sandbox/rotation deferred. No Swap.
 
-Today57calls:14author,9scientificreviewer,32administrative,2direction; installed100on12OctoberUTC then50. Scientific113/128,remaining9Colab/2analysis/4meeting. Completed Claude346.64103875,author dollars unavailable. Item4exposure115.516623/150=billed24.487001+retained91.029622,total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.
+Today58calls:14author,10scientificreviewer,32administrative,2direction; installed100on12OctoberUTC then50. Scientific114/128,remaining8Colab/2analysis/4meeting. Completed Claude351.09885125,author dollars unavailable. Item4exposure115.516623/150=billed24.487001+retained91.029622,total1275/projection1200/timing25inside stage1 unchanged. Item6cap100. Colab unmetered.
