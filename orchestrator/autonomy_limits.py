@@ -12,6 +12,10 @@ TEMPORARY_DAY = '2026-10-10'
 TEMPORARY_DAILY = 100
 TEMPORARY_AUTHORITY = '644410e1659c8998040c3cc9035aaa0eb2c5c3708fba37cfbb1a91fadf9f00e6'
 TEMPORARY_DOCUMENT = 'docs/OPERATOR_DIRECTION_20261010.txt'
+TONIGHT_DAY = '2026-10-12'
+TONIGHT_DAILY = 100
+TONIGHT_DOCUMENT = 'docs/COLAB_TONIGHT_OPERATOR_20261012.txt'
+TONIGHT_AUTHORITY = '23a45f2fdf214ba69f808393973fb5b6bff38a72a50dd6601106647a919e4cbd'
 SCIENTIFIC_BATCH = 60
 REVISE_ROUNDS = 3
 
@@ -38,6 +42,12 @@ def daily_allowance(day, root=None):
     authority(root)
     if type(day) is not str or date.fromisoformat(day).isoformat() != day:
         raise ValueError('DAILY_ADMISSION_DATE_REQUIRED')
+    if day == TONIGHT_DAY:
+        root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+        p = root / TONIGHT_DOCUMENT
+        if p.is_symlink() or hashlib.sha256(p.read_bytes()).hexdigest() != TONIGHT_AUTHORITY:
+            raise ValueError('TONIGHT_DAILY_AUTHORITY_CHANGED')
+        return {'limit': TONIGHT_DAILY, 'authority_sha256': TONIGHT_AUTHORITY}
     if day != TEMPORARY_DAY:
         return {'limit': DAILY, 'authority_sha256': DAILY_AUTHORITY}
     root = Path(root) if root is not None else Path(__file__).resolve().parents[1]

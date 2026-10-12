@@ -137,6 +137,35 @@ def run(payload, root=ROOT):
     print("This is not the five-fold training notebook and does not establish checkpoint reload or scientific efficacy.")
     return record
 
+def evidence_files(root):
+    # The reviewed fixture declares root-level result files in gate.json.
+    # Compilation and temporary work live in subdirectories; they are not
+    # evidence and can contain thousands of cache entries.
+    names = ('execution.py', 'plans.json', 'PACKAGE_RESULT.json',
+             'installation-console.log', 'launcher-console.log',
+             'install-report.json', 'pnormct-preinstalled-constraints.txt')
+    files = []
+    for name in names:
+        p = root / name
+        require(not p.is_symlink(), 'EVIDENCE_ALIAS')
+        if p.exists():
+            require(p.is_file(), 'EVIDENCE_FILE')
+            files.append(p)
+    result = root / 'result'
+    require(not result.is_symlink(), 'EVIDENCE_ALIAS')
+    if result.exists():
+        require(result.is_dir(), 'EVIDENCE_DIRECTORY')
+        for p in result.iterdir():
+            require(not p.is_symlink(), 'EVIDENCE_ALIAS')
+            if p.is_file():
+                files.append(p)
+        gate = result / 'gate.json'
+        if gate.is_file():
+            for name in json.loads(gate.read_bytes()).get('files', {}):
+                require(Path(name).name == name, 'EVIDENCE_MEMBER')
+                require(result / name in files, 'EVIDENCE_MEMBER')
+    return sorted(files)
+
 def preserve_to_drive(root=ROOT):
     # run() returns only after run_child has waited/reaped or killed its process.
     require((root / "PACKAGE_RESULT.json").is_file(), "NO_TERMINAL_RECORD")
@@ -149,8 +178,7 @@ def preserve_to_drive(root=ROOT):
     dest = Path("/content/drive/MyDrive/isles-pilot/private-integration/A1_pnormct") / stamp
     require(not dest.exists() and not dest.is_symlink(), "PRESERVED_ATTEMPT_EXISTS")
     source_hashes(root)
-    files = [p for p in root.rglob("*") if p.is_file()]
-    require(not any(p.is_symlink() for p in root.rglob("*")), "EVIDENCE_ALIAS")
+    files = evidence_files(root)
     require(len(files) <= 1000 and sum(p.stat().st_size for p in files) <= 16 * 1024**3,
             "EVIDENCE_SIZE")
     dest.mkdir(parents=True)
