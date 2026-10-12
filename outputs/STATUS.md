@@ -1,12 +1,12 @@
 # Research status
 
-- Idea 2 is accepted through execution, interpretation and scientific review; the report records limited reviewer access to two large tables.
+- Idea 2 is accepted through execution, interpretation and scientific review, with limited reviewer access to two large tables documented.
 - Partho reports A1_repeat folds 0 and 1 running on Colab A100; no epoch or result files have returned yet.
-- Multiwin author 9 is running after 182 tests, implementation APPROVE, installation and native checks. The current batch has one scientific slot left for its review.
-- Analysis continues with an intake for the author's proposed fixed-amount, zero-smoothing comparison; next result is a reviewed specification and tests, about one author/reviewer cycle after admission.
-- The private meeting selection plan is recovered. MRI and clinical records are absent from the frozen Colab manifest; their availability and provenance still need checking before case panels.
-- Identified item 4 billed compute is $24.487001; known cumulative Claude charges are $252.195916. Author dollar totals remain unavailable.
-- Next: multiwin draft and synthetic result within about 30 minutes, then scientific review; reviewed notebook provisionally 1?3 active hours. Baseline folds about 2.7 training hours plus overhead. Action needed: none until a fold finishes or errors. [Execution plan](13B_EXECUTION_PLAN.md).
+- Multiwin author 9 finished; all six exact notebook variants passed synthetic checks. Scientific review 8 is running; release awaits its verdict.
+- Analysis intake for the author's fixed-amount, zero-smoothing comparison is ready; reviewed code/tests need one author/reviewer cycle after new batch admission.
+- The private meeting selection plan is recovered; reviewed synthetic preparation needs one author/reviewer cycle, while real panels also need MRI/clinical asset and geometry checks.
+- Identified item 4 billed compute is $24.487001; known cumulative Claude charges are $252.195916 plus the pending review. Author dollar totals remain unavailable.
+- Action needed: decide the proposed 24-call batch. Next result: multiwin scientific verdict in about 20 minutes, then packaging if approved. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Direction and results
 
@@ -32,12 +32,12 @@ Idea2 interpretation adapter58e0ae05 passed189tests and qualified independent ap
 
 Non-Colab item4stage1 exposure is $115.516623/$150: identified billed$24.487001 and retained exposure$91.029622. Timing$5.405445/$25inside stage1; a$1.118950synthetic CPU reservation awaits billing. Item6cap$100; other-venue item4total$1,275 and projection gate$1,200 unchanged. Release excess only for closed attempts with provider-confirmed actuals. Historical Colab$1.36estimate and unknown actual remain recorded; no prospective Colab accounting.
 
-UTC 12 October: 33/50 counted calls, including the running multiwin scientific author. Reporting categories below preserve the ledger records; direction checks are accounted as administrative calls.
+UTC 12 October: 34/50 counted calls, including the running multiwin scientific reviewer. Reporting categories below preserve the ledger records; direction checks are accounted as administrative calls.
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author | 8 | Idea 2 code/interpretation, baseline notebook preparation and the running multiwin author |
-| Scientific reviewer | 5 | Idea 2 code/interpretation and baseline notebook reviews; unchanged this turn |
+| Scientific author | 8 | Idea 2 code/interpretation, baseline notebook preparation and the completed multiwin author |
+| Scientific reviewer | 6 | Idea 2 code/interpretation, baseline notebook reviews and running multiwin review8 |
 | Administrative implementation review | 18 | Prior repairs plus the completed multiwin preparation review; one earlier disqualified attempt retained |
 | Standalone direction check | 2 | Same next-arm direction question: first failed native source-read qualification, one authorized mechanical retry returned SIMPLIFY |
 
@@ -55,7 +55,7 @@ Cumulative known Claude charges $252.195916 (including direction attempts $3.016
 
 ## Backup and exclusions
 
-Previous verified public backup: 95955c316ba64de2a9f84f5f9f5eef12116c5a8b. The status is updated in place and current changes are scanned before the next push. Latest completed private checkpoint contains 148 hash-verified current operation records; server free space was 113.5365 GiB before and 113.5290 GiB after. Earlier checkpoints remain preserved. C: now 18.09 GiB free; WSL about 904 GiB. Warn below 15 GiB and stop below 8 GiB before large steps. No disk purchase needed.
+Previous verified public backup: 70bd54504b68225ed75dbffb3ea6f3f5ba9e1399. The status is updated in place and current changes are scanned before the next push. Latest completed private checkpoint contains 148 hash-verified current operation records; server free space was 113.5365 GiB before and 113.5290 GiB after. Earlier checkpoints remain preserved. C: now 17.90 GiB free; WSL about 904 GiB. Warn below 15 GiB and stop below 8 GiB before large steps. No disk purchase needed.
 
 Withhold private evidence, packets, ledgers, native streams, operator-decision records, input mappings/membership, patient rows, images, masks, weights/caches and raw private branch ancestry. Flagged bindings include ITEM6_IDEA2_FOLLOWUP_PRIVATE.json, COLAB_SIMPLE_FULL_PRIVATE.json, COLAB_ADMISSION_FAILURE_PRIVATE.json, COLAB_AUTHOR5_STATIC_PRIVATE.json, COLAB_HISTORICAL_EIGHT_PRIVATE.json, COLAB_REVIEW5_BOUND_PRIVATE.json, COLAB_BOUND_ADMISSION_PRIVATE.json, COLAB_ACCEPTED_INPUT_REFERENCE_PRIVATE.json, IDEA2_CPU_ACCEPTED_LANE_PRIVATE.json, IDEA2_CPU_RUNTIME_PRIVATE.json, IDEA2_INTERPRETATION_PRIVATE.json, COLAB_REVIEW6_DELETE_PRIVATE.json and COLAB_REVIEW5_OPERATOR_DISPOSITION.json. Public installed code/test projection remains a943951; newer private-bound release material, including5311301, is withheld and identified by source hash above. The exact six approved notebook code files and their hashes are included after scans; no patient payloads or executed outputs are present. No main merge, BACKLOG edit, new credential or patient-data publication.
 
@@ -67,12 +67,8 @@ Judgment: preserve the genuine scientific APPROVE and its explicit reader limita
 
 ## Current multiwin preparation
 
-Qualified Claude direction: **SIMPLIFY**, agreed. Remove all proposed call-limit increases. Run 20, scientific batch 104 and UTC day 50 remain unchanged; all 16 baseline calls remain counted. Batch usage is now 103 with author 9 running; one slot remains for reviewer 8. No other arm or workstream gains an allowance from this scope; exhaustion must stop.
+Source db6b741 passed182tests and independent implementation APPROVE before installation and native checks. Author9 completed the multiwin scientific code; source72fb029f, delivery manifest0a3e975c. Original synthetic suite and all six exact variants PASS. Scientific review8 is running, with no delivery before its qualified verdict. A local observation timeout during variant tests was reconciled against the same server process and six terminal receipts; no test or model attempt was duplicated.
 
-Installed source db6b74126cdef2751535920f8bf4fee82e5cdbb9 preserves the original baseline owner, configuration, allowance, calls and accepted state snapshot, and adds an explicit operator-directed arm question. Mechanical materialization requires the controller-selected arm; default remains baseline and held/unknown arms refuse. 182 tests pass. Independent implementation review APPROVE with no findings, source db6b741, report d83b05af. Installation and native zero-call author/reviewer admission and both transports passed; the one-use question activation and author9 start are consumed. Scientific notebook changes remain the author's work.
+Latest Claude direction SIMPLIFY was accepted: no ceiling increases under administrative delegation. Existing run20,batch104,day50 remain. The current review fills scientific batch104. A [proposed next batch](proposals/next-scientific-batch-20261012.md) requests24additional scientific calls for Colab,analysis and meeting preparation. It is unapproved, creates no allowance, and keeps all prior calls counted. Recent scientific reviewer costs are known; author dollar costs are unavailable.
 
-Five new private empty multiwin lock objects are verified, distinct from baseline. The arm-specific input reference is uploaded through the existing registered Drive broker and readback-hash verified. No patient payload or credential change; the broker was restored to its prior stopped state. A metadata script's initial syntax failure occurred before execution, was preserved and corrected without a model call or duplicated upload.
-
-[Scanned implementation code/tests](proposals/colab-arm-preparation-20261012/README.md) are an audit projection of the installed private release; omitted private bindings mean this projection is not independently runnable. Private scope snapshots, operator decisions, reference IDs and receipts are withheld, including COLAB_MULTIWIN_PRIVATE.json and COLAB_MULTIWIN_INPUT_REFERENCE_PRIVATE.json. Raw private branch ancestry is withheld; its safe code/test projection is included.
-
-Analysis and meeting intake drafts preserve the scientific author's accepted proposals. No new analysis code, case selection, image inspection or clinical-value access occurred. The next private meeting deliverable is a reviewed synthetic selection/rendering package, about one author/reviewer cycle after admission; actual panels depend on mandatory asset/provenance and geometry checks.
+Judgment: route a new scientific question through the already-reviewed preparation driver, preserve all prior accepted baseline bytes/calls, and send exact author9 output to normal scientific review. No new administrative review or infrastructure component was added this turn. Analysis and meeting intakes remain ready for admission; no patient cases selected or scientific code authored by the operator.
