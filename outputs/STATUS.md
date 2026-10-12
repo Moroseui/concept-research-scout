@@ -1,12 +1,12 @@
 # Research status
 
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
-- Multiwin's author completed the notebook; all five synthetic test groups passed.
-- Scientific review11 is running after a reviewed mechanical repair; no verdict yet.
-- Full multiwin delivery still needs scientific approval and its real trainer iteration.
-- Item4 billed: $24.487001; retained: $91.029622. Completed Claude charges: $355.35509625; author dollars unavailable.
-- Next expected result: scientific verdict in about5-15minutes; full delivery depends on the trainer check.
-- No action needed. C: last checked13.7GiB, above the8GiB stop. [Execution plan](13B_EXECUTION_PLAN.md).
+- Multiwin's scientific code correction was judged sound; its genuine REVISE still requires actual trainer evidence.
+- Claude approved the separate synthetic-only package; the ready private notebook has been delivered.
+- Full multiwin training remains held until real evidence passes scientific review; no system model job is running.
+- Item4 billed: $24.487001; retained: $91.029622. Completed Claude charges: $366.0659565; author dollars unavailable.
+- Next result: real trainer PASS/FAIL about10-25minutes after Partho starts the fresh A100 check.
+- Action: run the delivered check; leave pnormct running. C:13.32GiB, above8GiB stop/below15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Results and current boundary
 
@@ -26,8 +26,11 @@ Delivered13B_A1_pnormct.ipynb SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23
 
 Multiwin author12 completed; all five notebook synthetic groups passed. Its unchanged five-fold notebook SHA256 is 2df445002441298d3c17dcc6b43c6a1d5959a275a0b03dc4da184a1b3532aa65. Review10 exhausted30tool turns without any submitted verdict; its $4.4578125 and every original attempt remain counted.
 Bounded recovery1925a0c9 passed281tests, actual read-only state verification and independent Claude APPROVE0cd9ba62/report43dcb610. It is installed; recovery preserved23calls/accounting and the native zero-model reviewer qualification passed. Only reviewer11 gets60tool turns, with unchanged timeout, tools, isolation and ordinary admission.
-Scientific review11 is RUNNING: call01a477307a7309b31baa04983b107a560835e052c803b29d661c20c28b28041e, admitted as24/24. Reconcile its terminal result before any further launch; never replay review10 or restart review11 while uncertain. This is not scientific approval.
-Next: scientific verdict, then a real A100 trainer iteration before full delivery. Cache-excluding trainer packaging draft passes51related tests but remains unreviewed/undelivered. Its scientific approval pin deliberately prevents building before a genuine APPROVE. Pnormct remains running externally; never duplicate it.
+Scientific review11 completed with genuine REVISE,38native turns,cost6.70381075. Both call ledgers are COMPLETE; the old revision-round validator held collection (ANALYSIS_REVISION_ROUND), preserving24/24calls and the accepted verdict. The reviewer found the correction sound but requires actual multiwin trainer evidence and resolution of held execution conditions. Do not relabel REVISE or rerun that call.
+The separate packaging/staging review189c6eb7 returned genuine APPROVE (reportd90c164d, source1cea3255), explicitly allowing only the requested synthetic evidence acquisition.63focused testsPASS. The builder verified the exact scientific REVISE, independent package APPROVE, four component hashes and unchanged module/plans. It delivered one private preconfigured A100 trainer-check notebook; full training remains held.
+Action: Partho runs13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb, SHA25644902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b, in a fresh default A100 session, Run all, no settings. Existing authored unit fixtures run before one actual trainer iteration/checkpoint roundtrip; failures prevent GPU execution. The final cell preserves declared evidence privately, excluding caches. Return the printed PASS/FAIL and private evidence-folder location. This check has not yet been reported started.
+No system model call or compute job is running or awaiting reconciliation. Pnormct remains running in Partho's separate external Colab session. Never start superseded unadmitted request5ba2b912. After actual trainer evidence arrives, normal opposing-family scientific review must precede full multiwin notebook delivery. Claude says PROCEED with this minimal step and defer further accounting/infrastructure until evidence exists; agreed.
+
 
 Original item6 diagnostics and synthesis are accepted. Sprint14's352rounded matches use shared saved fits/cohort, not independent retraining. Idea2's fixed3x3 interpretation is accepted; its reviewer could not directly inspect the two largest tables, a limitation preserved in its report. The new smoothing reviewer directly confirmed its narrower motivating cell. [Accepted Idea2 scope](idea2_fixed3x3/README.md).
 
@@ -37,15 +40,15 @@ Meeting preparation retains the accepted six-slot selection rule. No cases/image
 
 Item4 non-Colab stage1 exposure is$115.516623/$150: billed$24.487001 plus retained$91.029622. Timing$5.405445/$25 is inside stage1; synthetic CPU$1.118950awaits billing. Item4 total$1275/projection gate$1200 and item6cap$100 unchanged. Colab unmetered. The new server CPU run has no incremental provider cost or reservation.
 
-Known completed Claude charges:$355.35509625; scientific author dollars unavailable. Original continuation review3.57100775 and linked closure review3.53700525 remain counted. Latest author slot failed before client launch; no new paid compute launch.
+Known completed Claude charges:$366.0659565; scientific author dollars unavailable. Original continuation review3.57100775 and linked closure review3.53700525 remain counted. Latest author slot failed before client launch; no new paid compute launch.
 
-12OctoberUTC:60calls against installed100today, reverting50on13October. Scientific batch115/128;7Colab,2analysis,4meeting remain. Same-owner continuation permits only author11/reviewer10 and optional normal revise author12/reviewer11,atmost4new,run24. Original20charges/histories preserved. No reset or relabeling.
+12OctoberUTC:61calls against installed100today, reverting50on13October. Scientific batch115/128;7Colab,2analysis,4meeting remain. Same-owner continuation permits only author11/reviewer10 and optional normal revise author12/reviewer11,atmost4new,run24. Original20charges/histories preserved. No reset or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |14|Idea2 code/interpretation,baseline/multiwin,pnormct draft/correction,smoothing specification; multiwin correction: one premodel failure retained and author12 completed|
 | Scientific reviewer |11|Idea2,baseline,multiwin,pnormct code,smoothing code|
-| Administrative implementation review |33|Repairs/admission,integration packaging,analysis connection,dated cap,multiwin continuation and corrective packet closure|
+| Administrative implementation review |34|Repairs/admission,integration packaging,analysis connection,dated cap,multiwin continuation and corrective packet closure|
 | Standalone direction check |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
 Administrative work still uses most calls. Latest qualified Claude direction: PROCEED with the narrow repair, then actual science; agreed. Author12 completed; review10 now has the separate mechanical turn-limit failure. The currentreview folds direction into the necessary lifecyclefix. The failedpremodelslot remainscounted; no additionalCPU/GPUlaunch. Localrepairreview cost3.121393; sourcepermission setup failure and its read-only correction preserved, no extra modelcall.
@@ -82,7 +85,7 @@ Installed projection additionally withholds these flagged/private authority file
 
 19:33UTC correction: source order/native traceback and exact workspace inventory prove author11neverlaunched. The24selector did not propagate to local allowance,falling back to legacyceiling6/count11. All20originalrows,111science rows,account/config/owner unchanged. No reset/relabel/retry. Next narrow connector repair must test actual ManualExecutor reservation; Claude implementation/direction review required before reconciliation/retry. New local-accounting-repair evidence stays private. Latest PROCEED predates this failure.
 
--21:24UTC: installed approved accounting connector and reconciled exactpremodelslot; no count reset. Native0callprobe revealed independent old20lifecyclecheck. Narrow equivalent24guard tested257PASS, independentClaude reviewpending. No newsciencecall or spendingcommitment.
+-21:42UTC: installed approved accounting connector and reconciled exactpremodelslot; no count reset. Native0callprobe revealed independent old20lifecyclecheck. Narrow equivalent24guard tested257PASS, independentClaude reviewpending. No newsciencecall or spendingcommitment.
 
 Public backup omissions: private source-binding records, raw evidence/review packets/ledgers/native streams remain private. No additional source files were flagged by the scanner; private binding documents remain withheld explicitly. Safe draft projection is not installation or scientific approval.
 
@@ -90,6 +93,12 @@ Public backup omissions: private source-binding records, raw evidence/review pac
 
 -20:56 UTC: author12completed and five syntheticgroupsPASS; scientificreview10 maxturns30/no submission,FAILED/countpreserved. Freeze exact23rows and nativeproof; boundedreview11 recovery requires Claude implementation/direction review. No newallowance or scientificcodechange.
 
--21:24UTC: Claude APPROVE and PROCEED on boundedreview11recovery, with explicit advice to simplify and defer generic infrastructure; agreed. Installed1925a0c9, recovered without resetting23calls, native0callprobePASS; scientificreview11now24/24. Administrative review cost4.256245. No newcompute or cap.
+-21:42UTC: Claude APPROVE and PROCEED on boundedreview11recovery, with explicit advice to simplify and defer generic infrastructure; agreed. Installed1925a0c9, recovered without resetting23calls, native0callprobePASS; scientificreview11now24/24. Administrative review cost4.256245. No newcompute or cap.
 
 New public omission: docs/MULTIWIN_REVIEW11_PRIVATE.json and all recovery evidence/native streams/packets remain private. Four installed source/test/scope files passed the privacy, secret and infrastructure preflight; fullpushscan stillrequired. Trainer packaging remains localdraft, notinstallation or delivery.
+
+-21:42UTC: genuine scientificREVISE preserved; no scientific correction invented. Proposed exact synthetic-only evidence acquisition in one necessary Claude package/staging/direction review.63packagingtestsPASS; actual GPU stillunrun. Initial package request was proven unstarted and superseded before any call to include execution of the author's own E034fixtures first. Fulltrainingheld; no addedallowance/ledgeredit.
+
+-21:42UTC: qualified package/staging APPROVE189c6eb7/reportd90c164d, cost4.0070495; explicit synthetic-only authority preserves scientificREVISE and fulltraininghold. Agreed PROCEED/SIMPLIFY: obtain the actual A100receipt before more accounting/infrastructure. Built exact package after approval and delivered privately; no GPU execution claimed.63focusedtestsPASS.
+
+The four package source/test/scope files are now approved and included in the public projection. The notebook, embedded scientific module, accepted submission, qualified review, records and native evidence remain private. Latest previous verified backupf6200272; currentstop push follows all scans.
