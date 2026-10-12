@@ -2,11 +2,11 @@
 
 - Pnormct code is scientifically approved; full training delivery awaits its real trainer check.
 - Action needed: return PASS/FAIL and the private evidence location from the previously sent Colab check.
-- The smoothing analysis passed16synthetic tests; its scientific review is running.
+- The smoothing analysis passed16synthetic tests and scientific review with no findings.
 - No new patient-data result exists yet; multiwin remains parked at its run limit.
-- Billed item4 compute is$24.487001; known completed Claude charges are$309.98807875.
+- Billed item4 compute is$24.487001; known completed Claude charges are$316.0379035.
 - Today uses49of50model calls; one remains, then further calls wait for the UTC reset.
-- Next result: scientific review around13:38-13:48UTC; Colab check10-25minutes after Run all. [Execution plan](13B_EXECUTION_PLAN.md).
+- Next result: server CPU analysis in roughly1-2hours, subject to implementation approval; Colab check10-25minutes after Run all. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Current direction and evidence
 
@@ -32,7 +32,7 @@ A separate synthetic-only Colab check is ready in the operator's private Downloa
 
 Packaging release3137acf5 passed22engineeringtests and genuine Claude APPROVE4afcdd3f/report9d9dcfb6. The reviewer agrees this is the shortest safe route. Agreed change: use the intended Colab environment for this synthetic check; defer another Modal image/runtime build. The existing Python3.12 image and unbound multiwin adapter cannot qualify this Python3.13 fixture unchanged. No provider job or reservation was created.
 
-The smoothing author completed once with 16 controller synthetic tests passing in 11.3 seconds, without patient data. Normal scientific review920c0653 is RUNNING, started at13:28UTC. All13 previous calls and the new author are preserved; the review is canonical call15. Expected review result in10-20minutes from start. No patient-data execution or new scientific conclusion is claimed. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
+The smoothing analysis has genuine scientific APPROVE920c0653/report6e561af4, no findings, and controller execution sealf0f25848. The author completed once with16controller synthetic tests passing in11.3seconds without patient data; the reviewer confirmed the narrow historical motivation against its source table. The review cost$6.04982475. All15canonical calls remain counted. State isCOMMIT_SPEC, native service inactive/exit0, no running model call. No patient-data execution or new scientific conclusion is claimed. Next: one batched implementation review of the existing CPU binding and interpretation connection; CPU result provisionally1-2hours after13:35UTC, subject to approval. Pnormct original run is held at COMMIT_SPEC with three counted calls; never launch its next stage blindly. The approved full arm notebook remains private and held until returned real integration evidence passes the stated checks.
 
 Timing, the GPU adapter, sandbox and opposite-family administrative capability remain deferred/uninstalled. No Swap point.
 
@@ -48,12 +48,12 @@ At 11:07 UTC the existing 728 saved-output files were checked by metadata only: 
 
 Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus retained reservations $91.029622. Timing commitment is $5.405445/$25 within stage 1; $1.118950 synthetic CPU awaits billing. Item 6 cap $100; item 4 total $1,275 and full-training projection gate $1,200 remain unchanged. Colab is unmetered. Release excess reservations only after provider billing confirms a closed attempt's actual cost.
 
-12 October UTC:49/50 calls:12 scientific authors,9 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch111/128. Two of4analysis slots used;2analysis,4meeting and11Colab slots remain. Canonical item6 has15counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$309.98807875 exclude the live review; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
+12 October UTC:49/50 calls:12 scientific authors,9 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch111/128. Two of4analysis slots used;2analysis,4meeting and11Colab slots remain. Canonical item6 has15counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$316.0379035; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 12 | Idea2 code/interpretation, baseline/multiwin, pnormct draft/correction and completed smoothing specification |
-| Scientific reviewer | 9 | Idea2, baseline, multiwin, pnormct code and live smoothing review |
+| Scientific reviewer | 9 | Idea2, baseline, multiwin, pnormct code and approved smoothing code |
 | Administrative implementation review | 26 | Repairs, private integration packaging, analysis admission and its terminal-route correction; direction bundled |
 | Standalone direction check | 2 | Preserved disqualified attempt and qualified SIMPLIFY retry |
 
@@ -68,7 +68,7 @@ Item 4 non-Colab stage-1 exposure is $115.516623/$150: billed $24.487001 plus re
 
 ## Backup and exclusions
 
-Last verified public backup before this update: d2228096b974a12ecdc03947ef6e3d83d74d7df8. Every push requires privacy, secret and infrastructure scans. Previous private checkpoint verified164files by hash; server111.0895GiB before/111.0846GiB after and C:15.96GiB. The next checkpoint preserves the author output and live-review start. No local files were removed. Disk guard warns below15GiB and stops below8GiB; no larger disk requested.
+Last verified public backup before this update:069019725eb607fd101f526780c7d1f4ba63cc54. Every push requires privacy, secret and infrastructure scans. Previous private checkpoint verified164files by hash; server111.0895GiB before/111.0846GiB after and C:15.96GiB. The next checkpoint preserves the author output and live-review start. No local files were removed. Disk guard warns below15GiB and stops below8GiB; no larger disk requested.
 
 Withhold evidence folders, review packets, ledgers, native streams, private operator records, raw private branch ancestry, patient rows/identifiers, membership maps, images, masks, weights/caches, credentials and infrastructure identifiers. Private bindings withheld include COLAB_MULTIWIN_RECOVERY_PRIVATE.json, COLAB_RUNTIME_FAILURES_PRIVATE.json and COLAB_PATCH_READING_FAILURE_PRIVATE.json. Returned executed notebooks/records and verbatim private approval bindings also stay private. Safe source/test projections are scanned separately. Never merge main or edit BACKLOG.
 
@@ -88,11 +88,11 @@ New installed public projection: three clean format-helper/runtime/test files. C
 
 ## Current analysis admission
 
-The smoothing author completed once with 16 controller synthetic tests passing in 11.3 seconds, without patient data. Normal scientific review920c0653 is RUNNING, started at13:28UTC. All13 previous calls and the new author are preserved; the review is canonical call15. Expected review result in10-20minutes from start. No patient-data execution or new scientific conclusion is claimed.
+The smoothing analysis has genuine scientific APPROVE920c0653/report6e561af4, no findings, and controller execution sealf0f25848. The author completed once with16controller synthetic tests passing in11.3seconds without patient data; the reviewer confirmed the narrow historical motivation against its source table. The review cost$6.04982475. All15canonical calls remain counted. State isCOMMIT_SPEC, native service inactive/exit0, no running model call. No patient-data execution or new scientific conclusion is claimed. Next: one batched implementation review of the existing CPU binding and interpretation connection; CPU result provisionally1-2hours after13:35UTC, subject to approval.
 
 Analysis admission649ebc7b received genuine Claude APPROVE7c93e0b8/reportcf427255 and PROCEED, but its obsolete historical terminal route refused activation before any owner/grant/call mutation. The original installation, prepared lane and refusal remain preserved. Narrow correctionc3404e36 reuses the existing strict historical verifier, passed75tests and genuine Claude APPROVE7e9dbb60/reportabf0c222, again PROCEED. Its actual activation and native checks passed; no guard was relaxed. The preceding broader suite failures reproduce on the unchanged parent and remain disclosed. No new subsystem was built.
 
-12 October UTC:49/50 calls:12 scientific authors,9 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch111/128. Two of4analysis slots used;2analysis,4meeting and11Colab slots remain. Canonical item6 has15counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$309.98807875 exclude the live review; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
+12 October UTC:49/50 calls:12 scientific authors,9 scientific reviewers,26 administrative implementation reviews,2 standalone direction attempts. Scientific batch111/128. Two of4analysis slots used;2analysis,4meeting and11Colab slots remain. Canonical item6 has15counted calls under its existing30-call ceiling and the stricter4-call question allocation; no reset. Known completed Claude charges$316.0379035; author dollars unavailable. Item4 non-Colab exposure$115.516623/$150 = billed$24.487001 plus retained$91.029622. Colab unmetered. No new compute reservation or cap change.
 
 Latest Claude direction13:08UTC:PROCEED; keep the existing strict verifier and no new subsystem. The actual corrected activation/native qualification now pass, addressing the static review's live-state limitation. External installed code was verified by its pinned authority; the reviewer did not independently inspect every external byte.
 

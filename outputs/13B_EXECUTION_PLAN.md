@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 12 October 2026,13:34UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 12 October 2026,13:35UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -21,6 +21,6 @@ At Sprint12's measured36seconds/epoch,5folds x250epochs imply12.5training hours 
 
 Compare each arm provisionally with Sprint12A1. Small differences are not interpretable without a later Colab repeat. Attribute changes to placement versus amount, size, region and fragmentation; no efficacy claim from code or integration tests.
 
-**Parallel server work:** accepted item6 and Idea2 results are preserved. The author completed a new fixed-amount smoothing specification with16synthetic tests passing; normal scientific review920c0653 is running, expected around13:38-13:48UTC. Existing server CPU is the intended venue after reviewed execution admission, with no incremental provider cost. Reuse its exact input/environment protections; no new data transfer/service is needed. Meeting preparation retains the accepted six-slot case rule, but real panels await MRI/clinical provenance and geometry checks. Timing and generic sandbox/rotation work are deferred.
+**Parallel server work:** accepted item6 and Idea2 results are preserved. The new fixed-amount smoothing specification passed16synthetic tests and genuine scientific review920c0653 with no findings. Next is the reviewed CPU binding and interpretation connection; CPU result provisionally1-2hours after13:35UTC, subject to implementation approval. Existing server CPU is the intended venue after reviewed execution admission, with no incremental provider cost. Reuse its exact input/environment protections; no new data transfer/service is needed. Meeting preparation retains the accepted six-slot case rule, but real panels await MRI/clinical provenance and geometry checks. Timing and generic sandbox/rotation work are deferred.
 
 Today49/50model calls; scientific batch111/128. Remaining allocation:11Colab,2analysis,4meeting. Calls serialize through the installed guard. One daily slot remains; wait for UTC reset when exhausted. Item4 non-Colab stage1 exposure$115.516623/$150 (billed24.487001, retained91.029622); total1275, projection gate1200 and timing25inside stage1 unchanged. Item6cap100. Colab unmetered. Latest Claude direction13:08UTC:PROCEED, keep the narrow existing-component path.
