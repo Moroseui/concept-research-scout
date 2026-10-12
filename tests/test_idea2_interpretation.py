@@ -9,6 +9,11 @@ from test_item6_idea2_followup import db_at
 @pytest.fixture
 def lane(tmp_path,monkeypatch):
     scope=f.document()
+    partial=f._path(tmp_path,scope["failed_prepare"]["lane"])
+    partial.mkdir(parents=True,mode=0o700)
+    (partial/"original.bin").write_bytes(b"preserved partial preparation")
+    (partial/"original.bin").chmod(0o600)
+    scope["failed_prepare"]["files"]={"original.bin":{"sha256":f.sha(b"preserved partial preparation"),"bytes":len(b"preserved partial preparation")}}
     parent=f._path(tmp_path,scope["prior"]["parent_lane"])
     new=f._path(tmp_path,scope["new_lane"])
     parent.mkdir(parents=True,mode=0o700);new.mkdir(parents=True,mode=0o700)
@@ -332,15 +337,24 @@ def test_prior_smoothing_specification_allocation_is_not_reissued(lane):
     with pytest.raises(ValueError,match="ALLOCATION_HISTORY_CHANGED"):
         f.batch_allowance(x.store.batch,x.scope)
 
-def test_future_result_binds_the_same_reviewed_release(tmp_path,monkeypatch):
+def test_completed_result_binds_exact_original_cpu_approval(tmp_path,monkeypatch):
     from orchestrator import autonomy_review
     scope=f.document();seen=[]
-    monkeypatch.setattr(autonomy_review,"verify_result",lambda *a:{"verdict":"APPROVE","change_id":f.CHANGE,"source_sha":"1"*40,"report_sha256":"2"*64})
+    work=f._path(tmp_path,scope["result_work"]);work.mkdir(parents=True,mode=0o700)
+    (work/"receipt.json").write_bytes(b"original");(work/"receipt.json").chmod(0o600)
+    scope["result_files"]={"receipt.json":f.sha(b"original")}
+    expected={"verdict":"APPROVE","change_id":scope["cpu_change_id"],"source_sha":scope["cpu_source"],"report_sha256":scope["cpu_review_sha256"]}
+    monkeypatch.setattr(autonomy_review,"verify_result",lambda *a:expected)
     monkeypatch.setattr(f.results,"verify",lambda work,source,review:seen.append((work,source,review))or{"verified":True})
     assert f.native_results(scope,tmp_path)=={"verified":True}
-    assert seen==[(f._path(tmp_path,scope["result_work"]),"1"*40,"2"*64)]
-    monkeypatch.setattr(autonomy_review,"verify_result",lambda *a:{"verdict":"REVISE","change_id":f.CHANGE})
-    with pytest.raises(ValueError,match="CPU_APPROVAL"):f.native_results(scope,tmp_path)
+    assert seen==[(work,scope["cpu_source"],scope["cpu_review_sha256"])]
+    for key,value in [("verdict","REVISE"),("source_sha","1"*40),("report_sha256","2"*64),("change_id","other")]:
+        wrong={**expected,key:value}
+        monkeypatch.setattr(autonomy_review,"verify_result",lambda *a:wrong)
+        with pytest.raises(ValueError,match="CPU_APPROVAL"):f.native_results(scope,tmp_path)
+    monkeypatch.setattr(autonomy_review,"verify_result",lambda *a:expected)
+    (work/"receipt.json").write_bytes(b"changed")
+    with pytest.raises(ValueError,match="NATIVE_RESULT_CHANGED"):f.native_results(scope,tmp_path)
 
 def test_changed_execution_receipt_cannot_reuse_interpretation_grant(lane,monkeypatch):
     x=lane;f.activate(x.store,f.RUN)
@@ -354,3 +368,46 @@ def test_native_cpu_authority_must_be_same_bundle(monkeypatch):
     cpu=SimpleNamespace(UNIT="synthetic.service",authority=lambda:({"source_sha":"c"*40,"report_sha256":"b"*64},{}))
     monkeypatch.setattr(rt,"load",lambda *a:cpu)
     with pytest.raises(ValueError,match="CPU_APPROVAL"):rt.cpu_authority()
+
+def test_partial_failed_preparation_cannot_change_or_be_replaced(lane):
+    x=lane;folder=f._path(x.store.batch.filesystem_root,x.scope["failed_prepare"]["lane"])
+    f.failed_preparation(x.scope,x.store.batch.filesystem_root)
+    (folder/"original.bin").write_bytes(b"changed")
+    with pytest.raises(ValueError,match="PARTIAL_PREPARATION_CHANGED"):f.activate(x.store,f.RUN)
+    assert not x.db.execute("SELECT 1 FROM events WHERE id=?",(f.EVENT,)).fetchone()
+
+def test_collection_keeps_original_namespace_and_immutable_conflict_check(tmp_path,monkeypatch):
+    from orchestrator import experiment_collection
+    from orchestrator.manual_executor import digest
+    state=tmp_path/"state";state.mkdir(mode=0o700)
+    context=state/"context";context.mkdir(mode=0o700)
+    driver=SimpleNamespace(state=state,context=context,config={"run_id":f.RUN},store=None)
+    prefix="current/runs/"+digest(f.RUN.encode())+"/results/"
+    original=b'{"prior": true}'
+    oldpath=context/(prefix+"idea2/integrity.json");oldpath.parent.mkdir(parents=True,mode=0o700)
+    oldpath.write_bytes(original);oldpath.chmod(0o600)
+    oldrow={"id":"diagnostics-result-integrity.json","type":"result_tables","version":1,"path":prefix+"idea2/integrity.json","sha256":digest(original)}
+    value={"artifacts":[oldrow]}
+    # Prove the original refusal still applies; recovery uses a new namespace.
+    with pytest.raises(ValueError,match="IMMUTABLE_ARTIFACT_CONFLICT"):
+        experiment_collection.artifact(driver,value,"result_tables",oldrow["id"],"idea2/integrity.json",b'{"new": true}')
+    outputs={n:(b"Synthetic limitations."if n.endswith(".md")else b'{"new": true}')for n in f.results.OUTPUTS}
+    native={"files":outputs,"validation":{"status":"VALIDATED"},"receipt":{"cpu_source":"a"*40,"implementation_review_sha256":"b"*64}}
+    monkeypatch.setattr(f,"native_results",lambda *a:native)
+    monkeypatch.setattr(f,"verified_by_store",lambda *a:None)
+    f.collect(driver,value,{},tmp_path)
+    assert oldpath.read_bytes()==original
+    assert value["preserved_prior_result_artifacts"]==[oldrow]
+    for name,raw in outputs.items():
+        assert (context/(prefix+"smoothing/"+name)).read_bytes()==raw
+    assert all("/idea2/"not in r["path"]for r in value["artifacts"])
+    assert (context/(prefix+"smoothing-execution-receipt.json")).is_file()
+
+def test_native_reader_reuses_completed_cpu_without_new_execution(monkeypatch):
+    from tools import idea2_interpretation_runtime as rt
+    scope=f.document()
+    cpu=SimpleNamespace(UNIT="synthetic.service",authority=lambda:({"source_sha":scope["cpu_source"],"report_sha256":scope["cpu_review_sha256"]},{}))
+    monkeypatch.setattr(rt,"authority",lambda:{"source_sha":"f"*40,"report_sha256":"e"*64})
+    monkeypatch.setattr(rt,"load",lambda *a:cpu)
+    monkeypatch.setattr(rt.subprocess,"check_output",lambda *a,**k:"MainPID=0\nActiveState=inactive\nExecMainStatus=0\n")
+    assert rt.cpu_authority()["source_sha"]==scope["cpu_source"]
