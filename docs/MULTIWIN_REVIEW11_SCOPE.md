@@ -1,0 +1,10 @@
+# Last already-approved review slot
+Author12 completed and all five notebook synthetic groups passed. Scientific review10 returned native error_max_turns30 without any submit_review attempt or accepted verdict; both ledgers FAILED,4.4578125charge retained. The same cause appeared in review9. This is not a genuine scientific REVISE or REJECT.
+
+Restore only nextunusedreview11: truthfully consume failedcounter10, preserve all23local/global rows,account,owner,configuration and exactauthor12artifacts/notebook/delivery. No new allowance: existing run24,batch128,day100on12OctoberUTC50afterward; all dollars unchanged. No author13. The helper reads positive native terminal proof and refuses changed evidence or any accepted verdict.
+
+Only boundreview11 gets60native toolturns instead30, retaining the entire argv otherwise, timeout,submissiontools,permissions,confinement and normalglobal/localadmission. A fresh native zero-call probe preparesactualreviewercontext/submission/search/command/transport, requiresonly60turnchange and unchangedstate, before normalreview11. It does not approve science or execute patientdata. Historicalfailedreviews remain preserved. Otherinstalledlanes/defaults are unchanged; any future standardization requires its own reviewedsource change.
+
+The new thin runtime reuses the independently authenticated63da sharedguard and a449accounting/83efcontinuation/base driver. Unitbytes changeonlyentrypoint; installer requires exactwhole-componentqualifiedAPPROVE and unchangedruntime. Recovery is explicit,locked,hash-bound,one-use and failsclosed on partialintent.
+
+IndependentClaude review must judge implementation and repeated-cause/processauthority; answerdirection in samecall. Userstandingdelegation allowsClaudeprocessdecisions; no newmoneyrequested. Reportallfindingsatonce. RequiregenuineAPPROVE beforeinstallation/recovery/nativeprobe/review11. Keep actualscientificreview distinct from this administrativeapproval; realA100traineriteration remainsrequired before notebookdelivery. Prefer the shortest safepath; defer genericinfrastructure.
