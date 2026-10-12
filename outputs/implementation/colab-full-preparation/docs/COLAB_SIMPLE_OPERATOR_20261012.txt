@@ -1,0 +1,14 @@
+**Operator decision: simplify Colab execution.** I pay for Colab and will buy more units when needed, so stop metering it.
+
+1. **Environment:** target Colab?s current default runtime (Python 3.13 with its preinstalled CUDA/PyTorch, A100), not Python 3.12. The author picks package versions compatible with that runtime and records them. Don?t require older runtime versions or exact torch pins unless something genuinely breaks.
+2. **Deliverable: one separate, fully pre-configured notebook file per arm.** Each file has its arm, folds and paths built in, with no settings for me to change. I open the file, choose A100 and click Run all. If one arm?s five folds would take much longer than a Colab session can run, also split it into one file per fold, clearly named (e.g. `13B_A1_repeat_fold0.ipynb`), so I can run them in parallel tabs. Each notebook should:&#x20;
+   - mount Drive, verify input hashes and the 99-patient/excluded-49 membership (fail closed);
+   - preprocess, then train at the full 250 epochs;
+   - **checkpoint regularly and resume automatically** from the last checkpoint if I re-run the same file after a disconnect (no settings to flip);
+   - score on held-out patients and write metrics, timing and a run summary to its own private Drive results folder, so parallel runs can?t collide;
+   - print an up-front estimate of hours and units, so I can top up if needed.
+3. **Remove:** CU balance prompts, reservations and accounting for Colab, supervised two-hour segments, deliberate interruption tests, per-segment contracts and separate smoke runs. The first epochs of the real run are the smoke test; if something fails, fix it and I re-run.
+4. **Keep:** the input hash and membership check, the locked 25/24 never touched, results private on Drive, and one scientific review of each notebook?s code before I run it, not per run.
+5. **Order and speed:** I want results as fast as possible and will run several notebooks at once. Send the `A1_repeat` notebook(s) first, then each coverage-independent arm as soon as its notebook is reviewed; don?t wait to batch them. Tell me how many sessions to run in parallel and in what order (I know colab has a cap on the number of notebooks I can run simultaneously). The system ingests the returned results from Drive and analyses them as they arrive.
+
+Today?s A100 attempt stopped at the Python 3.12 check before installing or running anything. I disconnected the runtime. Balance at attachment: 1,000.12.

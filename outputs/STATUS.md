@@ -1,39 +1,50 @@
 # Research status
 
-- The old Colab A100 attempt stopped at its runtime check before installation/training; it is disconnected and superseded.
-- New notebooks will use default Colab, train 250 epochs, resume automatically and require no editable settings or Colab accounting.
-- A1_repeat is first; no new notebook is released yet. Start with two sessions once the reviewed files arrive.
-- Idea2's fixed3x3 analysis code is scientifically APPROVED and passed 20 synthetic tests; patient CPU execution has not started.
-- One administrative implementation review is running; no scientific call or compute job is running. Timing is parked at a repeated reader failure; coverage-dependent arms remain held.
-- Identified item 4 billed compute is 24.487001USD; non-Colab stage-1 exposure 115.516623/150. Old Colab 1.36 estimate is historical; actual unknown.
-- Next expected delivery: reviewed A1_repeat notebooks in 1-2 active hours, subject to review. Action needed: none. [Execution plan](13B_EXECUTION_PLAN.md).
+- The old Colab attempt stopped before installation/training and is superseded; no replacement notebook is ready.
+- New A1_repeat files will use default Colab, full250epochs and automatic resume, with no editable settings or Colab metering.
+- Idea2 analysis code has scientific APPROVE and20tests passed; all728original server files now pass their frozen hashes and development/exclusion checks.
+- No author or compute job is running. A necessary Colab admission repair is running in independent review.
+- The failed author admission never reached the model. Its reservation remains counted and awaits independently approved terminal reconciliation.
+- Identified item4 billed compute is24.487001USD; non-Colab stage1 exposure115.516623/150. Known Claude charges161.3660685USD; author dollar totals unavailable.
+- Next: reviewed A1_repeat notebooks, provisionally1?2active hours after the admission repair passes. Action needed:none. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Current direction and results
 
-The operator's new Colab decision is recorded verbatim and hash-pinned privately. It supersedes all earlier smoke, Python3.12, exact-oldtorch, segmented-contract and metering requirements for humanColab. Other venue caps remain unchanged. The author chooses compatible dependencies and records the actual default runtime. Preserve inputhash/development99/excluded49 checks, private results, checkpoint identity and scientific code review. No replacement scientific code has been accepted yet; do not run the archived notebook.
+The latest operator Colab decision is recorded verbatim and hash-pinned. Use default Python3.13/preinstalled CUDA/PyTorch,A100; author chooses compatible dependencies and records them. Preconfigured250epoch notebooks per arm plus per-fold variants, private separated results, held-out metrics and automatic checkpoint resume. Frozen hashes and development99/excluded49 membership remain mandatory. No Colab reservations/accounting, balance prompts, supervised segments, deliberate interruptions or separate smoke. First real epochs supply smoke evidence. One scientific code review before delivery, not per run. No replacement code has been scientifically accepted yet.
 
-Idea2 author5 and scientific review4 completed. Genuine APPROVE, no findings;20 tests PASS against the actual authored program. This is specification/code acceptance, not a new patient-data result. The lane is held at COMMIT_SPEC with11calls preserved. The narrow serverCPU integration must still be reviewed before execution. Drive directory metadata matches all728frozenfile sizes; this proves neither hashes nor analysis execution. Approved program selects614files.
+Deliver A1_repeat first, then coverage-independent arms as each is reviewed. Recommend two initial sessions for folds0/1, then2/3/4, subject to actual account concurrency. Archived notebook ec100c5 is superseded. Old attempt stopped at its3.12gate before installation/training by operator report and was disconnected; actual cost unknown. Historical1.36estimate/records preserved, no future Colab metering.
 
-Original item6diagnostics and synthesis remain accepted. Sprint14comparison's352rounded matches use the same saved fits/cohort; not independent retraining. Timing stays parked; private case proposal accepted/unexecuted; sandbox and opposite-family route uninstalled. No swap point.
+Idea2 author5/review4 completed with genuineAPPROVE/no findings;20synthetic tests passed. Original staging contains all728frozenfiles, all hashes verified,99development patients and zero overlap with excluded49. The approved program needs614of these files; no transfer is needed. This is code/input acceptance, not a new analysis result. Next narrow reviewed serverCPU integration using existing confinement and before/afterhashes. Original item6diagnostics/synthesis remain accepted; Sprint14comparison's352rounded matches use the same saved fits/cohort, not independent retraining.
 
-## Spending and model calls
+Timing remains parked after a repeated admission-reader failure. Coverage-dependent arms held; private case proposal accepted/unexecuted; author sandbox and opposite-family route uninstalled/deferred. No swap point.
 
-Non-Colab item4stage1exposure115.516623/150USD: identified billed24.487001 and retained91.029622. Timing5.405445/25inside stage1; syntheticCPUreserve1.118950awaitbilling. Item6cap100; other venue item4total1275/projection1200unchanged. OldColab1.36reservation/estimate and original records preserved historically; operator reports closed before installation/training, actualchargeunknown. No futureColabreservation, balanceprompt or spendinggate. Partho manages subscription/top-ups; no purchases by system.
+## Admission repair and live state
 
-UTC12October3/50calls:1scientific author(Idea2),1scientific reviewer(Idea2),1administrative implementation review RUNNING,0standalone direction. UTC11closed39/50:4authors,4scientific reviewers,23administrative,8direction. KnownClaude charges152.4333265USD before the current administrative review; author dollar totals unavailable. Earlier costs/attempts remain counted. Administrative reviews dominated yesterday; batch only repairs needed for notebook delivery, Idea2execution and timing, defer unrelated infrastructure.
+Two Colab preparation releases received genuine administrativeAPPROVE and were installed. The first attempt stopped before reservation at missing local terminal qualification; the second fixed that connection but failed the existing branch-name check after global reservation and before model launch. Every original outcome/charge remains preserved. The latest local attempt is BLOCKED_BEFORE_MODEL; its global reservation still saysRUNNING pending truthful reconciliation, so do not duplicate it.
 
-Latest Claude outcome: scientific APPROVE for Idea2. Prior linked administrative implementation round2 APPROVE accepted sourcef9214a48a9bcc37f8392b0a743d20279d4d718a2 after301checks; already installed/qualified. OriginalREVISE/charge2.567463 and secondcharge5.3457185 remain preserved.
+Candidate0770e23ac2bf257edc819b2e3f6e2a2693e12095 is uninstalled. It uses the required branch prefix, validates the identical event check before reservation, and adds exact reviewed reconciliation through normalFAILED completion. All9localcalls remain copied/countable under the same owner.20run/104batch/50daily/3revise limits remain unchanged.99tests passed, including actual global reservation/localCAS with8and9priorcalls, invalid-branch refusal before reservation and unchanged historical charges. Actual read-only terminal qualification passed.
 
-## Judgment log highlights and recovery
+Reviewece97db56b989aec3b814add214f196636edca28f73c6ca98832dee344e0ad42 is RUNNING.729packetfiles/708sourcefiles include the whole component, tests, approvals, rawdiff and folded direction check. Start attempts refused before intent/call because maintenance was due soon. No installation or scientific retry until genuineAPPROVE.
 
--12October: apply the explicit simplifiedColabdecision; no extra direction-onlycall. Preserve oldattempt/reservationrecord; never inventactualspend. A minimal continuation still needs normal independent implementation review because it changes process admission.
--12October: scientificIdea2APPROVE and20 tests are reconciled; do not restart the consumed author/reviewer or execute patients through the preparation-only release.
--12October: recommend two initial parallelColabsessions, per-fold outputs and automaticresume; actualaccountquota remains variable.
--Previously: stopped laptopcopy294verifiedfiles pluspartial remains preserved. No bulk laptoptransfer or deletion.
--Previously: installedIdea2continuation preserves originalacceptance/allcalls and uses native model-freequalification. Locking status reader was stopped without touching the author; use directread-onlyobservation whilelive.
+## Spending and calls
 
-Withheld from GitHub: privateevidence, packets, ledgers, nativestreams, privatebindings, inputmappings/membership, per-patientoutputs, weights/caches, rawprivateancestry. ITEM6_IDEA2_FOLLOWUP_PRIVATE.json was excluded for private-record and infrastructure/credential-path findings. Safe installedcode/tests projection remains under outputs/implementation/item6-idea2-preparation. Archived Colabcode is superseded, not a new delivery.
+Non-Colab item4stage1 exposure115.516623/150USD: identified billed24.487001 and retained91.029622. Timing5.405445/25inside stage1; syntheticCPUreservation1.118950awaitbilling. Item6cap100; other venue item4total1275/projection1200unchanged. Old Colab1.36estimate is historical; actual unknown, no futuremetering. Never erase or inventcharges.
 
-Last verified push e3f403db78e0739d0a0a29bd1a162e4c540d97bc; this direction update awaits scans/push. Current privatebackup predates latestapproval/newdirection and must be refreshed at the nextstop. C:last17.90GiB, WSLabout905GiB, serverabout118GiB; warnbelow15/stopbelow8beforelarge work. No mainmerge, BACKLOGedit or credentialchange.
+UTC12October6/50 counted:2scientific author reservations (Idea2complete; Colabfailedbeforemodel),1scientific reviewer(Idea2),3administrative implementation reviews (one running),0standalone direction. The running review is counted; its eventual charge is not yet available. UTC11closed39/50:4authors,4science reviewers,23admin,8direction. KnownClaude charges161.3660685USD; author dollars unavailable. LatestClaudeAPPROVE/PROCEED accepted the local-terminal repair. This new review folds the required check after two installation cycles without a scientific result; no standalone directioncall.
 
-12October00:56UTC: administrative review346888731ff085d5a7e96126fe71024e75921003b5922aa656fb8e066a0ace29 is RUNNING, sourcecd346dce906b9de86e47e14475cb22c9e48164e6 UNINSTALLED. Whole component722files/703sourcefiles and the direction question are supplied; no separate directioncall.213tests passed,5existing host-dependent skips. Original Colab1.36record now has an append-only operator-reported termination/supersession record; original unchanged, actualcostunknown, no futureColabmetering. Idea2scientificreview charge4.2678415 counted once; knownClaude total152.4333265 beforecurrentreview. Do not restart any consumed start.
+## Judgment log highlights
+
+-12October: use the operator's simplifiedColabdirection, preserve oldattempts and unknownactualcost, remove future humanmetering.
+-12October: diagnose the branch mismatch without relaxing its check; batch branch correction, exact terminal reconciliation and admissionregression tests into one necessary review. Claude consultation pending.
+-12October: preserve the premodel reservation/count rather than refund/reuse it. Unknown/live rows still refuse.
+-12October: use existing hashverified server inputs for Idea2; defer newDrivehelper/transfer and unrelated infrastructure.
+-12October: the first inputinventory query used the parentdirectory and failed exactmembership; corrected the selected root to its existing inputs subdirectory, retaining the same check.728/728hashes then passed.
+-Stopped laptopcopy294verifiedfiles pluspartial remains preserved. No bulktransfer or cleanupreplay.
+
+## Backup and exclusions
+
+Last verified publicpush d689d43b16c210c6c2572a953e5894da0c9f5fb4; these updates await scans/push. Current private checkpoint verified391files by hash on the server; free space117.665GiB before and117.658GiB after. C:last17.93GiB,WSL905GiB,serverabout118GiB; warnbelow15/stopbelow8beforelargework.
+
+Withheld: privateevidence, packets, ledgers, native streams, privatebindings, inputmappings/membership, patientrows, weights/caches and rawprivatebranch ancestry. Earlier ITEM6_IDEA2_FOLLOWUP_PRIVATE.json failed private/infrastructure scans and remains excluded. Installed safe code/test projections only; archived Colabcode remains superseded. No mainmerge,BACKLOGedit or credentialchange.
+
+Installed Colab preparation code/test projection: 16 files. Withheld by scans: docs/COLAB_SIMPLE_FULL_PRIVATE.json. Private raw branch is never pushed.

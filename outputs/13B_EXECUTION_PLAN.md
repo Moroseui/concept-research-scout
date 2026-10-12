@@ -41,4 +41,4 @@ Other venue limits remain unchanged: item4 Modal stage1 $150, timing diagnostic 
 
 ## Next results
 
-No action from Partho until the first new reviewed A1_repeat files arrive; leave the old notebook stopped. First delivery estimate: 1-2 active hours, contingent on implementation and scientific review. Idea2 specification is scientifically APPROVED with 20 passing synthetic tests; its narrow server CPU execution integration is next. Timing result, author sandbox and opposite-family operator review capability remain outstanding; no swap point.
+No action from Partho until the first new reviewed A1_repeat files arrive; leave the old notebook stopped. Delivery estimate is uncertain while the admission repair is reviewed. After it passes, allow roughly1?2active hours for the author and scientific review. Idea2 specification is scientifically APPROVED with 20 passing synthetic tests; its narrow server CPU execution integration is next. Timing result, author sandbox and opposite-family operator review capability remain outstanding; no swap point.

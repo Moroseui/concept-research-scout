@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. Item6 and synthesis are accepted. Idea2 specification is scientifically APPROVED; server CPU execution integration remains pending. The latest operator Colab decision supersedes the old smoke package: prepare default-runtime, preconfigured full-training notebooks with automatic resume and no Colab metering. No new notebook is released yet. One Colab administrative implementation review is live; no scientific call or compute job is live. Timing is parked; opposite-family administrative capability and author sandbox remain uninstalled. The operator owns infrastructure and coordination; scientific code and conclusions remain with the system author and reviewer.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. Item6/synthesis accepted; Idea2 code scientifically approved and original server inputs hashverified, execution integration pending. Colab full-training notebooks remain in preparation; a premodel admission failure has a preserved unresolved reservation and a registered repair review. No author or compute job is live. Timing parked; opposite-family route and sandbox uninstalled. Scientific code/conclusions stay with author/reviewer; operator owns infrastructure.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
