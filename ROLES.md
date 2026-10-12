@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current12Octobercheckpoint:pnormct delivered and running by operator report; multiwin continuation and dated cap/cache repair under one Claude review. No role rotation or Swap point. See CURRENT.md.
+Current12Octobercheckpoint:pnormct delivered and running by operator report; dated cap approved/installed; multiwin continuation153testsPASS,unreviewed and held by diskstop. No role rotation or Swap point. See CURRENT.md.
 
 Current operator: **Codex / OpenAI**. Goal active, no rotation. Scientific author uses the existing OpenAI client; scientific reviewer and operator implementation reviewer use the existing Claude route. The future opposite-family administrative route for a Claude operator remains uninstalled. Read HANDOVER and CURRENT before any mutation.
 
@@ -30,4 +30,4 @@ Rotate at a completed milestone boundary or a weekly boundary, **never mid-task*
 Declare **Swap point reached** immediately after **Action needed from you** only when all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES and HANDOVER current; opposite-family administrative review capability installed; and no model call or compute job running or awaiting reconciliation. Then finish the current step, update and push the handover, and wait. Do not start a successor task after the gate. The operator has not requested an earlier stop.
 
 
-Current state:repeats parked,pnormct running externally,current administrative review running. Timing and opposite-family administrative capability deferred. No Swap point.
+Current state:repeats parked,pnormct running externally,no servercallrunning; nextreview held by diskstop. Timing and opposite-family administrative capability deferred. No Swap point.

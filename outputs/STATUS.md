@@ -1,12 +1,12 @@
 # Research status
 
-- Pnormct's real A100 trainer check passed; the exact scientifically approved full notebook was delivered.
-- Partho reports pnormct running in Colab:five folds sequentially,250epochs each,automatic resume.
-- Multiwin is next; its fixture correction,scientific review and real trainer check remain.
-- One bundled Claude review is running for today's cap,cache-copy repair and bounded multiwin continuation.
-- Item4compute actually billed:$24.487001; retained reservations:$91.029622. Known completed Claude:$321.400746 before this review.
-- Next deliverable:multiwin,provisionally1-2hours if correction/review/integration pass. Pnormct's built-in estimate is14hours/95CU.
-- No action now; return pnormct completion or error evidence when available. [Execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct's real A100 trainer check passed; its reviewed full notebook is running by operator report.
+- Multiwin's bounded continuation draft passes153tests; scientific correction,review and real trainer integration remain.
+- The daily cap is installed at100for12OctoberUTC and returns50on13October; all51calls stay counted.
+- Work is held by the disk guard:C:has7.78GiB free,below8GiB. Please free at least2GB.
+- Item4compute billed:$24.487001; retained reservations:$91.029622. Known completed Claude charges:$332.04745425.
+- Next deliverable:multiwin,provisionally1-2hours after disk clearance if reviews/integration pass. Pnormct estimate14hours/95CU.
+- No server model or compute job is running; no pnormct duplicate. [Execution plan](13B_EXECUTION_PLAN.md).
 
 ## Results and current boundary
 
@@ -24,7 +24,7 @@ Pnormct scientific APPROVE35b8c895 remains exact. Returned executed probe matche
 
 Delivered13B_A1_pnormct.ipynb SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6 unchanged; Partho reports RUNNING. Five folds sequential250epochs,resume/skip,private Drive outputs. Do not duplicate or alter the active run.
 
-Multiwin now takes priority over smoothing and meeting work. Its old20calls remain counted. Claude is considering at most4additional calls for the same owner/arm inside the existing11Colab allocation and batch128; no process exception is installed or used yet. Author corrects the scientific fixture,reviewer judges code,and actual trainer integration precedes release. Then pnorm_v2 and L with memory evidence; repeats parked,zscore/histeq held. Compare provisionally against Sprint12A1; small differences need a later Colab repeat.
+Multiwin now takes priority over smoothing and meeting work. Its old20calls remain counted. A tested candidate proposes at most4additional calls for the same owner/arm inside the existing11Colab allocation and batch128; the earlier reviewer did not answer this question; the concrete candidate now needs its own implementation approval. Author corrects the scientific fixture,reviewer judges code,and actual trainer integration precedes release. Then pnorm_v2 and L with memory evidence; repeats parked,zscore/histeq held. Compare provisionally against Sprint12A1; small differences need a later Colab repeat.
 
 Original item6 diagnostics and synthesis are accepted. Sprint14's352rounded matches use shared saved fits/cohort, not independent retraining. Idea2's fixed3x3 interpretation is accepted; its reviewer could not directly inspect the two largest tables, a limitation preserved in its report. The new smoothing reviewer directly confirmed its narrower motivating cell. [Accepted Idea2 scope](idea2_fixed3x3/README.md).
 
@@ -34,9 +34,9 @@ Meeting preparation retains the accepted six-slot selection rule. No cases/image
 
 Item4 non-Colab stage1 exposure is$115.516623/$150: billed$24.487001 plus retained$91.029622. Timing$5.405445/$25 is inside stage1; synthetic CPU$1.118950awaits billing. Item4 total$1275/projection gate$1200 and item6cap$100 unchanged. Colab unmetered. The new server CPU run has no incremental provider cost or reservation.
 
-Known completed Claude charges:$321.400746; scientific author dollars unavailable. Latest scientific review cost$6.04982475 and implementation review$5.3628425. Every original attempt/charge remains counted; release reservations only after provider-confirmed closed billing.
+Known completed Claude charges:$332.04745425; scientific author dollars unavailable. Latest cap implementation review cost$10.64670825; author dollars remain unavailable. Every original attempt/charge remains counted; release reservations only after provider-confirmed closed billing.
 
-12October UTC:51calls against the operator-authorized100today, reverting50on13October. New dated cap code is under independent review and is not installed. One bounded administrative call51 was admitted normally after exact operator binding. Scientific batch111/128;11Colab,2analysis,4meeting remain. No resets or relabeling.
+12October UTC:51calls against the operator-authorized100today, reverting50on13October. Dated cap codefe3b52ce is independently approved and installed,with service-account verification of100today/50tomorrow. One bounded administrative call51 was admitted normally after exact operator binding. Scientific batch111/128;11Colab,2analysis,4meeting remain. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -45,7 +45,7 @@ Known completed Claude charges:$321.400746; scientific author dollars unavailabl
 | Administrative implementation review |28|Repairs/admission,integration packaging,analysis connection;current cap/cache review includes multiwin direction|
 | Standalone direction check |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
-Administrative work still uses most calls. Batch necessary repairs and direction into the same review; defer generic infrastructure. Current sourcefe3b52ce passes93focused tests, including real deployed admission of the bounded review,call101refusal,midnight reversion and unchanged original rows. Current review099b76cd RUNNING. Original8141launch stopped before model admission on dated-policy mismatch:no call or charge,original preserved. One mechanical retry corrected the actual policy interface; no repeated launch.
+Administrative work still uses most calls. Batch necessary repairs and direction into the same review; defer generic infrastructure. Installed sourcefe3b52ce passed93tests; review099b76cd is COMPLETE/APPROVE. No multiwin process opinion or cache-copy inspection was given; these stay held. Concrete continuationbb65a300 passes153tests,including actual normal admission and run/batch/day cap refusals; it is unreviewed/uninstalled. No request started. Original8141launch stopped before model admission on dated-policy mismatch:no call or charge,original preserved. One mechanical retry corrected the actual policy interface; no repeated launch.
 
 ## Judgment log highlights
 
@@ -66,6 +66,8 @@ Withhold evidence folders, ledgers, review packets, native streams, private oper
 
 The new result files and unaccepted interpretation material stay private. The repair's private scope and failed-lane snapshots are also withheld. Safe working source/test projections use the existing public draft branch; never merge main or edit BACKLOG. Disk guard warns below15GiB and stops below8GiB.
 
-18:33UTC:current administrative review RUNNING; external pnormct RUNNING by operator report. No duplicate scientific or compute launch. LatestCfree8.58GiB,below15GiBwarning/above8GiBstop. Earliercap-wait state is superseded.
+18:59UTC:zero running server model calls or research services; pnormct externally running by last operator report. LatestCfree7.78GiB triggers8GiBstop. Removed only completed WSL test scratch/build caches; trim did not reclaim Windows allocation. No evidence deletion. Operator free-space reply pending.
 
 Current draft projection additionally withholds docs/COLAB_TONIGHT_ADMIN_ADMISSION_PRIVATE.py (private record) and docs/COLAB_TONIGHT_OPERATOR_20261012.txt (private approval binding). Executed notebooks,review packets,ledgers and native streams remain private. New evidence backup verified1941files; server free110.525to110.489GiB. No local evidence deletion.
+
+Continuation projection excludes docs/MULTIWIN_TONIGHT_CONTINUATION_PRIVATE.json,docs/MULTIWIN_AUTHOR10_TEST_FAILURE_PRIVATE.txt and docs/PNORMCT_REVIEWED_REFERENCE_PRIVATE.py; private bindings/reference code and evidence stay private. Last cap review approves installation only; no PROCEED/SIMPLIFY direction was returned. Pending direction is folded into the next required review.
