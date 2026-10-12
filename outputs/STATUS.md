@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin awaits its delivered A100 trainer-check result before full training delivery.
 - Accepted saved-output analysis found no useful small-component rescue from removing smoothing; fragmentation increased.
-- Pnorm_v2 author1 is running after the repaired admission passed tests, independent review and native qualification.
+- Pnorm_v2 draft is complete; scientific review is running with one failed synthetic test group preserved.
 - Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $388.55740700; author costs unavailable.
-- Next result: pnorm_v2 draft within30minutes, then tests/review; multiwin evidence takes10-25minutes after its check starts.
+- Next result: pnorm_v2 review in10-20minutes; multiwin evidence takes10-25minutes after its check starts.
 - Action: return the multiwin check. C:11.11GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 12 October 2026, 23:27 UTC. Codex/OpenAI remains operator.
+Updated 12 October 2026, 23:39 UTC. Codex/OpenAI remains operator.
 
 ## Colab
 
@@ -18,11 +18,13 @@ Multiwin author12 completed and all five synthetic groups passed. Scientific rev
 
 ## Pnorm_v2
 
-Pnorm_v2 author1 is RUNNING through normal scientific admission, call4a22dbff, one of20run calls; scientific batch118/128. Do not duplicate the native operation. The distinct arm question retains all117 historical scientific calls and multiwin's24calls/genuine REVISE. Shared additional Colab allocation is10/16used,6remain.
+Pnorm_v2 author1 is COMPLETE with hash-verified outputs. Scientific reviewer1 is RUNNING through normal admission, call170d554f; two of20run calls are counted. Scientific batch119/128 leaves5Colab and4meeting calls. Do not duplicate the native operation. All117 earlier scientific calls and multiwin's24calls/genuine REVISE remain preserved.
+
+Synthetic result: four of five groups PASS. The six execution-module tests passed; coverage handling failed with an undefined ZSCORE_MIN_SD in an extracted function. Exact notebook ea7d1132 and the failed test receipt are in the scientific review context. No notebook release or A100 fit is claimed.
 
 Admission release dd83f3c5 passed136tests and independent APPROVE f34d057f. Its first native no-call probe exposed a missing JSON import. The exact import repair77c45771 passed146tests and independent APPROVE0d9243f6, with explicit PROCEED. Both are installed; the repaired native probe passed unchanged limits and both model transports with zero calls. The failed original probe and all charges remain preserved. The author receives in-call static schema feedback; the full execution sandbox is still unfinished.
 
-Next: reconcile this author call, run the authored synthetic tests, and obtain scientific review. A draft is expected within30minutes of23:26UTC; delivery also requires this arm's real trainer evidence. No patient or GPU execution is authorized by author admission.
+Next: reconcile reviewer1 and route any genuine REVISE through the scientific author. Review verdict expected10-20minutes after23:38UTC. Delivery also requires this arm's real trainer evidence. No patient or GPU execution is authorized by this preparation.
 
 ## Saved-results analysis
 
@@ -32,13 +34,13 @@ Namespace repair03a42f24 remains installed and unchanged. Its original pre-clien
 
 Serialization recoveryd035b2a6 passed203tests and actual read-only verification of109rows,15prior calls and32pre-client workspace files. Independent Claude review23e5c998 returned APPROVE, reportf13b8abf, with PROCEED direction. It is installed. Recovery preserved the original workspace, state, calls, configuration and grant; no new allowance. The native check passed the corrected allocation boundary and author transport without model calls.
 
-Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. The later pnorm_v2 author call is now running. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
+Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. The later pnorm_v2 scientific reviewer call is now running. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
 
 ## Other workstreams
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
-Next arms are pnorm_v2 then L, with real A100 memory-fit evidence for L. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
+Next arms are pnorm_v2 then L. L's offline author intake is prepared; it requires real A100 memory-fit evidence for the exact released configuration. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
 
 Meeting preparation retains the accepted six-slot rule; no cases/images selected. Existing Drive access was queried for root-folder metadata through its already-approved service lifecycle, then restored inactive. Zero roots named isles-pilot were visible through this narrow route; this does not establish project-wide absence of MRI or clinical data. No credential changes or patient payload access. Source provenance remains unresolved; do not broaden access.
 
@@ -46,12 +48,12 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending and model calls
 
-12OctoberUTC:68/100 calls, returning to50on13October without resetting history. Scientific batch118/128:6Colab,0analysis,4meeting remain. Known completed Claude charges $388.55740700; author dollar costs unavailable.
+12OctoberUTC:69/100 calls, returning to50on13October without resetting history. Scientific batch119/128:5Colab,0analysis,4meeting remain. Known completed Claude charges $388.55740700; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |16|Idea2 specification/interpretation, baseline and multiwin, pnormct corrections, smoothing specification and accepted interpretation, current pnorm_v2 preparation; includes the preserved pre-client failure|
-| Scientific reviewer |12|Idea2, baseline, multiwin, pnormct and smoothing scientific review|
+| Scientific reviewer |13|Idea2, baseline, multiwin, pnormct, smoothing and current pnorm_v2 scientific review|
 | Administrative review |38|Admission/accounting repairs, packaging, dated policy, execution and interpretation integration, pnorm_v2 admission/import repair|
 | Standalone direction |2|Preserved disqualified attempt and qualified SIMPLIFY retry|
 
@@ -77,7 +79,7 @@ Installed projection additionally withholds these flagged/private authority file
 
 Additional exclusions: docs/IDEA2_INTERPRETATION_PRIVATE.json and all review/recovery/diagnosis evidence; orchestrator/cpu_isolation.py and tests/test_cpu_diagnostics_profile.py remain excluded for infrastructure/credential-path findings. No credential contents, paths, endpoints or key names are published.
 
-Meeting production plan: [private case-review process](MEETING_CASE_REVIEW_PLAN.md). Pnorm_v2 author1 is running after independently approved admission and native qualification. No cases selected or new patient inputs accessed.
+Meeting production plan: [private case-review process](MEETING_CASE_REVIEW_PLAN.md). Pnorm_v2 author1 is complete and reviewer1 is running, including its synthetic failure evidence. No cases selected or new patient inputs accessed.
 
 -22:25UTC: Claude APPROVE/PROCEED; installed bounded serialization recovery, preserved32input files and15calls, native allocation/transportPASS, actualauthor3admitted normally. No CPU rerun or allowance change. Review charge$4.66417 counted; agree to simplify future narrow-patch deployment overhead.
 
@@ -92,3 +94,7 @@ Publication also excludes docs/COLAB_PNORM_V2_NATIVE_PRIVATE.json, docs/COLAB_PN
 -23:26UTC: native qualificationPASS with zero calls, then actual pnorm_v2 author1 admitted normally. Keep the current server call running and reconcile it before any successor.
 
 The [meeting reading sheet](MEETING_READING_SHEET.md) assembles verbatim accepted summaries. No new scientific conclusion or private visual panel is claimed.
+
+Timing follow-up23:32UTC: the exact old reviewer16 attempt is terminal and unreserved. A reader-only fix would leave stale allocation rules; reconcile the full current history and original timing authority in the next necessary Claude consultation before changing admission. The later24-call batch explicitly names Colab, analysis and meeting; do not repurpose it silently. No timing code, allowance or spending changed.
+
+-23:38UTC: pnorm_v2 author output hashes verified; synthetic failure retained; scientific reviewer1 admitted normally. No administrative call or provider compute added this turn.

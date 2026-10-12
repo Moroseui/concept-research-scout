@@ -22,6 +22,6 @@ Does removing smoothing recover small infarct components while keeping predicted
 
 ## Current experiments and visual review
 
-Pnormct is running in Partho's Colab session. Multiwin awaits the returned real-trainer check before full delivery. Pnorm_v2 scientific authoring is now running after implementation approval and native qualification. These are work states, not performance results.
+Pnormct is running in Partho's Colab session. Multiwin awaits the returned real-trainer check before full delivery. Pnorm_v2 authoring is complete; scientific review is running with the synthetic failure evidence. These are work states, not performance results.
 
 The [private visual-review plan](MEETING_CASE_REVIEW_PLAN.md) fixes case selection before image inspection. No cases have been selected and no image panels are ready. Follow-up MRI and clinical-source provenance remain unresolved. The first visual deliverable is an author-written, reviewed selector/renderer tested on synthetic data; real panels require the mandatory private assets and geometry checks.
