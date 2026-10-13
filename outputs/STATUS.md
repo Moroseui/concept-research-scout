@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
 - L baseline files now pass hash and fold checks; its A100 check and scientific acceptance are still pending.
-- Meeting preparation is reviewed; clinical file identities now pass. Native MRI and transform records are absent from the frozen manifest.
+- The meeting source amendment passed193tests and is in independent implementation review; real panels remain held.
 - Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $459.489047; author costs unavailable.
 - Next result: multiwin trainer check,10-25minutes once run; further Colab scientific calls need the pending money decision.
 - C:11.01GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 04:01 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 04:24 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -46,13 +46,13 @@ Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before
 
 ## Spending and model calls
 
-13OctoberUTC: **14/50 calls**:3scientific authors,4scientific reviewers,6administrative implementation reviews,1standalone direction check. Scientific batch **126/128**:0Colab,0analysis,2meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **15/50 calls**:3scientific authors,4scientific reviewers,7administrative implementation reviews (one live),1standalone direction check. Scientific batch **126/128**:0Colab,0analysis,2meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
 | Scientific author |3|L initial draft and revision; meeting-code author1 complete|
 | Scientific reviewer |4|Pnorm_v2 code review; L initial and revised specifications; meeting synthetic preparation|
-| Administrative review |6|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, and meeting preparation implementation approval|
+| Administrative review |7|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, meeting preparation implementation approval, and the live source-amendment review|
 | Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
 
 12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$459.489047**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
@@ -97,3 +97,10 @@ Judgment at this stop: reconcile completed meeting calls and preserve the synthe
 
 
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
+
+
+The source-amendment utility is in independent Claude implementation review, requeste3dbaa32, source03443eff. It passed193regression tests and actual author/reviewer input assembly. It would preserve the original synthetic-only approval and all calls, counters and limits, add the new source evidence, and queue an explicitly labeled source amendment. It makes no model call or real-data execution itself. Nothing is applied or installed yet; do not start author2 before genuine implementation APPROVE and verified application. The original completed author/reviewer calls must not be replayed.
+
+The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.
+
+Excluded from the new draft backup: docs/MEETING_SOURCE_AMENDMENT_PRIVATE.json and docs/MEETING_SOURCE_EVIDENCE_PRIVATE.md, all clinical identities, evidence, reviewer packets and streams. The safe working projection is on astra/public-meeting-source-amendment-20261013; it is uninstalled and not merged into the release archive.

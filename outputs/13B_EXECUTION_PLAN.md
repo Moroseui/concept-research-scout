@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 13 October 2026, 04:01 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 13 October 2026, 04:24 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -25,7 +25,7 @@ Compare each arm provisionally with Sprint12A1. Small differences are not interp
 
 **Timing diagnostic:** current-resource RunA versus increased-CPU/augmentation-worker RunB remains approved within its $25 sub-cap. RunB first if both will not fit. Author24's real CPU integration passed; reviewer16 failed before reservation on confined ledger access. The established reader can be reused, but old timing allocation rules also predate the current124-call history. Reconcile retained timing authority with the later purpose-specific batch allocation before preparing a complete narrow repair; no existing allowance is silently repurposed. No GPU job is running, and Colab arms do not wait for this repair. Timing ETA follows repair approval; no measured steady-state projection is claimed.
 
-**Money and limits:** Item4 non-Colab stage1 $115.516623/$150: $24.487001 billed plus $91.029622 retained reservations. Timing exposure $5.405445/$25 is included. Total $1,275 and full-training projection gate $1,200 unchanged. Colab is unmetered by operator decision; printed units are estimates only. 13October model usage14/50;12October closed70/100; scientific batch126/128 leaves0Colab and2meeting calls, no analysis allocation. The request for8additional Colab calls is pending, not approved. Detailed audit and costs: [STATUS](STATUS.md).
+**Money and limits:** Item4 non-Colab stage1 $115.516623/$150: $24.487001 billed plus $91.029622 retained reservations. Timing exposure $5.405445/$25 is included. Total $1,275 and full-training projection gate $1,200 unchanged. Colab is unmetered by operator decision; printed units are estimates only. 13October model usage15/50;12October closed70/100; scientific batch126/128 leaves0Colab and2meeting calls, no analysis allocation. The request for8additional Colab calls is pending, not approved. Detailed audit and costs: [STATUS](STATUS.md).
 
 Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
 
@@ -43,3 +43,8 @@ Judgment at this stop: reconcile completed meeting calls and preserve the synthe
 
 
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
+
+
+The source-amendment utility is in independent Claude implementation review, requeste3dbaa32, source03443eff. It passed193regression tests and actual author/reviewer input assembly. It would preserve the original synthetic-only approval and all calls, counters and limits, add the new source evidence, and queue an explicitly labeled source amendment. It makes no model call or real-data execution itself. Nothing is applied or installed yet; do not start author2 before genuine implementation APPROVE and verified application. The original completed author/reviewer calls must not be replayed.
+
+The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.

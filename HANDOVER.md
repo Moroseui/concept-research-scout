@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 04:01 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 04:24 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -40,13 +40,13 @@ Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before
 
 ## Spending and open decisions
 
-13OctoberUTC: **14/50 calls**:3scientific authors,4scientific reviewers,6administrative implementation reviews,1standalone direction check. Scientific batch **126/128**:0Colab,0analysis,2meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **15/50 calls**:3scientific authors,4scientific reviewers,7administrative implementation reviews (one live),1standalone direction check. Scientific batch **126/128**:0Colab,0analysis,2meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
 | Scientific author |3|L initial draft and revision; meeting-code author1 complete|
 | Scientific reviewer |4|Pnorm_v2 code review; L initial and revised specifications; meeting synthetic preparation|
-| Administrative review |6|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, and meeting preparation implementation approval|
+| Administrative review |7|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, meeting preparation implementation approval, and the live source-amendment review|
 | Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
 
 12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$459.489047**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
@@ -56,7 +56,7 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 ## Resume safely
 
 1. Read this handover, CURRENT, STATUS, execution plan, ROLES and the latest canonical private HANDOFF_CURRENT_PRIVATE.md. Public entry points and the canonical private handoff are authoritative; root mirrors may be stale.
-2. Reconcile units, ledger rows and consumed operation intents before any launch. Meeting author1 and reviewer1 are COMPLETE; the unit is inactive and the lane is held at COMMIT_SPEC. Six historical UNCERTAIN call records remain preserved and must not be replayed. No RUNNING model call was found; pnormct remains externally running. Never replay uncertain, completed or consumed starts.
+2. Reconcile units, ledger rows and consumed operation intents before any launch. Meeting author1 and reviewer1 are COMPLETE; the unit is inactive and the lane is held at COMMIT_SPEC. Six historical UNCERTAIN call records remain preserved and must not be replayed. The source-amendment administrative review is RUNNING; pnormct remains externally running. Never replay uncertain, completed or consumed starts.
 3. L has four COMPLETE calls and genuine reviewer2 REVISE. Author2, reviewer2 and the approved supplement application are finished; do not replay their starts or transfer/install/initializer. All five native host groups PASS. Next scientific work is held by missing evidence and exhausted Colab allocation, not a mechanical failure.
 4. Multiwin's delivered check is awaiting actual A100 evidence; its full notebook is held. Pnorm_v2 code is approved and its delivered fixture is awaiting actual A100 evidence. Never repeat pnormct's accepted trainer check or interrupt its current training. Preserve all failed attempts and costs.
 5. Use service-owned WAL-aware read-only ledger queries; root must not open live SQLite. Existing source and evidence hashes remain binding. No broad patient-directory traversal.
@@ -87,3 +87,8 @@ Judgment at this stop: reconcile completed meeting calls and preserve the synthe
 
 
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
+
+
+The source-amendment utility is in independent Claude implementation review, requeste3dbaa32, source03443eff. It passed193regression tests and actual author/reviewer input assembly. It would preserve the original synthetic-only approval and all calls, counters and limits, add the new source evidence, and queue an explicitly labeled source amendment. It makes no model call or real-data execution itself. Nothing is applied or installed yet; do not start author2 before genuine implementation APPROVE and verified application. The original completed author/reviewer calls must not be replayed.
+
+The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.

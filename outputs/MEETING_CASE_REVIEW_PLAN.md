@@ -27,3 +27,8 @@ Existing server CPU and private access remain the intended venue. No new paid co
 
 
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
+
+
+The source-amendment utility is in independent Claude implementation review, requeste3dbaa32, source03443eff. It passed193regression tests and actual author/reviewer input assembly. It would preserve the original synthetic-only approval and all calls, counters and limits, add the new source evidence, and queue an explicitly labeled source amendment. It makes no model call or real-data execution itself. Nothing is applied or installed yet; do not start author2 before genuine implementation APPROVE and verified application. The original completed author/reviewer calls must not be replayed.
+
+The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.
