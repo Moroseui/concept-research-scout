@@ -1,19 +1,21 @@
 # Current research state
 
-Updated13October2026. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 08:55 UTC. Codex/OpenAI remains operator. No Swap point.
 
-Action needed from you: none for the approved funding. Return the delivered multiwin and pnorm_v2 A100 check results when available; leave the existing pnormct session running.
+Action needed from you: none overnight. Partho reports pnormct and pnorm_v2 running in separate Colab sessions. Do not duplicate, interrupt or alter them.
 
-The12additional scientific calls are approved and recorded verbatim: batch128to140, four returned Colab evidence/corrections, four L, four meeting. No past usage is reset. The new eight Colab/L slots remain held until their evidence/lane bindings are ready.128scientific calls remain counted; none of the12newcalls has run.
+Pnorm_v2's returned unedited A100 check passed all six tests, actual trainer construction, compile, a training iteration and checkpoint reload. The exact previously approved full notebook was delivered and is now running: 13B_A1_pnorm_v2.ipynb, SHA256 ea7d113255d3fa2ff53f156c2d7afc61e47278770e493ab311454b491f847a3b.
 
-Current administrative review 6ff9655901134386b0bd590f978416ca9d2638bca1d2d4114ab2f164e0960c09 has started once. It reviews source aa66a72a: a narrow typed systemd command-configuration check after the previously APPROVED batch patch stopped installation before mutation.112tests and the exact real-service read-only query pass. Do not repeat start or install stale approved source.
+Multiwin's returned check failed before trainer construction on ambiguous NumPy distribution metadata. The operator authorized only that provenance correction. Source 9fa7b316 is undergoing independent implementation/accounting review, request fe774068a50673fb859376de64ddb6d2906ae4966bc45907d6cb793ec5bc358b, started once. It proposes only author13/reviewer12 on the same owner, preserving all24calls and genuine review11 REVISE. No scientific correction call or installation yet. Expected corrected check after author/review: roughly 45-90 minutes, subject to findings.
 
-Next: reconcile review; after genuine APPROVE, verify/transfer exact source, install held patch, apply meeting source amendment once, start original state-bound author3, host tests and scientific review. Latest qualified Claude direction SIMPLIFY: do only the meeting continuation now and defer speculative adapters.
+Batch140 source aa66a72a is installed after qualified APPROVE6ff96559/report6bb42d21. Meeting author3 and reviewer3 completed;12isolated synthetic tests PASS and scientific report bbae7947 genuinely APPROVE preparation only. No real cases selected or images rendered. Real use still needs an approved input/admission binding and independent image QC.
 
-Pnormct is last reported running externally, current progress unverified. Multiwin and pnorm_v2 trainer checks are delivered and await returns. L remains held for actual trainer/memory evidence and scientific binding of the authenticated Sprint12 baseline. Item6, Idea2 and smoothing interpretations are accepted; do not rerun. Meeting synthetic preparation is accepted; no real cases selected or rendered.
+Scientific usage130/140: two of four meeting slots used; four returned-Colab and four L slots remain, plus two meeting slots. Daily26/50 including current review:5authors,6scientific reviewers,14administrative implementation reviews,1standalone direction. Latest qualified Claude direction08:07UTC PROCEED; do only work needed for the next result. Current review includes the direction question.
 
-Daily usage22including current administrative review. Known completed Claude charges$486.325648; author dollar costs unavailable. Item4non-Colab exposure$115.516623/$150=$24.487001billed+$91.029622retainedreservations. All other dollar caps unchanged; Colab unmetered.
+Known completed Claude charges$496.6091775, excluding current review; author dollar costs unavailable. Item4 non-Colab exposure$115.516623/$150=$24.487001billed+$91.029622reserved. No new provider compute. Colab is unmetered.
 
-C:last14.96GiB, WSLabout901GiB, server104.57GiB. Warn below15GiB; stop below8GiB. No setup command or disk purchase needed.
+C:last14.14GiB; warn below15GiB, stop below8GiB. WSLabout901GiB and serverabout104GiB. No setup command or purchase needed.
 
-See [STATUS](outputs/STATUS.md) for artifact hashes, call purposes, spending, exclusions and judgment log; [HANDOVER](HANDOVER.md) for safe resume; [ROLES](ROLES.md) for ownership; [execution plan](outputs/13B_EXECUTION_PLAN.md) for venues, arm order and estimates.
+See [STATUS](outputs/STATUS.md), [HANDOVER](HANDOVER.md), [ROLES](ROLES.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact operation handles and evidence are in the private handoff.
+
+Review continuation note: the first multiwin administrative call submitted genuine REVISE findings about mixed historical/current test evidence and also failed native manifest-read qualification. Its $3.659679 charge and findings are preserved. The current request is explicitly linked corrective iteration 2, with fresh source-matched test receipts and a labeled test history; it is not a reset of the three-round process. No installation or scientific correction call has occurred.
