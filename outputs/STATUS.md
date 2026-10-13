@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin awaits its delivered A100 trainer-check result before full training delivery.
 - Accepted saved-output analysis found no useful small-component rescue from removing smoothing; fragmentation increased.
-- Pnorm_v2 code is approved; acceptance awaits a reviewed harness fix and passing native tests.
-- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $409.73592200; author costs unavailable.
-- Next result: pnorm_v2 native tests in15-30minutes if the harness repair is approved; multiwin evidence takes10-25minutes after its check starts.
+- Pnorm_v2 code is approved and all five native synthetic groups pass; its real A100 check is next.
+- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $414.76081550; author costs unavailable.
+- Next result: pnorm_v2 trainer-check package in15-30minutes after packaging checks/review; multiwin evidence takes10-25minutes after its check starts.
 - Action: return the multiwin check. C:10.58GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 00:22 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 00:30 UTC. Codex/OpenAI remains operator.
 
 ## Colab
 
@@ -18,11 +18,11 @@ Multiwin author12 completed and all five synthetic groups passed. Scientific rev
 
 ## Pnorm_v2
 
-Pnorm_v2 author1 is COMPLETE and scientific reviewer2 returned genuine code-only APPROVE with no findings. The host correctly held acceptance because the synthetic coverage group failed; no notebook is released. The other four groups, including six execution-module tests, passed. All three calls remain counted; reviewer2 cost$11.858876.
+Pnorm_v2 scientific reviewer2 returned genuine code-only APPROVE with no findings. The harness correctionc3109754 then received independent implementation APPROVEac5955cb, reported0de67a. All five native synthetic groups passed against the exact unchanged notebookea7d1132, and the ordinary validator accepted the specification into COMMIT_SPEC. The original failed synthetic receipt and all three calls remain preserved.
 
-Read-only AST diagnosis found the harness reads constants from older cells4/8, while the unchanged authored module defines them in cell10. Candidatec3109754 repairs literal extraction and provides one bounded native retest followed by ordinary acceptance only after PASS. Seven server fixture tests,143component tests and16subtests pass; actual read-only verification preserves state and every original. Claude implementation/safeguard reviewac5955cb is RUNNING. No installation, retest or scientific-code change yet.
+The harness now reads the two authored literal constants from the same exported module instead of losing cell10 definitions. Seven server fixtures,143component tests and16subtests pass. Native retesting used the unchanged isolated sandbox with no patient mounts, no credentials and unshared network. The reviewed one-use utility made no model call or new allowance and stopped at COMMIT_SPEC.
 
-Next: reconcile that review; after APPROVE run the unchanged native sandbox with the corrected harness into a new immutable result folder. Keep the failed receipt, all calls and charges. A PASS still does not establish actual A100 integration; that evidence remains required before full delivery. Next native-test result provisionally15-30minutes after00:22UTC if the repair is approved. Scientific batch120/128 leaves4Colab and4meeting calls.
+Next: package the unchanged authored real-trainer fixture through the existing Colab packaging approach. Actual A100 evidence is still required before full notebook delivery. The trainer-check package is provisionally15-30minutes away after its focused packaging checks/review; the operator-run check should take10-25minutes. Scientific batch120/128 leaves4Colab and4meeting calls. No server scientific/model job is running; pnormct remains external.
 
 ## Saved-results analysis
 
@@ -32,7 +32,7 @@ Namespace repair03a42f24 remains installed and unchanged. Its original pre-clien
 
 Serialization recoveryd035b2a6 passed203tests and actual read-only verification of109rows,15prior calls and32pre-client workspace files. Independent Claude review23e5c998 returned APPROVE, reportf13b8abf, with PROCEED direction. It is installed. Recovery preserved the original workspace, state, calls, configuration and grant; no new allowance. The native check passed the corrected allocation boundary and author transport without model calls.
 
-Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. Pnorm_v2 reviewer1 failed mechanically; reviewer2 then approved the code. The host still holds acceptance pending corrected synthetic tests. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
+Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. Pnorm_v2 reviewer1 failed mechanically; reviewer2 approved the code and corrected native synthetic tests now PASS. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](SMOOTHING_RESULTS_20261012.md).
 
 ## Other workstreams
 
@@ -46,7 +46,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending and model calls
 
-13OctoberUTC:2/50 calls: one scientific reviewer and one administrative review. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $409.73592200; author dollar costs unavailable.
+13OctoberUTC:2/50 calls: one scientific reviewer and one administrative review. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $414.76081550; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -101,8 +101,10 @@ Timing follow-up23:32UTC: the exact old reviewer16 attempt is terminal and unres
 
 -00:02UTC: Claude APPROVE/PROCEED a7f4ddfc, cost$3.45670025 counted; installed e43cb51f, recovered once preserving both original calls, native zero-callPASS, scientific reviewer2 admitted normally. No new provider compute or allowance. Scientific code and conclusions remain in the author/reviewer lane.
 
-Publication also excludes docs/PNORM_V2_REVIEW_TURNS_PRIVATE.json; safe installed code and tests are archived on the working branch. Reviewer2 cost$11.858876 is counted; current administrative review cost is pending.
+Publication also excludes docs/PNORM_V2_REVIEW_TURNS_PRIVATE.json; safe installed code and tests are archived on the working branch. Reviewer2 cost$11.858876 and harness implementation review$5.0248935 are counted.
 
 -00:22UTC: preserve genuine code APPROVE and correct host test refusal. Diagnosed same-module literal extraction defect; one narrow harness patch and exact native revalidation submitted together for Claude review. No scientific edit, new allowance or provider launch.
 
-Pending harness candidate code/tests are archived only on the safe working branch until approval and use. Publication excludes docs/PNORM_V2_SYNTHETIC_REVALIDATION_PRIVATE.json and all native/test/review evidence.
+The approved and exercised harness code/tests are merged into this archival branch. Publication excludes docs/PNORM_V2_SYNTHETIC_REVALIDATION_PRIVATE.json and all native/test/review evidence.
+
+-00:30UTC: independent harness APPROVEed0de67a; native five-groupPASS and normal specification acceptance, zero model/provider calls. First invocation stopped before entry because the new staging clone lacked service read access; fixed only that reviewed copy, verified all hashes as the existing service account, and continued once. Original error and test failure preserved. No installed unit, credentials or safeguards changed.
