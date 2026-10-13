@@ -104,3 +104,5 @@ Timing follow-up23:32UTC: the exact old reviewer16 attempt is terminal and unres
 Publication also excludes docs/PNORM_V2_REVIEW_TURNS_PRIVATE.json; safe installed code and tests are archived on the working branch. Reviewer2 cost$11.858876 is counted; current administrative review cost is pending.
 
 -00:22UTC: preserve genuine code APPROVE and correct host test refusal. Diagnosed same-module literal extraction defect; one narrow harness patch and exact native revalidation submitted together for Claude review. No scientific edit, new allowance or provider launch.
+
+Pending harness candidate code/tests are archived only on the safe working branch until approval and use. Publication excludes docs/PNORM_V2_SYNTHETIC_REVALIDATION_PRIVATE.json and all native/test/review evidence.
