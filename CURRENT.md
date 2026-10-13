@@ -12,7 +12,7 @@ The harness now reads the two authored literal constants from the same exported 
 
 The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
 
-Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. No server model or scientific compute job is running. Scientific batch120/128 leaves4Colab and4meeting calls.
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L author1 is running on the server; no server scientific compute job is running. Scientific batch121/128 leaves3Colab and4meeting calls.
 
 Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
@@ -22,7 +22,7 @@ Serialization recoveryd035b2a6 passed203tests and actual read-only verification 
 
 Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. Pnorm_v2 reviewer1 failed mechanically; reviewer2 approved the code and corrected native synthetic tests now PASS. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](outputs/SMOOTHING_RESULTS_20261012.md).
 
-13OctoberUTC:3/50 calls: zero authors, one scientific reviewer (pnorm_v2 code approval), two administrative reviews (harness revalidation and trainer-check packaging), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $418.89193500; author dollar costs unavailable.
+13OctoberUTC:6/50 calls: one scientific author (L author1 live), one scientific reviewer (pnorm_v2 code approval), four administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation and its qualified mechanical retry), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch121/128:3Colab,0analysis,4meeting remain. Known completed Claude charges $428.26762975; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -33,7 +33,7 @@ Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer
 
 Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.029622 retained reservations. Timing $5.405445/$25 is inside stage1; synthetic CPU $1.118950 awaits billing. Item4 total $1,275/projection gate $1,200 and item6 $100 cap unchanged. Colab is unmetered by operator decision. This continuation launched no new provider compute. Only confirmed closed provider billing can release excess reservations; uncertain/open obligations stay counted.
 
-C:10.30GiB warns below15 but clears the8GiB stop. The smoothing analysis is COMPLETE and accepted; pnormct remains external and live. Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Root entry-point mirrors may be stale; this branch and the canonical private handoff are current.
+C:12.36GiB warns below15 but clears the8GiB stop. The smoothing analysis is COMPLETE and accepted; pnormct remains external and live. Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Root entry-point mirrors may be stale; this branch and the canonical private handoff are current.
 
 -22:38UTC: smoothing scientific APPROVE qualified and normal acceptance completed; reviewer charge $4.31079575 counted. No CPU retry or new allowance.
 -22:33UTC: read-only Drive visibility and timing reconciliation completed without model calls; originals retained. Latest Claude direction remains PROCEED with simpler narrow-patch deployment.
@@ -48,3 +48,13 @@ C:10.30GiB warns below15 but clears the8GiB stop. The smoothing analysis is COMP
 -00:02UTC: Claude APPROVE/PROCEED a7f4ddfc, cost$3.45670025 counted; installed e43cb51f, recovered once preserving both original calls, native zero-callPASS, scientific reviewer2 admitted normally. No new provider compute or allowance. Scientific code and conclusions remain in the author/reviewer lane.
 
 -00:30UTC: independent harness APPROVEed0de67a; native five-groupPASS and normal specification acceptance, zero model/provider calls. First invocation stopped before entry because the new staging clone lacked service read access; fixed only that reviewed copy, verified all hashes as the existing service account, and continued once. Original error and test failure preserved. No installed unit, credentials or safeguards changed.
+
+## L preparation and live author
+
+A1_L author1 is now RUNNING through normal admission, after qualified implementation APPROVEee2d22aa and native qualificationPASS with zero model/provider calls. Sourceb1249aaf;171tests14subtestsPASS, plus seven unchanged server harness fixtures reused by exact hashes. The author receives the authentic L definition, accepted all-fold reference and unique private fold locks/input reference. It owns the exact architecture/planning, resume code and real A100 memory/checkpoint fixture. Full delivery remains held on scientific approval and actual A100 evidence; an80GB check cannot establish40GB fit.
+
+Original implementation review910772f3 is terminalFAILED: its sole manifest Read exceeded the reader limit, so the submitted APPROVE was unqualified. Cost$6.63613925 remains counted. One linked mechanical retrya303c694 preserved that attempt and the same scientific question, used paged manifest reads, and qualified APPROVE with no findings; cost$2.7395555. No qualification, cap or reservation check was removed. Latest Claude direction01:07UTC: PROCEED with caution toward SIMPLIFY; get to L authoring/review, not further scaffolding. Agreed and followed.
+
+Setup corrections preserved all originals: the staged bundle ref was case-sensitive; then the installed branch label had to satisfy the existing lowercase rule. Tracked source stayed unchanged, original Git reference retained. The ordinary initializer continued only after verifying310context hashes and absence of a lane/owner/call; the existing Git identity environment was restored. No new credentials or identity were created. The original preparation operation must not be replayed. Native qualification then passed and one scientific author call was admitted.
+
+Next L result: authored draft, synthetic tests and independent scientific review, provisionally30-60minutes if no correction is needed. Actual GPU fit remains a later operator-run check. Three Colab calls and four meeting calls remain in the128scientific batch.
