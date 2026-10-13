@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 00:02 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 00:22 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -14,13 +14,11 @@ Pnormct is RUNNING externally by Partho's report. The delivered notebook is 13B_
 
 Multiwin author12 completed and all five synthetic groups passed. Scientific review11 returned genuine REVISE: actual trainer evidence is still required. Its 24/24 calls and every charge remain counted. Independent package/staging review189c6eb7 APPROVE, reportd90c164d, source1cea3255, permits only the unchanged authored synthetic check. The private notebook 13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb was delivered, SHA256 44902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b. No start/result has been reported. Run it in a fresh default Colab A100 session, Run all, no settings; leave pnormct running. Return printed PASS/FAIL, executed notebook and private results-folder location. Estimate10-25minutes. Full multiwin training remains held pending scientific acceptance of the evidence. Do not start superseded request5ba2b912 or replay completed reviews.
 
-Pnorm_v2 author1 is COMPLETE with hash-verified outputs. Scientific reviewer1 FAILED mechanically after30 tool turns without a verdict or submission; its $5.86293875 charge and both run calls remain counted. Recovery candidate e43cb51f passed140tests and14subtests plus actual read-only state verification. Combined independent implementation/direction review379832ad returned APPROVE/PROCEED, reporta7f4ddfc, with no findings. The repair is installed; recovery and native zero-call qualification PASS. Scientific reviewer2 is now RUNNING, call7d44f07e; three of20run calls counted. Reconcile it before any successor. Scientific batch120/128 leaves4Colab and4meeting calls. Do not duplicate the native operation. All117 earlier scientific calls and multiwin's24calls/genuine REVISE remain preserved.
+Pnorm_v2 author1 is COMPLETE and scientific reviewer2 returned genuine code-only APPROVE with no findings. The host correctly held acceptance because the synthetic coverage group failed; no notebook is released. The other four groups, including six execution-module tests, passed. All three calls remain counted; reviewer2 cost$11.858876.
 
-Synthetic result: four of five groups PASS. The six execution-module tests passed; coverage handling failed with an undefined ZSCORE_MIN_SD in an extracted function. Exact notebook ea7d1132 and the failed test receipt are in the scientific review context. No notebook release or A100 fit is claimed.
+Read-only AST diagnosis found the harness reads constants from older cells4/8, while the unchanged authored module defines them in cell10. Candidatec3109754 repairs literal extraction and provides one bounded native retest followed by ordinary acceptance only after PASS. Seven server fixture tests,143component tests and16subtests pass; actual read-only verification preserves state and every original. Claude implementation/safeguard reviewac5955cb is RUNNING. No installation, retest or scientific-code change yet.
 
-Admission release dd83f3c5 passed136tests and independent APPROVE f34d057f. Its first native no-call probe exposed a missing JSON import. The exact import repair77c45771 passed146tests and independent APPROVE0d9243f6, with explicit PROCEED. Both are installed; the repaired native probe passed unchanged limits and both model transports with zero calls. The failed original probe and all charges remain preserved. The author receives in-call static schema feedback; the full execution sandbox is still unfinished.
-
-Next: reconcile scientific reviewer2; any genuine REVISE returns to the scientific author. Verdict expected10-20minutes after00:02UTC. Delivery also requires this arm's real trainer evidence. No patient or GPU execution is authorized by this preparation.
+Next: reconcile that review; after APPROVE run the unchanged native sandbox with the corrected harness into a new immutable result folder. Keep the failed receipt, all calls and charges. A PASS still does not establish actual A100 integration; that evidence remains required before full delivery. Next native-test result provisionally15-30minutes after00:22UTC if the repair is approved. Scientific batch120/128 leaves4Colab and4meeting calls.
 
 Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
@@ -28,7 +26,7 @@ Namespace repair03a42f24 remains installed and unchanged. Its original pre-clien
 
 Serialization recoveryd035b2a6 passed203tests and actual read-only verification of109rows,15prior calls and32pre-client workspace files. Independent Claude review23e5c998 returned APPROVE, reportf13b8abf, with PROCEED direction. It is installed. Recovery preserved the original workspace, state, calls, configuration and grant; no new allowance. The native check passed the corrected allocation boundary and author transport without model calls.
 
-Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. The later pnorm_v2 reviewer stopped mechanically without a verdict; its original charge is retained. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](outputs/SMOOTHING_RESULTS_20261012.md).
+Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. Pnorm_v2 reviewer1 failed mechanically; reviewer2 then approved the code. The host still holds acceptance pending corrected synthetic tests. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](outputs/SMOOTHING_RESULTS_20261012.md).
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
@@ -40,7 +38,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending
 
-13OctoberUTC:1/50 calls, one scientific reviewer. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $397.87704600; author dollar costs unavailable.
+13OctoberUTC:2/50 calls: one scientific reviewer and one administrative review. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $409.73592200; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -54,11 +52,11 @@ Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.02962
 ## Resume safely
 
 1. Read this handover, CURRENT, STATUS, execution plan, ROLES and the latest entry in the canonical private HANDOFF_CURRENT_PRIVATE.md.
-2. Reconcile native units, ledger status and operation intents before any launch. Pnormct is external and live; the multiwin check is delivered but unreported. The smoothing analysis and both scientific calls are COMPLETE; pnorm_v2 reviewer1 is terminalFAILED without a verdict; scientific reviewer2 call7d44f07e is the current operation. Never replay consumed starts or superseded requests.
+2. Reconcile native units, ledger status and operation intents before any launch. Pnormct is external and live; the multiwin check is delivered but unreported. The smoothing analysis and both scientific calls are COMPLETE; pnorm_v2 reviewer1 is terminalFAILED without a verdict; scientific reviewer2 call7d44f07e is COMPLETE; administrative harness reviewac5955cb is the current operation. Never replay consumed starts or superseded requests.
 3. The private namespace-repair/serialization-recovery/review folder holds installed repair d035b2a6, qualified scientific APPROVE, hash-verified authored output, and completed acceptance receipt. All starts are consumed. Never replay them. Analysis allocation is exhausted; the bounded question is complete.
 4. For multiwin, first obtain the actual private A100 receipt. Preserve genuine scientific REVISE and24/24 calls; normal scientific follow-up is required before full delivery. No continuation grant or accounting change is presently prepared.
 5. Root must not open live SQLite. Use the existing service identity and WAL-aware read-only queries. No credential contents/paths or patient payloads in public files.
-6. Check C:/WSL free space before large steps: warn below15GiB, stop below8GiB. Latest C:11.05GiB; server107.51GiB after the new approved source and repair. Historical evidence migration is complete; do not replay it.
+6. Check C:/WSL free space before large steps: warn below15GiB, stop below8GiB. Latest C:10.58GiB; server107.51GiB after the new approved source and repair. Historical evidence migration is complete; do not replay it.
 7. Update these documents in place, scan privacy/secrets/infrastructure, push remote-server and safe astra projections, verify hashes, and hash-verify private evidence backup before stopping. Never push raw private working branches. main unchanged.
 
 ## Decisions, reasoning and limitations
