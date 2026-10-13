@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
 - L now passes all host tests; review still requires actual A100 evidence and authenticated baseline metrics.
-- Meeting code preparation passed148tests and is in independent review; MRI hashes, geometry and clinical provenance remain unresolved.
-- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $450.182499; author costs unavailable.
+- The meeting scientific author is writing the private case-review code; real-case input checks are still pending.
+- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $456.26609925; author costs unavailable.
 - Next result: multiwin trainer check,10-25minutes once run; further Colab scientific calls need the pending money decision.
 - C:11.20GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 03:11 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 03:19 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -34,22 +34,22 @@ The approved additive evidence supplement a6520522 passed94tests and received in
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 reviewer's inability to directly inspect its two largest tables remains disclosed. Smoothing saved-output CPU execution completed once in304.77seconds and its interpretation is accepted, report4b45e7ce. No useful general small-component rescue was established; fragmentation increased. Do not rerun completed analyses. See [accepted smoothing results](SMOOTHING_RESULTS_20261012.md) and [meeting reading sheet](MEETING_READING_SHEET.md).
 
-Meeting preparation retains the accepted six-slot rule, fixed before image inspection. A metadata-only check of the exact 99 development directories found DWI and ADC entries for all99 in the existing source-extract derivatives. Frozen cohort and exclusion metadata hashes were verified; no excluded directory or image payload was opened. This establishes directory availability, not MRI file hashes, geometry or clinical provenance. Those checks and a reviewed selector/renderer are still needed; no cases or images have been selected. Do not hydrate MRI through the laptop. Use the existing authorized private route after review. Four meeting calls remain unused. [Production plan](MEETING_CASE_REVIEW_PLAN.md).
+Meeting preparation retains the accepted six-slot rule, fixed before image inspection. A metadata-only check of the exact 99 development directories found DWI and ADC entries for all99 in the existing source-extract derivatives. Frozen cohort and exclusion metadata hashes were verified; no excluded directory or image payload was opened. This establishes directory availability, not MRI file hashes, geometry or clinical provenance. Those checks and a reviewed selector/renderer are still needed; no cases or images have been selected. Do not hydrate MRI through the laptop. Use the existing authorized private route after review. Three meeting calls remain; author1 is using the first approved slot. [Production plan](MEETING_CASE_REVIEW_PLAN.md).
 
 Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before reservation on confined ledger access; no timing GPU run occurred. Its old allocation rules also predate the current purpose-specific batch. Reconcile retained authority before any repair/admission; do not repurpose Colab or meeting calls. Author sandbox and opposite-family administrative review capability remain unfinished. No Swap point; pnormct remains externally running.
 
 ## Spending and model calls
 
-13OctoberUTC: **12/50 calls**:2scientific authors,3scientific reviewers,6administrative implementation reviews (one live),1standalone direction check. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **13/50 calls**:3scientific authors (one live),3scientific reviewers,6administrative implementation reviews,1standalone direction check. Scientific batch **125/128**:0Colab,0analysis,3meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
-| Scientific author |2|L initial draft and reviewer-requested revision|
+| Scientific author |3|L initial draft and revision; meeting-code author1 live|
 | Scientific reviewer |3|Pnorm_v2 code review; L initial and revised specifications|
-| Administrative review |6|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, and the live meeting preparation review|
+| Administrative review |6|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, and meeting preparation implementation approval|
 | Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
 
-12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$450.182499**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
+12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$456.26609925**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
 
 Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029622 retained reservations**. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection gate $1,200, and item6 $100 cap unchanged. Colab is unmetered by operator decision. No new provider compute launched this continuation. Release excess reservations only after confirmed closed-attempt billing.
 
@@ -63,7 +63,7 @@ Next real result: multiwin A100 trainer-check result, about10-25minutes after Pa
 - L author2/reviewer2: normal scientific lane, all host tests passed; genuine remaining findings retained and the exhausted Colab allocation respected.
 - Meeting intake: read only verified development-directory metadata; no model call, scientific conclusion, patient image read or access expansion. No Claude consultation needed for this inventory.
 - Status maintenance: replace stale present-tense checkpoint text in place; preserve history in Git and private evidence.
-- Latest explicit Claude direction remains01:07UTC PROCEED with caution toward SIMPLIFY. The02:36meeting direction attempt426170fc completed, but reviewed the earlier L supplement instead of answering the meeting question. Its $4.88565475 charge remains counted; neither its APPROVE nor its prose authorizes meeting admission. Do not repeat the same request; the next normal implementation review must assess the actual meeting patch.
+- Latest Claude direction is13October03:13UTC PROCEED, included in meeting implementation APPROVE23538a2c. The02:36meeting direction attempt426170fc completed, but reviewed the earlier L supplement instead of answering the meeting question. Its $4.88565475 charge remains counted; neither its APPROVE nor its prose authorizes meeting admission. Do not repeat the same request; the next normal implementation review must assess the actual meeting patch.
 
 ## Backup and exclusions
 
@@ -78,8 +78,10 @@ Additional exclusions: docs/IDEA2_INTERPRETATION_PRIVATE.json and all review/rec
 
 Also exclude docs/COLAB_L_NATIVE_PRIVATE.json, docs/COLAB_L_QUESTION_PRIVATE.json, docs/L_EVIDENCE_CONTEXT_PRIVATE.json and orchestrator/manual_stage.py, plus private meeting metadata, every review packet, ledger, native stream and notebook. Earlier flagged/private bindings remain excluded from the public projection.
 
-13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. The tested meeting admission candidate is in independent review; no patient executor is included or installed, and four meeting calls remain unused. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is to reconcile the current implementation review; do not duplicate it or install before APPROVE. No new provider compute or scientific call.
+13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. The meeting admission code is independently approved and installed; no patient executor is included or installed, and meeting author1 is running with three slots remaining. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is to reconcile meeting author1, then the normal independent scientific review. Do not duplicate the author. No new provider compute or scientific call.
 
 Excluded from this candidate backup: docs/MEETING_PREPARATION_PRIVATE.json (private accounting and native-layout binding). All private evidence, review packets, ledgers and streams remain excluded.
 
-Meeting preparation implementation is in independent Claude review (requestbc1da0a5, sourceb06d64da). It passed148focused regression tests and actual author/reviewer input assembly. The change admits only the four already-approved meeting calls through existing transport and synthetic isolation; it provides no patient executor. The first real accounting test admits call4 and refuses call5, preserving124original scientific rows and accepted parent state. Unknown active owners and unclassified calls fail closed. Nothing is installed and no meeting author has started. The candidate is archived on astra/public-meeting-preparation-20261013; its private scope binding is excluded from publication.
+Meeting preparation sourceb06d64da is independently APPROVED, report23538a2c, with no findings; Claude's direction is PROCEED. The reviewed change is installed. It passed148tests and the native no-call author/reviewer transport check. Scientific author1 is RUNNING; preserve this call and do not relaunch it. It uses one of the four approved meeting slots; three remain. The author owns the selector/renderer and synthetic tests. Real patient-case execution is held pending qualified input hashes, geometry and clinical provenance. No patient executor or new spending allowance was added. The review was static; its stated limitations include not rerunning tests or independently recomputing every historical pin.
+
+Judgment calls this stop: reuse the existing scientific lane for four approved meeting calls (Claude APPROVE/PROCEED); correct the installer command environment after a pre-mutation failure (existing configuration only, no code or credential change); keep Colab/analysis allocations separate and preserve all prior attempts.
