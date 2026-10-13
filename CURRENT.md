@@ -1,6 +1,6 @@
 # Current research state
 
-Updated 13 October 2026, 05:45 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 05:49 UTC. Codex/OpenAI remains operator. No Swap point.
 
 Action needed from you: pending replacement funding decision:12scientific calls, or8Colab-only; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
 
@@ -70,3 +70,6 @@ The earlier completed existing-service Drive query found no visible project root
 
 
 Read-only Colab status check: the browser tool failed to initialize, including after a reset. No session state was observed and no job was started, stopped or rerun. Pnormct remains last reported running by Partho; current progress is unverified. C: has16.65GiB free, above both disk thresholds. Funding and returned trainer evidence remain pending; no new calls or charges.
+
+
+Automatic continuation is blocked awaiting the operator funding decision and returned Colab evidence. Three consecutive goal turns found the same blocker and no available next scientific action:128/128 scientific calls are counted, no funding approval has arrived, and no new trainer results have been returned. The completed source inventory is ready for the author/reviewer. Additional infrastructure does not unblock these results and is deferred. External Colab jobs are not stopped or restarted. Resume by recording actual funding authority and reconciling returned evidence; never infer either from automatic continuation.

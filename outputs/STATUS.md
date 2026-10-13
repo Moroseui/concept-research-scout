@@ -5,10 +5,10 @@
 - Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
 - Meeting preparation is approved; actual panels still need input, training-provenance and image-quality checks.
 - Item4 billed $24.49, with $91.03 reserved. Recorded Claude charges: $473.03; author dollar costs are unavailable.
-- Next result: a Colab trainer check, about 10?25 minutes once started. Further scientific calls await the funding decision.
-- C: has 16.68 GiB free, above both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
+- Next result: a Colab trainer check, about 10-25 minutes once started. Further scientific calls await the funding decision.
+- C: has 16.65 GiB free, above both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 05:45 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 05:49 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -122,3 +122,6 @@ The earlier completed existing-service Drive query found no visible project root
 
 
 Read-only Colab status check: the browser tool failed to initialize, including after a reset. No session state was observed and no job was started, stopped or rerun. Pnormct remains last reported running by Partho; current progress is unverified. C: has16.65GiB free, above both disk thresholds. Funding and returned trainer evidence remain pending; no new calls or charges.
+
+
+Automatic continuation is blocked awaiting the operator funding decision and returned Colab evidence. Three consecutive goal turns found the same blocker and no available next scientific action:128/128 scientific calls are counted, no funding approval has arrived, and no new trainer results have been returned. The completed source inventory is ready for the author/reviewer. Additional infrastructure does not unblock these results and is deferred. External Colab jobs are not stopped or restarted. Resume by recording actual funding authority and reconciling returned evidence; never infer either from automatic continuation.
