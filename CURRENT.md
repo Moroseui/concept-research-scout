@@ -1,14 +1,14 @@
 # Current research state
-Updated 13 October 2026, 12:40 UTC. Codex/OpenAI remains operator; no Swap point.
+Updated 13 October 2026, 13:30 UTC. Codex/OpenAI remains operator; no Swap point.
 
-Action needed from Partho when awake: [run the corrected multiwin synthetic A100 check](outputs/MULTIWIN_TRAINER_CHECK_20261013.md). Reviewed file is in Downloads; its exact hash and instructions are linked. Full multiwin training remains held for actual A100 evidence and scientific review.
+Action needed from Partho when a Colab session is free: [multiwin's corrected synthetic A100 check](outputs/MULTIWIN_TRAINER_CHECK_20261013.md), then [L preparation only](outputs/L_PREPARATION_20261013.md). Both reviewed files are in Downloads. Leave the reported running pnormct and pnorm_v2 sessions alone.
 
-Pnormct and pnorm_v2 are reported running in separate Colab sessions. Leave both alone. Ingest returned private evidence without relaunching either job.
+L author3/reviewer3 and preparation packaging are COMPLETE. Science remains REVISE for actual A100 evidence and baseline metric comparability. The preparation notebook creates authentic ResEncL plans without training; no full L release. Original baseline source evidence is ready for the next scientific judgment.
 
-L author3 is RUNNING, admitted normally after independently approved repairs. Continuation d58718fa and start command54ddb8f6 are installed; baseline context is prepared. Current author call9713f658 must not be duplicated. Its completed draft goes to scientific reviewer3. Authentic ResEncL plans, baseline binding and later real A100 evidence remain the scientific tasks.
+No model call or server compute is running or awaiting reconciliation at the latest observation. Historical uncertain rows remain unchanged with installed qualification. Do not replay any consumed start, registration, installation or recovery. External Colab jobs remain unobserved except for Partho's reports.
 
-Scientific133/140; daily36/50:7authors,7scientific reviewers,21administrative reviews,1direction. Known completed Claude$535.05241275; author dollars unknown. Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150. No new provider compute; Colab is unmetered.
+Scientific134/140; daily38/50:7authors,8scientific reviewers,22administrative reviews,1direction. Remaining purpose slots:2returned-Colab,2L,2meeting. Known completed Claude$544.7786735; author dollars unknown. Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150. No new provider compute; Colab unmetered.
 
-Latest direction: PROCEED; the narrow ownership fix is the shortest safe path. Author3 is now running. Item6, synthesis, Idea2 and smoothing are accepted; no reruns. Meeting preparation approved; actual private panels still require real input/admission bindings and independent image QC. GPU timing result is absent.
+Meeting preparation is approved; actual input/admission bindings, source access and independent full-stack image QC remain. No cases selected. Item6, synthesis, Idea2 and smoothing are accepted. GPU timing result and opposite-family administrative route remain unfinished.
 
-Read [HANDOVER](HANDOVER.md), [STATUS](outputs/STATUS.md), [execution plan](outputs/13B_EXECUTION_PLAN.md) and canonical private restart record. C:12.1GiB warns below15 but remains above8stop; server102.6GiB. No main merge or BACKLOG edit.
+Read [HANDOVER](HANDOVER.md), [STATUS](outputs/STATUS.md), [execution plan](outputs/13B_EXECUTION_PLAN.md) and canonical private restart record. C:11.7GiB warns below15 but remains above8stop; serverabout102GiB. No main merge or BACKLOG edit.

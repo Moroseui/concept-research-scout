@@ -1,13 +1,13 @@
 # 13B execution plan
 
-Updated 13 October 2026, 12:27 UTC. New experiments first. The scientific author writes each notebook; Claude reviews it. Every arm requires actual nnU-Net trainer construction and a training iteration before full delivery.
+Updated 13 October 2026, 13:32 UTC. New experiments first. The scientific author writes each notebook; Claude reviews it. Every arm requires actual nnU-Net trainer construction and a training iteration before full delivery.
 
 | Order | Arm × folds | Venue | State and next step |
 |---|---|---|---|
 | First, session 1 | A1_multiwin × 0–4 | **Partho on Colab**, default runtime, A100 | Returned check failed NumPy provenance before trainer construction. Exact author correction recovered; all six CPU tests passed. Scientific REVISE remains; corrected synthetic-check package is APPROVED and delivered. Await actual A100 evidence, then scientific review. |
 | First, session 2 | A1_pnormct × 0–4 | **Partho on Colab**, default runtime, A100 | Full notebook delivered after real trainer PASS; last reported running. Do not duplicate it. |
 | Next | A1_pnorm_v2 × 0–4 | **Partho on Colab**, default runtime, A100 | Actual A100 trainer PASS accepted; unchanged reviewed all-fold notebook delivered and reported running. |
-| Then | A1_L × 0–4 | **Partho on Colab**, default runtime, A100 | Review2 requests exact A100 trainer/resume/memory evidence and baseline binding. Author3 is running with authenticated baseline context; authentic ResEncL plans and scientific binding remain. No memory-fit claim or full release. |
+| Then | A1_L × 0–4 | **Partho on Colab**, default runtime, A100 | Author3/reviewer3 complete, scientific REVISE. Preparation-only notebook delivered to create authentic ResEncL plans. Then actual trainer/resume/memory evidence and baseline metric review; no full release or memory-fit claim. |
 | Parked | A1_repeat × 0–4; A1_repeat2 × 0–4 | Partho on Colab later | New arms must have results first. Saved preprocessing stays; per-fold files remain parked. |
 | Held | A1_zscore × 0–4; A1_histeq × 0–4 | No run | Coverage-source provenance unresolved. |
 
@@ -19,8 +19,8 @@ Updated 13 October 2026, 12:27 UTC. New experiments first. The scientific author
 
 **Comparison:** use Sprint12 A1 provisionally. Small differences are not interpretable without a later Colab repeat. Analyse placement versus amount, size, region and fragmentation.
 
-**Parallel work:** L author3 is running after independently approved continuation and receipt-start repairs; do not duplicate it. Scientific reviewer3 follows the completed draft.  item6, Idea2 and smoothing interpretations are accepted. Meeting author3/reviewer3 completed,12synthetic tests PASS and preparation APPROVE. Real panels still require approved private inputs/admission and independent image QC. The multiwin continuation is installed. Its author correction is recovered and tested; synthetic-check package approved and delivered, full training held. Author sandbox and operator-rotation infrastructure remain deferred behind these results.
+**Parallel work:** pnormct and pnorm_v2 remain reported running. Multiwin's corrected check is ready; L's [preparation-only notebook](L_PREPARATION_20261013.md) is ready next. Its runtime is unmeasured and it trains nothing. L source evidence is ready for scientific baseline-metric judgment. Item6, Idea2 and smoothing are accepted. Meeting preparation is approved with12synthetic tests; actual input/admission bindings, source access and independent image QC remain. No model call is running. Defer unrelated sandbox/rotation engineering.
 
 **Timing diagnostic:** Modal GPU RunA versus more CPU/augmentation workers in RunB remains approved within $25; run B first if necessary. No GPU result yet. The old timing review's admission/authority issue remains unresolved; it may not borrow the new purpose-specific calls and does not block Colab.
 
-**Money:** operator approved 128→140 scientific calls: four for returned multiwin/pnorm_v2 evidence, four for L, four for meeting. Batch140 is installed;133 calls used, with 2 meeting, 2 returned-Colab and 1 L slots used; 2 meeting, 2 returned-Colab and 3 L remain. Daily50, per-run20 and GPU caps stay unchanged. Non-Colab stage1: $24.487001 billed + $91.029622 retained reservations = $115.516623/$150; $25 timing sub-cap, $1,200 projection gate and $1,275 total unchanged. Colab is unmetered. [Detailed status and audit](STATUS.md).
+**Money:** operator approved 128→140 scientific calls: four for returned multiwin/pnorm_v2 evidence, four for L, four for meeting. Batch140 is installed;134 calls used, with 2 meeting, 2 returned-Colab and 2 L slots used; 2 meeting, 2 returned-Colab and 2 L remain. Daily50, per-run20 and GPU caps stay unchanged. Non-Colab stage1: $24.487001 billed + $91.029622 retained reservations = $115.516623/$150; $25 timing sub-cap, $1,200 projection gate and $1,275 total unchanged. Colab is unmetered. [Detailed status and audit](STATUS.md).
