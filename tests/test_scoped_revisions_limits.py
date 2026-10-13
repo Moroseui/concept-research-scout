@@ -48,12 +48,14 @@ def test_batch_limit_counts_all_historical_failed_rows(tmp_path):
 
 def test_day_limit_counts_administrative_and_scientific_failures(tmp_path):
     store,batch,c=configured(tmp_path)
-    seed(batch,49,kind='implementation_review',day=datetime.now(timezone.utc).date().isoformat())
+    from orchestrator.autonomy_limits import daily_allowance
+    day=datetime.now(timezone.utc).date().isoformat()
+    seed(batch,daily_allowance(day)['limit']-1,kind='implementation_review',day=day)
     batch.reserve_scientific('one','synthetic','run_spec_author','a'*40,{})
     batch.finish_scientific('one',{},'COMPLETE')
     with pytest.raises(ValueError,match='^AUTONOMY_DAILY_CALL_LIMIT$'):
         batch.reserve_scientific('two','synthetic','run_spec_review','a'*40,{})
-    assert batch.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==50
+    assert batch.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==daily_allowance(day)['limit']
 
 
 def test_sixteen_call_limit_preserves_original_two_rows_and_account_policy(tmp_path,monkeypatch):
@@ -89,8 +91,8 @@ def test_exactly_three_revisions(n,next_stage):
 
 
 @pytest.mark.parametrize('category',['privacy/secret','test-set/leakage','budget'])
-def test_reserved_decision_still_stops(category):
-    assert revisions.review_transition({'verdict':'REVISE','findings':[{'category':category}]},'run_spec_review',1)[1]=='REVIEW_REQUIRES_OPERATOR_DECISION'
+def test_all_finding_categories_return_to_author(category):
+    assert revisions.review_transition({'verdict':'REVISE','findings':[{'category':category}]},'run_spec_review',1)[1]=='REVISION_REQUIRED'
 
 
 def test_reject_and_empty_revise_stop():
@@ -155,3 +157,11 @@ def test_checkpoint_rows_use_recorded_primary_key_order_and_compact_json(tmp_pat
     assert rows(db,'manual_calls')==expected
     assert sha(expected)==digest(b'[{"id":"a","value":"first"},{"id":"z","value":"later"}]')
     with pytest.raises(ValueError,match='^REVISION_TABLE_REQUIRED$'):rows(db,'unbound')
+
+
+
+def test_normal_correction_requires_pinned_operator_decision(tmp_path,monkeypatch):
+    path=tmp_path/'changed.txt';path.write_text('not the operator decision')
+    monkeypatch.setattr(revisions,'CORRECTION_DOCUMENT',str(path))
+    with pytest.raises(ValueError,match='SCIENTIFIC_CORRECTION_AUTHORITY_CHANGED'):
+        revisions.review_transition({'verdict':'REVISE','findings':[{'category':'privacy/secret'}]},'run_spec_review',1)
