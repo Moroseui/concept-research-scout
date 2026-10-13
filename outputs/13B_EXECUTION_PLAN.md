@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 13 October 2026, 01:55 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 13 October 2026, 02:01 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -34,3 +34,6 @@ Compare each arm provisionally with Sprint12A1. Small differences are not interp
 
 
 13October01:55UTC: additive L evidence supplement a6520522 passed94tests. Independent administrative request d033fada is RUNNING; no supplement applied and no new scientific call. It preserves all four findings, failed host receipt, phase, rounds, calls and limits; uses existing artifact delivery and assembles both model inputs without a call before commit. The complete relevant pipeline/notebook packet passed reader preflight at910files. An initial local packet exceeded the reader file count and was never admitted; it is preserved. First start was refused before any server intent while a research service was active; verified absent intent/no call, then admitted the same request once quiet. Direction check is folded into this review. Safe candidate archived on the working branch only, not installed or merged into the release. Excluded docs/L_EVIDENCE_CONTEXT_PRIVATE.json and every private receipt, packet and stream. No new returned Colab checks found.
+
+
+13October02:01UTC: independent evidence-correction review d033fada qualified APPROVE with no findings, report28a11860, cost$4.9345065 counted. The utility is applied: both actual model inputs assembled before commit, zero calls, original scientific REVISE/FAIL and all accounting unchanged. Two pre-entry setup failures were preserved: service traversal on the new review copy and a Git index rewritten by root verification. Corrected only those staging permissions, verified every staged file as the existing service account, and disabled optional Git metadata writes. No credential or original evidence permissions changed. No scientific code or guard was edited. Normal L author2 calla49a3ab8 is now RUNNING,3of20 run calls,123of128 batch. Never repeat the consumed review, transfer or application. Latest explicit direction remains01:07UTC PROCEED/caution SIMPLIFY; this review approved the bounded fix but did not separately return the requested direction label. Do not invent one or spend a standalone call for it.

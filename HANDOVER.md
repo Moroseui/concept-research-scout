@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 01:55 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 02:01 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -20,7 +20,7 @@ The harness now reads the two authored literal constants from the same exported 
 
 The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
 
-Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L scientific reviewer1 is COMPLETE with genuine REVISE; one administrative evidence-correction review is running. No server scientific compute job is running. Scientific batch122/128 leaves2Colab and4meeting calls.
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L scientific reviewer1 is COMPLETE with genuine REVISE; its author revision is now running after approved evidence correction. No server scientific compute job is running. Scientific batch123/128 leaves1Colab and4meeting calls.
 
 Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
@@ -32,7 +32,7 @@ Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
-Pnorm_v2's reviewed trainer check is delivered; L requires scientific revision and a corrected evidence packet. Both require actual A100 evidence before full delivery. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
+Pnorm_v2's reviewed trainer check is delivered; L author2 is revising with the corrected evidence packet. Both require actual A100 evidence before full delivery. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
 
 Meeting preparation retains the accepted six-slot rule; no cases/images selected. Existing Drive access was queried for root-folder metadata through its already-approved service lifecycle, then restored inactive. Zero roots named isles-pilot were visible through this narrow route; this does not establish project-wide absence of MRI or clinical data. No credential changes or patient payload access. Source provenance remains unresolved; do not broaden access.
 
@@ -40,7 +40,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending
 
-13OctoberUTC:8/50 calls: one scientific author (L author1 complete), two scientific reviewers (pnorm_v2 code approval and L reviewer1 REVISE), five administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation, its qualified mechanical retry and the live evidence correction), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch122/128:2Colab,0analysis,4meeting remain. Known completed Claude charges $435.60941375; author dollar costs unavailable.
+13OctoberUTC:9/50 calls: two scientific authors (L author1 complete and author2 live), two scientific reviewers (pnorm_v2 code approval and L reviewer1 REVISE), five administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation, its qualified mechanical retry and the approved evidence correction), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch123/128:1Colab,0analysis,4meeting remain. Known completed Claude charges $440.54392025; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -112,3 +112,6 @@ Next L result: scientific review verdict, provisionally5-15minutes. The author d
 
 
 13October01:55UTC: additive L evidence supplement a6520522 passed94tests. Independent administrative request d033fada is RUNNING; no supplement applied and no new scientific call. It preserves all four findings, failed host receipt, phase, rounds, calls and limits; uses existing artifact delivery and assembles both model inputs without a call before commit. The complete relevant pipeline/notebook packet passed reader preflight at910files. An initial local packet exceeded the reader file count and was never admitted; it is preserved. First start was refused before any server intent while a research service was active; verified absent intent/no call, then admitted the same request once quiet. Direction check is folded into this review. Safe candidate archived on the working branch only, not installed or merged into the release. Excluded docs/L_EVIDENCE_CONTEXT_PRIVATE.json and every private receipt, packet and stream. No new returned Colab checks found.
+
+
+13October02:01UTC: independent evidence-correction review d033fada qualified APPROVE with no findings, report28a11860, cost$4.9345065 counted. The utility is applied: both actual model inputs assembled before commit, zero calls, original scientific REVISE/FAIL and all accounting unchanged. Two pre-entry setup failures were preserved: service traversal on the new review copy and a Git index rewritten by root verification. Corrected only those staging permissions, verified every staged file as the existing service account, and disabled optional Git metadata writes. No credential or original evidence permissions changed. No scientific code or guard was edited. Normal L author2 calla49a3ab8 is now RUNNING,3of20 run calls,123of128 batch. Never repeat the consumed review, transfer or application. Latest explicit direction remains01:07UTC PROCEED/caution SIMPLIFY; this review approved the bounded fix but did not separately return the requested direction label. Do not invent one or spend a standalone call for it.
