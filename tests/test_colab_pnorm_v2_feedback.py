@@ -57,7 +57,7 @@ def test_question_failure_refuses_before_workspace_files(tmp_path,monkeypatch):
 
 def test_scope_keeps_exhausted_old_question_and_new_question_distinct():
     scope=q.document()
-    assert scope['arm']=='A1_pnorm_v2'
+    assert scope['arm']=='A1_L'
     assert scope['prior']['config']['run_id']!=q.RUN
     assert len(scope['prior']['local_calls'])==24
     old=json.loads(scope['prior']['state_row']['payload'])

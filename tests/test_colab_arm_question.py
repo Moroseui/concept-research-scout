@@ -34,7 +34,7 @@ def scenario(tmp_path, monkeypatch):
         ident = "history-" + str(i) if i < 82 else "old-" + str(i - 82)
         accounts.db.execute("INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)",
                             (ident, "scientific", owner, i + 1, "2026-10-11", "COMPLETE", "{}", "{}"))
-    scope = {"run_id": q.RUN, "arm": "A1_pnorm_v2", "call_limit": 20, "batch_limit": 128,
+    scope = {"run_id": q.RUN, "arm": "A1_L", "call_limit": 20, "batch_limit": 128,
              "allocation_limit": 16, "allocation_baseline": 104,
              "batch_answer_sha256": "a" * 64, "batch_question_sha256": "b" * 64,
              "new_lane": "/new/lane",
@@ -52,7 +52,7 @@ def scenario(tmp_path, monkeypatch):
 
 def binding():
     return {"state": "/new/lane", "source": "a" * 40,
-            "colab_preparation": {"arm_question": {"arm": "A1_pnorm_v2", "scope_sha256": q.DOCUMENT_SHA}}}
+            "colab_preparation": {"arm_question": {"arm": "A1_L", "scope_sha256": q.DOCUMENT_SHA}}}
 
 
 def test_preflight_preserves_original_owner_state_and_all_calls(scenario):
@@ -205,18 +205,18 @@ def test_completed_question_cannot_receive_another_allowance(scenario):
 def test_bound_real_scope_preserves_caps_and_specific_distinct_arm():
     # Read actual immutable authority after undoing per-test fixture patches.
     scope = q.document()
-    assert scope["arm"] == "A1_pnorm_v2" and scope["run_id"] == q.RUN
+    assert scope["arm"] == "A1_L" and scope["run_id"] == q.RUN
     assert (scope["call_limit"], scope["batch_limit"], scope["allocation_limit"]) == (20, 128, 16)
-    assert len(scope["prior"]["global_calls"]) == 117
+    assert len(scope["prior"]["global_calls"]) == 120
     assert len(scope["prior"]["local_calls"]) == 24
     assert scope["prior"]["local_calls"][-1]["status"] == "COMPLETE"
     assert scope["execution_authorized"] is False
 
 
 def test_native_unit_changes_only_question_specific_paths(monkeypatch):
-    from tools import colab_pnorm_v2_runtime as runtime
+    from tools import colab_l_runtime as runtime
     root = Path(__file__).resolve().parents[1]
-    native = json.loads((root / "docs/COLAB_PNORM_V2_NATIVE_PRIVATE.json").read_bytes())
+    native = json.loads((root / "docs/COLAB_L_NATIVE_PRIVATE.json").read_bytes())
     scope = {"new_lane": native["work"] + "/lane"}
     monkeypatch.setattr(runtime, "metadata", lambda: (scope, native))
     result = runtime.unit_bytes(scope).decode()

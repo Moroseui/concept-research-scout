@@ -1,4 +1,4 @@
-"""One distinct pnorm_v2 question under unchanged shared limits.
+"""One distinct L question under unchanged shared limits.
 
 Uses the normal analysis initializer and scientific stages. The exhausted Colab
 run is evidence, never a source of reset calls or a copied allowance.
@@ -8,10 +8,10 @@ import hashlib
 import json
 import sqlite3
 
-RUN = "colab-arm-b9d64a3c09b799bc10b0eba7"
-DOCUMENT = "docs/COLAB_PNORM_V2_QUESTION_PRIVATE.json"
-DOCUMENT_SHA = "7953abe7d410433215de767d5607c71704e494749d2200f26155625eba46272b"
-CHANGE = "colab-pnorm-v2-question-20261012"
+RUN = "colab-arm-47e6a72d9a2c821a4938fcae"
+DOCUMENT = "docs/COLAB_L_QUESTION_PRIVATE.json"
+DOCUMENT_SHA = "8550cdcf443a027d1dce73d6fa291bb3d7704806ba28bdb70a723c985ef76a3d"
+CHANGE = "colab-l-reader-retry-20261013"
 STAGES = frozenset(("run_spec_author", "run_spec_review"))
 
 
@@ -34,7 +34,7 @@ def document():
     raw = pr.check(root / DOCUMENT).read_bytes()
     require(sha(raw) == DOCUMENT_SHA, "SCOPE_CHANGED")
     scope = json.loads(raw)
-    require(scope["run_id"] == RUN and scope["arm"] == "A1_pnorm_v2"
+    require(scope["run_id"] == RUN and scope["arm"] == "A1_L"
             and scope["call_limit"] == 20 and scope["batch_limit"] == 128
             and scope["allocation_limit"] == 16 and scope["allocation_baseline"] == 104
             and scope["admitted_stages"] == sorted(STAGES)
@@ -213,7 +213,7 @@ def instructions(stage, plan):
     scope = validate_scope(plan)
     require(stage in STAGES, "PREPARATION_STAGE_ONLY")
     from orchestrator.analysis_driver import bound_file
-    tasks = [row for row in plan["artifacts"] if row["id"] == "pnorm-v2-arm-author-task"
+    tasks = [row for row in plan["artifacts"] if row["id"] == "l-arm-author-task"
              and row["type"] == "question"]
     require(len(tasks) == 1, "TASK_REQUIRED")
     task = bound_file(Path(plan["context"]), {k: tasks[0][k] for k in ("path", "sha256")})
