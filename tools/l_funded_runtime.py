@@ -10,6 +10,7 @@ ROOT = Path("/opt/research-system/manual-repair-helpers/l-funded-continuation-20
 RECORD = Path("/var/lib/research-system-manual-sprint10-deployment/l-funded-continuation-20261013")
 ENTRY = "tools/l_funded_runtime.py"
 CHANGE = "l-funded-continuation-20261013"
+REVIEW_CHANGE = "l-funded-terminal-routing-20261013"
 BRANCH = "astra/l-funded-continuation-20261013"
 UNIT = "research-colab-l-question-20261013.service"
 DROP = Path("/etc/systemd/system")/(UNIT+".d")/"l-funded.conf"
@@ -83,7 +84,7 @@ def reviewed(folder):
     from orchestrator.manual_host_guard import trusted
     from orchestrator.autonomy_review import verify_result
     a=verify_result(trusted(folder));m=json.loads(trusted(Path(folder)/"packet-manifest.json").read_bytes())
-    require(a["verdict"]=="APPROVE" and a["change_id"]==CHANGE
+    require(a["verdict"]=="APPROVE" and a["change_id"]==REVIEW_CHANGE
             and json.loads(trusted(Path(folder)/"report.md").read_bytes())["findings"]==[],"INDEPENDENT_APPROVE")
     require(REQUIRED <= set(m["source_files"]),"WHOLE_COMPONENT")
     return a,m

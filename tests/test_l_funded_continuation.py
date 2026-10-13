@@ -86,4 +86,91 @@ class ContinuationTests(unittest.TestCase):
  def test_halt_refuses(self):
   (self.d.state/"HALT").touch()
   with self.assertRaisesRegex(ValueError,"HALT"):self.apply()
+
+
+# Regression: old terminal_ids compares the whole pending set. Testing only the
+# history and budget helpers does not exercise this real inherited refusal.
+class TerminalRoutingTests(unittest.TestCase):
+ def setUp(self):
+  from orchestrator import colab_arm_question as q,colab_simple_full as prior
+  from types import SimpleNamespace as NS
+  from unittest.mock import patch
+  self.q=q;self.prior=prior
+  self.db=sqlite3.connect(":memory:");self.db.row_factory=sqlite3.Row;self.addCleanup(self.db.close)
+  self.db.execute("CREATE TABLE autonomy_calls(id TEXT,status TEXT,binding TEXT)")
+  original=[{"id":"old"+str(i),"status":"UNCERTAIN","binding":"frozen"+str(i)}for i in range(6)]
+  self.author={"id":"b1dad7a10b0830b2cd2b569032792dcae04e4b16224f410a0df2a2c0e6a3c686","status":"UNCERTAIN","binding":"preserved"}
+  for row in [*original,self.author]:
+   self.db.execute("INSERT INTO autonomy_calls VALUES(:id,:status,:binding)",row)
+  self.scope={"prior":{"uncertain":original}}
+  self.checkpoint={"lanes":{"multiwin":{"global_rows":[self.author]}}}
+  self.accounts=NS(db=self.db)
+  self.proof={"call":self.author["id"],"native_exit":"ok","original_status":"UNCERTAIN",
+              "new_calls":0,"scientific_acceptance":False}
+  self.qualified=[]
+  def qualify(a,row):
+   self.assertIs(a,self.accounts);self.qualified.append(row["id"])
+   return {"id":row["id"],"proof_sha256":"a"*64}
+  m=patch.object(q,"document",lambda:self.scope);m.start();self.addCleanup(m.stop)
+  m=patch.object(prior,"_TERMINAL_QUALIFIER",qualify);m.start();self.addCleanup(m.stop)
+  self.history=NS(AUTHOR=self.author["id"],preserved=lambda a,s,c,cb:self.proof)
+  self.policy=NS(allowance=lambda *args:{"limit":140})
+ def activate(self):
+  undo=r.activate(self.checkpoint,self.history,lambda *args:self.proof,self.policy,{},"b"*64)
+  self.addCleanup(undo)
+ def test_reproduce_obsolete_original_fullset_refusal(self):
+  with self.assertRaisesRegex(ValueError,"UNCLASSIFIED_OR_RUNNING_CALL"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_full_union_uses_six_original_verifiers_and_installed_new_proof(self):
+  before=list(self.db.iterdump());self.activate()
+  actual=self.q.terminal_ids(self.accounts,self.scope)
+  self.assertEqual(set(actual),{self.author["id"],*["old"+str(i)for i in range(6)]})
+  self.assertEqual(sorted(self.qualified),["old"+str(i)for i in range(6)])
+  self.assertEqual(before,list(self.db.iterdump()))
+ def test_unknown_or_running_rows_refuse(self):
+  self.activate()
+  for status in ("UNCERTAIN","RUNNING"):
+   self.db.execute("INSERT INTO autonomy_calls VALUES('unknown',?,'new')",(status,))
+   with self.assertRaisesRegex(ValueError,"UNCLASSIFIED_OR_RUNNING_CALL"):
+    self.q.terminal_ids(self.accounts,self.scope)
+   self.db.execute("DELETE FROM autonomy_calls WHERE id='unknown'")
+ def test_changed_old_row_refuses(self):
+  self.activate();self.db.execute("UPDATE autonomy_calls SET binding='changed' WHERE id='old0'")
+  with self.assertRaisesRegex(ValueError,"UNCLASSIFIED_OR_RUNNING_CALL"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_changed_new_row_refuses(self):
+  self.activate();self.db.execute("UPDATE autonomy_calls SET binding='changed' WHERE id=?",(self.author["id"],))
+  with self.assertRaisesRegex(ValueError,"UNCLASSIFIED_OR_RUNNING_CALL"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_running_known_row_refuses(self):
+  self.activate();self.db.execute("UPDATE autonomy_calls SET status='RUNNING' WHERE id=?",(self.author["id"],))
+  with self.assertRaisesRegex(ValueError,"UNCLASSIFIED_OR_RUNNING_CALL"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_missing_old_qualifier_refuses(self):
+  self.activate();self.prior._TERMINAL_QUALIFIER=None
+  with self.assertRaisesRegex(ValueError,"INSTALLED_TERMINAL_QUALIFIER_REQUIRED"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_bad_original_proof_refuses(self):
+  self.activate();self.prior._TERMINAL_QUALIFIER=lambda *args:{"id":"wrong","proof_sha256":"a"*64}
+  with self.assertRaisesRegex(ValueError,"AUTHENTIC_TERMINAL_PROOF_REQUIRED"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_failed_original_qualifier_not_swallowed(self):
+  self.activate()
+  def failure(*args):raise ValueError("original native proof failed")
+  self.prior._TERMINAL_QUALIFIER=failure
+  with self.assertRaisesRegex(ValueError,"original native proof failed"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_bad_new_qualification_refuses(self):
+  self.activate();self.proof["scientific_acceptance"]=True
+  with self.assertRaisesRegex(ValueError,"RECOVERY_QUALIFICATION"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_unknown_new_contract_refuses(self):
+  self.activate();self.checkpoint["lanes"]["multiwin"]["global_rows"]=[]
+  with self.assertRaisesRegex(ValueError,"EXACT_TERMINAL_CONTRACT"):
+   self.q.terminal_ids(self.accounts,self.scope)
+ def test_duplicate_old_contract_refuses(self):
+  self.activate();self.scope["prior"]["uncertain"][0]=self.scope["prior"]["uncertain"][1]
+  with self.assertRaisesRegex(ValueError,"TERMINAL_COLLISION"):
+   self.q.terminal_ids(self.accounts,self.scope)
+
 if __name__=="__main__":unittest.main()

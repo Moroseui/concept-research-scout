@@ -31,10 +31,34 @@ def activate(checkpoint, history, qualify, policy, budget_scope, review_sha256):
         preserved(accounts, scope)
         return policy.allowance(accounts, RUN, budget_scope, review_sha256)
     def terminals(accounts, scope):
-        preserved(accounts, scope)
-        original = originals[2](accounts, scope)
-        require(history.AUTHOR not in original, "QUALIFICATION_COLLISION")
-        return [*original, history.AUTHOR]
+        # The inherited verifier requires equality of the entire pending set.
+        # Qualify the exact union, never call it on an obsolete six-row subset.
+        proof = preserved(accounts, scope)
+        from orchestrator import colab_simple_full as prior
+        original = scope["prior"]["uncertain"]
+        additions = [r for r in checkpoint["lanes"]["multiwin"]["global_rows"]
+                     if r["id"] == history.AUTHOR]
+        require(len(original) == 6 and len(additions) == 1 and
+                history.AUTHOR not in {r["id"] for r in original},
+                "EXACT_TERMINAL_CONTRACT")
+        expected = sorted([*original, *additions], key=lambda r: r["id"])
+        require(len({r["id"] for r in expected}) == 7, "TERMINAL_COLLISION")
+        rows = [dict(r) for r in accounts.db.execute(
+            "SELECT * FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN') ORDER BY id")]
+        require(rows == expected and all(r["status"] == "UNCERTAIN" for r in rows),
+                "UNCLASSIFIED_OR_RUNNING_CALL")
+        require(callable(prior._TERMINAL_QUALIFIER), "INSTALLED_TERMINAL_QUALIFIER_REQUIRED")
+        for row in rows:
+            if row["id"] == history.AUTHOR:
+                require(proof["call"] == row["id"] and proof["native_exit"] == "ok" and
+                        proof["original_status"] == "UNCERTAIN" and proof["new_calls"] == 0 and
+                        proof["scientific_acceptance"] is False, "RECOVERY_QUALIFICATION")
+                continue
+            result = prior._TERMINAL_QUALIFIER(accounts, row)
+            require(isinstance(result, dict) and result.get("id") == row["id"] and
+                    isinstance(result.get("proof_sha256"), str) and len(result["proof_sha256"]) == 64,
+                    "AUTHENTIC_TERMINAL_PROOF_REQUIRED")
+        return [r["id"] for r in rows]
     old.preserved, old.batch_allowance, old.terminal_ids = preserved, allowance, terminals
     def restore():
         old.preserved, old.batch_allowance, old.terminal_ids = originals
