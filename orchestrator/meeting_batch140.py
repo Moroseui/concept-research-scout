@@ -25,6 +25,15 @@ def document(root):
             "SOURCE_BINDINGS")
     return b, question, evidence
 
+def meeting_receipt(receipt):
+    # Retain the original meeting policy's receipt interface. The historical
+    # four calls remain counted separately; these fields describe only the new
+    # four-call allocation and never authorize a fresh probe.
+    require(receipt["purpose"] == "meeting" and receipt["purpose_limit"] == 4,
+            "MEETING_RECEIPT_SCOPE")
+    return {**receipt, "meeting_allocation_used": receipt["purpose_used"],
+            "meeting_allocation_limit": 4, "meeting_calls_preserved": 4}
+
 def activate(root, review_sha256):
     """Only replace the exhausted allocation; every original guard remains."""
     from orchestrator import meeting_preparation as old
@@ -36,7 +45,8 @@ def activate(root, review_sha256):
     def funded(accounts, original_scope):
         require(original_scope == old.document(), "ORIGINAL_SCOPE")
         old.preserved(accounts, original_scope)
-        return policy.allowance(accounts, RUN, scope, review_sha256)
+        receipt = policy.allowance(accounts, RUN, scope, review_sha256)
+        return meeting_receipt(receipt)
     old.batch_allowance = funded
     return original
 

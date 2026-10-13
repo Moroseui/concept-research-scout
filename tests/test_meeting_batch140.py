@@ -135,3 +135,13 @@ class SupplementTests(unittest.TestCase):
   self.assertEqual(self.d.store.db.execute("SELECT COUNT(*) FROM manual_calls").fetchone()[0],4)
 
 if __name__=="__main__":unittest.main()
+
+def test_original_probe_receipt_interface_retains_prior_four_calls():
+    from orchestrator.meeting_batch140 import meeting_receipt
+    for used in range(4):
+        receipt={"purpose":"meeting","purpose_limit":4,"purpose_used":used,"limit":140}
+        assert meeting_receipt(receipt)=={**receipt,"meeting_allocation_used":used,
+                                          "meeting_allocation_limit":4,"meeting_calls_preserved":4}
+    import pytest
+    with pytest.raises(ValueError,match="MEETING_RECEIPT_SCOPE"):
+        meeting_receipt({"purpose":"L","purpose_limit":4,"purpose_used":0})

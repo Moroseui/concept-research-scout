@@ -9,7 +9,7 @@ BASE = Path("/opt/research-system/manual-repair-helpers/meeting-preparation-2026
 ROOT = Path("/opt/research-system/manual-repair-helpers/scientific-batch140-20261013")
 RECORD = Path("/var/lib/research-system-manual-sprint10-deployment/scientific-batch140-20261013")
 ENTRY = "tools/scientific_batch140_runtime.py"
-CHANGE = "scientific-batch140-20261013"
+CHANGE = "scientific-batch140-hook-config-20261013"
 BRANCH = "astra/scientific-batch140-20261013"
 UNIT = "research-meeting-preparation-20261013.service"
 DROP = Path("/etc/systemd/system")/(UNIT+".d")/"batch140.conf"
@@ -55,9 +55,34 @@ def properties():
     names=("FragmentPath","DropInPaths","ExecStart","ExecStartPre","ExecStopPost","User","Group",
            "Environment","WorkingDirectory","TimeoutStartUSec","TimeoutStopUSec","KillMode",
            "Restart","UMask","NoNewPrivileges","ProtectSystem","ReadWritePaths","PrivateTmp","Type")
-    cmd=["systemctl","show",UNIT]
+    cmd=["systemctl","show","--all",UNIT]
     for name in names:cmd+=["-p",name]
     v=dict(x.split("=",1)for x in subprocess.check_output(cmd,text=True).splitlines())
+    # Query command configuration as typed fields. systemctl's human rendering
+    # omits empty arrays and includes runtime timestamps/PIDs/exit results.
+    hooks={"ExecStartPre","ExecStopPost"}
+    require(set(names)-hooks <= set(v) <= set(names),"UNIT_PROPERTIES")
+    import shlex
+    endpoint="org.freedesktop.systemd1"
+    unit_path=shlex.split(subprocess.check_output(["busctl","call",endpoint,
+        "/org/freedesktop/systemd1",endpoint+".Manager","LoadUnit","s",UNIT],text=True))
+    require(len(unit_path)==2 and unit_path[0]=="o"
+            and unit_path[1].startswith("/org/freedesktop/systemd1/unit/"),"UNIT_OBJECT")
+    for hook in sorted(hooks):
+        raw=json.loads(subprocess.check_output(["busctl","--json=short","get-property",
+            endpoint,unit_path[1],endpoint+".Service",hook],text=True))
+        require(set(raw)=={"type","data"} and raw["type"]=="a(sasbttttuii)"
+                and type(raw["data"]) is list,"TYPED_HOOK_ARRAY")
+        commands=[]
+        for row in raw["data"]:
+            require(type(row)is list and len(row)==10 and type(row[0])is str
+                    and type(row[1])is list and all(type(x)is str for x in row[1])
+                    and type(row[2])is bool
+                    and all(type(x)is int for x in row[3:]),"TYPED_HOOK_FIELDS")
+            # path, complete argv and ignore-failure flag, in command order.
+            # Remaining fields are execution timestamps, PID, exit code/status.
+            commands.append(row[:3])
+        v[hook]=json.dumps(commands,sort_keys=True,separators=(",",":"))
     require(set(v)==set(names),"UNIT_PROPERTIES")
     return v
 def verify_delta(before, after):
