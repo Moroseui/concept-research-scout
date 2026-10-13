@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 08:55 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
+Updated 13 October 2026, 09:52 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
 
 ## Goal and rules
 
@@ -14,9 +14,9 @@ New arms precede repeats. One preconfigured all-fold notebook per arm, default C
 
 **Running Colab:** Partho reports pnormct and pnorm_v2 running. Leave both alone. Pnormct notebook SHA25630bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Pnorm_v2 notebook SHA256ea7d113255d3fa2ff53f156c2d7afc61e47278770e493ab311454b491f847a3b. Its exact returned check passed actual trainer construction, compile, training iteration and checkpoint reload, all6tests. The delivered full file is byte-identical to the previously approved notebook; no new scientific call was needed. Ingest returned private Drive results and send them through scientific analysis.
 
-**Multiwin, immediate priority:** returned unedited check44902e1e passed2synthetic tests then failed NumPy provenance before trainer construction. This is not a trainer PASS. User requested a provenance-only correction. The drafted infrastructure continuation9fa7b316 permits exactly author13/reviewer12 on the SAME owner, total26, preserving24original calls and genuine review11 REVISE; no new money or scientific choices.187relevant tests PASS. Nine broader administrative fixture failures arise in unchanged old tests; preserved and disclosed.
+**Multiwin, immediate priority:** Multiwin continuation 9fa7b316 is installed after qualified independent APPROVE fe774068/report16608358. Its author13 completed the requested provenance-only correction, but the transport rejected the 84,502-byte patch against an 80,000-byte boundary. The native process succeeded and all frozen inputs and author-emitted hashes match. The original UNCERTAIN record and charge remain counted. No new author call is planned.
 
-Independent administrative reviewfe774068a50673fb859376de64ddb6d2906ae4966bc45907d6cb793ec5bc358b is RUNNING, started once. It must explicitly approve the bounded process exception and implementation before installation, native zero-call probe, one-use restoration and scientific author13. The author changes only runtime_provenance and regression tests. Scientific reviewer12 then judges it; unresolved REVISE/REJECT parks this continuation. Actual A100 trainer/checkpoint/memory evidence remains required. Expected corrected check45-90minutes subject to findings; user is asleep, so prepare delivery without requiring an immediate reply.
+Recovery source 71423b5e preserves those exact bytes, uses the existing 96,000-byte parser option only for this patch hash, and requires normal synthetic validation and scientific reviewer12. It preserves all 25 original local records, the owner, accounting and existing 26-call scope. 238 tests pass. Independent Claude implementation review 7dba5a87 is running, with the direction check folded in. No recovery installation or scientific reviewer12 launch yet. Full multiwin delivery still requires actual A100 trainer evidence; the returned NumPy failure was before trainer construction.
 
 **Meeting:** batch140 patchaa66a72a installed after qualified Claude APPROVE6ff96559/report6bb42d21. Exact author3/reviewer3 finished;12isolated synthetic tests passed and scientific reportbbae7947 APPROVES preparation only. All6meeting calls preserved. Author program367127f3; implementationc912fd03; testsf0bacc7a. No real case selection or images rendered.
 
@@ -30,18 +30,18 @@ The accepted component supports packed small-U-Net reconstruction, original Spri
 
 ## Funding, calls and judgment
 
-Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.130scientific calls are counted:2of4newmeeting used,2meeting/4returned-Colab/4L remaining. Daily26/50 includes5authors,6scientific reviewers,14administrative reviews and1standalone direction; see STATUS for purposes.
+Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.131 scientific calls are counted: 2 meeting and 1 returned-Colab used; 2 meeting, 3 returned-Colab and 4 L remain. Daily28/50 includes6authors,6scientific reviewers,15administrative reviews and1standalone direction; see STATUS for purposes.
 
-Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$496.6091775before current review; author dollar costs unknown. No new provider compute.
+Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$499.919105before current review; author dollar costs unknown. No new provider compute.
 
 Latest qualified direction08:07UTC PROCEED: finish the directly necessary continuation, hold speculative adapters until actual evidence arrives. Evidence has now arrived. Current review folds direction and accounting advice into one call. Judgment: deliver unchanged pnorm_v2 after exact PASS reconciliation without another model call; preserve the genuine multiwin findings and seek the delegated narrow process exception; keep running user sessions untouched.
 
 ## Resume safely
 
 1. Read the private restart handoff and verbatim operator decisions; confirm this operator still owns the task. Goal-tool state may retain the old funding block; explicit funding and overnight instructions authorize current work. Do not create another goal or ask again.
-2. Check free space before large steps: warn below15GiB, stop below8GiB. C:last14.14GiB; WSLabout901GiB; serverabout104GiB. Reuse working checkouts and keep evidence private.
-3. Observe existing reviewfe774068 and reconcile durable model/provider records before any launch. Six historical uncertain entries retain qualified handling; never replay them.
-4. Do not repeat batch140 installation/amendment or meeting author3/reviewer3 starts. All completed. Do not rerun either returned Colab check unchanged.
+2. Check free space before large steps: warn below15GiB, stop below8GiB. C:last13.9GiB; WSLabout901GiB; serverabout103.85GiB. Reuse working checkouts and keep evidence private.
+3. Observe current review7dba5a87 and reconcile before any launch. Seven uncertain entries remain preserved; six have existing historical qualification, while completed author13 needs the current output recovery. No uncertain call may be replayed.
+4. Do not repeat batch140 or multiwin9fa installation, native probe/recovery, author13 or meeting author3/reviewer3 starts. All completed. Do not rerun either returned Colab check unchanged.
 5. Only qualified exact-source APPROVE permits new installation. Reconcile transfer/install/probe/recovery separately; never restart an uncertain operation.
 6. At each stop update these documents in place, back up private evidence by verified hashes, scan privacy plus secrets/infrastructure, and push remote-server and safe working projections. Never push raw private ancestry.
 
@@ -49,4 +49,6 @@ Access names only: existing server SSH, research service account, OpenAI author 
 
 No Swap point: timing result, installed opposite-family administrative route and clean reconciliation of external jobs are missing. Rotate at a clean milestone/weekly boundary, never mid-task. At all six requested conditions, announce “Swap point reached”, finish the step, update/push handover and wait.
 
-Review continuation note: the first multiwin administrative call submitted genuine REVISE findings about mixed historical/current test evidence and also failed native manifest-read qualification. Its $3.659679 charge and findings are preserved. The current request is explicitly linked corrective iteration 2, with fresh source-matched test receipts and a labeled test history; it is not a reset of the three-round process. No installation or scientific correction call has occurred.
+The existing server Drive access sees no matching source root. No files were downloaded and credentials remain unchanged. Do not solve this by changing scopes or copying credentials; keep the private operator return route.
+
+L continuation note: the old component pins the sibling's whole historical snapshot, so multiwin's legitimate progress makes it stale. A reviewed equivalent history proof must preserve original rows and authenticate approved additions; do not simply refresh the snapshot. Combine this with baseline context and the existing four-call allocation if continuing L.

@@ -1,10 +1,10 @@
 # 13B execution plan
 
-Updated 13 October 2026, 04:55 Eastern. New experiments first. The scientific author writes each notebook; Claude reviews it. Every arm requires actual nnU-Net trainer construction and a training iteration before full delivery.
+Updated 13 October 2026, 09:52 UTC. New experiments first. The scientific author writes each notebook; Claude reviews it. Every arm requires actual nnU-Net trainer construction and a training iteration before full delivery.
 
 | Order | Arm × folds | Venue | State and next step |
 |---|---|---|---|
-| First, session 1 | A1_multiwin × 0–4 | **Partho on Colab**, default runtime, A100 | Returned check failed NumPy provenance before trainer construction. Provenance-only author correction and re-review are next; no trainer PASS yet. |
+| First, session 1 | A1_multiwin × 0–4 | **Partho on Colab**, default runtime, A100 | Returned check failed NumPy provenance before trainer construction. Author correction completed; exact saved output recovery is under implementation review, then scientific re-review. No trainer PASS yet. |
 | First, session 2 | A1_pnormct × 0–4 | **Partho on Colab**, default runtime, A100 | Full notebook delivered after real trainer PASS; last reported running. Do not duplicate it. |
 | Next | A1_pnorm_v2 × 0–4 | **Partho on Colab**, default runtime, A100 | Actual A100 trainer PASS accepted; unchanged reviewed all-fold notebook delivered and reported running. |
 | Then | A1_L × 0–4 | **Partho on Colab**, default runtime, A100 | Review2 requests exact A100 trainer/resume/memory evidence and baseline binding. Baseline files are authenticated; scientific binding remains. No memory-fit claim or full release. |
@@ -19,8 +19,8 @@ Updated 13 October 2026, 04:55 Eastern. New experiments first. The scientific au
 
 **Comparison:** use Sprint12 A1 provisionally. Small differences are not interpretable without a later Colab repeat. Analyse placement versus amount, size, region and fragmentation.
 
-**Parallel work:** item6, Idea2 and smoothing interpretations are accepted. Meeting author3/reviewer3 completed,12synthetic tests PASS and preparation APPROVE. Real panels still require approved private inputs/admission and independent image QC. The multiwin bounded provenance continuation is under implementation review. Author sandbox and operator-rotation infrastructure remain deferred behind these results.
+**Parallel work:** item6, Idea2 and smoothing interpretations are accepted. Meeting author3/reviewer3 completed,12synthetic tests PASS and preparation APPROVE. Real panels still require approved private inputs/admission and independent image QC. The multiwin continuation is installed. Its author completed the correction; a hash-bound output-size recovery is under implementation review. Author sandbox and operator-rotation infrastructure remain deferred behind these results.
 
 **Timing diagnostic:** Modal GPU RunA versus more CPU/augmentation workers in RunB remains approved within $25; run B first if necessary. No GPU result yet. The old timing review's admission/authority issue remains unresolved; it may not borrow the new purpose-specific calls and does not block Colab.
 
-**Money:** operator approved 128→140 scientific calls: four for returned multiwin/pnorm_v2 evidence, four for L, four for meeting. Batch140 is installed;130calls used, with2meeting slots used and2meeting/4returned-Colab/4L slots remaining. Daily50, per-run20 and GPU caps stay unchanged. Non-Colab stage1: $24.487001 billed + $91.029622 retained reservations = $115.516623/$150; $25 timing sub-cap, $1,200 projection gate and $1,275 total unchanged. Colab is unmetered. [Detailed status and audit](STATUS.md).
+**Money:** operator approved 128→140 scientific calls: four for returned multiwin/pnorm_v2 evidence, four for L, four for meeting. Batch140 is installed;131 calls used, with 2 meeting and 1 returned-Colab slots used; 2 meeting, 3 returned-Colab and 4 L remain. Daily50, per-run20 and GPU caps stay unchanged. Non-Colab stage1: $24.487001 billed + $91.029622 retained reservations = $115.516623/$150; $25 timing sub-cap, $1,200 projection gate and $1,275 total unchanged. Colab is unmetered. [Detailed status and audit](STATUS.md).

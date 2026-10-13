@@ -1,20 +1,22 @@
 # Research status
 
-- Pnorm_v2 passed its real A100 trainer check; its reviewed all-fold notebook is delivered and running.
-- Pnormct is also running in Partho's separate Colab session; neither session has been interrupted.
-- Multiwin failed before trainer construction on NumPy metadata ambiguity; the provenance-only correction path is under review.
-- Meeting code passed 12 synthetic tests and scientific review; real panels await private input/admission binding and independent image QC.
-- Item 4 has $24.49 billed and $91.03 reserved. Known completed Claude charges are$496.61; author dollar costs are unavailable.
-- Next deliverable: corrected multiwin check after authoring/review, roughly 45-90 minutes subject to findings; returned training timings will replace estimates.
-- C:14.14GiB free, below the 15 GiB warning and above the 8 GiB stop. [13B execution plan](13B_EXECUTION_PLAN.md).
+- Pnorm_v2 passed its real A100 trainer check; its reviewed all-fold notebook is running.
+- Pnormct is also running in Partho's separate Colab session; both are left unchanged.
+- Multiwin's author finished the provenance fix; a submission-size failure is under repair review.
+- Meeting preparation passed scientific review; real panels await approved inputs and independent image QC.
+- Item 4 has $24.49 billed and $91.03 reserved. Known completed Claude charges are $499.92; author dollar costs are unavailable.
+- Next result: multiwin scientific re-review, estimated 45-90 minutes subject to findings, followed by a corrected trainer-check delivery.
+- C: has about 13.9 GiB free, above the stop threshold; [13B execution plan](13B_EXECUTION_PLAN.md).
 
-Updated13October2026,08:55UTC. Codex/OpenAI remains operator. Action needed from you:none overnight. No Swap point.
+Updated 13 October 2026, 09:52 UTC. Codex/OpenAI remains operator. Action needed from you: none overnight. No Swap point.
 
 ## Current work and next steps
 
-Batch140 sourceaa66a72a is installed after qualified independent APPROVE6ff96559/report6bb42d21. It preserves every original charge and all dollar/daily limits. Scientific usage130/140; the12additional slots are earmarked4returned-Colab/4L/4meeting, with2meeting used and the other10remaining. The operator's explicit12-call approval controls; the later bracketed140/136 text adds no funding.
+Batch140 sourceaa66a72a is installed after qualified independent APPROVE6ff96559/report6bb42d21. It preserves every original charge and all dollar/daily limits. Scientific usage 131/140. Of the 12 additional slots, 1 returned-Colab and 2 meeting calls are used; 3 returned-Colab, 4 L and 2 meeting calls remain. The operator's explicit12-call approval controls; the later bracketed140/136 text adds no funding.
 
-Multiwin returned unedited check44902e1e:2synthetic tests passed, then NumPy distribution ambiguity before trainer construction. It is not an integration PASS. Source9fa7b316 proposes one bounded same-owner author13/reviewer12 continuation, preserving all24calls and genuine review11 REVISE.187relevant tests pass. Independent implementation/accounting reviewfe774068 is running; no installation or scientific correction call yet. The scientific author will change only provenance selection and focused regression tests; unchanged scientific settings and safeguards remain required. Actual A100 evidence is still a delivery gate.
+Multiwin continuation 9fa7b316 is installed after qualified independent APPROVE fe774068/report16608358. Its author13 completed the requested provenance-only correction, but the transport rejected the 84,502-byte patch against an 80,000-byte boundary. The native process succeeded and all frozen inputs and author-emitted hashes match. The original UNCERTAIN record and charge remain counted. No new author call is planned.
+
+Recovery source 71423b5e preserves those exact bytes, uses the existing 96,000-byte parser option only for this patch hash, and requires normal synthetic validation and scientific reviewer12. It preserves all 25 original local records, the owner, accounting and existing 26-call scope. 238 tests pass. Independent Claude implementation review 7dba5a87 is running, with the direction check folded in. No recovery installation or scientific reviewer12 launch yet. Full multiwin delivery still requires actual A100 trainer evidence; the returned NumPy failure was before trainer construction.
 
 Latest qualified Claude direction08:07UTC:PROCEED with only work necessary for the next result, hold speculative adapters until actual evidence arrives. That evidence has now arrived. Direction and process-exception advice are folded into the current administrative review.
 
@@ -26,7 +28,7 @@ Meeting author3 and reviewer3 are COMPLETE.12isolated synthetic tests passed; sc
 |---|---|---|
 | A1_pnormct | Full all-fold notebook running, user reported | Reconcile returned results; leave it alone |
 | A1_pnorm_v2 | Exact returned A100 PASS reconciled; full notebook delivered and running | Reconcile returned results; leave it alone |
-| A1_multiwin | Returned harness FAIL before trainer; provenance-only correction path under review | Author correction, tests, scientific review, corrected real-trainer check |
+| A1_multiwin | Returned harness FAIL before trainer; saved author correction refused by transport size | Recover exact draft, tests, scientific review, corrected real-trainer check |
 | A1_L | Draft tests pass, scientific review2 REVISE | Bind authenticated baseline; obtain actual trainer/checkpoint/memory evidence |
 
 Full notebook hashes:
@@ -49,15 +51,15 @@ Timing author24 real CPU integration PASS is retained. Reviewer16 failed before 
 
 Non-Colab item4 stage1:**$115.516623/$150**, comprising**$24.487001billed+$91.029622reserved**. Timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275, projection$1,200 and item6$100 unchanged. Release excess only for confirmed closed billing; retain open/uncertain reservations. No new provider compute in this continuation.
 
-Known completed Claude charges:**$496.6091775**, excluding the current review. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
+Known completed Claude charges:**$499.919105**, excluding the current review. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
 
-13OctoberUTC:**26/50**, including the current administrative call:
+13 October UTC: **28/50**, including the current administrative call:
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author |5|L drafts1/2; meeting drafts1/2/3|
+| Scientific author |6|L drafts 1/2; meeting drafts 1/2/3; multiwin provenance correction 13|
 | Scientific reviewer |6|Pnorm_v2; L reviews1/2; meeting reviews1/2/3|
-| Administrative implementation review |14|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; current multiwin continuation|
+| Administrative implementation review |15|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; multiwin continuation and current output recovery|
 | Standalone direction |1|Earlier meeting routing attempt answered an old question; retained|
 
 Administrative overhead remains high. Batch direction with necessary implementation review; deliver unchanged reviewed notebooks without repeat reviews; defer components unrelated to current results.12October remains70/100:16authors,13scientific reviews,39administrative,2direction. No usage reset or relabel.
@@ -66,14 +68,14 @@ Administrative overhead remains high. Batch direction with necessary implementat
 
 - Batch140 installed only after qualified APPROVE; preserve all accounting, caps and native protections.
 - Reconcile returned checks by exact code/file hashes; release unchanged pnorm_v2 without another model call.
-- Preserve multiwin's genuine REVISE and all24calls; ask Claude for the delegated two-call process exception, within existing purpose funding.
+- Multiwin continuation received qualified APPROVE and author13 ran. Preserve all 25 calls; seek a hash-bound mechanical recovery of its completed output, with no author rerun.
 - Keep the provenance correction with the scientific author/reviewer, not the operator.
 - Leave running user Colab sessions unchanged; continue overnight and prepare the next deliverable.
 - Meeting scientific APPROVE remains preparation-only; do not infer permission from synthetic success.
 
 ## Backup and exclusions
 
-Last verified remote-server push:90acfa7e31e14cd26faf2be362a599c775b273e6. Installed batch140 safe projection has been merged locally; this update awaits scanning/push. Main is unchanged.
+Last verified remote-server push: f6e22a2c4dadf76eb60559aea80ae7b7d64b5905. Installed multiwin continuation safe projection has been merged locally; this update awaits scanning/push. Main is unchanged.
 
 Never publish private evidence, packets, ledgers, streams, private records, patient rows/identifiers, images, masks, weights or caches. Public code is an archival projection, not a standalone deployable release. Returned executed notebooks, meeting3evidence and new multiwin private bindings remain excluded.
 
@@ -89,4 +91,6 @@ Excluded from this candidate backup: docs/MEETING_PREPARATION_PRIVATE.json (priv
 
 Batch140 exclusions: docs/MEETING_BATCH140_CHECKPOINT_PRIVATE.json, docs/MEETING_BATCH140_EVIDENCE_PRIVATE.md, docs/SCIENTIFIC_BATCH140_OPERATOR_APPROVAL.txt, docs/SCIENTIFIC_BATCH140_OPERATOR_QUESTION.txt, docs/SCIENTIFIC_BATCH140_OPERATOR_RECORD_PRIVATE.json and docs/SCIENTIFIC_BATCH140_PRIVATE.json. All exact private copies are preserved.
 
-Review continuation note: the first multiwin administrative call submitted genuine REVISE findings about mixed historical/current test evidence and also failed native manifest-read qualification. Its $3.659679 charge and findings are preserved. The current request is explicitly linked corrective iteration 2, with fresh source-matched test receipts and a labeled test history; it is not a reset of the three-round process. No installation or scientific correction call has occurred.
+Review history: the first multiwin administrative attempt preserved genuine REVISE findings and its $3.659679 charge despite failed reader qualification. The corrective review genuinely APPROVED the installed continuation; its $3.3099275 charge is counted. The current output-boundary review addresses a different diagnosed mechanical cause.
+
+Additional exclusions: docs/MULTIWIN_OUTPUT_BOUNDARY_PRIVATE.json, exact author13 output and native stream, all recovery snapshots and review packets. No raw private branch is published. The existing server Drive access sees no matching source root; no new permissions or credentials were requested. Returned results can still be supplied by the operator through the established private handoff.
