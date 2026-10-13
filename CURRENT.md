@@ -1,75 +1,19 @@
 # Current research state
 
-Updated 13 October 2026, 05:49 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated13October2026. Codex/OpenAI remains operator. No Swap point.
 
-Action needed from you: pending replacement funding decision:12scientific calls, or8Colab-only; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
+Action needed from you: none for the approved funding. Return the delivered multiwin and pnorm_v2 A100 check results when available; leave the existing pnormct session running.
 
-Pnormct was last reported running externally by Partho; current progress is unverified. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
+The12additional scientific calls are approved and recorded verbatim: batch128to140, four returned Colab evidence/corrections, four L, four meeting. No past usage is reset. The new eight Colab/L slots remain held until their evidence/lane bindings are ready.128scientific calls remain counted; none of the12newcalls has run.
 
-Multiwin author12 completed and all five synthetic groups passed. Scientific review11 returned genuine REVISE: actual trainer evidence is still required. Its 24/24 calls and every charge remain counted. Independent package/staging review189c6eb7 APPROVE, reportd90c164d, source1cea3255, permits only the unchanged authored synthetic check. The private notebook 13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb was delivered, SHA256 44902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b. No start/result has been reported. Run it in a fresh default Colab A100 session, Run all, no settings; leave pnormct running. Return printed PASS/FAIL, executed notebook and private results-folder location. Estimate10-25minutes. Full multiwin training remains held pending scientific acceptance of the evidence. Do not start superseded request5ba2b912 or replay completed reviews.
+Current administrative review 6ff9655901134386b0bd590f978416ca9d2638bca1d2d4114ab2f164e0960c09 has started once. It reviews source aa66a72a: a narrow typed systemd command-configuration check after the previously APPROVED batch patch stopped installation before mutation.112tests and the exact real-service read-only query pass. Do not repeat start or install stale approved source.
 
-L author2 and scientific reviewer2 are COMPLETE. All five native host test groups PASS on notebook 2b11d8bb079cb3ad926a65b47c6754e090db84c9a7898882c93fbb731dea9c94; the previous duplicate-constant failure is preserved. Reviewer2 returned genuine REVISE, report282d246b, accepted submission60d5d0f1, cost $4.752924. The reviewer closed the host-test and accepted-source findings. Two prerequisites remain: exact L A100 trainer/checkpoint/memory evidence, and authenticated Sprint12 A1 baseline metrics. No L notebook is released and no GPU-memory fit is claimed. L baseline source files have since been located and hash/fold-verified; they still need normal scientific input binding and acceptance. Park L pending actual A100 evidence and additional Colab call authority; do not start author3.
+Next: reconcile review; after genuine APPROVE, verify/transfer exact source, install held patch, apply meeting source amendment once, start original state-bound author3, host tests and scientific review. Latest qualified Claude direction SIMPLIFY: do only the meeting continuation now and defer speculative adapters.
 
-The approved additive evidence supplement a6520522 passed94tests and received independent APPROVE28a11860. Its application assembled both actual model inputs without model calls, retaining the original findings, failed test, accounting and limits. Installed runtime b1249aaf remains unchanged. Original setup failures and all attempts are preserved. This was a packet correction, not scientific approval.
+Pnormct is last reported running externally, current progress unverified. Multiwin and pnorm_v2 trainer checks are delivered and await returns. L remains held for actual trainer/memory evidence and scientific binding of the authenticated Sprint12 baseline. Item6, Idea2 and smoothing interpretations are accepted; do not rerun. Meeting synthetic preparation is accepted; no real cases selected or rendered.
 
-Pnorm_v2 code and native tests are approved; delivered real-trainer check awaits a result. Item6, Idea2 and smoothing interpretations are accepted. Meeting synthetic preparation is independently approved; real payload hashes, geometry and clinical provenance remain unverified.
+Daily usage22including current administrative review. Known completed Claude charges$486.325648; author dollar costs unavailable. Item4non-Colab exposure$115.516623/$150=$24.487001billed+$91.029622retainedreservations. All other dollar caps unchanged; Colab unmetered.
 
-13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. The replacement funding proposal requests up to12additional scientific calls:4for returned Colab evidence/corrections,4for L and4for the private meeting workflow (128to140). The8-call Colab-only alternative would set136. This replaces the earlier pending request; no allowance has changed and no requests may be added together.
+C:last14.96GiB, WSLabout901GiB, server104.57GiB. Warn below15GiB; stop below8GiB. No setup command or disk purchase needed.
 
-| Type | Calls today | Purpose |
-|---|---:|---|
-| Scientific author |4|L initial draft and revision; meeting-code author1 and source-amendment author2 complete|
-| Scientific reviewer |5|Pnorm_v2 code review; L initial and revised specifications; meeting initial preparation and completed source-amendment review|
-| Administrative review |7|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, meeting preparation implementation approval, and the approved source-amendment review|
-| Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
-
-12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$473.029191**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
-
-Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029622 retained reservations**. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection gate $1,200, and item6 $100 cap unchanged. Colab is unmetered by operator decision. No new provider compute launched this continuation. Release excess reservations only after confirmed closed-attempt billing.
-
-Next real result: multiwin A100 trainer check, about 10-25 minutes after Partho starts it; pnorm_v2 follows on the same timescale. Full releases require returned evidence, scientific acceptance and available call authority. Meeting synthetic preparation is approved; real panels have no reliable ETA until the author/reviewer resolve the documented imaging limitations and qualify geometry, clinical mapping and prediction provenance. L delivery and the CPU-starvation timing result remain held by their recorded prerequisites.
-
-C:16.65GiB clears both disk thresholds. All meeting scientific calls are COMPLETE; no model call is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
-
-Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
-
-
-Meeting author1 and scientific reviewer1 are COMPLETE. The selector/renderer passed 26 isolated synthetic tests and received scientific APPROVE, report48f8197f, for synthetic preparation only. Review cost $3.22294775; accepted tool-submission record81a38484 and console hash were verified. The original COMMIT_SPEC checkpoint is preserved; the approved source amendment led to completed author2 and scientific reviewer2 APPROVE, with real execution still unauthorized. Do not replay either call or treat synthetic approval as real-case validation.
-
-The program intentionally refuses real execution and accepts synthetic identifiers only. Author2 completed the source amendment, its10synthetic tests passed, and reviewer2 approved the preparation. No further scientific allocation remains. No cases have been selected and no image payload opened. Clinical CSV bytes were read only for hashes and header extraction; no clinical values were copied or interpreted. No patient executor is installed.
-
-The frozen archive member manifest identifies CT-space DWI and ADC for all 99 development patients, but no native follow-up MRI or transformation sidecars. All 198 development clinical CSVs match the recorded archive-member size and CRC; their current SHA256 hashes are saved. Only headers were extracted, with no clinical values copied or interpreted. This is a member-identity check against the historical manifest, not a fresh cryptographic reread of the whole archive.
-
-The matching public v3 clinical data dictionary is hash-verified. Five observed field names lack exact dictionary matches; aliases, units and prospective availability remain for the scientific author/reviewer to judge. The next scientific amendment must address the released imaging layout and missing native/transform evidence without relabeling derivatives or bypassing checks. Image hashes, geometry and model/output provenance remain unqualified; no case selected or image payload opened.
-
-
-Judgment: apply the narrowly reviewed source amendment, then use one existing meeting author slot; preserve original approval and all safeguards. Claude implementation APPROVE at04:26UTC. The bundled direction question was unanswered, so latest direction remains03:13UTC PROCEED.
-
-
-Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
-
-
-The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 and scientific reviewer2 are COMPLETE. The submitted source passed10isolated synthetic tests in7.10seconds and received scientific APPROVE with no findings, report0fb5401c. This accepts the amended preparation code and specification only; real panels remain held pending qualified inputs, OOF provenance, independent source QC and a reviewed real-data execution route. Review cost $4.611163. All128approved scientific calls are counted; no allocation was raised. No model call is currently RUNNING. Do not replay transfer, amendment, author start or prior completed calls.
-
-The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.
-
-
-A read-only check found that the installed Drive evidence service is limited to13registered files; it does not establish the meeting MRI input route. Other existing source helpers still need qualification for the final contract. No credential or access setting changed and no patient payload was requested.
-
-
-[Accepted meeting preparation and remaining requirements](outputs/MEETING_PREPARATION_20261013.md). Latest direction remains03:13UTC PROCEED; neither this scientific approval nor the later implementation approval supplies a new direction answer.
-
-
-Read-only source qualification now verifies matching recorded five-fold identities across tree, small U-Net and nnU-Net, and exact frozen hashes for99tree plus99small-U-Net mask containers. Original Sprint8/9 partitions match the frozen partition hash, their declared inner splits stay within each outer training set, and all99recorded feature-cache hashes match. These checks establish identities and recorded relationships, not a full audit of actual training ancestry.
-
-The executed Sprint13A r4 notebook has the same code as both saved unexecuted copies and contains explicit original fusion and union recipes. Those sources are now preserved for scientific use; no recipe was executed or mask reconstructed. The accepted additional-output reader expects image files, while the located small-U-Net originals are packed containers, so the author must handle that interface. Actual source QC, clinical bindings and real-data execution remain unqualified.
-
-The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
-
-[Replacement scientific-call funding proposal](outputs/proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.
-
-
-Read-only Colab status check: the browser tool failed to initialize, including after a reset. No session state was observed and no job was started, stopped or rerun. Pnormct remains last reported running by Partho; current progress is unverified. C: has16.65GiB free, above both disk thresholds. Funding and returned trainer evidence remain pending; no new calls or charges.
-
-
-Automatic continuation is blocked awaiting the operator funding decision and returned Colab evidence. Three consecutive goal turns found the same blocker and no available next scientific action:128/128 scientific calls are counted, no funding approval has arrived, and no new trainer results have been returned. The completed source inventory is ready for the author/reviewer. Additional infrastructure does not unblock these results and is deferred. External Colab jobs are not stopped or restarted. Resume by recording actual funding authority and reconciling returned evidence; never infer either from automatic continuation.
+See [STATUS](outputs/STATUS.md) for artifact hashes, call purposes, spending, exclusions and judgment log; [HANDOVER](HANDOVER.md) for safe resume; [ROLES](ROLES.md) for ownership; [execution plan](outputs/13B_EXECUTION_PLAN.md) for venues, arm order and estimates.
