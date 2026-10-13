@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
 - L now passes all host tests; review still requires actual A100 evidence and authenticated baseline metrics.
-- CT-space MRI derivative entries were found for all99development patients; native MRI, hashes, geometry and clinical provenance remain unverified.
+- Meeting code preparation passed148tests and is in independent review; MRI hashes, geometry and clinical provenance remain unresolved.
 - Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $450.182499; author costs unavailable.
 - Next result: multiwin trainer check,10-25minutes once run; further Colab scientific calls need the pending money decision.
-- C:11.55GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
+- C:11.20GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 02:40 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 03:11 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -40,13 +40,13 @@ Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before
 
 ## Spending and model calls
 
-13OctoberUTC: **11/50 calls**, all terminal:2scientific authors,3scientific reviewers,5administrative implementation reviews,1standalone direction check. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **12/50 calls**:2scientific authors,3scientific reviewers,6administrative implementation reviews (one live),1standalone direction check. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
 | Scientific author |2|L initial draft and reviewer-requested revision|
 | Scientific reviewer |3|Pnorm_v2 code review; L initial and revised specifications|
-| Administrative review |5|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, and evidence correction|
+| Administrative review |6|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, and the live meeting preparation review|
 | Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
 
 12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$450.182499**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
@@ -78,4 +78,8 @@ Additional exclusions: docs/IDEA2_INTERPRETATION_PRIVATE.json and all review/rec
 
 Also exclude docs/COLAB_L_NATIVE_PRIVATE.json, docs/COLAB_L_QUESTION_PRIVATE.json, docs/L_EVIDENCE_CONTEXT_PRIVATE.json and orchestrator/manual_stage.py, plus private meeting metadata, every review packet, ledger, native stream and notebook. Earlier flagged/private bindings remain excluded from the public projection.
 
-13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. No meeting admission code or patient executor is installed; four meeting calls remain unused. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is the bounded meeting preparation adapter and its normal independent implementation/accounting review, not another direction-only call. No new provider compute or scientific call.
+13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. The tested meeting admission candidate is in independent review; no patient executor is included or installed, and four meeting calls remain unused. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is to reconcile the current implementation review; do not duplicate it or install before APPROVE. No new provider compute or scientific call.
+
+Excluded from this candidate backup: docs/MEETING_PREPARATION_PRIVATE.json (private accounting and native-layout binding). All private evidence, review packets, ledgers and streams remain excluded.
+
+Meeting preparation implementation is in independent Claude review (requestbc1da0a5, sourceb06d64da). It passed148focused regression tests and actual author/reviewer input assembly. The change admits only the four already-approved meeting calls through existing transport and synthetic isolation; it provides no patient executor. The first real accounting test admits call4 and refuses call5, preserving124original scientific rows and accepted parent state. Unknown active owners and unclassified calls fail closed. Nothing is installed and no meeting author has started. The candidate is archived on astra/public-meeting-preparation-20261013; its private scope binding is excluded from publication.

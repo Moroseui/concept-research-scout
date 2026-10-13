@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 02:40 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 03:11 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -34,13 +34,13 @@ Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before
 
 ## Spending and open decisions
 
-13OctoberUTC: **11/50 calls**, all terminal:2scientific authors,3scientific reviewers,5administrative implementation reviews,1standalone direction check. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **12/50 calls**:2scientific authors,3scientific reviewers,6administrative implementation reviews (one live),1standalone direction check. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
 | Scientific author |2|L initial draft and reviewer-requested revision|
 | Scientific reviewer |3|Pnorm_v2 code review; L initial and revised specifications|
-| Administrative review |5|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, and evidence correction|
+| Administrative review |6|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, evidence correction, and the live meeting preparation review|
 | Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
 
 12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$450.182499**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
@@ -50,11 +50,11 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 ## Resume safely
 
 1. Read this handover, CURRENT, STATUS, execution plan, ROLES and the latest canonical private HANDOFF_CURRENT_PRIVATE.md. Public entry points and the canonical private handoff are authoritative; root mirrors may be stale.
-2. Reconcile units, ledger rows and consumed operation intents before any launch. At this stop all server model calls are terminal and no server scientific compute job is active; pnormct remains externally running. Never replay uncertain, completed or consumed starts.
+2. Reconcile units, ledger rows and consumed operation intents before any launch. The meeting implementation review is live; all scientific model calls are terminal and no server scientific compute job is active; pnormct remains externally running. Never replay uncertain, completed or consumed starts.
 3. L has four COMPLETE calls and genuine reviewer2 REVISE. Author2, reviewer2 and the approved supplement application are finished; do not replay their starts or transfer/install/initializer. All five native host groups PASS. Next scientific work is held by missing evidence and exhausted Colab allocation, not a mechanical failure.
 4. Multiwin's delivered check is awaiting actual A100 evidence; its full notebook is held. Pnorm_v2 code is approved and its delivered fixture is awaiting actual A100 evidence. Never repeat pnormct's accepted trainer check or interrupt its current training. Preserve all failed attempts and costs.
 5. Use service-owned WAL-aware read-only ledger queries; root must not open live SQLite. Existing source and evidence hashes remain binding. No broad patient-directory traversal.
-6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:11.55GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
+6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:11.20GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
 7. Keep four meeting calls separate. The pending request for eight further Colab calls is NOT authority until approved and recorded verbatim/hash-pinned. Do not silently increase limits or borrow allocations.
 8. At every stop, update documents in place, scan privacy/secrets/infrastructure, push safe remote-server and astra projections, verify remote hashes, and hash-verify private evidence backup. Never push raw private branches or merge main.
 
@@ -70,4 +70,6 @@ Next real result: multiwin A100 trainer-check result, about10-25minutes after Pa
 
 Access names only: existing server SSH, research service account, OpenAI author login, Claude reviewer login, Modal account, Google Drive access and GitHub login. Exact private locations and operation handles are in the canonical private handoff.
 
-13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. No meeting admission code or patient executor is installed; four meeting calls remain unused. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is the bounded meeting preparation adapter and its normal independent implementation/accounting review, not another direction-only call. No new provider compute or scientific call.
+13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. The tested meeting admission candidate is in independent review; no patient executor is included or installed, and four meeting calls remain unused. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is to reconcile the current implementation review; do not duplicate it or install before APPROVE. No new provider compute or scientific call.
+
+Meeting preparation implementation is in independent Claude review (requestbc1da0a5, sourceb06d64da). It passed148focused regression tests and actual author/reviewer input assembly. The change admits only the four already-approved meeting calls through existing transport and synthetic isolation; it provides no patient executor. The first real accounting test admits call4 and refuses call5, preserving124original scientific rows and accepted parent state. Unknown active owners and unclassified calls fail closed. Nothing is installed and no meeting author has started. The candidate is archived on astra/public-meeting-preparation-20261013; its private scope binding is excluded from publication.
