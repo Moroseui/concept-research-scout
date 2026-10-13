@@ -11,7 +11,7 @@ import sqlite3
 RUN = "colab-arm-47e6a72d9a2c821a4938fcae"
 DOCUMENT = "docs/COLAB_L_QUESTION_PRIVATE.json"
 DOCUMENT_SHA = "8550cdcf443a027d1dce73d6fa291bb3d7704806ba28bdb70a723c985ef76a3d"
-CHANGE = "colab-l-question-20261013"
+CHANGE = "colab-l-reader-retry-20261013"
 STAGES = frozenset(("run_spec_author", "run_spec_review"))
 
 

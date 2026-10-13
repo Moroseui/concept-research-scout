@@ -18,14 +18,14 @@ from orchestrator.manual_host_guard import trusted
 
 ENTRY='tools/colab_l_runtime.py'
 BRANCH='astra/manual-colab-L-question-20261013'
-CHANGE='colab-l-question-20261013'
+CHANGE='colab-l-reader-retry-20261013'
 
 
 def metadata():
     scope=f.document()
     path=Path(__file__).resolve().parents[1]/'docs/COLAB_L_NATIVE_PRIVATE.json'
     raw=trusted(path).read_bytes()
-    f.require(f.sha(raw)=='1c06467f6f20b007c02c5533c56b14ac0ebeba1c3e3ea069b5ecf202d3793153','NATIVE_BINDING')
+    f.require(f.sha(raw)=='08d20c68d7185ac5b31f0af288102a3ce5ad97d220cd0b4c5a0f83a78850027f','NATIVE_BINDING')
     return scope,json.loads(raw)
 
 
