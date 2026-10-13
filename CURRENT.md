@@ -1,6 +1,6 @@
 # Current research state
 
-Updated 13 October 2026, 02:23 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 02:40 UTC. Codex/OpenAI remains operator. No Swap point.
 
 Action needed from you: pending money decision for up to8additional Colab scientific calls; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
 
@@ -14,19 +14,21 @@ The approved additive evidence supplement a6520522 passed94tests and received in
 
 Pnorm_v2 code and native tests are approved; delivered real-trainer check awaits a result. Item6, Idea2 and smoothing interpretations are accepted. Meeting metadata found DWI/ADC entries for99development patients; payload hashes, geometry and clinical provenance remain unverified.
 
-13OctoberUTC: **10/50 calls**, all terminal:2scientific authors,3scientific reviewers,5administrative reviews,0standalone direction checks. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **11/50 calls**, all terminal:2scientific authors,3scientific reviewers,5administrative implementation reviews,1standalone direction check. Scientific batch **124/128**:0Colab,0analysis,4meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
 | Scientific author |2|L initial draft and reviewer-requested revision|
 | Scientific reviewer |3|Pnorm_v2 code review; L initial and revised specifications|
 | Administrative review |5|Pnorm_v2 harness repair and fixture packaging; L preparation, its preserved failed qualification/retry, and evidence correction|
-| Standalone direction |0|Direction questions folded into necessary reviews|
+| Standalone direction |1|Meeting admission routing; completed but answered the old L implementation question, so no direction decision obtained|
 
-12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$445.29684425**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
+12October closed at70/100:16authors,13scientific reviewers,39administrative reviews and2direction calls. Past usage is unchanged. Known completed Claude charges **$450.182499**; author dollar costs remain unavailable. Administrative calls dominated the preceding day; continue batching necessary implementation and direction checks and defer new infrastructure until required for a result.
 
 Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029622 retained reservations**. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection gate $1,200, and item6 $100 cap unchanged. Colab is unmetered by operator decision. No new provider compute launched this continuation. Release excess reservations only after confirmed closed-attempt billing.
 
 Next real result: multiwin A100 trainer-check result, about10-25minutes after Partho starts it; pnorm_v2 check follows on the same timescale. Full releases require scientific acceptance and available call authority. Meeting next step is author/reviewer implementation of the fixed selector/renderer, provisionally one normal author/reviewer cycle after the input contract is ready; real-panel timing depends on MRI hashes, geometry and clinical provenance. L delivery and the CPU-starvation timing result have no reliable ETA while their stated prerequisites remain open.
 
-C:11.81GiB, warning below15 but above8GiB stop. All server model calls terminal; do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
+C:11.55GiB, warning below15 but above8GiB stop. All server model calls terminal; do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
+
+13October02:40UTC meeting intake: verified the original accepted scientific proposal and review directly from the server; froze the exact selection wording for the author. Existing scientific_program validation and isolated synthetic runner can be reused. No meeting admission code or patient executor is installed; four meeting calls remain unused. MRI filename metadata identifies CT-space derivatives only, about4.47GiB including reference masks across99development cases; no payload opened. Native MRI and clinical mapping remain unresolved. The off-target direction call is terminal, all originals preserved. Next step is the bounded meeting preparation adapter and its normal independent implementation/accounting review, not another direction-only call. No new provider compute or scientific call.
