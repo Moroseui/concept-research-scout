@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 12:20 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
+Updated 13 October 2026, 12:40 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
 
 ## Goal and rules
 
@@ -42,7 +42,7 @@ Author3 start refused before durable transition intent or service launch: the ro
 
 ## Funding, calls and judgment
 
-Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 3 L remain. Daily36/50 includes7authors,7scientific reviewers,21administrative reviews and1standalone direction; see STATUS for purposes.
+Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting, 2 returned-Colab and 1 L used; 2 meeting, 2 returned-Colab and 3 L remain. Daily36/50 includes7authors,7scientific reviewers,21administrative reviews and1standalone direction; see STATUS for purposes.
 
 Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$535.05241275before current review; author dollar costs unknown. No new provider compute.
 

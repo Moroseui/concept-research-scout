@@ -8,11 +8,11 @@
 - Next result: L scientific preparation is estimated 1-2 hours from the author start; the multiwin check takes 10?25 minutes when run.
 - C: has about 12.1 GiB free, above the 8 GiB stop. [Morning instructions](MULTIWIN_TRAINER_CHECK_20261013.md); [execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 12:20 UTC. Action needed from you: none overnight. Codex/OpenAI remains operator; no Swap point.
+Updated 13 October 2026, 12:40 UTC. Action needed from you: none overnight. Codex/OpenAI remains operator; no Swap point.
 
 ## Current work and next steps
 
-Batch140 sourceaa66a72a is installed after qualified independent APPROVE6ff96559/report6bb42d21. It preserves every original charge and all dollar/daily limits. Scientific usage 133/140. Of the 12 additional slots, 2 returned-Colab and 2 meeting calls are used; 2 returned-Colab, 3 L and 2 meeting calls remain. The operator's explicit12-call approval controls; the later bracketed140/136 text adds no funding.
+Batch140 sourceaa66a72a is installed after qualified independent APPROVE6ff96559/report6bb42d21. It preserves every original charge and all dollar/daily limits. Scientific usage 133/140. Of the 12 additional slots, 2 returned-Colab, 2 meeting and 1 L calls are used; 2 returned-Colab, 3 L and 2 meeting calls remain. The operator's explicit12-call approval controls; the later bracketed140/136 text adds no funding.
 
 Multiwin's exact-output recovery71423b5e is installed after qualified independent APPROVE7dba5a87/report3b677a20. The preserved author13 correction passed all six actual synthetic tests, including four provenance controls. Its original UNCERTAIN row,84,502-byte patch and charge remain counted; no author rerun.
 
