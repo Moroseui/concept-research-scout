@@ -1,6 +1,6 @@
 # Current research state
 
-Updated 13 October 2026, 04:34 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 04:39 UTC. Codex/OpenAI remains operator. No Swap point.
 
 Action needed from you: pending money decision for up to8additional Colab scientific calls; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
 
@@ -29,7 +29,7 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 
 Next real result: multiwin A100 trainer check, about 10-25 minutes after Partho starts it; pnorm_v2 follows on the same timescale. Full releases require returned evidence, scientific acceptance and available call authority. Meeting synthetic preparation is approved; real panels have no reliable ETA until the author/reviewer resolve the documented imaging limitations and qualify geometry, clinical mapping and prediction provenance. L delivery and the CPU-starvation timing result remain held by their recorded prerequisites.
 
-C:17.06GiB clears both disk thresholds. Meeting scientific author2 is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
+C:16.82GiB clears both disk thresholds. Meeting scientific author2 is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
 
 Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
 
@@ -49,6 +49,6 @@ Judgment: apply the narrowly reviewed source amendment, then use one existing me
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
 
 
-The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is now RUNNING through the unchanged installed scientific lane; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
+The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is confirmed RUNNING at04:38UTC through the unchanged installed scientific lane, with draft files and recent output activity; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
 
 The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.

@@ -6,9 +6,9 @@
 - The meeting source repair is approved and applied; the scientific author is now correcting the preparation.
 - Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $468.418028; author costs unavailable.
 - Next result: meeting author draft/review in30-60minutes; multiwin check10-25minutes once run. Colab calls await the money decision.
-- C:17.06GiB clears both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
+- C:16.82GiB clears both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 04:34 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 04:39 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -99,7 +99,7 @@ Judgment: apply the narrowly reviewed source amendment, then use one existing me
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
 
 
-The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is now RUNNING through the unchanged installed scientific lane; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
+The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is confirmed RUNNING at04:38UTC through the unchanged installed scientific lane, with draft files and recent output activity; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
 
 The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.
 

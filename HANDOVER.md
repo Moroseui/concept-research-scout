@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 04:34 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 04:39 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -60,7 +60,7 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 3. L has four COMPLETE calls and genuine reviewer2 REVISE. Author2, reviewer2 and the approved supplement application are finished; do not replay their starts or transfer/install/initializer. All five native host groups PASS. Next scientific work is held by missing evidence and exhausted Colab allocation, not a mechanical failure.
 4. Multiwin's delivered check is awaiting actual A100 evidence; its full notebook is held. Pnorm_v2 code is approved and its delivered fixture is awaiting actual A100 evidence. Never repeat pnormct's accepted trainer check or interrupt its current training. Preserve all failed attempts and costs.
 5. Use service-owned WAL-aware read-only ledger queries; root must not open live SQLite. Existing source and evidence hashes remain binding. No broad patient-directory traversal.
-6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:17.06GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
+6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:16.82GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
 7. Keep the remaining meeting review slot separate. The pending request for eight further Colab calls is NOT authority until approved and recorded verbatim/hash-pinned. Do not silently increase limits or borrow allocations.
 8. At every stop, update documents in place, scan privacy/secrets/infrastructure, push safe remote-server and astra projections, verify remote hashes, and hash-verify private evidence backup. Never push raw private branches or merge main.
 
@@ -89,6 +89,6 @@ Judgment: apply the narrowly reviewed source amendment, then use one existing me
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
 
 
-The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is now RUNNING through the unchanged installed scientific lane; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
+The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is confirmed RUNNING at04:38UTC through the unchanged installed scientific lane, with draft files and recent output activity; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
 
 The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.
