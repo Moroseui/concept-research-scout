@@ -26,7 +26,11 @@ def enabled(store,run):
     if (config['revision_policy']!=POLICY or config.get('run_id')!=run
             or config.get('review_contract')!='bound-review/v1'):
         raise ValueError('ANALYSIS_REVISION_POLICY_SCOPE')
-    if 'execution_scope' in config:
+    if 'meeting_preparation' in config:
+        from orchestrator import meeting_preparation as meeting
+        if meeting.validate(store, run) is None:
+            raise ValueError('MEETING_REVISION_SCOPE_REQUIRED')
+    elif 'execution_scope' in config:
         from types import SimpleNamespace
         from orchestrator.experiment_context import selection
         # Same immutable plan and actual selected caller as prepare_input; a

@@ -217,7 +217,7 @@ def obligation_pages(root,project,idea_ids,stage):
     return files
 
 
-def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False, notebook_patch=False, execution_mode=None, analysis_program=False, execution_plan=False):
+def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False, notebook_patch=False, execution_mode=None, analysis_program=False, execution_plan=False, preparation_program=False):
     """Complete file-writing model input, with scanner and final character bound.
 
     Artifact files must be source-bound current views or originals under root.
@@ -238,6 +238,10 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         raise budget.ContextError("ANALYSIS_PROGRAM_OUTPUT_SCOPE")
     if execution_plan and (stage != "run_spec_author" or execution_mode != "sprint13b-execution" or not notebook_patch):
         raise budget.ContextError("EXECUTION_PLAN_OUTPUT_SCOPE")
+    if type(preparation_program) is not bool or (preparation_program and
+            (stage != "run_spec_author" or not structured_review or execution_mode is not None
+             or analysis_program or notebook_patch or execution_plan or idea_ids != ["meeting-case-review"])):
+        raise budget.ContextError("MEETING_PROGRAM_OUTPUT_SCOPE")
     selected = selected_artifacts(stage, artifacts)
     if execution_mode is not None and stage.startswith("result_interpretation"):
         required = {"run_spec", "execution_receipt", "execution_manifest", "package_manifest",
@@ -246,7 +250,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         if missing:
             raise budget.ContextError("EXECUTION_EVIDENCE_REQUIRED:" + ",".join(sorted(missing)))
     outputs = OUTPUTS[stage] + (("notebook.patch.json",) if notebook_patch else ())
-    outputs += (("analysis.program.json",) if analysis_program else ())
+    outputs += (("analysis.program.json",) if analysis_program or preparation_program else ())
     outputs += (("execution.plan.json",) if execution_plan else ())
     pieces = []
     if stage in {'run_spec_review', 'result_interpretation_review'}:
