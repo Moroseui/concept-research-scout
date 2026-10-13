@@ -1,14 +1,14 @@
 # Research status
 
-- Pnormct and pnorm_v2 are reported running in Partho's separate Colab sessions.
-- Multiwin's provenance correction passed all six actual CPU tests; its real A100 check is still needed.
-- Corrected synthetic-only trainer packaging is under review; full multiwin training remains held.
-- Meeting preparation is approved; L still needs baseline binding and actual A100 memory evidence.
-- Item4 has $24.49 billed and $91.03 reserved; known completed Claude charges total $514.69, author costs unavailable.
-- Next possible result: corrected multiwin check delivery in20?40minutes if approved; Partho runs it after waking.
-- C: has13.1GiB free, above the8GiB stop and below the15GiB warning; [13B execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct and pnorm_v2 are reported running in Partho's Colab sessions; neither was altered.
+- Multiwin's corrected synthetic trainer-check notebook is reviewed and delivered, ready for the morning.
+- Full multiwin training waits for actual A100 evidence and scientific review; the six CPU tests passed.
+- L's combined continuation draft passes111tests; actual server history/budget checks pass read-only.
+- Item4 has $24.49 billed and $91.03 reserved; known Claude charges total$523.19, author dollars unavailable.
+- Next results: Partho's multiwin check takes10?25minutes; L author/reviewer preparation is estimated1?2hours after implementation approval.
+- C: is about13GiB free; [morning check instructions](MULTIWIN_TRAINER_CHECK_20261013.md) and [execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 10:50 UTC. Codex/OpenAI remains operator. Action needed from you: none overnight. No Swap point.
+Updated 13 October 2026, 11:16 UTC. Codex/OpenAI remains operator. Action needed from you: none overnight. No Swap point.
 
 ## Current work and next steps
 
@@ -18,9 +18,13 @@ Multiwin's exact-output recovery71423b5e is installed after qualified independen
 
 Scientific reviewer12bf26d2eb returned genuine REVISE: actual A100 evidence remains missing, full-training authority stays held, and it questioned whether the six tests ran. The actual server receipt proves they ran; administrative reviewer ce729f6b independently confirmed this. Preserve the scientific verdict and return both CPU and eventual A100 evidence for scientific judgment.
 
-Corrected synthetic-only trainer packaging is in administrative round2cded4979, source58bdba02. Round1ce729f6b genuinely requested missing component files and installed approval records, and recommended SIMPLIFY. All requested component files and records are now included. A subsequent oversized-packet attempt stopped before any model admission or charge; byte-identical historical source copies now share readable content entries, preserving every path/hash and the unchanged reader limit. Full reader/submission preflight passed905files. Current review includes the narrow direction discussion: approve only corrected synthetic evidence acquisition, freeze further infrastructure expansion, keep full training held. No corrected check delivered yet.
+Corrected synthetic-only trainer packaging received qualified APPROVE1d7f4f3c/reporta5381e48 at sourcedaa78d1d, after76packaging/recovery testsPASS. Delivered13B_A1_multiwin_real_trainer_check_review12_PRIVATE.ipynb, SHA25671daab2445b23d98167d7edc53e0bca058967c7060b881af2fd8a51abe4641ec. It contains exactly the authored module6cbf8e46 and unchanged plans532aa816, with no outputs and full_training_authorized=false. [Morning instructions](MULTIWIN_TRAINER_CHECK_20261013.md). Partho supplies actual A100 evidence; then scientific review judges it with the existing six-test CPU receipt. Full training remains held.
 
-Latest qualified Claude direction:SIMPLIFY in reviewce729f6b. Agree that overhead is growing and freeze new infrastructure expansion. Round2 contains a narrow discussion of whether the already-established synthetic-check staging is the shortest next step; no direction agreement on that disputed point yet.
+Packaging rounds1/2 genuinely returned REVISE, preserved with all charges. Round1missing component/approval records and round2stale test/diff source bindings were corrected; the final76test receipt and diffs bind exactdaa78d1d. Two earlier native packaging failures happened before model admission, with no model call or charge. No original or guard was removed.
+
+Latest Claude directionSIMPLIFY: stop extending the per-retry review wrapper; carry plain CPU and GPU receipts to scientific review. The bounded package is approved. End this packaging repair chain; no further multiwin work until returned A100 evidence.
+
+Latest qualified Claude directionSIMPLIFY, final packaging review1d7f4f3c: stop extending the per-retry review wrapper; carry the unchanged CPU and actual A100 receipts into normal scientific review. The bounded synthetic package is approved and delivered. No further multiwin repair work is planned before returned evidence.
 
 Meeting author3 and reviewer3 are COMPLETE.12isolated synthetic tests passed; scientific reportbbae7947 APPROVES preparation only. The exact program367127f3 incorporates original Sprint13A source reconstruction, geometry checks and clinical mapping while retaining the fixed six-case rule. No real cases selected or images rendered. Real use still requires approved input/admission bindings and independent landmark-based image QC. Native MRI/transforms are unavailable; CT-space derivatives remain labeled honestly. Recorded outer folds do not prove nested-independent training.
 
@@ -30,7 +34,7 @@ Meeting author3 and reviewer3 are COMPLETE.12isolated synthetic tests passed; sc
 |---|---|---|
 | A1_pnormct | Full all-fold notebook running, user reported | Reconcile returned results; leave it alone |
 | A1_pnorm_v2 | Exact returned A100 PASS reconciled; full notebook delivered and running | Reconcile returned results; leave it alone |
-| A1_multiwin | Six authored CPU tests PASS; genuine scientific REVISE retained | Finish corrected synthetic-check packaging review, then actual A100 evidence |
+| A1_multiwin | Six authored CPU tests PASS; genuine scientific REVISE retained | Corrected check delivered; await actual A100 evidence |
 | A1_L | Draft tests pass, scientific review2 REVISE | Bind authenticated baseline; obtain actual trainer/checkpoint/memory evidence |
 
 Full notebook hashes:
@@ -53,15 +57,15 @@ Timing author24 real CPU integration PASS is retained. Reviewer16 failed before 
 
 Non-Colab item4 stage1:**$115.516623/$150**, comprising**$24.487001billed+$91.029622reserved**. Timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275, projection$1,200 and item6$100 unchanged. Release excess only for confirmed closed billing; retain open/uncertain reservations. No new provider compute in this continuation.
 
-Known completed Claude charges:**$514.69154825**, excluding current round2. Multiwin output recovery cost$5.6975585, scientific review12$4.8070605 and packaging round1$4.26782425; all preserved. Two packaging failures before model admission incurred no call or charge. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
+Known completed Claude charges:**$523.1928535**, including completed packaging round3. Multiwin output recovery cost$5.6975585, scientific review12$4.8070605 and packaging round1$4.26782425; round2$4.76919075 and round3$3.7321145 also preserved. Two packaging failures before model admission incurred no call or charge. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
 
-13 October UTC: **31/50**, including the current administrative call:
+13 October UTC: **32/50**, including the current administrative call:
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |6|L drafts 1/2; meeting drafts 1/2/3; multiwin provenance correction 13|
 | Scientific reviewer |7|Pnorm_v2; L reviews1/2; meeting reviews1/2/3; multiwin review12|
-| Administrative implementation review |17|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; multiwin continuation, installed output recovery and packaging rounds1/2|
+| Administrative implementation review |18|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; multiwin continuation, installed output recovery and packaging rounds1/2/3|
 | Standalone direction |1|Earlier meeting routing attempt answered an old question; retained|
 
 Administrative overhead remains high. Batch direction with necessary implementation review; deliver unchanged reviewed notebooks without repeat reviews; defer components unrelated to current results.12October remains70/100:16authors,13scientific reviews,39administrative,2direction. No usage reset or relabel.
@@ -79,7 +83,7 @@ Administrative overhead remains high. Batch direction with necessary implementat
 
 ## Backup and exclusions
 
-Last verified remote-server push:8c913625d9186f50d8a2099cbe96b8283310a53a. Installed recovery's safe projection6bba1a37 is now merged locally. Corrected packaging safe draftf16510e8 is on its separate working branch. This status awaits scan/push. Main is unchanged.
+Last verified remote-server push:73f4da62bde8377662362b36a8e4f819bdd09cc2. Approved final packaging projection9a5f4e91 is merged locally; this update awaits scan/push. All notebooks/evidence remain private. Main unchanged.
 
 Never publish private evidence, packets, ledgers, streams, private records, patient rows/identifiers, images, masks, weights or caches. Public code is an archival projection, not a standalone deployable release. Returned executed notebooks, meeting3evidence and new multiwin private bindings remain excluded.
 
@@ -98,3 +102,5 @@ Batch140 exclusions: docs/MEETING_BATCH140_CHECKPOINT_PRIVATE.json, docs/MEETING
 Review history: the first multiwin administrative attempt preserved genuine REVISE findings and its $3.659679 charge despite failed reader qualification. The corrective review genuinely APPROVED the installed continuation; its $3.3099275 charge is counted. The current output-boundary review addresses a different diagnosed mechanical cause.
 
 Additional exclusions: docs/MULTIWIN_OUTPUT_BOUNDARY_PRIVATE.json, exact author13 output and native stream, all recovery snapshots and review packets. No raw private branch is published. The existing server Drive access sees no matching source root; no new permissions or credentials were requested. Returned results can still be supplied by the operator through the established private handoff.
+
+L draft f058816a: equivalent sibling-history check preserves original24rows plus exactly2separately approved additions. Existing batch140policy gives four L calls without changing caps. Baseline context is bound; source leaves scientific changes to the author.111testsPASS including actual reservation cap refusals and native intent/replay controls. Server read-only preflight preserves all26sibling rows and every ledger row; no model or provider call. Not installed; normal independent review remains. Exclude docs/L_FUNDED_CHECKPOINT_PRIVATE.json, docs/L_FUNDED_BASELINE_PRIVATE.json and all L private records.

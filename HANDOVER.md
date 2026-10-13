@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 10:50 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
+Updated 13 October 2026, 11:16 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
 
 ## Goal and rules
 
@@ -18,7 +18,11 @@ New arms precede repeats. One preconfigured all-fold notebook per arm, default C
 
 Scientific reviewer12bf26d2eb returned genuine REVISE: actual A100 evidence remains missing, full-training authority stays held, and it questioned whether the six tests ran. The actual server receipt proves they ran; administrative reviewer ce729f6b independently confirmed this. Preserve the scientific verdict and return both CPU and eventual A100 evidence for scientific judgment.
 
-Corrected synthetic-only trainer packaging is in administrative round2cded4979, source58bdba02. Round1ce729f6b genuinely requested missing component files and installed approval records, and recommended SIMPLIFY. All requested component files and records are now included. A subsequent oversized-packet attempt stopped before any model admission or charge; byte-identical historical source copies now share readable content entries, preserving every path/hash and the unchanged reader limit. Full reader/submission preflight passed905files. Current review includes the narrow direction discussion: approve only corrected synthetic evidence acquisition, freeze further infrastructure expansion, keep full training held. No corrected check delivered yet.
+Corrected synthetic-only trainer packaging received qualified APPROVE1d7f4f3c/reporta5381e48 at sourcedaa78d1d, after76packaging/recovery testsPASS. Delivered13B_A1_multiwin_real_trainer_check_review12_PRIVATE.ipynb, SHA25671daab2445b23d98167d7edc53e0bca058967c7060b881af2fd8a51abe4641ec. It contains exactly the authored module6cbf8e46 and unchanged plans532aa816, with no outputs and full_training_authorized=false. [Morning instructions](outputs/MULTIWIN_TRAINER_CHECK_20261013.md). Partho supplies actual A100 evidence; then scientific review judges it with the existing six-test CPU receipt. Full training remains held.
+
+Packaging rounds1/2 genuinely returned REVISE, preserved with all charges. Round1missing component/approval records and round2stale test/diff source bindings were corrected; the final76test receipt and diffs bind exactdaa78d1d. Two earlier native packaging failures happened before model admission, with no model call or charge. No original or guard was removed.
+
+Latest Claude directionSIMPLIFY: stop extending the per-retry review wrapper; carry plain CPU and GPU receipts to scientific review. The bounded package is approved. End this packaging repair chain; no further multiwin work until returned A100 evidence.
 
 **Meeting:** batch140 patchaa66a72a installed after qualified Claude APPROVE6ff96559/report6bb42d21. Exact author3/reviewer3 finished;12isolated synthetic tests passed and scientific reportbbae7947 APPROVES preparation only. All6meeting calls preserved. Author program367127f3; implementationc912fd03; testsf0bacc7a. No real case selection or images rendered.
 
@@ -32,9 +36,9 @@ The accepted component supports packed small-U-Net reconstruction, original Spri
 
 ## Funding, calls and judgment
 
-Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 4 L remain. Daily31/50 includes6authors,7scientific reviewers,17administrative reviews and1standalone direction; see STATUS for purposes.
+Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 4 L remain. Daily32/50 includes6authors,7scientific reviewers,18administrative reviews and1standalone direction; see STATUS for purposes.
 
-Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$514.69154825before current review; author dollar costs unknown. No new provider compute.
+Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$523.1928535before current review; author dollar costs unknown. No new provider compute.
 
 Latest qualified directionSIMPLIFY from ce729f6b: agree freeze new infrastructure expansion; current round2 discusses the narrow synthetic-check staging path. Judgment: deliver unchanged pnorm_v2 after exact PASS reconciliation without another model call; preserve the genuine multiwin findings and seek the delegated narrow process exception; keep running user sessions untouched.
 
@@ -42,7 +46,7 @@ Latest qualified directionSIMPLIFY from ce729f6b: agree freeze new infrastructur
 
 1. Read the private restart handoff and verbatim operator decisions; confirm this operator still owns the task. Goal-tool state may retain the old funding block; explicit funding and overnight instructions authorize current work. Do not create another goal or ask again.
 2. Check free space before large steps: warn below15GiB, stop below8GiB. C:last13.1GiB; WSLabout900GiB; serverabout103.5GiB. Reuse working checkouts and keep evidence private.
-3. Observe current reviewcded4979 and reconcile before any launch. Seven uncertain entries remain preserved with installed qualification, including recovered author13. No uncertain call may be replayed.
+3. Observe current completed review1d7f4f3c and reconcile before any launch. Seven uncertain entries remain preserved with installed qualification, including recovered author13. No uncertain call may be replayed.
 4. Do not repeat batch140, multiwin9fa or714 installation/recovery, author13, reviewer12 or meeting author3/reviewer3 starts. All completed. Do not rerun either returned Colab check unchanged.
 5. Only qualified exact-source APPROVE permits new installation. Reconcile transfer/install/probe/recovery separately; never restart an uncertain operation.
 6. At each stop update these documents in place, back up private evidence by verified hashes, scan privacy plus secrets/infrastructure, and push remote-server and safe working projections. Never push raw private ancestry.
