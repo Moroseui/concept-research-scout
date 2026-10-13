@@ -1,5 +1,5 @@
 # Current research state
-Updated 13 October 2026, 12:22 UTC. Codex/OpenAI remains operator; no Swap point.
+Updated 13 October 2026, 12:20 UTC. Codex/OpenAI remains operator; no Swap point.
 
 Action needed from Partho when awake: [run the corrected multiwin synthetic A100 check](outputs/MULTIWIN_TRAINER_CHECK_20261013.md). Reviewed file is in Downloads; its exact hash and instructions are linked. Full multiwin training remains held for actual A100 evidence and scientific review.
 

@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 12:22 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
+Updated 13 October 2026, 12:20 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
 
 ## Goal and rules
 
