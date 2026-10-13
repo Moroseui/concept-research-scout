@@ -9,6 +9,55 @@ import traceback
 from pathlib import Path
 
 
+
+def exported_constants(notebook, index, required):
+    """Read literal globals from the same exported module; execute no cells."""
+    first = ''.join(notebook['cells'][index]['source']).splitlines()
+    if not first or first[0] not in (
+            '%%writefile /content/sprint13_pipeline.py',
+            '%%writefile -a /content/sprint13_pipeline.py'):
+        return {}
+    trees = []
+    for cell in notebook['cells']:
+        if cell.get('cell_type') != 'code':
+            continue
+        lines = ''.join(cell.get('source', [])).splitlines(True)
+        if not lines or lines[0].strip() not in (
+                '%%writefile /content/sprint13_pipeline.py',
+                '%%writefile -a /content/sprint13_pipeline.py'):
+            continue
+        trees.append(ast.parse(''.join(lines[1:])))
+    selected = ast.parse('\n'.join(first[1:]))
+    expected = {n.name: ast.dump(n, include_attributes=False)
+                for n in selected.body if isinstance(n, ast.FunctionDef) and n.name in required}
+    definitions = {}
+    values = {}
+    for tree in trees:
+        for node in tree.body:
+            if isinstance(node, ast.FunctionDef) and node.name in required:
+                if node.name in definitions:
+                    raise ValueError('SYNTHETIC_EXPORTED_HELPER_REDEFINED')
+                definitions[node.name] = ast.dump(node, include_attributes=False)
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    names = {n.id for n in ast.walk(target) if isinstance(n, ast.Name)}
+                    for name in names & {'ZSCORE_MIN_SD', 'HISTEQ_BINS'}:
+                        if (len(node.targets) != 1 or not isinstance(target, ast.Name)
+                                or name in values):
+                            raise ValueError('SYNTHETIC_EXPORTED_CONSTANT_AMBIGUOUS')
+                        try:
+                            values[name] = ast.literal_eval(node.value)
+                        except (ValueError, TypeError) as error:
+                            raise ValueError('SYNTHETIC_EXPORTED_CONSTANT_NOT_LITERAL') from error
+            elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
+                if any(isinstance(n, ast.Name) and n.id in {'ZSCORE_MIN_SD', 'HISTEQ_BINS'}
+                       for n in ast.walk(node.target)):
+                    raise ValueError('SYNTHETIC_EXPORTED_CONSTANT_AMBIGUOUS')
+    if definitions != expected:
+        raise ValueError('SYNTHETIC_EXPORTED_HELPER_MISMATCH')
+    return values
+
+
 def module(notebook, index):
     # Pure interface checks do not require the scientific test dependencies.
     global np, pd
@@ -36,6 +85,9 @@ def module(notebook, index):
                 22:{'validate_full_folds','verdict_from_intervals'}}[index]
     if not required <= available.keys():
         raise ValueError('SYNTHETIC_REQUIRED_HELPERS_MISSING:'+','.join(sorted(required-available.keys())))
+    if index == 8:
+        # Bind the authored module's literal constants, not invented defaults.
+        namespace.update(exported_constants(notebook, index, required))
     needed=set(required)
     while True:
         additions={n.id for name in needed for n in ast.walk(available[name])
