@@ -8,7 +8,7 @@
 - Next result: meeting author draft/review in30-60minutes; multiwin check10-25minutes once run. Colab calls await the money decision.
 - C:16.82GiB clears both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 04:39 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 04:50 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -99,8 +99,11 @@ Judgment: apply the narrowly reviewed source amendment, then use one existing me
 Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
 
 
-The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is confirmed RUNNING at04:38UTC through the unchanged installed scientific lane, with draft files and recent output activity; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
+The source-amendment utility03443eff passed193regression tests and received independent Claude APPROVE, reporte273e66f, costing $8.928981. Exact source and approval were verified on the server and the one-use amendment was applied successfully with zero model calls and no added allowance. Original scientific approval, calls, counters and limits remain preserved. Meeting author2 is confirmed RUNNING at04:49UTC through the unchanged installed scientific lane, with its original live process and draft files; one allocated scientific review remains. Real execution stays held. Do not replay transfer, amendment, author start or prior completed calls.
 
 The accepted Idea2 and smoothing code emits aggregate reports; it does not persist the per-case selection table or derived masks assumed by the first renderer. Exact accepted sources are now prepared for the scientific author to judge reproducible reconstruction from frozen predictions, with no training or changed case-selection rule. This joins the known native-MRI/transform and clinical-mapping gaps in one amendment question.
 
 Excluded from the new draft backup: docs/MEETING_SOURCE_AMENDMENT_PRIVATE.json and docs/MEETING_SOURCE_EVIDENCE_PRIVATE.md, all clinical identities, evidence, reviewer packets and streams. The safe working projection is on astra/public-meeting-source-amendment-20261013; it is now applied and merged into the release archive after independent approval.
+
+
+A read-only check found that the installed Drive evidence service is limited to13registered files; it does not establish the meeting MRI input route. Other existing source helpers still need qualification for the final contract. No credential or access setting changed and no patient payload was requested.
