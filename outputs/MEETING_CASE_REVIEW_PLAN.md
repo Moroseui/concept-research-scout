@@ -1,21 +1,24 @@
 # Private meeting case review: production plan
 
-The intended deliverable is a private local HTML/PDF showing admission CT, follow-up MRI, reference mask, model predictions and sourced clinical context. Patient panels and identifiers stay outside this public repository.
+The intended deliverable is private HTML/PDF showing admission CT, follow-up MRI, reference mask, model predictions and sourced clinical context. Patient panels and identifiers stay outside this public repository.
 
-The accepted scientific proposal fixes six slots before images are viewed: three infarct-size groups, each split by positive versus negative saved fusion-minus-tree difference at equal predicted amount. Use the exact accepted median, tie and fallback rules; empty or exhausted slots remain blank. This deliberately selected sample illustrates contrasts and cannot estimate prevalence or efficacy. Only the frozen99development patients are eligible, with out-of-fold provenance and excluded49membership checks.
+The accepted scientific proposal fixes six slots before image inspection: three infarct-size groups split by positive versus negative saved fusion-minus-tree difference at equal predicted amount. Use the exact accepted median, tie and fallback rules; empty or exhausted slots remain blank. This selected sample illustrates contrasts, not prevalence or efficacy. Only the frozen 99 development patients are eligible, with out-of-fold provenance and excluded-49 membership checks.
 
-| Step | Owner | Evidence needed |
+Meeting author1 and scientific reviewer1 are COMPLETE. The selector/renderer passed 26 isolated synthetic tests and received scientific APPROVE, report48f8197f, for synthetic preparation only. Review cost $3.22294775; accepted tool-submission record81a38484 and console hash were verified. The lane is held at COMMIT_SPEC with real execution unauthorized. Do not replay either call or treat synthetic approval as real-case validation.
+
+The program intentionally refuses real execution and accepts synthetic identifiers only. The next scientific change must come from the author after the actual input contract is ready, then normal independent review. Two approved meeting calls remain. No cases have been selected, no image or clinical-value payload opened, and no patient executor installed.
+
+Metadata identifies CT-space DWI, ADC and reference-mask files for all 99 development patients. Separate admission and follow-up clinical CSV files were located for all 99 development patients (198 files). The frozen cohort and excluded membership metadata were checked before enumeration; no excluded directories were opened. File contents, hashes, clinical fields, native-MRI availability and geometry remain unqualified. Metadata availability is not input acceptance. Avoid transferring the imaging collection through the laptop.
+
+| Next step | Owner | Required evidence |
 |---|---|---|
-| Confirm source availability | Operator | Allowed input references, hashes, MRI/clinical provenance and missingness |
-| Implement selector and renderer | Scientific author | Exact accepted rule, synthetic fixtures, geometry checks and fixed displays |
-| Review before case selection | Scientific reviewer | Selection, geometry, missing-asset handling and interpretation limits |
-| Produce private panels | Reviewed server CPU execution | Native and registered views, model/output hashes, recorded fallback reasons |
-| Package for the meeting | Operator | Private HTML/PDF and separate private identifier map |
+| Qualify actual input contract | Operator assembles existing sources; author/reviewer judge scientific compatibility | Native and registered imaging hashes, geometry and transforms, frozen predictions with out-of-fold provenance, clinical source fields/units/timing/missingness |
+| Enable actual input processing | Scientific author | Reviewed synthetic implementation extended to the qualified inputs; original tests and refusals retained |
+| Judge the complete code and contract | Scientific reviewer | Independent approval before any real-case selection |
+| Render and package privately | Reviewed CPU execution, then operator packaging | Fixed selection and fallback receipts, actual panel quality checks, separate private identifier map |
 
-Meeting preparation retains the accepted six-slot rule, fixed before image inspection. A metadata-only check of the exact 99 development directories found DWI and ADC entries for all99 in the existing source-extract derivatives. Frozen cohort and exclusion metadata hashes were verified; no excluded directory or image payload was opened. This establishes directory availability, not MRI file hashes, geometry or clinical provenance. Those checks and a reviewed selector/renderer are still needed; no cases or images have been selected. Do not hydrate MRI through the laptop. Use the existing authorized private route after review. Four meeting calls remain unused. Clinical values must have sources, units, missingness and admission-versus-retrospective timing; none may be inferred. Public dataset documentation describes follow-up MRI and clinical data, but does not prove identity or completeness of this local extract. [Dataset paper](https://arxiv.org/abs/2408.11142v2).
+The pinned dataset is v3, published 12 August 2025. Its concrete file tree lists follow-up DWI and ADC under CT-space derivatives; the generic repository example also depicts native follow-up files. That discrepancy does not prove native MRI is present in this extract. Verify existing files and their provenance before choosing how to display them. Sources: [pinned dataset v3](https://zenodo.org/records/16813698), [official repository](https://github.com/ezequieldlrosa/isles24), [dataset paper](https://arxiv.org/html/2408.10966v1).
 
-The next result is a scientifically reviewed synthetic selector/renderer, estimated one author/reviewer cycle after ordinary admission is ready. The four existing meeting calls remain unused. A reliable date for real panels depends on MRI/clinical source availability and geometry checks. Existing server CPU and private access are the planned venue; no new paid compute or credentials are proposed.
+Clinical metadata availability is established for all eligible cases; no values have been read. Preserve missingness, units, source and admission-versus-retrospective timing. Do not invent missing fields or silently substitute registered images for native views.
 
-This page summarizes the accepted scientific proposal and operator logistics. It does not authorize real-case execution or publication.
-
-13October update: the accepted author proposal and its independent review were reverified against server originals, and the selection wording is bound verbatim for authoring. MRI directory filenames explicitly identify CT-space derivatives; native-space MRI remains unresolved. The existing scientific program validator and isolated synthetic runner are the intended reuse points. A meeting-only admission adapter is still required to use the four allocated calls; no adapter or patient execution is installed. The administrative direction attempt answered an earlier L patch instead of this routing question, so it supplies no meeting approval.
+Existing server CPU and private access remain the intended venue. No new paid compute or credentials are proposed. Real-panel timing is not yet reliable. The approved code currently produces synthetic fixtures only; this page does not authorize real-case execution or publication.

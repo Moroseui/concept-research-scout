@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation has occurred. Pnormct is running externally; multiwin and pnorm_v2 await delivered real-trainer checks. L author2/reviewer2 are complete, all host tests pass, but two evidence findings keep its release held. All server model calls are terminal. Timing and the opposite-family administrative capability remain unfinished, so the swap gate is not met. The operator owns infrastructure and handover; scientific code and conclusions belong to the author and independent reviewer.
+Current operator: **Codex, OpenAI family**. No rotation has occurred. Item6, Idea2 and smoothing interpretations are accepted. Pnormct is running in Partho's Colab session; multiwin and pnorm_v2 await returned A100 checks. Meeting synthetic preparation is scientifically approved, but real execution is held. The timing result and installed opposite-family administrative capability are still missing, so the six-condition swap gate is not met. The operator owns infrastructure, venues, sequencing, accounting, status and handover; it does not author scientific code or substitute its conclusions for scientific review.
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
