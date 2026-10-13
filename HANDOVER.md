@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 11:16 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
+Updated 13 October 2026, 11:36 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
 
 ## Goal and rules
 
@@ -36,7 +36,7 @@ The accepted component supports packed small-U-Net reconstruction, original Spri
 
 ## Funding, calls and judgment
 
-Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 4 L remain. Daily32/50 includes6authors,7scientific reviewers,18administrative reviews and1standalone direction; see STATUS for purposes.
+Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 4 L remain. Daily33/50 includes6authors,7scientific reviewers,19administrative reviews and1standalone direction; see STATUS for purposes.
 
 Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$523.1928535before current review; author dollar costs unknown. No new provider compute.
 
@@ -58,3 +58,5 @@ No Swap point: timing result, installed opposite-family administrative route and
 The existing server Drive access sees no matching source root. No files were downloaded and credentials remain unchanged. Do not solve this by changing scopes or copying credentials; keep the private operator return route.
 
 L continuation note: the old component pins the sibling's whole historical snapshot, so multiwin's legitimate progress makes it stale. A reviewed equivalent history proof must preserve original rows and authenticate approved additions; do not simply refresh the snapshot. Combine this with baseline context and the existing four-call allocation if continuing L.
+
+Current L implementation review338d181b is RUNNING at11:36UTC, sourcef058816a. Do not duplicate it. Operator-detected terminal-routing defect holds installation regardless of this review's outcome: old terminal validator requires exactsixrowglobalset before the seventhqualifiedauthor13 can be appended. Fix by exactfullunion verification with all original qualifiers and newinstalledproof; unknown/RUNNING/changedrows must refuse. Add regression and reviewfinalsource.111tests/read-onlyPASS sofar cover history/budget and unit controls, not the fullrouting. No scientificLcallyet.
