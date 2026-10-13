@@ -1,10 +1,12 @@
 # L preparation: next available Colab session
 
+Latest folder repair: pnormct7121a2cc failed before training on duplicate folder names. The operator may trash only rechecked-empty duplicates; keep both populated roots and the live pnorm_v2 session. Sourcec7dac565 passed54 tests and qualified APPROVE31e4ae99/report0b3a1e80. Creation is mount-only with GET-only privacy/uniqueness checks, no folder selection or automatic cleanup. Both pnorm callers and L preparation are patched; multiwin and future full releases must use the reviewed hook. Scientific bytes and gates are unchanged. If an earlier operational file already resumed successfully, let it continue. New filenames/full hashes are in the existing resume instructions. Review cost$3.807831; daily43/50 (7authors,8scientificreviews,26administrative,2direction), science134/140. No running server model call after review; no new compute.
+
 Use the next free A100 session after the higher-priority new arms. Follow the [corrected pnormct/v2 resume instructions](COLAB_RESUME_20261013.md); do not duplicate an arm's old runtime.
 
-The reviewed file is in Downloads: **13B_A1_L_prepare_upfront_PRIVATE.ipynb**.
+The reviewed file is in Downloads: **13B_A1_L_prepare_folder_fix_PRIVATE.ipynb**.
 
-SHA256: **e5f4770b544c496d22494534d2453d7ec6368e6624b6832da4c98eb7b119dd77**
+SHA256: **3be767f7bcf878b00575af40e92e9d22bdc457975262625ad47ff614fd2358d9**
 
 1. Open the file in a fresh default Colab runtime, select A100 and click **Run all**, unedited.
 2. Complete all Drive/API prompts in the first code cell and wait for **All logins done, you can leave now**. Notebook capture is also before installation; no later login or browser request. No settings need changing.

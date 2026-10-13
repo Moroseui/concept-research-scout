@@ -1,18 +1,20 @@
 # Research status
 
-- Pnormct stalled after epoch86; saved metadata supports resuming at epoch85, after checkpoint hash verification.
-- Corrected pnormct and pnorm_v2 notebooks are delivered: CPU-sized workers, an external stall watchdog and all logins first.
-- Pnorm_v2 was still progressing when last reported; Partho controls the switch after a fresh checkpoint. No duplicate run started.
-- Multiwin's updated trainer check is reviewed and delivered; full training and L qualification still need real A100 evidence.
-- Non-Colab item4 has $24.49 billed and $91.03 reserved; known completed Claude charges total $561.00. Colab is unmetered.
-- Next result: resumed epoch timings after Partho starts the corrected file, provisionally 15-30 minutes including setup; speedup is unmeasured.
-- C: has 11.9 GiB free, above the 8 GiB stop but below the 15 GiB warning. [Resume instructions](COLAB_RESUME_20261013.md), [execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct's resume failed before training: API and mounted writes created duplicate folders. Its checkpoint remains intact.
+- A reviewed mount-only creation fix is delivered for both pnorm arms and L preparation; 54 tests passed, with no scientific changes.
+- Pnorm_v2 is operator-reported preprocessing with a live lease; it was not touched. Pnormct remains idle unless Partho resumes it.
+- Trash only rechecked-empty duplicates; populated folders and leases stay intact. Multiwin full training still awaits A100 evidence.
+- Non-Colab item4: $24.49 billed, $91.03 reserved; known Claude charges $564.81. Colab is unmetered.
+- Next result: checkpoint selection and initial pnormct epoch timings, provisionally 15-30 minutes after launch; speedup is unmeasured.
+- C: has about 11.3 GiB free, below warning but above the 8 GiB stop. [Instructions and hashes](COLAB_RESUME_20261013.md), [execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 21:38 UTC. Action needed from you: use the corrected resume files, after shutting down the corresponding old runtime and allowing its lease to expire. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 22:10 UTC. Action needed from you: optional empty-duplicate cleanup, then corrected pnormct resume. Leave the live pnorm_v2 session alone. Codex/OpenAI remains operator; no Swap point.
 
 ## Results and current work
 
-Pnormct is stalled, not complete. Partho reports epochs0-86 completed, a hang at87 and about17.7hours of lease renewal without progress. Returned checkpoint metadata records next_epoch85; its payload has not been opened here. The corrected run will hash-verify before loading. Pnorm_v2 remains operator-reported running; there is no independent live runtime view. Switch after a fresh checkpoint if it is progressing; stop it if stalled.
+Latest folder repair: pnormct7121a2cc failed before training on duplicate folder names. The operator may trash only rechecked-empty duplicates; keep both populated roots and the live pnorm_v2 session. Sourcec7dac565 passed54 tests and qualified APPROVE31e4ae99/report0b3a1e80. Creation is mount-only with GET-only privacy/uniqueness checks, no folder selection or automatic cleanup. Both pnorm callers and L preparation are patched; multiwin and future full releases must use the reviewed hook. Scientific bytes and gates are unchanged. If an earlier operational file already resumed successfully, let it continue. New filenames/full hashes are in the existing resume instructions. Review cost$3.807831; daily43/50 (7authors,8scientificreviews,26administrative,2direction), science134/140. No running server model call after review; no new compute.
+
+Pnormct is stalled, not complete. Partho reports epochs0-86 completed, a hang at87 and about17.7hours of lease renewal without progress. Returned checkpoint metadata records next_epoch85; its payload has not been opened here. The corrected run will hash-verify before loading. Pnorm_v2 remains operator-reported preprocessing with a live lease; there is no independent live runtime view. Switch after a fresh checkpoint if it is progressing; stop it if stalled.
 
 Operational source2e64b30c received qualified independent APPROVE9012c065/reportbe7f92d1 after31tests. Both exact scientific modules are unchanged. The adapter uses12training/6validation workers on the observed12CPU/167GiB runtime; actual selection follows available CPU/RAM. An external process-group watchdog uses approximately3times recent median epoch time, with bounded startup/phase allowances, logs errors, stops lease-renewing children and requests runtime unassignment on failure. It explicitly migrates only exact expired/unowned old bindings, retaining original records and checkpoint payloads; live owners and mismatches still refuse. No measured performance or bitwise replay claim.
 
@@ -34,15 +36,15 @@ Meeting author3/reviewer3 are COMPLETE with preparation-only APPROVE and12 isola
 
 | Arm | State | Next step |
 |---|---|---|
-| A1_pnormct | Stalled; corrected resumable file delivered | Shut down old runtime, resume verified checkpoint and measure speed |
-| A1_pnorm_v2 | Running as last reported; corrected file delivered | Switch after fresh checkpoint; preserve original trainer PASS |
+| A1_pnormct | Idle after duplicate-folder refusal; corrected file delivered | Trash only rechecked-empty duplicate, resume verified checkpoint |
+| A1_pnorm_v2 | Preprocessing, live lease as last reported | Leave live session alone; no overlapping resume |
 | A1_multiwin | Updated early-login trainer check delivered; full training held | Actual A100 check, then scientific review |
 | A1_L | Preparation-only notebook delivered; full training held | Return authentic plan receipt, then exact-plan A100 qualification |
 
-- 13B_A1_pnormct_resume_workers.ipynb: SHA256 7121a2cca22fa2f71bec9ba97811d07e9b3dc6ae7dd3e2ec76ed1db11a9763d1.
-- 13B_A1_pnorm_v2_resume_workers.ipynb: SHA256 e8b709f98cade842444b06895d44aad892414915486c344fd5980438c27c4809.
+- 13B_A1_pnormct_resume_folder_fix.ipynb: SHA256 b8d42af4050ee5b95f12f38fef0eb3d1ef5fdd15fd3a2a1332edbf530b50856d.
+- 13B_A1_pnorm_v2_resume_folder_fix.ipynb: SHA256 211d947fb0802fc2c40294e661afc148142c0120b2444dc30b8d57840b0e7032.
 - 13B_A1_multiwin_real_trainer_check_upfront_PRIVATE.ipynb: SHA256 42cb96dce6f90694ea725bc575bbc596c7144cc19a0b8bb30af4894e6dfccd8b.
-- 13B_A1_L_prepare_upfront_PRIVATE.ipynb: SHA256 e5f4770b544c496d22494534d2453d7ec6368e6624b6832da4c98eb7b119dd77.
+- 13B_A1_L_prepare_folder_fix_PRIVATE.ipynb: SHA256 3be767f7bcf878b00575af40e92e9d22bdc457975262625ad47ff614fd2358d9.
 
 Full files run folds0?4 sequentially for250epochs, preprocess once, resume automatically, skip completed folds and print subprocess errors. Colab is unmetered. Pnormct's earlier trainer PASS remains accepted despite its later evidence-copy failure; never repeat that check solely for preservation.
 
@@ -58,15 +60,15 @@ Timing author24 real CPU integration PASS is retained; reviewer16 failed before 
 
 Non-Colab item4 stage1: **$115.516623/$150**, comprising **$24.487001 billed + $91.029622 reserved**. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection $1,200 and item6 $100 stay unchanged. Release excess only for confirmed closed billing; retain open or uncertain reservations. No new provider compute in this continuation.
 
-Known completed Claude charges: **$561.003777**. Author dollar costs are unavailable. Since the preceding public status, L scientific reviewer3 cost $6.445426 and preparation packaging cost $3.28083475. Earlier genuine approvals, REVISE decisions and mechanical failures remain counted; no usage reset or relabel.
+Known completed Claude charges: **$564.81216925**. Author dollar costs are unavailable. Since the preceding public status, L scientific reviewer3 cost $6.445426 and preparation packaging cost $3.28083475. Earlier genuine approvals, REVISE decisions and mechanical failures remain counted; no usage reset or relabel.
 
-13 October UTC: **42/50**, all current calls reconciled. No model call or server compute is running. Five existing maintenance timers remain waiting; seven historical uncertain records remain preserved with their prior qualifications.
+13 October UTC: **43/50**, all current calls reconciled. No model call or server compute is running. Five existing maintenance timers remain waiting; seven historical uncertain records remain preserved with their prior qualifications.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |7|L drafts1/2/3; meeting drafts1/2/3; multiwin provenance correction13|
 | Scientific reviewer |8|Pnorm_v2; L reviews1/2/3; meeting reviews1/2/3; multiwin review12|
-| Administrative implementation review |25|Pnorm_v2 harness/packaging; L setup, recovery, continuation, receipt-start and preparation package; meeting setup/amendment; batch140 accounting repairs; multiwin continuation, exact-output recovery and packaging; worker/watchdog review and its qualified successor; trainer upfront isolation review|
+| Administrative implementation review |26|Pnorm_v2 harness/packaging; L setup, recovery, continuation, receipt-start and preparation package; meeting setup/amendment; batch140 accounting repairs; multiwin continuation, exact-output recovery and packaging; worker/watchdog review and its qualified successor; trainer upfront isolation review; mount-only folder repair|
 | Standalone direction |2|Earlier meeting routing attempt retained; CPU worker/watchdog/resume scope APPROVE|
 
 Scientific batch **134/140**: the six remaining slots are two returned-Colab, two L and two meeting. The explicit12-call approval controls; the later bracketed140/136 message adds no funding.
@@ -88,7 +90,7 @@ Administrative reviews used most calls. Batch necessary repairs with direction c
 
 ## Backup and exclusions
 
-Last verified public push before this update: 3c9c74bac2e1b9a1148d8b2db8a8bdb0ae1d51bc. The current update and approved operational projection are queued for a fresh scan and push. Main stays unchanged.
+Last verified public push before this update: 80311392140ba9d21dd7ab96e5001e8ffcecb748. The current update and approved operational projection are queued for a fresh scan and push. Main stays unchanged.
 
 Never publish private evidence, packets, ledgers, streams, private records, patient rows/identifiers, images, masks, weights or caches. Public code is an archival projection, not a standalone deployable release. Returned executed notebooks, meeting3evidence and new multiwin private bindings remain excluded.
 
@@ -112,3 +114,9 @@ Additional exclusions: raw returned pnormct notebooks/checkpoint metadata, exact
 Publication scanner excludes tools/colab_mounted_drive_worker.py for INFRASTRUCTURE_OR_CREDENTIAL_PATH. Its exact reviewed bytes remain in the private store and delivered private notebooks; no scanner rule was weakened. The public code archive is therefore not self-contained.
 
 Current stop: both repair reviews are genuinely APPROVE and delivered. This continuation used four administrative calls including direction and the disqualified first review, costing $16.22566475 in known Claude charges. No scientific model call or provider compute was added. The two pre-admission packet preparations remain preserved without charge; registered request1d52ba10 was never started and must not be started.
+
+Latest stop: folder review31e4ae99 COMPLETE, qualified APPROVE, $3.807831 counted. No scientific call or provider compute added. Direction was folded into this review; Claude judged it minimal and fail-closed. No separate PROCEED label is inferred. Historical uncertain qualifications stay preserved.
+
+Additional publication exclusions: tools/colab_private_output.py, tests/test_colab_private_output.py and docs/COLAB_PRIVATE_FOLDER_SCOPE.md were flagged EXCLUDED_RECORD_PATH by the unchanged scanner. Exact files stay private; public integration code is an archive, not a standalone deployment. Folder IDs, operator report, review evidence, stream and notebooks stay private.
+
+The updated docs/COLAB_USABILITY.md also received INFRASTRUCTURE_OR_CREDENTIAL_PATH from the publication scanner. Its new version is withheld privately; the prior public version remains. The mandatory folder-release rule is recorded in STATUS, the execution plan and resume instructions. No flagged commit was pushed.

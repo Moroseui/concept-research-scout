@@ -1,6 +1,8 @@
 # Operator handover
 
-Updated 13 October 2026, 21:38 UTC. Current operator: **Codex / OpenAI**. No rotation or Swap point. This record describes the current state; it does not grant scientific acceptance. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md), the [execution plan](outputs/13B_EXECUTION_PLAN.md) and [Colab usability requirements](docs/COLAB_USABILITY.md). Exact native receipts and operation paths are in the canonical private restart handoff, HANDOFF_CURRENT_PRIVATE.md, and the append-only operator-decisions.json record.
+Latest folder repair: pnormct7121a2cc failed before training on duplicate folder names. The operator may trash only rechecked-empty duplicates; keep both populated roots and the live pnorm_v2 session. Sourcec7dac565 passed54 tests and qualified APPROVE31e4ae99/report0b3a1e80. Creation is mount-only with GET-only privacy/uniqueness checks, no folder selection or automatic cleanup. Both pnorm callers and L preparation are patched; multiwin and future full releases must use the reviewed hook. Scientific bytes and gates are unchanged. If an earlier operational file already resumed successfully, let it continue. New filenames/full hashes are in the existing resume instructions. Review cost$3.807831; daily43/50 (7authors,8scientificreviews,26administrative,2direction), science134/140. No running server model call after review; no new compute.
+
+Updated 13 October 2026, 22:10 UTC. Current operator: **Codex / OpenAI**. No rotation or Swap point. This record describes the current state; it does not grant scientific acceptance. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md), the [execution plan](outputs/13B_EXECUTION_PLAN.md) and [Colab usability requirements](docs/COLAB_USABILITY.md). Exact native receipts and operation paths are in the canonical private restart handoff, HANDOFF_CURRENT_PRIVATE.md, and the append-only operator-decisions.json record.
 
 ## Goal and operating direction
 
@@ -14,7 +16,7 @@ Every notebook must put all unavoidable login and browser capture in the first a
 
 ## Current workstreams and next steps
 
-**Pnormct and pnorm_v2:** Partho reports pnormct completed epochs 0-86, then hung at epoch 87 while its heartbeat continued for about 17.7 hours. Returned checkpoint metadata records next_epoch 85. The 814 MB payload was not opened locally; the corrected runtime must verify its hash before loading. Pnorm_v2 was still running at two workers when last reported. Neither external session was touched.
+**Pnormct and pnorm_v2:** Partho reports pnormct completed epochs 0-86, then hung at epoch 87 while its heartbeat continued for about 17.7 hours. Returned checkpoint metadata records next_epoch 85. The 814 MB payload was not opened locally; the corrected runtime must verify its hash before loading. Pnorm_v2 is now reported preprocessing with a live lease. Neither external session was touched.
 
 Corrected resume files are delivered in Downloads; exact filenames and full hashes are in [resume instructions](outputs/COLAB_RESUME_20261013.md). Source 2e64b30c passed 31 tests and qualified implementation APPROVE 9012c065, report be7f92d1. Both scientific modules remain byte-identical. The adapter selects 12 training/6 validation workers on the observed 12 CPU/167 GiB runtime. The external watchdog kills stalled child groups, prints logs, preserves a bounded private error and requests runtime unassignment. A Google refusal means termination is not guaranteed.
 
@@ -30,7 +32,7 @@ Next: Partho runs the new check in a fresh default A100 session, estimated 10-25
 
 **L:** author3 and scientific reviewer3 are complete, with REVISE for actual A100 integration/checkpoint/memory evidence and baseline metric comparability. The exact author module and five passing host test groups remain preserved. No full L release or memory-fit claim.
 
-The updated preparation file is delivered: 13B_A1_L_prepare_upfront_PRIVATE.ipynb, SHA256 e5f4770b544c496d22494534d2453d7ec6368e6624b6832da4c98eb7b119dd77. Its preparation-only entry and scientific module are unchanged; the new qualified operational review moves logins and snapshot to the first cell. It verifies inputs and baseline bindings, generates authentic ResEncL plans, and returns before trainer construction. Preparation time is unmeasured.
+The updated preparation file is delivered: 13B_A1_L_prepare_folder_fix_PRIVATE.ipynb, SHA256 3be767f7bcf878b00575af40e92e9d22bdc457975262625ad47ff614fd2358d9. Its preparation-only entry and scientific module are unchanged; the new qualified operational review moves logins and snapshot to the first cell. It verifies inputs and baseline bindings, generates authentic ResEncL plans, and returns before trainer construction. Preparation time is unmeasured.
 
 Next: verify the genuine returned plan receipt and configuration, then qualify the exact plan with actual A100 iterations/checkpoint reload and scientific review. Never substitute M plans or synthetic fixture plans. An 80 GB result does not establish 40 GB fit. Exact original Sprint12 metric source is available for reviewer judgment, but source similarity is not independent historical training attestation. Do not spend an author call merely to restate missing hardware evidence.
 
@@ -42,9 +44,9 @@ Next: verify the genuine returned plan receipt and configuration, then qualify t
 
 ## Calls, spending and judgment
 
-Scientific batch 134/140: two returned-Colab, two L and two meeting calls remain. The explicit 12-call approval establishes 140; the later bracketed 140/136 sentence adds nothing. UTC-day usage is 42/50: 7 authors, 8 scientific reviewers, 25 administrative implementation reviews, 2 standalone direction checks. Purpose breakdown is in STATUS.
+Scientific batch 134/140: two returned-Colab, two L and two meeting calls remain. The explicit 12-call approval establishes 140; the later bracketed 140/136 sentence adds nothing. UTC-day usage is 43/50: 7 authors, 8 scientific reviewers, 26 administrative implementation reviews, 2 standalone direction checks. Purpose breakdown is in STATUS.
 
-Non-Colab item4: $24.487001 billed plus $91.029622 reserved, $115.516623/$150. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection $1,200 and item6 $100 stay unchanged. Known Claude charges total $561.00433825; author dollar costs are unavailable. This continuation added $16.22566475 across four administrative calls, including one direction check and one disqualified review. No scientific call or provider compute was added.
+Non-Colab item4: $24.487001 billed plus $91.029622 reserved, $115.516623/$150. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection $1,200 and item6 $100 stay unchanged. Known Claude charges total $564.81216925; author dollar costs are unavailable. This continuation added $16.22566475 across four administrative calls, including one direction check and one disqualified review. No scientific call or provider compute was added.
 
 Latest Claude judgments: operational worker/watchdog route APPROVE; qualified implementation APPROVE for resume/early logins; qualified APPROVE of the trainer boundary's equivalence. No explicit new standalone PROCEED label is inferred. Necessary repairs were combined; unrelated components stayed deferred.
 
@@ -53,7 +55,7 @@ Review 3dafcfcb is terminal FAILED because the required manifest Read did not qu
 ## Resume safely and do not duplicate
 
 1. Read the private handoff and verbatim operator decisions; confirm operator ownership. The goal tool may retain a stale funding block; actual funding supersedes that condition. Do not create another goal or claim completion.
-2. Check free space before large steps: warn below 15 GiB, stop below 8 GiB. Last observation: C: 11.9 GiB; server 101.7 GiB.
+2. Check free space before large steps: warn below 15 GiB, stop below 8 GiB. Last observation: C: 11.3 GiB; server 101.7 GiB.
 3. Reconcile native units and ledgers using existing read-only service-account tools before launching anything. Current stop: no running model call or research service; five original maintenance timers remain waiting. Seven historical uncertain rows retain their prior qualifications and must never be blindly retried.
 4. Do not restart 3dafcfcb, superseded 1d52ba10, completed 9012c065 or df553924. Do not repeat prior batch140, multiwin recovery, L installation/amendment or consumed author3/reviewer3 starts. No new model/compute job is scheduled by this handover.
 5. External Colab state is operator-reported. Await returned evidence, verify source hashes and terminal records, and carry it through the scientific lane. Never infer completion from a missing process or partial log.

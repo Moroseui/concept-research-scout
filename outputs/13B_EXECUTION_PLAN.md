@@ -1,12 +1,14 @@
 # 13B execution plan
 
-Updated 13 October 2026, 21:38 UTC. New experiments first. The scientific author writes each notebook; Claude reviews it. Every arm requires actual nnU-Net trainer construction and a training iteration before full delivery.
+Latest folder repair: pnormct7121a2cc failed before training on duplicate folder names. The operator may trash only rechecked-empty duplicates; keep both populated roots and the live pnorm_v2 session. Sourcec7dac565 passed54 tests and qualified APPROVE31e4ae99/report0b3a1e80. Creation is mount-only with GET-only privacy/uniqueness checks, no folder selection or automatic cleanup. Both pnorm callers and L preparation are patched; multiwin and future full releases must use the reviewed hook. Scientific bytes and gates are unchanged. If an earlier operational file already resumed successfully, let it continue. New filenames/full hashes are in the existing resume instructions. Review cost$3.807831; daily43/50 (7authors,8scientificreviews,26administrative,2direction), science134/140. No running server model call after review; no new compute.
+
+Updated 13 October 2026, 22:10 UTC. New experiments first. The scientific author writes each notebook; Claude reviews it. Every arm requires actual nnU-Net trainer construction and a training iteration before full delivery.
 
 | Order | Arm × folds | Venue | State and next step |
 |---|---|---|---|
 | First, session 1 | A1_multiwin × 0–4 | **Partho on Colab**, default runtime, A100 | Returned check failed NumPy provenance before trainer construction. Exact author correction recovered; all six CPU tests passed. Scientific REVISE remains; corrected synthetic-check package is APPROVED and delivered. Await actual A100 evidence, then scientific review. |
-| First, session 2 | A1_pnormct × 0–4 | **Partho on Colab**, default runtime, A100 | Stalled after epoch86; corrected worker/watchdog/early-login file delivered. Resume verified checkpoint, expected next_epoch85; do not duplicate old runtime. |
-| Next | A1_pnorm_v2 × 0–4 | **Partho on Colab**, default runtime, A100 | Actual A100 trainer PASS accepted; old all-fold notebook reported running; corrected operational file delivered. Switch after fresh checkpoint, preserving science and results. |
+| First, session 2 | A1_pnormct × 0–4 | **Partho on Colab**, default runtime, A100 | Idle after duplicate-folder refusal; reviewed mount-only folder fix delivered. Resume verified checkpoint, expected next_epoch85; do not duplicate old runtime. |
+| Next | A1_pnorm_v2 × 0–4 | **Partho on Colab**, default runtime, A100 | Actual A100 trainer PASS accepted; old all-fold notebook reported preprocessing with a live lease. Leave it alone; corrected file available for a later deliberate switch. |
 | Then | A1_L × 0–4 | **Partho on Colab**, default runtime, A100 | Author3/reviewer3 complete, scientific REVISE. Preparation-only notebook delivered to create authentic ResEncL plans. Then actual trainer/resume/memory evidence and baseline metric review; no full release or memory-fit claim. |
 | Parked | A1_repeat × 0–4; A1_repeat2 × 0–4 | Partho on Colab later | New arms must have results first. Saved preprocessing stays; per-fold files remain parked. |
 | Held | A1_zscore × 0–4; A1_histeq × 0–4 | No run | Coverage-source provenance unresolved. |
