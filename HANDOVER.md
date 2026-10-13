@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 00:30 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 00:44 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -18,7 +18,9 @@ Pnorm_v2 scientific reviewer2 returned genuine code-only APPROVE with no finding
 
 The harness now reads the two authored literal constants from the same exported module instead of losing cell10 definitions. Seven server fixtures,143component tests and16subtests pass. Native retesting used the unchanged isolated sandbox with no patient mounts, no credentials and unshared network. The reviewed one-use utility made no model call or new allowance and stopped at COMMIT_SPEC.
 
-Next: package the unchanged authored real-trainer fixture through the existing Colab packaging approach. Actual A100 evidence is still required before full notebook delivery. The trainer-check package is provisionally15-30minutes away after its focused packaging checks/review; the operator-run check should take10-25minutes. Scientific batch120/128 leaves4Colab and4meeting calls. No server scientific/model job is running; pnormct remains external.
+The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
+
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. No server model or scientific compute job is running. Scientific batch120/128 leaves4Colab and4meeting calls.
 
 Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
@@ -38,7 +40,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending
 
-13OctoberUTC:2/50 calls: one scientific reviewer and one administrative review. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $414.76081550; author dollar costs unavailable.
+13OctoberUTC:3/50 calls: zero authors, one scientific reviewer (pnorm_v2 code approval), two administrative reviews (harness revalidation and trainer-check packaging), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $418.89193500; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -56,7 +58,7 @@ Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.02962
 3. The private namespace-repair/serialization-recovery/review folder holds installed repair d035b2a6, qualified scientific APPROVE, hash-verified authored output, and completed acceptance receipt. All starts are consumed. Never replay them. Analysis allocation is exhausted; the bounded question is complete.
 4. For multiwin, first obtain the actual private A100 receipt. Preserve genuine scientific REVISE and24/24 calls; normal scientific follow-up is required before full delivery. No continuation grant or accounting change is presently prepared.
 5. Root must not open live SQLite. Use the existing service identity and WAL-aware read-only queries. No credential contents/paths or patient payloads in public files.
-6. Check C:/WSL free space before large steps: warn below15GiB, stop below8GiB. Latest C:10.58GiB; server107.51GiB after the new approved source and repair. Historical evidence migration is complete; do not replay it.
+6. Check C:/WSL free space before large steps: warn below15GiB, stop below8GiB. Latest C:10.30GiB; server107.51GiB after the new approved source and repair. Historical evidence migration is complete; do not replay it.
 7. Update these documents in place, scan privacy/secrets/infrastructure, push remote-server and safe astra projections, verify hashes, and hash-verify private evidence backup before stopping. Never push raw private working branches. main unchanged.
 
 ## Decisions, reasoning and limitations

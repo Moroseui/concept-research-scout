@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin awaits its delivered A100 trainer-check result before full training delivery.
 - Accepted saved-output analysis found no useful small-component rescue from removing smoothing; fragmentation increased.
-- Pnorm_v2 code is approved and all five native synthetic groups pass; its real A100 check is next.
-- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $414.76081550; author costs unavailable.
-- Next result: pnorm_v2 trainer-check package in15-30minutes after packaging checks/review; multiwin evidence takes10-25minutes after its check starts.
-- Action: return the multiwin check. C:10.58GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
+- Pnorm_v2 code and native tests pass; its reviewed A100 trainer-check notebook is delivered.
+- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $418.89193500; author costs unavailable.
+- Next result: actual multiwin and pnorm_v2 trainer evidence,10-25minutes after each Colab check starts.
+- Action: return multiwin, then run/return the pnorm_v2 check. C:10.30GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 00:30 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 00:44 UTC. Codex/OpenAI remains operator.
 
 ## Colab
 
@@ -22,7 +22,9 @@ Pnorm_v2 scientific reviewer2 returned genuine code-only APPROVE with no finding
 
 The harness now reads the two authored literal constants from the same exported module instead of losing cell10 definitions. Seven server fixtures,143component tests and16subtests pass. Native retesting used the unchanged isolated sandbox with no patient mounts, no credentials and unshared network. The reviewed one-use utility made no model call or new allowance and stopped at COMMIT_SPEC.
 
-Next: package the unchanged authored real-trainer fixture through the existing Colab packaging approach. Actual A100 evidence is still required before full notebook delivery. The trainer-check package is provisionally15-30minutes away after its focused packaging checks/review; the operator-run check should take10-25minutes. Scientific batch120/128 leaves4Colab and4meeting calls. No server scientific/model job is running; pnormct remains external.
+The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
+
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. No server model or scientific compute job is running. Scientific batch120/128 leaves4Colab and4meeting calls.
 
 ## Saved-results analysis
 
@@ -46,7 +48,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending and model calls
 
-13OctoberUTC:2/50 calls: one scientific reviewer and one administrative review. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $414.76081550; author dollar costs unavailable.
+13OctoberUTC:3/50 calls: zero authors, one scientific reviewer (pnorm_v2 code approval), two administrative reviews (harness revalidation and trainer-check packaging), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $418.89193500; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -69,7 +71,7 @@ Administrative work still uses most calls. The serialization repair, safe recove
 
 ## Backup and exclusions
 
-Previous verified remote-server backup79dddecc9e0ac7f381df9cb1363d9a912af21d16; safe working draftb50f1f16. This stop's hash is recorded after scan/push. main remains unchanged. Historical evidence migration is complete; never replay deletion. No local evidence deleted during this continuation. Disk guard warns below15GiB and stops below8GiB on C: and WSL.
+Previous verified remote-server backup706fd91ba307ade5d640f96834c3013bbc93a98e; safe working draft7ac454bc. This stop's hash is recorded after scan/push. main remains unchanged. Historical evidence migration is complete; never replay deletion. No local evidence deleted during this continuation. Disk guard warns below15GiB and stops below8GiB on C: and WSL.
 
 Never publish private evidence, ledgers, review packets, native streams, private operator bindings, raw private branches, per-patient rows/identifiers, images, masks, weights or caches. Raw smoothing outputs, full private interpretation and review evidence remain private; only the accepted aggregate summary is published. Public code is an archival projection, not a standalone deployable release.
 
@@ -108,3 +110,7 @@ Publication also excludes docs/PNORM_V2_REVIEW_TURNS_PRIVATE.json; safe installe
 The approved and exercised harness code/tests are merged into this archival branch. Publication excludes docs/PNORM_V2_SYNTHETIC_REVALIDATION_PRIVATE.json and all native/test/review evidence.
 
 -00:30UTC: independent harness APPROVEed0de67a; native five-groupPASS and normal specification acceptance, zero model/provider calls. First invocation stopped before entry because the new staging clone lacked service read access; fixed only that reviewed copy, verified all hashes as the existing service account, and continued once. Original error and test failure preserved. No installed unit, credentials or safeguards changed.
+
+-00:43UTC: Claude implementation APPROVE72f7434c, cost$4.1311195 counted; built and hash-verified the pnorm_v2 synthetic trainer check in Downloads.108testsPASS; no scientific edits or new allowance. The folded direction question received no explicit PROCEED/SIMPLIFY/ASK response, so the latest explicit direction remains23:59UTC PROCEED; do not label this a new direction verdict.
+
+Packaging inputs, private notebooks, native receipts, review packet/stream and delivery records remain excluded from public backup. Only approved packaging code/tests/scope are projected.

@@ -1,4 +1,4 @@
-# Current research state - 12 October 2026
+# Current research state - 13 October 2026
 
 Action needed from you: run/return the delivered multiwin synthetic trainer check; no disk/setup command is needed. Codex/OpenAI remains operator. No Swap point.
 
@@ -10,7 +10,9 @@ Pnorm_v2 scientific reviewer2 returned genuine code-only APPROVE with no finding
 
 The harness now reads the two authored literal constants from the same exported module instead of losing cell10 definitions. Seven server fixtures,143component tests and16subtests pass. Native retesting used the unchanged isolated sandbox with no patient mounts, no credentials and unshared network. The reviewed one-use utility made no model call or new allowance and stopped at COMMIT_SPEC.
 
-Next: package the unchanged authored real-trainer fixture through the existing Colab packaging approach. Actual A100 evidence is still required before full notebook delivery. The trainer-check package is provisionally15-30minutes away after its focused packaging checks/review; the operator-run check should take10-25minutes. Scientific batch120/128 leaves4Colab and4meeting calls. No server scientific/model job is running; pnormct remains external.
+The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
+
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. No server model or scientific compute job is running. Scientific batch120/128 leaves4Colab and4meeting calls.
 
 Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
@@ -20,7 +22,7 @@ Serialization recoveryd035b2a6 passed203tests and actual read-only verification 
 
 Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer3 returned qualified APPROVE with no findings; exact authored output and MCP submission hashes were verified. Normal runtime finalization recorded acceptance with report SHA256 4b45e7ce7c01782994ebab4e79e206aa4ebd56d00ffe69f75bf374cf2c4f30fd. Local17calls; global117scientific at smoothing acceptance. Pnorm_v2 reviewer1 failed mechanically; reviewer2 approved the code and corrected native synthetic tests now PASS. Never replay these starts or rerun the completed CPU analysis. This bounded analysis grants no successor execution. [Accepted aggregate summary](outputs/SMOOTHING_RESULTS_20261012.md).
 
-13OctoberUTC:2/50 calls: one scientific reviewer and one administrative review. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $414.76081550; author dollar costs unavailable.
+13OctoberUTC:3/50 calls: zero authors, one scientific reviewer (pnorm_v2 code approval), two administrative reviews (harness revalidation and trainer-check packaging), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch120/128:4Colab,0analysis,4meeting remain. Known completed Claude charges $418.89193500; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -31,7 +33,7 @@ Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer
 
 Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.029622 retained reservations. Timing $5.405445/$25 is inside stage1; synthetic CPU $1.118950 awaits billing. Item4 total $1,275/projection gate $1,200 and item6 $100 cap unchanged. Colab is unmetered by operator decision. This continuation launched no new provider compute. Only confirmed closed provider billing can release excess reservations; uncertain/open obligations stay counted.
 
-C:10.58GiB warns below15 but clears the8GiB stop. The smoothing analysis is COMPLETE and accepted; pnormct remains external and live. Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Root entry-point mirrors may be stale; this branch and the canonical private handoff are current.
+C:10.30GiB warns below15 but clears the8GiB stop. The smoothing analysis is COMPLETE and accepted; pnormct remains external and live. Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Root entry-point mirrors may be stale; this branch and the canonical private handoff are current.
 
 -22:38UTC: smoothing scientific APPROVE qualified and normal acceptance completed; reviewer charge $4.31079575 counted. No CPU retry or new allowance.
 -22:33UTC: read-only Drive visibility and timing reconciliation completed without model calls; originals retained. Latest Claude direction remains PROCEED with simpler narrow-patch deployment.
