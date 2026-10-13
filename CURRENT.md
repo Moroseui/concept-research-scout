@@ -1,6 +1,6 @@
 # Current research state
 
-Updated 13 October 2026, 03:50 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 04:01 UTC. Codex/OpenAI remains operator. No Swap point.
 
 Action needed from you: pending money decision for up to8additional Colab scientific calls; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
 
@@ -27,7 +27,7 @@ Pnorm_v2 code and native tests are approved; delivered real-trainer check awaits
 
 Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029622 retained reservations**. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection gate $1,200, and item6 $100 cap unchanged. Colab is unmetered by operator decision. No new provider compute launched this continuation. Release excess reservations only after confirmed closed-attempt billing.
 
-Next real result: multiwin A100 trainer check, about 10-25 minutes after Partho starts it; pnorm_v2 follows on the same timescale. Full releases require returned evidence, scientific acceptance and available call authority. Meeting synthetic preparation is approved; real panels have no reliable ETA until native imaging, geometry, clinical fields and prediction provenance are qualified. L delivery and the CPU-starvation timing result remain held by their recorded prerequisites.
+Next real result: multiwin A100 trainer check, about 10-25 minutes after Partho starts it; pnorm_v2 follows on the same timescale. Full releases require returned evidence, scientific acceptance and available call authority. Meeting synthetic preparation is approved; real panels have no reliable ETA until the author/reviewer resolve the documented imaging limitations and qualify geometry, clinical mapping and prediction provenance. L delivery and the CPU-starvation timing result remain held by their recorded prerequisites.
 
 C:11.01GiB, warning below15 but above8GiB stop. No RUNNING server model call found; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
 
@@ -36,9 +36,14 @@ Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold 
 
 Meeting author1 and scientific reviewer1 are COMPLETE. The selector/renderer passed 26 isolated synthetic tests and received scientific APPROVE, report48f8197f, for synthetic preparation only. Review cost $3.22294775; accepted tool-submission record81a38484 and console hash were verified. The lane is held at COMMIT_SPEC with real execution unauthorized. Do not replay either call or treat synthetic approval as real-case validation.
 
-The program intentionally refuses real execution and accepts synthetic identifiers only. The next scientific change must come from the author after the actual input contract is ready, then normal independent review. Two approved meeting calls remain. No cases have been selected, no image or clinical-value payload opened, and no patient executor installed.
+The program intentionally refuses real execution and accepts synthetic identifiers only. The next scientific change must come from the author after the actual input contract is ready, then normal independent review. Two approved meeting calls remain. No cases have been selected and no image payload opened. Clinical CSV bytes were read only for hashes and header extraction; no clinical values were copied or interpreted. No patient executor is installed.
 
-Metadata identifies CT-space DWI, ADC and reference-mask files for all 99 development patients. Separate admission and follow-up clinical CSV files were located for all 99 development patients (198 files). The frozen cohort and excluded membership metadata were checked before enumeration; no excluded directories were opened. File contents, hashes, clinical fields, native-MRI availability and geometry remain unqualified. Metadata availability is not input acceptance. Avoid transferring the imaging collection through the laptop.
+The frozen archive member manifest identifies CT-space DWI and ADC for all 99 development patients, but no native follow-up MRI or transformation sidecars. All 198 development clinical CSVs match the recorded archive-member size and CRC; their current SHA256 hashes are saved. Only headers were extracted, with no clinical values copied or interpreted. This is a member-identity check against the historical manifest, not a fresh cryptographic reread of the whole archive.
+
+The matching public v3 clinical data dictionary is hash-verified. Five observed field names lack exact dictionary matches; aliases, units and prospective availability remain for the scientific author/reviewer to judge. The next scientific amendment must address the released imaging layout and missing native/transform evidence without relabeling derivatives or bypassing checks. Image hashes, geometry and model/output provenance remain unqualified; no case selected or image payload opened.
 
 
 Judgment at this stop: reconcile completed meeting calls and preserve the synthetic-only execution hold; locate clinical sources by eligible-directory metadata only. No additional model call, allowance change or payload access. Latest Claude direction remains PROCEED from the reviewed meeting implementation at 03:13 UTC.
+
+
+Judgment: checked only the frozen 99 development clinical files against the existing archive manifest, then pinned the release data dictionary. No scientific mapping or image processing performed; no Claude call needed for source inventory. The native-MRI/transform limitation requires a scientific amendment, not an operator exception.
