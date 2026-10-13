@@ -1,0 +1,15 @@
+# Bounded meeting preparation admission ? implementation scope
+
+Status: engineering candidate scope only, not installed or execution authority.
+
+Implement the minimum connection from the approved four meeting calls to the existing scientific author/reviewer. The verbatim accepted selection proposal is already bound; do not edit its science. The operator will not write the selector, renderer or geometry conclusions.
+
+Reuse existing ManualDriver transport, author/reviewer output qualification, author timeout1800s, review timeout unchanged, scientific_program validation/compile and scientific_program.run synthetic isolation. The existing program format already represents author-owned analysis.py and test_analysis.py and the main(input_root, output_root, contract) entry point. Reuse that mechanism through a meeting-only preparation adapter; do not alter the existing item6 diagnostic contract or permit patient images in the model context. The scientific author writes selection/rendering code and tests, and the whole component plus actual synthetic receipts goes to the scientific reviewer.
+
+Keep this a preparation-only question: no patient executor, provider operation, image transfer, publishing, baseline alteration or scientific acceptance shortcut. Successful code review ends at a held prepared package; actual case selection/rendering requires its later qualified input/execution checks. Explicitly missing native MRI, image geometry and clinical mapping remain unresolved.
+
+Account the distinct meeting question honestly, with a stable owner derived from its bound authority and accepted proposal. Never reuse Colab or exhausted analysis purpose labels. Preserve all124scientific rows and earlier owners/acceptances unchanged, cap meeting calls at4 and global batch at128, retain daily50/per-run20 caps, normal pending/uncertainty handling, credential isolation, halt, duplicate and refusal checks. The pending eight-call request supplies no authority. Tests must refuse a fifth meeting call, global over-cap, altered allocation authority, changed original rows, duplicate/live/uncertain attempts, changed input/program/test bindings, missing independent approval, network/patient mounts and any preparation-to-execution transition.
+
+Do not build a new scheduler, generic workflow layer, renderer framework, confinement subsystem or author sandbox here. Existing synthetic execution runs the author-produced tests; do not claim that the later full author sandbox is installed.
+
+Normal independent implementation review must assess the actual meeting patch, including the goal/rules second opinion for accounting and privacy. No installation or scientific call before genuine APPROVE. Preserve the off-target direction426170fc and its4.88565475USD charge; it approved only the old L supplement and is NOT meeting-admission approval. Do not repeat the same mismatched direction-only request. If a new blocking safeguard needs an equivalent replacement, the exact proposal and normal independent review must establish it before use.

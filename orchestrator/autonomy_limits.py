@@ -73,6 +73,9 @@ def selected_run_limit(config, run):
         if run != question.RUN:
             raise ValueError('COLAB_ARM_LIMIT_RUN_CHANGED')
         return question.validate_scope(config)['call_limit']
+    from orchestrator import meeting_preparation as meeting
+    if meeting.selected(config):
+        return meeting.validate_config(config, run)['call_limit']
     item = config.get('item_number')
     if type(item) is int and item == 6:
         from orchestrator.diagnostics_policy import validate_config
