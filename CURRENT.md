@@ -5,9 +5,9 @@ Action needed from Partho when awake: [run the corrected multiwin synthetic A100
 
 Pnormct and pnorm_v2 are reported running in separate Colab sessions. Leave both alone. Ingest returned private evidence without relaunching either job.
 
-L continuation d58718fa is independently approved and installed; baseline context amendment is complete. No scientific call started: the root start command wrongly requires its service-written receipt to be root-owned. A narrow start-command correction54ddb8f6 passes154tests and the actual read-only receipt check. Independent reviewcbf4817e is RUNNING, started once; no duplication. Existing runtime, unit, limits and all earlier calls remain unchanged.
+L author3 is RUNNING, admitted normally after independently approved repairs. Continuation d58718fa and start command54ddb8f6 are installed; baseline context is prepared. Current author call9713f658 must not be duplicated. Its completed draft goes to scientific reviewer3. Authentic ResEncL plans, baseline binding and later real A100 evidence remain the scientific tasks.
 
-Scientific132/140; daily35/50:6authors,7scientific reviewers,21administrative reviews,1direction. Known completed Claude$530.439499; author dollars unknown. Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150. No new provider compute; Colab is unmetered.
+Scientific133/140; daily36/50:7authors,7scientific reviewers,21administrative reviews,1direction. Known completed Claude$535.05241275; author dollars unknown. Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150. No new provider compute; Colab is unmetered.
 
 Latest direction: SIMPLIFY-leaning PROCEED for the necessary L continuation, then author/reviewer rather than more infrastructure. Item6, synthesis, Idea2 and smoothing are accepted; no reruns. Meeting preparation approved; actual private panels still require real input/admission bindings and independent image QC. GPU timing result is absent.
 

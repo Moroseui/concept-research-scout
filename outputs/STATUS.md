@@ -3,16 +3,16 @@
 - Pnormct and pnorm_v2 are reported running in Partho's Colab sessions; both remain untouched.
 - Multiwin's corrected trainer-check notebook is reviewed and delivered for Partho to run when awake.
 - Full multiwin training awaits actual A100 evidence and scientific review; all six CPU tests passed.
-- L's continuation is installed; a receipt-ownership error prevents its next author call. The tested start repair is under review.
-- Item4 has $24.49 billed and $91.03 reserved; completed Claude charges total $530.44. Author dollars are unavailable.
-- Next result: L scientific preparation is estimated 1?2 hours after the start repair passes; the multiwin check takes 10?25 minutes when run.
+- L author3 is running after approved repairs; reviewer3 follows its completed draft.
+- Item4 has $24.49 billed and $91.03 reserved; completed Claude charges total $535.05. Author dollars are unavailable.
+- Next result: L scientific preparation is estimated 1-2 hours from the author start; the multiwin check takes 10?25 minutes when run.
 - C: has about 12.1 GiB free, above the 8 GiB stop. [Morning instructions](MULTIWIN_TRAINER_CHECK_20261013.md); [execution plan](13B_EXECUTION_PLAN.md).
 
 Updated 13 October 2026, 12:20 UTC. Action needed from you: none overnight. Codex/OpenAI remains operator; no Swap point.
 
 ## Current work and next steps
 
-Batch140 sourceaa66a72a is installed after qualified independent APPROVE6ff96559/report6bb42d21. It preserves every original charge and all dollar/daily limits. Scientific usage 132/140. Of the 12 additional slots, 2 returned-Colab and 2 meeting calls are used; 2 returned-Colab, 4 L and 2 meeting calls remain. The operator's explicit12-call approval controls; the later bracketed140/136 text adds no funding.
+Batch140 sourceaa66a72a is installed after qualified independent APPROVE6ff96559/report6bb42d21. It preserves every original charge and all dollar/daily limits. Scientific usage 133/140. Of the 12 additional slots, 2 returned-Colab and 2 meeting calls are used; 2 returned-Colab, 3 L and 2 meeting calls remain. The operator's explicit12-call approval controls; the later bracketed140/136 text adds no funding.
 
 Multiwin's exact-output recovery71423b5e is installed after qualified independent APPROVE7dba5a87/report3b677a20. The preserved author13 correction passed all six actual synthetic tests, including four provenance controls. Its original UNCERTAIN row,84,502-byte patch and charge remain counted; no author rerun.
 
@@ -57,18 +57,18 @@ Timing author24 real CPU integration PASS is retained. Reviewer16 failed before 
 
 Non-Colab item4 stage1:**$115.516623/$150**, comprising**$24.487001billed+$91.029622reserved**. Timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275, projection$1,200 and item6$100 unchanged. Release excess only for confirmed closed billing; retain open/uncertain reservations. No new provider compute in this continuation.
 
-Known completed Claude charges:**$530.439499**, including completed packaging round3 and the two genuine L approvals: $3.3128255 and $3.93382. Current receipt-start review remains unpriced until completion. Multiwin output recovery cost$5.6975585, scientific review12$4.8070605 and packaging round1$4.26782425; round2$4.76919075 and round3$3.7321145 also preserved. Two packaging failures before model admission incurred no call or charge. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
+Known completed Claude charges:**$535.05241275**, including completed packaging round3 and the two genuine L approvals: $3.3128255 and $3.93382. Receipt-start review APPROVE cost$4.61291375 is also counted. Multiwin output recovery cost$5.6975585, scientific review12$4.8070605 and packaging round1$4.26782425; round2$4.76919075 and round3$3.7321145 also preserved. Two packaging failures before model admission incurred no call or charge. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
 
-13 October UTC: **35/50**, including the current administrative call:
+13 October UTC: **36/50**, including the current administrative call:
 
 | Type | Count | Purpose |
 |---|---:|---|
-| Scientific author |6|L drafts 1/2; meeting drafts 1/2/3; multiwin provenance correction 13|
+| Scientific author |7|L drafts 1/2/3; meeting drafts 1/2/3; multiwin provenance correction 13|
 | Scientific reviewer |7|Pnorm_v2; L reviews1/2; meeting reviews1/2/3; multiwin review12|
 | Administrative implementation review |21|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; multiwin continuation, installed output recovery and packaging rounds1/2/3; L continuation, terminal-routing correction and current receipt-start repair|
 | Standalone direction |1|Earlier meeting routing attempt answered an old question; retained|
 
-Administrative overhead remains high. Batch direction with necessary implementation review; deliver unchanged reviewed notebooks without repeat reviews; defer components unrelated to current results.12October remains70/100:16authors,13scientific reviews,39administrative,2direction. No usage reset or relabel.
+Administrative overhead remains high. Batch direction with necessary implementation review; deliver unchanged reviewed notebooks without repeat reviews; defer components unrelated to current results.12October remains70/100:17authors,13scientific reviews,39administrative,2direction. No usage reset or relabel.
 
 ## Judgment log highlights
 
@@ -83,7 +83,7 @@ Administrative overhead remains high. Batch direction with necessary implementat
 
 ## Backup and exclusions
 
-Last verified remote-server push:dea453ae3eff205fe7ee6deab1d1cc8cddc711e3. The installed L safe projection is being merged for the next scanned push. All notebooks/evidence remain private. Main unchanged.
+Last verified remote-server push:0b195e9936759b51cf5c8e3b2a77b900ce1a44fc. The installed start-command projection is being merged for the next scanned push. All notebooks/evidence remain private. Main unchanged.
 
 Never publish private evidence, packets, ledgers, streams, private records, patient rows/identifiers, images, masks, weights or caches. Public code is an archival projection, not a standalone deployable release. Returned executed notebooks, meeting3evidence and new multiwin private bindings remain excluded.
 
@@ -107,6 +107,6 @@ Additional exclusions: docs/MULTIWIN_OUTPUT_BOUNDARY_PRIVATE.json, exact author1
 
 Review5718f662 genuinely APPROVED d58718fa with no findings;123tests and full read-only terminal/accounting checks passed. It is installed and baseline amendment is COMPLETE. First installation refused because transfer stripped executable bits; exact reviewed modes were restored, contents unchanged, and the retry passed. No scientific call or provider cost resulted.
 
-The subsequent start refused before its transition intent because the root-only receipt check rejects the correct service writer. Candidate54ddb8f6 preserves the entire installed runtime, unit and accounting; a bounded start command validates the actual service-owned receipt with strict descriptor, ownership, permission and link checks.154tests and actual read-only server receipt check PASS. Independent reviewcbf4817e is RUNNING. Its direction question addresses the repeated infrastructure overhead explicitly. No L author3 start or new reservation yet.
+The subsequent start refused before its transition intent because the root-only receipt check rejects the correct service writer. Candidate54ddb8f6 preserves the entire installed runtime, unit and accounting; a bounded start command validates the actual service-owned receipt with strict descriptor, ownership, permission and link checks.154tests and actual read-only server receipt check PASS. Independent reviewcbf4817e APPROVED source54ddb8f6 with no findings; direction says it is the shortest safe path. The exact command is installed. L author3 call9713f658 is RUNNING after normal admission; one funded L slot is used, three remain. No provider compute started.
 
-Judgment: restore reviewed transfer metadata without changing any check; no extra model opinion needed for that mechanical correction. Consult Claude on the receipt ownership replacement because it touches a blocking safeguard. Preserve both genuine approvals and all charges. Latest answered direction remains SIMPLIFY-leaning PROCEED from5718f662: reach L author/reviewer next, avoid further scaffolding.
+Judgment: restore reviewed transfer metadata without changing any check; no extra model opinion needed for that mechanical correction. Consult Claude on the receipt ownership replacement because it touches a blocking safeguard. Preserve both genuine approvals and all charges. Latest answered direction is PROCEED fromcbf4817e: this small repair is the shortest safe path. It is installed; actual scientific author3 is now running. Avoid further scaffolding.
