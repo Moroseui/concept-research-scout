@@ -3,12 +3,12 @@
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin awaits its delivered A100 trainer-check result before full training delivery.
 - Accepted saved-output analysis found no useful small-component rescue from removing smoothing; fragmentation increased.
-- Pnorm_v2 check is delivered; L draft is in scientific review with one host test group failing.
-- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $428.26762975; author costs unavailable.
-- Next: L review verdict5-15minutes; Colab checks10-25minutes each after Partho starts them.
-- Action: return multiwin, then run/return the pnorm_v2 check. C:12.36GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
+- Pnorm_v2 check is delivered; L review requests revision; one host test group failed and the evidence packet needs correction.
+- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $435.60941375; author costs unavailable.
+- Next: correct L evidence packet, about30-60minutes; Colab checks10-25minutes each after Partho starts them.
+- Action: return multiwin, then run/return the pnorm_v2 check. C:12.32GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 01:31 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 01:45 UTC. Codex/OpenAI remains operator.
 
 ## Colab
 
@@ -24,7 +24,7 @@ The harness now reads the two authored literal constants from the same exported 
 
 The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
 
-Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L scientific reviewer1 is running on the server; no server scientific compute job is running. Scientific batch122/128 leaves2Colab and4meeting calls.
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L scientific reviewer1 is COMPLETE with genuine REVISE; no server model or scientific compute job is running. Scientific batch122/128 leaves2Colab and4meeting calls.
 
 ## Saved-results analysis
 
@@ -40,7 +40,7 @@ Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
-Pnorm_v2's reviewed trainer check is delivered; L scientific review is running. Both require actual A100 evidence before full delivery. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
+Pnorm_v2's reviewed trainer check is delivered; L requires scientific revision and a corrected evidence packet. Both require actual A100 evidence before full delivery. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
 
 Meeting preparation retains the accepted six-slot rule; no cases/images selected. Existing Drive access was queried for root-folder metadata through its already-approved service lifecycle, then restored inactive. Zero roots named isles-pilot were visible through this narrow route; this does not establish project-wide absence of MRI or clinical data. No credential changes or patient payload access. Source provenance remains unresolved; do not broaden access.
 
@@ -48,7 +48,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending and model calls
 
-13OctoberUTC:7/50 calls: one scientific author (L author1 complete), two scientific reviewers (pnorm_v2 code approval and L reviewer1 live), four administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation and its qualified mechanical retry), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch122/128:2Colab,0analysis,4meeting remain. Known completed Claude charges $428.26762975; author dollar costs unavailable.
+13OctoberUTC:7/50 calls: one scientific author (L author1 complete), two scientific reviewers (pnorm_v2 code approval and L reviewer1 REVISE), four administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation and its qualified mechanical retry), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch122/128:2Colab,0analysis,4meeting remain. Known completed Claude charges $435.60941375; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -115,9 +115,9 @@ The approved and exercised harness code/tests are merged into this archival bran
 
 Packaging inputs, private notebooks, native receipts, review packet/stream and delivery records remain excluded from public backup. Only approved packaging code/tests/scope are projected.
 
-## L preparation and live author
+## L preparation and required revision
 
-A1_L author1 is COMPLETE and scientific reviewer1 is RUNNING through normal admission. The exact submitted specification8d2bab35 and patch518c5daa produced notebookaaf53f56. Four of five host synthetic groupsPASS; coverage handling correctly refused duplicate exported definitions of ZSCORE_MIN_SD/HISTEQ_BINS in cells4and10. The three embedded execution testsPASS. All bytes and the failed receipt are preserved; no scientific code or test guard was changed by the operator.
+A1_L author1 and scientific reviewer1 are COMPLETE. Reviewer1 returned genuine REVISE; no successor has started. The exact submitted specification8d2bab35 and patch518c5daa produced notebookaaf53f56. Four of five host synthetic groupsPASS; coverage handling correctly refused duplicate exported definitions of ZSCORE_MIN_SD/HISTEQ_BINS in cells4and10. The three embedded execution testsPASS. All bytes and the failed receipt are preserved; no scientific code or test guard was changed by the operator.
 
 Read-only AST inspection confirms identical literals are defined twice in the same exported module. This is diagnosis, not scientific acceptance; the reviewer sees the whole draft and failure evidence. Any requested code correction belongs to the author. Full notebook delivery remains held until scientific approval, passing host tests and actual A100 trainer/memory evidence.
 
@@ -134,3 +134,6 @@ Publication additionally withholds docs/COLAB_L_NATIVE_PRIVATE.json, docs/COLAB_
 Judgment01:13UTC: correct setup metadata and continue the same normal initializer after proving source/context unchanged and no lane/owner/call; no new code, accounting rule or guard change, so no extra Claude call. All failed setup attempts preserved. NativePASS and actual author admission followed.
 
 Judgment01:29UTC: preserve host syntheticFAIL and route the complete L draft through ordinary scientific review; no operator scientific edit or weakened harness. Native AST diagnosis is read-only and identifies duplicate constant definitions; reviewer decides required correction.
+
+
+13October01:45UTC reconciliation: L reviewer1 COMPLETE, genuine REVISE, report47ce0700, cost$7.341784 counted. No server model call remains running. Four findings concern exact A100 evidence, the named accepted source, host test provenance and authenticated baseline metrics. The current native host test DID run and FAIL4of5; the packet also contained an older harness. A stale task filename points to an absent source although the accepted pnormct all-fold reference is already bound. Correct those evidence bindings before another author call; preserve all findings and the failed test. No scientific code, refusal or installed context was changed. Next evidence-packet correction estimate30-60minutes, then normal author/reviewer revision; delivery ETA depends on actual A100 evidence. Two Colab calls remain, four meeting calls remain separately allocated. Latest qualified Claude direction remains01:07UTC PROCEED with caution toward SIMPLIFY; this evidence correction is required for the next scientific result.

@@ -1,13 +1,13 @@
 # 13B execution plan
 
-Updated 13 October 2026, 01:31 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 13 October 2026, 01:45 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
 | First, session1 | A1_multiwin,0-4 | **Partho on Colab**, default runtime,A100 | Author12 and five synthetic groupsPASS; Synthetic-only package APPROVE/delivered; Partho runs freshA100check; fulltrainingheld until returned evidence is scientifically accepted |
 | First, session2 | A1_pnormct,0-4 | **Partho on Colab**, default runtime,A100 | Delivered unchanged after real trainer PASS; Partho reports RUNNING |
 | Next | A1_pnorm_v2,0-4 | **Partho on Colab**, default runtime,A100 | Code APPROVE and five native synthetic groupsPASS; reviewed A100 check delivered, actual result pending before full delivery |
-| Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Author1 COMPLETE;4of5hostgroupsPASS, duplicate constants refused; reviewer1 RUNNING. Actual A100 memory-fit evidence still required |
+| Then | A1_L,0-4 | **Partho on Colab**, default runtime,A100 | Author1 COMPLETE;4of5hostgroupsPASS, duplicate constants refused; reviewer1 REVISE. Actual A100 memory-fit evidence still required |
 | Parked | A1_repeat and A1_repeat2,0-4 each | Partho on Colab later | New arms must have results first; saved preprocessing stays |
 | Held | A1_zscore and A1_histeq,0-4 each | No run | Coverage-source provenance unresolved |
 
@@ -28,3 +28,6 @@ Compare each arm provisionally with Sprint12A1. Small differences are not interp
 **Money and limits:** Item4 non-Colab stage1 $115.516623/$150: $24.487001 billed plus $91.029622 retained reservations. Timing exposure $5.405445/$25 is included. Total $1,275 and full-training projection gate $1,200 unchanged. Colab is unmetered by operator decision; printed units are estimates only. 13October model usage7/50;12October closed70/100; scientific batch122/128 leaves2Colab and4meeting calls, no analysis allocation. Detailed audit and costs: [STATUS](STATUS.md).
 
 -23:38UTC: pnorm_v2 author output hashes verified; synthetic failure retained; scientific reviewer1 admitted normally. No administrative call or provider compute added this turn.
+
+
+13October01:45UTC reconciliation: L reviewer1 COMPLETE, genuine REVISE, report47ce0700, cost$7.341784 counted. No server model call remains running. Four findings concern exact A100 evidence, the named accepted source, host test provenance and authenticated baseline metrics. The current native host test DID run and FAIL4of5; the packet also contained an older harness. A stale task filename points to an absent source although the accepted pnormct all-fold reference is already bound. Correct those evidence bindings before another author call; preserve all findings and the failed test. No scientific code, refusal or installed context was changed. Next evidence-packet correction estimate30-60minutes, then normal author/reviewer revision; delivery ETA depends on actual A100 evidence. Two Colab calls remain, four meeting calls remain separately allocated. Latest qualified Claude direction remains01:07UTC PROCEED with caution toward SIMPLIFY; this evidence correction is required for the next scientific result.

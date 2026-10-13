@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 01:31 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 01:45 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -20,7 +20,7 @@ The harness now reads the two authored literal constants from the same exported 
 
 The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer_check_PRIVATE.ipynb, SHA256 b28ca24032ad0cd4f511fd05cb5b7d94069d606062f5092edda53700698f62ac. Fresh default Colab A100, Run all, no edits; expected10-25minutes. Return printed PASS/FAIL, private evidence-folder location and executed notebook. Keep the runtime open until preservation finishes. It runs the exact authored real trainer iteration and checkpoint reload with synthetic data, then copies only declared compact evidence, excluding caches and checkpoints. Full training remains held until actual A100 evidence is reconciled. If session capacity is limited, multiwin takes priority; leave pnormct running.
 
-Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L scientific reviewer1 is running on the server; no server scientific compute job is running. Scientific batch122/128 leaves2Colab and4meeting calls.
+Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS and generated code cells compile. Scientific bytes are unchanged. L scientific reviewer1 is COMPLETE with genuine REVISE; no server model or scientific compute job is running. Scientific batch122/128 leaves2Colab and4meeting calls.
 
 Smoothing saved-output CPU execution completed once: valid,304.77seconds,99development patients, zero excluded overlap,728input and4package hashes unchanged before/after,198equal-amount and792saved-table checks passed. Five private aggregate outputs validate. Scientific interpretation is now independently accepted; see the aggregate summary below.
 
@@ -32,7 +32,7 @@ Smoothing interpretation author3 and scientific reviewer3 are COMPLETE. Reviewer
 
 Item6 diagnostics, saved-results synthesis and Idea2 fixed3x3 interpretation are accepted. Sprint14's352rounded matches share saved fits/cohort, not independent retraining; the Idea2 review's inability to directly inspect its two largest tables remains disclosed.
 
-Pnorm_v2's reviewed trainer check is delivered; L scientific review is running. Both require actual A100 evidence before full delivery. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
+Pnorm_v2's reviewed trainer check is delivered; L requires scientific revision and a corrected evidence packet. Both require actual A100 evidence before full delivery. Repeats parked; zscore/histeq held on coverage provenance. Compare provisionally against Sprint12A1 and do not interpret small differences until a later Colab repeat.
 
 Meeting preparation retains the accepted six-slot rule; no cases/images selected. Existing Drive access was queried for root-folder metadata through its already-approved service lifecycle, then restored inactive. Zero roots named isles-pilot were visible through this narrow route; this does not establish project-wide absence of MRI or clinical data. No credential changes or patient payload access. Source provenance remains unresolved; do not broaden access.
 
@@ -40,7 +40,7 @@ Timing reconciliation confirms author24's real CPU integration PASS; do not repe
 
 ## Spending
 
-13OctoberUTC:7/50 calls: one scientific author (L author1 complete), two scientific reviewers (pnorm_v2 code approval and L reviewer1 live), four administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation and its qualified mechanical retry), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch122/128:2Colab,0analysis,4meeting remain. Known completed Claude charges $428.26762975; author dollar costs unavailable.
+13OctoberUTC:7/50 calls: one scientific author (L author1 complete), two scientific reviewers (pnorm_v2 code approval and L reviewer1 REVISE), four administrative reviews (harness revalidation, trainer-check packaging, unqualified L preparation and its qualified mechanical retry), zero standalone direction checks. 12October closed at70/100; its breakdown is below. Scientific batch122/128:2Colab,0analysis,4meeting remain. Known completed Claude charges $435.60941375; author dollar costs unavailable.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -58,7 +58,7 @@ Item4 non-Colab stage1 exposure $115.516623/$150 = $24.487001 billed + $91.02962
 3. The private namespace-repair/serialization-recovery/review folder holds installed repair d035b2a6, qualified scientific APPROVE, hash-verified authored output, and completed acceptance receipt. All starts are consumed. Never replay them. Analysis allocation is exhausted; the bounded question is complete.
 4. For multiwin, first obtain the actual private A100 receipt. Preserve genuine scientific REVISE and24/24 calls; normal scientific follow-up is required before full delivery. No continuation grant or accounting change is presently prepared.
 5. Root must not open live SQLite. Use the existing service identity and WAL-aware read-only queries. No credential contents/paths or patient payloads in public files.
-6. Check C:/WSL free space before large steps: warn below15GiB, stop below8GiB. Latest C:12.36GiB; server107.51GiB after the new approved source and repair. Historical evidence migration is complete; do not replay it.
+6. Check C:/WSL free space before large steps: warn below15GiB, stop below8GiB. Latest C:12.32GiB; server107.51GiB after the new approved source and repair. Historical evidence migration is complete; do not replay it.
 7. Update these documents in place, scan privacy/secrets/infrastructure, push remote-server and safe astra projections, verify hashes, and hash-verify private evidence backup before stopping. Never push raw private working branches. main unchanged.
 
 ## Decisions, reasoning and limitations
@@ -93,9 +93,9 @@ Timing follow-up23:32UTC: the exact old reviewer16 attempt is terminal and unres
 
 -00:30UTC: independent harness APPROVEed0de67a; native five-groupPASS and normal specification acceptance, zero model/provider calls. First invocation stopped before entry because the new staging clone lacked service read access; fixed only that reviewed copy, verified all hashes as the existing service account, and continued once. Original error and test failure preserved. No installed unit, credentials or safeguards changed.
 
-## L preparation and live author
+## L preparation and required revision
 
-A1_L author1 is COMPLETE and scientific reviewer1 is RUNNING through normal admission. The exact submitted specification8d2bab35 and patch518c5daa produced notebookaaf53f56. Four of five host synthetic groupsPASS; coverage handling correctly refused duplicate exported definitions of ZSCORE_MIN_SD/HISTEQ_BINS in cells4and10. The three embedded execution testsPASS. All bytes and the failed receipt are preserved; no scientific code or test guard was changed by the operator.
+A1_L author1 and scientific reviewer1 are COMPLETE. Reviewer1 returned genuine REVISE; no successor has started. The exact submitted specification8d2bab35 and patch518c5daa produced notebookaaf53f56. Four of five host synthetic groupsPASS; coverage handling correctly refused duplicate exported definitions of ZSCORE_MIN_SD/HISTEQ_BINS in cells4and10. The three embedded execution testsPASS. All bytes and the failed receipt are preserved; no scientific code or test guard was changed by the operator.
 
 Read-only AST inspection confirms identical literals are defined twice in the same exported module. This is diagnosis, not scientific acceptance; the reviewer sees the whole draft and failure evidence. Any requested code correction belongs to the author. Full notebook delivery remains held until scientific approval, passing host tests and actual A100 trainer/memory evidence.
 
@@ -106,3 +106,6 @@ Original implementation review910772f3 is terminalFAILED: its sole manifest Read
 Setup corrections preserved all originals: the staged bundle ref was case-sensitive; then the installed branch label had to satisfy the existing lowercase rule. Tracked source stayed unchanged, original Git reference retained. The ordinary initializer continued only after verifying310context hashes and absence of a lane/owner/call; the existing Git identity environment was restored. No new credentials or identity were created. The original preparation operation must not be replayed. Native qualification then passed; author1 completed and scientific reviewer1 was admitted.
 
 Next L result: scientific review verdict, provisionally5-15minutes. The author draft is complete; any requested scientific correction returns to the author. Actual GPU fit remains a later operator-run check. Two Colab calls and four meeting calls remain in the128scientific batch.
+
+
+13October01:45UTC reconciliation: L reviewer1 COMPLETE, genuine REVISE, report47ce0700, cost$7.341784 counted. No server model call remains running. Four findings concern exact A100 evidence, the named accepted source, host test provenance and authenticated baseline metrics. The current native host test DID run and FAIL4of5; the packet also contained an older harness. A stale task filename points to an absent source although the accepted pnormct all-fold reference is already bound. Correct those evidence bindings before another author call; preserve all findings and the failed test. No scientific code, refusal or installed context was changed. Next evidence-packet correction estimate30-60minutes, then normal author/reviewer revision; delivery ETA depends on actual A100 evidence. Two Colab calls remain, four meeting calls remain separately allocated. Latest qualified Claude direction remains01:07UTC PROCEED with caution toward SIMPLIFY; this evidence correction is required for the next scientific result.
