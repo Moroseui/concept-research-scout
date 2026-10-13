@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 11:36 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
+Updated 13 October 2026, 12:22 UTC. Current operator: Codex/OpenAI. No rotation. Read [ROLES](ROLES.md), [CURRENT](CURRENT.md), [STATUS](outputs/STATUS.md) and the [execution plan](outputs/13B_EXECUTION_PLAN.md). Exact private operation paths and receipts are in the canonical private handoff.
 
 ## Goal and rules
 
@@ -28,7 +28,13 @@ Latest Claude directionSIMPLIFY: stop extending the per-retry review wrapper; ca
 
 The accepted component supports packed small-U-Net reconstruction, original Sprint13A fusion/union reproduction, exact clinical headers, geometry checks and the predetermined six-case rule. It requires approved input/code/spec/review/admission bindings and independent landmark-based image QC before private-local execution. Native MRI/transforms remain unavailable; CT-space derivatives must not be relabeled native. Combined49exclusions must not be invented as a25/24split. OOF provenance is recorded-outer-split-only, not nested-independent. Next: prepare an exact private input contract using existing authenticated development sources, identify the independent QC requirement, and obtain normal review before execution. Do not treat synthetic approval as patient-execution authority.
 
-**L:** author2/reviewer2 COMPLETE, five host-test groups PASS, genuine REVISE282d246b. Baseline metrics are now hash/membership verified against99development cases and five frozen folds; scientific binding and actual A100 trainer/checkpoint/memory evidence remain. Four funded calls are earmarked. No full notebook delivered or A100 memory-fit claim. Prioritize after multiwin correction is in the author lane.
+**L:** Original author2/reviewer2 are COMPLETE with genuine scientific REVISE. Ten baseline files are authenticated against99development cases and five frozen folds. Scientific author3 must bind them and obtain authentic ResEncL plans; never substitute M plans. Real A100 trainer, checkpoint and memory evidence is still required before a full notebook or memory-fit claim.
+
+The first funded-continuation implementation review338d181b genuinely APPROVED sourcef058816a, report8d3b9d33, cost$3.3128255. Operator testing found a missed terminal-routing defect before installation. The approved version was never installed, and its verdict/charge remain unchanged.
+
+Corrected sourced58718fa passes123tests and actual full read-only server admission checks. Review5718f662 genuinely APPROVED it, report303b99d6, cost$3.93382. Exact source installed; baseline context amendment completed and both actual inputs were prepared. Transfer initially stripped six executable bits; the installer refused before mutation. Exact Git modes were restored with contents unchanged; the same reviewed installer then succeeded. Both attempts are preserved.
+
+Author3 start refused before durable transition intent or service launch: the root-only trusted() helper rejects the correctly service-owned amendment receipt. Candidate54ddb8f6 adds only a guarded start command, installer and tests, keeping the entire installed runtime unchanged. It validates the exact receipt under its real writer with no-follow file descriptors, owner/mode/link/size checks, then retains all prior lock, state, live-call, approval, duplicate-intent and same-unit launch checks.154tests and actual read-only receipt probe PASS. Reviewcbf4817e is RUNNING; it includes the required direction check after two cycles without science. Never repeat its registration/preparation/start. No new L model call or reservation. If APPROVE, install only this command and proceed to author3/reviewer3 within the existing four L slots. If direction says simplify, resolve it before further engineering.
 
 **Accepted analysis:** item6, saved-results synthesis, Idea2 fixed3x3 interpretation and smoothing are done; do not rerun. Sprint14's352rounded matches share saved fits/cohort, not independent retraining. Preserve Idea2's large-table inspection limitation. Smoothing did not establish useful general small-component rescue and increased fragmentation.
 
@@ -36,17 +42,17 @@ The accepted component supports packed small-U-Net reconstruction, original Spri
 
 ## Funding, calls and judgment
 
-Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 4 L remain. Daily33/50 includes6authors,7scientific reviewers,19administrative reviews and1standalone direction; see STATUS for purposes.
+Verbatim approval “Approve12 calls: Colab and meeting” settles batch140. The later bracketed140/136 sentence is not an additional increase.132 scientific calls are counted: 2 meeting and 2 returned-Colab used; 2 meeting, 2 returned-Colab and 4 L remain. Daily35/50 includes6authors,7scientific reviewers,21administrative reviews and1standalone direction; see STATUS for purposes.
 
-Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$523.1928535before current review; author dollar costs unknown. No new provider compute.
+Non-Colab item4:$24.487001billed+$91.029622reserved=$115.516623/$150; timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275/projection$1,200/item6$100 unchanged. Known Claude$530.439499before current review; author dollar costs unknown. No new provider compute.
 
-Latest qualified directionSIMPLIFY from ce729f6b: agree freeze new infrastructure expansion; current round2 discusses the narrow synthetic-check staging path. Judgment: deliver unchanged pnorm_v2 after exact PASS reconciliation without another model call; preserve the genuine multiwin findings and seek the delegated narrow process exception; keep running user sessions untouched.
+Latest direction from completed L review338d181b: SIMPLIFY-leaning PROCEED; the narrow continuation serves the next result, then proceed directly to L author/reviewer. Final multiwin packaging direction also says to end wrapper expansion. Judgment: deliver unchanged pnorm_v2 after exact PASS reconciliation without another model call; preserve the genuine multiwin findings and seek the delegated narrow process exception; keep running user sessions untouched.
 
 ## Resume safely
 
 1. Read the private restart handoff and verbatim operator decisions; confirm this operator still owns the task. Goal-tool state may retain the old funding block; explicit funding and overnight instructions authorize current work. Do not create another goal or ask again.
-2. Check free space before large steps: warn below15GiB, stop below8GiB. C:last13.1GiB; WSLabout900GiB; serverabout103.5GiB. Reuse working checkouts and keep evidence private.
-3. Observe current completed review1d7f4f3c and reconcile before any launch. Seven uncertain entries remain preserved with installed qualification, including recovered author13. No uncertain call may be replayed.
+2. Check free space before large steps: warn below15GiB, stop below8GiB. C:last12.1GiB; WSLabout900GiB; serverabout102.6GiB. Reuse working checkouts and keep evidence private.
+3. Observe current running L start correction reviewcbf4817e and reconcile before any launch. Seven uncertain entries remain preserved with installed qualification, including recovered author13. No uncertain call may be replayed.
 4. Do not repeat batch140, multiwin9fa or714 installation/recovery, author13, reviewer12 or meeting author3/reviewer3 starts. All completed. Do not rerun either returned Colab check unchanged.
 5. Only qualified exact-source APPROVE permits new installation. Reconcile transfer/install/probe/recovery separately; never restart an uncertain operation.
 6. At each stop update these documents in place, back up private evidence by verified hashes, scan privacy plus secrets/infrastructure, and push remote-server and safe working projections. Never push raw private ancestry.
@@ -57,6 +63,3 @@ No Swap point: timing result, installed opposite-family administrative route and
 
 The existing server Drive access sees no matching source root. No files were downloaded and credentials remain unchanged. Do not solve this by changing scopes or copying credentials; keep the private operator return route.
 
-L continuation note: the old component pins the sibling's whole historical snapshot, so multiwin's legitimate progress makes it stale. A reviewed equivalent history proof must preserve original rows and authenticate approved additions; do not simply refresh the snapshot. Combine this with baseline context and the existing four-call allocation if continuing L.
-
-Current L implementation review338d181b is RUNNING at11:36UTC, sourcef058816a. Do not duplicate it. Operator-detected terminal-routing defect holds installation regardless of this review's outcome: old terminal validator requires exactsixrowglobalset before the seventhqualifiedauthor13 can be appended. Fix by exactfullunion verification with all original qualifiers and newinstalledproof; unknown/RUNNING/changedrows must refuse. Add regression and reviewfinalsource.111tests/read-onlyPASS sofar cover history/budget and unit controls, not the fullrouting. No scientificLcallyet.

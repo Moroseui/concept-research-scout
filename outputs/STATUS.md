@@ -1,14 +1,14 @@
 # Research status
 
-- Pnormct and pnorm_v2 are reported running in Partho's Colab sessions; neither was altered.
-- Multiwin's corrected synthetic trainer-check notebook is reviewed and delivered, ready for the morning.
-- Full multiwin training waits for actual A100 evidence and scientific review; the six CPU tests passed.
-- L's continuation is under review; an inherited terminal-routing check still needs correction before installation.
-- Item4 has $24.49 billed and $91.03 reserved; known Claude charges total$523.19, author dollars unavailable.
-- Next results: Partho's multiwin check takes10?25minutes; L author/reviewer preparation is estimated1?2hours after implementation approval.
-- C: is about12.6GiB free; [morning check instructions](MULTIWIN_TRAINER_CHECK_20261013.md) and [execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct and pnorm_v2 are reported running in Partho's Colab sessions; both remain untouched.
+- Multiwin's corrected trainer-check notebook is reviewed and delivered for Partho to run when awake.
+- Full multiwin training awaits actual A100 evidence and scientific review; all six CPU tests passed.
+- L's continuation is installed; a receipt-ownership error prevents its next author call. The tested start repair is under review.
+- Item4 has $24.49 billed and $91.03 reserved; completed Claude charges total $530.44. Author dollars are unavailable.
+- Next result: L scientific preparation is estimated 1?2 hours after the start repair passes; the multiwin check takes 10?25 minutes when run.
+- C: has about 12.1 GiB free, above the 8 GiB stop. [Morning instructions](MULTIWIN_TRAINER_CHECK_20261013.md); [execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 11:36 UTC. Codex/OpenAI remains operator. Action needed from you: none overnight. No Swap point.
+Updated 13 October 2026, 12:22 UTC. Action needed from you: none overnight. Codex/OpenAI remains operator; no Swap point.
 
 ## Current work and next steps
 
@@ -57,15 +57,15 @@ Timing author24 real CPU integration PASS is retained. Reviewer16 failed before 
 
 Non-Colab item4 stage1:**$115.516623/$150**, comprising**$24.487001billed+$91.029622reserved**. Timing$5.405445/$25included; syntheticCPU$1.118950awaitsbilling. Total$1,275, projection$1,200 and item6$100 unchanged. Release excess only for confirmed closed billing; retain open/uncertain reservations. No new provider compute in this continuation.
 
-Known completed Claude charges:**$523.1928535**, including completed packaging round3. Multiwin output recovery cost$5.6975585, scientific review12$4.8070605 and packaging round1$4.26782425; round2$4.76919075 and round3$3.7321145 also preserved. Two packaging failures before model admission incurred no call or charge. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
+Known completed Claude charges:**$530.439499**, including completed packaging round3 and the two genuine L approvals: $3.3128255 and $3.93382. Current receipt-start review remains unpriced until completion. Multiwin output recovery cost$5.6975585, scientific review12$4.8070605 and packaging round1$4.26782425; round2$4.76919075 and round3$3.7321145 also preserved. Two packaging failures before model admission incurred no call or charge. Meeting scientific review3 cost$4.65672625. Prior qualification failure$5.17419325, genuineREVISE$4.21827, round2APPROVE$2.0889895, empty-propertyAPPROVE$1.81500425 and installed hook-configurationAPPROVE$1.96712425 are all preserved. Author dollars are unavailable.
 
-13 October UTC: **33/50**, including the current administrative call:
+13 October UTC: **35/50**, including the current administrative call:
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |6|L drafts 1/2; meeting drafts 1/2/3; multiwin provenance correction 13|
 | Scientific reviewer |7|Pnorm_v2; L reviews1/2; meeting reviews1/2/3; multiwin review12|
-| Administrative implementation review |19|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; multiwin continuation, installed output recovery and packaging rounds1/2/3; current combined L continuation|
+| Administrative implementation review |21|Pnorm_v2 harness/packaging; L setup, qualification recovery and evidence; meeting setup/amendment; batch140 accounting, qualification and property repairs; multiwin continuation, installed output recovery and packaging rounds1/2/3; L continuation, terminal-routing correction and current receipt-start repair|
 | Standalone direction |1|Earlier meeting routing attempt answered an old question; retained|
 
 Administrative overhead remains high. Batch direction with necessary implementation review; deliver unchanged reviewed notebooks without repeat reviews; defer components unrelated to current results.12October remains70/100:16authors,13scientific reviews,39administrative,2direction. No usage reset or relabel.
@@ -83,7 +83,7 @@ Administrative overhead remains high. Batch direction with necessary implementat
 
 ## Backup and exclusions
 
-Last verified remote-server push:73f4da62bde8377662362b36a8e4f819bdd09cc2. Approved final packaging projection9a5f4e91 is merged locally; this update awaits scan/push. All notebooks/evidence remain private. Main unchanged.
+Last verified remote-server push:dea453ae3eff205fe7ee6deab1d1cc8cddc711e3. The installed L safe projection is being merged for the next scanned push. All notebooks/evidence remain private. Main unchanged.
 
 Never publish private evidence, packets, ledgers, streams, private records, patient rows/identifiers, images, masks, weights or caches. Public code is an archival projection, not a standalone deployable release. Returned executed notebooks, meeting3evidence and new multiwin private bindings remain excluded.
 
@@ -103,8 +103,10 @@ Review history: the first multiwin administrative attempt preserved genuine REVI
 
 Additional exclusions: docs/MULTIWIN_OUTPUT_BOUNDARY_PRIVATE.json, exact author13 output and native stream, all recovery snapshots and review packets. No raw private branch is published. The existing server Drive access sees no matching source root; no new permissions or credentials were requested. Returned results can still be supplied by the operator through the established private handoff.
 
-L draft f058816a: equivalent sibling-history check preserves original24rows plus exactly2separately approved additions. Existing batch140policy gives four L calls without changing caps. Baseline context is bound; source leaves scientific changes to the author.111testsPASS including actual reservation cap refusals and native intent/replay controls. Server read-only preflight preserves all26sibling rows and every ledger row; no model or provider call. Not installed; normal independent review remains. Exclude docs/L_FUNDED_CHECKPOINT_PRIVATE.json, docs/L_FUNDED_BASELINE_PRIVATE.json and all L private records.
+## Current L installation and remaining blocker
 
-L review338d181b is running, first normal implementation/accounting/direction round. Operator found a pre-install terminal-routing defect: the old validator requires the entire uncertain-call set to equal six old rows before the new verified seventh row can be added. Current111tests and server read-only result cover siblinghistory/budget, not this full routing. Hold installation even if this candidate is approved; preserve review outcome, add an exact-union refusal-preserving correction and regression, then normal review of final source. No scientific call/provider launch occurred. This is a new draft finding, not a scientific disagreement or refund.
+Review5718f662 genuinely APPROVED d58718fa with no findings;123tests and full read-only terminal/accounting checks passed. It is installed and baseline amendment is COMPLETE. First installation refused because transfer stripped executable bits; exact reviewed modes were restored, contents unchanged, and the retry passed. No scientific call or provider cost resulted.
 
-L safe working projection6e574f34 is archived separately; private checkpoint/baseline/author-context and all accounting authority records are withheld, along with all packets/ledgers/streams.
+The subsequent start refused before its transition intent because the root-only receipt check rejects the correct service writer. Candidate54ddb8f6 preserves the entire installed runtime, unit and accounting; a bounded start command validates the actual service-owned receipt with strict descriptor, ownership, permission and link checks.154tests and actual read-only server receipt check PASS. Independent reviewcbf4817e is RUNNING. Its direction question addresses the repeated infrastructure overhead explicitly. No L author3 start or new reservation yet.
+
+Judgment: restore reviewed transfer metadata without changing any check; no extra model opinion needed for that mechanical correction. Consult Claude on the receipt ownership replacement because it touches a blocking safeguard. Preserve both genuine approvals and all charges. Latest answered direction remains SIMPLIFY-leaning PROCEED from5718f662: reach L author/reviewer next, avoid further scaffolding.
