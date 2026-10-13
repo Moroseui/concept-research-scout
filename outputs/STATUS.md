@@ -1,14 +1,14 @@
 # Research status
 
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
-- Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
-- L baseline files now pass hash and fold checks; its A100 check and scientific acceptance are still pending.
-- The meeting source repair is approved and applied; 10synthetic tests passed and Claude approved the preparation; real panels remain held.
+- Multiwin and pnorm_v2 await their delivered A100 trainer-check results.
+- Meeting preparation is approved; original small-U-Net masks and fusion/union source code are now located and pinned.
+- Recorded model partitions and frozen file hashes match; actual training ancestry and image QC still need qualification.
 - Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $473.029191; author costs unavailable.
-- Next result: multiwin check10-25minutes once run. Further scientific calls await funding; real-panel timing remains unqualified.
-- C:16.82GiB clears both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
+- Next result: multiwin check10-25minutes once run. Further scientific calls need funding; real-panel ETA remains unqualified.
+- C:16.68GiB clears both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 05:05 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -46,7 +46,7 @@ Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before
 
 ## Spending and model calls
 
-13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. The replacement funding proposal requests up to12additional scientific calls:4for returned Colab evidence/corrections,4for L and4for the private meeting workflow (128to140). The8-call Colab-only alternative would set136. This replaces the earlier pending request; no allowance has changed and no requests may be added together.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
@@ -110,3 +110,12 @@ A read-only check found that the installed Drive evidence service is limited to1
 
 
 [Accepted meeting preparation and remaining requirements](MEETING_PREPARATION_20261013.md). Latest direction remains03:13UTC PROCEED; neither this scientific approval nor the later implementation approval supplies a new direction answer.
+
+
+Read-only source qualification now verifies matching recorded five-fold identities across tree, small U-Net and nnU-Net, and exact frozen hashes for99tree plus99small-U-Net mask containers. Original Sprint8/9 partitions match the frozen partition hash, their declared inner splits stay within each outer training set, and all99recorded feature-cache hashes match. These checks establish identities and recorded relationships, not a full audit of actual training ancestry.
+
+The executed Sprint13A r4 notebook has the same code as both saved unexecuted copies and contains explicit original fusion and union recipes. Those sources are now preserved for scientific use; no recipe was executed or mask reconstructed. The accepted additional-output reader expects image files, while the located small-U-Net originals are packed containers, so the author must handle that interface. Actual source QC, clinical bindings and real-data execution remain unqualified.
+
+The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
+
+[Replacement scientific-call funding proposal](proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.

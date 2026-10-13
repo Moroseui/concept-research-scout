@@ -1,8 +1,8 @@
 # Current research state
 
-Updated 13 October 2026, 05:05 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator. No Swap point.
 
-Action needed from you: pending money decision for up to8additional Colab scientific calls; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
+Action needed from you: pending replacement funding decision:12scientific calls, or8Colab-only; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
 
 Pnormct is RUNNING externally by Partho's report. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
 
@@ -14,7 +14,7 @@ The approved additive evidence supplement a6520522 passed94tests and received in
 
 Pnorm_v2 code and native tests are approved; delivered real-trainer check awaits a result. Item6, Idea2 and smoothing interpretations are accepted. Meeting synthetic preparation is independently approved; real payload hashes, geometry and clinical provenance remain unverified.
 
-13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. The replacement funding proposal requests up to12additional scientific calls:4for returned Colab evidence/corrections,4for L and4for the private meeting workflow (128to140). The8-call Colab-only alternative would set136. This replaces the earlier pending request; no allowance has changed and no requests may be added together.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
@@ -29,7 +29,7 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 
 Next real result: multiwin A100 trainer check, about 10-25 minutes after Partho starts it; pnorm_v2 follows on the same timescale. Full releases require returned evidence, scientific acceptance and available call authority. Meeting synthetic preparation is approved; real panels have no reliable ETA until the author/reviewer resolve the documented imaging limitations and qualify geometry, clinical mapping and prediction provenance. L delivery and the CPU-starvation timing result remain held by their recorded prerequisites.
 
-C:16.82GiB clears both disk thresholds. All meeting scientific calls are COMPLETE; no model call is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
+C:16.68GiB clears both disk thresholds. All meeting scientific calls are COMPLETE; no model call is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
 
 Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
 
@@ -58,3 +58,12 @@ A read-only check found that the installed Drive evidence service is limited to1
 
 
 [Accepted meeting preparation and remaining requirements](outputs/MEETING_PREPARATION_20261013.md). Latest direction remains03:13UTC PROCEED; neither this scientific approval nor the later implementation approval supplies a new direction answer.
+
+
+Read-only source qualification now verifies matching recorded five-fold identities across tree, small U-Net and nnU-Net, and exact frozen hashes for99tree plus99small-U-Net mask containers. Original Sprint8/9 partitions match the frozen partition hash, their declared inner splits stay within each outer training set, and all99recorded feature-cache hashes match. These checks establish identities and recorded relationships, not a full audit of actual training ancestry.
+
+The executed Sprint13A r4 notebook has the same code as both saved unexecuted copies and contains explicit original fusion and union recipes. Those sources are now preserved for scientific use; no recipe was executed or mask reconstructed. The accepted additional-output reader expects image files, while the located small-U-Net originals are packed containers, so the author must handle that interface. Actual source QC, clinical bindings and real-data execution remain unqualified.
+
+The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
+
+[Replacement scientific-call funding proposal](outputs/proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.

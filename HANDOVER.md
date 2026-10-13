@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 05:05 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -40,7 +40,7 @@ Timing author24 real CPU integration PASS is preserved. Reviewer16 failed before
 
 ## Spending and open decisions
 
-13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. A money request for up to8 additional Colab calls (128 to136, split4 for returned multiwin/pnorm_v2 evidence and4 for L) is pending; no allowance has changed. Never borrow the meeting allocation.
+13OctoberUTC: **17/50 calls**:4scientific authors,5scientific reviewers,7administrative implementation reviews,1standalone direction check. Scientific batch **128/128**:0Colab,0analysis,0meeting calls remain. The replacement funding proposal requests up to12additional scientific calls:4for returned Colab evidence/corrections,4for L and4for the private meeting workflow (128to140). The8-call Colab-only alternative would set136. This replaces the earlier pending request; no allowance has changed and no requests may be added together.
 
 | Type | Calls today | Purpose |
 |---|---:|---|
@@ -60,8 +60,8 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 3. L has four COMPLETE calls and genuine reviewer2 REVISE. Author2, reviewer2 and the approved supplement application are finished; do not replay their starts or transfer/install/initializer. All five native host groups PASS. Next scientific work is held by missing evidence and exhausted Colab allocation, not a mechanical failure.
 4. Multiwin's delivered check is awaiting actual A100 evidence; its full notebook is held. Pnorm_v2 code is approved and its delivered fixture is awaiting actual A100 evidence. Never repeat pnormct's accepted trainer check or interrupt its current training. Preserve all failed attempts and costs.
 5. Use service-owned WAL-aware read-only ledger queries; root must not open live SQLite. Existing source and evidence hashes remain binding. No broad patient-directory traversal.
-6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:16.82GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
-7. All four meeting calls are complete; do not admit another scientific call without additional funded authority. The pending request for eight further Colab calls is NOT authority until approved and recorded verbatim/hash-pinned. Do not silently increase limits or borrow allocations.
+6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:16.68GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
+7. All four meeting calls are complete; do not admit another scientific call without additional funded authority. The replacement12-call proposal (or8Colab-only alternative) is NOT authority until approved and recorded verbatim/hash-pinned. Do not silently increase limits or borrow allocations.
 8. At every stop, update documents in place, scan privacy/secrets/infrastructure, push safe remote-server and astra projections, verify remote hashes, and hash-verify private evidence backup. Never push raw private branches or merge main.
 
 ## Reasoning and estimates
@@ -98,3 +98,12 @@ A read-only check found that the installed Drive evidence service is limited to1
 
 
 [Accepted meeting preparation and remaining requirements](outputs/MEETING_PREPARATION_20261013.md). Latest direction remains03:13UTC PROCEED; neither this scientific approval nor the later implementation approval supplies a new direction answer.
+
+
+Read-only source qualification now verifies matching recorded five-fold identities across tree, small U-Net and nnU-Net, and exact frozen hashes for99tree plus99small-U-Net mask containers. Original Sprint8/9 partitions match the frozen partition hash, their declared inner splits stay within each outer training set, and all99recorded feature-cache hashes match. These checks establish identities and recorded relationships, not a full audit of actual training ancestry.
+
+The executed Sprint13A r4 notebook has the same code as both saved unexecuted copies and contains explicit original fusion and union recipes. Those sources are now preserved for scientific use; no recipe was executed or mask reconstructed. The accepted additional-output reader expects image files, while the located small-U-Net originals are packed containers, so the author must handle that interface. Actual source QC, clinical bindings and real-data execution remain unqualified.
+
+The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
+
+[Replacement scientific-call funding proposal](outputs/proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.

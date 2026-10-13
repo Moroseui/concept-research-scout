@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 13 October 2026, 05:05 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 13 October 2026, 05:32 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -25,7 +25,7 @@ Compare each arm provisionally with Sprint12A1. Small differences are not interp
 
 **Timing diagnostic:** current-resource RunA versus increased-CPU/augmentation-worker RunB remains approved within its $25 sub-cap. RunB first if both will not fit. Author24's real CPU integration passed; reviewer16 failed before reservation on confined ledger access. The established reader can be reused, but old timing allocation rules also predate the current124-call history. Reconcile retained timing authority with the later purpose-specific batch allocation before preparing a complete narrow repair; no existing allowance is silently repurposed. No GPU job is running, and Colab arms do not wait for this repair. Timing ETA follows repair approval; no measured steady-state projection is claimed.
 
-**Money and limits:** Item4 non-Colab stage1 $115.516623/$150: $24.487001 billed plus $91.029622 retained reservations. Timing exposure $5.405445/$25 is included. Total $1,275 and full-training projection gate $1,200 unchanged. Colab is unmetered by operator decision; printed units are estimates only. 13October model usage17/50;12October closed70/100; scientific batch128/128 leaves0Colab and0meeting calls, no analysis allocation. The request for8additional Colab calls is pending, not approved. Detailed audit and costs: [STATUS](STATUS.md).
+**Money and limits:** Item4 non-Colab stage1 $115.516623/$150: $24.487001 billed plus $91.029622 retained reservations. Timing exposure $5.405445/$25 is included. Total $1,275 and full-training projection gate $1,200 unchanged. Colab is unmetered by operator decision; printed units are estimates only. 13October model usage17/50;12October closed70/100; scientific batch128/128 leaves0Colab and0meeting calls, no analysis allocation. The replacement12-call request (or8Colab-only alternative) is pending, not approved. Detailed audit and costs: [STATUS](STATUS.md).
 
 Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
 
@@ -51,3 +51,12 @@ The accepted Idea2 and smoothing code emits aggregate reports; it does not persi
 
 
 A read-only check found that the installed Drive evidence service is limited to13registered files; it does not establish the meeting MRI input route. Other existing source helpers still need qualification for the final contract. No credential or access setting changed and no patient payload was requested.
+
+
+Read-only source qualification now verifies matching recorded five-fold identities across tree, small U-Net and nnU-Net, and exact frozen hashes for99tree plus99small-U-Net mask containers. Original Sprint8/9 partitions match the frozen partition hash, their declared inner splits stay within each outer training set, and all99recorded feature-cache hashes match. These checks establish identities and recorded relationships, not a full audit of actual training ancestry.
+
+The executed Sprint13A r4 notebook has the same code as both saved unexecuted copies and contains explicit original fusion and union recipes. Those sources are now preserved for scientific use; no recipe was executed or mask reconstructed. The accepted additional-output reader expects image files, while the located small-U-Net originals are packed containers, so the author must handle that interface. Actual source QC, clinical bindings and real-data execution remain unqualified.
+
+The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
+
+[Replacement scientific-call funding proposal](proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.
