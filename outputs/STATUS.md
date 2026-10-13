@@ -1,12 +1,12 @@
 # Research status
 
-- Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
-- Multiwin and pnorm_v2 await their delivered A100 trainer-check results.
-- Meeting preparation is approved; original small-U-Net masks and fusion/union source code are now located and pinned.
-- Recorded model partitions and frozen file hashes match; actual training ancestry and image QC still need qualification.
-- Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $473.029191; author costs unavailable.
-- Next result: multiwin check10-25minutes once run. Further scientific calls need funding; real-panel ETA remains unqualified.
-- C:16.68GiB clears both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
+- Original model partitions and frozen file hashes agree; small-U-Net masks and original fusion/union recipes are now located.
+- Pnormct was last reported running in Partho's Colab session.
+- Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
+- Meeting preparation is approved; actual panels still need input, training-provenance and image-quality checks.
+- Item4 billed $24.49, with $91.03 reserved. Recorded Claude charges: $473.03; author dollar costs are unavailable.
+- Next result: a Colab trainer check, about 10?25 minutes once started. Further scientific calls await the funding decision.
+- C: has 16.68 GiB free, above both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
 
 Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator.
 
