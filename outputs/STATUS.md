@@ -1,18 +1,24 @@
 # Research status
 
-- Pnormct and pnorm_v2 are reported running in Partho's Colab sessions; neither was touched.
-- Multiwin's corrected A100 check and L's preparation-only notebook are reviewed, delivered and ready.
-- L now binds the baseline files; scientific review still needs actual A100 evidence and confirmation of the baseline metric.
-- No model call or server compute remains running or awaiting reconciliation; historical uncertain rows remain preserved with their qualification records.
-- Item4 has $24.49 billed and $91.03 reserved; known completed Claude charges total $544.78. Author dollars are unavailable.
-- Next real result: multiwin's A100 check, estimated 10?25 minutes once Partho runs it; L preparation time is not measured.
-- C: has 11.7 GiB free, below the 15 GiB warning and above the 8 GiB stop. [Multiwin instructions](MULTIWIN_TRAINER_CHECK_20261013.md), [L preparation](L_PREPARATION_20261013.md), [execution plan](13B_EXECUTION_PLAN.md).
+- Pnormct stalled after epoch86; saved metadata supports resuming at epoch85, after checkpoint hash verification.
+- Corrected pnormct and pnorm_v2 notebooks are delivered: CPU-sized workers, an external stall watchdog and all logins first.
+- Pnorm_v2 was still progressing when last reported; Partho controls the switch after a fresh checkpoint. No duplicate run started.
+- Trainer-check upfront-login/isolation review is running; multiwin full training and L qualification remain held for real evidence.
+- Non-Colab item4 has $24.49 billed and $91.03 reserved; known completed Claude charges total $557.25. Colab is unmetered.
+- Next result: resumed epoch timings after Partho starts the corrected file, provisionally 15-30 minutes including setup; speedup is unmeasured.
+- C: is above the 8 GiB stop but below the 15 GiB warning. [Resume instructions](COLAB_RESUME_20261013.md), [execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 13:30 UTC. Action needed from you: none overnight; use the next free Colab session for the instructions above. Codex/OpenAI remains operator. No Swap point.
+Updated13October2026,21:30UTC. Action needed from you: use the corrected resume files, after shutting down the corresponding old runtime and allowing its lease to expire. Codex/OpenAI remains operator. No Swap point.
 
 ## Results and current work
 
-Pnormct and pnorm_v2 full all-fold notebooks remain running as reported by Partho. There is no independent live view of those runtimes. Do not duplicate either job. Their private results will enter normal scientific analysis when returned.
+Pnormct is stalled, not complete. Partho reports epochs0-86 completed, a hang at87 and about17.7hours of lease renewal without progress. Returned checkpoint metadata records next_epoch85; its payload has not been opened here. The corrected run will hash-verify before loading. Pnorm_v2 remains operator-reported running; there is no independent live runtime view. Switch after a fresh checkpoint if it is progressing; stop it if stalled.
+
+Operational source2e64b30c received qualified independent APPROVE9012c065/reportbe7f92d1 after31tests. Both exact scientific modules are unchanged. The adapter uses12training/6validation workers on the observed12CPU/167GiB runtime; actual selection follows available CPU/RAM. An external process-group watchdog uses approximately3times recent median epoch time, with bounded startup/phase allowances, logs errors, stops lease-renewing children and requests runtime unassignment on failure. It explicitly migrates only exact expired/unowned old bindings, retaining original records and checkpoint payloads; live owners and mismatches still refuse. No measured performance or bitwise replay claim.
+
+All interactive setup is now in the first120-second cell, including existing Drive/API prompts and notebook capture. The exact ready line appears only on success. Installation and input checks follow; no later authentication or browser capture. L preparation has the same up-front setup without changing its scientific module or preparation-only scope.
+
+Trainer checks need a different boundary because their parent now mounts Drive first. Candidate d3859da8 passed12tests including actual local OS positive/negative isolation controls. Reviewdf553924 is in progress. Actual Colab namespace support remains unmeasured; the candidate fails before pip/GPU if unavailable. No replacement trainer check is delivered yet; do not run the older late-prompt check.
 
 Multiwin author13's exact preserved correction passed all six actual CPU tests. Its original UNCERTAIN row and charge remain counted. Scientific reviewer12 returned genuine REVISE pending actual A100 evidence; retain that verdict. Packaging source daa78d1d received qualified APPROVE1d7f4f3c/report a5381e48 after 76 tests. The corrected check embeds the unchanged scientific module6cbf8e46 and plans532aa816. No more wrapper work before returned A100 evidence. The prior genuine packaging REVISE rounds and all charges are preserved.
 
@@ -28,9 +34,9 @@ Meeting author3/reviewer3 are COMPLETE with preparation-only APPROVE and12 isola
 
 | Arm | State | Next step |
 |---|---|---|
-| A1_pnormct | Full all-fold notebook reported running | Reconcile returned private results |
-| A1_pnorm_v2 | Actual A100 PASS accepted; full notebook reported running | Reconcile returned private results |
-| A1_multiwin | Corrected synthetic check delivered; full training held | Actual A100 check, then scientific review |
+| A1_pnormct | Stalled; corrected resumable file delivered | Shut down old runtime, resume verified checkpoint and measure speed |
+| A1_pnorm_v2 | Running as last reported; corrected file delivered | Switch after fresh checkpoint; preserve original trainer PASS |
+| A1_multiwin | Early-login trainer packaging under review; full training held | Deliver after implementation approval, then actual A100 check and science review |
 | A1_L | Preparation-only notebook delivered; full training held | Return authentic plan receipt, then exact-plan A100 qualification |
 
 - 13B_A1_pnormct.ipynb: SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6.
@@ -52,20 +58,20 @@ Timing author24 real CPU integration PASS is retained; reviewer16 failed before 
 
 Non-Colab item4 stage1: **$115.516623/$150**, comprising **$24.487001 billed + $91.029622 reserved**. Timing $5.405445/$25 is included; synthetic CPU $1.118950 awaits billing. Total $1,275, projection $1,200 and item6 $100 stay unchanged. Release excess only for confirmed closed billing; retain open or uncertain reservations. No new provider compute in this continuation.
 
-Known completed Claude charges: **$544.7786735**. Author dollar costs are unavailable. Since the preceding public status, L scientific reviewer3 cost $6.445426 and preparation packaging cost $3.28083475. Earlier genuine approvals, REVISE decisions and mechanical failures remain counted; no usage reset or relabel.
+Known completed Claude charges: **$557.253777**. Author dollar costs are unavailable. Since the preceding public status, L scientific reviewer3 cost $6.445426 and preparation packaging cost $3.28083475. Earlier genuine approvals, REVISE decisions and mechanical failures remain counted; no usage reset or relabel.
 
-13 October UTC: **38/50**.
+13 October UTC: **42/50** including the current administrative review.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author |7|L drafts1/2/3; meeting drafts1/2/3; multiwin provenance correction13|
 | Scientific reviewer |8|Pnorm_v2; L reviews1/2/3; meeting reviews1/2/3; multiwin review12|
-| Administrative implementation review |22|Pnorm_v2 harness/packaging; L setup, recovery, continuation, receipt-start and preparation package; meeting setup/amendment; batch140 accounting repairs; multiwin continuation, exact-output recovery and packaging|
-| Standalone direction |1|Earlier meeting routing attempt answered an old question; retained|
+| Administrative implementation review |25|Pnorm_v2 harness/packaging; L setup, recovery, continuation, receipt-start and preparation package; meeting setup/amendment; batch140 accounting repairs; multiwin continuation, exact-output recovery and packaging; worker/watchdog review and its qualified successor; trainer upfront isolation review|
+| Standalone direction |2|Earlier meeting routing attempt retained; CPU worker/watchdog/resume scope APPROVE|
 
 Scientific batch **134/140**: the six remaining slots are two returned-Colab, two L and two meeting. The explicit12-call approval controls; the later bracketed140/136 message adds no funding.
 
-Administrative reviews used most calls. Batch necessary repairs with direction checks; use existing reviewed packaging and deliver unchanged scientific bytes without repeat review. Defer unrelated components. Latest explicit direction PROCEED supports the narrow start repair; the subsequent packaging APPROVE allows preparation only. Multiwin's SIMPLIFY instruction remains: no more wrapper expansion before hardware evidence.
+Administrative reviews used most calls. Batch necessary repairs with direction checks; use existing reviewed packaging and deliver unchanged scientific bytes without repeat review. Defer unrelated components. Latest direction approved the operational worker/watchdog route. Qualified successor review permits the concrete resume and first-cell login packaging; the trainer isolation second opinion is pending. Multiwin's SIMPLIFY instruction remains: no more wrapper expansion before hardware evidence.
 
 ## Judgment log highlights
 
@@ -76,11 +82,13 @@ Administrative reviews used most calls. Batch necessary repairs with direction c
 - Package the exact authored preparation-only path after165 tests and independent APPROVE; retain both scientific findings.
 - Intake original baseline code without executing it; leave scientific metric acceptance to the reviewer.
 - Reconcile meeting readiness read-only: the three old interface gaps are addressed, but actual admission and independent QC remain.
-- Leave both user Colab sessions untouched. No new provider compute or credential changes.
+- Leave user sessions under operator control; deliver reviewed checkpoint migration rather than restarting folds. No new provider compute or credential changes.
+- Preserve failed manifest-read review3dafcfcb and its $4.74497425 charge. Narrow the packet to the entire affected component, retaining full scientific modules and notebooks; no reader or qualification limit changed.
+- Combine the operational repair with the new login requirement in one successful review. Use actual OS controls for mounted-parent trainer isolation and obtain Claude review before delivery.
 
 ## Backup and exclusions
 
-Last verified public push before this update: e8a428576c32239ed2d1a74ee59c4047c9a52154. The current update and approved preparation-packager projection are queued for a fresh scan and push. Main stays unchanged.
+Last verified public push before this update: 3c9c74bac2e1b9a1148d8b2db8a8bdb0ae1d51bc. The current update and approved operational projection are queued for a fresh scan and push. Main stays unchanged.
 
 Never publish private evidence, packets, ledgers, streams, private records, patient rows/identifiers, images, masks, weights or caches. Public code is an archival projection, not a standalone deployable release. Returned executed notebooks, meeting3evidence and new multiwin private bindings remain excluded.
 
@@ -98,3 +106,7 @@ Batch140 exclusions: docs/MEETING_BATCH140_CHECKPOINT_PRIVATE.json, docs/MEETING
 
 
 Also excluded: exact author13 output/native stream, all L author3/reviewer3 evidence, original executed Sprint12 notebooks, metric-source intake, private plan receipts and delivered notebooks. Public code is an archive, not a standalone deployable release.
+
+Additional exclusions: raw returned pnormct notebooks/checkpoint metadata, exact scientific module/notebook fixtures, all new review packets/streams/receipts, canonical operator records and docs/COLAB_LOADER_STALL_OPERATOR_PRIVATE.txt and docs/COLAB_UPFRONT_OPERATOR_PRIVATE.txt. Public tests refer to private fixtures; the archive is not a standalone deployment.
+
+Publication scanner excludes tools/colab_mounted_drive_worker.py for INFRASTRUCTURE_OR_CREDENTIAL_PATH. Its exact reviewed bytes remain in the private store and delivered private notebooks; no scanner rule was weakened. The public code archive is therefore not self-contained.
