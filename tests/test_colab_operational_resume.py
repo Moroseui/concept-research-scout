@@ -201,7 +201,9 @@ def test_watchdog_failure_saves_private_report_then_requests_unassignment(exact_
     from tools import colab_epoch_watchdog as watchdog
     m, _, _ = exact_module
     steps = []
-    m.private_output_root = lambda: steps.append("owner-check")
+    from tools import colab_private_output as folder
+    monkeypatch.setitem(sys.modules, "colab_private_output", folder)
+    monkeypatch.setattr(folder, "private_root", lambda module: steps.append("owner-check"))
     def failed(argv, token, emit):
         steps.append("supervised-stop")
         emit("last training log")

@@ -33,7 +33,8 @@ def encoded(value):
 def policy_identity():
     here = Path(__file__)
     return sha(encoded({"runtime": sha(here.read_bytes()),
-                        "watchdog": sha(here.with_name("colab_epoch_watchdog.py").read_bytes())}))
+                        "watchdog": sha(here.with_name("colab_epoch_watchdog.py").read_bytes()),
+                        "private_output": sha(here.with_name("colab_private_output.py").read_bytes())}))
 
 def select_workers(cpu, ram_bytes):
     capacity = cpu["effective_logical_capacity"]
@@ -259,6 +260,8 @@ def load_module(path, arm):
 
 def child(path, arm):
     m = load_module(path, arm)
+    from colab_private_output import install as install_private_root
+    install_private_root(m)
     install_adapter(m)
     result = m.main(m.METADATA_ROOT, m.RESULTS_ROOT, {"arm": arm, "folds": (0, 1, 2, 3, 4)})
     require(len(result) == 5, "Incomplete all-fold result")
@@ -271,7 +274,9 @@ def run_notebook(m, arm, folds):
     from colab_epoch_watchdog import supervise
     require(arm == m.K_AM and tuple(folds) == (0, 1, 2, 3, 4), "Exact all-fold arm required")
     require(sha(Path(m.__file__).read_bytes()) == PROFILES.get(arm), "Scientific file changed")
-    m.private_output_root()  # Existing owner-only Drive checks, unchanged.
+    from colab_private_output import install as install_private_root
+    install_private_root(m)
+    m.private_output_root()  # Mount-only creation; owner-only and uniqueness still required.
     root = Path(m.RESULTS_ROOT)
     m.checked_path(str(root), missing=True)
     root.mkdir(parents=True, exist_ok=True)

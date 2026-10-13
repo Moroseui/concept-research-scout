@@ -6,12 +6,13 @@ import hashlib
 import json
 import sys
 
-CHANGE = "colab-operational-logins-20261013"
+CHANGE = "colab-private-folder-20261013"
 FILES = ("tools/colab_epoch_watchdog.py", "tools/colab_operational_resume.py",
          "tools/package_colab_operational_resume.py",
          "tests/test_colab_epoch_watchdog.py", "tests/test_colab_operational_resume.py",
          "tests/test_package_colab_operational_resume.py",
-         "tools/colab_upfront_logins.py", "tests/test_colab_upfront_logins.py")
+         "tools/colab_upfront_logins.py", "tests/test_colab_upfront_logins.py",
+         "tools/colab_private_output.py", "tests/test_colab_private_output.py")
 ORIGINALS = {
     "A1_pnormct": "30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6",
     "A1_pnorm_v2": "ea7d113255d3fa2ff53f156c2d7afc61e47278770e493ab311454b491f847a3b",
@@ -40,7 +41,7 @@ def render(raw, arm, root, approval):
     if setup[start:] != expected:
         raise ValueError("Original setup suffix changed")
     helpers = {}
-    for name in ("colab_epoch_watchdog.py", "colab_operational_resume.py"):
+    for name in ("colab_epoch_watchdog.py", "colab_operational_resume.py", "colab_private_output.py"):
         body = (Path(root) / "tools" / name).read_bytes()
         helpers[name] = {"sha256": sha(body), "base64": base64.b64encode(body).decode()}
     materialize = (
@@ -112,6 +113,18 @@ def build(original, arm, root, review, destination):
         before = json.loads(raw)
         result = frontload(before, len(before["cells"])-1, arm)
         result["cells"][0]["source"].append("\nAll prompts are in the first code cell. Wait for All logins done, you can leave now before leaving.\n")
+        setup = "".join(result["cells"][-1]["source"])
+        old = "pipeline.stream_command([sys.executable, PIPELINE, '--prepare-only'])"
+        if setup.count(old) != 1:
+            raise ValueError("Exact L preparation transport required")
+        body = (root / "tools/colab_private_output.py").read_bytes()
+        materialize = ("import base64, hashlib\nfrom pathlib import Path\n"
+            + "root_helper = base64.b64decode(" + repr(base64.b64encode(body).decode()) + ", validate=True)\n"
+            + "assert hashlib.sha256(root_helper).hexdigest() == " + repr(sha(body)) + "\n"
+            + "Path('/content/colab_private_output.py').write_bytes(root_helper)\n")
+        result["cells"][-1]["source"] = [materialize + setup.replace(old,
+            "pipeline.stream_command([sys.executable, '/content/colab_private_output.py', '--prepare-l', PIPELINE])")]
+        result["metadata"]["private_folder_helper_sha256"] = sha(body)
         result["metadata"]["login_packaging_source"] = approval["source_sha"]
         result["metadata"]["login_packaging_review_sha256"] = approval["report_sha256"]
         output = (json.dumps(result, ensure_ascii=True, indent=1) + "\n").encode()
