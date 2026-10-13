@@ -48,12 +48,14 @@ def test_batch_limit_counts_all_historical_failed_rows(tmp_path):
 
 def test_day_limit_counts_administrative_and_scientific_failures(tmp_path):
     store,batch,c=configured(tmp_path)
-    seed(batch,49,kind='implementation_review',day=datetime.now(timezone.utc).date().isoformat())
+    from orchestrator.autonomy_limits import daily_allowance
+    day=datetime.now(timezone.utc).date().isoformat()
+    seed(batch,daily_allowance(day)['limit']-1,kind='implementation_review',day=day)
     batch.reserve_scientific('one','synthetic','run_spec_author','a'*40,{})
     batch.finish_scientific('one',{},'COMPLETE')
     with pytest.raises(ValueError,match='^AUTONOMY_DAILY_CALL_LIMIT$'):
         batch.reserve_scientific('two','synthetic','run_spec_review','a'*40,{})
-    assert batch.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==50
+    assert batch.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==daily_allowance(day)['limit']
 
 
 def test_sixteen_call_limit_preserves_original_two_rows_and_account_policy(tmp_path,monkeypatch):
