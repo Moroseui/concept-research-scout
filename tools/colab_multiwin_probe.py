@@ -9,7 +9,7 @@ from pathlib import Path
 import base64, hashlib, importlib.util, json, math, os, shutil, signal
 import subprocess, sys, time, traceback
 
-MODULE_SHA = "a56878499a1541490ba2e0a43d6ef055509e75d1ae6a5277a5b5ef1801d67e30"
+MODULE_SHA = "6cbf8e46ab1a2d08650eff8992596642d232aa318f20e5ce4a54de2c572390e0"
 PLANS_SHA = "532aa8160bf0db6c83ceeb0c1456d3bf6f2f7b528cdb0a9586866ac724de92d0"
 ROOT = Path("/content/13B_A1_multiwin_real_trainer_check")
 MAX_CONSOLE = 2 * 1024**2

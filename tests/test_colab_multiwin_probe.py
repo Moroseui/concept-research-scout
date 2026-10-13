@@ -127,7 +127,7 @@ def test_package_carries_exact_scientific_bytes_and_separates_drive(monkeypatch)
     payload = inputs(monkeypatch)
     review = json.dumps({"schema": "accepted-review-submission/v1", "submission": {
         "bindings": {"call_id": package.REVIEW_CALL, "run_id": package.RUN},
-        "verdict": "REVISE", "findings": [{"id": "MULTIWIN-REAL-TRAINER-CHECK-NOT-EXECUTED"}, {"id": "EXECUTION-AUTHORITY-HELD-OPPOSING-EVIDENCE-PENDING"}]}}).encode()
+        "verdict": "REVISE", "findings": [{"id": "MULTIWIN-PROVENANCE-TESTS-NOT-EXECUTED"}, {"id": "MULTIWIN-REAL-TRAINER-CHECK-STILL-OPEN"}, {"id": "EXECUTION-AUTHORITY-HELD"}]}}).encode()
     monkeypatch.setattr(package, "REVIEW_SUBMISSION_SHA", p.sha(review))
     notebook = json.loads(package.build(
         base64.b64decode(payload["execution.py"]), base64.b64decode(payload["plans.json"]), review, "qualified"))
@@ -260,8 +260,9 @@ def test_staging_does_not_replace_or_generalize_scientific_revise(monkeypatch, d
     v = {"schema": "accepted-review-submission/v1", "submission": {
         "bindings": {"call_id": package.REVIEW_CALL, "run_id": package.RUN},
         "verdict": "REVISE", "findings": [
-            {"id": "MULTIWIN-REAL-TRAINER-CHECK-NOT-EXECUTED"},
-            {"id": "EXECUTION-AUTHORITY-HELD-OPPOSING-EVIDENCE-PENDING"}]}}
+            {"id": "MULTIWIN-PROVENANCE-TESTS-NOT-EXECUTED"},
+            {"id": "MULTIWIN-REAL-TRAINER-CHECK-STILL-OPEN"},
+            {"id": "EXECUTION-AUTHORITY-HELD"}]}}
     if damage in {"reject", "approve"}: v["submission"]["verdict"] = damage.upper()
     elif damage == "extra_finding": v["submission"]["findings"].append({"id": "CODE_DEFECT"})
     elif damage == "call": v["submission"]["bindings"]["call_id"] = "different"
@@ -287,3 +288,28 @@ def test_authored_unit_fixture_failure_prevents_gpu_launch(tmp_path, monkeypatch
     result = p.run(payload, tmp_path/"attempt")
     assert result["status"] == "FAIL" and len(calls) == 2
     assert all("--synthetic-integration" not in args for args in calls)
+
+def test_installed_grant_reads_recovery_lane_not_unrelated_historical_connection(tmp_path):
+    import ast, sqlite3
+    from types import SimpleNamespace as NS
+    source=(Path(__file__).resolve().parents[1]/"tools/review_multiwin_package.py").read_text()
+    fn=next(n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef)and n.name=="read_installed_grant")
+    namespace={"Path":Path,"sqlite3":sqlite3,"json":json}
+    exec(compile(ast.Module(body=[fn],type_ignores=[]),"reader","exec"),namespace)
+    lane=tmp_path/"recovery";lane.mkdir(mode=0o700)
+    db=sqlite3.connect(lane/"jobs.sqlite");db.execute("CREATE TABLE marker(value TEXT)");db.execute("INSERT INTO marker VALUES('actual recovery')");db.commit();db.close()
+    (lane/"jobs.sqlite").chmod(0o600);(lane/"lane.json").write_text('{"run_id":"exact"}');(lane/"lane.json").chmod(0o600)
+    batch=sqlite3.connect(":memory:");seen=[]
+    def grant(owner,bound,approval):
+        assert owner.store.db.execute("SELECT value FROM marker").fetchone()[0]=="actual recovery"
+        assert owner.store.batch.db is batch and owner.config=={"run_id":"exact"}and approval=="a"*64
+        assert owner.store.db.in_transaction
+        with pytest.raises(sqlite3.OperationalError):owner.store.db.execute("INSERT INTO marker VALUES('forbidden')")
+        seen.append(owner.store.db)
+        return {"verified":True}
+    assert namespace["read_installed_grant"](NS(grant=grant),{"lane":str(lane)},"a"*64,batch)=={"verified":True}
+    with pytest.raises(sqlite3.ProgrammingError):seen[0].execute("SELECT 1")
+    missing=tmp_path/"missing";missing.mkdir(mode=0o700)
+    with pytest.raises(FileNotFoundError):namespace["read_installed_grant"](NS(grant=grant),{"lane":str(missing)},"a"*64,batch)
+    assert not(missing/"jobs.sqlite").exists()
+    batch.close()

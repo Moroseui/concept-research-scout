@@ -3,11 +3,11 @@ from pathlib import Path
 import base64, hashlib, json
 from tools import colab_multiwin_probe as probe
 
-REVIEW_CALL = "01a477307a7309b31baa04983b107a560835e052c803b29d661c20c28b28041e"
+REVIEW_CALL = "bf26d2ebec5c7b13e9f763c2b1885e04b966e2e2b6d0ba17bc171d407f7a39f4"
 RUN = "colab-1ad5fafc220b3d65f576ce08"
-REVIEW_SUBMISSION_SHA = 'bb3d25f29f35788140be9b23783819e3496f45dae7513a4483c3458bd209ff43'
+REVIEW_SUBMISSION_SHA = '3673ad7615e5e6bc199b377a15513e552b89616f924b96ed310c96cdb29aede0'
 
-CHANGE = "multiwin-trainer-package-20261012"
+CHANGE = "multiwin-corrected-trainer-entry-20261013"
 COMPONENT = ("tools/colab_multiwin_probe.py", "tools/package_multiwin_probe.py",
              "tests/test_colab_multiwin_probe.py", "docs/MULTIWIN_TRAINER_PACKAGE_SCOPE.md")
 
@@ -35,8 +35,9 @@ def build(module, plans, submission, approval_folder):
     probe.require(record["schema"] == "accepted-review-submission/v1"
                   and verdict["verdict"] == "REVISE"
                   and {f["id"] for f in verdict["findings"]} == {
-                      "MULTIWIN-REAL-TRAINER-CHECK-NOT-EXECUTED",
-                      "EXECUTION-AUTHORITY-HELD-OPPOSING-EVIDENCE-PENDING"}
+                      "MULTIWIN-PROVENANCE-TESTS-NOT-EXECUTED",
+                      "MULTIWIN-REAL-TRAINER-CHECK-STILL-OPEN",
+                      "EXECUTION-AUTHORITY-HELD"}
                   and verdict["bindings"]["call_id"] == REVIEW_CALL
                   and verdict["bindings"]["run_id"] == RUN,
                   "SCIENTIFIC_REVIEW")
