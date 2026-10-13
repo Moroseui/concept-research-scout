@@ -1,6 +1,6 @@
 # Roles and operator rotation
 
-Current operator: **Codex, OpenAI family**. No rotation. Item6, Idea2 and smoothing are accepted. Pnormct stalled; reviewed worker/watchdog/checkpoint-resume and up-front-login files are delivered for pnormct/v2. Pnorm_v2 is last reported running. Multiwin trainer-check login/isolation review is in progress; full training awaits actual evidence and scientific judgment. L preparation remains separate from full training. Meeting preparation is accepted, real execution held. Timing and opposite-family administrative capability are unfinished; no Swap point. Scientific authorship stays in the system lane. Every future Colab delivery follows [the up-front interaction requirement](docs/COLAB_USABILITY.md).
+Current operator: **Codex, OpenAI family**. No rotation. Item6, Idea2 and smoothing are accepted. Pnormct stalled; reviewed worker/watchdog/checkpoint-resume and up-front-login files are delivered for pnormct/v2. Pnorm_v2 is last reported running. Multiwin trainer-check login/isolation repair is independently approved and delivered; full training awaits actual evidence and scientific judgment. L preparation remains separate from full training. Meeting preparation is accepted, real execution held. Timing and opposite-family administrative capability are unfinished; no Swap point. Scientific authorship stays in the system lane. Every future Colab delivery follows [the up-front interaction requirement](docs/COLAB_USABILITY.md).
 
 | Work | Current author/operator route | Independent review route |
 |---|---|---|
