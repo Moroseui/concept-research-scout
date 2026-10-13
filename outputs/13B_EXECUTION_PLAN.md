@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 13 October 2026, 01:45 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 13 October 2026, 01:55 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|
@@ -31,3 +31,6 @@ Compare each arm provisionally with Sprint12A1. Small differences are not interp
 
 
 13October01:45UTC reconciliation: L reviewer1 COMPLETE, genuine REVISE, report47ce0700, cost$7.341784 counted. No server model call remains running. Four findings concern exact A100 evidence, the named accepted source, host test provenance and authenticated baseline metrics. The current native host test DID run and FAIL4of5; the packet also contained an older harness. A stale task filename points to an absent source although the accepted pnormct all-fold reference is already bound. Correct those evidence bindings before another author call; preserve all findings and the failed test. No scientific code, refusal or installed context was changed. Next evidence-packet correction estimate30-60minutes, then normal author/reviewer revision; delivery ETA depends on actual A100 evidence. Two Colab calls remain, four meeting calls remain separately allocated. Latest qualified Claude direction remains01:07UTC PROCEED with caution toward SIMPLIFY; this evidence correction is required for the next scientific result.
+
+
+13October01:55UTC: additive L evidence supplement a6520522 passed94tests. Independent administrative request d033fada is RUNNING; no supplement applied and no new scientific call. It preserves all four findings, failed host receipt, phase, rounds, calls and limits; uses existing artifact delivery and assembles both model inputs without a call before commit. The complete relevant pipeline/notebook packet passed reader preflight at910files. An initial local packet exceeded the reader file count and was never admitted; it is preserved. First start was refused before any server intent while a research service was active; verified absent intent/no call, then admitted the same request once quiet. Direction check is folded into this review. Safe candidate archived on the working branch only, not installed or merged into the release. Excluded docs/L_EVIDENCE_CONTEXT_PRIVATE.json and every private receipt, packet and stream. No new returned Colab checks found.
