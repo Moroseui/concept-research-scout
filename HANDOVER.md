@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 03:19 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 03:30 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -22,7 +22,7 @@ The pnorm_v2 synthetic A100 check is now delivered: 13B_A1_pnorm_v2_real_trainer
 
 Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;108focused testsPASS. No result has been returned and no full training file is released.
 
-L author2 and scientific reviewer2 are COMPLETE. All five native host test groups PASS on notebook 2b11d8bb079cb3ad926a65b47c6754e090db84c9a7898882c93fbb731dea9c94; the previous duplicate-constant failure is preserved. Reviewer2 returned genuine REVISE, report282d246b, accepted submission60d5d0f1, cost $4.752924. The reviewer closed the host-test and accepted-source findings. Two prerequisites remain: exact L A100 trainer/checkpoint/memory evidence, and authenticated Sprint12 A1 baseline metrics. No L notebook is released and no GPU-memory fit is claimed. Park L pending those inputs and additional Colab call authority; do not start author3.
+L author2 and scientific reviewer2 are COMPLETE. All five native host test groups PASS on notebook 2b11d8bb079cb3ad926a65b47c6754e090db84c9a7898882c93fbb731dea9c94; the previous duplicate-constant failure is preserved. Reviewer2 returned genuine REVISE, report282d246b, accepted submission60d5d0f1, cost $4.752924. The reviewer closed the host-test and accepted-source findings. Two prerequisites remain: exact L A100 trainer/checkpoint/memory evidence, and authenticated Sprint12 A1 baseline metrics. No L notebook is released and no GPU-memory fit is claimed. L baseline source files have since been located and hash/fold-verified; they still need normal scientific input binding and acceptance. Park L pending actual A100 evidence and additional Colab call authority; do not start author3.
 
 The approved additive evidence supplement a6520522 passed94tests and received independent APPROVE28a11860. Its application assembled both actual model inputs without model calls, retaining the original findings, failed test, accounting and limits. Installed runtime b1249aaf remains unchanged. Original setup failures and all attempts are preserved. This was a packet correction, not scientific approval.
 
@@ -77,3 +77,5 @@ Meeting preparation sourceb06d64da is independently APPROVED, report23538a2c, wi
 Installation note: the first installer invocation failed before mutation because the existing runtime configuration was not set in its environment. The corrected invocation used that unchanged configuration and succeeded. All original records were preserved; no source, credential or safeguard changed. Native initialization and both zero-call transport probes then passed. No installer, initializer, probe or author-start operation may be replayed.
 
 Estimate: meeting author draft and synthetic-test result in about30-60minutes; independent scientific review follows. Real panels have no firm ETA while native-MRI/clinical provenance remains unresolved. Multiwin and pnorm_v2 next results still require Partho to return their10-25minute A100 checks. Timing remains parked with its stated admission/allocation blocker; no GPU diagnostic is running.
+
+Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.

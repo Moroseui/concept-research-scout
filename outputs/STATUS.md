@@ -2,13 +2,13 @@
 
 - Pnormct's reviewed five-fold notebook is running in Partho's Colab session.
 - Multiwin and pnorm_v2 await results from their delivered A100 trainer checks.
-- L now passes all host tests; review still requires actual A100 evidence and authenticated baseline metrics.
+- L baseline files now pass hash and fold checks; its A100 check and scientific acceptance are still pending.
 - The meeting scientific author is writing the private case-review code; real-case input checks are still pending.
 - Item4 billed $24.487001; retained reservations $91.029622. Known Claude charges $456.26609925; author costs unavailable.
 - Next result: multiwin trainer check,10-25minutes once run; further Colab scientific calls need the pending money decision.
 - C:11.20GiB clears the8GiB stop, below the15GiB warning. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 03:19 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 03:30 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
@@ -26,7 +26,7 @@ Independent packaging review c76df152 APPROVE, report72f7434c, sourceb326cb0e;10
 
 ## L preparation
 
-L author2 and scientific reviewer2 are COMPLETE. All five native host test groups PASS on notebook 2b11d8bb079cb3ad926a65b47c6754e090db84c9a7898882c93fbb731dea9c94; the previous duplicate-constant failure is preserved. Reviewer2 returned genuine REVISE, report282d246b, accepted submission60d5d0f1, cost $4.752924. The reviewer closed the host-test and accepted-source findings. Two prerequisites remain: exact L A100 trainer/checkpoint/memory evidence, and authenticated Sprint12 A1 baseline metrics. No L notebook is released and no GPU-memory fit is claimed. Park L pending those inputs and additional Colab call authority; do not start author3.
+L author2 and scientific reviewer2 are COMPLETE. All five native host test groups PASS on notebook 2b11d8bb079cb3ad926a65b47c6754e090db84c9a7898882c93fbb731dea9c94; the previous duplicate-constant failure is preserved. Reviewer2 returned genuine REVISE, report282d246b, accepted submission60d5d0f1, cost $4.752924. The reviewer closed the host-test and accepted-source findings. Two prerequisites remain: exact L A100 trainer/checkpoint/memory evidence, and authenticated Sprint12 A1 baseline metrics. No L notebook is released and no GPU-memory fit is claimed. L baseline source files have since been located and hash/fold-verified; they still need normal scientific input binding and acceptance. Park L pending actual A100 evidence and additional Colab call authority; do not start author3.
 
 The approved additive evidence supplement a6520522 passed94tests and received independent APPROVE28a11860. Its application assembled both actual model inputs without model calls, retaining the original findings, failed test, accounting and limits. Installed runtime b1249aaf remains unchanged. Original setup failures and all attempts are preserved. This was a packet correction, not scientific approval.
 
@@ -85,3 +85,7 @@ Excluded from this candidate backup: docs/MEETING_PREPARATION_PRIVATE.json (priv
 Meeting preparation sourceb06d64da is independently APPROVED, report23538a2c, with no findings; Claude's direction is PROCEED. The reviewed change is installed. It passed148tests and the native no-call author/reviewer transport check. Scientific author1 is RUNNING; preserve this call and do not relaunch it. It uses one of the four approved meeting slots; three remain. The author owns the selector/renderer and synthetic tests. Real patient-case execution is held pending qualified input hashes, geometry and clinical provenance. No patient executor or new spending allowance was added. The review was static; its stated limitations include not rerunning tests or independently recomputing every historical pin.
 
 Judgment calls this stop: reuse the existing scientific lane for four approved meeting calls (Claude APPROVE/PROCEED); correct the installer command environment after a pre-mutation failure (existing configuration only, no code or credential change); keep Colab/analysis allocations separate and preserve all prior attempts.
+
+Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
+
+Judgment: verified existing baseline hashes and fold identities through read-only access, without computing statistics or changing scientific findings; no Claude call needed for this inventory. Exact paths, row identities and proof records stay private.
