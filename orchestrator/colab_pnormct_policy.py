@@ -62,7 +62,7 @@ def connect():
         if run!=question.RUN:
             return original_instructions(store,run,notebook_revision=notebook_revision)
         enabled(store,run)
-        return ("This is the independently admitted A1_pnorm_v2 notebook question for item4. "
+        return ("This is the independently admitted A1_L notebook question for item4. "
             "Approved UTC-day policy, run20, scientific batch128, shared additional Colab allocation16 from baseline104; "
             "all original calls count. At most three genuine REVISE response cycles per stage. "
             "Four failed/unsubmitted/format-rejected author attempts remain the failed-attempt guard. "

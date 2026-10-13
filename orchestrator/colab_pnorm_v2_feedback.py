@@ -1,4 +1,4 @@
-"""Initial in-call schema feedback for the distinct pnorm_v2 question.
+"""Initial in-call schema feedback for the distinct arm question.
 
 Reuses the reviewed visible-only checker; does not execute scientific code,
 alter attempt accounting, or replace the host checks and scientific review.
