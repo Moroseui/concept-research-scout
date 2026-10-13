@@ -1,10 +1,10 @@
-"""One administrative implementation review, round1; all originals preserved.
+"""One administrative implementation review, round3; all originals preserved.
 Use only the previously approved terminal classifier, never the candidate.
 """
 from pathlib import Path
 import os,sys,json,hashlib,importlib.util,runpy,sqlite3
 CHANGE='multiwin-corrected-trainer-entry-20261013'
-CP=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006/multiwin-corrected-trainer-entry-20261013/round2-compact')
+CP=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006/multiwin-corrected-trainer-entry-20261013/round3')
 INSTALLED=Path('/opt/research-system/manual-repair-helpers/native-review-admission-20261011')
 PRIOR=Path('/var/lib/research-system-manual-sprint10-deployment/directions-20261006/native-review-admission-20261011/accepted-current-source-review')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
@@ -39,7 +39,7 @@ SOURCE=meta['source']
 sys.path.insert(0,str(ENGINE))
 from orchestrator import autonomy_review as ar,administrative_terminal as terminal
 manifest=ar.verify_packet(trusted(meta['packet_path']))
-assert ar.sha(ar.canonical(manifest))==meta['packet'] and manifest['change_id']==CHANGE and manifest['source_sha']==SOURCE and manifest['round']==2
+assert ar.sha(ar.canonical(manifest))==meta['packet'] and manifest['change_id']==CHANGE and manifest['source_sha']==SOURCE and manifest['round']==3
 prior=ar.verify_result(trusted(PRIOR))
 assert prior['verdict']=='APPROVE' and prior['source_sha']=='9e2816b322518f5d5843bd3656b078902818a589' and prior['report_sha256']=='001ea72281ccb25b0eaf0d5d0881966d2b46ae68c036f661fb7f621d53a6b48c'
 assert json.loads(trusted(PRIOR/'report.md').read_bytes())['findings']==[]
@@ -80,11 +80,11 @@ used=[]
 def current_owner_read(db,proof_root=None):
     assert db.in_transaction and not used
     rows=db.execute('SELECT id,status,round FROM autonomy_calls WHERE change_id=? ORDER BY round',(CHANGE,)).fetchall()
-    assert [dict(r)for r in rows]==[{'id':'ce729f6ba5b614a9fe96ab524a63ac417a9dea79f1e079025e39043ae01011be','status':'COMPLETE','round':1}]
-    predecessor=Path('/var/lib/research-system-autonomy/reviews/ce729f6ba5b614a9fe96ab524a63ac417a9dea79f1e079025e39043ae01011be')
+    assert [dict(r)for r in rows]==[{'id':'ce729f6ba5b614a9fe96ab524a63ac417a9dea79f1e079025e39043ae01011be','status':'COMPLETE','round':1},{'id':'cded4979a4448ecfc053df82a1753dadef4e038d52e03d09ece1432283fa1cb2','status':'COMPLETE','round':2}]
+    predecessor=Path('/var/lib/research-system-autonomy/reviews/cded4979a4448ecfc053df82a1753dadef4e038d52e03d09ece1432283fa1cb2')
     prior=ar.verify_result(predecessor)
-    assert prior['change_id']==CHANGE and prior['round']==1 and prior['verdict']=='REVISE'and prior['source_sha']=='d7c8fc23696f5bee93ef7b910e4e94298ff8ed9d'
-    assert manifest['predecessor']=={'receipt_sha256':sha((predecessor/'receipt.json').read_bytes()),'report_sha256':prior['report_sha256']}=={'receipt_sha256':'a46f75695581985279f2fc79ed61c0f3c215a2b815a4dec518730e437d446543','report_sha256':'d6258817e4a100560caa8b6dc232c58a8e668481397e6a9d4b4c9a5420f58a17'}
+    assert prior['change_id']==CHANGE and prior['round']==2 and prior['verdict']=='REVISE'and prior['source_sha']=='58bdba022fd3e4494179956804cc243b19a527da'
+    assert manifest['predecessor']=={'receipt_sha256':sha((predecessor/'receipt.json').read_bytes()),'report_sha256':prior['report_sha256']}=={'receipt_sha256':'d065e8a0094eebe61d53f5985a7d6ca4645c06cbe734eca5131e80d39f241bb4','report_sha256':'ea0dbaaed4332fcea1f9d2b703d32447f013eb6b88dc6bedd6221e319794dfa4'}
     assert not db.execute('SELECT 1 FROM autonomy_calls WHERE id=?',(meta['packet'],)).fetchone()
     used.append(True)
     # Read the same live admission transaction, not a journal-ignoring snapshot.
