@@ -1,6 +1,6 @@
 # Operator handover
 
-Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
+Updated 13 October 2026, 05:45 UTC. Codex/OpenAI remains operator; no rotation. See [ROLES](ROLES.md). Scientific author: existing OpenAI client. Scientific reviewer and operator implementation reviewer: existing Claude route.
 
 ## Goal and operating direction
 
@@ -10,7 +10,7 @@ Never access locked25/reserve24payloads, create/change credentials, publish pati
 
 ## Workstreams and next steps
 
-Pnormct is RUNNING externally by Partho's report. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
+Pnormct was last reported running externally by Partho; current progress is unverified. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
 
 Multiwin author12 completed and all five synthetic groups passed. Scientific review11 returned genuine REVISE: actual trainer evidence is still required. Its 24/24 calls and every charge remain counted. Independent package/staging review189c6eb7 APPROVE, reportd90c164d, source1cea3255, permits only the unchanged authored synthetic check. The private notebook 13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb was delivered, SHA256 44902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b. No start/result has been reported. Run it in a fresh default Colab A100 session, Run all, no settings; leave pnormct running. Return printed PASS/FAIL, executed notebook and private results-folder location. Estimate10-25minutes. Full multiwin training remains held pending scientific acceptance of the evidence. Do not start superseded request5ba2b912 or replay completed reviews.
 
@@ -56,11 +56,11 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 ## Resume safely
 
 1. Read this handover, CURRENT, STATUS, execution plan, ROLES and the latest canonical private HANDOFF_CURRENT_PRIVATE.md. Public entry points and the canonical private handoff are authoritative; root mirrors may be stale.
-2. Reconcile units, ledger rows and consumed operation intents before any launch. Meeting author1 and reviewer1 are COMPLETE; author2 and reviewer2 are COMPLETE, with10synthetic tests PASS and scientific preparation APPROVE. Six historical UNCERTAIN call records remain preserved and must not be replayed. The source-amendment administrative review is RUNNING; pnormct remains externally running. Never replay uncertain, completed or consumed starts.
+2. Reconcile units, ledger rows and consumed operation intents before any launch. Meeting author1 and reviewer1 are COMPLETE; author2 and reviewer2 are COMPLETE, with10synthetic tests PASS and scientific preparation APPROVE. Six historical UNCERTAIN call records remain preserved and must not be replayed. The source-amendment administrative review is COMPLETE; pnormct was last reported running externally. Never replay uncertain, completed or consumed starts.
 3. L has four COMPLETE calls and genuine reviewer2 REVISE. Author2, reviewer2 and the approved supplement application are finished; do not replay their starts or transfer/install/initializer. All five native host groups PASS. Next scientific work is held by missing evidence and exhausted Colab allocation, not a mechanical failure.
 4. Multiwin's delivered check is awaiting actual A100 evidence; its full notebook is held. Pnorm_v2 code is approved and its delivered fixture is awaiting actual A100 evidence. Never repeat pnormct's accepted trainer check or interrupt its current training. Preserve all failed attempts and costs.
 5. Use service-owned WAL-aware read-only ledger queries; root must not open live SQLite. Existing source and evidence hashes remain binding. No broad patient-directory traversal.
-6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:16.68GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
+6. Disk guard: check C: and WSL before large steps, warn below15GiB and stop below8GiB. Latest C:16.65GiB. Historical evidence migration is complete; do not replay deletion. No local evidence removed this stop.
 7. All four meeting calls are complete; do not admit another scientific call without additional funded authority. The replacement12-call proposal (or8Colab-only alternative) is NOT authority until approved and recorded verbatim/hash-pinned. Do not silently increase limits or borrow allocations.
 8. At every stop, update documents in place, scan privacy/secrets/infrastructure, push safe remote-server and astra projections, verify remote hashes, and hash-verify private evidence backup. Never push raw private branches or merge main.
 
@@ -107,3 +107,6 @@ The executed Sprint13A r4 notebook has the same code as both saved unexecuted co
 The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
 
 [Replacement scientific-call funding proposal](outputs/proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.
+
+
+Read-only Colab status check: the browser tool failed to initialize, including after a reset. No session state was observed and no job was started, stopped or rerun. Pnormct remains last reported running by Partho; current progress is unverified. C: has16.65GiB free, above both disk thresholds. Funding and returned trainer evidence remain pending; no new calls or charges.

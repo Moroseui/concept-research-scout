@@ -1,6 +1,6 @@
 # 13B execution plan
 
-Updated 13 October 2026, 05:32 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
+Updated 13 October 2026, 05:45 UTC. New experiments first; repeats are parked. Scientific authors write the notebooks and analysis; Claude reviews them. Every arm needs a real nnU-Net trainer construction and at least one training iteration before full notebook delivery.
 
 | Order | Arm and folds | Venue and owner | Current release condition |
 |---|---|---|---|

@@ -1,10 +1,10 @@
 # Current research state
 
-Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator. No Swap point.
+Updated 13 October 2026, 05:45 UTC. Codex/OpenAI remains operator. No Swap point.
 
 Action needed from you: pending replacement funding decision:12scientific calls, or8Colab-only; return multiwin, then pnorm_v2 trainer-check evidence when available. No disk/setup command needed.
 
-Pnormct is RUNNING externally by Partho's report. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
+Pnormct was last reported running externally by Partho; current progress is unverified. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
 
 Multiwin author12 completed and all five synthetic groups passed. Scientific review11 returned genuine REVISE: actual trainer evidence is still required. Its 24/24 calls and every charge remain counted. Independent package/staging review189c6eb7 APPROVE, reportd90c164d, source1cea3255, permits only the unchanged authored synthetic check. The private notebook 13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb was delivered, SHA256 44902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b. No start/result has been reported. Run it in a fresh default Colab A100 session, Run all, no settings; leave pnormct running. Return printed PASS/FAIL, executed notebook and private results-folder location. Estimate10-25minutes. Full multiwin training remains held pending scientific acceptance of the evidence. Do not start superseded request5ba2b912 or replay completed reviews.
 
@@ -29,7 +29,7 @@ Item4 non-Colab stage1 exposure **$115.516623/$150 = $24.487001 billed + $91.029
 
 Next real result: multiwin A100 trainer check, about 10-25 minutes after Partho starts it; pnorm_v2 follows on the same timescale. Full releases require returned evidence, scientific acceptance and available call authority. Meeting synthetic preparation is approved; real panels have no reliable ETA until the author/reviewer resolve the documented imaging limitations and qualify geometry, clinical mapping and prediction provenance. L delivery and the CPU-starvation timing result remain held by their recorded prerequisites.
 
-C:16.68GiB clears both disk thresholds. All meeting scientific calls are COMPLETE; no model call is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
+C:16.65GiB clears both disk thresholds. All meeting scientific calls are COMPLETE; no model call is RUNNING; six historical UNCERTAIN records remain preserved. Do not replay any consumed start. See [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md) and [execution plan](outputs/13B_EXECUTION_PLAN.md).
 
 Sprint12 baseline readiness update,13October03:30UTC: the five existing A1 fold tables and five receipts were authenticated against the frozen input contract on both server and Drive. Their99development cases match the frozen13B shuffle101 folds exactly (20/20/20/20/19), with zero excluded overlap and no duplicates. No upload or new run is needed for those files. This is input identity and pairing evidence, not a computed comparison or scientific acceptance. Both common-support and native Dice columns are present; the author/reviewer must select compatible metrics and bind the files in L's normal input mapping. L's original findings remain open until reviewed; exact A100 integration/memory evidence is still missing. No live lane, scientific artifact, allowance or credential changed.
 
@@ -67,3 +67,6 @@ The executed Sprint13A r4 notebook has the same code as both saved unexecuted co
 The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
 
 [Replacement scientific-call funding proposal](outputs/proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.
+
+
+Read-only Colab status check: the browser tool failed to initialize, including after a reset. No session state was observed and no job was started, stopped or rerun. Pnormct remains last reported running by Partho; current progress is unverified. C: has16.65GiB free, above both disk thresholds. Funding and returned trainer evidence remain pending; no new calls or charges.

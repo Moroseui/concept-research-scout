@@ -8,11 +8,11 @@
 - Next result: a Colab trainer check, about 10?25 minutes once started. Further scientific calls await the funding decision.
 - C: has 16.68 GiB free, above both disk thresholds. [Execution plan](13B_EXECUTION_PLAN.md).
 
-Updated 13 October 2026, 05:32 UTC. Codex/OpenAI remains operator.
+Updated 13 October 2026, 05:45 UTC. Codex/OpenAI remains operator.
 
 ## Colab deliveries
 
-Pnormct is RUNNING externally by Partho's report. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
+Pnormct was last reported running externally by Partho; current progress is unverified. The delivered notebook is 13B_A1_pnormct.ipynb, SHA256 30bb6ba0d2904cff6f7725c40693dd5b7ef196989f23455e46d6814b12c986f6. Do not duplicate or alter it. The operator-confirmed A100 trainer PASS remains accepted despite the later cache-copy failure; no repeat is needed.
 
 Multiwin author12 completed and all five synthetic groups passed. Scientific review11 returned genuine REVISE: actual trainer evidence is still required. Its 24/24 calls and every charge remain counted. Independent package/staging review189c6eb7 APPROVE, reportd90c164d, source1cea3255, permits only the unchanged authored synthetic check. The private notebook 13B_A1_multiwin_real_trainer_check_review11_PRIVATE.ipynb was delivered, SHA256 44902e1ebca592a796a5194bd05aa828af7748c18728b7d0f1c4e162f899877b. No start/result has been reported. Run it in a fresh default Colab A100 session, Run all, no settings; leave pnormct running. Return printed PASS/FAIL, executed notebook and private results-folder location. Estimate10-25minutes. Full multiwin training remains held pending scientific acceptance of the evidence. Do not start superseded request5ba2b912 or replay completed reviews.
 
@@ -119,3 +119,6 @@ The executed Sprint13A r4 notebook has the same code as both saved unexecuted co
 The earlier completed existing-service Drive query found no visible project root; it was not repeated. Do not broaden credentials. Current evidence proves the combined49exclusion list; it does not establish a separate25/24subdivision for the prepared manifest. Never infer that subdivision or substitute a training configuration's unrelated exclusions.
 
 [Replacement scientific-call funding proposal](proposals/scientific-batch-140-20261013.md). Direction question is to be included in the next necessary accounting review before further infrastructure work; latest answered direction remains03:13UTC PROCEED.
+
+
+Read-only Colab status check: the browser tool failed to initialize, including after a reset. No session state was observed and no job was started, stopped or rerun. Pnormct remains last reported running by Partho; current progress is unverified. C: has16.65GiB free, above both disk thresholds. Funding and returned trainer evidence remain pending; no new calls or charges.
