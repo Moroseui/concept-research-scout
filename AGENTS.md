@@ -1,5 +1,3 @@
 # Operator entry point
 
-Read [ROLES.md](ROLES.md) and [HANDOVER.md](HANDOVER.md) before acting. Follow the current operator ownership and opposite-family review rules. Reconcile existing work before any launch; do not duplicate uncertain attempts. Current state and next steps are in [outputs/STATUS.md](outputs/STATUS.md) and [CURRENT.md](CURRENT.md).
-
-All future Colab authoring and packaging must follow [the first-cell interaction requirement](docs/COLAB_USABILITY.md).
+Read [ROLES.md](ROLES.md) and [HANDOVER.md](HANDOVER.md) before acting. The 15 October operator decision makes Claude the operator/author and Codex/OpenAI the independent reviewer. Reconcile existing work before any launch; never duplicate uncertain attempts. Current state is in [outputs/STATUS.md](outputs/STATUS.md) and [CURRENT.md](CURRENT.md).

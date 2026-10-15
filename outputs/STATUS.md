@@ -1,6 +1,6 @@
-Running: neither pnorm arm has written to Drive since the last checkpoints reported below; runtime state is unconfirmed, autonomous system paused.
-Last result: development Dice pnormct folds 0/1/2 = 0.1996/0.1929/0.2511; pnorm_v2 folds 0/1 = 0.2070/0.1996 (Partho-reported).
-Blocked: pnormct fold 3 last checkpoint 14 Oct 17:10 UTC; pnorm_v2 fold 2 last checkpoint 15 Oct 02:44 UTC; retention and heartbeat faults require repair.
-Next step: Codex fixes retention/retries, inventories existing checkpoints without deletion, diagnoses stops and verifies training-step/publish/resume before either restart.
-Waiting: Partho holds both restarts; Claude is operator/author, Codex finishes only the assigned repairs and handover, then reviews only.
-Last updated: 15 Oct 2026; run facts supplied by Partho as checked at 23:00 UTC.
+Running: no autonomous research job; both pnorm arms stopped after Drive API timeouts.
+Last result: pnormct folds 0-2 and pnorm_v2 folds 0-1 complete; retention/retry repair reviewed, 97 tests and two real CPU resume checks pass.
+Blocked: live Drive/GPU behavior of the repair is not yet observed; no automatic restart.
+Next step: Partho may use the reviewed resume notebooks; Claude owns further work and the notebook sandbox.
+Waiting: approved files and private checkpoint cleanup candidates are in Downloads; Codex is handing over to Claude.
+Last updated: 2026-10-15 23:49 UTC.

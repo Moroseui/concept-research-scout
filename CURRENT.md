@@ -1,7 +1,7 @@
-# Current state ? 15 October 2026
+# Current state
 
-Claude is now operator and author. Codex is completing only the assigned checkpoint/heartbeat repairs, stop diagnosis and handover, then becomes reviewer only. The autonomous system is paused; no model/compute launch is authorized by this status.
+Claude is operator and author under the 15 October decision. The autonomous system remains paused. Codex completed its assigned checkpoint/retry repair and diagnosis; it now hands over and reviews only as directed. Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md) and [STATUS](outputs/STATUS.md).
 
-Both pnorm arms must remain stopped pending the repaired resume notebooks and a real training-step/publish/resume test. Existing completed folds must be verified and skipped. Existing Drive files are not to be deleted by Codex: produce a private keep/candidate list for Partho.
+Both exact resume notebooks are delivered privately. Independent OpenAI code and packaging review approved them;97 focused checks and real tiny CPU training/checkpoint/resume checks for both arms passed. No full-notebook, live Drive or GPU qualification is claimed. No arm was restarted and no existing Drive file was changed. See [diagnosis](outputs/PNORM_STORAGE_DIAGNOSIS_20261015.md).
 
-The six-line [STATUS](outputs/STATUS.md) records Partho's latest run facts. [ROLES](ROLES.md) supersedes the old swap gate and scientific routing. The one-page HANDOVER is being replaced as the final repair evidence is established; its old operational instructions are superseded by the 15 October direction.
+The canonical private handoff contains exact artifact paths, commands, hashes and server backup verification. Existing root-checkout mirrors are stale; these current branch documents and the private handoff take precedence. Raw evidence, patient-derived notebooks, ledgers and private ancestry are excluded from public backup. Earlier scanner-withheld worker/folder helper artifacts remain private; the public archive is not a standalone installation.
