@@ -1,17 +1,7 @@
-# Current research state - 13 October 2026
+# Current state ? 15 October 2026
 
-Latest folder repair: pnormct7121a2cc failed before training on duplicate folder names. The operator may trash only rechecked-empty duplicates; keep both populated roots and the live pnorm_v2 session. Sourcec7dac565 passed54 tests and qualified APPROVE31e4ae99/report0b3a1e80. Creation is mount-only with GET-only privacy/uniqueness checks, no folder selection or automatic cleanup. Both pnorm callers and L preparation are patched; multiwin and future full releases must use the reviewed hook. Scientific bytes and gates are unchanged. If an earlier operational file already resumed successfully, let it continue. New filenames/full hashes are in the existing resume instructions. Review cost$3.807831; daily43/50 (7authors,8scientificreviews,26administrative,2direction), science134/140. No running server model call after review; no new compute.
+Claude is now operator and author. Codex is completing only the assigned checkpoint/heartbeat repairs, stop diagnosis and handover, then becomes reviewer only. The autonomous system is paused; no model/compute launch is authorized by this status.
 
-Action needed from you: use the [corrected Colab files](outputs/COLAB_RESUME_20261013.md). Stop the corresponding old runtime and allow its lease to expire before switching. Complete all first-cell prompts and wait for **All logins done, you can leave now**.
+Both pnorm arms must remain stopped pending the repaired resume notebooks and a real training-step/publish/resume test. Existing completed folds must be verified and skipped. Existing Drive files are not to be deleted by Codex: produce a private keep/candidate list for Partho.
 
-Pnormct stalled after epoch 86. Its checkpoint metadata supports resuming at epoch 85, subject to payload and binding verification. Pnorm_v2 was still running when last reported. Both corrected files select workers from CPU/RAM and include an external stall watchdog. Source 2e64b30c passed 31 tests and qualified APPROVE 9012c065. L preparation now has the same early-login ordering and remains preparation-only.
-
-The [updated multiwin trainer check](outputs/MULTIWIN_TRAINER_CHECK_20261013.md) is also delivered. Source d3859da8 passed 12 tests and qualified APPROVE df553924. Drive stays mounted in the parent; the unchanged scientific worker is isolated. Actual Colab namespace support is unmeasured and must pass an early control before pip or GPU work. Pnorm_v2's accepted trainer PASS needs no rerun.
-
-All current model calls and server jobs are reconciled; no research service is running. Five existing maintenance timers remain waiting. Seven historical uncertain rows and their qualifications remain preserved. External Colab sessions are controlled by Partho and were not touched.
-
-Scientific batch: 134/140, with two calls each remaining for returned Colab evidence, L and meeting work. UTC-day usage: 43/50 (7 authors, 8 scientific reviewers, 26 implementation reviews, 2 direction checks). Item4: $24.487001 billed plus $91.029622 reserved, $115.516623 of $150. Known Claude charges total $564.81216925; author dollar costs are unavailable. Colab is unmetered; no new provider compute was launched.
-
-Review 3dafcfcb failed manifest-read qualification; its native approval is unusable and its $4.74497425 charge stays counted. Registered request 1d52ba10 never started and is superseded. Reviews 9012c065 and df553924 are complete; do not replay their starts. C: has 11.3 GiB free, below the warning and above the stop.
-
-Read [HANDOVER](HANDOVER.md), [ROLES](ROLES.md), [STATUS](outputs/STATUS.md), the [execution plan](outputs/13B_EXECUTION_PLAN.md) and [notebook usability requirements](docs/COLAB_USABILITY.md). Exact private operation receipts are in the canonical restart handoff. No Swap point: the timing result and opposite-family operator-review route remain unfinished, and external jobs are not closed. Never merge main or edit BACKLOG.
+The six-line [STATUS](outputs/STATUS.md) records Partho's latest run facts. [ROLES](ROLES.md) supersedes the old swap gate and scientific routing. The one-page HANDOVER is being replaced as the final repair evidence is established; its old operational instructions are superseded by the 15 October direction.

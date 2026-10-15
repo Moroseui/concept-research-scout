@@ -1,31 +1,15 @@
-# Roles and operator rotation
+# Roles ? operator decision, 15 October 2026
 
-Latest folder repair: pnormct7121a2cc failed before training on duplicate folder names. The operator may trash only rechecked-empty duplicates; keep both populated roots and the live pnorm_v2 session. Sourcec7dac565 passed54 tests and qualified APPROVE31e4ae99/report0b3a1e80. Creation is mount-only with GET-only privacy/uniqueness checks, no folder selection or automatic cleanup. Both pnorm callers and L preparation are patched; multiwin and future full releases must use the reviewed hook. Scientific bytes and gates are unchanged. If an earlier operational file already resumed successfully, let it continue. New filenames/full hashes are in the existing resume instructions. Review cost$3.807831; daily43/50 (7authors,8scientificreviews,26administrative,2direction), science134/140. No running server model call after review; no new compute.
+Claude is now author and operator for code, notebooks, analyses and status. Partho runs notebooks, supplies logins and makes decisions. The hybrid setup remains; the autonomous system stays paused.
 
-Current operator: **Codex, OpenAI family**. No rotation. Item6, Idea2 and smoothing are accepted. Pnormct stalled; reviewed worker/watchdog/checkpoint-resume and up-front-login files are delivered for pnormct/v2. Pnorm_v2 is last reported running. Multiwin trainer-check login/isolation repair is independently approved and delivered; full training awaits actual evidence and scientific judgment. L preparation remains separate from full training. Meeting preparation is accepted, real execution held. Timing and opposite-family administrative capability are unfinished; no Swap point. Scientific authorship stays in the system lane. Every future Colab delivery follows [the up-front interaction requirement](docs/COLAB_USABILITY.md).
+Claude reviews its work first, with at most two review-and-fix rounds per step. Codex/OpenAI is the independent reviewer: after two Claude rounds without headway, before code goes to Colab or Modal, and before scientific interpretation is accepted. Each review states its exit condition. If the same issue survives two Claude rounds plus one OpenAI review, stop that work and ask Partho.
 
-| Work | Current author/operator route | Independent review route |
-|---|---|---|
-| Operator implementation | Codex / OpenAI | Existing Claude administrative implementation-review route |
-| Scientific code and analysis | Existing system OpenAI author client and accounted scientific driver | Existing system Claude scientific reviewer |
-| Future Claude operator implementation | Claude Code / Anthropic, after a clean handover | OpenAI through the existing author client used in a distinct administrative reviewer role; configuration support is pending review and installation |
+Codex's final authoring assignment is checkpoint retention, bounded heartbeat retries, diagnosis of the two pnorm stops and the one-page handover. Afterward Codex does no authoring, administrative/process reviews or budget pacing. If OpenAI balance prevents a required review, stop and tell Partho. No new review-routing infrastructure is required for the role flip.
 
-**The operator's and scientific author's work must always be reviewed by the other model family.** Different sessions or model versions within one family do not supply that independence. Refuse a missing, unknown or same-family review assignment. Scientific author/reviewer routes stay unchanged during this rotation preparation. Administrative reviews remain administrative calls, even when they reuse the author client's transport; they may not be relabeled as scientific author calls.
+Use Colab for full five-fold arms. Modal sandbox GPU smokes, CPU jobs and single-fold pilots each require a fixed hard cost cap. No restart of either pnorm arm before the retention/retry fixes pass a real training-step, checkpoint-publish and resume test, preserving finished folds.
 
-The opposite-family administrative route must retain the existing independent verdict, exact source and approval bindings, tool-based review submission and qualification, usage accounting, uncertainty handling, isolation and limits. No new credentials are authorized. Merely changing a configuration label does not enable a route that has not passed tests and independent implementation review.
+Claude owns outcome prediction outside the autonomous system, CPU and development99 only, for Wednesday21October. Codex reviews only when asked and only the specific notebook/result.
 
-## Rotation trigger and procedure
+Never access final-evaluation25 or reserve24 patients, change credentials, publish patient-level data, merge main or edit BACKLOG. No permanent deletion. Do not bypass input, hash, membership or lease errors. Money decisions stay with Partho. The previous swap gate and system-author routing directions are superseded by this explicit decision.
 
-Rotate at a completed milestone boundary or a weekly boundary, **never mid-task**. A weekly boundary means the next clean stopping point, not interruption of a live run. The first intended milestone is the execution plan, first reviewed Colab instructions, and the timing result. Partho has requested preparation, not an immediate role change.
-
-1. Finish or explicitly park each bounded task. Reconcile existing model calls, provider jobs, tests, reviews and watchers against durable records. An open or uncertain attempt is not a clean handover point and must never be relaunched blindly.
-2. Update [HANDOVER.md](HANDOVER.md), [CURRENT.md](CURRENT.md), the seven-line opening of [STATUS](outputs/STATUS.md), and the [13B execution plan](outputs/13B_EXECUTION_PLAN.md). Record actual versus reserved spending, original attempts, open decisions, exact commits/reviews and what must not be duplicated.
-3. Run privacy, secret and infrastructure scans, then push approved safe work and status to `remote-server` and safe working branches. Verify remote hashes. Never merge to `main` or publish private evidence, patient rows, images, masks or caches.
-4. The incoming operator reads the handover and operator decisions, checks the live state independently using existing read-only scripts, and confirms there is no other active operator. The outgoing operator records its final state and relinquishes ownership before the incoming operator makes a mutation.
-5. Record the new operator family in the reviewed configuration and ROLES, select the opposite administrative review family, and run the focused route check. Refuse rotation if that route is unavailable or not installed. Preserve scientific routes and all history.
-6. The incoming operator starts with a short plain-language update headed `Action needed from you`, then resumes the recorded next step. Ask Partho only about money or a Colab action; consult the opposite-family reviewer for other uncertainty under the standing rule.
-
-## First swap gate (operator instruction)
-
-Declare **Swap point reached** immediately after **Action needed from you** only when all six are true: execution plan written; first Colab instructions sent; timing diagnostic has a result; ROLES and HANDOVER current; opposite-family administrative review capability installed; and no model call or compute job running or awaiting reconciliation. Then finish the current step, update and push the handover, and wait. Do not start a successor task after the gate. The operator has not requested an earlier stop.
-
+Read [STATUS](outputs/STATUS.md), [CURRENT](CURRENT.md) and [HANDOVER](HANDOVER.md). Exact verbatim authority is preserved privately with its file hash.
